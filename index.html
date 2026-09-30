@@ -101,7 +101,7 @@ code{color:#b9d7ff}
 <script>
 const OWNER = "popvarachat";
 const USER_SITE_REPO = OWNER + ".github.io";
-const API = "https://api.github.com/users/" + OWNER + "/repos?per_page=100&sort=updated&type=owner";
+const API_BASE = "https://api.github.com/users/" + OWNER + "/repos?per_page=100&sort=updated&type=owner";
 const grid = document.getElementById("grid");
 const q = document.getElementById("q");
 let apps = [];
@@ -165,13 +165,23 @@ function render(){
   }).join("");
 }
 
+async function fetchAllRepos(){
+  const repos=[];
+  for(let page=1; page<=10; page++){
+    const res=await fetch(API_BASE + "&page=" + page,{headers:{"Accept":"application/vnd.github+json"}});
+    if(!res.ok) throw new Error("GitHub API " + res.status);
+    const batch=await res.json();
+    repos.push(...batch);
+    if(batch.length<100) break;
+  }
+  return repos;
+}
+
 async function load(){
   document.getElementById("syncText").textContent="กำลังเชื่อม GitHub…";
   grid.innerHTML='<div class="loading">กำลังค้นหา GitHub Pages ที่เปิดใช้งาน…</div>';
   try{
-    const res=await fetch(API,{headers:{"Accept":"application/vnd.github+json"}});
-    if(!res.ok) throw new Error("GitHub API " + res.status);
-    const repos=await res.json();
+    const repos=await fetchAllRepos();
     apps=repos
       .filter(r=>r.visibility==="public" && r.has_pages && !r.archived && r.name!==USER_SITE_REPO)
       .sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
