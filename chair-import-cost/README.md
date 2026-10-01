@@ -1,16 +1,32 @@
-# Chair Import Cost Intelligence · GitHub Pages Gateway
+# Chair Import Cost Intelligence · Independent GitHub Edition
 
-This folder is a public GitHub Pages front door for the secure Chair Import Cost Dashboard.
+ระบบนี้เป็น production clone ชุดใหม่ที่แยกขาดจาก Chair Import Cost Apps Script Production เดิม
 
-## Security boundary
+## Separation boundary
 
-- No confidential cost database is stored in GitHub.
-- No Google Apps Script secrets or database IDs are required by this page.
-- The production calculation engine, RBAC, Access Control, Pending Access Requests, exports, audit logging and the three secure databases remain in Google Apps Script.
-- The live operational app is launched from the secure Apps Script production URL.
+- GitHub URL: `https://popvarachat.github.io/chair-import-cost/`
+- Frontend entry: GitHub Pages
+- Application runtime: Apps Script project ใหม่
+- Deployment: คนละ Deployment ID กับระบบเดิม
+- Engine DB: ไฟล์ใหม่
+- Identity Vault: ไฟล์ใหม่
+- Cost Vault: ไฟล์ใหม่
+- Access Control / Access Requests / Change Log: คนละชุด
+- ไม่มีการอ่านหรือเขียนกลับไปยัง DB ของระบบเดิม
 
-## Architecture
+ข้อมูลเริ่มต้นถูก copy เป็น baseline ณ วันที่สร้างระบบ จากนั้นสองระบบสามารถ Update / Implement / ทดลอง / Release แยกกันได้
 
-GitHub Pages → Apps Script Web App → RBAC / Calculation / Audit → Engine DB + Identity Vault + Cost Vault
+## Runtime architecture
 
-This page intentionally mirrors the visual structure of the live application while keeping protected values out of public source.
+GitHub Pages → Independent Apps Script Runtime → RBAC / Calculation / Audit → Independent Engine DB + Independent Identity Vault + Independent Cost Vault
+
+## Security
+
+GitHub source ไม่เก็บ Raw Cost หรือข้อมูลฐานข้อมูลจริงไว้ใน repository
+ข้อมูลจริงยังถูกบังคับสิทธิ์ที่ Backend ด้วย PRESENTATION / EXECUTIVE / COSTING / ADMIN และแยกข้อมูลต้นทุนออกจาก Product Identity
+
+## Production label
+
+`Chair Import Cost Intelligence GH V1 - Independent Production`
+
+Legacy Apps Script Production เดิมยังคงอยู่และไม่ได้ถูกลบหรือแก้ไขโดยการสร้างระบบนี้
