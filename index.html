@@ -44,10 +44,30 @@ border-radius:18px;padding:18px;min-height:220px;display:flex;flex-direction:col
 .kicker{display:flex;justify-content:space-between;gap:8px;align-items:center}
 .tag{display:inline-flex;padding:5px 8px;border:1px solid var(--line);border-radius:999px;color:#cfe4ff;background:rgba(100,168,255,.08);font-size:11px;font-weight:700;letter-spacing:.03em}
 .updated{font-size:11px;color:var(--muted)}
-.actions{display:flex;gap:9px}
-.actions a{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;border-radius:11px;padding:9px 11px;font-weight:700;font-size:13px}
+.actions{display:flex;gap:9px;flex-wrap:wrap}
+.actions a,.actions button{text-decoration:none;display:inline-flex;align-items:center;justify-content:center;border-radius:11px;padding:9px 11px;font-weight:700;font-size:13px}
 .open{background:linear-gradient(135deg,#5e9fff,#73c7ff);color:#06111f}
-.repo{border:1px solid var(--line);color:var(--text)}
+.repo,.arch{border:1px solid var(--line);color:var(--text)}
+.arch{background:rgba(100,168,255,.07);cursor:pointer}
+.arch:hover{border-color:var(--accent);background:rgba(100,168,255,.12)}
+.modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(3,9,18,.66);backdrop-filter:blur(8px);z-index:1000}
+.modal.opened{display:flex}
+.modal-card{width:min(980px,100%);max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:0 28px 90px rgba(0,0,0,.38)}
+.modal-head{position:sticky;top:0;z-index:2;display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:20px 22px;border-bottom:1px solid var(--line);background:var(--panel);backdrop-filter:blur(12px)}
+.modal-head h3{margin:2px 0 4px;font-size:23px}
+.modal-sub{margin:0;color:var(--muted);font-size:13px}
+.modal-close{padding:8px 11px;border-radius:10px;font-size:18px;line-height:1}
+.modal-body{padding:22px}
+.exec-note{border:1px solid var(--line);background:rgba(100,168,255,.07);border-radius:15px;padding:14px 16px;margin-bottom:18px;color:var(--muted);line-height:1.55}
+.flow{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:24px;align-items:stretch}
+.flow-step{position:relative;border:1px solid var(--line);background:var(--panel2);border-radius:15px;padding:15px;min-height:112px}
+.flow-step:not(:last-child)::after{content:"→";position:absolute;right:-18px;top:50%;transform:translateY(-50%);color:var(--accent);font-size:21px;font-weight:800}
+.flow-n{font-size:11px;color:var(--accent);font-weight:800;letter-spacing:.08em;text-transform:uppercase}
+.flow-title{font-weight:800;margin:6px 0 5px;line-height:1.25}
+.flow-meta{font-size:12px;color:var(--muted);line-height:1.45}
+.arch-meta{display:flex;gap:8px;flex-wrap:wrap;margin-top:18px}
+.arch-chip{border:1px solid var(--line);border-radius:999px;padding:6px 9px;color:var(--muted);font-size:11px}
+@media(max-width:700px){.flow{grid-template-columns:1fr}.flow-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-23px;transform:translateX(-50%)}.modal{padding:10px}.modal-card{max-height:94vh}}
 .empty,.loading{grid-column:1/-1;text-align:center;border:1px dashed var(--line);border-radius:18px;padding:44px 18px;color:var(--muted)}
 footer{margin-top:30px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
 code{color:#b9d7ff}
@@ -98,6 +118,24 @@ code{color:#b9d7ff}
 </footer>
 </div>
 
+<div id="archModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="archTitle" aria-hidden="true">
+  <section class="modal-card">
+    <div class="modal-head">
+      <div>
+        <div class="tag">Executive View</div>
+        <h3 id="archTitle">Executive Architecture Workflow</h3>
+        <p id="archApp" class="modal-sub"></p>
+      </div>
+      <button id="archClose" class="modal-close" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <div id="archNote" class="exec-note"></div>
+      <div id="archFlow" class="flow"></div>
+      <div id="archMeta" class="arch-meta"></div>
+    </div>
+  </section>
+</div>
+
 <script>
 const OWNER = "popvarachat";
 const USER_SITE_REPO = OWNER + ".github.io";
@@ -134,6 +172,33 @@ const overrides = {
   }
 };
 
+const architectures = {
+  "chair-import-cost-manual": {
+    note:"ภาพรวมเชิงบริหารของระบบวิเคราะห์ต้นทุนนำเข้าแบบ Independent Production โดยแยกวงจรข้อมูลและการตัดสินใจออกจากระบบ Apps Script เดิม",
+    flow:[["Input","ข้อมูลสินค้า / ต้นทุน / เงื่อนไขนำเข้า"],["Web UI","GitHub Pages · Executive interface"],["Backend/API","Independent service boundary"],["Cost Data","ฐานข้อมูลต้นทุนและข้อมูลอ้างอิง"],["Intelligence","คำนวณต้นทุน · เปรียบเทียบ · วิเคราะห์"],["Decision","Executive cost view / action"]],
+    meta:["Independent Production","Separated DB / Backend","GitHub Pages"]
+  },
+  "practika-flood-map-public": {
+    note:"Digital Twin เชิงพื้นที่สำหรับรวบรวมข้อมูลน้ำท่วม ฝน ข่าว และเส้นทาง แล้วแปลงเป็น Layer ที่ใช้ตัดสินใจเดินทางและบริหารความเสี่ยง",
+    flow:[["Sources","Weather / flood / field / news data"],["Refresh","API / scheduled data ingestion"],["Geo Data","Normalize + spatial database"],["Layers","Flood · Rain · News · Terrain"],["Risk Engine","Route / area risk assessment"],["Map","GitHub Pages interactive map"],["Decision","Travel & emergency response"]],
+    meta:["Geospatial Digital Twin","Refreshable Data","Risk Layers"]
+  },
+  "practika-digital-twin-internal": {
+    note:"ระบบ Digital Twin อาคารภายใน เชื่อมผังจริง ทรัพย์สิน และประวัติซ่อมภายใต้การควบคุมสิทธิ์ เพื่อให้ข้อมูลหน้างานย้อนกลับถึง Master ได้",
+    flow:[["Access","Login / allowlist / role"],["Twin UI","Building Digital Twin web app"],["Master","As-built / CAD master"],["Assets","ทะเบียนทรัพย์สิน"],["Maintenance","แจ้งซ่อม + ประวัติซ่อม"],["Control","Admin / audit / update"],["Decision","Facility & management view"]],
+    meta:["Internal · Admin","As-built Master","Maintenance History"]
+  },
+  "car-digital-twin-dashboard-manual": {
+    note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
+    flow:[["Source","CAR records / revisions"],["Data Model","Normalize + category mapping"],["Analytics","KPI · YoY · trend · aging"],["Dashboard","Executive CAR overview"],["Drill-down","CAR detail + revision timeline"],["Decision","Quality action / management review"]],
+    meta:["Quality Analytics","Traceable Drill-down","Executive Dashboard"]
+  },
+  "building-backlog-dashboard-manual": {
+    note:"ภาพรวมงานอาคารคงค้างจากทะเบียนงานสู่การจัดลำดับ ความคืบหน้า และ Drill-down เพื่อใช้ติดตาม Owner และ Action ต่อเนื่อง",
+    flow:[["Source","Building backlog registers"],["Normalize","รวมรายการ / owner / status"],["Prioritize","Urgency · aging · category"],["Analytics","KPI + backlog trend"],["Dashboard","Executive building view"],["Drill-down","รายละเอียดแต่ละงาน"],["Action","Owner follow-up / closure"]],
+    meta:["Building PMO","Backlog Control","Action Tracking"]
+  }
+};
 const manualApps = [
   {
     name:"chair-import-cost-manual",
@@ -219,9 +284,36 @@ function render(){
       <div class="actions">
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
+        <button class="arch" type="button" data-arch="${esc(r.name)}">Exec Architecture</button>
       </div>
     </article>`;
   }).join("");
+}
+
+function getArchitecture(name){
+  return architectures[name] || {note:"Logical executive view of the public app delivery path.",flow:[["Source","Repository / source data"],["Build","Static app assets"],["Publish","GitHub Pages"],["Use","Browser / user"],["Decision","Operational outcome"]],meta:["Auto-discovered","GitHub Pages"]};
+}
+
+function openArchitecture(name){
+  const r=apps.find(x=>x.name===name);
+  if(!r) return;
+  const o=overrides[r.name]||{};
+  const a=getArchitecture(name);
+  document.getElementById("archApp").textContent=(o.title||pretty(r.name));
+  document.getElementById("archNote").textContent=a.note;
+  document.getElementById("archFlow").innerHTML=a.flow.map((s,i)=>'<div class="flow-step"><div class="flow-n">Step '+String(i+1).padStart(2,"0")+'</div><div class="flow-title">'+esc(s[0])+'</div><div class="flow-meta">'+esc(s[1])+'</div></div>').join("");
+  document.getElementById("archMeta").innerHTML=a.meta.map(x=>'<span class="arch-chip">'+esc(x)+'</span>').join("");
+  const m=document.getElementById("archModal");
+  m.classList.add("opened");
+  m.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+
+function closeArchitecture(){
+  const m=document.getElementById("archModal");
+  m.classList.remove("opened");
+  m.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
 }
 
 async function fetchAllRepos(){
@@ -260,6 +352,10 @@ async function load(){
 }
 q.addEventListener("input",render);
 document.getElementById("refreshBtn").addEventListener("click",load);
+grid.addEventListener("click",e=>{const btn=e.target.closest("[data-arch]");if(btn) openArchitecture(btn.dataset.arch);});
+document.getElementById("archClose").addEventListener("click",closeArchitecture);
+document.getElementById("archModal").addEventListener("click",e=>{if(e.target.id==="archModal") closeArchitecture();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape") closeArchitecture();});
 load();
 </script>
 </body>
