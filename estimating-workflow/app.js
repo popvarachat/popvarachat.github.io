@@ -76,16 +76,23 @@
       const r = document.getElementById('flow-' + id).getBoundingClientRect();
       return {x:r.left-frame.left, y:r.top-frame.top, w:r.width, h:r.height};
     };
+    const mobile = matchMedia('(max-width:640px)').matches && !matchMedia('print').matches;
     const paths = edges.map(([from,to,kind]) => {
       const a = rect(from), b = rect(to); let d, extra = '';
       if (kind === 'hold-return') {
         const rail = 5;
         d = `M ${a.x} ${a.y+a.h/2} H ${rail} V ${b.y+b.h/2} H ${b.x}`;
-        extra = 'hold-line dashed';
+        extra = 'hold-line dashed loop';
       } else if (kind === 'feedback') {
         const rail = frame.width-5;
         d = `M ${a.x+a.w} ${a.y+a.h/2} H ${rail} V ${b.y+b.h/2} H ${b.x+b.w}`;
-        extra = 'dashed';
+        extra = 'dashed loop';
+      } else if (mobile && from === 'select' && ['chair','partition'].includes(to)) {
+        const rail = to === 'chair' ? 5 : frame.width-5;
+        d = `M ${a.x+a.w/2} ${a.y+a.h} V ${a.y+a.h+14} H ${rail} V ${b.y-13} H ${b.x+b.w/2} V ${b.y}`;
+      } else if (mobile && ['desk','cabinet'].includes(from) && to === 'compute') {
+        const rail = from === 'desk' ? 5 : frame.width-5;
+        d = `M ${a.x+a.w/2} ${a.y+a.h} V ${a.y+a.h+14} H ${rail} V ${b.y-13} H ${b.x+b.w/2} V ${b.y}`;
       } else if (kind === 'hold' && Math.abs((a.y+a.h/2)-(b.y+b.h/2)) < a.h) {
         d = `M ${a.x+a.w} ${a.y+a.h/2} H ${b.x}`; extra = 'hold-line';
       } else {

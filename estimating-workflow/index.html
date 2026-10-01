@@ -7,8 +7,8 @@
   <meta name="theme-color" content="#0b1627">
   <meta name="description" content="Workflow งานประมาณราคา สูตรโต๊ะ ตู้ เก้าอี้ และ Partition พร้อมทะเบียนสูตร 2,352 เซลล์และจุดรับรองของคน">
   <title>Practika Estimating Workflow</title>
-  <link rel="stylesheet" href="styles.css?v=20261001">
-  <script src="app.js?v=20261001" defer></script>
+  <link rel="stylesheet" href="styles.css?v=20261001-r2">
+  <script src="app.js?v=20261001-r2" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">ไปยังเนื้อหา</a>
@@ -237,7 +237,7 @@ U8 = ROUND(T8*1.05,-1)        คอลัมน์ยืน69</code></pre>
       <div class="section-head"><div><h2 id="registry-heading">ทะเบียนสูตรครบ 2,352 เซลล์</h2><p>สูตรจริงรวมชีตซ่อน กดแถวเพื่อดูสูตรเต็มและเซลล์ที่อ้างอิง</p></div><a class="button secondary" href="formulas.json" download>ดาวน์โหลด JSON</a></div>
       <div class="filterbar">
         <label class="wide">ค้นหาไฟล์ / ชีต / เซลล์ / สูตร<input id="formula-search" type="search" placeholder="เช่น U22, 0.52, FLIPTOP…" autocomplete="off"></label>
-        <label>สินค้า<select id="formula-group"><option value="">ทุกสินค้า</option value="Desk">โต๊ะ</option><option value="Cabinet">ตู้</option><option value="Chair">เก้าอี้</option><option value="Partition">Partition</option></select></label>
+        <label>สินค้า<select id="formula-group"><option value="">ทุกสินค้า</option><option value="Desk">โต๊ะ</option><option value="Cabinet">ตู้</option><option value="Chair">เก้าอี้</option><option value="Partition">Partition</option></select></label>
         <label>ชีต<select id="formula-sheet"><option value="">ทุกชีต</option></select></label>
         <label>รายการ<select id="formula-state"><option value="">ทั้งหมด</option><option value="primary">เส้นทางราคาหลักที่ตรวจ</option><option value="hidden">ชีตซ่อน</option><option value="error">Error เดิม</option><option value="blank">มีเซลล์อ้างอิงว่าง</option></select></label>
       </div>
