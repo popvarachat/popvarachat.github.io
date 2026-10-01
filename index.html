@@ -115,8 +115,25 @@ const overrides = {
   "practika-flood-map-public": {
     title:"Practika Flood Map",
     description:"แผนที่ติดตามความเสี่ยงน้ำท่วม เส้นทาง และข้อมูลประกอบการเดินทาง"
+  },
+  "building-backlog-dashboard-manual": {
+    title:"Practika Building Backlog Dashboard 2569",
+    description:"Dashboard สรุปและติดตามงานอาคารคงค้าง ปี 2569 สำหรับดูสถานะและรายละเอียดงาน"
   }
 };
+
+const manualApps = [
+  {
+    name:"building-backlog-dashboard-manual",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/practika-flood-map-public/building-backlog-dashboard/",
+    html_url:"https://github.com/popvarachat/practika-flood-map-public/tree/main/building-backlog-dashboard",
+    updated_at:"2026-10-01T01:56:00Z",
+    topics:["Building"],
+    language:"HTML",
+    description:"Dashboard สรุปและติดตามงานอาคารคงค้าง ปี 2569"
+  }
+];
 
 function pageUrl(repo){
   const home = (repo.homepage || "").trim();
@@ -182,8 +199,9 @@ async function load(){
   grid.innerHTML='<div class="loading">กำลังค้นหา GitHub Pages ที่เปิดใช้งาน…</div>';
   try{
     const repos=await fetchAllRepos();
-    apps=repos
-      .filter(r=>r.visibility==="public" && r.has_pages && !r.archived && r.name!==USER_SITE_REPO)
+    const discovered=repos
+      .filter(r=>r.visibility==="public" && r.has_pages && !r.archived && r.name!==USER_SITE_REPO && r.name!=="building-backlog-dashboard");
+    apps=[...manualApps,...discovered]
       .sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
     document.getElementById("repoCount").textContent=repos.filter(r=>r.visibility==="public").length;
     document.getElementById("appCount").textContent=apps.length;
