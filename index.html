@@ -123,10 +123,24 @@ const overrides = {
   "car-digital-twin-dashboard-manual": {
     title:"Practika CAR Digital Twin",
     description:"Executive CAR analytics พร้อม drill-down ถึงข้อมูลแต่ละ CAR และ revision timeline"
+  },
+  "practika-digital-twin-internal": {
+    title:"Practika Building Digital Twin",
+    description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม — ระบบภายใน ต้องได้รับสิทธิ์ก่อนเข้าใช้งาน"
   }
 };
 
 const manualApps = [
+  {
+    name:"practika-digital-twin-internal",
+    visibility:"restricted",
+    homepage:"https://practika-digital-twin.varachat.chatgpt.site",
+    html_url:"",
+    updated_at:"2026-10-01T04:21:00Z",
+    topics:["Internal · Admin"],
+    language:"Web App",
+    description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม"
+  },
   {
     name:"car-digital-twin-dashboard-manual",
     visibility:"public",
@@ -190,7 +204,7 @@ function render(){
       <p>${esc(desc)}</p>
       <div class="actions">
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
-        <a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>
+        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
       </div>
     </article>`;
   }).join("");
