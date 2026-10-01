@@ -150,6 +150,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "estimating-workflow-manual": {
+    title:"Practika Estimating Workflow",
+    description:"Flow งานประมาณราคา พร้อมสูตรโต๊ะ ตู้ เก้าอี้ และ Partition ค้นหาสูตรครบ 2,352 เซลล์ และดูจุดรับรองของคน"
+  },
   "practika-flood-map-public": {
     title:"Practika Flood Map",
     description:"แผนที่ติดตามความเสี่ยงน้ำท่วม เส้นทาง และข้อมูลประกอบการเดินทาง"
@@ -173,6 +177,11 @@ const overrides = {
 };
 
 const architectures = {
+  "estimating-workflow-manual": {
+    note:"Workflow ถ่ายทอดความรู้ประมาณราคา จากหลักฐาน 5 ไฟล์ 32 ชีต โดย AI เตรียมข้อมูลและคำนวณ คนรับรองสเปก ขอบเขต กฎ และราคา คำเสนอของ AI เป็น PROPOSED; กฎจากไฟล์ยังรอรับรอง",
+    flow:[["G00–G01","รับไฟล์ / เวอร์ชัน / สเปก"],["G02–G03 + G07","BOM / หลักฐานราคา พร้อมตรวจขอบเขตหน้างานคู่ขนาน"],["G05 → G04","เลือกกฎสินค้า / คำนวณตามสูตรและลำดับปัด"],["G06 → G08","ทบทวนราคาเสนอ / HOLD เมื่อมีข้อค้าง / คนอนุมัติฉบับเดียวกัน"],["G09","หลังส่งมอบ: QCC / ต้นทุนจริง / เสนอปรับกฎให้คนรับรอง"]],
+    meta:["2,352 source formulas","22 observed rules · 10 gates","30 open questions","Quotation release: future"]
+  },
   "chair-import-cost-manual": {
     note:"ภาพรวมเชิงบริหารของระบบวิเคราะห์ต้นทุนนำเข้าแบบ Independent Production โดยแยกวงจรข้อมูลและการตัดสินใจออกจากระบบ Apps Script เดิม",
     flow:[["Input","ข้อมูลสินค้า / ต้นทุน / เงื่อนไขนำเข้า"],["Web UI","GitHub Pages · Executive interface"],["Backend/API","Independent service boundary"],["Cost Data","ฐานข้อมูลต้นทุนและข้อมูลอ้างอิง"],["Intelligence","คำนวณต้นทุน · เปรียบเทียบ · วิเคราะห์"],["Decision","Executive cost view / action"]],
@@ -200,6 +209,16 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"estimating-workflow-manual",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/estimating-workflow/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/estimating-workflow",
+    updated_at:"2026-10-01T15:36:27Z",
+    topics:["Estimating"],
+    language:"HTML",
+    description:"Flow พร้อมสูตรทั้งหมด 2,352 เซลล์ กฎ 22 รายการ Gate 10 จุด และ 30 ประเด็นรอยืนยัน"
+  },
   {
     name:"chair-import-cost-manual",
     visibility:"public",
@@ -330,7 +349,9 @@ async function fetchAllRepos(){
 
 async function load(){
   document.getElementById("syncText").textContent="กำลังเชื่อม GitHub…";
-  grid.innerHTML='<div class="loading">กำลังค้นหา GitHub Pages ที่เปิดใช้งาน…</div>';
+  apps=[...manualApps].sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
+  document.getElementById("appCount").textContent=apps.length;
+  render();
   try{
     const repos=await fetchAllRepos();
     const discovered=repos
@@ -344,10 +365,10 @@ async function load(){
     render();
   }catch(err){
     document.getElementById("syncText").textContent="GitHub API ชั่วคราวไม่พร้อม";
-    document.getElementById("appCount").textContent="–";
+    document.getElementById("appCount").textContent=apps.length;
     document.getElementById("repoCount").textContent="–";
     document.getElementById("lastSync").textContent="–";
-    grid.innerHTML='<div class="empty">โหลดรายการไม่สำเร็จ กรุณากด Refresh อีกครั้ง<br><small>'+esc(err.message)+'</small></div>';
+    render();
   }
 }
 q.addEventListener("input",render);
