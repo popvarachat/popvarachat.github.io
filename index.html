@@ -284,7 +284,7 @@ function render(){
       <div class="actions">
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
-        <button class="arch" type="button" data-arch="${esc(r.name)}">Exec Architecture</button>
+        <button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>
       </div>
     </article>`;
   }).join("");
