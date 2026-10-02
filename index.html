@@ -173,6 +173,10 @@ const overrides = {
   "chair-import-cost-manual": {
     title:"Chair Import Cost Intelligence · Independent GitHub Edition",
     description:"Independent Production · ระบบวิเคราะห์ต้นทุนเก้าอี้นำเข้าชุดใหม่ แยก DB / Backend / Deployment / Access Control ออกจากระบบ Apps Script เดิมโดยสมบูรณ์"
+  },
+  "todo-agent-lab": {
+    title:"Todo Agent Lab · Executive Business Workflow",
+    description:"Forkable Todo / Planner Agent Engine พร้อม Morning Radar, Stale Detector, Task Doctor, HOLD Intelligence, Human Gate, Write-back Verify และ Audit"
   }
 };
 
@@ -206,6 +210,11 @@ const architectures = {
     note:"ภาพรวมงานอาคารคงค้างจากทะเบียนงานสู่การจัดลำดับ ความคืบหน้า และ Drill-down เพื่อใช้ติดตาม Owner และ Action ต่อเนื่อง",
     flow:[["Source","Building backlog registers"],["Normalize","รวมรายการ / owner / status"],["Prioritize","Urgency · aging · category"],["Analytics","KPI + backlog trend"],["Dashboard","Executive building view"],["Drill-down","รายละเอียดแต่ละงาน"],["Action","Owner follow-up / closure"]],
     meta:["Building PMO","Backlog Control","Action Tracking"]
+  },
+  "todo-agent-lab": {
+    note:"Todo / Planner Agent Engine สำหรับเปลี่ยน Task Board เดิมให้เป็น Agentic Workflow โดยคงระบบงานเดิมเป็น Source of Truth และเพิ่ม Read, Analyze, Suggest, Human-approved Write, Verify และ Audit แบบ fail-closed",
+    flow:[["Business Input","Meeting · Email · Existing Planner Task"],["Source of Truth","Planner / Todo + Provider Adapter"],["Agent Intelligence","Radar · Stale · Doctor · HOLD · Priority · Weekly Brief"],["Executive Decision","Insight → Proposal → Human Gate"],["Controlled Execution","Dry Run → Graph Write → Verify → Audit"],["Business Value","KPI review → Pilot Go Live"]],
+    meta:["10 Use Cases","Golden UAT PASS","Human Gate","Forkable GitHub Edition"]
   }
 };
 const manualApps = [
