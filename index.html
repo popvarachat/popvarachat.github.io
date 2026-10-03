@@ -150,6 +150,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "chat-steward-manual": {
+    title:"Chat Steward · Conversation Control Center",
+    description:"Local-only lifecycle review สำหรับ ChatGPT: Continue, Reference, Project หรือ Delete Candidate พร้อม Human Gate"
+  },
   "estimating-workflow-manual": {
     title:"Practika Estimating Workflow",
     description:"Flow งานประมาณราคา พร้อมสูตรโต๊ะ ตู้ เก้าอี้ และ Partition ค้นหาสูตรครบ 2,352 เซลล์ และดูจุดรับรองของคน"
@@ -181,6 +185,11 @@ const overrides = {
 };
 
 const architectures = {
+  "chat-steward-manual": {
+    note:"Local-only control layer สำหรับคัดวงจรชีวิตของ Chat โดยแยก AI suggestion ออกจาก Human decision และไม่ลบ Chat จริงอัตโนมัติ",
+    flow:[["ChatGPT","Opened / imported conversation"],["Steward Engine","Lifecycle + Value / Completion / Reuse / Project scores"],["Local Registry","chrome.storage.local · derived metadata only"],["GitHub Web","Review · override · import/export"],["Human Gate","Open Chat → continue / move / delete manually"]],
+    meta:["Local-only","Human Gate","No automatic deletion"]
+  },
   "estimating-workflow-manual": {
     note:"Workflow ถ่ายทอดความรู้ประมาณราคา จากหลักฐาน 5 ไฟล์ 32 ชีต โดย AI เตรียมข้อมูลและคำนวณ คนรับรองสเปก ขอบเขต กฎ และราคา คำเสนอของ AI เป็น PROPOSED; กฎจากไฟล์ยังรอรับรอง",
     flow:[["G00–G01","รับไฟล์ / เวอร์ชัน / สเปก"],["G02–G03 + G07","BOM / หลักฐานราคา พร้อมตรวจขอบเขตหน้างานคู่ขนาน"],["G05 → G04","เลือกกฎสินค้า / คำนวณตามสูตรและลำดับปัด"],["G06 → G08","ทบทวนราคาเสนอ / HOLD เมื่อมีข้อค้าง / คนอนุมัติฉบับเดียวกัน"],["G09","หลังส่งมอบ: QCC / ต้นทุนจริง / เสนอปรับกฎให้คนรับรอง"]],
@@ -218,6 +227,16 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"chat-steward-manual",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/chat-steward/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/chat-steward",
+    updated_at:"2026-10-03T15:10:00Z",
+    topics:["AI Operations"],
+    language:"HTML",
+    description:"Conversation lifecycle control center with local-only registry and Human Gate"
+  },
   {
     name:"estimating-workflow-manual",
     visibility:"public",
