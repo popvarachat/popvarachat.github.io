@@ -31,7 +31,12 @@ th{font-size:12px;color:#667085;background:#fafbfc;position:sticky;top:0;z-index
 dialog{border:0;border-radius:18px;max-width:680px;width:calc(100% - 32px);box-shadow:0 24px 60px rgba(0,0,0,.18)}
 dialog::backdrop{background:rgba(15,23,42,.4)}dialog textarea{width:100%;min-height:220px}
 .rowtop{display:flex;gap:8px;align-items:center;justify-content:space-between}.override{font-size:10px;color:#9a6700;font-weight:800}
-@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.wrap{padding:18px}}
+.scanbox{background:#fff;border:1px solid #e7eaf1;border-radius:18px;padding:16px 18px;margin:0 0 16px;box-shadow:0 8px 24px rgba(34,52,84,.05)}
+.scanhead{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap}.scanhead b{font-size:14px}
+.progress{height:10px;background:#eef1f6;border-radius:999px;overflow:hidden;margin:12px 0 8px}.progress>div{height:100%;width:0;background:linear-gradient(90deg,#3458e6,#6d7cff);transition:width .25s ease}
+.scanmeta{display:flex;gap:14px;flex-wrap:wrap;color:#667085;font-size:12px}.scanerror{color:#b42318;font-size:12px;margin-top:6px}
+.settings-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:10px 0}.settings-grid label{display:flex;gap:8px;align-items:center}
+@media(max-width:900px){.cards{grid-template-columns:repeat(2,1fr)}.wrap{padding:18px}.settings-grid{grid-template-columns:1fr}}
 </style>
 </head>
 <body>
@@ -55,6 +60,28 @@ dialog::backdrop{background:rgba(15,23,42,.4)}dialog textarea{width:100%;min-hei
   <div class="card"><b id="mDelete">0</b><span>Delete Candidate</span></div>
 </section>
 
+<section class="scanbox">
+  <div class="scanhead">
+    <div>
+      <b>Full Inventory · Audit Chat เก่าทั้งหมดก่อน แล้วค่อย Monitor ต่อ</b>
+      <div id="scanStatus" class="muted">ยังไม่ได้เริ่ม Full Inventory</div>
+    </div>
+    <div class="actions">
+      <button class="btn primary" id="scanAllBtn">Scan All Chats</button>
+      <button class="btn ghost" id="forceScanBtn">Force Rescan</button>
+    </div>
+  </div>
+  <div class="progress"><div id="scanProgress"></div></div>
+  <div class="scanmeta">
+    <span id="scanDiscovered">ค้นพบ 0</span>
+    <span id="scanProcessed">ตรวจแล้ว 0</span>
+    <span id="scanAnalyzed">วิเคราะห์ 0</span>
+    <span id="scanSkipped">ไม่เปลี่ยน 0</span>
+    <span id="scanFailed">ผิดพลาด 0</span>
+  </div>
+  <div id="scanError" class="scanerror"></div>
+</section>
+
 <div class="toolbar">
   <input id="q" type="search" placeholder="ค้นหา Chat / Project / Next Action…">
   <select id="statusFilter">
@@ -75,7 +102,7 @@ dialog::backdrop{background:rgba(15,23,42,.4)}dialog textarea{width:100%;min-hei
 </tr></thead>
 <tbody id="rows"></tbody>
 </table>
-<div id="empty" class="empty" hidden>ยังไม่มี Chat ใน Registry — เปิด ChatGPT conversation ที่ต้องการให้ Agent ตรวจ หรือ Import JSON เพื่อ audit backlog</div>
+<div id="empty" class="empty" hidden>ยังไม่มี Chat ใน Registry — กด <b>Scan All Chats</b> เพื่อ audit ประวัติทั้งหมด หรือใช้ Import JSON เป็น fallback</div>
 </div>
 
 <footer>
@@ -87,6 +114,12 @@ Delete Candidate เป็นเพียงคำแนะนำ ไม่ใ�
   <h3>Chat Steward Settings</h3>
   <label><input id="enabled" type="checkbox"> เปิด Agent</label><br><br>
   <label><input id="autoScan" type="checkbox"> Auto-scan Chat ที่เปิดใช้งาน</label>
+  <div class="settings-grid">
+    <label><input id="autoFullInventory" type="checkbox"> Full Inventory อัตโนมัติ</label>
+    <label><input id="includeArchived" type="checkbox"> รวม Archived Chats</label>
+    <label><input id="includeProjects" type="checkbox"> รวม Chats ใน Projects</label>
+    <label>Refresh ทุก <input id="inventoryRefreshHours" type="number" min="1" max="168" style="width:82px"> ชั่วโมง</label>
+  </div>
   <p class="muted">Project taxonomy: หนึ่งบรรทัดต่อหนึ่ง Project ในรูปแบบ Project Name = keyword1, keyword2, keyword3</p>
   <textarea id="taxonomy"></textarea>
   <div class="toolbar">
@@ -141,6 +174,34 @@ function updateMetrics(list){
   metric('mProject',list.filter(function(r){return effective(r)==='PROJECT';}).length);
   metric('mDelete',list.filter(function(r){return effective(r)==='DELETE_CANDIDATE';}).length);
 }
+function renderInventory(){
+  var inv=(state&&state.meta&&state.meta.inventory)||{};
+  var discovered=Number(inv.discovered||0);
+  var processed=Number(inv.processed||0);
+  var analyzed=Number(inv.analyzed||0);
+  var skipped=Number(inv.skipped_unchanged||0);
+  var failed=Number(inv.failed||0);
+  var pct=discovered>0?Math.min(100,Math.round(processed*100/discovered)):0;
+  var status=inv.status||'idle';
+  var phase=inv.phase||'idle';
+  var label='ยังไม่ได้เริ่ม Full Inventory';
+  if(status==='requested'||status==='claiming')label='กำลังเข้าคิว Full Inventory…';
+  else if(status==='running')label='กำลังสแกน · '+phase+' · '+pct+'%'+(inv.current_title?' · '+inv.current_title:'');
+  else if(status==='backoff')label='พักตาม Rate Limit ชั่วคราว แล้วจะทำต่ออัตโนมัติ';
+  else if(status==='completed')label='Full Inventory เสร็จแล้ว · '+pct+'% · อัปเดต '+(inv.completed_at||'');
+  else if(status==='paused_error')label='Full Inventory หยุดจากข้อผิดพลาด — กด Scan All Chats เพื่อ retry';
+  document.getElementById('scanStatus').textContent=label;
+  document.getElementById('scanProgress').style.width=pct+'%';
+  document.getElementById('scanDiscovered').textContent='ค้นพบ '+discovered;
+  document.getElementById('scanProcessed').textContent='ตรวจแล้ว '+processed;
+  document.getElementById('scanAnalyzed').textContent='วิเคราะห์ '+analyzed;
+  document.getElementById('scanSkipped').textContent='ไม่เปลี่ยน '+skipped;
+  document.getElementById('scanFailed').textContent='ผิดพลาด '+failed;
+  document.getElementById('scanError').textContent=inv.last_error||inv.projects_error||inv.archived_error||'';
+  var busy=['requested','claiming','running','backoff'].indexOf(status)>=0;
+  document.getElementById('scanAllBtn').disabled=busy;
+  document.getElementById('forceScanBtn').disabled=busy;
+}
 function statusOptions(selected){
   return ['CONTINUE','REFERENCE','PROJECT','DELETE_CANDIDATE'].map(function(s){
     return '<option'+(s===selected?' selected':'')+'>'+s+'</option>';
@@ -187,9 +248,9 @@ async function load(){
   try{
     state=await request('getState');
     label.textContent='Connected · Engine '+(state.engine_version||'')+' · Local registry '+records().length+' chats';
-    label.className='status ok';render();
+    label.className='status ok';render();renderInventory();
   }catch(e){
-    label.textContent='ยังไม่พบ Chat Steward Extension v1.9.0 — ต้องติดตั้ง/Reload extension ก่อน';
+    label.textContent='ยังไม่พบ Chat Steward Extension v1.9.1 — ต้องติดตั้ง/Reload extension ก่อน';
     label.className='status err';state=null;render();
   }
 }
@@ -215,6 +276,15 @@ document.getElementById('rows').addEventListener('click',async function(e){
 document.getElementById('q').addEventListener('input',render);
 document.getElementById('statusFilter').addEventListener('change',render);
 document.getElementById('refresh').addEventListener('click',load);
+document.getElementById('scanAllBtn').addEventListener('click',async function(){
+  try{await request('startFullScan',{force:false});await load();}
+  catch(err){alert('Full Inventory start failed: '+(err.message||err));}
+});
+document.getElementById('forceScanBtn').addEventListener('click',async function(){
+  if(!confirm('Force Rescan จะวิเคราะห์ Chat ที่เคยเสร็จแล้วใหม่ด้วย ต้องการทำต่อหรือไม่?'))return;
+  try{await request('startFullScan',{force:true});await load();}
+  catch(err){alert('Force Rescan start failed: '+(err.message||err));}
+});
 document.getElementById('importBtn').addEventListener('click',function(){document.getElementById('fileInput').click();});
 document.getElementById('fileInput').addEventListener('change',async function(e){
   var files=Array.from(e.target.files||[]);var count=0;
@@ -245,6 +315,10 @@ document.getElementById('settingsBtn').addEventListener('click',function(){
   if(!state)return;var c=state.config||{};
   document.getElementById('enabled').checked=c.enabled!==false;
   document.getElementById('autoScan').checked=c.autoScanVisitedChats!==false;
+  document.getElementById('autoFullInventory').checked=c.autoFullInventory!==false;
+  document.getElementById('includeArchived').checked=c.includeArchived!==false;
+  document.getElementById('includeProjects').checked=c.includeProjects!==false;
+  document.getElementById('inventoryRefreshHours').value=c.inventoryRefreshHours||24;
   document.getElementById('taxonomy').value=profilesToText(c.projectProfiles||[]);
   document.getElementById('settings').showModal();
 });
@@ -253,11 +327,24 @@ document.getElementById('saveSettings').addEventListener('click',async function(
   try{
     var profiles=textToProfiles(document.getElementById('taxonomy').value);
     if(!profiles.length)throw new Error('ต้องมี Project taxonomy อย่างน้อย 1 รายการ');
-    await request('saveConfig',{config:{enabled:document.getElementById('enabled').checked,autoScanVisitedChats:document.getElementById('autoScan').checked,projectProfiles:profiles}});
+    await request('saveConfig',{config:{
+      enabled:document.getElementById('enabled').checked,
+      autoScanVisitedChats:document.getElementById('autoScan').checked,
+      autoFullInventory:document.getElementById('autoFullInventory').checked,
+      includeArchived:document.getElementById('includeArchived').checked,
+      includeProjects:document.getElementById('includeProjects').checked,
+      inventoryRefreshHours:Number(document.getElementById('inventoryRefreshHours').value||24),
+      projectProfiles:profiles
+    }});
     document.getElementById('settings').close();await load();
   }catch(err){alert(err.message||err);}
 });
 load();
+setInterval(function(){
+  if(state&&state.meta&&state.meta.inventory&&['requested','claiming','running','backoff'].indexOf(state.meta.inventory.status)>=0){
+    load();
+  }
+},3000);
 })();
 </script>
 </body>
