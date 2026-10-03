@@ -12,7 +12,7 @@ header{display:flex;gap:18px;align-items:center;justify-content:space-between;fl
 .brand h1{margin:0;font-size:28px}.brand p{margin:5px 0 0;color:#667085}
 .badge{padding:8px 12px;border-radius:999px;background:#edf7ef;color:#1f6f43;font-weight:700;font-size:13px}
 .status{font-size:13px;color:#667085}.status.ok{color:#157347}.status.err{color:#b42318}
-.cards{display:grid;grid-template-columns:repeat(5,minmax(150px,1fr));gap:12px;margin:22px 0}
+.cards{display:grid;grid-template-columns:repeat(6,minmax(140px,1fr));gap:12px;margin:22px 0}
 .card{background:#fff;border:1px solid #e7eaf1;border-radius:18px;padding:18px;box-shadow:0 8px 24px rgba(34,52,84,.06)}
 .card b{font-size:28px;display:block}.card span{font-size:12px;color:#667085}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;margin:16px 0}
@@ -24,7 +24,7 @@ input,select,textarea{border:1px solid #d7dce6;border-radius:12px;padding:10px 1
 table{width:100%;border-collapse:collapse;min-width:1180px}th,td{text-align:left;padding:13px 12px;border-bottom:1px solid #eef0f4;vertical-align:top}
 th{font-size:12px;color:#667085;background:#fafbfc;position:sticky;top:0;z-index:1}
 .title{font-weight:800}.muted{color:#667085;font-size:12px}.pill{display:inline-flex;padding:5px 9px;border-radius:999px;font-size:11px;font-weight:800}
-.p-CONTINUE{background:#fff4d6;color:#8a5a00}.p-REFERENCE{background:#eaf3ff;color:#175cd3}.p-PROJECT{background:#eee8ff;color:#6941c6}.p-DELETE_CANDIDATE{background:#ffe9e9;color:#b42318}
+.p-PENDING{background:#f2f4f7;color:#667085}.p-CONTINUE{background:#fff4d6;color:#8a5a00}.p-REFERENCE{background:#eaf3ff;color:#175cd3}.p-PROJECT{background:#eee8ff;color:#6941c6}.p-DELETE_CANDIDATE{background:#ffe9e9;color:#b42318}
 .score{font-size:11px;white-space:nowrap}.actions{display:flex;flex-wrap:wrap;gap:6px}.actions button{font-size:11px;padding:7px 9px}
 .note{width:190px;min-height:58px;resize:vertical}.project{width:190px}.reason{max-width:260px;font-size:12px}.next{max-width:280px;font-size:12px}
 .empty{padding:44px;text-align:center;color:#667085}footer{margin:16px 0;color:#667085;font-size:12px}
@@ -54,6 +54,7 @@ dialog::backdrop{background:rgba(15,23,42,.4)}dialog textarea{width:100%;min-hei
 
 <section class="cards">
   <div class="card"><b id="mTotal">0</b><span>Chats in local registry</span></div>
+  <div class="card"><b id="mPending">0</b><span>Pending analysis</span></div>
   <div class="card"><b id="mContinue">0</b><span>Continue</span></div>
   <div class="card"><b id="mReference">0</b><span>Reference</span></div>
   <div class="card"><b id="mProject">0</b><span>Project</span></div>
@@ -86,7 +87,7 @@ dialog::backdrop{background:rgba(15,23,42,.4)}dialog textarea{width:100%;min-hei
   <input id="q" type="search" placeholder="ค้นหา Chat / Project / Next Action…">
   <select id="statusFilter">
     <option value="">ทุกสถานะ</option>
-    <option>CONTINUE</option><option>REFERENCE</option><option>PROJECT</option><option>DELETE_CANDIDATE</option>
+    <option>PENDING</option><option>CONTINUE</option><option>REFERENCE</option><option>PROJECT</option><option>DELETE_CANDIDATE</option>
   </select>
   <button class="btn" id="refresh">Refresh</button>
   <button class="btn primary" id="importBtn">Import JSON</button>
@@ -165,10 +166,15 @@ function records(){
   if(!state||!state.registry||!state.registry.records)return [];
   return Object.values(state.registry.records).sort(function(a,b){return Date.parse(b.last_seen_at||0)-Date.parse(a.last_seen_at||0);});
 }
-function effective(r){return (r.decision&&r.decision.status)||r.suggestion.suggested_status;}
+function effective(r){
+  if(r.decision&&r.decision.status)return r.decision.status;
+  if(r.analysis_state&&r.analysis_state!=='DONE')return 'PENDING';
+  return (r.suggestion&&r.suggestion.suggested_status)||'PENDING';
+}
 function metric(id,n){document.getElementById(id).textContent=String(n);}
 function updateMetrics(list){
   metric('mTotal',list.length);
+  metric('mPending',list.filter(function(r){return effective(r)==='PENDING';}).length);
   metric('mContinue',list.filter(function(r){return effective(r)==='CONTINUE';}).length);
   metric('mReference',list.filter(function(r){return effective(r)==='REFERENCE';}).length);
   metric('mProject',list.filter(function(r){return effective(r)==='PROJECT';}).length);
@@ -181,6 +187,7 @@ function renderInventory(){
   var analyzed=Number(inv.analyzed||0);
   var skipped=Number(inv.skipped_unchanged||0);
   var failed=Number(inv.failed||0);
+  var pendingCount=Number(inv.pending||Math.max(0,discovered-analyzed-skipped));
   var pct=discovered>0?Math.min(100,Math.round(processed*100/discovered)):0;
   var status=inv.status||'idle';
   var phase=inv.phase||'idle';
@@ -192,7 +199,7 @@ function renderInventory(){
   else if(status==='paused_error')label='Full Inventory หยุดจากข้อผิดพลาด — กด Scan All Chats เพื่อ retry';
   document.getElementById('scanStatus').textContent=label;
   document.getElementById('scanProgress').style.width=pct+'%';
-  document.getElementById('scanDiscovered').textContent='ค้นพบ '+discovered;
+  document.getElementById('scanDiscovered').textContent='ค้นพบ '+discovered+' · รอวิเคราะห์ '+pendingCount;
   document.getElementById('scanProcessed').textContent='ตรวจแล้ว '+processed;
   document.getElementById('scanAnalyzed').textContent='วิเคราะห์ '+analyzed;
   document.getElementById('scanSkipped').textContent='ไม่เปลี่ยน '+skipped;
@@ -203,13 +210,14 @@ function renderInventory(){
   document.getElementById('forceScanBtn').disabled=busy;
 }
 function statusOptions(selected){
-  return ['CONTINUE','REFERENCE','PROJECT','DELETE_CANDIDATE'].map(function(s){
+  var waiting=selected==='PENDING'?'<option value="" selected>รอ AI วิเคราะห์</option>':'';
+  return waiting+['CONTINUE','REFERENCE','PROJECT','DELETE_CANDIDATE'].map(function(s){
     return '<option'+(s===selected?' selected':'')+'>'+s+'</option>';
   }).join('');
 }
 function rowHtml(r){
   var s=r.suggestion||{};var sc=s.scores||{};var dec=r.decision||{};
-  var ai=s.suggested_status||'REFERENCE';var eff=effective(r);
+  var eff=effective(r);var ai=eff==='PENDING'?'รอวิเคราะห์':(s.suggested_status||'—');
   var project=dec.project||((s.project_suggestion&&s.project_suggestion.name)||'');
   var reasons=(s.reasons||[]).join(' · ');
   var override=dec.status?'<span class="override">HUMAN OVERRIDE</span>':'';
@@ -217,16 +225,16 @@ function rowHtml(r){
   return '<tr data-id="'+esc(r.id)+'">'+
     '<td><div class="title">'+esc(r.title)+'</div><div class="muted">'+esc(r.source||'')+' · '+esc(r.last_seen_at||'')+'</div></td>'+
     '<td><div class="rowtop"><span class="pill p-'+esc(eff)+'">'+esc(eff)+'</span>'+override+'</div>'+
-      '<div class="muted">AI: '+esc(ai)+' · '+esc(s.confidence||0)+'% confidence</div>'+
+      '<div class="muted">AI: '+esc(ai)+(eff==='PENDING'?'':' · '+esc(s.confidence||0)+'% confidence')+'</div>'+
       '<select class="statusSel">'+statusOptions(eff)+'</select></td>'+
     '<td><div class="score">Value '+esc(sc.value||0)+'</div><div class="score">Done '+esc(sc.completion||0)+'%</div>'+
       '<div class="score">Reuse '+esc(sc.reuse||0)+'</div><div class="score">Project '+esc(sc.project_match||0)+'%</div>'+
       '<div class="score">Duplicate '+esc(sc.duplicate_risk||0)+'%</div></td>'+
     '<td><input class="project" value="'+esc(project)+'" placeholder="Project"><br><textarea class="note" placeholder="Human note">'+esc(dec.note||'')+'</textarea></td>'+
-    '<td class="reason">'+esc(reasons||'—')+'</td>'+
-    '<td class="next">'+esc(s.next_action||'—')+'</td>'+
+    '<td class="reason">'+esc(eff==='PENDING'?'ค้นพบแล้ว · รออ่านเนื้อหาเพื่อจัดประเภท':(reasons||'—'))+'</td>'+
+    '<td class="next">'+esc(eff==='PENDING'?'รอ Full Inventory วิเคราะห์':(s.next_action||'—'))+'</td>'+
     '<td><div class="actions">'+
-      '<button class="btn useAI">Use AI</button><button class="btn save">Save</button>'+
+      (eff==='PENDING'?'':'<button class="btn useAI">Use AI</button>')+'<button class="btn save">Save</button>'+
       (url?'<button class="btn open">Open Chat</button>':'')+
       '<button class="btn copy">Copy Next</button><button class="btn ghost reset">Reset</button><button class="btn danger remove">Remove local</button>'+
     '</div></td></tr>';
@@ -250,7 +258,7 @@ async function load(){
     label.textContent='Connected · Engine '+(state.engine_version||'')+' · Local registry '+records().length+' chats';
     label.className='status ok';render();renderInventory();
   }catch(e){
-    label.textContent='ยังไม่พบ Chat Steward Extension v1.9.1 — ต้องติดตั้ง/Reload extension ก่อน';
+    label.textContent='ยังไม่พบ Chat Steward Extension v1.9.4 — ต้องติดตั้ง/Reload extension ก่อน';
     label.className='status err';state=null;render();
   }
 }
