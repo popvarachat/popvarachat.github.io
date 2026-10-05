@@ -15,8 +15,8 @@
 footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 @media(max-width:900px){.cards,.rolegrid{grid-template-columns:1fr}.hero{flex-direction:column}.hero-actions{justify-content:flex-start}.wrap{padding:22px 14px 44px}}
 </style></head><body><div class="wrap">
-<div class="hero"><div><div class="eyebrow">Practika · Network Digital Twin</div><h1>Network Digital Twin · Executive View</h1><p class="sub">หน้า Public นี้คือมุมมองระดับผู้บริหารของ Digital Twin ตัวเดียวกับ Internal IT Director View — ทุก Node สามารถกดดู evidence เชิงลึก และบนเครื่องที่ได้รับสิทธิ์สามารถ Drill-down เข้า IP/Hostname/OS/OU/Service/Device detail ของ Node เดียวกันได้</p></div><div class="hero-actions"><div class="status">● Twin Connected</div><a class="internal-btn" href="http://127.0.0.1:8766/?focus=overview" target="_blank">Open Internal Twin ↗</a></div></div>
-<div class="tabs"><button class="tab active" data-tab="map">Network Topology</button><button class="tab" data-tab="zones">Logical Zones</button><button class="tab" data-tab="roles">Device Estate</button><button class="tab" data-tab="workflow">Workflow</button><button class="tab" data-tab="statusp">Discovery Status</button></div>
+<div class="hero"><div><div class="eyebrow">Practika · Network Digital Twin</div><h1>Network Digital Twin · Executive View</h1><p class="sub">หน้า Public นี้คือมุมมองระดับผู้บริหารของ Digital Twin ตัวเดียวกับ Internal IT Director View — ทุก Node สามารถกดดู evidence เชิงลึก และบนเครื่องที่ได้รับสิทธิ์สามารถ Drill-down เข้า IP/Hostname/OS/OU/Service/Device detail ของ Node เดียวกันได้</p></div><div class="hero-actions"><div class="status">● Twin Connected</div><a class="internal-btn" href="../enterprise-digital-twin/">Building × Network ↗</a><a class="internal-btn" href="http://127.0.0.1:8766/?focus=overview" target="_blank">Open Internal Twin ↗</a></div></div>
+<div class="tabs"><button class="tab active" data-tab="map">Network Topology</button><button class="tab" data-tab="zones">Logical Zones</button><button class="tab" data-tab="roles">Device Estate</button><button class="tab" data-tab="enterprise">Building × Network</button><button class="tab" data-tab="workflow">Workflow</button><button class="tab" data-tab="statusp">Discovery Status</button></div>
 
 <section id="map" class="panel active"><h2>Network Topology</h2><p class="lead">มุมมอง Network จริงเป็นหลัก: Internet/Edge → Core L3 Fabric → Server/Infrastructure, Access Switching, Wireless และ Plant/Production → Endpoints/VoIP/Printer/CCTV. คลิก Node เพื่อ drill-down.</p>
 <div class="diagram"><svg viewBox="0 0 1260 930">
@@ -75,6 +75,13 @@ footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-co
 <div class="role" data-focus="production"><b>Production</b><span>Plant/machine-associated endpoints</span></div>
 <div class="role" data-focus="physical-pending"><b>Unknown / Unclassified</b><span>Responding devices awaiting management-plane evidence</span></div>
 </div><div class="note">Internal Twin ปัจจุบันรวม AD, DNS/PTR, ICMP, ports, vendor/model fingerprint, OS, OU, latency และ evidence ราย asset ไว้ในระบบเดียวกัน</div></section>
+
+<section id="enterprise" class="panel"><h2>Building × Network Integration</h2><p class="lead">Network Twin เชื่อมกับ Building Twin ผ่าน Cross‑Twin Relation Registry และ JEV Evidence Gate เพื่อแยก Physical Truth ออกจาก logical inference อย่างชัดเจน</p><div class="cards">
+<div class="card"><b>12 Cross‑Twin Relations</b><p>เชื่อม Building / Floor / Drawing / System กับ Network Zone และ asset evidence โดยไม่ทำฐานข้อมูลซ้ำ</p><span class="tag ok">Connected</span></div>
+<div class="card"><b>14 Building Drawings</b><p>LAN / Wi‑Fi / CCTV drawing evidence ถูกนำมาใช้ประกอบ confidence ของ relation</p><span class="tag info">Evidence</span></div>
+<div class="card"><b>JEV Evidence Gate</b><p>มี CONFIRMED / SUPPORTED / CONFLICT / PENDING และ veto การ auto-map เมื่อหลักฐานขัดกัน</p><span class="tag info">Decision Layer</span></div>
+<div class="card"><b>Physical Port Truth</b><p>Room → AP/Switch → Port → Endpoint จะยืนยันเมื่อมี authorized read-only MAC/LLDP/AP association</p><span class="tag wait">Human Gate</span></div>
+</div><div class="note"><a href="../enterprise-digital-twin/" style="font-weight:800;color:#245da9;text-decoration:none">Open Practika Enterprise Digital Twin · Executive View ↗</a></div></section>
 
 <section id="statusp" class="panel"><h2>Discovery Status</h2><div class="cards">
 <div class="card" data-focus="overview"><b>Logical estate</b><p>16 live subnets / 407 live responders ใน snapshot ล่าสุดของ Internal Twin.</p><span class="tag ok">Complete baseline</span></div>
