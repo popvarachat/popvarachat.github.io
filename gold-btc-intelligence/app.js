@@ -1,4 +1,4 @@
-let SNAPSHOT=null, WORKFLOW=null, INSTITUTIONAL=null, timer=null;
+let SNAPSHOT=null, WORKFLOW=null, INSTITUTIONAL=null, SETEQ=null, timer=null;
 
 const byId=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -31,17 +31,20 @@ function wfSafe(v){
 
 async function loadSnapshot(){
   const ts=Date.now();
-  const [snapshotRes,workflowRes,institutionalRes]=await Promise.all([
+  const [snapshotRes,workflowRes,institutionalRes,setEqRes]=await Promise.all([
     fetch('data/executive_snapshot.json?ts='+ts,{cache:'no-store'}),
     fetch('data/workflow_status.json?ts='+ts,{cache:'no-store'}),
-    fetch('data/institutional_analytics.json?ts='+ts,{cache:'no-store'})
+    fetch('data/institutional_analytics.json?ts='+ts,{cache:'no-store'}),
+    fetch('data/set_equity_intelligence.json?ts='+ts,{cache:'no-store'})
   ]);
   if(!snapshotRes.ok) throw new Error('snapshot HTTP '+snapshotRes.status);
   if(!workflowRes.ok) throw new Error('workflow HTTP '+workflowRes.status);
   if(!institutionalRes.ok) throw new Error('institutional HTTP '+institutionalRes.status);
+  if(!setEqRes.ok) throw new Error('SET equity HTTP '+setEqRes.status);
   SNAPSHOT=await snapshotRes.json();
   WORKFLOW=await workflowRes.json();
   INSTITUTIONAL=await institutionalRes.json();
+  SETEQ=await setEqRes.json();
   renderAll();
 }
 
@@ -51,6 +54,7 @@ function renderAll(){
   renderWorkflow();
   renderAgentSquad();
   renderJevReview();
+  renderSetEquity();
   renderInstitutional();
   renderMarkets();
   renderTrace();
@@ -83,6 +87,44 @@ function instStatusClass(status){
   if(['NOT_YET_EVIDENCED','PARTIAL','DEGRADED'].includes(status)) return 'warn';
   return '';
 }
+
+function setStageClass(stage){
+  if(stage==='ACCUMULATE_WATCH') return 'good';
+  if(stage==='HOLD_QUALITY') return 'neutral';
+  if(stage==='AVOID_CHASE') return 'warn';
+  return 'neutral';
+}
+function cdcBadge(cdc){
+  const map={RED:'🔴',BLUE:'🔵',GREEN:'🟢'};
+  return (map[cdc]||'⚪')+' '+esc(cdc||'—');
+}
+function renderSetEquity(){
+  if(!SETEQ) return;
+  const rows=SETEQ.stocks||[], top=rows.slice(0,5);
+  safeSet('setEquitySummary',
+    '<div class="set-summary-card"><span>Universe</span><b>'+rows.length+' SET stocks</b><small>separate research group</small></div>'+
+    '<div class="set-summary-card"><span>Top Opportunity</span><b>'+esc(top[0]?.symbol||'—')+' · '+fmt(top[0]?.opportunity_score,1)+'</b><small>quality + dislocation + yield + resilience</small></div>'+
+    '<div class="set-summary-card"><span>JEV Shadow</span><b>'+esc(SETEQ.jev?.model||'—')+'</b><small>research-only · no execution authority</small></div>'+
+    '<div class="set-summary-card"><span>Top 5</span><b>'+top.map(x=>esc(x.symbol)).join(' · ')+'</b><small>ranked by transparent opportunity score</small></div>'
+  );
+  safeSet('setEquityTable',rows.map((x,i)=>{
+    const j=x.jev_shadow||{},stage=j.stage?.selected||'—',thesis=j.thesis?.selected||'—',risk=j.risk?.selected||'—';
+    return '<tr>'+
+      '<td class="rank-cell">#'+(i+1)+'</td>'+
+      '<td><b>'+esc(x.symbol)+'</b><small>'+esc(x.grade)+'</small></td>'+
+      '<td><b>'+fmt(x.opportunity_score,1)+'</b><small>'+esc(stage.replaceAll('_',' '))+'</small></td>'+
+      '<td>'+esc(x.financials_3y)+'</td>'+
+      '<td><b>'+fmt(x.drawdown_3m_pct,1)+'%</b></td>'+
+      '<td>'+fmt(x.dividend_fy_pct,2)+'%</td>'+
+      '<td>'+cdcBadge(x.cdc)+'</td>'+
+      '<td>'+fmt(x.corr_set,3)+'</td>'+
+      '<td>'+fmt(x.corr_industry,3)+'</td>'+
+      '<td><span class="set-stage '+setStageClass(stage)+'">'+esc(stage)+'</span><small>Thesis '+esc(thesis)+' · Risk '+esc(risk)+'</small></td>'+
+      '<td class="pressure-cell">'+esc(x.pressure)+'<small>'+esc(x.resilience)+'</small></td>'+
+    '</tr>';
+  }).join(''));
+}
+
 function renderInstitutional(){
   if(!INSTITUTIONAL) return;
   const i=INSTITUTIONAL, gold=i.proof_of_edge?.gold_primary||{}, oos=i.proof_of_edge?.gold_oos_separate_family||{}, stress=i.proof_of_edge?.gold_stress||{};
