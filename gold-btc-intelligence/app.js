@@ -142,29 +142,42 @@ function thesisArrow(thesis){
   if(thesis==='BEARISH') return '↓';
   return '↔';
 }
+function sourceState(x,name){
+  const s=(x.source_health||[]).find(v=>v.source===name);
+  return !s?'—':(s.ok?'GOOD':'FAILED');
+}
+function sourceClass(v){
+  return v==='GOOD'?'good':v==='FAILED'?'bad':'neutral';
+}
 function renderForexMajor(){
   if(!FOREX) return;
   const rows=FOREX.pairs||[];
   const trend=rows.filter(x=>x.jev_shadow?.stage?.selected==='TREND_WATCH');
   const waits=rows.filter(x=>x.jev_shadow?.stage?.selected==='WAIT');
+  const mt5=FOREX.mt5_health||{}, cot=FOREX.cot_health||{};
   safeSet('forexSummary',
-    '<div class="fx-summary-card"><span>Universe</span><b>'+rows.length+' major pairs</b><small>public reference · research only</small></div>'+
-    '<div class="fx-summary-card"><span>Trend Watch</span><b>'+trend.length+' pairs</b><small>'+trend.map(x=>esc(x.pair)).join(' · ')+'</small></div>'+
-    '<div class="fx-summary-card"><span>Wait</span><b>'+waits.length+' pairs</b><small>'+waits.map(x=>esc(x.pair)).join(' · ')+'</small></div>'+
-    '<div class="fx-summary-card"><span>JEV Shadow</span><b>'+esc(FOREX.jev?.model||'—')+'</b><small>no execution authority</small></div>'
+    '<div class="fx-summary-card"><span>MT5 Broker</span><b>'+esc(mt5.ok?'GOOD':'FAILED')+'</b><small>'+esc(mt5.ok?'read-only broker feed active':(mt5.error||'unavailable'))+'</small></div>'+
+    '<div class="fx-summary-card"><span>Macro</span><b>'+esc(FOREX.macro_health||'—')+'</b><small>DXY · US10Y · VIX · SPY</small></div>'+
+    '<div class="fx-summary-card"><span>CFTC COT</span><b>'+esc(cot.status||'—')+' · '+esc(cot.count??'—')+'/7</b><small>TFF Futures Only · positioning</small></div>'+
+    '<div class="fx-summary-card"><span>JEV Shadow</span><b>'+esc(FOREX.jev?.model||'—')+'</b><small>'+trend.length+' TREND_WATCH · '+waits.length+' WAIT</small></div>'
   );
   safeSet('forexTable',rows.map(x=>{
     const j=x.jev_shadow||{},stage=j.stage?.selected||'—',thesis=j.thesis?.selected||'—',risk=j.risk?.selected||'—';
+    const pub=x.public_reference||{}, cot=x.cot||{}, broker=x.broker||{};
+    const spread=broker.quote?.spread;
     return '<tr>'+
-      '<td><b>'+esc(x.pair)+'</b><small>'+esc(x.source_symbol||'')+'</small></td>'+
-      '<td><b>'+fmt(x.current_reference,5)+'</b><small>'+esc(x.asof_utc||'—')+'</small></td>'+
-      '<td>'+pct(x.return_1d,2)+'</td>'+
-      '<td>'+pct(x.return_5d,2)+'</td>'+
-      '<td>'+pct(x.return_1m,2)+'</td>'+
-      '<td>'+pct(x.return_3m,2)+'</td>'+
-      '<td>'+pct(x.volatility_20d_ann,1)+'</td>'+
+      '<td><b>'+esc(x.pair)+'</b><small>'+esc(x.quality||'—')+' · '+esc(x.authority||'—')+'</small></td>'+
+      '<td><b>'+fmt(x.current_reference,5)+'</b><small>'+esc(broker.broker_symbol||pub.source_symbol||'—')+'</small></td>'+
+      '<td><span class="src-chip '+sourceClass(sourceState(x,'MT5'))+'">MT5 '+sourceState(x,'MT5')+'</span><small>Spread '+(spread==null?'—':fmt(spread,6))+'</small></td>'+
+      '<td><span class="src-chip '+sourceClass(sourceState(x,'YAHOO_DAILY'))+'">Public '+sourceState(x,'YAHOO_DAILY')+'</span></td>'+
+      '<td><span class="src-chip '+sourceClass(sourceState(x,'MACRO_CONTEXT'))+'">Macro '+sourceState(x,'MACRO_CONTEXT')+'</span></td>'+
+      '<td><span class="src-chip '+sourceClass(sourceState(x,'CFTC_TFF'))+'">COT '+sourceState(x,'CFTC_TFF')+'</span><small>'+esc(cot.pair_bias||'—')+'</small></td>'+
+      '<td>'+pct(pub.return_1d,2)+'</td>'+
+      '<td>'+pct(pub.return_5d,2)+'</td>'+
+      '<td>'+pct(pub.return_1m,2)+'</td>'+
+      '<td>'+pct(pub.return_3m,2)+'</td>'+
+      '<td>'+pct(pub.volatility_20d_ann,1)+'</td>'+
       '<td><b>'+esc(x.regime||'—')+'</b><small>strength '+fmt(x.trend_strength,2)+'</small></td>'+
-      '<td><b>'+esc(x.usd_bias_5d||'—')+'</b></td>'+
       '<td><span class="fx-thesis '+(thesis==='BULLISH'?'up':thesis==='BEARISH'?'down':'flat')+'">'+thesisArrow(thesis)+' '+esc(thesis)+'</span></td>'+
       '<td><span class="fx-stage '+forexStageClass(stage)+'">'+esc(stage)+'</span><small>Risk '+esc(risk)+'</small></td>'+
     '</tr>';
