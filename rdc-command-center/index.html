@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#08111f">
+<title>RDC Command Center · Agent Arsenal</title>
+<meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<div class="shell">
+  <header class="hero">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span> RDC MULTI-AGENT V1 · PUBLIC SAFE</div>
+      <h1>RDC Command Center</h1>
+      <p class="lede">Remote execution ที่ไม่ได้มีแค่ “มือ” แต่มี <b>Orchestrator + Agent + Sub-agent + Skill + Global Arsenal</b> อยู่หลังบ้าน พร้อมกฎ FAST EXECUTION MODE และ Human Gate.</p>
+      <div class="hero-actions">
+        <a href="#architecture" class="primary">ดูโครงสร้างระบบ</a>
+        <a href="#weekly" class="secondary">ดูอาวุธใหม่สัปดาห์นี้</a>
+        <a href="https://github.com/popvarachat/popvarachat.github.io/tree/main/rdc-command-center" target="_blank" rel="noopener" class="secondary">Repository ↗</a>
+      </div>
+    </div>
+    <div class="radar">
+      <div class="radar-core"><span>RDC</span><small>ORCHESTRATOR</small></div>
+      <i class="ring r1"></i><i class="ring r2"></i><i class="ring r3"></i>
+      <span class="node n1">API</span><span class="node n2">MCP</span><span class="node n3">CLI</span>
+      <span class="node n4">Agents</span><span class="node n5">Skills</span><span class="node n6">QA</span>
+    </div>
+  </header>
+
+  <section class="metrics" id="metrics"></section>
+
+  <nav class="tabs" aria-label="sections">
+    <a href="#architecture">Architecture</a>
+    <a href="#agents">Agents</a>
+    <a href="#skills">Skills</a>
+    <a href="#arsenal">Global Arsenal</a>
+    <a href="#weekly">Weekly Radar</a>
+    <a href="#guardrails">Guardrails</a>
+  </nav>
+
+  <section id="architecture" class="section">
+    <div class="section-head">
+      <div><span class="kicker">EXECUTION ARCHITECTURE</span><h2>เร็ว เพราะใช้ Backend ก่อน UI</h2></div>
+      <span id="healthBadge" class="badge"></span>
+    </div>
+    <div class="pipeline">
+      <div class="stage hot"><b>Human / ChatGPT</b><span>Intent + approval</span></div>
+      <div class="arrow">→</div>
+      <div class="stage hot"><b>RDC Orchestrator</b><span>Plan · route · verify</span></div>
+      <div class="arrow">→</div>
+      <div class="stage"><b>API / MCP / CLI</b><span>First choice</span></div>
+      <div class="arrow">→</div>
+      <div class="stage"><b>Agent Swarm</b><span>Parallel specialist work</span></div>
+      <div class="arrow">→</div>
+      <div class="stage"><b>Final Validator</b><span>Evidence before DONE</span></div>
+      <div class="arrow">→</div>
+      <div class="stage safe"><b>DONE / Human Gate</b><span>No silent risk</span></div>
+    </div>
+    <div class="architecture-grid">
+      <article><h3>FAST EXECUTION MODE</h3><div id="rules" class="rule-list"></div></article>
+      <article><h3>Lazy Arsenal</h3><p>RDC รู้ว่ามี Skill อะไรในโลก แต่ไม่ preload ทั้งหมดเข้าความจำ. โหลดเฉพาะตัวที่ต้องใช้, pin commit, verify SHA และ cache จำกัด.</p><div class="mini-flow"><span>Local</span><b>→</b><span>Metadata</span><b>→</b><span>Fetch 1</span><b>→</b><span>Verify</span></div></article>
+    </div>
+  </section>
+
+  <section id="agents" class="section">
+    <div class="section-head"><div><span class="kicker">AGENT FORCE</span><h2>หน่วยรบ 12 บทบาท</h2></div><span class="hint">Sub-agents = read-only/advisory by default</span></div>
+    <div id="agentsGrid" class="card-grid"></div>
+  </section>
+
+  <section id="skills" class="section">
+    <div class="section-head"><div><span class="kicker">LOCAL SKILL PLAYBOOK</span><h2>Skill พร้อมใช้ทันที</h2></div><span class="hint">Trigger → Input → Steps → Tools → Validation → Output → Stop</span></div>
+    <div id="skillsGrid" class="skill-grid"></div>
+  </section>
+
+  <section id="arsenal" class="section">
+    <div class="section-head"><div><span class="kicker">GLOBAL ARSENAL</span><h2>รู้จักของแรงทั่วโลก แต่ไม่แบกจนช้า</h2></div><span class="badge ghost">LAZY LOAD</span></div>
+    <div class="arsenal-banner">
+      <div><b id="catalogCount">–</b><span>Global skills indexed</span></div>
+      <div><b>0</b><span>Preloaded external skills</span></div>
+      <div><b>3</b><span>Max lazy cache</span></div>
+      <div><b>SHA</b><span>Verification required</span></div>
+    </div>
+    <div id="arsenalGrid" class="card-grid arsenal-grid"></div>
+  </section>
+
+  <section id="weekly" class="section">
+    <div class="section-head"><div><span class="kicker">WEEKLY CAPABILITY RADAR</span><h2>สัปดาห์นี้ติดอาวุธอะไรเพิ่ม</h2></div><span id="weekStamp" class="hint"></span></div>
+    <div class="weekly-layout">
+      <div>
+        <h3>What changed</h3>
+        <div id="changes" class="timeline"></div>
+      </div>
+      <div>
+        <h3>Global candidates to watch</h3>
+        <div id="candidates" class="candidate-list"></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="guardrails" class="section">
+    <div class="section-head"><div><span class="kicker">CONTROL SYSTEM</span><h2>แรงได้ แต่ไม่ถอด Safety</h2></div></div>
+    <div class="guard-grid">
+      <article><h3>Human Gate</h3><div id="humanGates" class="rule-list"></div></article>
+      <article><h3>Provider status</h3><div id="providers" class="provider-list"></div></article>
+      <article><h3>Public-safe boundary</h3><p>Web นี้ไม่เผย token, credential, email, IP, hostname ภายใน, device id หรือ path ที่เป็นความลับ. แสดงเฉพาะ architecture และ capability metadata.</p></article>
+    </div>
+  </section>
+
+  <footer>
+    <span>RDC Command Center · popvarachat.github.io</span>
+    <span id="lastUpdated"></span>
+  </footer>
+</div>
+<script src="app.js"></script>
+</body>
+</html>

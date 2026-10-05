@@ -1,0 +1,81 @@
+{
+  "week": "2026-W41",
+  "period": "5–11 ต.ค. 2569",
+  "changes": [
+    {
+      "time": "05 Oct",
+      "title": "FAST EXECUTION MODE activated",
+      "detail": "API/MCP/CLI first · parallelize · batch · retry safely · UI only as fallback."
+    },
+    {
+      "time": "05 Oct",
+      "title": "RDC Multi-Agent v1 armed",
+      "detail": "จัดโครงสร้าง 12 Agent roles พร้อม Orchestrator, QA, Security, Recovery และ Context roles."
+    },
+    {
+      "time": "05 Oct",
+      "title": "13 local skills standardized",
+      "detail": "ทุก Skill ใช้ contract เดียวกัน: Trigger → Input → Steps → Tools → Validation → Output → Stop."
+    },
+    {
+      "time": "05 Oct",
+      "title": "Global Arsenal Lazy Load added",
+      "detail": "รู้จัก Skill ภายนอกโดยเก็บ metadata เท่านั้น; fetch exact pinned commit + SHA verify เมื่อต้องใช้."
+    },
+    {
+      "time": "05 Oct",
+      "title": "Global Skills Scan scheduled weekly",
+      "detail": "สแกน ecosystem ทุกสัปดาห์และเสนอเฉพาะ capability ที่เพิ่มคุณค่าจริง."
+    }
+  ],
+  "candidates": [
+    {
+      "name": "systematic-debugging",
+      "source": "obra/superpowers",
+      "why": "Gold-level debugging discipline; ใช้เป็น external reference เมื่อ bug ซับซ้อนกว่า local loop.",
+      "action": "WATCH / ON-DEMAND"
+    },
+    {
+      "name": "cavecrew",
+      "source": "JuliusBrussee/caveman",
+      "why": "Investigator → Builder → Reviewer delegation ช่วยประหยัด main context.",
+      "action": "WATCH / SUB-AGENT PATTERN"
+    },
+    {
+      "name": "browser-use",
+      "source": "browser-use/browser-use",
+      "why": "CDP browser automation ตรงช่องว่าง UI fallback ของ RDC.",
+      "action": "HIGH PRIORITY CANDIDATE"
+    },
+    {
+      "name": "agent-builder",
+      "source": "shareAI-lab/learn-claude-code",
+      "why": "Agent architecture / orchestration reference สำหรับสร้าง role ใหม่.",
+      "action": "WATCH"
+    },
+    {
+      "name": "open-code-review-delegate",
+      "source": "alibaba/open-code-review",
+      "why": "Deterministic file selection + host-driven review.",
+      "action": "WATCH"
+    },
+    {
+      "name": "bmad-code-review",
+      "source": "bmad-code-org/BMAD-METHOD",
+      "why": "Parallel independent reviewers + triage.",
+      "action": "WATCH"
+    },
+    {
+      "name": "entra-agent-id",
+      "source": "microsoft/azure-skills",
+      "why": "Per-agent identity / OAuth / workload identity — จุดที่ Global stack เหนือ RDC ตอนนี้.",
+      "action": "ENTERPRISE GAP"
+    },
+    {
+      "name": "agent observability",
+      "source": "google/agents-cli",
+      "why": "Tracing / logging / agent analytics — เหมาะเป็นขั้นต่อไปของ scoreboard.",
+      "action": "NEXT-LAYER CANDIDATE"
+    }
+  ]
+}

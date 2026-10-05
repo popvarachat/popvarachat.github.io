@@ -150,6 +150,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "rdc-command-center-manual": {
+    title:"RDC Command Center · Multi-Agent Arsenal",
+    description:"Public-safe control view ของ RDC: FAST Execution Mode · 12 Agents · 13 Local Skills · Lazy Global Arsenal · Weekly capability radar"
+  },
   "gold-btc-intelligence-manual": {
     title:"GOLD / BTCUSD Multi-Agent Intelligence",
     description:"Executive Analysis / Control / Report · Data → Feature → Multi-Agent → Decision/Risk · Read-only, no TradeIntent, no Order Send"
@@ -197,6 +201,11 @@ const overrides = {
 };
 
 const architectures = {
+  "rdc-command-center-manual": {
+    note:"RDC ใช้ Orchestrator คุม Agent/Skill โดยเลือก API → MCP → CLI ก่อน UI, fan-out งานอิสระแบบขนาน, โหลด Global Skill แบบ lazy และหยุดเฉพาะ Human Gate หรือ DONE ที่มีหลักฐาน.",
+    flow:[["Intent","Human / ChatGPT goal + scope"],["Orchestrator","Context → route Agent/Skill → parallel plan"],["Backend","API → MCP → CLI · batch + retry"],["Agent Swarm","Build · Debug · Data · Research · QA · Security"],["Lazy Arsenal","Global metadata → pinned fetch → SHA verify on demand"],["Validation","Independent QA + source-of-truth re-read"],["Boundary","DONE or Human Gate"]],
+    meta:["12 Agent roles","13 Local Skills","FAST EXECUTION MODE","Global Arsenal · Lazy","Public-safe"]
+  },
   "gold-btc-intelligence-manual": {
     note:"Executive surface ของระบบ GOLD/BTCUSD จบที่ Analysis / Control / Report โดยเก็บ Execution Layer, TradeIntent และ broker mutation ปิดทั้งหมด",
     flow:[["Data Input","BTC exchanges · GOLD reference/broker · macro/events"],["Preprocess","Validation · Normalize · Multi-TF · Feature Vector"],["Multi-Agent","Search → NNUE-style Evaluate → Heuristics → Endgame"],["Decision/Risk","Winner selection · veto · sizing readiness"],["Executive Web","Analysis · Control · Report"],["Boundary","STOP before execution"]],
@@ -254,6 +263,16 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"rdc-command-center-manual",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/rdc-command-center/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/rdc-command-center",
+    updated_at:"2026-10-05T06:35:00Z",
+    topics:["AI Operations"],
+    language:"HTML",
+    description:"RDC Multi-Agent Arsenal · FAST Execution · Agent / Sub-agent / Skills · Weekly Global Skill Radar"
+  },
   {
     name:"gold-btc-intelligence-manual",
     visibility:"public",

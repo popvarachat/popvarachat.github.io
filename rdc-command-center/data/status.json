@@ -1,0 +1,172 @@
+{
+  "generated_at": "2026-10-05T13:29:54+07:00",
+  "status": "READY_WITH_WARNINGS",
+  "mode": "FAST_EXECUTION_MODE",
+  "agents": 12,
+  "local_skills": 13,
+  "global_catalog": 8,
+  "preload_external": 0,
+  "providers": [
+    {
+      "name": "Claude Code",
+      "status": "AUTHENTICATED",
+      "tone": "ok"
+    },
+    {
+      "name": "Gemini CLI",
+      "status": "DISABLED · client/auth eligibility",
+      "tone": "off"
+    },
+    {
+      "name": "Ollama Local",
+      "status": "AVAILABLE · slow cold start",
+      "tone": "warning"
+    }
+  ],
+  "rules": [
+    "API/MCP/CLI first",
+    "Parallelize independent tasks",
+    "Do not narrate intermediate reasoning",
+    "Do not open browser/UI unless required",
+    "Batch commands whenever possible",
+    "Report only blocker, decision needed, and final validation",
+    "Retry automatically when safe",
+    "Stop only at Human Gate or completion"
+  ],
+  "human_gates": [
+    "Destructive or difficult-to-reverse changes",
+    "Credential / secret / identity / access-control changes",
+    "Material external or production actions",
+    "Live trading or real-money orders",
+    "Large-scale delete / overwrite / migration",
+    "Security changes that reduce protection"
+  ],
+  "agents_list": [
+    {
+      "id": "orchestrator",
+      "type": "controller",
+      "write": true,
+      "mission": "แตกงาน · route Agent/Skill · คุมผลลัพธ์สุดท้าย"
+    },
+    {
+      "id": "shell-api-executor",
+      "type": "executor",
+      "write": true,
+      "mission": "API / MCP / CLI / process / filesystem"
+    },
+    {
+      "id": "code-builder",
+      "type": "executor",
+      "write": true,
+      "mission": "Implement code + tests + validation"
+    },
+    {
+      "id": "debugger",
+      "type": "specialist",
+      "write": false,
+      "mission": "Reproduce → diagnose → recovery plan"
+    },
+    {
+      "id": "data-engineer",
+      "type": "specialist",
+      "write": true,
+      "mission": "Ingest · normalize · validate · export"
+    },
+    {
+      "id": "github-release",
+      "type": "specialist",
+      "write": true,
+      "mission": "Git / branch / PR / checks / release evidence"
+    },
+    {
+      "id": "research-scout",
+      "type": "specialist",
+      "write": false,
+      "mission": "Read-only research + option comparison"
+    },
+    {
+      "id": "ui-fallback",
+      "type": "specialist",
+      "write": true,
+      "mission": "Browser/UI only when backend path is insufficient"
+    },
+    {
+      "id": "qa-verifier",
+      "type": "reviewer",
+      "write": false,
+      "mission": "Independent falsification + final evidence"
+    },
+    {
+      "id": "security-gatekeeper",
+      "type": "reviewer",
+      "write": false,
+      "mission": "Secrets · IAM · blast radius · Human Gate"
+    },
+    {
+      "id": "recovery-agent",
+      "type": "specialist",
+      "write": true,
+      "mission": "Checkpoint · rollback · retry · resume"
+    },
+    {
+      "id": "context-librarian",
+      "type": "specialist",
+      "write": false,
+      "mission": "Load canonical context without stale-chat assumptions"
+    }
+  ],
+  "skills": [
+    [
+      "orchestrate-workstream",
+      "Multi-tool orchestration from intent to verified DONE"
+    ],
+    [
+      "api-cli-first",
+      "Backend-first path selection and batching"
+    ],
+    [
+      "diagnose-recover",
+      "Red-capable debugging + recovery loop"
+    ],
+    [
+      "code-change",
+      "Scoped code/docs/tests implementation"
+    ],
+    [
+      "git-delivery",
+      "GitHub branch/PR/check/merge governance"
+    ],
+    [
+      "data-pipeline",
+      "Deterministic ingest/transform/validate"
+    ],
+    [
+      "ui-fallback",
+      "Minimal UI automation only when needed"
+    ],
+    [
+      "security-gate",
+      "Least privilege + approval boundary"
+    ],
+    [
+      "final-validation",
+      "Evidence before DONE"
+    ],
+    [
+      "context-loader",
+      "Fresh source-of-truth context loading"
+    ],
+    [
+      "multi-agent-review",
+      "Parallel independent review axes"
+    ],
+    [
+      "checkpoint-resume",
+      "Long-running resume/rollback discipline"
+    ],
+    [
+      "global-skill-radar",
+      "Know broadly, load narrowly from Global Arsenal"
+    ]
+  ]
+}

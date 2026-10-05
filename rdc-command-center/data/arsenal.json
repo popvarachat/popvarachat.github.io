@@ -1,0 +1,90 @@
+[
+  {
+    "name": "systematic-debugging",
+    "source": "obra/superpowers",
+    "stars": 292171,
+    "categories": [
+      "debug",
+      "testing",
+      "recovery"
+    ],
+    "desc": "Systematic debugging workflow for bugs, failures and unexpected behavior."
+  },
+  {
+    "name": "cavecrew",
+    "source": "JuliusBrussee/caveman",
+    "stars": 108005,
+    "categories": [
+      "subagent",
+      "delegation",
+      "context"
+    ],
+    "desc": "Compressed investigator / builder / reviewer delegation."
+  },
+  {
+    "name": "browser-use",
+    "source": "browser-use/browser-use",
+    "stars": 117130,
+    "categories": [
+      "browser",
+      "CDP",
+      "automation"
+    ],
+    "desc": "Direct browser control for automation, scraping and testing."
+  },
+  {
+    "name": "agent-builder",
+    "source": "shareAI-lab/learn-claude-code",
+    "stars": 77997,
+    "categories": [
+      "agent",
+      "architecture",
+      "orchestration"
+    ],
+    "desc": "Agent architecture, capabilities, subagents and planning."
+  },
+  {
+    "name": "open-code-review-delegate",
+    "source": "alibaba/open-code-review",
+    "stars": 43172,
+    "categories": [
+      "review",
+      "deterministic",
+      "delegation"
+    ],
+    "desc": "Deterministic engineering for host-driven code review."
+  },
+  {
+    "name": "bmad-code-review",
+    "source": "bmad-code-org/BMAD-METHOD",
+    "stars": 53783,
+    "categories": [
+      "review",
+      "parallel",
+      "QA"
+    ],
+    "desc": "Several independent reviewers in parallel with triage."
+  },
+  {
+    "name": "entra-agent-id",
+    "source": "microsoft/azure-skills",
+    "stars": 1536,
+    "categories": [
+      "identity",
+      "OAuth",
+      "agent security"
+    ],
+    "desc": "Per-instance agent identity and token exchange patterns."
+  },
+  {
+    "name": "agent-observability",
+    "source": "google/agents-cli",
+    "stars": 5968,
+    "categories": [
+      "tracing",
+      "logging",
+      "analytics"
+    ],
+    "desc": "Observability, tracing and agent analytics guidance."
+  }
+]
