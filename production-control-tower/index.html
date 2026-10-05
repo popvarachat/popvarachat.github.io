@@ -1,0 +1,300 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#07111f">
+<title>Practika Production Control Tower · Workflow & ERD</title>
+<style>
+:root{--bg:#07111f;--panel:#0d1a2d;--panel2:#12243b;--line:#263b59;--text:#eef5ff;--muted:#9db0c8;--blue:#65a8ff;--cyan:#62d5e8;--green:#7ed8ad;--orange:#ffb56b;--red:#ff7a86;--violet:#b99cff;--shadow:0 18px 55px rgba(0,0,0,.24)}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,rgba(101,168,255,.16),transparent 30%),radial-gradient(circle at 90% 12%,rgba(126,216,173,.10),transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Thai",sans-serif}.wrap{max-width:1450px;margin:auto;padding:30px 22px 60px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--cyan);font-weight:800}.hero h1{font-size:clamp(30px,5vw,58px);line-height:1;margin:8px 0 10px;letter-spacing:-.04em}.hero p{margin:0;color:var(--muted);max-width:900px;line-height:1.65}.ready{border:1px solid rgba(126,216,173,.35);background:rgba(126,216,173,.08);color:#c9ffe5;border-radius:999px;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:20px 0}.kpi{border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,36,59,.9),rgba(12,26,44,.9));border-radius:15px;padding:14px}.kpi b{font-size:25px;display:block}.kpi span{font-size:11px;color:var(--muted)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 13px;border-radius:11px;font-weight:800;cursor:pointer}.tab.active{background:linear-gradient(135deg,#5697ef,#72c7d6);color:#07111f;border-color:transparent}.view{display:none}.view.active{display:block}.panel{border:1px solid var(--line);background:rgba(9,21,37,.84);border-radius:19px;box-shadow:var(--shadow);overflow:hidden}.head{display:flex;justify-content:space-between;gap:16px;padding:18px;border-bottom:1px solid var(--line)}.head h2{margin:0 0 5px;font-size:20px}.head p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.legend{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted);font-size:10px}.diagram{padding:20px;overflow:auto;min-height:650px}.mermaid{min-width:1050px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;padding:16px}.box{border:1px solid var(--line);background:rgba(18,36,59,.62);border-radius:15px;padding:15px}.box h3{margin:0 0 8px}.box p,.box li{color:var(--muted);font-size:13px;line-height:1.65}.box ul,.box ol{margin:8px 0 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:#e7f1ff}td{color:var(--muted)}.ok{color:#aef3ca;font-weight:800}.warn{color:#ffd989;font-weight:800}.links{display:flex;gap:8px;flex-wrap:wrap}.links a{color:#e9f4ff;text-decoration:none;border:1px solid var(--line);background:rgba(101,168,255,.08);padding:8px 10px;border-radius:10px;font-size:12px;font-weight:800}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#cfe4ff}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:16px}
+@media(max-width:900px){.hero{flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:560px){.wrap{padding:22px 12px 42px}.kpis{grid-template-columns:1fr}.head{flex-direction:column}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<header class="hero"><div><div class="eyebrow">PRACTIKA · PRODUCTION INTELLIGENCE REBUILD</div><h1>Production Control Tower</h1><p>Executive Business Workflow + Database Relation Blueprint รื้อจาก SO/WO/Cutting Access เดิม และปรับเป็นโครงสร้าง Web / API / Database / AI Agent ที่พร้อม implement ต่อ โดยรักษา traceability ตั้งแต่ Customer → SO → WO → Cutting → Material → Shopfloor → Delivery</p></div><span class="ready">DESIGN BASELINE · IMPLEMENTATION READY</span></header>
+<section class="kpis"><div class="kpi"><b>9,335</b><span>Cutting jobs ใน SO_WO extract</span></div><div class="kpi"><b>100%</b><span>Cutting → ItemCutting match</span></div><div class="kpi"><b>84.9%</b><span>Cutting → TimeEntry coverage</span></div><div class="kpi"><b>97.7%</b><span>Related SO → SaleInquiry coverage</span></div></section>
+<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
+
+<section id="workflow" class="view active panel">
+<div class="head"><div><h2>Executive Business Workflow · Real Topology</h2><p>จัดตาม Domain, Gate, Exception และ feedback loop จริง — ไม่ใช่ flow ต่อเป็นขบวนรถไฟ</p></div><div class="legend"><span class="pill">Operational flow</span><span class="pill">Evidence / telemetry</span><span class="pill">Feedback / re-plan</span></div></div>
+<div class="diagram"><pre class="mermaid">
+flowchart TB
+  subgraph D["01 · DEMAND & SALES"]
+    CUST["Customer / Project"]
+    INQ["Sale Inquiry"]
+    SO["Sales Order<br/>Customer promise / Due date"]
+    CUST --> INQ --> SO
+  end
+
+  subgraph P["02 · PLANNING & ENGINEERING"]
+    WO["Work Order"]
+    CP["Control Plan / Routing"]
+    CUT["Cutting Job<br/>Cutting Number"]
+    MRG{"Material Readiness Gate"}
+    REL{"Release Gate<br/>Human-approved"}
+    WO --> CP
+    WO --> CUT
+    CP --> CUT
+    CUT --> MRG -->|Ready| REL
+  end
+
+  subgraph M["03 · MATERIAL & SUPPLY"]
+    COMP["Cutting Component<br/>Required item / qty"]
+    INV["Inventory Snapshot<br/>On hand / committed"]
+    PO["Purchase Order Line<br/>Incoming / ETA"]
+    SUP["Supplier"]
+    CUT --> COMP
+    COMP --> INV
+    COMP -->|Shortage| PO
+    SUP --> PO
+    INV --> MRG
+    PO --> MRG
+  end
+
+  subgraph X["04 · SHOPFLOOR EXECUTION"]
+    SHOP["Shopfloor Execution"]
+    WC["Work Center / BU / Team"]
+    OP["Operation Event<br/>Start / End / Actual"]
+    REL --> SHOP
+    SHOP --> WC
+    SHOP --> OP
+    WC --> OP
+  end
+
+  subgraph F["05 · FINISH & DELIVERY"]
+    DONE["Cutting Complete<br/>99 / 9D"]
+    DOWN["Downstream Production"]
+    QC["QC / Assembly / Packing"]
+    DEL["Delivery"]
+    OP --> DONE --> DOWN --> QC --> DEL
+  end
+
+  subgraph CT["MANAGEMENT DECISION LOOP"]
+    TOWER["Production Control Tower<br/>Due date · WIP · Material · PO · Actual"]
+    RULE["Rule Engine<br/>Late / Shortage / Bottleneck / Stale"]
+    AI["AI Recommendation<br/>What-if / priority / narrative"]
+    HG{"Human Gate"}
+    TOWER --> RULE --> AI --> HG
+  end
+
+  SO -. due date .-> TOWER
+  WO -. WO status .-> TOWER
+  CUT -. cutting status .-> TOWER
+  INV -. stock .-> TOWER
+  PO -. supplier ETA .-> TOWER
+  OP -. actual time .-> TOWER
+  DEL -. delivery result .-> TOWER
+
+  HG ==>|Re-prioritize| WO
+  HG ==>|Expedite| PO
+  HG ==>|Re-plan capacity| WC
+  HG ==>|Hold / Release| REL
+
+  MRG -->|Blocked / Partial| TOWER
+
+  classDef sales fill:#102a46,stroke:#65a8ff,color:#eef5ff;
+  classDef planning fill:#14352d,stroke:#7ed8ad,color:#eef5ff;
+  classDef material fill:#3a291b,stroke:#ffb56b,color:#eef5ff;
+  classDef exec fill:#12333a,stroke:#62d5e8,color:#eef5ff;
+  classDef finish fill:#2b2343,stroke:#b99cff,color:#eef5ff;
+  classDef risk fill:#3c2029,stroke:#ff7a86,color:#eef5ff;
+  class CUST,INQ,SO sales;
+  class WO,CP,CUT,MRG,REL planning;
+  class COMP,INV,PO,SUP material;
+  class SHOP,WC,OP exec;
+  class DONE,DOWN,QC,DEL finish;
+  class TOWER,RULE,AI,HG risk;
+</pre></div>
+</section>
+
+<section id="erd" class="view panel">
+<div class="head"><div><h2>Target Database ERD · Normalized & Implementable</h2><p>PK/FK และ cardinality ปรับใหม่เพื่อให้ relation ชัด ทดสอบได้ และไม่ซ่อน business logic ใน Access Query</p></div><div class="legend"><span class="pill">Master</span><span class="pill">Transaction</span><span class="pill">Event / Fact</span><span class="pill">Decision</span></div></div>
+<div class="diagram"><pre class="mermaid">
+erDiagram
+  CUSTOMER ||--o{ PROJECT : owns
+  CUSTOMER ||--o{ SALES_ORDER : places
+  PROJECT ||--o{ SALES_ORDER : drives
+  SALES_ORDER ||--|{ SALES_ORDER_LINE : contains
+  ITEM ||--o{ SALES_ORDER_LINE : sold_item
+  SALES_ORDER_LINE ||--o{ WORK_ORDER : manufactures
+  ITEM ||--o{ WORK_ORDER : finished_good
+  WORK_ORDER ||--|{ CUTTING_JOB : splits_to
+  ITEM ||--o{ CUTTING_JOB : primary_material
+  CUTTING_JOB ||--|{ CUTTING_COMPONENT : requires
+  ITEM ||--o{ CUTTING_COMPONENT : component_item
+  CUTTING_JOB ||--o{ CONTROL_PLAN : routed_by
+  WORK_CENTER ||--o{ CONTROL_PLAN : planned_at
+  CUTTING_JOB ||--o{ OPERATION_EVENT : executes
+  WORK_CENTER ||--o{ OPERATION_EVENT : actual_at
+  CUTTING_JOB ||--o{ CUTTING_STATUS_EVENT : status_history
+  STATUS_CODE ||--o{ CUTTING_STATUS_EVENT : defines
+  ITEM ||--o{ INVENTORY_SNAPSHOT : stock_history
+  SUPPLIER ||--o{ PURCHASE_ORDER_LINE : supplies
+  ITEM ||--o{ PURCHASE_ORDER_LINE : incoming_item
+  CUTTING_JOB ||--o{ PLANNING_DECISION : decisions
+  CUTTING_JOB ||--o{ ALERT_EVENT : exceptions
+
+  CUSTOMER {
+    uuid customer_id PK
+    text customer_no UK
+    text customer_name
+  }
+  PROJECT {
+    uuid project_id PK
+    uuid customer_id FK
+    text project_no UK
+    text project_name
+  }
+  SALES_ORDER {
+    uuid sales_order_id PK
+    uuid customer_id FK
+    uuid project_id FK
+    text order_no UK
+    date promised_delivery
+  }
+  SALES_ORDER_LINE {
+    uuid sales_order_line_id PK
+    uuid sales_order_id FK
+    uuid item_id FK
+    numeric line_no
+    numeric quantity_ordered
+  }
+  WORK_ORDER {
+    uuid work_order_id PK
+    uuid sales_order_line_id FK
+    uuid fg_item_id FK
+    text wo_no UK
+    date planned_complete
+  }
+  CUTTING_JOB {
+    uuid cutting_job_id PK
+    uuid work_order_id FK
+    uuid material_item_id FK
+    text cutting_no UK
+    text current_status
+    date delivery_due
+  }
+  CUTTING_COMPONENT {
+    uuid cutting_component_id PK
+    uuid cutting_job_id FK
+    uuid item_id FK
+    numeric required_qty
+    date need_date
+  }
+  CONTROL_PLAN {
+    uuid control_plan_id PK
+    uuid cutting_job_id FK
+    uuid work_center_id FK
+    numeric operation_seq
+    numeric standard_minutes
+  }
+  ITEM {
+    uuid item_id PK
+    text item_no UK
+    text item_code_2
+    text description
+  }
+  WORK_CENTER {
+    uuid work_center_id PK
+    text business_unit UK
+    text name
+  }
+  OPERATION_EVENT {
+    uuid operation_event_id PK
+    uuid cutting_job_id FK
+    uuid work_center_id FK
+    timestamptz started_at
+    timestamptz ended_at
+    numeric actual_hours
+  }
+  STATUS_CODE {
+    text domain PK
+    text status_code PK
+    text description
+    int sequence_no
+  }
+  CUTTING_STATUS_EVENT {
+    uuid status_event_id PK
+    uuid cutting_job_id FK
+    text status_code FK
+    timestamptz event_at
+    text source_user
+  }
+  INVENTORY_SNAPSHOT {
+    uuid inventory_snapshot_id PK
+    uuid item_id FK
+    text branch_plant
+    text location
+    text lot_no
+    numeric on_hand
+    numeric on_purchase_order
+    timestamptz snapshot_at
+  }
+  SUPPLIER {
+    uuid supplier_id PK
+    text supplier_no UK
+    text supplier_name
+  }
+  PURCHASE_ORDER_LINE {
+    uuid po_line_id PK
+    uuid supplier_id FK
+    uuid item_id FK
+    text po_no
+    numeric line_no
+    numeric quantity_open
+    date promised_delivery
+  }
+  PLANNING_DECISION {
+    uuid planning_decision_id PK
+    uuid cutting_job_id FK
+    text decision_type
+    numeric priority_score
+    jsonb recommendation
+    text decision_state
+  }
+  ALERT_EVENT {
+    uuid alert_event_id PK
+    uuid cutting_job_id FK
+    text alert_type
+    text severity
+    timestamptz detected_at
+    jsonb evidence
+  }
+</pre></div>
+</section>
+
+<section id="legacy" class="view panel">
+<div class="head"><div><h2>Legacy Evidence · Confirmed from supplied files</h2><p>แยก relation ที่พิสูจน์จากข้อมูลจริงออกจาก Target Schema เพื่อไม่ให้ design ใหม่กลายเป็นการเดา</p></div></div>
+<div class="grid">
+<div class="box"><h3>Confirmed Relations</h3><table><thead><tr><th>Relation</th><th>Evidence</th><th>Coverage</th></tr></thead><tbody>
+<tr><td>SO_WO.Cutting Number → ItemCutting.Group Number</td><td>Access metadata + CSV</td><td class="ok">9,335 / 9,335 · 100%</td></tr>
+<tr><td>SO_WO.Cutting Number → TimeEntry.Cutting Number</td><td>Access query + CSV</td><td class="warn">7,925 / 9,335 · 84.9%</td></tr>
+<tr><td>SO_WO.Related SO No → SaleInquiry.Order Number</td><td>Data profiling</td><td class="ok">342 / 350 · 97.7%</td></tr>
+<tr><td>SO_WO.WO Number → ItemCutting.Order Number</td><td>Data profiling</td><td class="ok">2,003 / 2,003 · 100%</td></tr>
+<tr><td>ItemCutting.Item Number → OnHandSum.Item Number</td><td>Legacy Access query</td><td class="warn">Normalize through ITEM in target schema</td></tr>
+</tbody></table></div>
+<div class="box"><h3>Legacy Sources</h3><ul><li><b>Supplied:</b> SO_WO, TimeEntry, ItemCutting, OnHand, SaleInquiry</li><li><b>Referenced but missing:</b> PO, ControlPlan, Partlist, WOPrice, WOPrice2</li><li><b>Recovered objects:</b> SO_WO_TimeEntry, SO_WO_Cutting_TimeEntry, CuttingStatus, SaleInquiryAdj, OnHandSum, ItemCuttingOnHandSumf</li><li><b>Legacy path:</b> <span class="code">D:\กองกลาง\ผลิต\Monitor สถานะโอนผลิต</span></li></ul></div>
+<div class="box"><h3>Status redesign</h3><p>เดิมมี code เช่น 30 / 40 / 60 / 70 / 99 / 9D ปะปนกับ description. Target schema แยก <span class="code">status_code</span> กับ <span class="code">cutting_status_event</span> เพื่อเก็บ transition history, เวลา, source และผู้เปลี่ยนสถานะ ไม่ overwrite ประวัติ.</p></div>
+<div class="box"><h3>Key redesign</h3><ul><li>Inventory join ผ่าน <span class="code">item_id</span></li><li>TimeEntry → <span class="code">operation_event</span></li><li>Stock → time-stamped <span class="code">inventory_snapshot</span></li><li>Recommendation → <span class="code">planning_decision</span> state PROPOSED / APPROVED / REJECTED</li></ul></div>
+</div></section>
+
+<section id="implement" class="view panel">
+<div class="head"><div><h2>Implementation Baseline</h2><p>โครงการถูกปักไว้เป็น design baseline เพื่อให้เริ่ม backend/database ต่อได้โดยไม่ต้องย้อนตีความ Access ใหม่</p></div></div>
+<div class="grid">
+<div class="box"><h3>Build order</h3><ol><li>PostgreSQL staging จาก schema.sql</li><li>ETL 5 CSV ชุดปัจจุบัน → normalized tables</li><li>Data-quality gates: orphan, duplicate, invalid date, status sequence</li><li>Connector เพิ่ม PO / ControlPlan / Partlist</li><li>Read-only API + Control Tower dashboard</li><li>Rule engine: material readiness / late / WIP / bottleneck</li><li>AI recommendations หลัง Human Gate</li></ol></div>
+<div class="box"><h3>Architecture rules</h3><ul><li>Raw source immutable + row hash</li><li>No browser → DB direct write</li><li>No hidden business logic in UI/query</li><li>AI = recommendation, not production authority</li><li>Release / reprioritize / override ต้องมี Human Gate + audit</li></ul></div>
+<div class="box"><h3>Artifacts</h3><p>DDL ถูกแยกจากหน้าจอเพื่อให้ backend implement ได้โดยตรง.</p><div class="links"><a href="schema.sql">Open schema.sql</a><a href="README.md">Open README</a><a href="../">Back to Portal</a></div></div>
+<div class="box"><h3>Current boundary</h3><p><b>Design / read-only.</b> ยังไม่มี production database, API หรือ write-back. สิ่งที่พร้อมแล้วคือ workflow topology, target relational model, legacy evidence และ PostgreSQL DDL baseline.</p></div>
+</div></section>
+
+<div class="footer"><span>Source: Access + supplied historical CSV extracts</span><span>Baseline: SO → WO → Cutting → Component / Operation / Inventory / PO → Decision</span></div>
+</div>
+<script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+<script>
+mermaid.initialize({startOnLoad:true,theme:'dark',securityLevel:'loose',flowchart:{curve:'basis',htmlLabels:true,useMaxWidth:true},themeVariables:{background:'#07111f',primaryColor:'#10243b',primaryTextColor:'#eef5ff',lineColor:'#718aa8',fontFamily:'Inter, Noto Sans Thai, sans-serif'}});
+document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x===b)});document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('active',v.id===b.dataset.tab)});});});
+</script>
+</body>
+</html>
