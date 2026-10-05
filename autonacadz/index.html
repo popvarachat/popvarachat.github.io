@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>AutoNaCadz for Korex · Executive Control Portal</title>
+<meta name="description" content="Executive architecture, governance, CAD QA and roadmap for AutoNaCadz for Korex.">
+<style>
+:root{--ink:#18324b;--muted:#60758a;--line:#d7e5f1;--blue:#e3f2ff;--mint:#e0f7ef;--violet:#eee8ff;--yellow:#fff4cc;--orange:#ffe9db;--white:#fff;--shadow:0 14px 36px rgba(67,102,137,.12)}
+*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f9fcff,#eef6ff 45%,#f9fcff);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif}.wrap{max-width:1380px;margin:auto;padding:34px 22px 54px}
+.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#4d87b8;font-weight:900}h1{font-size:clamp(31px,5vw,54px);line-height:1;margin:7px 0 12px;letter-spacing:-.04em}.lead{max-width:860px;color:var(--muted);line-height:1.7}.badge{background:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 14px;box-shadow:var(--shadow);font-size:13px;font-weight:800;white-space:nowrap}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#43b982;margin-right:7px}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.kpi,.section{background:rgba(255,255,255,.9);border:1px solid var(--line);box-shadow:var(--shadow)}.kpi{border-radius:18px;padding:16px}.kpi small{color:var(--muted);font-weight:700}.kpi b{display:block;font-size:25px;margin-top:5px}.kpi span{font-size:12px;color:var(--muted)}
+.section{border-radius:24px;padding:21px;margin-top:16px}.head{display:flex;gap:12px;align-items:center;margin-bottom:17px}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#2b89d5;color:white;font-weight:900}.head h2{font-size:20px;margin:0}.head p{margin:3px 0 0;color:var(--muted);font-size:13px}
+.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}.node{position:relative;border-radius:18px;padding:15px;min-height:124px;border:1px solid rgba(75,116,151,.18)}.node:not(:last-child):after{content:"→";position:absolute;right:-15px;top:50%;transform:translateY(-50%);font-size:24px;color:#59a5e5;font-weight:900}.node b{display:block;margin-bottom:7px}.node p,.card p{font-size:12px;color:#526a7f;line-height:1.55;margin:0}.violet{background:var(--violet)}.blue{background:var(--blue)}.mint{background:var(--mint)}.yellow{background:var(--yellow)}.orange{background:var(--orange)}
+.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{border:1px solid var(--line);background:#fff;border-radius:17px;padding:15px}.card h3{font-size:15px;margin:7px 0}.pill{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900}.done{background:#daf5e8;color:#1b7351}.ready{background:#e0efff;color:#2667a2}.next{background:#fff0c1;color:#86650d}.gate{background:var(--yellow);border-color:#ead78d}.warn{margin-top:12px;border-left:4px solid #e3a64b;background:#fff8e8;padding:11px 13px;border-radius:10px;font-size:12px;line-height:1.55;color:#725b30}
+.links{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.links a{text-decoration:none;border-radius:11px;padding:10px 13px;font-size:12px;font-weight:800}.primary{background:#2b89d5;color:#fff}.secondary{background:#edf6ff;border:1px solid #cfe2ef;color:#2d658d}.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:20px}
+@media(max-width:1050px){.flow{grid-template-columns:repeat(3,1fr)}.node:nth-child(3):after{display:none}.grid4{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.wrap{padding:22px 13px 42px}.hero{flex-direction:column}.badge{white-space:normal}.kpis,.flow,.grid3,.grid4{grid-template-columns:1fr}.node:after{content:"↓"!important;right:auto!important;top:auto!important;left:50%;bottom:-20px;transform:translateX(-50%)!important}.node:last-child:after{display:none}}
+</style></head>
+<body><div class="wrap">
+<section class="hero"><div><div class="eyebrow">Executive System Architecture · Microsoft Fluent / Pastel Enterprise</div><h1>AutoNaCadz for Korex</h1><div class="lead">Digital Engineering Rule Platform เปลี่ยน Product Knowledge ให้เป็นมาตรฐานดิจิทัลที่ตรวจสอบได้ ก่อนแปลงเป็น Work Order, Cutting Data และ CAD Output พร้อม Human Gate, Version Control และ Closed-loop Quality.</div></div><div class="badge"><span class="dot"></span>Engineering Governance Active</div></section>
+<section class="kpis"><div class="kpi"><small>Formula & Rule QA</small><b>v1.0</b><span>Deterministic checks</span></div><div class="kpi"><small>QA Baseline</small><b>0 Blockers</b><span>2 STD · REVIEW</span></div><div class="kpi"><small>CAD Viewer</small><b>TrueView 2024</b><span>Detected workstation capability</span></div><div class="kpi"><small>Release Model</small><b>Human Gate</b><span>Immutable version snapshot</span></div></section>
+<section class="section"><div class="head"><div class="num">1</div><div><h2>Executive Business Workflow</h2><p>Single Source of Truth → Controlled Engineering → Production Release → Learning Loop</p></div></div><div class="flow">
+<div class="node violet"><b>Product Governance</b><p>STD, input, formula, part rule, master drawing and engineering approval.</p></div>
+<div class="node blue"><b>Project / Work Order</b><p>Customer requirement, configuration, dimension and options.</p></div>
+<div class="node mint"><b>Rule Engine</b><p>Validate, calculate parts and derive CAD actions deterministically.</p></div>
+<div class="node blue"><b>Production Outputs</b><p>Cutting/BOM and DWG from the same engineering rule source.</p></div>
+<div class="node yellow"><b>Quality Gate</b><p>QA, reconciliation, exception HOLD and Human Review.</p></div>
+<div class="node orange"><b>Feedback & RCA</b><p>QC/Rework → Root Cause → Improve STD → next release.</p></div>
+</div></section>
+<section class="section"><div class="head"><div class="num">2</div><div><h2>Control Gates</h2><p>Fail-closed ก่อนเข้าสู่ Production</p></div></div><div class="grid3">
+<div class="card gate"><h3>Gate 1 · Formula & Rule QA</h3><p>ตรวจ formula, dependency, master, CAD action, min/max และ sample calculation. Blocker = HOLD.</p></div>
+<div class="card gate"><h3>Gate 2 · STD Release & Version</h3><p>Draft แก้ได้ แต่ Release ต้องมี approver และ immutable snapshot; แก้หลัง Release = DRAFT_CHANGED.</p></div>
+<div class="card gate"><h3>Gate 3 · Production Release</h3><p>Drawing/Cutting consistency และ exception ต้องผ่านก่อนส่ง Production.</p></div>
+</div></section>
+<section class="section"><div class="head"><div class="num">3</div><div><h2>Agent & Sub-Agent Resources</h2><p>Agent ตรวจและอธิบาย ส่วน Engineering Core เป็น deterministic code</p></div></div><div class="grid4">
+<div class="card"><span class="pill done">DONE</span><h3>Formula & Rule QA Agent</h3><p>Formula, dependency, part rule, master, CAD action และ baseline QA.</p></div>
+<div class="card"><span class="pill done">DONE</span><h3>Release Governance</h3><p>Human approver, semantic version, content hash และ audit snapshot.</p></div>
+<div class="card"><span class="pill ready">READY</span><h3>CAD QA Layer</h3><p>DWG file/header verification และเปิด output ผ่าน DWG TrueView.</p></div>
+<div class="card"><span class="pill next">NEXT</span><h3>Work Order QA Agent</h3><p>ตรวจ required input, unusual dimension และ READY/HOLD ก่อน generate.</p></div>
+</div></section>
+<section class="section"><div class="head"><div class="num">4</div><div><h2>CAD Execution & Verification</h2><p>TrueView เป็น QA Viewer ไม่ใช่ CAD Engine</p></div></div><div class="grid3">
+<div class="card"><span class="pill ready">CAD ENGINE</span><h3>AutoCAD / AutoLISP</h3><p>Stretch, hole, latch, layout, cleanup และ save DWG ทำโดย deterministic CAD execution.</p></div>
+<div class="card"><span class="pill done">DETECTED</span><h3>DWG TrueView 2024</h3><p>เปิด output จาก Export History หลังตรวจ file, size และ DWG header.</p></div>
+<div class="card"><span class="pill done">FIXED</span><h3>Runtime Callback</h3><p>LISP callback ใช้ runtime web port แทนการ fix localhost:4017.</p></div>
+</div><div class="warn"><b>Deployment boundary:</b> GitHub Pages ใช้เป็น Executive/Web visibility layer. Flask, filesystem และ AutoCAD/TrueView execution ต้องอยู่บน Local/Server Agent เพราะ GitHub Pages เป็น static hosting.</div></section>
+<section class="section"><div class="head"><div class="num">5</div><div><h2>Roadmap</h2><p>Production Safety → Reliability → Quality Intelligence → Engineering Knowledge</p></div></div><div class="grid4">
+<div class="card"><span class="pill done">PHASE 1</span><h3>Production Safety</h3><p>Formula QA · Release Gate · Version · Master Gate · Audit.</p></div>
+<div class="card"><span class="pill next">PHASE 2</span><h3>Reliability</h3><p>CAD Job Queue · Multi-master · Retry · Error classification.</p></div>
+<div class="card"><span class="pill next">PHASE 3</span><h3>Quality Intelligence</h3><p>Drawing vs Cutting reconciliation · WO QA · exception dashboard.</p></div>
+<div class="card"><span class="pill next">PHASE 4</span><h3>Knowledge Loop</h3><p>RCA Agent · Knowledge Agent · rule improvement feedback.</p></div>
+</div><div class="links"><a class="primary" href="../">← Central Portal</a><a class="secondary" href="https://github.com/p-honei/AutoNaCadz" target="_blank" rel="noopener">Source Repository ↗</a></div></section>
+<div class="foot">Public page contains architecture/status only — no production formulas or customer data.</div>
+</div></body></html>
