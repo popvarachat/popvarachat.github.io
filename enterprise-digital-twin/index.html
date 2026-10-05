@@ -14,20 +14,20 @@
 footer{margin-top:22px;color:var(--muted);font-size:11px}
 @media(max-width:980px){.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr 1fr}.twin{grid-template-columns:1fr}.bridge{min-height:80px}}@media(max-width:620px){.hero{flex-direction:column}.stats,.grid{grid-template-columns:1fr}.wrap{padding:20px 12px 44px}}
 </style></head><body><div class="wrap">
-<div class="hero"><div><div class="eyebrow">Practika · Enterprise Digital Twin</div><h1>Building × Network · Executive View</h1><p class="sub">Digital Twin เดียวที่เชื่อม Physical Truth จาก Building Twin กับ Logical / Operational Truth จาก Network Twin ผ่าน Shared Relation Registry และ JEV Evidence Decision Layer — Public page นี้ไม่เปิดเผย IP, hostname, MAC หรือ management endpoint ภายใน</p></div><div class="actions"><a href="https://practika-digital-twin.varachat.chatgpt.site" target="_blank">Building Twin ↗</a><a href="../network-diagram/">Network Twin ↗</a><a class="primary" href="http://127.0.0.1:8766/enterprise-digital-twin.html">Internal Twin</a></div></div>
+<div class="hero"><div><div class="eyebrow">Practika · Enterprise Digital Twin</div><h1>Building × Network · Executive View</h1><p class="sub">Digital Twin เดียวที่เชื่อม Physical Truth จาก Building Twin กับ Logical / Operational Truth จาก Network Twin เพื่อให้เห็นสถานที่ ระบบ ความสัมพันธ์ สถานะ และผลกระทบในภาพเดียว — Public page นี้ไม่เปิดเผย IP, hostname, MAC หรือ management endpoint ภายใน</p></div><div class="actions"><a href="https://practika-digital-twin.varachat.chatgpt.site" target="_blank">Building Twin ↗</a><a href="../network-diagram/">Network Twin ↗</a><a class="primary" href="http://127.0.0.1:8766/enterprise-digital-twin.html">IT Director View</a></div></div>
 
 <section class="stats">
-<div class="stat"><span>Cross‑Twin Relations</span><b>12</b><span>Physical ↔ Network</span></div>
+<div class="stat"><span>Connected Relationships</span><b>12</b><span>Building ↔ Network</span></div>
 <div class="stat"><span>Building Drawings</span><b>14</b><span>LAN / Wi‑Fi / CCTV evidence</span></div>
 <div class="stat"><span>High Confidence</span><b>4</b><span>Operational mapping</span></div>
 <div class="stat"><span>Physical Layer</span><b>In Progress</b><span>Access / room / port truth</span></div>
-<div class="stat"><span>JEV Confirmed</span><b>3</b><span>Evidence decisions</span></div>
-<div class="stat"><span>Management Plane</span><b>Human Gate</b><span>Authorized read-only access required</span></div>
+<div class="stat"><span>Verified Mappings</span><b>3</b><span>Confirmed relationships</span></div>
+<div class="stat"><span>Data Completion</span><b>Pending</b><span>Port / AP association details</span></div>
 </section>
 
 <section class="panel"><h2>One Enterprise Twin · Two Sources of Truth</h2><p class="lead">ไม่รวมฐานข้อมูลกันแบบซ้ำซ้อน แต่เชื่อมความสัมพันธ์ด้วย Cross‑Twin Relation ID</p>
 <div class="twin"><div class="lane"><h3>Building Digital Twin</h3><div class="node"><b>Building / Floor / Room</b><small>ตำแหน่งจริงและพื้นที่</small></div><div class="node"><b>As-built / Drawing</b><small>LAN/WIFI · CCTV · Machine · Electrical</small></div><div class="node"><b>Asset / Maintenance</b><small>Asset · PM · Work Order · Repair history</small></div></div>
-<div class="bridge"><div>Shared Relation Registry<br>⇄<br>JEV Evidence Gate</div></div>
+<div class="bridge"><div>Cross‑Twin Relationship Layer<br>⇄<br>Confidence & Exception Control</div></div>
 <div class="lane"><h3>Network Digital Twin</h3><div class="node"><b>Network Zone / Device</b><small>Logical topology and device class</small></div><div class="node"><b>Switch / AP / Service</b><small>Connectivity evidence and management readiness</small></div><div class="node"><b>Health / Dependency</b><small>Reachability · service · operational impact</small></div></div></div></section>
 
 <section class="panel"><h2>Physical Network Topology · Current Evidence</h2><p class="lead">Topology แสดงเฉพาะระดับที่หลักฐานรองรับ และแยก Physical Pending ออกจาก Logical Confirmed</p>
@@ -47,21 +47,15 @@ footer{margin-top:22px;color:var(--muted);font-size:11px}
 <g class="n pending"><rect x="430" y="465" width="320" height="70" rx="13"/><text x="463" y="494">Room / Port / Cable Truth</text><text class="s" x="463" y="516">Requires authorized MAC table · LLDP/CDP · AP association</text></g>
 </svg></div></section>
 
-<section class="panel"><h2>JEV Evidence Decisions</h2><div class="grid">
+<section class="panel"><h2>Mapping Confidence & Exceptions</h2><div class="grid">
 <div class="card"><h3>Floor 1 Logical Mapping</h3><p>Multiple independent Building + AD + Network evidence sources align.</p><span class="pill green">CONFIRMED</span></div>
 <div class="card"><h3>Floor 2 Logical Mapping</h3><p>Strong floor OU and active network evidence align.</p><span class="pill green">CONFIRMED</span></div>
 <div class="card"><h3>Floor 3 Logical Mapping</h3><p>Floor OU plus managed-switch evidence align.</p><span class="pill green">CONFIRMED</span></div>
 <div class="card"><h3>Wireless Physical Location</h3><p>AP family is confirmed; room/floor association still requires controller evidence.</p><span class="pill blue">SUPPORTED</span></div>
-<div class="card"><h3>Meeting-room Mapping</h3><p>Physical room truth and hostname/network evidence conflict. Automatic room mapping is vetoed.</p><span class="pill red">CONFLICT · VETO</span></div>
+<div class="card"><h3>Meeting-room Mapping</h3><p>Physical room information and network evidence do not yet agree, so the room is intentionally left unlinked until verified.</p><span class="pill red">NEEDS REVIEW</span></div>
 <div class="card"><h3>CCTV Physical Mapping</h3><p>CCTV class and drawings exist, but camera-to-floor/port truth is not yet sufficient.</p><span class="pill amber">PENDING</span></div>
 </div></section>
 
-<section class="panel"><h2>RDC + JEV Operating Model</h2><div class="grid">
-<div class="card"><h3>RDC · Discovery Executor</h3><p>Collects read-only network, AD, drawing, banner and management-plane evidence.</p><span class="pill blue">Evidence Collector</span></div>
-<div class="card"><h3>JEV · Decision Gate</h3><p>Separates discovered facts from permitted conclusions and vetoes conflicting mappings.</p><span class="pill blue">Evidence Scoring</span></div>
-<div class="card"><h3>Enterprise Twin · Shared View</h3><p>Only accepted/supportable relationships are surfaced as operational topology.</p><span class="pill green">Connected</span></div>
-</div></section>
-
-<div class="note warn"><b>Next Human Gate:</b> management endpoints are reachable, but exact Switch Port / MAC / LLDP / AP-client association requires an authorized read-only management account. No credential guessing or configuration change is performed.</div>
+<div class="note warn"><b>Data needed to complete Physical Mapping:</b> Switch/AP port and device-association data are still required before the system can show Room → AP/Switch → Port → Endpoint with full confidence.</div>
 <footer>Practika Enterprise Digital Twin · Public-safe Executive View · Sensitive addressing and asset identifiers remain internal</footer>
 </div></body></html>
