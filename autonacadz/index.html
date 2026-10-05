@@ -42,11 +42,16 @@
 <div class="card"><span class="pill done">DETECTED</span><h3>DWG TrueView 2024</h3><p>เปิด output จาก Export History หลังตรวจ file, size และ DWG header.</p></div>
 <div class="card"><span class="pill done">FIXED</span><h3>Runtime Callback</h3><p>LISP callback ใช้ runtime web port แทนการ fix localhost:4017.</p></div>
 </div><div class="warn"><b>Deployment boundary:</b> GitHub Pages ใช้เป็น Executive/Web visibility layer. Flask, filesystem และ AutoCAD/TrueView execution ต้องอยู่บน Local/Server Agent เพราะ GitHub Pages เป็น static hosting.</div></section>
-<section class="section"><div class="head"><div class="num">5</div><div><h2>Roadmap</h2><p>Production Safety → Reliability → Quality Intelligence → Engineering Knowledge</p></div></div><div class="grid4">
+<section class="section"><div class="head"><div class="num">5</div><div><h2>Critical Resource Gate</h2><p>เครื่องปัจจุบันมี DWG TrueView 2024 แต่ไม่พบ Full AutoCAD executor</p></div></div><div class="grid3">
+<div class="card gate"><h3>DWG TrueView · READY</h3><p>ใช้เปิด ตรวจดู Plot/Convert และ Visual Verification ของ DWG.</p></div>
+<div class="card" style="border-color:#f1b4a4;background:#fff3ef;"><h3>CAD Execution Engine · REQUIRED</h3><p>งาน Stretch / Hole / Latch / Layout ต้องมี AutoCAD-compatible engine เพื่อรัน AutoLISP และบันทึก Final DWG.</p></div>
+<div class="card"><span class="pill next">DECIDE NEXT</span><h3>Execution Adapter</h3><p>เลือก AutoCAD Windows / ทดสอบ AutoCAD LT 2024+ / APS Design Automation / DXF-native rewrite.</p></div>
+</div></section>
+<section class="section"><div class="head"><div class="num">6</div><div><h2>Roadmap</h2><p>Production Safety → Reliability → Quality Intelligence → Engineering Knowledge</p></div></div><div class="grid4">
 <div class="card"><span class="pill done">PHASE 1</span><h3>Production Safety</h3><p>Formula QA · Release Gate · Version · Master Gate · Audit.</p></div>
 <div class="card"><span class="pill next">PHASE 2</span><h3>Reliability · NEXT</h3><p>CAD Job Queue · Multi-master automation · Retry · Error classification. Partial multi-master export is now blocked.</p></div>
 <div class="card"><span class="pill next">PHASE 3</span><h3>Quality Intelligence</h3><p>Drawing vs Cutting reconciliation · WO QA · exception dashboard.</p></div>
 <div class="card"><span class="pill next">PHASE 4</span><h3>Knowledge Loop</h3><p>RCA Agent · Knowledge Agent · rule improvement feedback.</p></div>
 </div><div class="links"><a class="primary" href="../">← Central Portal</a><a class="secondary" href="https://github.com/p-honei/AutoNaCadz" target="_blank" rel="noopener">Source Repository ↗</a></div></section>
-<div class="foot">Public page contains architecture/status only — no production formulas or customer data. Work Order QA v1.0 active · 15/15 automated tests passed.</div>
+<div class="foot">Public page contains architecture/status only — no production formulas or customer data. Work Order QA v1.0 active · 15/15 automated tests passed. CAD executor gate: TrueView-only workstation detected.</div>
 </div></body></html>
