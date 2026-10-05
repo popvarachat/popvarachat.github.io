@@ -1,0 +1,9 @@
+{
+  "project": "AutoNaCadz for Korex",
+  "architecture": "Digital Engineering Rule Platform",
+  "formula_rule_qa": {"version":"1.0.0","status":"ACTIVE","baseline_stds":2,"blockers":0,"warnings":32},
+  "release_governance": {"status":"IMPLEMENTED","human_gate":true,"immutable_snapshot":true},
+  "cad_qa": {"status":"READY","dwg_trueview":"2024","role":"viewer_verification"},
+  "github_pages": {"status":"PUBLISHED_AS_STATIC_CONTROL_PORTAL"},
+  "next": "Work Order QA Agent"
+}
