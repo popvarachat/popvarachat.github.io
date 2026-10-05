@@ -1,0 +1,17 @@
+#!/bin/sh
+# Local safety hook for popvarachat.github.io.
+# Direct pushes are blocked so Portal changes are validated and batched.
+
+if [ "$PORTAL_BATCH_PUBLISH" = "1" ] || [ "$PORTAL_ALLOW_DIRECT_PUSH" = "1" ]; then
+  exit 0
+fi
+
+echo ""
+echo "[BLOCKED] Direct git push is disabled for the GitHub Portal repository."
+echo "Use the guarded batch publisher instead:"
+echo "  powershell.exe -ExecutionPolicy Bypass -File scripts/Publish-Portal.ps1 -Message \"<commit message>\""
+echo ""
+echo "For a justified emergency only:"
+echo "  set PORTAL_ALLOW_DIRECT_PUSH=1"
+echo ""
+exit 1
