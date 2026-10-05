@@ -33,6 +33,7 @@
 
   <nav class="tabs" aria-label="sections">
     <a href="#architecture">Architecture</a>
+    <a href="#eval-harness">Eval Harness</a>
     <a href="#jev-arsenal">Jev Arsenal</a>
     <a href="#agents">Agents</a>
     <a href="#skills">Skills</a>
@@ -58,7 +59,7 @@
       </div>
       <div class="workflow-scroll">
         <div class="workflow-surface" aria-label="RDC real workflow topology">
-          <svg class="workflow-links" viewBox="0 0 1120 980" preserveAspectRatio="none" aria-hidden="true">
+          <svg class="workflow-links" viewBox="0 0 1120 1060" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrAdv" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
@@ -104,6 +105,8 @@
             <path class="wf-link advisory" data-from="execution" data-to="trace" d="M825 460 C760 600 700 735 625 800"/>
             <path class="wf-link advisory" data-from="retry-router" data-to="trace" d="M760 530 C720 650 675 750 625 800"/>
             <path class="wf-link advisory" data-from="validator" data-to="trace" d="M825 645 C760 700 700 760 625 800"/>
+            <path class="wf-link solid" data-from="done" data-to="eval-harness" d="M985 894 C985 910 960 920 945 930"/>
+            <path class="wf-link feedback" data-from="eval-harness" data-to="rdc" d="M825 975 C650 1080 180 1000 315 125"/>
           </svg>
 
           <button class="wf-node human" data-node="human" data-title="Human / ChatGPT" data-detail="กำหนดเป้าหมาย ขอบเขต และอนุมัติ Human Gate. ไม่ใช่ executor โดยตรง.">
@@ -193,6 +196,10 @@
           <button class="wf-node done" data-node="done" data-title="DONE" data-detail="จบเมื่อ objective validation ผ่านและไม่มี blocker/Human Gate ค้างอยู่.">
             <span class="wf-kicker success">VERIFIED</span><b>DONE</b><small>Observed final state</small>
           </button>
+
+          <button class="wf-node eval-harness" data-node="eval-harness" data-title="Eval / Benchmark Harness" data-detail="ชุดข้อสอบ 50 เคสสำหรับ Hard Policy, Tool Routing, Sandbox, Reviewer Selection และ Final Validation. ใช้ baseline v1.5 เพื่อจับ regression ก่อนเปลี่ยน architecture.">
+            <span class="wf-kicker">MEASURE → COMPARE</span><b>Eval Harness</b><small>50 cases · frozen v1.5 baseline</small>
+          </button>
         </div>
       </div>
       <div class="workflow-inspector" id="workflowInspector">
@@ -222,6 +229,34 @@
       <article><h3>Jev Decision Coprocessor</h3><p>System-One layer สำหรับ bounded routing: Agent · Skill · Retry · Model · advisory DONE โดย hard policy และ Human Gate อยู่เหนือ Jev เสมอ.</p><div id="jevState" class="provider-list"></div></article>
       <article><h3>Lazy Arsenal</h3><p>RDC รู้ว่ามี Skill อะไรในโลก แต่ไม่ preload ทั้งหมดเข้าความจำ. โหลดเฉพาะตัวที่ต้องใช้, pin commit, verify SHA และ cache จำกัด.</p><div class="mini-flow"><span>Local</span><b>→</b><span>Metadata</span><b>→</b><span>Fetch 1</span><b>→</b><span>Verify</span></div></article>
       <article><h3>RDC v1.5 Reinforcement</h3><p>ชั้นเสริมที่ทำให้ระบบเลือกเครื่องมือจริง, ซ้อมก่อน mutation, review regression/blast-radius และตามรอยงานข้าม Agent ได้.</p><div id="reinforcementState" class="provider-list"></div></article>
+    </div>
+  </section>
+
+  <section id="eval-harness" class="section">
+    <div class="section-head">
+      <div><span class="kicker">MEASURE → COMPARE → CHANGE</span><h2>RDC Eval / Benchmark Harness</h2></div>
+      <span id="evalFreezeBadge" class="badge ghost">FROZEN BASELINE</span>
+    </div>
+    <p class="section-intro">หยุดเพิ่ม Agent/Skill ด้วยความรู้สึก แล้ววัดก่อนทุกครั้ง: baseline v1.5 ทดสอบ Hard Policy, Tool Routing, Sandbox, Reviewer Selection และ Final Validation แบบ safe/no live mutation.</p>
+    <div class="eval-summary">
+      <div><b id="evalScore">–</b><span>Latest score</span></div>
+      <div><b id="evalCases">–</b><span>Benchmark cases</span></div>
+      <div><b id="evalPassed">–</b><span>Passed</span></div>
+      <div><b id="evalDelta">–</b><span>vs baseline</span></div>
+      <div><b id="evalLatency">–</b><span>Avg case latency</span></div>
+    </div>
+    <div class="eval-layout">
+      <article class="eval-panel">
+        <div class="card-head"><span class="chip">REGRESSION GATE</span><span class="chip read">SAFE MODE</span></div>
+        <h3>Category Scores</h3>
+        <div id="evalCategories" class="eval-categories"></div>
+      </article>
+      <article class="eval-panel">
+        <div class="card-head"><span class="chip">ARCHITECTURE FREEZE</span><span class="chip read">v1.5</span></div>
+        <h3>Change Policy</h3>
+        <p id="evalPolicy" class="eval-policy">Measure → compare → change only when evidence justifies it.</p>
+        <div id="evalState" class="provider-list"></div>
+      </article>
     </div>
   </section>
 

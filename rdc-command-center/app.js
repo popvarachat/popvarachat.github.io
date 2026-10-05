@@ -23,6 +23,7 @@ const NODE_DETAILS={
   "architecture-reviewer":{kicker:"READ-ONLY ARCHITECTURE REVIEWER",purpose:"ตรวจ dependency, coupling, backward compatibility, migration sequencing, rollback และ downstream blast radius.",authority:"Advisory/read-only; broad mutation ยังอยู่กับ RDC + Human Gate.",inputs:["Change graph","Interfaces","Consumers"],outputs:["Blast-radius map","Safe sequencing","Rollback concerns"],related:"#agents"},
   "trace":{kicker:"END-TO-END OBSERVABILITY",purpose:"ใช้ Trace ID เดียวเชื่อม RDC, Jev, Agent/Sub-Agent, Skill, execution, retry และ final validation พร้อม latency/fallback evidence.",authority:"Observe only; telemetry failure ไม่ควรหยุดงานที่ปลอดภัย.",inputs:["Trace ID","Component events","Latency/status"],outputs:["Trace summary","Bottleneck/fallback evidence"],related:"#architecture"},
   "telemetry":{kicker:"JEV SHADOW LEARNING",purpose:"เก็บ confidence, agreement, latency, usage และ fallback เพื่อปรับจูน Jev โดยไม่เก็บ raw secret state.",authority:"Observe only; ไม่สั่ง execution.",inputs:["Typed decisions","Baseline"],outputs:["Tuning metrics","Promotion evidence"],related:"#jev-arsenal"},
+  "eval-harness":{kicker:"MEASURE → COMPARE → CHANGE",purpose:"รัน benchmark 50 เคสเพื่อจับ regression ของ Hard Policy, Tool Routing, Sandbox, Reviewer Selection และ Final Validation ก่อนเปลี่ยน architecture.",authority:"Regression gate สำหรับ architecture change; ไม่เพิ่ม runtime execution authority.",inputs:["Frozen baseline","Current routing/policy/runtime"],outputs:["Score","Category deltas","Regression signal"],related:"#eval-harness"},
   "done":{kicker:"VERIFIED TERMINAL STATE",purpose:"สถานะจบเมื่อ outcome ถูกสังเกตจริง validation ผ่าน ไม่มี blocker และ external effect ถูกตรวจเมื่อเกี่ยวข้อง.",authority:"เกิดจาก Final Validator ไม่ใช่จาก model claim.",inputs:["Validated evidence"],outputs:["DONE"],related:"#architecture"}
 };
 
@@ -30,6 +31,7 @@ const NODE_DETAILS={
   const [s,w,a]=await Promise.all([loadJSON("data/status.json"),loadJSON("data/weekly.json"),loadJSON("data/arsenal.json")]);
   const dc=s.decision_coprocessor||{};
   const ix=s.intelligence_extensions||{};
+  const ev=s.eval_harness||{};
   const metrics=[
     [s.agents,"Agents / Roles"],
     [s.local_skills,"Local Skills"],
@@ -61,6 +63,30 @@ const NODE_DETAILS={
     ];
     rein.innerHTML=rows.map(x=>{const good=String(x[1]).includes("READY")||String(x[1])==="PASS";return `<div class="provider"><span>${esc(x[0])}</span><b class="${good?"ok":"warning"}">${esc(String(x[1]).replaceAll("_"," "))}</b></div>`}).join("");
   }
+
+  const evalPct=v=>v==null?"—":Math.round(Number(v)*100)+"%";
+  document.getElementById("evalScore").textContent=evalPct(ev.latest_score);
+  document.getElementById("evalCases").textContent=ev.cases??"–";
+  document.getElementById("evalPassed").textContent=`${ev.passed??"–"} / ${ev.cases??"–"}`;
+  document.getElementById("evalDelta").textContent=ev.delta_vs_baseline==null?"—":((Number(ev.delta_vs_baseline)>=0?"+":"")+evalPct(ev.delta_vs_baseline));
+  document.getElementById("evalLatency").textContent=ev.avg_case_latency_ms==null?"—":Number(ev.avg_case_latency_ms).toFixed(2)+" ms";
+  const freezeBadge=document.getElementById("evalFreezeBadge");
+  if(freezeBadge) freezeBadge.textContent=String(ev.status||"UNKNOWN").replaceAll("_"," ");
+  const cat=ev.category_scores||{};
+  document.getElementById("evalCategories").innerHTML=Object.entries(cat).map(([name,x])=>{
+    const score=Number(x.score||0);
+    return `<div class="eval-row"><span>${esc(name.replaceAll("_"," "))}</span><div class="eval-track"><div class="eval-fill" style="width:${Math.max(0,Math.min(100,score*100))}%"></div></div><b class="${score<1?"eval-regression":""}">${Math.round(score*100)}%</b></div>`;
+  }).join("");
+  document.getElementById("evalPolicy").textContent=ev.change_policy||"Measure → compare → change only when evidence justifies it.";
+  document.getElementById("evalState").innerHTML=[
+    ["Architecture",ev.architecture||"RDC v1.5"],
+    ["Baseline",ev.baseline||"v1.5"],
+    ["Baseline score",evalPct(ev.baseline_score)],
+    ["Latest failures",ev.failed??0],
+    ["Safe mode",ev.safe_mode?"ON":"OFF"],
+    ["Live mutation",ev.live_mutation?"ON":"OFF"],
+    ["Jev authority",ev.jev_authority||"SHADOW"]
+  ].map(x=>`<div class="provider"><span>${esc(x[0])}</span><b class="${String(x[1]).includes("FAIL")||String(x[1])==="ON"&&x[0]==="Live mutation"?"warning":"ok"}">${esc(x[1])}</b></div>`).join("");
 
   const jevGraph=document.getElementById("jevGraphStatus");
   if(jevGraph) jevGraph.textContent=`${dc.status||"UNKNOWN"} · ${dc.model||"—"}`;
@@ -109,6 +135,7 @@ const NODE_DETAILS={
     if(id==="validator") return "AUTHORITATIVE";
     if(id==="telemetry") return "JEV SHADOW OBSERVE";
     if(id==="done") return "VERIFIED ONLY";
+    if(id==="eval-harness") return `${ev.status||"UNKNOWN"} · ${ev.cases||0} CASES · ${ev.latest_score==null?"—":Math.round(Number(ev.latest_score)*100)+"%"}`;
     if(id==="subagents") return "READ / REVIEW DEFAULT";
     if(id==="agent-force") return "SCOPED EXECUTION";
     if(id==="retry-router") return "SAFE RETRY ENABLED";

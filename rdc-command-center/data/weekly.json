@@ -51,6 +51,11 @@
                         "time":  "05 Oct",
                         "title":  "RDC v1.5 reinforcement layer deployed",
                         "detail":  "เพิ่ม Tool Capability Broker, end-to-end Trace/Observability, Sandbox/Dry-run, Test/Regression Engineer และ Architecture/Blast-Radius Reviewer; RDC Doctor ขึ้น 14 Agents / 17 Skills และ Jev ยังอยู่ SHADOW."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "RDC v1.5 architecture frozen with Eval baseline",
+                        "detail":  "สร้าง Eval Harness 50 เคส แบ่ง 5 หมวด: Hard Policy, Tool Routing, Sandbox, Reviewer Selection และ Final Validation. Baseline v1.5 ผ่าน 50/50; จากนี้ architecture change ต้องรัน benchmark และห้าม regression โดยไม่มี explicit approval."
                     }
                 ],
     "candidates":  [

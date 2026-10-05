@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T21:35:59.1071486+07:00",
+  "generated_at": "2026-10-05T23:48:36.7091912+07:00",
   "status": "READY_WITH_WARNINGS",
   "gateway_version": "1.5",
   "mode": "FAST_EXECUTION_MODE",
@@ -306,6 +306,49 @@
       "jev_authority": "SHADOW",
       "execution_authority_expanded": false
     }
+  },
+  "eval_harness": {
+    "status": "FROZEN_BASELINE",
+    "architecture": "RDC v1.5",
+    "baseline": "v1.5",
+    "baseline_score": 1.0,
+    "latest_score": 1.0,
+    "delta_vs_baseline": 0.0,
+    "cases": 50,
+    "passed": 50,
+    "failed": 0,
+    "category_scores": {
+      "hard_policy": {
+        "passed": 10,
+        "total": 10,
+        "score": 1.0
+      },
+      "tool_routing": {
+        "passed": 10,
+        "total": 10,
+        "score": 1.0
+      },
+      "sandbox": {
+        "passed": 10,
+        "total": 10,
+        "score": 1.0
+      },
+      "reviewer_selection": {
+        "passed": 10,
+        "total": 10,
+        "score": 1.0
+      },
+      "final_validation": {
+        "passed": 10,
+        "total": 10,
+        "score": 1.0
+      }
+    },
+    "avg_case_latency_ms": 8.035,
+    "safe_mode": true,
+    "live_mutation": false,
+    "jev_authority": "SHADOW",
+    "change_policy": "Measure → compare → change only when evidence justifies it"
   },
   "rules": [
     "API/MCP/CLI first",
