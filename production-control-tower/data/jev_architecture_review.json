@@ -1,0 +1,102 @@
+{
+  "schema_version": "production-rebuild-jev-review-v1",
+  "generated_at_utc": "2026-10-05T13:17:53.321034+00:00",
+  "mode": "SHADOW",
+  "execution_authority": false,
+  "model": "jev-1.13.0",
+  "latency_ms": 489.1,
+  "usage": {
+    "input_tokens": 3734,
+    "output_tokens": 502
+  },
+  "answers": {
+    "snapshot_model": {
+      "selected": "SOURCE_BATCH_FIRST",
+      "confidence": 1.0,
+      "probabilities": {
+        "SOURCE_BATCH_FIRST": 1.0,
+        "FORCE_JOIN_KEYS": 0.0,
+        "MANUAL_ONLY": 0.0,
+        "LATEST_WINS": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "stage_resolver": {
+      "selected": "EFFECTIVE_DATED_RULE_TABLE",
+      "confidence": 1.0,
+      "probabilities": {
+        "EFFECTIVE_DATED_RULE_TABLE": 1.0,
+        "AI_CLASSIFIER": 0.0,
+        "STATUS_CODE_ONLY": 0.0,
+        "HARDCODE_IN_UI": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "routing_role": {
+      "selected": "ROUTING_BACKBONE",
+      "confidence": 1.0,
+      "probabilities": {
+        "ROUTING_BACKBONE": 1.0,
+        "AI_FEATURE_ONLY": 0.0,
+        "ARCHIVE_ONLY": 0.0,
+        "OPTIONAL_REPORT": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "inventory_model": {
+      "selected": "ATP_LEDGER",
+      "confidence": 1.0,
+      "probabilities": {
+        "PO_PLUS_STOCK": 0.0,
+        "ATP_LEDGER": 1.0,
+        "AI_ESTIMATE": 0.0,
+        "ON_HAND_ONLY": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "scheduler_state": {
+      "selected": "SCENARIO_DESIGN_ONLY",
+      "confidence": 1.0,
+      "probabilities": {
+        "SCENARIO_DESIGN_ONLY": 1.0,
+        "WAIT_ALL_WORK": 0.0,
+        "HEURISTIC_SCHEDULER_NOW": 0.0,
+        "FINITE_CAPACITY_READY": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "actual_time": {
+      "selected": "DERIVE_WITH_QUALITY_GATE",
+      "confidence": 1.0,
+      "probabilities": {
+        "TRUST_ZERO": 0.0,
+        "AI_IMPUTE": 0.0,
+        "DERIVE_WITH_QUALITY_GATE": 1.0,
+        "IGNORE_TIMEENTRY": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "report_priority": {
+      "selected": "ROUTE_STAGE_BOTTLENECK",
+      "confidence": 0.99,
+      "probabilities": {
+        "SUPPLIER_ONLY": 0.01,
+        "ROUTE_STAGE_BOTTLENECK": 0.99,
+        "PURE_EXEC_SUMMARY": 0.0,
+        "COST_ONLY": 0.0
+      },
+      "raw_type": "choice"
+    },
+    "implementation_sequence": {
+      "selected": "LINEAGE_RULES_ROUTING_FIRST",
+      "confidence": 1.0,
+      "probabilities": {
+        "SCHEDULER_FIRST": 0.0,
+        "LINEAGE_RULES_ROUTING_FIRST": 1.0,
+        "UI_FIRST": 0.0,
+        "AI_FIRST": 0.0
+      },
+      "raw_type": "choice"
+    }
+  }
+}
