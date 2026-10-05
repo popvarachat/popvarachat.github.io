@@ -107,3 +107,4 @@ footer{display:flex;justify-content:space-between;color:var(--muted);font-size:1
 @media(max-width:900px){.fx-summary-grid{grid-template-columns:1fr 1fr}}@media(max-width:560px){.fx-summary-grid{grid-template-columns:1fr}}
 .src-chip{display:inline-flex;padding:4px 6px;border-radius:999px;font-size:8px;font-weight:900;white-space:nowrap}
 .src-chip.good{background:#ddf7e9;color:#18724a}.src-chip.bad{background:#ffe4e4;color:#973c3c}.src-chip.neutral{background:#edf3fb;color:#43688e}
+.src-chip.stale{background:#fff0d8;color:#8b5e12}

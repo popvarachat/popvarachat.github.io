@@ -144,10 +144,11 @@ function thesisArrow(thesis){
 }
 function sourceState(x,name){
   const s=(x.source_health||[]).find(v=>v.source===name);
-  return !s?'—':(s.ok?'GOOD':'FAILED');
+  if(!s) return '—';
+  return s.status || (s.ok?'GOOD':'FAILED');
 }
 function sourceClass(v){
-  return v==='GOOD'?'good':v==='FAILED'?'bad':'neutral';
+  return v==='GOOD'?'good':v==='STALE'?'stale':v==='FAILED'?'bad':'neutral';
 }
 function renderForexMajor(){
   if(!FOREX) return;
@@ -155,8 +156,10 @@ function renderForexMajor(){
   const trend=rows.filter(x=>x.jev_shadow?.stage?.selected==='TREND_WATCH');
   const waits=rows.filter(x=>x.jev_shadow?.stage?.selected==='WAIT');
   const mt5=FOREX.mt5_health||{}, mt5exp=FOREX.mt5_export_health||{}, cot=FOREX.cot_health||{};
+  const mt5State=mt5.status || (mt5.ok?'GOOD':'FAILED');
+  const mt5Age=mt5.server_age_seconds==null?'—':fmt(mt5.server_age_seconds/86400,1)+'d';
   safeSet('forexSummary',
-    '<div class="fx-summary-card"><span>MT5 Live Broker</span><b>'+esc(mt5.ok?'GOOD':'FAILED')+'</b><small>'+esc(mt5.ok?'read-only broker feed active':(mt5.error||'IPC unavailable'))+'</small></div>'+
+    '<div class="fx-summary-card"><span>MT5 Live Broker</span><b>'+esc(mt5State)+'</b><small>'+esc(mt5.server_connected?'server connected · read-only broker feed active':'server disconnected · last broker time age '+mt5Age)+'</small></div>'+
     '<div class="fx-summary-card"><span>MT5 Broker Export</span><b>'+esc(mt5exp.status||'—')+' · '+esc(mt5exp.count??'—')+'/7</b><small>historical broker evidence · freshness shown per pair</small></div>'+
     '<div class="fx-summary-card"><span>Macro</span><b>'+esc(FOREX.macro_health||'—')+'</b><small>DXY · US10Y · VIX · SPY</small></div>'+
     '<div class="fx-summary-card"><span>CFTC COT</span><b>'+esc(cot.status||'—')+' · '+esc(cot.count??'—')+'/7</b><small>TFF Futures Only · positioning</small></div>'+
@@ -169,7 +172,7 @@ function renderForexMajor(){
     return '<tr>'+
       '<td><b>'+esc(x.pair)+'</b><small>'+esc(x.quality||'—')+' · '+esc(x.authority||'—')+'</small></td>'+
       '<td><b>'+fmt(x.current_reference,5)+'</b><small>'+esc(broker.broker_symbol||pub.source_symbol||'—')+'</small></td>'+
-      '<td><span class="src-chip '+sourceClass(sourceState(x,'MT5'))+'">Live '+sourceState(x,'MT5')+'</span><small>Spread '+(spread==null?'—':fmt(spread,6))+'</small></td>'+
+      '<td><span class="src-chip '+sourceClass(sourceState(x,'MT5'))+'">Live '+sourceState(x,'MT5')+'</span><small>'+esc(x.source_health?.find(v=>v.source==='MT5')?.detail||'')+(spread==null?'':' · Spread '+fmt(spread,6))+'</small></td>'+
       '<td><span class="src-chip '+sourceClass(sourceState(x,'MT5_BROKER_EXPORT'))+'">Export '+sourceState(x,'MT5_BROKER_EXPORT')+'</span><small>Age '+(bh.age_days==null?'—':fmt(bh.age_days,1)+'d')+' · med spread '+(bh.spread_points_median==null?'—':fmt(bh.spread_points_median,1)+' pt')+'</small></td>'+
       '<td><span class="src-chip '+sourceClass(sourceState(x,'YAHOO_DAILY'))+'">Public '+sourceState(x,'YAHOO_DAILY')+'</span></td>'+
       '<td><span class="src-chip '+sourceClass(sourceState(x,'MACRO_CONTEXT'))+'">Macro '+sourceState(x,'MACRO_CONTEXT')+'</span></td>'+
