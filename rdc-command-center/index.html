@@ -33,6 +33,7 @@
 
   <nav class="tabs" aria-label="sections">
     <a href="#architecture">Architecture</a>
+    <a href="#jev-arsenal">Jev Arsenal</a>
     <a href="#agents">Agents</a>
     <a href="#skills">Skills</a>
     <a href="#arsenal">Global Arsenal</a>
@@ -104,7 +105,7 @@
             <span class="wf-kicker danger">STOP / APPROVE</span><b>Human Gate</b><small>Explicit approval</small>
           </button>
 
-          <button class="wf-node jev" data-title="Jev Decision Coprocessor" data-detail="System-One sidecar ใต้ Orchestrator. ตอนนี้ READY_SHADOW: ให้คำแนะนำ Agent / Skill / Retry / Model และ DONE signal แต่ยังไม่มี execution authority.">
+          <button class="wf-node jev" data-title="Jev Decision Coprocessor" data-detail="System-One sidecar ใต้ Orchestrator. RDC เรียก Jev อัตโนมัติเมื่อมี bounded uncertainty ผ่าน routing / recovery / completion profiles. ตอนนี้ READY_SHADOW และยังไม่มี execution authority.">
             <span class="wf-kicker">SYSTEM-1</span><b>Jev Coprocessor</b><small id="jevGraphStatus">READY_SHADOW · jev-latest</small>
           </button>
 
@@ -166,6 +167,32 @@
       <article><h3>FAST EXECUTION MODE</h3><div id="rules" class="rule-list"></div></article>
       <article><h3>Jev Decision Coprocessor</h3><p>System-One layer สำหรับ bounded routing: Agent · Skill · Retry · Model · advisory DONE โดย hard policy และ Human Gate อยู่เหนือ Jev เสมอ.</p><div id="jevState" class="provider-list"></div></article>
       <article><h3>Lazy Arsenal</h3><p>RDC รู้ว่ามี Skill อะไรในโลก แต่ไม่ preload ทั้งหมดเข้าความจำ. โหลดเฉพาะตัวที่ต้องใช้, pin commit, verify SHA และ cache จำกัด.</p><div class="mini-flow"><span>Local</span><b>→</b><span>Metadata</span><b>→</b><span>Fetch 1</span><b>→</b><span>Verify</span></div></article>
+    </div>
+  </section>
+
+  <section id="jev-arsenal" class="section">
+    <div class="section-head">
+      <div><span class="kicker">SYSTEM-ONE ARMORY</span><h2>Jev Decision Arsenal</h2></div>
+      <span class="badge ghost">SHADOW · BATCHED DECISIONS</span>
+    </div>
+    <p class="section-intro">Jev ไม่ถือ Tool ไปทำงานเอง แต่ได้รับชุด Decision Packs สำหรับเลือก Agent, Skill, Tool, Retry, Model, Risk, Parallelism, Capability Gap, Evidence, Context, Cost/Latency และ Completion Guard โดย Hard Policy ยังอยู่เหนือ Jev เสมอ.</p>
+    <div class="arsenal-banner jev-summary">
+      <div><b id="jevPackCount">–</b><span>Decision Packs</span></div>
+      <div><b id="jevProfileCount">–</b><span>Batch Profiles</span></div>
+      <div><b id="jevCheckCount">–</b><span>Completion Checks</span></div>
+      <div><b id="jevBatchMode">–</b><span>Multi-question Batch</span></div>
+    </div>
+    <div class="jev-layout">
+      <div>
+        <h3>Decision Packs</h3>
+        <div id="jevDecisionGrid" class="jev-pack-grid"></div>
+      </div>
+      <div>
+        <h3>Batch Profiles</h3>
+        <div id="jevProfiles" class="profile-list"></div>
+        <h3 class="jev-stats-title">Shadow Tuning</h3>
+        <div id="jevTuningStats" class="provider-list"></div>
+      </div>
     </div>
   </section>
 

@@ -41,6 +41,11 @@
       "time": "05 Oct",
       "title": "RDC real workflow topology deployed",
       "detail": "เปลี่ยน Architecture จาก flow เส้นตรงเป็น branching execution topology จริง เชื่อม Hard Policy, Jev, Agent/Sub-Agent, Skill Resolver, Global Arsenal, API/MCP/CLI/OI/UI, Final Validator, Retry loop และ Human Gate."
+    },
+    {
+      "time": "05 Oct",
+      "title": "Jev Decision Arsenal armed",
+      "detail": "เพิ่ม 12 bounded Decision Packs, 4 batched profiles และ Completion Guard 6 checks. ทั้งหมดเริ่มใน SHADOW mode; Hard Policy และ Final Validator ยังมี authority สูงกว่า Jev."
     }
   ],
   "candidates": [

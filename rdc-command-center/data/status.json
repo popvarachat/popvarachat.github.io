@@ -1,6 +1,7 @@
 {
-  "generated_at": "2026-10-05T15:58:07.7198546+07:00",
+  "generated_at": "2026-10-05T16:42:36.7599163+07:00",
   "status": "READY_WITH_WARNINGS",
+  "gateway_version": "1.4",
   "mode": "FAST_EXECUTION_MODE",
   "agents": 12,
   "local_skills": 14,
@@ -33,7 +34,183 @@
     "product": "Jev",
     "status": "READY_SHADOW",
     "mode": "SHADOW",
-    "model": "jev-latest"
+    "model": "jev-latest",
+    "decision_packs": 12,
+    "batch_profiles": 4,
+    "completion_checks": 6
+  },
+  "jev_decision_arsenal": {
+    "packs": [
+      {
+        "id": "agent",
+        "name": "Agent Selector",
+        "purpose": "Choose the narrowest RDC Agent/Sub-Agent for the next step",
+        "group": "routing"
+      },
+      {
+        "id": "skill",
+        "name": "Skill Selector",
+        "purpose": "Choose the best local Skill or capability-resolution path",
+        "group": "routing"
+      },
+      {
+        "id": "tool",
+        "name": "Tool Router",
+        "purpose": "Choose API/MCP/CLI/OI/UI with backend-first preference",
+        "group": "routing"
+      },
+      {
+        "id": "retry",
+        "name": "Retry Strategist",
+        "purpose": "Choose retry/change/debug/rollback/escalation after failure",
+        "group": "recovery"
+      },
+      {
+        "id": "model",
+        "name": "Model Router",
+        "purpose": "Choose the lightest reasoning route that is sufficient",
+        "group": "routing"
+      },
+      {
+        "id": "risk",
+        "name": "Risk Classifier",
+        "purpose": "Classify bounded operational risk without overriding hard policy",
+        "group": "safety"
+      },
+      {
+        "id": "parallel",
+        "name": "Parallelization Judge",
+        "purpose": "Decide whether independent work can safely fan out",
+        "group": "orchestration"
+      },
+      {
+        "id": "capability_gap",
+        "name": "Capability Gap Detector",
+        "purpose": "Detect when local capability is insufficient",
+        "group": "orchestration"
+      },
+      {
+        "id": "evidence",
+        "name": "Evidence Sufficiency",
+        "purpose": "Judge whether current evidence supports the claimed state",
+        "group": "validation"
+      },
+      {
+        "id": "context",
+        "name": "Context Freshness",
+        "purpose": "Judge whether authoritative context must be reloaded",
+        "group": "validation"
+      },
+      {
+        "id": "cost_latency",
+        "name": "Cost / Latency Optimizer",
+        "purpose": "Choose the cheapest/fastest sufficient route",
+        "group": "optimization"
+      },
+      {
+        "id": "done",
+        "name": "Completion Guard",
+        "purpose": "Decompose DONE into narrow evidence checks and aggregate deterministically",
+        "group": "validation"
+      }
+    ],
+    "profiles": {
+      "routing": [
+        "agent",
+        "skill",
+        "tool",
+        "parallel",
+        "capability_gap",
+        "model",
+        "cost_latency"
+      ],
+      "recovery": [
+        "risk",
+        "retry",
+        "context",
+        "tool",
+        "model"
+      ],
+      "completion": [
+        "done"
+      ],
+      "full": [
+        "agent",
+        "skill",
+        "tool",
+        "retry",
+        "model",
+        "risk",
+        "parallel",
+        "capability_gap",
+        "evidence",
+        "context",
+        "cost_latency",
+        "done"
+      ]
+    },
+    "completion_guard_checks": [
+      "outcome_observed",
+      "validation_passed",
+      "authoritative_reread",
+      "blocker_remaining",
+      "regression_sufficient",
+      "external_effect_verified"
+    ],
+    "batch_multi_question": true,
+    "authority_mode": "SHADOW",
+    "report": {
+      "events": 0,
+      "jev_decisions": 0,
+      "single_decisions": 0,
+      "profile_runs": 0,
+      "profile_decisions": 0,
+      "hard_policy_gates": 0,
+      "fallbacks": 0,
+      "comparisons": 0,
+      "agreement_rate": null,
+      "avg_confidence": null,
+      "avg_latency_ms": null,
+      "p95_latency_ms": null,
+      "input_tokens": 0,
+      "output_tokens": 0,
+      "pack_usage": {},
+      "completion_guard_runs": 0,
+      "completion_yes": 0,
+      "promotion_ready": false
+    },
+    "validation": {
+      "status": "PASS",
+      "validated_on": "2026-10-05",
+      "mode": "SHADOW",
+      "routing_profile": {
+        "status": "PASS",
+        "questions": 7,
+        "latency_ms": 409.6
+      },
+      "recovery_profile": {
+        "status": "PASS",
+        "questions": 5,
+        "latency_ms": 535.9
+      },
+      "evidence_pack": {
+        "status": "PASS",
+        "selected": "YES",
+        "confidence": 0.69
+      },
+      "completion_guard": {
+        "status": "PASS",
+        "selected": "YES",
+        "checks": 6,
+        "confidence": 0.88
+      },
+      "hard_policy_gate": {
+        "status": "PASS",
+        "verified": "live_trading_or_real_money_orders"
+      },
+      "execution_authority": false,
+      "notes": "Synthetic smoke validation only; production tuning log is reset after validation."
+    }
   },
   "execution_fabric": {
     "api": {
