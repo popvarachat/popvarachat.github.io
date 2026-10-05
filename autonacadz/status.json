@@ -23,7 +23,7 @@
   "github_pages": {
     "status": "PUBLISHED_AS_STATIC_CONTROL_PORTAL"
   },
-  "next": "CAD Job Queue & Multi-Master Automation",
+  "next": "CAD execution engine decision → CAD Job Queue & Multi-Master",
   "tests": {
     "passed": 15,
     "total": 15
@@ -44,5 +44,12 @@
   "multi_master": {
     "status": "HOLD_UNTIL_JOB_QUEUE",
     "partial_export_disabled": true
+  },
+  "cad_execution": {
+    "status": "ENGINE_REQUIRED",
+    "workstation": "viewer_only",
+    "dwg_trueview": "2024",
+    "full_autocad_detected": false,
+    "note": "TrueView is visual verification only; final geometry automation requires a compatible CAD execution engine."
   }
 }
