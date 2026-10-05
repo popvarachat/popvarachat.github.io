@@ -214,6 +214,10 @@ const overrides = {
     title:"Practika Building Digital Twin",
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม — ระบบภายใน ต้องได้รับสิทธิ์ก่อนเข้าใช้งาน"
   },
+  "network-digital-twin-internal": {
+    title:"Practika Network Digital Twin",
+    description:"Internal-only enterprise network discovery, health monitoring and evidence-based topology. Sensitive IP/host data stays on the authorized notebook."
+  },
   "chair-import-cost-manual": {
     title:"Chair Import Cost Intelligence · Independent GitHub Edition",
     description:"Independent Production · ระบบวิเคราะห์ต้นทุนเก้าอี้นำเข้าชุดใหม่ แยก DB / Backend / Deployment / Access Control ออกจากระบบ Apps Script เดิมโดยสมบูรณ์"
@@ -259,6 +263,11 @@ const architectures = {
     note:"ระบบ Digital Twin อาคารภายใน เชื่อมผังจริง ทรัพย์สิน และประวัติซ่อมภายใต้การควบคุมสิทธิ์ เพื่อให้ข้อมูลหน้างานย้อนกลับถึง Master ได้",
     flow:[["Access","Login / allowlist / role"],["Twin UI","Building Digital Twin web app"],["Master","As-built / CAD master"],["Assets","ทะเบียนทรัพย์สิน"],["Maintenance","แจ้งซ่อม + ประวัติซ่อม"],["Control","Admin / audit / update"],["Decision","Facility & management view"]],
     meta:["Internal · Admin","As-built Master","Maintenance History"]
+  },
+  "network-digital-twin-internal": {
+    note:"Internal network observability workflow. Public Portal shows only project metadata; IP addresses, hostnames and topology evidence remain local/internal.",
+    flow:[["Collector","Read-only PowerShell discovery"],["Discovery","Gateway · DNS · AD · subnets · neighbors"],["Health","Latency · loss · reachability"],["Topology","Evidence-based logical map"],["Internal Dashboard","Local browser view"],["Boundary","Switch/AP/Firewall writes disabled"]],
+    meta:["Internal Only","Read-only","No public topology","Human-controlled refresh"]
   },
   "car-digital-twin-dashboard-manual": {
     note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
@@ -338,6 +347,16 @@ const manualApps = [
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม"
   },
   {
+    name:"network-digital-twin-internal",
+    visibility:"restricted",
+    homepage:"",
+    html_url:"",
+    updated_at:"2026-10-05T05:20:00Z",
+    topics:["Network Intelligence"],
+    language:"Internal Web",
+    description:"Internal-only network health and topology dashboard. Sensitive infrastructure data is not published."
+  },
+  {
     name:"car-digital-twin-dashboard-manual",
     visibility:"public",
     homepage:"https://popvarachat.github.io/practika-flood-map-public/car-digital-twin-dashboard/",
@@ -399,8 +418,8 @@ function render(){
       <h2>${esc(title)}</h2>
       <p>${esc(desc)}</p>
       <div class="actions">
-        <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
-        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
+        ${(r.visibility==="restricted" && !r.homepage) ? `<span class="repo" aria-label="internal only">🔒 Internal only</span>` : `<a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>`}
+        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : ((r.visibility==="restricted" && r.homepage) ? `<span class="repo" aria-label="restricted access">🔒 Login required</span>` : ``)}
         <button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>
       </div>
     </article>`;
