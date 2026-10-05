@@ -1,102 +1,70 @@
 <!doctype html>
-<html lang="th">
-<head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#eef4fb">
-<title>Practika Network Diagram</title>
-<meta name="description" content="Executive public-safe network architecture view for Practika.">
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practika Network Diagram</title><meta name="description" content="Executive public-safe network architecture view for Practika.">
 <style>
-:root{--bg:#eef4fb;--panel:#fff;--ink:#172033;--muted:#66758b;--line:#d8e3ef;--blue:#2563eb;--blue2:#dbeafe;--green:#15803d;--green2:#dcfce7;--amber:#b45309;--amber2:#fef3c7;--shadow:0 18px 48px rgba(30,64,110,.11)}
-*{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 15% 0%,#dbeafe 0,transparent 30%),linear-gradient(180deg,#eef4fb,#f8fafc 46%);color:var(--ink)}
-.wrap{max-width:1280px;margin:auto;padding:34px 22px 56px}.hero{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.11em;color:var(--blue);text-transform:uppercase}
-h1{font-size:clamp(30px,4.5vw,52px);letter-spacing:-.045em;margin:7px 0 10px}.sub{max-width:800px;color:var(--muted);line-height:1.6;margin:0}.status{display:inline-flex;align-items:center;gap:8px;padding:10px 13px;border:1px solid #b9dec6;background:#effbf3;color:var(--green);border-radius:999px;font-weight:800;white-space:nowrap}.status i{width:9px;height:9px;background:#22c55e;border-radius:50%;box-shadow:0 0 0 4px rgba(34,197,94,.13)}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:26px 0 16px}.tab{border:1px solid var(--line);background:rgba(255,255,255,.8);padding:10px 13px;border-radius:12px;font-weight:750;cursor:pointer;color:var(--ink)}.tab.active{background:var(--ink);color:white;border-color:var(--ink)}
-.panel{display:none;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:22px;padding:22px;box-shadow:var(--shadow)}.panel.active{display:block}.panel h2{margin:0 0 8px}.panel p.lead{margin:0 0 20px;color:var(--muted);line-height:1.55}
-.diagram{overflow:auto}.diagram svg{min-width:1100px;width:100%;height:575px}.node rect{fill:#fff;stroke:#adc1d8;stroke-width:1.5}.node text{fill:#172033;font-size:14px;font-weight:750}.node .small{fill:#66758b;font-size:11px;font-weight:500}.node.secure rect{stroke:#7bb393}.node.pending rect{stroke:#e6a857;stroke-dasharray:7 5}.edge{stroke:#94a8be;stroke-width:2.1;fill:none;marker-end:url(#arrow)}.edge.soft{stroke-dasharray:7 6}.edgeLabel{font-size:11px;fill:#66758b}
-.legend{display:flex;gap:16px;flex-wrap:wrap;margin-top:12px;color:var(--muted);font-size:12px}.legend b{font-weight:700;color:var(--ink)}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;margin-right:5px}.blue{background:#60a5fa}.green{background:#4ade80}.amber{background:#f59e0b}
-.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}.card{border:1px solid var(--line);border-radius:17px;background:#fff;padding:17px}.card .k{font-size:12px;color:var(--muted)}.card b{display:block;font-size:19px;margin:7px 0}.card p{margin:0;color:var(--muted);font-size:13px;line-height:1.55}.tag{display:inline-flex;margin-top:11px;padding:5px 8px;border-radius:999px;font-size:11px;font-weight:800}.ok{background:var(--green2);color:var(--green)}.wait{background:var(--amber2);color:var(--amber)}.info{background:var(--blue2);color:var(--blue)}
-.note{margin-top:16px;border-left:4px solid #60a5fa;background:#eff6ff;padding:14px 16px;border-radius:11px;color:#35506f;line-height:1.55}.security{margin-top:14px;border-left-color:#f59e0b;background:#fff8e8;color:#75510e}
-footer{margin-top:24px;color:var(--muted);font-size:12px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
-@media(max-width:850px){.hero{flex-direction:column}.cards{grid-template-columns:1fr}.wrap{padding:24px 14px 42px}}
-</style>
-</head>
-<body>
-<div class="wrap">
-  <div class="hero">
-    <div>
-      <div class="eyebrow">Practika · Network Intelligence</div>
-      <h1>Enterprise Network Diagram</h1>
-      <p class="sub">ภาพรวม Network Architecture ขององค์กรสำหรับผู้บริหารและทีม IT แสดงโครงสร้างที่ยืนยันจากการ Discovery จริง โดยซ่อน IP, hostname และรายละเอียดเชิงความปลอดภัยจากหน้า Public</p>
-    </div>
-    <div class="status"><i></i>Baseline Healthy</div>
-  </div>
+:root{--bg:#eef4fb;--panel:#fff;--ink:#152238;--muted:#66758b;--line:#d8e3ef;--blue:#2563eb;--green:#16803b;--amber:#b56a0b;--shadow:0 18px 48px rgba(30,64,110,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 12% 0%,#dcecff 0,transparent 30%),linear-gradient(180deg,#eef4fb,#f8fafc 45%);color:var(--ink)}.wrap{max-width:1420px;margin:auto;padding:30px 22px 54px}
+.hero{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--blue);text-transform:uppercase}h1{font-size:clamp(30px,4.5vw,50px);letter-spacing:-.045em;margin:7px 0 10px}.sub{max-width:930px;color:var(--muted);line-height:1.6;margin:0}.status{padding:10px 13px;border:1px solid #bbdec6;background:#effbf3;color:var(--green);border-radius:999px;font-weight:800;white-space:nowrap}
+.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 14px}.tab{border:1px solid var(--line);background:white;padding:10px 13px;border-radius:11px;font-weight:750;cursor:pointer}.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}.panel{display:none;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.panel.active{display:block}.panel h2{margin:0 0 7px}.lead{color:var(--muted);margin:0 0 18px;line-height:1.55}
+.diagram{overflow:auto;border:1px solid var(--line);border-radius:15px;background:#fbfdff}.diagram svg{min-width:1220px;width:100%;height:850px}.node rect{fill:#fff;stroke:#aebed1;stroke-width:1.5}.node text{fill:#152238;font-size:13px;font-weight:750}.node .small{fill:#66758b;font-size:10px;font-weight:500}.infra rect{stroke:#67a57b}.edge{stroke:#97a9bd;stroke-width:1.7;fill:none}.dash{stroke-dasharray:6 5}.core rect{fill:#eaf3ff;stroke:#6395db;stroke-width:2}.pending rect{stroke:#e3a04b;stroke-dasharray:6 4}
+.cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{border:1px solid var(--line);border-radius:15px;background:#fff;padding:15px}.card b{display:block;margin-bottom:4px}.card p{color:var(--muted);font-size:12.5px;line-height:1.5;margin:0}.tag{display:inline-flex;margin-top:9px;padding:4px 7px;border-radius:999px;font-size:10.5px;font-weight:800}.ok{background:#e9f8ed;color:#176b38}.info{background:#e9f2ff;color:#245da9}.wait{background:#fff2dc;color:#94610d}
+.rolegrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.role{border:1px solid var(--line);border-radius:13px;padding:12px;background:#fbfdff}.role b{display:block;font-size:17px}.role span{font-size:11px;color:var(--muted)}.note{margin-top:14px;border-left:4px solid var(--blue);background:#eff6ff;padding:13px 15px;border-radius:10px;color:#355372;line-height:1.55}.security{border-left-color:#f59e0b;background:#fff8e8;color:#72500d}
+footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
+@media(max-width:900px){.cards,.rolegrid{grid-template-columns:1fr}.hero{flex-direction:column}.wrap{padding:22px 14px 44px}}
+</style></head><body><div class="wrap">
+<div class="hero"><div><div class="eyebrow">Practika · Network Intelligence</div><h1>Enterprise Network Diagram</h1><p class="sub">Public-safe architecture view ที่ขยายจาก Discovery จริงทั้งองค์กร ครอบคลุม Core/Infrastructure, Application, Server, Production, Building/Floor, Wi‑Fi, Device/Printer และ Network Management layers โดยรายละเอียด IP/hostname จริงเก็บใน Internal IT Director Dashboard เท่านั้น</p></div><div class="status">● Discovery Expanded</div></div>
+<div class="tabs"><button class="tab active" data-tab="map">Organization Topology</button><button class="tab" data-tab="zones">Logical Zones</button><button class="tab" data-tab="roles">Device Estate</button><button class="tab" data-tab="statusp">Discovery Status</button></div>
 
-  <div class="tabs">
-    <button class="tab active" data-panel="executive">Executive Map</button>
-    <button class="tab" data-panel="logical">Logical Zones</button>
-    <button class="tab" data-panel="discovery">Discovery Status</button>
-  </div>
+<section id="map" class="panel active"><h2>Organization Topology</h2><p class="lead">ภาพรวมหลายชั้นแทน skeleton เดิม: Edge/Core → Infrastructure & Server → Building/Floor → Production & Special Devices → Client/Wi‑Fi</p>
+<div class="diagram"><svg viewBox="0 0 1260 850">
+<g class="node core"><rect x="510" y="20" rx="16" width="240" height="78"/><text x="538" y="50">Internet / Edge / Core</text><text class="small" x="538" y="70">Firewall · Routing · Core switching</text></g>
+<path class="edge" d="M630 98 V150"/><path class="edge" d="M630 150 H210 V205"/><path class="edge" d="M630 150 H475 V205"/><path class="edge" d="M630 150 H740 V205"/><path class="edge" d="M630 150 H1005 V205"/>
+<g class="node infra"><rect x="55" y="205" rx="14" width="310" height="78"/><text x="78" y="234">Core Infrastructure / Security</text><text class="small" x="78" y="255">Directory · DNS · DHCP · security devices</text></g>
+<g class="node infra"><rect x="390" y="205" rx="14" width="310" height="78"/><text x="414" y="234">Application / Server Services</text><text class="small" x="414" y="255">Intranet · JDE · backup · file services</text></g>
+<g class="node infra"><rect x="725" y="205" rx="14" width="310" height="78"/><text x="749" y="234">Network / Wi‑Fi Management</text><text class="small" x="749" y="255">AP · switch · embedded management plane</text></g>
+<g class="node"><rect x="1060" y="205" rx="14" width="150" height="78"/><text x="1080" y="234">Print / Device</text><text class="small" x="1080" y="255">Printers · VoIP</text></g>
 
-  <section id="executive" class="panel active">
-    <h2>Executive Network Map</h2>
-    <p class="lead">เส้นทางหลักจากผู้ใช้งานไปยังโครงสร้างพื้นฐานภายในและ Internet โดยแสดงเฉพาะระดับสถาปัตยกรรม</p>
-    <div class="diagram">
-      <svg viewBox="0 0 1180 575" aria-label="Executive enterprise network diagram">
-        <defs><marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="3" orient="auto"><path d="M0,0 L0,6 L9,3 z" fill="#94a8be"/></marker></defs>
-        <path class="edge" d="M175 285 H295"/><path class="edge" d="M455 285 H565"/><path class="edge soft" d="M725 285 H835"/><path class="edge" d="M995 285 H1080"/>
-        <path class="edge" d="M645 230 V135 H835"/><path class="edge" d="M645 340 V435 H835"/><path class="edge soft" d="M915 230 V135 H1030"/><path class="edge soft" d="M915 340 V435 H1030"/>
-        <g class="node secure"><rect x="20" y="235" rx="17" width="155" height="100"/><text x="41" y="265">Employee Devices</text><text class="small" x="41" y="288">Notebook · PC · Mobile</text><text class="small" x="41" y="307">Observed client access</text></g>
-        <g class="node"><rect x="295" y="235" rx="17" width="160" height="100"/><text x="316" y="265">Corporate Wi‑Fi</text><text class="small" x="316" y="288">Authenticated access</text><text class="small" x="316" y="307">Client network zone</text></g>
-        <g class="node"><rect x="565" y="235" rx="17" width="160" height="100"/><text x="586" y="265">Routing Layer</text><text class="small" x="586" y="288">Inter-zone routing</text><text class="small" x="586" y="307">Observed path evidence</text></g>
-        <g class="node pending"><rect x="835" y="235" rx="17" width="160" height="100"/><text x="856" y="265">Core / Security</text><text class="small" x="856" y="288">Firewall · Core switching</text><text class="small" x="856" y="307">Physical mapping pending</text></g>
-        <g class="node secure"><rect x="1080" y="235" rx="17" width="80" height="100"/><text x="1097" y="278">Internet</text><text class="small" x="1097" y="300">Healthy</text></g>
-        <g class="node secure"><rect x="835" y="80" rx="17" width="160" height="110"/><text x="856" y="111">Directory Services</text><text class="small" x="856" y="135">Domain · DNS · DHCP</text><text class="small" x="856" y="155">Confirmed reachable</text></g>
-        <g class="node secure"><rect x="835" y="390" rx="17" width="160" height="110"/><text x="856" y="421">Server / File Services</text><text class="small" x="856" y="445">Corporate shared services</text><text class="small" x="856" y="465">Confirmed reachable</text></g>
-        <g class="node pending"><rect x="1030" y="80" rx="17" width="130" height="110"/><text x="1051" y="111">Access Layer</text><text class="small" x="1051" y="135">AP · Switch · Port</text><text class="small" x="1051" y="155">Pending</text></g>
-        <g class="node pending"><rect x="1030" y="390" rx="17" width="130" height="110"/><text x="1051" y="421">Special Zones</text><text class="small" x="1051" y="445">CNC · CCTV · IoT</text><text class="small" x="1051" y="465">Pending</text></g>
-        <text class="edgeLabel" x="735" y="270">observed route</text><text class="edgeLabel" x="1000" y="270">upstream</text>
-      </svg>
-    </div>
-    <div class="legend"><span><i class="dot green"></i><b>Confirmed / Healthy</b></span><span><i class="dot blue"></i><b>Observed architecture</b></span><span><i class="dot amber"></i><b>Physical discovery pending</b></span></div>
-  </section>
+<path class="edge" d="M545 283 V340 H155"/><path class="edge" d="M545 340 H395"/><path class="edge" d="M545 340 H635"/><path class="edge" d="M545 340 H875"/><path class="edge" d="M880 283 V340 H1115"/>
+<g class="node"><rect x="40" y="365" rx="14" width="230" height="76"/><text x="61" y="393">Building 1 · Floor 1</text><text class="small" x="61" y="414">User endpoints + VoIP</text></g>
+<g class="node"><rect x="280" y="365" rx="14" width="230" height="76"/><text x="301" y="393">Building 1 · Floor 2</text><text class="small" x="301" y="414">User endpoints + VoIP</text></g>
+<g class="node"><rect x="520" y="365" rx="14" width="230" height="76"/><text x="541" y="393">Building 1 · Floor 3</text><text class="small" x="541" y="414">User endpoints + VoIP</text></g>
+<g class="node"><rect x="760" y="365" rx="14" width="230" height="76"/><text x="781" y="393">Laptop / Client</text><text class="small" x="781" y="414">Mobile client segment</text></g>
+<g class="node"><rect x="1000" y="365" rx="14" width="220" height="76"/><text x="1021" y="393">Corporate Wi‑Fi</text><text class="small" x="1021" y="414">Wireless client access</text></g>
 
-  <section id="logical" class="panel">
-    <h2>Logical Network Zones</h2>
-    <p class="lead">โครงสร้าง Logical ที่ยืนยันได้จาก Network Discovery โดยตั้งใจไม่เผย subnet/IP จริงบน Public Web</p>
-    <div class="cards">
-      <div class="card"><div class="k">Zone 01</div><b>Corporate Wi‑Fi</b><p>เครือข่าย Client ที่ Notebook และอุปกรณ์ผู้ใช้งานเชื่อมต่อเข้าสู่องค์กร</p><span class="tag ok">Observed</span></div>
-      <div class="card"><div class="k">Zone 02</div><b>Infrastructure / Directory</b><p>บริการ Domain, DNS และ DHCP ที่ใช้เป็นแกนกลางด้าน Identity และ Name Resolution</p><span class="tag ok">Confirmed</span></div>
-      <div class="card"><div class="k">Zone 03</div><b>Server / File Services</b><p>บริการไฟล์และทรัพยากรส่วนกลางที่ Client มีการใช้งานจริง</p><span class="tag ok">Confirmed</span></div>
-      <div class="card"><div class="k">Zone 04</div><b>Routing / Core</b><p>เส้นทางระหว่าง Network Zones และทางออกสู่ Internet มีหลักฐานจาก trace path</p><span class="tag info">Observed</span></div>
-      <div class="card"><div class="k">Zone 05</div><b>Switch / AP Layer</b><p>ต้องอ่านข้อมูลจาก Managed Switch และ Wi‑Fi Controller เพื่อผูก Port, AP และ VLAN จริง</p><span class="tag wait">Pending</span></div>
-      <div class="card"><div class="k">Zone 06</div><b>CNC / CCTV / IoT</b><p>จะถูกแยกเป็น Special Network Zones เมื่อมี inventory และ VLAN evidence เพิ่ม</p><span class="tag wait">Pending</span></div>
-    </div>
-  </section>
+<path class="edge" d="M395 441 V505"/><path class="edge" d="M635 441 V505"/><path class="edge" d="M875 441 V505"/><path class="edge" d="M1110 441 V505"/>
+<g class="node infra"><rect x="165" y="505" rx="14" width="250" height="76"/><text x="186" y="533">Production / Plant</text><text class="small" x="186" y="554">Production endpoints · machine evidence</text></g>
+<g class="node"><rect x="430" y="505" rx="14" width="250" height="76"/><text x="451" y="533">Plant / Building Mixed</text><text class="small" x="451" y="554">Building/plant endpoints + embedded</text></g>
+<g class="node"><rect x="695" y="505" rx="14" width="250" height="76"/><text x="716" y="533">Secondary Client</text><text class="small" x="716" y="554">Laptop/client evidence</text></g>
+<g class="node pending"><rect x="960" y="505" rx="14" width="250" height="76"/><text x="981" y="533">Special / Sparse Segments</text><text class="small" x="981" y="554">Low-density / special-purpose networks</text></g>
 
-  <section id="discovery" class="panel">
-    <h2>Discovery Status</h2>
-    <p class="lead">สถานะความสมบูรณ์ของ Network Digital Twin ณ Baseline วันที่ 5 ต.ค. 2026</p>
-    <div class="cards">
-      <div class="card"><div class="k">Layer 1</div><b>Client & Gateway</b><p>Interface, gateway, DNS, DHCP และ client connectivity ถูกตรวจสอบแล้ว</p><span class="tag ok">Complete</span></div>
-      <div class="card"><div class="k">Layer 2</div><b>Network Services</b><p>Directory/DNS/DHCP และ corporate file services มี reachability evidence</p><span class="tag ok">Complete</span></div>
-      <div class="card"><div class="k">Layer 3</div><b>Logical Routing</b><p>พบ routing path ระหว่าง client, server services และ Internet</p><span class="tag ok">Complete</span></div>
-      <div class="card"><div class="k">Layer 4</div><b>Switch Port Mapping</b><p>ต้องใช้ read-only management access เพื่ออ่าน MAC table และ uplink</p><span class="tag wait">Pending</span></div>
-      <div class="card"><div class="k">Layer 5</div><b>Wi‑Fi AP Mapping</b><p>ต้องใช้ read-only AP/controller data เพื่อรู้ว่า client เกาะ AP ตัวใดและตำแหน่งใด</p><span class="tag wait">Pending</span></div>
-      <div class="card"><div class="k">Layer 6</div><b>Live Monitoring</b><p>Baseline health พร้อมแล้ว; ขั้นต่อไปคือ change detection และ alerting</p><span class="tag info">Ready for Agent</span></div>
-    </div>
-    <div class="note">หลักการของโครงการ: Evidence before assumption — สิ่งที่ยังไม่มีข้อมูลจากอุปกรณ์ส่วนกลางจะถูกแสดงเป็น Discovery Pending ไม่เดา topology เพิ่มเอง</div>
-    <div class="note security"><b>Security boundary:</b> หน้า Public นี้ไม่แสดง IP address, hostname, MAC address, mapped drive หรือรายละเอียด topology ที่อาจใช้โจมตีระบบภายในได้ รายละเอียดจริงเก็บใน Internal Network Digital Twin เท่านั้น</div>
-  </section>
+<path class="edge dash" d="M290 581 V660 H510"/><path class="edge dash" d="M555 581 V660 H510"/><path class="edge dash" d="M820 581 V660 H750"/><path class="edge dash" d="M1085 581 V660 H750"/>
+<g class="node infra"><rect x="390" y="660" rx="14" width="300" height="82"/><text x="414" y="691">Server / File / Backup</text><text class="small" x="414" y="713">Windows server estate · shared services</text></g>
+<g class="node"><rect x="710" y="660" rx="14" width="300" height="82"/><text x="734" y="691">Managed / Embedded Estate</text><text class="small" x="734" y="713">Switch · AP · VoIP · CCTV · printers</text></g>
+</svg></div></section>
 
-  <footer><span>Practika Network Diagram · Executive Public-safe View</span><span>Baseline: 5 Oct 2026 · Source: read-only network discovery</span></footer>
-</div>
-<script>
-document.querySelectorAll(".tab").forEach(btn=>btn.addEventListener("click",()=>{
-  document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));
-  document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));
-  btn.classList.add("active"); document.getElementById(btn.dataset.panel).classList.add("active");
-}));
-</script>
-</body>
-</html>
+<section id="zones" class="panel"><h2>Logical Zones</h2><p class="lead">15 discovered network segments ถูกยุบเป็น business/network roles เพื่อไม่เผย addressing ภายในบน Public Web</p><div class="cards">
+<div class="card"><b>Core Infrastructure / Security</b><p>Directory, DNS, DHCP, security and embedded infrastructure services.</p><span class="tag ok">Confirmed</span></div>
+<div class="card"><b>Application / Server Zone</b><p>Intranet, JDE web applications, Veeam and Windows application services.</p><span class="tag ok">Confirmed</span></div>
+<div class="card"><b>File / Backup Services</b><p>Corporate shared storage, backup and Windows server workloads.</p><span class="tag ok">Confirmed</span></div>
+<div class="card"><b>Network / Wi‑Fi Management</b><p>AP/switch/embedded management evidence including Cisco WAP family.</p><span class="tag info">Strong evidence</span></div>
+<div class="card"><b>Building 1 · Floors 1–3</b><p>Desktop/user access networks with VoIP/embedded endpoints.</p><span class="tag ok">OU + live evidence</span></div>
+<div class="card"><b>Production / Plant</b><p>Production endpoints and machine-related evidence including HOMAG naming.</p><span class="tag ok">Strong evidence</span></div>
+<div class="card"><b>Plant / Building Mixed</b><p>Mixed building/plant endpoints and embedded equipment.</p><span class="tag info">Medium confidence</span></div>
+<div class="card"><b>Corporate Wi‑Fi / Laptop</b><p>Wireless and mobile client access segments.</p><span class="tag ok">Confirmed</span></div>
+<div class="card"><b>Print / Device / VoIP</b><p>Network printers and GRP-series VoIP endpoints.</p><span class="tag ok">Service/banner evidence</span></div>
+</div></section>
+
+<section id="roles" class="panel"><h2>Discovered Device Estate</h2><p class="lead">Device classes จาก AD OS + network service + unauthenticated banner evidence</p><div class="rolegrid">
+<div class="role"><b>Windows Endpoints</b><span>Desktop / laptop estate</span></div><div class="role"><b>Windows Servers</b><span>Directory / file / backup / applications</span></div><div class="role"><b>Managed Devices</b><span>Switch / AP / embedded web & SSH</span></div><div class="role"><b>VoIP</b><span>Grandstream GRP family evidence</span></div><div class="role"><b>CCTV / Video</b><span>RTSP/video candidates</span></div><div class="role"><b>Printers</b><span>Corporate print devices</span></div><div class="role"><b>Production</b><span>Plant/machine-associated endpoints</span></div><div class="role"><b>Unknown</b><span>Responding devices awaiting controller/DHCP evidence</span></div>
+</div><div class="note">Internal Master Dashboard บนเครื่องที่ได้รับสิทธิ์จะแสดง IP, hostname, OS, OU, open services, web banner และ AD/DNS evidence รายเครื่องทั้งหมด</div></section>
+
+<section id="statusp" class="panel"><h2>Discovery Status</h2><div class="cards">
+<div class="card"><b>Logical estate</b><p>Expanded from a small client view to multi-segment enterprise discovery.</p><span class="tag ok">Complete baseline</span></div>
+<div class="card"><b>Active Directory</b><p>Computer objects, OS, last-logon and OU/location evidence integrated.</p><span class="tag ok">Integrated</span></div>
+<div class="card"><b>Service fingerprint</b><p>Common server, printer, VoIP, CCTV and managed-device services profiled.</p><span class="tag ok">Integrated</span></div>
+<div class="card"><b>Physical switch ports</b><p>Requires read-only switch MAC table / LLDP / controller access.</p><span class="tag wait">Pending management plane</span></div>
+<div class="card"><b>AP association</b><p>Requires read-only Wi‑Fi controller/AP inventory.</p><span class="tag wait">Pending management plane</span></div>
+<div class="card"><b>Firewall interfaces/VLAN truth</b><p>Requires read-only firewall/core configuration export.</p><span class="tag wait">Pending management plane</span></div>
+</div><div class="note security"><b>Public security boundary:</b> IP addresses, hostnames, MAC addresses, OS versions, stale directory records and management endpoints are intentionally withheld from this page.</div></section>
+<footer><span>Practika Network Diagram · Executive Public-safe View</span><span>Source: read-only network / AD / DNS / service discovery · Detailed evidence remains internal</span></footer>
+</div><script>document.querySelectorAll(".tab").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".tab").forEach(x=>x.classList.remove("active"));document.querySelectorAll(".panel").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.getElementById(b.dataset.tab).classList.add("active")}));</script></body></html>
