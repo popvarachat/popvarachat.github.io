@@ -182,6 +182,10 @@ const overrides = {
     title:"Practika Building Digital Twin",
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม — ระบบภายใน ต้องได้รับสิทธิ์ก่อนเข้าใช้งาน"
   },
+  "network-diagram-public": {
+    title:"Practika Network Diagram",
+    description:"Executive Public-safe Network Architecture · ภาพรวมองค์กรแบบ Web แยก Confirmed topology ออกจาก Discovery Pending โดยไม่เปิดเผย IP/hostname ภายใน"
+  },
   "chair-import-cost-manual": {
     title:"Chair Import Cost Intelligence · Independent GitHub Edition",
     description:"Independent Production · ระบบวิเคราะห์ต้นทุนเก้าอี้นำเข้าชุดใหม่ แยก DB / Backend / Deployment / Access Control ออกจากระบบ Apps Script เดิมโดยสมบูรณ์"
@@ -227,6 +231,11 @@ const architectures = {
     note:"ระบบ Digital Twin อาคารภายใน เชื่อมผังจริง ทรัพย์สิน และประวัติซ่อมภายใต้การควบคุมสิทธิ์ เพื่อให้ข้อมูลหน้างานย้อนกลับถึง Master ได้",
     flow:[["Access","Login / allowlist / role"],["Twin UI","Building Digital Twin web app"],["Master","As-built / CAD master"],["Assets","ทะเบียนทรัพย์สิน"],["Maintenance","แจ้งซ่อม + ประวัติซ่อม"],["Control","Admin / audit / update"],["Decision","Facility & management view"]],
     meta:["Internal · Admin","As-built Master","Maintenance History"]
+  },
+  "network-diagram-public": {
+    note:"Public-safe executive Network Diagram derived from verified discovery evidence. Sensitive addressing and infrastructure identifiers remain internal.",
+    flow:[["Endpoints","Employee devices"],["Access","Corporate Wi-Fi / LAN"],["Routing","Inter-zone routing"],["Core & Security","Firewall / Core layer"],["Services","Directory + File services"],["Internet","External connectivity"]],
+    meta:["Public-safe","Evidence-based","No internal IPs","Physical layer pending"]
   },
   "car-digital-twin-dashboard-manual": {
     note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
@@ -304,6 +313,16 @@ const manualApps = [
     topics:["Internal · Admin"],
     language:"Web App",
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม"
+  },
+  {
+    name:"network-diagram-public",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/network-diagram/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/network-diagram",
+    updated_at:"2026-10-05T05:30:00Z",
+    topics:["Network Architecture"],
+    language:"HTML",
+    description:"Executive public-safe Network Diagram for Practika with logical zones and discovery status."
   },
   {
     name:"car-digital-twin-dashboard-manual",
