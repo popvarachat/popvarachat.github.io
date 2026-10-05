@@ -36,6 +36,11 @@
       "time": "05 Oct",
       "title": "Jev live connection verified",
       "detail": "API key เก็บใน Windows Credential Manager; models endpoint ผ่าน; smoke test 5 decisions ได้ 4/5 agreement, avg latency 419.54 ms, p95 451.4 ms. DONE signal ยังไม่ตรง baseline จึงคง SHADOW mode ตาม policy."
+    },
+    {
+      "time": "05 Oct",
+      "title": "RDC real workflow topology deployed",
+      "detail": "เปลี่ยน Architecture จาก flow เส้นตรงเป็น branching execution topology จริง เชื่อม Hard Policy, Jev, Agent/Sub-Agent, Skill Resolver, Global Arsenal, API/MCP/CLI/OI/UI, Final Validator, Retry loop และ Human Gate."
     }
   ],
   "candidates": [

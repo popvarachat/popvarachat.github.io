@@ -42,23 +42,125 @@
 
   <section id="architecture" class="section">
     <div class="section-head">
-      <div><span class="kicker">EXECUTION ARCHITECTURE</span><h2>เร็ว เพราะใช้ Backend ก่อน UI</h2></div>
+      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Workflow จริง: RDC · Jev · Agent · Sub-Agent · Skill · MCP · CLI · OI</h2></div>
       <span id="healthBadge" class="badge"></span>
     </div>
-    <div class="pipeline">
-      <div class="stage hot"><b>Human / ChatGPT</b><span>Intent + approval</span></div>
-      <div class="arrow">→</div>
-      <div class="stage hot"><b>RDC Orchestrator</b><span>Plan · route · verify</span></div>
-      <div class="arrow">→</div>
-      <div class="stage"><b>Jev Decision Layer</b><span>Bounded System-One routing · SHADOW first</span></div>
-      <div class="arrow">→</div>
-      <div class="stage"><b>API / MCP / CLI</b><span>First choice</span></div>
-      <div class="arrow">→</div>
-      <div class="stage"><b>Agent Swarm</b><span>Parallel specialist work</span></div>
-      <div class="arrow">→</div>
-      <div class="stage"><b>Final Validator</b><span>Evidence before DONE</span></div>
-      <div class="arrow">→</div>
-      <div class="stage safe"><b>DONE / Human Gate</b><span>No silent risk</span></div>
+    <div class="workflow-shell">
+      <div class="workflow-toolbar">
+        <span><i class="legend solid"></i> Execution</span>
+        <span><i class="legend advisory"></i> Advisory / SHADOW</span>
+        <span><i class="legend feedback"></i> Retry / feedback</span>
+        <span><i class="legend gate"></i> Human Gate</span>
+        <span class="hint">คลิก Node เพื่อดูบทบาทจริง</span>
+      </div>
+      <div class="workflow-scroll">
+        <div class="workflow-surface" aria-label="RDC real workflow topology">
+          <svg class="workflow-links" viewBox="0 0 1120 760" preserveAspectRatio="none" aria-hidden="true">
+            <defs>
+              <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
+              <marker id="arrAdv" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
+              <marker id="arrGate" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
+            </defs>
+            <path class="wf-link solid" d="M210 82 C245 82 260 82 295 82"/>
+            <path class="wf-link solid" d="M505 82 C540 82 555 82 590 82"/>
+            <path class="wf-link gate" d="M790 82 C835 82 850 82 890 82"/>
+            <path class="wf-link solid" d="M400 125 C400 145 400 150 400 180"/>
+            <path class="wf-link advisory" d="M505 222 C540 222 555 215 590 215"/>
+            <path class="wf-link advisory" d="M505 222 C545 240 555 300 590 320"/>
+            <path class="wf-link advisory" d="M505 222 C545 270 555 405 590 425"/>
+            <path class="wf-link advisory" d="M505 222 C545 300 555 510 590 530"/>
+            <path class="wf-link solid" d="M350 125 C300 175 245 300 220 355"/>
+            <path class="wf-link solid" d="M400 125 C480 180 530 270 590 320"/>
+            <path class="wf-link solid" d="M590 215 C480 250 330 310 220 355"/>
+            <path class="wf-link solid" d="M590 320 C470 350 330 380 220 405"/>
+            <path class="wf-link advisory" d="M375 480 C445 450 500 365 590 320"/>
+            <path class="wf-link solid" d="M220 410 C430 410 620 335 825 335"/>
+            <path class="wf-link advisory" d="M220 565 C310 540 335 410 350 125"/>
+            <path class="wf-link solid" d="M760 215 C800 230 820 260 825 300"/>
+            <path class="wf-link solid" d="M760 320 C800 320 810 320 825 320"/>
+            <path class="wf-link solid" d="M760 425 C800 405 810 380 825 360"/>
+            <path class="wf-link solid" d="M935 430 C935 455 935 470 935 500"/>
+            <path class="wf-link solid" d="M935 585 C935 610 975 620 985 650"/>
+            <path class="wf-link feedback" d="M825 545 C775 545 755 540 760 530"/>
+            <path class="wf-link feedback" d="M590 530 C470 560 425 585 400 650"/>
+            <path class="wf-link feedback" d="M350 650 C275 630 245 170 315 125"/>
+            <path class="wf-link advisory" d="M505 222 C520 420 500 620 455 675"/>
+            <path class="wf-link advisory" d="M825 550 C700 620 560 650 455 675"/>
+          </svg>
+
+          <button class="wf-node human" data-title="Human / ChatGPT" data-detail="กำหนดเป้าหมาย ขอบเขต และอนุมัติ Human Gate. ไม่ใช่ executor โดยตรง.">
+            <span class="wf-kicker">INTENT</span><b>Human / ChatGPT</b><small>Goal · scope · approval</small>
+          </button>
+
+          <button class="wf-node rdc" data-title="RDC Orchestrator" data-detail="ศูนย์บัญชาการหลัก: โหลด context, แตกงาน, เลือก Agent/Skill, batch/parallel, retry, ตรวจผล และหยุดเฉพาะ DONE/Human Gate.">
+            <span class="wf-kicker">CONTROL PLANE</span><b>RDC Orchestrator</b><small>FAST EXECUTION MODE</small>
+          </button>
+
+          <button class="wf-node policy" data-title="Hard Policy Engine" data-detail="กฎ deterministic อยู่เหนือ Jev/Agent ทุกตัว. Credential, destructive, production impact, live money และ security weakening ต้อง Human Gate.">
+            <span class="wf-kicker">PRECEDENCE</span><b>Hard Policy</b><small>Fail closed · Gate first</small>
+          </button>
+
+          <button class="wf-node human-gate" data-title="Human Gate" data-detail="จุดหยุดสำหรับ privileged/high-impact actions. Jev และ Sub-agent ไม่มีสิทธิ์ bypass.">
+            <span class="wf-kicker danger">STOP / APPROVE</span><b>Human Gate</b><small>Explicit approval</small>
+          </button>
+
+          <button class="wf-node jev" data-title="Jev Decision Coprocessor" data-detail="System-One sidecar ใต้ Orchestrator. ตอนนี้ READY_SHADOW: ให้คำแนะนำ Agent / Skill / Retry / Model และ DONE signal แต่ยังไม่มี execution authority.">
+            <span class="wf-kicker">SYSTEM-1</span><b>Jev Coprocessor</b><small id="jevGraphStatus">READY_SHADOW · jev-latest</small>
+          </button>
+
+          <button class="wf-node router agent-router" data-title="Agent Router" data-detail="เลือก Agent ที่แคบที่สุดซึ่งเหมาะกับงาน. Jev ช่วย score ใน SHADOW; Orchestrator ยังเป็นผู้ตัดสินจริง.">
+            <b>Agent Router</b><small>12 roles</small>
+          </button>
+
+          <button class="wf-node router skill-router" data-title="Skill Resolver" data-detail="Local-first: ใช้ 14 Local Skills ก่อน. ถ้าขาด capability จึงค้น Global Arsenal และ lazy-load เฉพาะ pinned + SHA verified skill.">
+            <b>Skill Resolver</b><small>14 local + Lazy Global</small>
+          </button>
+
+          <button class="wf-node router model-router" data-title="Model Router" data-detail="เลือก deterministic rule / Jev / Claude / Ollama / deep reasoning ตามความซับซ้อนและ latency. Gemini CLI ยัง disabled ตามสถานะปัจจุบัน.">
+            <b>Model Router</b><small>Rule · Jev · Claude · Ollama</small>
+          </button>
+
+          <button class="wf-node router retry-router" data-title="Retry / Recovery Router" data-detail="จำแนก RETRY_SAME, CHANGE_METHOD, CALL_DEBUGGER, ROLLBACK, DEEP_REASONING หรือ HUMAN_GATE. Safe retry ทำอัตโนมัติ.">
+            <b>Retry Router</b><small>Recover · rollback · resume</small>
+          </button>
+
+          <button class="wf-node agent-force" data-title="Agent Force" data-detail="Controller/Execution roles: shell-api-executor, code-builder, data-engineer, github-release, recovery-agent และ ui-fallback ทำ mutation เฉพาะ scope ที่ได้รับอนุญาต.">
+            <span class="wf-kicker">EXECUTORS</span><b>Agent Force</b><small>Shell/API · Code · Data · GitHub · Recovery · UI</small>
+          </button>
+
+          <button class="wf-node subagents" data-title="Sub-Agent / Reviewer Swarm" data-detail="Advisory/read-only by default: debugger, research-scout, qa-verifier, security-gatekeeper, context-librarian. ทำงานขนานเพื่อลดภาระ context หลัก.">
+            <span class="wf-kicker">PARALLEL ADVISORY</span><b>Sub-Agent Swarm</b><small>Debug · Research · QA · Security · Context</small>
+          </button>
+
+          <button class="wf-node arsenal" data-title="Global Arsenal" data-detail="เก็บ metadata เบา ๆ ไม่ preload. เมื่อต้องใช้จึง fetch exact pinned commit, verify SKILL.md SHA และ cache จำกัด.">
+            <span class="wf-kicker">LAZY LOAD</span><b>Global Arsenal</b><small>Know broadly · load narrowly</small>
+          </button>
+
+          <div class="wf-node execution" data-title="Execution Fabric">
+            <span class="wf-kicker">EXECUTION FABRIC</span><b>API · MCP · CLI · OI · UI</b>
+            <div id="fabricGraph" class="fabric-pills">
+              <span>API</span><span>MCP</span><span>CLI</span><span>OI</span><span>UI</span>
+            </div>
+            <small>Backend first · UI last</small>
+          </div>
+
+          <button class="wf-node validator" data-title="Final Validator" data-detail="ตรวจ source of truth ใหม่หลัง mutation, run tests/health checks และไม่รายงาน DONE จาก intent หรือ partial success. Jev DONE เป็น advisory เท่านั้น.">
+            <span class="wf-kicker">SYSTEM-2 CHECK</span><b>Final Validator</b><small>Evidence before DONE</small>
+          </button>
+
+          <button class="wf-node telemetry" data-title="Shadow Telemetry" data-detail="เก็บ Jev confidence, agreement, latency, token usage และ fallback โดยไม่ log raw state/secret. ใช้ตัดสินว่าจะ promote Jev หรือไม่.">
+            <span class="wf-kicker">OBSERVE</span><b>Shadow Telemetry</b><small>Agreement · latency · cost</small>
+          </button>
+
+          <button class="wf-node done" data-title="DONE" data-detail="จบเมื่อ objective validation ผ่านและไม่มี blocker/Human Gate ค้างอยู่.">
+            <span class="wf-kicker success">VERIFIED</span><b>DONE</b><small>Observed final state</small>
+          </button>
+        </div>
+      </div>
+      <div class="workflow-inspector" id="workflowInspector">
+        <div><span class="kicker">NODE INSPECTOR</span><h3 id="wfInspectTitle">RDC Real Workflow</h3></div>
+        <p id="wfInspectText">เส้นทึบ = execution, เส้นประ = advisory/SHADOW, สีส้ม = retry loop, สีแดง = Human Gate. คลิก Node ใดก็ได้เพื่อดูหน้าที่จริง.</p>
+      </div>
     </div>
     <div class="architecture-grid">
       <article><h3>FAST EXECUTION MODE</h3><div id="rules" class="rule-list"></div></article>

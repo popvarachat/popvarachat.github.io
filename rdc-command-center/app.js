@@ -24,6 +24,40 @@ const fmt=n=>new Intl.NumberFormat("en",{notation:"compact",maximumFractionDigit
     ["Authority","SHADOW · no execution"]
   ].map(x=>`<div class="provider"><span>${esc(x[0])}</span><b class="${String(x[1]).includes("READY")?"ok":"warning"}">${esc(x[1])}</b></div>`).join("");
 
+  const jevGraph=document.getElementById("jevGraphStatus");
+  if(jevGraph) jevGraph.textContent=`${dc.status||"UNKNOWN"} · ${dc.model||"—"}`;
+
+  const fabric=s.execution_fabric||{};
+  const fabricEl=document.getElementById("fabricGraph");
+  if(fabricEl){
+    fabricEl.innerHTML=Object.values(fabric)
+      .sort((a,b)=>(a.preferred_order||99)-(b.preferred_order||99))
+      .map(x=>{
+        const st=String(x.status||"UNKNOWN");
+        const cls=st==="ACTIVE"||st==="AVAILABLE"?"ok":st.includes("FALLBACK")||st.includes("ON_DEMAND")?"fallback":"warn";
+        return `<span class="${cls}" title="${esc(x.detail||"")}">${esc(x.name)} · ${esc(st.replaceAll("_"," "))}</span>`;
+      }).join("");
+    const execNode=document.querySelector(".wf-node.execution");
+    if(execNode){
+      execNode.dataset.detail=Object.values(fabric).sort((a,b)=>(a.preferred_order||99)-(b.preferred_order||99))
+        .map(x=>`${x.name}: ${x.status} — ${x.detail}`).join(" | ");
+      execNode.setAttribute("role","button"); execNode.setAttribute("tabindex","0");
+    }
+  }
+
+  const inspectorTitle=document.getElementById("wfInspectTitle");
+  const inspectorText=document.getElementById("wfInspectText");
+  const inspectNode=node=>{
+    document.querySelectorAll(".wf-node.active").forEach(n=>n.classList.remove("active"));
+    node.classList.add("active");
+    if(inspectorTitle) inspectorTitle.textContent=node.dataset.title||node.querySelector("b")?.textContent||"RDC Node";
+    if(inspectorText) inspectorText.textContent=node.dataset.detail||"Execution component in the RDC workflow.";
+  };
+  document.querySelectorAll(".wf-node").forEach(node=>{
+    node.addEventListener("click",()=>inspectNode(node));
+    node.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();inspectNode(node);}});
+  });
+
   document.getElementById("agentsGrid").innerHTML=s.agents_list.map(x=>`
     <article class="card">
       <div class="card-head"><span class="chip">${esc(x.type)}</span><span class="chip ${x.write?"write":"read"}">${x.write?"scoped write":"read / review"}</span></div>

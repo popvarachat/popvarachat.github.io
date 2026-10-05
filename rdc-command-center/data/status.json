@@ -35,6 +35,38 @@
     "mode": "SHADOW",
     "model": "jev-latest"
   },
+  "execution_fabric": {
+    "api": {
+      "name": "API / HTTP",
+      "status": "AVAILABLE",
+      "detail": "PowerShell + Python HTTP clients",
+      "preferred_order": 1
+    },
+    "mcp": {
+      "name": "MCP",
+      "status": "ACTIVE",
+      "detail": "Remote Desktop Commander / connector execution",
+      "preferred_order": 2
+    },
+    "cli": {
+      "name": "CLI",
+      "status": "ACTIVE",
+      "detail": "PowerShell / Python / Git / GitHub CLI",
+      "preferred_order": 3
+    },
+    "oi": {
+      "name": "OI / Open Interpreter",
+      "status": "INSTALLED_ON_DEMAND",
+      "detail": "interpreter 0.0.45",
+      "preferred_order": 4
+    },
+    "ui": {
+      "name": "Browser / UI",
+      "status": "FALLBACK_ONLY",
+      "detail": "Use only when backend path is insufficient",
+      "preferred_order": 5
+    }
+  },
   "rules": [
     "API/MCP/CLI first",
     "Parallelize independent tasks",
