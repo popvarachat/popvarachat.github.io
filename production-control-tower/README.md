@@ -1,68 +1,105 @@
-# Practika Production Control Tower — Rebuild Baseline
+# Practika Production Control Tower — Rebuild Baseline V2
 
-Status: **Design baseline / ready for implementation**. No production write-back is enabled.
+Status: **Design / read-only baseline**. Production write-back remains disabled.
 
 ## Purpose
-Rebuild the legacy SO/WO/Cutting Microsoft Access application as a web-first Production Intelligence & Planning Control Tower while preserving traceability to the original operational data.
+Rebuild the legacy SO/WO/Cutting Microsoft Access application as a web-first Production Intelligence & Planning Control Tower while preserving ERP traceability, routing logic, status/stage rules and source lineage.
 
-## Evidence used
-- SO_WO_Cutting.accdb
-- SO_WO_Cutting_Inventory.accdb
-- SO_WO.csv
-- TimeEntry.csv
-- ItemCutting.csv
-- OnHand.csv
-- SaleInquiry.csv
+## Second evidence pass — major change
+The newer archive added the previously missing operational sources and changed the target architecture materially:
 
-Legacy Access also references sources not supplied in the current package: PO.csv, ControlPlan.csv, Partlist.csv, WOPrice.csv, WOPrice2.csv.
+- **ControlPlan.csv** — 886,404 routing rows, 149,616 group numbers, 30,789 WO, 75 Business Units, 60 operation descriptions.
+- **40.xls** — later 2021–2022 monitor extract with 30,546 unique Cutting and 6,115 WO; 99.87% of Cutting numbers link to ControlPlan and 100% of WO link to ControlPlan.
+- **CuttingStatus.xlsx / CrossTable.xlsx** — 789 observed stage-mapping rows (785 unique combinations) using Cutting Type + Cutting Status + Last ControlPlan family.
+- **Partlist.csv** — 14,558 unique WO and strong linkage to the 2020 SO_WO snapshot.
+- **PO.csv** — 1,414 PO lines, 713 PO, 247 suppliers and promised-delivery evidence.
+- **OnHand.csv** — 226 fields including soft/hard commitments, project commitments, in-transit, on-PO, inspection, unit cost, planner, buyer, cumulative lead time, make/buy and stocking type.
+- **phone.xls** — 152,551 operation events with Work Center / Team / Begin-End timestamps; Hours-Actual is zero on every row, so it cannot be treated as actual duration without a quality rule.
 
-## Confirmed legacy joins
-- SO_WO.[Cutting Number] = ItemCutting.[Group Number] — 100% coverage for the 9,335 cutting jobs in the supplied SO_WO extract.
-- SO_WO.[Cutting Number] = TimeEntry.[Cutting Number] — 84.9% coverage for the supplied period.
-- SO_WO.[Related SO No] ≈ SaleInquiry.[Order Number] — 97.7% of distinct related SO numbers in the supplied extract.
-- SO_WO.[WO Number] = ItemCutting.[Order Number] — 100% coverage for the 2,003 WO in the supplied SO_WO extract.
-- Legacy Access metadata contains ItemCutting.[Item Number] = OnHandSum.[Item Number].
+## Critical source-lineage finding
+The archive is **not one synchronized snapshot**. Different files cover different periods (for example SO_WO.xlsx is mainly 2020, ItemCutting/SaleInquiry/PO are mainly 2021, and 40.xls spans 2021–2022).
 
-## Target architecture
-1. Immutable raw ingestion and source row hashes.
-2. Normalized PostgreSQL schema.
-3. Rules engine for material readiness, late risk, WIP aging, bottleneck and stale status.
-4. Read API for browser and agent consumers.
-5. Production Control Tower UI.
-6. AI recommendation layer behind Human Gate.
-7. Controlled write-back only after UAT, approval and source-of-truth verification.
+Therefore a failed cross-file join can mean “different source periods”, not “broken business key”.
 
-## Core normalized flow
-Customer / Project
-→ Sales Order
-→ Sales Order Line
-→ Work Order
-→ Cutting Job
-→ Cutting Component / Control Plan
-→ Inventory Snapshot / Purchase Order
-→ Work Center / Operation Event / Status Event
-→ Planning Decision / Alert
-→ Delivery outcome
+V2 makes `source_batch`, valid period, extract timestamp, row hash and data-quality state first-class fields before normalization.
 
-## Design rules
-- No hidden business rules in Access query/form logic.
-- No direct browser-to-database writes.
-- Preserve status transition history; do not overwrite history.
-- Inventory is a time-stamped snapshot.
-- Planning recommendation is not production authorization.
-- AI outputs begin as PROPOSED; release, reprioritization and override remain Human Gate.
-- Every imported record should be traceable using source_record_map.
+## Recovered Access business logic
+Reverse engineering found these important constructs in the legacy Access files:
+
+- `ControlPlanAdj`
+- `CuttingProduction`
+- `CuttingTypeStatusControl`
+- `StatusNoControlPlan`
+- `MapControlPlan`
+- `Business Unit Status`
+
+Observed logic includes:
+- `SO_WO.[Cutting Number] = ControlPlanAdj.[Group Number]`
+- Current stage depends on **Cutting Type + Cutting Status + Last ControlPlan family**
+- Legacy fallback pattern: `IIf([StatusNow] Is Null,[StatusNow2],[StatusNow])`
+
+This means the rebuilt system should not derive “current production department” from Cutting Status alone.
+
+## V2 deterministic architecture
+1. Source Batch / lineage gate.
+2. Normalize SO / WO / Cutting.
+3. Promote ControlPlan to the routing backbone.
+4. Resolve current stage through an effective-dated `production_stage_rule`.
+5. Keep newly observed statuses unmapped until business-approved.
+6. Model material availability as components of ATP — not just On Hand.
+7. Use TimeEntry timestamps only after date/time quality checks.
+8. Build reports and scenario planning on top of deterministic evidence.
+9. Keep AI recommendations advisory behind Human Gate.
+
+## Newly observed Cutting statuses requiring explicit review
+- 50 — จ้างผลิต RM อุปกรณ์ - PTK
+- 53 — จ้างผลิตบางส่วน
+- 74 — ผ่านบางส่วน
+- 80 — ซ่อมงาน
+
+The system intentionally resolves these to **UNMAPPED / REVIEW** until an approved stage rule exists.
+
+## Dynamic scheduling boundary
+Operation sequence and Work Center routing are now evidenced, but production-grade finite-capacity scheduling still needs:
+
+- certified setup/run standard time,
+- Work Center / machine / labor capacity calendar by date/shift,
+- maintenance/downtime windows,
+- certified actual minutes or a governed derivation rule.
+
+Until those P0 fields are connected, Scenario Planner remains **simulation only** and Publish/write-back is disabled.
+
+## Jev SHADOW architecture review
+Jev 1.13.0 was called through RDC as a bounded SHADOW coprocessor. It selected:
+
+- SOURCE_BATCH_FIRST
+- EFFECTIVE_DATED_RULE_TABLE
+- ROUTING_BACKBONE
+- ATP_LEDGER
+- SCENARIO_DESIGN_ONLY
+- DERIVE_WITH_QUALITY_GATE
+- ROUTE_STAGE_BOTTLENECK
+- LINEAGE_RULES_ROUTING_FIRST
+
+Jev has no production execution authority.
 
 ## Files
-- index.html — interactive executive workflow, target ERD, legacy evidence and implementation baseline.
-- schema.sql — normalized PostgreSQL DDL baseline.
+- `index.html` — Workflow, Report Center, Rebuild V2 Evidence, Scenario Planner, ERP API Contract, ERD.
+- `schema.sql` — original normalized PostgreSQL baseline.
+- `production_domain_v2.sql` — source lineage, stage rules, routing hardening, ATP components and TimeEntry quality.
+- `scheduler_schema.sql` — scenario scheduling and fail-closed publish gate.
+- `report_views.sql` — reporting semantic layer.
+- `erp_api_field_contract.csv` — IT/API field contract.
+- `data/source_evidence_v2.json` — public-safe second-pass evidence summary.
+- `data/jev_architecture_review.json` — Jev SHADOW decisions.
 
 ## Recommended implementation sequence
-1. Create staging PostgreSQL from schema.sql.
-2. Build deterministic ETL for the five supplied CSV sources.
-3. Add data-quality gates: orphan FK, duplicate key, impossible dates, broken status sequence, missing TimeEntry after release.
-4. Connect PO / ControlPlan / Partlist exports.
-5. Build read-only API and Control Tower dashboard.
-6. Add rule-based material readiness and exception scoring.
-7. Add AI recommendations.
-8. Enable Human-approved write-back only after UAT and audit controls are accepted.
+1. Source-batch ingestion + date quarantine.
+2. WO / Cutting / ControlPlan / Work Center normalization.
+3. Import legacy stage rules as OBSERVED; verify business rules before promotion to VERIFIED.
+4. ItemCutting + OnHand commitments + PO/Supplier ETA.
+5. TimeEntry timestamp quality + provisional duration.
+6. Route/Stage/WIP reporting.
+7. Connect Standard Time + Capacity Calendar.
+8. Run finite-capacity scenarios.
+9. Enable Human-approved write-back only after UAT and source-of-truth verification.
