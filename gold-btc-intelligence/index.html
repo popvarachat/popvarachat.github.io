@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GOLD / BTCUSD Executive Intelligence</title>
-  <link rel="stylesheet" href="styles.css?v=forex-source-v2" />
+  <link rel="stylesheet" href="styles.css?v=forex-source-v3" />
 </head>
 <body>
   <div class="shell">
@@ -217,15 +217,15 @@
 
       <section class="forex-major-section">
         <div class="section-title">
-          <div><span class="step">05</span><h2>FOREX Major Intelligence — MT5 + Macro + COT + JEV</h2></div>
+          <div><span class="step">05</span><h2>FOREX Major Intelligence — MT5 Live + Broker Export + Macro + COT + JEV</h2></div>
           <span class="muted">AUDUSD · NZDUSD · USDJPY · EURUSD · USDCHF · GBPUSD · USDCAD · institutional source lineage</span>
         </div>
         <div id="forexSummary" class="fx-summary-grid"></div>
         <article class="fx-table-card">
-          <div class="fx-table-note"><b>Research rule:</b> public daily reference only. Trend/return/volatility and JEV Shadow are research context, not broker quotes and not executable signals.</div>
+          <div class="fx-table-note"><b>Source rule:</b> MT5 Live is preferred. If IPC is unavailable, MT5 broker-exported history is used as broker evidence while Public / Macro / COT provide current context. Historical broker data is never presented as live. Execution remains disabled.</div>
           <div class="table-scroll">
             <table class="fx-table">
-              <thead><tr><th>Pair</th><th>Reference</th><th>MT5</th><th>Public</th><th>Macro</th><th>CFTC COT</th><th>1D</th><th>5D</th><th>1M</th><th>3M</th><th>Vol 20D</th><th>Regime</th><th>JEV Thesis</th><th>JEV Stage / Risk</th></tr></thead>
+              <thead><tr><th>Pair</th><th>Reference</th><th>MT5 Live</th><th>MT5 Export</th><th>Public</th><th>Macro</th><th>CFTC COT</th><th>1D</th><th>5D</th><th>1M</th><th>3M</th><th>Vol 20D</th><th>Regime</th><th>JEV Thesis</th><th>JEV Stage / Risk</th></tr></thead>
               <tbody id="forexTable"></tbody>
             </table>
           </div>
@@ -299,6 +299,6 @@
       <span>Read-only / No financial mutation</span>
     </footer>
   </div>
-  <script src="app.js?v=forex-source-v2"></script>
+  <script src="app.js?v=forex-source-v3"></script>
 </body>
 </html>
