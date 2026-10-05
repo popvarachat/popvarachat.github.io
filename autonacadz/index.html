@@ -1,57 +1,183 @@
 <!doctype html>
 <html lang="th">
 <head>
-<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>AutoNaCadz for Korex · Executive Control Portal</title>
-<meta name="description" content="Executive architecture, governance, CAD QA and roadmap for AutoNaCadz for Korex.">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f5f9ff">
+<title>AutoNaCadz for Korex · Operational Web App</title>
+<meta name="description" content="Operational gateway for AutoNaCadz for Korex. Connects GitHub Pages to the local AutoNaCadz engineering/CAD agent.">
 <style>
-:root{--ink:#18324b;--muted:#60758a;--line:#d7e5f1;--blue:#e3f2ff;--mint:#e0f7ef;--violet:#eee8ff;--yellow:#fff4cc;--orange:#ffe9db;--white:#fff;--shadow:0 14px 36px rgba(67,102,137,.12)}
-*{box-sizing:border-box}body{margin:0;background:linear-gradient(180deg,#f9fcff,#eef6ff 45%,#f9fcff);color:var(--ink);font-family:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif}.wrap{max-width:1380px;margin:auto;padding:34px 22px 54px}
-.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.eyebrow{font-size:12px;letter-spacing:.12em;text-transform:uppercase;color:#4d87b8;font-weight:900}h1{font-size:clamp(31px,5vw,54px);line-height:1;margin:7px 0 12px;letter-spacing:-.04em}.lead{max-width:860px;color:var(--muted);line-height:1.7}.badge{background:#fff;border:1px solid var(--line);border-radius:999px;padding:10px 14px;box-shadow:var(--shadow);font-size:13px;font-weight:800;white-space:nowrap}.dot{display:inline-block;width:9px;height:9px;border-radius:50%;background:#43b982;margin-right:7px}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin:22px 0}.kpi,.section{background:rgba(255,255,255,.9);border:1px solid var(--line);box-shadow:var(--shadow)}.kpi{border-radius:18px;padding:16px}.kpi small{color:var(--muted);font-weight:700}.kpi b{display:block;font-size:25px;margin-top:5px}.kpi span{font-size:12px;color:var(--muted)}
-.section{border-radius:24px;padding:21px;margin-top:16px}.head{display:flex;gap:12px;align-items:center;margin-bottom:17px}.num{width:34px;height:34px;border-radius:50%;display:grid;place-items:center;background:#2b89d5;color:white;font-weight:900}.head h2{font-size:20px;margin:0}.head p{margin:3px 0 0;color:var(--muted);font-size:13px}
-.flow{display:grid;grid-template-columns:repeat(6,1fr);gap:18px}.node{position:relative;border-radius:18px;padding:15px;min-height:124px;border:1px solid rgba(75,116,151,.18)}.node:not(:last-child):after{content:"→";position:absolute;right:-15px;top:50%;transform:translateY(-50%);font-size:24px;color:#59a5e5;font-weight:900}.node b{display:block;margin-bottom:7px}.node p,.card p{font-size:12px;color:#526a7f;line-height:1.55;margin:0}.violet{background:var(--violet)}.blue{background:var(--blue)}.mint{background:var(--mint)}.yellow{background:var(--yellow)}.orange{background:var(--orange)}
-.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.grid4{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{border:1px solid var(--line);background:#fff;border-radius:17px;padding:15px}.card h3{font-size:15px;margin:7px 0}.pill{display:inline-flex;padding:4px 8px;border-radius:999px;font-size:10px;font-weight:900}.done{background:#daf5e8;color:#1b7351}.ready{background:#e0efff;color:#2667a2}.next{background:#fff0c1;color:#86650d}.gate{background:var(--yellow);border-color:#ead78d}.warn{margin-top:12px;border-left:4px solid #e3a64b;background:#fff8e8;padding:11px 13px;border-radius:10px;font-size:12px;line-height:1.55;color:#725b30}
-.links{display:flex;gap:9px;flex-wrap:wrap;margin-top:17px}.links a{text-decoration:none;border-radius:11px;padding:10px 13px;font-size:12px;font-weight:800}.primary{background:#2b89d5;color:#fff}.secondary{background:#edf6ff;border:1px solid #cfe2ef;color:#2d658d}.foot{text-align:center;color:var(--muted);font-size:11px;margin-top:20px}
-@media(max-width:1050px){.flow{grid-template-columns:repeat(3,1fr)}.node:nth-child(3):after{display:none}.grid4{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.wrap{padding:22px 13px 42px}.hero{flex-direction:column}.badge{white-space:normal}.kpis,.flow,.grid3,.grid4{grid-template-columns:1fr}.node:after{content:"↓"!important;right:auto!important;top:auto!important;left:50%;bottom:-20px;transform:translateX(-50%)!important}.node:last-child:after{display:none}}
-</style></head>
-<body><div class="wrap">
-<section class="hero"><div><div class="eyebrow">Executive System Architecture · Microsoft Fluent / Pastel Enterprise</div><h1>AutoNaCadz for Korex</h1><div class="lead">Digital Engineering Rule Platform เปลี่ยน Product Knowledge ให้เป็นมาตรฐานดิจิทัลที่ตรวจสอบได้ ก่อนแปลงเป็น Work Order, Cutting Data และ CAD Output พร้อม Human Gate, Version Control และ Closed-loop Quality.</div></div><div class="badge"><span class="dot"></span>Engineering Governance Active</div></section>
-<section class="kpis"><div class="kpi"><small>Formula & Rule QA</small><b>v1.0</b><span>Deterministic checks</span></div><div class="kpi"><small>QA Baseline</small><b>0 Blockers</b><span>2 STD · REVIEW</span></div><div class="kpi"><small>CAD Viewer</small><b>TrueView 2024</b><span>Detected workstation capability</span></div><div class="kpi"><small>Work Order QA</small><b>v1.0</b><span>Fail-closed before Export</span></div></section>
-<section class="section"><div class="head"><div class="num">1</div><div><h2>Executive Business Workflow</h2><p>Single Source of Truth → Controlled Engineering → Production Release → Learning Loop</p></div></div><div class="flow">
-<div class="node violet"><b>Product Governance</b><p>STD, input, formula, part rule, master drawing and engineering approval.</p></div>
-<div class="node blue"><b>Project / Work Order</b><p>Customer requirement, configuration, dimension and options.</p></div>
-<div class="node mint"><b>Rule Engine</b><p>Validate, calculate parts and derive CAD actions deterministically.</p></div>
-<div class="node blue"><b>Production Outputs</b><p>Cutting/BOM and DWG from the same engineering rule source.</p></div>
-<div class="node yellow"><b>Quality Gate</b><p>QA, reconciliation, exception HOLD and Human Review.</p></div>
-<div class="node orange"><b>Feedback & RCA</b><p>QC/Rework → Root Cause → Improve STD → next release.</p></div>
-</div></section>
-<section class="section"><div class="head"><div class="num">2</div><div><h2>Control Gates</h2><p>Fail-closed ก่อนเข้าสู่ Production</p></div></div><div class="grid3">
-<div class="card gate"><h3>Gate 1 · Formula & Rule QA</h3><p>ตรวจ formula, dependency, master, CAD action, min/max และ sample calculation. Blocker = HOLD.</p></div>
-<div class="card gate"><h3>Gate 2 · STD Release & Version</h3><p>Draft แก้ได้ แต่ Release ต้องมี approver และ immutable snapshot; แก้หลัง Release = DRAFT_CHANGED.</p></div>
-<div class="card gate"><h3>Gate 3 · Production Release</h3><p>Drawing/Cutting consistency และ exception ต้องผ่านก่อนส่ง Production.</p></div>
-</div></section>
-<section class="section"><div class="head"><div class="num">3</div><div><h2>Agent & Sub-Agent Resources</h2><p>Agent ตรวจและอธิบาย ส่วน Engineering Core เป็น deterministic code</p></div></div><div class="grid4">
-<div class="card"><span class="pill done">DONE</span><h3>Formula & Rule QA Agent</h3><p>Formula, dependency, part rule, master, CAD action และ baseline QA.</p></div>
-<div class="card"><span class="pill done">DONE</span><h3>Release Governance</h3><p>Human approver, semantic version, content hash และ audit snapshot.</p></div>
-<div class="card"><span class="pill ready">READY</span><h3>CAD QA Layer</h3><p>DWG file/header verification และเปิด output ผ่าน DWG TrueView.</p></div>
-<div class="card"><span class="pill done">DONE</span><h3>Work Order QA Agent</h3><p>Release lineage · READY/HOLD · input gates · dimensions · Master linkage · CAD action validation.</p></div>
-</div></section>
-<section class="section"><div class="head"><div class="num">4</div><div><h2>CAD Execution & Verification</h2><p>TrueView เป็น QA Viewer ไม่ใช่ CAD Engine</p></div></div><div class="grid3">
-<div class="card"><span class="pill ready">CAD ENGINE</span><h3>AutoCAD / AutoLISP</h3><p>Stretch, hole, latch, layout, cleanup และ save DWG ทำโดย deterministic CAD execution.</p></div>
-<div class="card"><span class="pill done">DETECTED</span><h3>DWG TrueView 2024</h3><p>เปิด output จาก Export History หลังตรวจ file, size และ DWG header.</p></div>
-<div class="card"><span class="pill done">FIXED</span><h3>Runtime Callback</h3><p>LISP callback ใช้ runtime web port แทนการ fix localhost:4017.</p></div>
-</div><div class="warn"><b>Deployment boundary:</b> GitHub Pages ใช้เป็น Executive/Web visibility layer. Flask, filesystem และ AutoCAD/TrueView execution ต้องอยู่บน Local/Server Agent เพราะ GitHub Pages เป็น static hosting.</div></section>
-<section class="section"><div class="head"><div class="num">5</div><div><h2>Critical Resource Gate</h2><p>เครื่องปัจจุบันมี DWG TrueView 2024 แต่ไม่พบ Full AutoCAD executor</p></div></div><div class="grid3">
-<div class="card gate"><h3>DWG TrueView · READY</h3><p>ใช้เปิด ตรวจดู Plot/Convert และ Visual Verification ของ DWG.</p></div>
-<div class="card" style="border-color:#f1b4a4;background:#fff3ef;"><h3>CAD Execution Engine · REQUIRED</h3><p>งาน Stretch / Hole / Latch / Layout ต้องมี AutoCAD-compatible engine เพื่อรัน AutoLISP และบันทึก Final DWG.</p></div>
-<div class="card"><span class="pill next">DECIDE NEXT</span><h3>Execution Adapter</h3><p>เลือก AutoCAD Windows / ทดสอบ AutoCAD LT 2024+ / APS Design Automation / DXF-native rewrite.</p></div>
-</div></section>
-<section class="section"><div class="head"><div class="num">6</div><div><h2>Roadmap</h2><p>Production Safety → Reliability → Quality Intelligence → Engineering Knowledge</p></div></div><div class="grid4">
-<div class="card"><span class="pill done">PHASE 1</span><h3>Production Safety</h3><p>Formula QA · Release Gate · Version · Master Gate · Audit.</p></div>
-<div class="card"><span class="pill next">PHASE 2</span><h3>Reliability · NEXT</h3><p>CAD Job Queue · Multi-master automation · Retry · Error classification. Partial multi-master export is now blocked.</p></div>
-<div class="card"><span class="pill next">PHASE 3</span><h3>Quality Intelligence</h3><p>Drawing vs Cutting reconciliation · WO QA · exception dashboard.</p></div>
-<div class="card"><span class="pill next">PHASE 4</span><h3>Knowledge Loop</h3><p>RCA Agent · Knowledge Agent · rule improvement feedback.</p></div>
-</div><div class="links"><a class="primary" href="../">← Central Portal</a><a class="secondary" href="https://github.com/p-honei/AutoNaCadz" target="_blank" rel="noopener">Source Repository ↗</a></div></section>
-<div class="foot">Public page contains architecture/status only — no production formulas or customer data. Work Order QA v1.0 active · 15/15 automated tests passed. CAD executor gate: TrueView-only workstation detected.</div>
-</div></body></html>
+:root{
+  --bg:#f4f8fd;--panel:#ffffff;--ink:#18324b;--muted:#6b7f93;--line:#d8e5f0;
+  --blue:#287fc3;--blue2:#e8f3ff;--mint:#e9f8f3;--yellow:#fff4cd;--red:#fff0ed;
+  --shadow:0 12px 32px rgba(48,82,114,.10)
+}
+*{box-sizing:border-box}
+html,body{height:100%}
+body{margin:0;font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif;background:var(--bg);color:var(--ink);overflow:hidden}
+.shell{height:100%;display:grid;grid-template-rows:auto auto 1fr}
+header{display:flex;align-items:center;gap:16px;padding:13px 18px;background:rgba(255,255,255,.96);border-bottom:1px solid var(--line);box-shadow:0 4px 18px rgba(55,83,110,.06);z-index:5}
+.logo{width:42px;height:42px;border-radius:13px;display:grid;place-items:center;background:linear-gradient(135deg,#dbeeff,#e7fbf2);border:1px solid #cfe0ed;color:#236fa9;font-weight:900}
+.brand{min-width:0}.brand h1{font-size:18px;margin:0;letter-spacing:-.02em}.brand p{margin:2px 0 0;color:var(--muted);font-size:11px}
+.grow{flex:1}
+.status{display:flex;align-items:center;gap:8px;border:1px solid var(--line);background:#fff;padding:8px 11px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.dot{width:9px;height:9px;border-radius:50%;background:#e0aa43;box-shadow:0 0 0 4px rgba(224,170,67,.13)}
+.status.online .dot{background:#38b47a;box-shadow:0 0 0 4px rgba(56,180,122,.13)}
+.status.offline .dot{background:#e16d5a;box-shadow:0 0 0 4px rgba(225,109,90,.12)}
+.toolbar{display:flex;gap:8px;align-items:center;padding:9px 14px;background:#f9fcff;border-bottom:1px solid var(--line);z-index:4}
+button,a.btn{appearance:none;border:1px solid var(--line);background:#fff;color:var(--ink);border-radius:10px;padding:8px 11px;font:inherit;font-size:12px;font-weight:800;text-decoration:none;cursor:pointer}
+button:hover,a.btn:hover{border-color:#8db8d8;background:#f5fbff}
+button.active{background:#e5f2ff;border-color:#8bb8d9;color:#1f6d9f}
+.primary{background:#2d86c8!important;border-color:#2d86c8!important;color:#fff!important}
+.warn{background:#fff7dd!important;border-color:#e5c66e!important;color:#735a13!important}
+.viewport{position:relative;min-height:0;background:#eef5fb}
+#appFrame{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff;display:none}
+.connect{position:absolute;inset:0;display:grid;place-items:center;padding:24px;overflow:auto}
+.card{width:min(900px,100%);background:#fff;border:1px solid var(--line);border-radius:24px;box-shadow:var(--shadow);padding:26px}
+.card h2{margin:0 0 8px;font-size:25px;letter-spacing:-.03em}.card>p{margin:0;color:var(--muted);line-height:1.65}
+.flow{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;margin:20px 0}
+.step{border:1px solid var(--line);border-radius:16px;padding:14px;min-height:112px}.step b{display:block;margin-bottom:6px}.step p{margin:0;color:var(--muted);font-size:12px;line-height:1.5}
+.s1{background:var(--blue2)}.s2{background:var(--mint)}.s3{background:var(--yellow)}
+.actions{display:flex;gap:8px;flex-wrap:wrap;margin-top:16px}
+.code{margin-top:15px;border:1px solid #dbe6ef;background:#f6f9fc;border-radius:12px;padding:12px 14px;font:12px/1.55 ui-monospace,SFMono-Regular,Consolas,monospace;color:#38536a;overflow:auto}
+.note{margin-top:12px;background:#f8fbfe;border-left:4px solid #58a2d8;border-radius:9px;padding:10px 12px;color:#536d83;font-size:12px;line-height:1.55}
+.small{font-size:11px;color:var(--muted)}
+#bridgeUrl{font-family:ui-monospace,SFMono-Regular,Consolas,monospace}
+@media(max-width:760px){
+ body{overflow:auto}.shell{height:auto;min-height:100%;grid-template-rows:auto auto minmax(680px,1fr)}
+ header{flex-wrap:wrap}.status{order:3}.toolbar{overflow-x:auto}.flow{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+  <div class="logo">AN</div>
+  <div class="brand">
+    <h1>AutoNaCadz <span style="font-weight:500;color:#7690a5">for Korex</span></h1>
+    <p>Operational Web App · GitHub Gateway + Local Engineering/CAD Agent</p>
+  </div>
+  <div class="grow"></div>
+  <div id="status" class="status"><span class="dot"></span><span id="statusText">กำลังค้นหา Local Agent…</span></div>
+</header>
+
+<nav class="toolbar">
+  <button id="userBtn" class="active" onclick="openMode('/')">User Mode</button>
+  <button id="createBtn" onclick="openMode('/create')">Create Mode</button>
+  <button onclick="openLocalNewTab()">เปิด App เต็มหน้าต่าง ↗</button>
+  <button onclick="reconnect()">Reconnect</button>
+  <div class="grow"></div>
+  <a class="btn" href="./architecture/">Workflow / Architecture</a>
+  <a class="btn" href="../">Portal กลาง</a>
+</nav>
+
+<main class="viewport">
+  <iframe id="appFrame" title="AutoNaCadz Operational Application" allow="clipboard-read; clipboard-write"></iframe>
+  <div id="connect" class="connect">
+    <section class="card">
+      <h2>เชื่อมต่อ AutoNaCadz Local Agent</h2>
+      <p>
+        หน้า GitHub นี้เป็นหน้าการใช้งานจริง แต่การอ่าน/เขียนไฟล์ DWG, Master, Formula QA,
+        Export และเปิด DWG TrueView ต้องทำผ่าน Local Agent บนเครื่องงาน CAD เพื่อไม่ส่งข้อมูลผลิตออกสู่ Public Web
+      </p>
+      <div class="flow">
+        <div class="step s1"><b>1 · GitHub Web UI</b><p>เปิด URL นี้เป็นหน้าหลักของผู้ใช้งาน</p></div>
+        <div class="step s2"><b>2 · Local Agent</b><p>รัน AutoNaCadz Flask บนเครื่อง Windows; ระบบจะค้นหา port 4017–4066 อัตโนมัติ</p></div>
+        <div class="step s3"><b>3 · CAD / TrueView</b><p>งานไฟล์และ CAD verification อยู่ในเครื่อง ไม่รันบน GitHub Pages</p></div>
+      </div>
+      <div class="actions">
+        <button class="primary" onclick="reconnect()">ค้นหา Local Agent อีกครั้ง</button>
+        <button onclick="tryDefault()">ลองเปิด localhost:4017</button>
+        <a class="btn warn" href="./architecture/">ดู Architecture</a>
+      </div>
+      <div class="code">cd AutoNaCadz\app
+python app.py</div>
+      <div class="note">
+        เมื่อต่อสำเร็จ พื้นที่ด้านบนจะเปลี่ยนเป็น <b>Online</b> และจะแสดงหน้า User Mode เดิมของ AutoNaCadz
+        ทั้งหน้า — รวม STD, WO, Preview, QA, CSV/DWG Export, Export History, Settings และ Create Mode
+      </div>
+      <p class="small" style="margin-top:12px">Detected bridge: <span id="bridgeUrl">ยังไม่พบ</span></p>
+    </section>
+  </div>
+</main>
+</div>
+
+<script>
+const PORT_START=4017, PORT_END=4066;
+let bridgeBase='', currentPath='/';
+const $=id=>document.getElementById(id);
+
+function setState(state,msg){
+  $('status').className='status '+state;
+  $('statusText').textContent=msg;
+}
+async function ping(base,ms=550){
+  const ctl=new AbortController();
+  const t=setTimeout(()=>ctl.abort(),ms);
+  try{
+    const r=await fetch(base+'/healthz',{cache:'no-store',signal:ctl.signal,mode:'cors'});
+    if(!r.ok) return false;
+    const j=await r.json();
+    return j && j.ok===true;
+  }catch(e){return false}
+  finally{clearTimeout(t)}
+}
+async function findBridge(){
+  setState('','กำลังค้นหา Local Agent…');
+  const ports=[];
+  for(let p=PORT_START;p<=PORT_END;p++) ports.push(p);
+  for(let i=0;i<ports.length;i+=8){
+    const batch=ports.slice(i,i+8);
+    const checks=await Promise.all(batch.map(async p=>{
+      const base='http://127.0.0.1:'+p;
+      return (await ping(base))?base:null;
+    }));
+    const found=checks.find(Boolean);
+    if(found) return found;
+  }
+  return '';
+}
+function showApp(base,path){
+  bridgeBase=base; currentPath=path||'/';
+  $('bridgeUrl').textContent=base;
+  $('connect').style.display='none';
+  const frame=$('appFrame');
+  frame.style.display='block';
+  frame.src=base+currentPath;
+  setState('online','Local Agent Online · '+base.replace('http://',''));
+  $('userBtn').classList.toggle('active',currentPath==='/');
+  $('createBtn').classList.toggle('active',currentPath.startsWith('/create'));
+  localStorage.setItem('autonacadz_bridge',base);
+}
+function showOffline(){
+  bridgeBase='';
+  $('appFrame').style.display='none';
+  $('appFrame').src='about:blank';
+  $('connect').style.display='grid';
+  $('bridgeUrl').textContent='ยังไม่พบ';
+  setState('offline','Local Agent Offline');
+}
+async function reconnect(){
+  const saved=localStorage.getItem('autonacadz_bridge');
+  if(saved && await ping(saved,400)){showApp(saved,currentPath);return}
+  const base=await findBridge();
+  if(base) showApp(base,currentPath); else showOffline();
+}
+async function openMode(path){
+  currentPath=path;
+  if(!bridgeBase){await reconnect();return}
+  if(!(await ping(bridgeBase,350))){showOffline();return}
+  showApp(bridgeBase,path);
+}
+function openLocalNewTab(){
+  if(bridgeBase) window.open(bridgeBase+currentPath,'_blank','noopener');
+  else tryDefault();
+}
+function tryDefault(){window.open('http://127.0.0.1:4017/','_blank','noopener')}
+window.addEventListener('message',e=>{
+  if(e.data && e.data.type==='autonacadz-bridge-offline') showOffline();
+});
+reconnect();
+</script>
+</body>
+</html>
