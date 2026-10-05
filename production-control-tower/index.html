@@ -245,8 +245,62 @@ flowchart LR
 </div>
 <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
 <script>
-mermaid.initialize({startOnLoad:true,theme:'dark',securityLevel:'loose',flowchart:{curve:'basis',htmlLabels:true,useMaxWidth:true},themeVariables:{background:'#07111f',primaryColor:'#10243b',primaryTextColor:'#eef5ff',lineColor:'#718aa8',fontFamily:'Inter, Noto Sans Thai, sans-serif'}});
-document.querySelectorAll('.tab').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tab').forEach(function(x){x.classList.toggle('active',x===b)});document.querySelectorAll('.view').forEach(function(v){v.classList.toggle('active',v.id===b.dataset.tab)});});});
+mermaid.initialize({
+  startOnLoad:false,
+  theme:'dark',
+  securityLevel:'loose',
+  flowchart:{curve:'basis',htmlLabels:true,useMaxWidth:true},
+  themeVariables:{
+    background:'#07111f',
+    primaryColor:'#10243b',
+    primaryTextColor:'#eef5ff',
+    lineColor:'#718aa8',
+    fontFamily:'Inter, Noto Sans Thai, sans-serif'
+  }
+});
+
+async function renderMermaidIn(view){
+  if(!view) return;
+  const nodes=[...view.querySelectorAll('.mermaid:not([data-processed="true"])')];
+  if(!nodes.length) return;
+  try{
+    await mermaid.run({nodes:nodes});
+  }catch(err){
+    console.error('Mermaid render failed',err);
+    nodes.forEach(function(n){
+      if(!n.querySelector('.diagram-error')){
+        n.innerHTML='<div class="diagram-error" style="padding:18px;border:1px solid #ff7a86;border-radius:12px;color:#ffd4d8">Diagram render failed. Relation Matrix below remains authoritative.</div>';
+      }
+    });
+  }
+}
+
+function activateTab(button){
+  document.querySelectorAll('.tab').forEach(function(x){
+    x.classList.toggle('active',x===button);
+  });
+  let activeView=null;
+  document.querySelectorAll('.view').forEach(function(v){
+    const on=v.id===button.dataset.tab;
+    v.classList.toggle('active',on);
+    if(on) activeView=v;
+  });
+  requestAnimationFrame(function(){
+    requestAnimationFrame(function(){
+      renderMermaidIn(activeView);
+    });
+  });
+}
+
+document.querySelectorAll('.tab').forEach(function(b){
+  b.addEventListener('click',function(){activateTab(b);});
+});
+
+window.addEventListener('DOMContentLoaded',function(){
+  requestAnimationFrame(function(){
+    renderMermaidIn(document.querySelector('.view.active'));
+  });
+});
 </script>
 </body>
 </html>
