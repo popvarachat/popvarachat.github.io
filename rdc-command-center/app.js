@@ -17,20 +17,26 @@ const NODE_DETAILS={
   "arsenal":{kicker:"LAZY CAPABILITY",purpose:"Global skill metadata ที่รู้จักกว้างแต่ไม่ preload; fetch เฉพาะ pinned commit และ verify SHA ตอนต้องใช้.",authority:"ไม่มี execution authority จนถูกเลือกและผ่าน validation.",inputs:["Capability gap"],outputs:["Verified skill candidate"],related:"#arsenal"},
   "execution":{kicker:"EXECUTION FABRIC",purpose:"พื้นผิวลงมือจริงโดยเรียง backend-first: API → MCP → CLI → OI → UI fallback.",authority:"ทำตาม scope ของ RDC และ policy; UI เป็นทางเลือกสุดท้าย.",inputs:["Action","Credentials via secure store","Tool args"],outputs:["Observed external/local state"],related:"#architecture"},
   "validator":{kicker:"SYSTEM-TWO CHECK",purpose:"ตรวจ source of truth ใหม่หลัง mutation, tests/health checks และหลักฐานสุดท้ายก่อนรายงาน DONE.",authority:"ถือ final-validation authority; Jev DONE เป็น advisory เท่านั้น.",inputs:["Requested outcome","Observed state","Tests"],outputs:["PASS","RETRY","BLOCKED"],related:"#guardrails"},
-  "telemetry":{kicker:"SHADOW LEARNING",purpose:"เก็บ confidence, agreement, latency, usage และ fallback เพื่อปรับจูน Jev โดยไม่เก็บ raw secret state.",authority:"Observe only; ไม่สั่ง execution.",inputs:["Typed decisions","Baseline"],outputs:["Tuning metrics","Promotion evidence"],related:"#jev-arsenal"},
+  "tool-broker":{kicker:"LIVE CAPABILITY BROKER",purpose:"อ่านสถานะเครื่องมือจริงแล้วจัดอันดับ API/MCP/CLI/OI/UI ก่อน execution เพื่อลดการเปิด UI และลด route ที่เดาเอา.",authority:"เลือก/เสนอ execution surface; ไม่อนุมัติ governed action.",inputs:["Task need","Live capabilities","Privacy/latency constraints"],outputs:["Preferred route","Fallback order"],related:"#architecture"},
+  "sandbox":{kicker:"PRE-MUTATION GUARD",purpose:"จำแนก mutation, ใช้ dry-run/check และ syntax/static validation ก่อนปล่อยงานให้ executor.",authority:"หยุดที่ HUMAN_GATE เมื่อพบ governed/destructive/live-money action; ไม่แทน Final Validator.",inputs:["Planned action","Target artifacts","Rollback context"],outputs:["READ_ONLY_SAFE","DRY_RUN_REQUIRED","HUMAN_GATE"],related:"#guardrails"},
+  "test-engineer":{kicker:"READ-ONLY TEST REVIEWER",purpose:"ออกแบบ test matrix ตาม failure mode และพยายาม falsify ผลลัพธ์ด้วย unit/contract/integration/regression/negative-path checks ที่เกี่ยวข้อง.",authority:"Advisory/read-only; ไม่แก้ source code.",inputs:["Change scope","Expected behavior","Evidence"],outputs:["Test matrix","Regression findings"],related:"#agents"},
+  "architecture-reviewer":{kicker:"READ-ONLY ARCHITECTURE REVIEWER",purpose:"ตรวจ dependency, coupling, backward compatibility, migration sequencing, rollback และ downstream blast radius.",authority:"Advisory/read-only; broad mutation ยังอยู่กับ RDC + Human Gate.",inputs:["Change graph","Interfaces","Consumers"],outputs:["Blast-radius map","Safe sequencing","Rollback concerns"],related:"#agents"},
+  "trace":{kicker:"END-TO-END OBSERVABILITY",purpose:"ใช้ Trace ID เดียวเชื่อม RDC, Jev, Agent/Sub-Agent, Skill, execution, retry และ final validation พร้อม latency/fallback evidence.",authority:"Observe only; telemetry failure ไม่ควรหยุดงานที่ปลอดภัย.",inputs:["Trace ID","Component events","Latency/status"],outputs:["Trace summary","Bottleneck/fallback evidence"],related:"#architecture"},
+  "telemetry":{kicker:"JEV SHADOW LEARNING",purpose:"เก็บ confidence, agreement, latency, usage และ fallback เพื่อปรับจูน Jev โดยไม่เก็บ raw secret state.",authority:"Observe only; ไม่สั่ง execution.",inputs:["Typed decisions","Baseline"],outputs:["Tuning metrics","Promotion evidence"],related:"#jev-arsenal"},
   "done":{kicker:"VERIFIED TERMINAL STATE",purpose:"สถานะจบเมื่อ outcome ถูกสังเกตจริง validation ผ่าน ไม่มี blocker และ external effect ถูกตรวจเมื่อเกี่ยวข้อง.",authority:"เกิดจาก Final Validator ไม่ใช่จาก model claim.",inputs:["Validated evidence"],outputs:["DONE"],related:"#architecture"}
 };
 
 (async()=>{
   const [s,w,a]=await Promise.all([loadJSON("data/status.json"),loadJSON("data/weekly.json"),loadJSON("data/arsenal.json")]);
   const dc=s.decision_coprocessor||{};
+  const ix=s.intelligence_extensions||{};
   const metrics=[
     [s.agents,"Agents / Roles"],
     [s.local_skills,"Local Skills"],
     [dc.product||"—","Decision Coprocessor"],
     [s.global_catalog,"Global Metadata"],
     ["0","External Preload"],
-    [s.gateway_version||"v1.4","Gateway"]
+    [s.gateway_version||"v1.5","Gateway"]
   ];
   document.getElementById("metrics").innerHTML=metrics.map(x=>`<div class="metric"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("");
   const hb=document.getElementById("healthBadge");hb.textContent=s.status;hb.classList.toggle("warn",s.status!=="READY");
@@ -42,6 +48,19 @@ const NODE_DETAILS={
     ["Model",dc.model||"—"],
     ["Authority","SHADOW · no execution"]
   ].map(x=>`<div class="provider"><span>${esc(x[0])}</span><b class="${String(x[1]).includes("READY")?"ok":"warning"}">${esc(x[1])}</b></div>`).join("");
+
+  const rein=document.getElementById("reinforcementState");
+  if(rein){
+    const rows=[
+      ["Validation",ix.validation?.status||"UNKNOWN"],
+      ["Tool Broker",ix.tool_broker?.status||"UNKNOWN"],
+      ["Trace / Observability",ix.observability?.status||"UNKNOWN"],
+      ["Sandbox / Dry Run",ix.sandbox?.status||"UNKNOWN"],
+      ["Test Engineer",ix.test_regression_engineer?.status||"UNKNOWN"],
+      ["Architecture Reviewer",ix.architecture_blast_radius_reviewer?.status||"UNKNOWN"]
+    ];
+    rein.innerHTML=rows.map(x=>{const good=String(x[1]).includes("READY")||String(x[1])==="PASS";return `<div class="provider"><span>${esc(x[0])}</span><b class="${good?"ok":"warning"}">${esc(String(x[1]).replaceAll("_"," "))}</b></div>`}).join("");
+  }
 
   const jevGraph=document.getElementById("jevGraphStatus");
   if(jevGraph) jevGraph.textContent=`${dc.status||"UNKNOWN"} · ${dc.model||"—"}`;
@@ -81,9 +100,14 @@ const NODE_DETAILS={
     if(id==="agent-router") return `${s.agents||0} ROLES`;
     if(id==="skill-router") return `${s.local_skills||0} LOCAL SKILLS`;
     if(id==="arsenal") return `${s.global_catalog||0} METADATA`;
+    if(id==="tool-broker") return `${ix.tool_broker?.status||"UNKNOWN"} · ${ix.tool_broker?.capability_count||0} CAPABILITIES`;
+    if(id==="sandbox") return ix.sandbox?.status||"UNKNOWN";
+    if(id==="test-engineer") return ix.test_regression_engineer?.status||"UNKNOWN";
+    if(id==="architecture-reviewer") return ix.architecture_blast_radius_reviewer?.status||"UNKNOWN";
+    if(id==="trace") return `${ix.observability?.status||"UNKNOWN"} · ${ix.observability?.traces||0} TRACES`;
     if(id==="execution") return Object.values(fabric).map(x=>`${x.name}:${x.status}`).join(" · ");
     if(id==="validator") return "AUTHORITATIVE";
-    if(id==="telemetry") return "SHADOW OBSERVE";
+    if(id==="telemetry") return "JEV SHADOW OBSERVE";
     if(id==="done") return "VERIFIED ONLY";
     if(id==="subagents") return "READ / REVIEW DEFAULT";
     if(id==="agent-force") return "SCOPED EXECUTION";

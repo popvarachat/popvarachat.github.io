@@ -1,17 +1,17 @@
 {
-  "generated_at": "2026-10-05T16:42:36.7599163+07:00",
+  "generated_at": "2026-10-05T21:35:59.1071486+07:00",
   "status": "READY_WITH_WARNINGS",
-  "gateway_version": "1.4",
+  "gateway_version": "1.5",
   "mode": "FAST_EXECUTION_MODE",
-  "agents": 12,
-  "local_skills": 14,
+  "agents": 14,
+  "local_skills": 17,
   "global_catalog": 8,
   "preload_external": 0,
   "providers": [
     {
       "name": "Claude Code",
-      "status": "AUTHENTICATED",
-      "tone": "ok"
+      "status": "DISABLED · ORG · SUBSCRIPTION · ACCESS",
+      "tone": "off"
     },
     {
       "name": "Gemini CLI",
@@ -216,32 +216,95 @@
     "api": {
       "name": "API / HTTP",
       "status": "AVAILABLE",
-      "detail": "PowerShell + Python HTTP clients",
+      "detail": "PowerShell/Python HTTP clients",
       "preferred_order": 1
     },
     "mcp": {
       "name": "MCP",
       "status": "ACTIVE",
-      "detail": "Remote Desktop Commander / connector execution",
+      "detail": "RDC Remote MCP and connected host tools",
       "preferred_order": 2
     },
     "cli": {
       "name": "CLI",
       "status": "ACTIVE",
-      "detail": "PowerShell / Python / Git / GitHub CLI",
+      "detail": "PowerShell/Python/Git/GitHub CLI",
       "preferred_order": 3
     },
     "oi": {
-      "name": "OI / Open Interpreter",
+      "name": "OI",
       "status": "INSTALLED_ON_DEMAND",
-      "detail": "interpreter 0.0.45",
+      "detail": "Open Interpreter installed on demand",
       "preferred_order": 4
     },
     "ui": {
-      "name": "Browser / UI",
+      "name": "UI",
       "status": "FALLBACK_ONLY",
       "detail": "Use only when backend path is insufficient",
       "preferred_order": 5
+    }
+  },
+  "intelligence_extensions": {
+    "tool_broker": {
+      "status": "READY",
+      "capability_count": 13
+    },
+    "observability": {
+      "status": "READY",
+      "traces": 1,
+      "events": 5,
+      "avg_latency_ms": null
+    },
+    "sandbox": {
+      "status": "READY",
+      "mode": "DRY_RUN_BEFORE_MATERIAL_MUTATION"
+    },
+    "test_regression_engineer": {
+      "status": "READY",
+      "mode": "READ_ONLY_REVIEWER"
+    },
+    "architecture_blast_radius_reviewer": {
+      "status": "READY",
+      "mode": "READ_ONLY_REVIEWER"
+    },
+    "validation": {
+      "version": "1.0",
+      "status": "PASS",
+      "validated_on": "2026-10-05",
+      "checks": {
+        "tool_broker": {
+          "status": "PASS",
+          "capabilities": 13,
+          "code_route": [
+            "mcp",
+            "cli",
+            "ollama"
+          ]
+        },
+        "observability_trace": {
+          "status": "PASS",
+          "trace_lifecycle": true,
+          "redaction_enabled": true
+        },
+        "sandbox_dry_run": {
+          "status": "PASS",
+          "static_validation": "PASS",
+          "live_money_gate": "HUMAN_GATE"
+        },
+        "test_regression_engineer": {
+          "status": "PASS",
+          "runtime": "OLLAMA_FALLBACK",
+          "write": false
+        },
+        "architecture_blast_radius_reviewer": {
+          "status": "PASS",
+          "runtime": "OLLAMA_FALLBACK",
+          "write": false
+        }
+      },
+      "provider_note": "Claude CLI organization subscription access is disabled; Gemini CLI auth/client remains disabled; Ollama local fallback is operational but slower.",
+      "jev_authority": "SHADOW",
+      "execution_authority_expanded": false
     }
   },
   "rules": [
@@ -334,6 +397,18 @@
       "type": "specialist",
       "write": false,
       "mission": "Load canonical context without stale-chat assumptions"
+    },
+    {
+      "id": "test-regression-engineer",
+      "type": "reviewer",
+      "write": false,
+      "mission": "Independent test matrix · regression · contract falsification"
+    },
+    {
+      "id": "architecture-blast-radius-reviewer",
+      "type": "reviewer",
+      "write": false,
+      "mission": "Dependencies · coupling · migration · rollback blast-radius review"
     }
   ],
   "skills": [
@@ -382,12 +457,24 @@
       "Parallel independent review axes"
     ],
     [
+      "observability-trace",
+      "Trace ID across RDC/Jev/Agent/Skill/tool/retry/validation"
+    ],
+    [
       "orchestrate-workstream",
       "Multi-tool orchestration from intent to verified DONE"
     ],
     [
+      "sandbox-dry-run",
+      "Pre-mutation rehearsal, syntax/static checks and gated release conditions"
+    ],
+    [
       "security-gate",
       "Least privilege + approval boundary"
+    ],
+    [
+      "tool-capability-broker",
+      "Live capability discovery + API/MCP/CLI/OI/UI route selection"
     ],
     [
       "ui-fallback",

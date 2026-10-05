@@ -1,101 +1,106 @@
-{
-  "week": "2026-W41",
-  "period": "5–11 ต.ค. 2569",
-  "changes": [
-    {
-      "time": "05 Oct",
-      "title": "FAST EXECUTION MODE activated",
-      "detail": "API/MCP/CLI first · parallelize · batch · retry safely · UI only as fallback."
-    },
-    {
-      "time": "05 Oct",
-      "title": "RDC Multi-Agent v1 armed",
-      "detail": "จัดโครงสร้าง 12 Agent roles พร้อม Orchestrator, QA, Security, Recovery และ Context roles."
-    },
-    {
-      "time": "05 Oct",
-      "title": "13 local skills standardized",
-      "detail": "ทุก Skill ใช้ contract เดียวกัน: Trigger → Input → Steps → Tools → Validation → Output → Stop."
-    },
-    {
-      "time": "05 Oct",
-      "title": "Global Arsenal Lazy Load added",
-      "detail": "รู้จัก Skill ภายนอกโดยเก็บ metadata เท่านั้น; fetch exact pinned commit + SHA verify เมื่อต้องใช้."
-    },
-    {
-      "time": "05 Oct",
-      "title": "Global Skills Scan scheduled weekly",
-      "detail": "สแกน ecosystem ทุกสัปดาห์และเสนอเฉพาะ capability ที่เพิ่มคุณค่าจริง."
-    },
-    {
-      "time": "05 Oct",
-      "title": "Jev Decision Coprocessor installed",
-      "detail": "เพิ่ม bounded System-One decision layer ใต้ RDC Orchestrator สำหรับ Agent / Skill / Retry / Model routing และ advisory DONE; เริ่มใน SHADOW mode พร้อม hard-policy precedence."
-    },
-    {
-      "time": "05 Oct",
-      "title": "Jev live connection verified",
-      "detail": "API key เก็บใน Windows Credential Manager; models endpoint ผ่าน; smoke test 5 decisions ได้ 4/5 agreement, avg latency 419.54 ms, p95 451.4 ms. DONE signal ยังไม่ตรง baseline จึงคง SHADOW mode ตาม policy."
-    },
-    {
-      "time": "05 Oct",
-      "title": "RDC real workflow topology deployed",
-      "detail": "เปลี่ยน Architecture จาก flow เส้นตรงเป็น branching execution topology จริง เชื่อม Hard Policy, Jev, Agent/Sub-Agent, Skill Resolver, Global Arsenal, API/MCP/CLI/OI/UI, Final Validator, Retry loop และ Human Gate."
-    },
-    {
-      "time": "05 Oct",
-      "title": "Jev Decision Arsenal armed",
-      "detail": "เพิ่ม 12 bounded Decision Packs, 4 batched profiles และ Completion Guard 6 checks. ทั้งหมดเริ่มใน SHADOW mode; Hard Policy และ Final Validator ยังมี authority สูงกว่า Jev."
-    }
-  ],
-  "candidates": [
-    {
-      "name": "systematic-debugging",
-      "source": "obra/superpowers",
-      "why": "Gold-level debugging discipline; ใช้เป็น external reference เมื่อ bug ซับซ้อนกว่า local loop.",
-      "action": "WATCH / ON-DEMAND"
-    },
-    {
-      "name": "cavecrew",
-      "source": "JuliusBrussee/caveman",
-      "why": "Investigator → Builder → Reviewer delegation ช่วยประหยัด main context.",
-      "action": "WATCH / SUB-AGENT PATTERN"
-    },
-    {
-      "name": "browser-use",
-      "source": "browser-use/browser-use",
-      "why": "CDP browser automation ตรงช่องว่าง UI fallback ของ RDC.",
-      "action": "HIGH PRIORITY CANDIDATE"
-    },
-    {
-      "name": "agent-builder",
-      "source": "shareAI-lab/learn-claude-code",
-      "why": "Agent architecture / orchestration reference สำหรับสร้าง role ใหม่.",
-      "action": "WATCH"
-    },
-    {
-      "name": "open-code-review-delegate",
-      "source": "alibaba/open-code-review",
-      "why": "Deterministic file selection + host-driven review.",
-      "action": "WATCH"
-    },
-    {
-      "name": "bmad-code-review",
-      "source": "bmad-code-org/BMAD-METHOD",
-      "why": "Parallel independent reviewers + triage.",
-      "action": "WATCH"
-    },
-    {
-      "name": "entra-agent-id",
-      "source": "microsoft/azure-skills",
-      "why": "Per-agent identity / OAuth / workload identity — จุดที่ Global stack เหนือ RDC ตอนนี้.",
-      "action": "ENTERPRISE GAP"
-    },
-    {
-      "name": "agent observability",
-      "source": "google/agents-cli",
-      "why": "Tracing / logging / agent analytics — เหมาะเป็นขั้นต่อไปของ scoreboard.",
-      "action": "NEXT-LAYER CANDIDATE"
-    }
-  ]
+﻿{
+    "week":  "2026-W41",
+    "period":  "5â€“11 à¸•.à¸„. 2569",
+    "changes":  [
+                    {
+                        "time":  "05 Oct",
+                        "title":  "FAST EXECUTION MODE activated",
+                        "detail":  "API/MCP/CLI first Â· parallelize Â· batch Â· retry safely Â· UI only as fallback."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "RDC Multi-Agent v1 armed",
+                        "detail":  "à¸ˆà¸±à¸”à¹‚à¸„à¸£à¸‡à¸ªà¸£à¹‰à¸²à¸‡ 12 Agent roles à¸žà¸£à¹‰à¸­à¸¡ Orchestrator, QA, Security, Recovery à¹à¸¥à¸° Context roles."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "13 local skills standardized",
+                        "detail":  "à¸—à¸¸à¸ Skill à¹ƒà¸Šà¹‰ contract à¹€à¸”à¸µà¸¢à¸§à¸à¸±à¸™: Trigger â†’ Input â†’ Steps â†’ Tools â†’ Validation â†’ Output â†’ Stop."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "Global Arsenal Lazy Load added",
+                        "detail":  "à¸£à¸¹à¹‰à¸ˆà¸±à¸ Skill à¸ à¸²à¸¢à¸™à¸­à¸à¹‚à¸”à¸¢à¹€à¸à¹‡à¸š metadata à¹€à¸—à¹ˆà¸²à¸™à¸±à¹‰à¸™; fetch exact pinned commit + SHA verify à¹€à¸¡à¸·à¹ˆà¸­à¸•à¹‰à¸­à¸‡à¹ƒà¸Šà¹‰."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "Global Skills Scan scheduled weekly",
+                        "detail":  "à¸ªà¹à¸à¸™ ecosystem à¸—à¸¸à¸à¸ªà¸±à¸›à¸”à¸²à¸«à¹Œà¹à¸¥à¸°à¹€à¸ªà¸™à¸­à¹€à¸‰à¸žà¸²à¸° capability à¸—à¸µà¹ˆà¹€à¸žà¸´à¹ˆà¸¡à¸„à¸¸à¸“à¸„à¹ˆà¸²à¸ˆà¸£à¸´à¸‡."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "Jev Decision Coprocessor installed",
+                        "detail":  "à¹€à¸žà¸´à¹ˆà¸¡ bounded System-One decision layer à¹ƒà¸•à¹‰ RDC Orchestrator à¸ªà¸³à¸«à¸£à¸±à¸š Agent / Skill / Retry / Model routing à¹à¸¥à¸° advisory DONE; à¹€à¸£à¸´à¹ˆà¸¡à¹ƒà¸™ SHADOW mode à¸žà¸£à¹‰à¸­à¸¡ hard-policy precedence."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "Jev live connection verified",
+                        "detail":  "API key à¹€à¸à¹‡à¸šà¹ƒà¸™ Windows Credential Manager; models endpoint à¸œà¹ˆà¸²à¸™; smoke test 5 decisions à¹„à¸”à¹‰ 4/5 agreement, avg latency 419.54 ms, p95 451.4 ms. DONE signal à¸¢à¸±à¸‡à¹„à¸¡à¹ˆà¸•à¸£à¸‡ baseline à¸ˆà¸¶à¸‡à¸„à¸‡ SHADOW mode à¸•à¸²à¸¡ policy."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "RDC real workflow topology deployed",
+                        "detail":  "à¹€à¸›à¸¥à¸µà¹ˆà¸¢à¸™ Architecture à¸ˆà¸²à¸ flow à¹€à¸ªà¹‰à¸™à¸•à¸£à¸‡à¹€à¸›à¹‡à¸™ branching execution topology à¸ˆà¸£à¸´à¸‡ à¹€à¸Šà¸·à¹ˆà¸­à¸¡ Hard Policy, Jev, Agent/Sub-Agent, Skill Resolver, Global Arsenal, API/MCP/CLI/OI/UI, Final Validator, Retry loop à¹à¸¥à¸° Human Gate."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "Jev Decision Arsenal armed",
+                        "detail":  "à¹€à¸žà¸´à¹ˆà¸¡ 12 bounded Decision Packs, 4 batched profiles à¹à¸¥à¸° Completion Guard 6 checks. à¸—à¸±à¹‰à¸‡à¸«à¸¡à¸”à¹€à¸£à¸´à¹ˆà¸¡à¹ƒà¸™ SHADOW mode; Hard Policy à¹à¸¥à¸° Final Validator à¸¢à¸±à¸‡à¸¡à¸µ authority à¸ªà¸¹à¸‡à¸à¸§à¹ˆà¸² Jev."
+                    },
+                    {
+                        "time":  "05 Oct",
+                        "title":  "RDC v1.5 reinforcement layer deployed",
+                        "detail":  "เพิ่ม Tool Capability Broker, end-to-end Trace/Observability, Sandbox/Dry-run, Test/Regression Engineer และ Architecture/Blast-Radius Reviewer; RDC Doctor ขึ้น 14 Agents / 17 Skills และ Jev ยังอยู่ SHADOW."
+                    }
+                ],
+    "candidates":  [
+                       {
+                           "name":  "systematic-debugging",
+                           "source":  "obra/superpowers",
+                           "why":  "Gold-level debugging discipline; à¹ƒà¸Šà¹‰à¹€à¸›à¹‡à¸™ external reference à¹€à¸¡à¸·à¹ˆà¸­ bug à¸‹à¸±à¸šà¸‹à¹‰à¸­à¸™à¸à¸§à¹ˆà¸² local loop.",
+                           "action":  "WATCH / ON-DEMAND"
+                       },
+                       {
+                           "name":  "cavecrew",
+                           "source":  "JuliusBrussee/caveman",
+                           "why":  "Investigator â†’ Builder â†’ Reviewer delegation à¸Šà¹ˆà¸§à¸¢à¸›à¸£à¸°à¸«à¸¢à¸±à¸” main context.",
+                           "action":  "WATCH / SUB-AGENT PATTERN"
+                       },
+                       {
+                           "name":  "browser-use",
+                           "source":  "browser-use/browser-use",
+                           "why":  "CDP browser automation à¸•à¸£à¸‡à¸Šà¹ˆà¸­à¸‡à¸§à¹ˆà¸²à¸‡ UI fallback à¸‚à¸­à¸‡ RDC.",
+                           "action":  "HIGH PRIORITY CANDIDATE"
+                       },
+                       {
+                           "name":  "agent-builder",
+                           "source":  "shareAI-lab/learn-claude-code",
+                           "why":  "Agent architecture / orchestration reference à¸ªà¸³à¸«à¸£à¸±à¸šà¸ªà¸£à¹‰à¸²à¸‡ role à¹ƒà¸«à¸¡à¹ˆ.",
+                           "action":  "WATCH"
+                       },
+                       {
+                           "name":  "open-code-review-delegate",
+                           "source":  "alibaba/open-code-review",
+                           "why":  "Deterministic file selection + host-driven review.",
+                           "action":  "WATCH"
+                       },
+                       {
+                           "name":  "bmad-code-review",
+                           "source":  "bmad-code-org/BMAD-METHOD",
+                           "why":  "Parallel independent reviewers + triage.",
+                           "action":  "WATCH"
+                       },
+                       {
+                           "name":  "entra-agent-id",
+                           "source":  "microsoft/azure-skills",
+                           "why":  "Per-agent identity / OAuth / workload identity â€” à¸ˆà¸¸à¸”à¸—à¸µà¹ˆ Global stack à¹€à¸«à¸™à¸·à¸­ RDC à¸•à¸­à¸™à¸™à¸µà¹‰.",
+                           "action":  "ENTERPRISE GAP"
+                       },
+                       {
+                           "name":  "agent observability",
+                           "source":  "google/agents-cli",
+                           "why":  "Tracing / logging / agent analytics â€” à¹€à¸«à¸¡à¸²à¸°à¹€à¸›à¹‡à¸™à¸‚à¸±à¹‰à¸™à¸•à¹ˆà¸­à¹„à¸›à¸‚à¸­à¸‡ scoreboard.",
+                           "action":  "NEXT-LAYER CANDIDATE"
+                       }
+                   ]
 }
