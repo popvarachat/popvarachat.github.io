@@ -22,6 +22,8 @@
 
 .api-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px}.api-card{border:1px solid var(--line);border-radius:13px;padding:13px;background:rgba(18,36,59,.55)}.api-card b{font-size:19px;display:block;margin-top:5px}.api-card span{font-size:10px;color:var(--muted)}.contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}.contract-group{border:1px solid var(--line);border-radius:14px;padding:14px;background:rgba(18,36,59,.45)}.contract-group h3{margin:0 0 8px}.field-chips{display:flex;gap:6px;flex-wrap:wrap}.field-chip{border:1px solid var(--line);border-radius:8px;padding:5px 7px;font-size:9px;color:#cfe4ff;background:rgba(101,168,255,.06)}.api-rules{padding:0 16px 16px}.api-rules .box{margin:0}.p0{color:#aef3ca}.p1{color:#ffd989}.p2{color:#c7b9ff}
 
+.v2-summary{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;padding:16px}.v2-kpi{border:1px solid var(--line);border-radius:13px;padding:12px;background:rgba(18,36,59,.55)}.v2-kpi b{display:block;font-size:20px;margin:4px 0}.v2-kpi span{font-size:9px;color:var(--muted);line-height:1.45}.decision-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px;padding:0 16px 16px}.decision-card{border:1px solid var(--line);border-radius:14px;padding:14px;background:rgba(18,36,59,.5)}.decision-card h3{font-size:15px;margin:7px 0}.decision-card p{font-size:11px;line-height:1.6;color:var(--muted);margin:0}.decision-card .jev{display:inline-flex;margin-top:10px;border:1px solid rgba(98,213,232,.32);color:var(--cyan);border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900}.stage-engine{display:grid;grid-template-columns:1fr 36px 1fr 36px 1fr;gap:8px;align-items:stretch;padding:16px}.stage-node{border:1px solid var(--line);border-radius:14px;padding:13px;background:rgba(18,36,59,.55)}.stage-node b{display:block;margin:5px 0}.stage-node small{color:var(--muted);line-height:1.5}.stage-arrow{display:grid;place-items:center;color:var(--cyan);font-size:22px;font-weight:900}.source-matrix{padding:0 16px 16px;overflow:auto}.v2-alert{margin:0 16px 16px;border:1px solid rgba(255,181,107,.35);background:rgba(255,181,107,.08);border-radius:13px;padding:13px;color:#ffe0b5;font-size:11px;line-height:1.65}
+@media(max-width:1100px){.v2-summary{grid-template-columns:repeat(3,1fr)}.decision-grid{grid-template-columns:repeat(2,1fr)}}@media(max-width:700px){.v2-summary,.decision-grid{grid-template-columns:1fr}.stage-engine{grid-template-columns:1fr}.stage-arrow{transform:rotate(90deg)}}
 @media(max-width:1000px){.scenario-layout{grid-template-columns:1fr}.scenario-gates,.impact-grid{grid-template-columns:repeat(2,1fr)}.api-summary{grid-template-columns:repeat(2,1fr)}.contract-grid{grid-template-columns:1fr}.detail-foot{grid-template-columns:1fr}.detail-kpis{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:1fr}}
 @media(max-width:600px){.detail-kpis,.api-summary,.scenario-gates,.impact-grid{grid-template-columns:1fr}}
 @media(max-width:1050px){.report-summary{grid-template-columns:repeat(3,1fr)}.report-grid{grid-template-columns:repeat(2,1fr)}.report-flow{grid-template-columns:1fr}.report-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-26px;transform:translateX(-50%)}}
@@ -33,7 +35,7 @@
 <div class="wrap">
 <header class="hero"><div><div class="eyebrow">PRACTIKA · PRODUCTION INTELLIGENCE REBUILD</div><h1>Production Control Tower</h1><p>Executive Business Workflow + Database Relation Blueprint รื้อจาก SO/WO/Cutting Access เดิม และปรับเป็นโครงสร้าง Web / API / Database / AI Agent ที่พร้อม implement ต่อ โดยรักษา traceability ตั้งแต่ Customer → SO → WO → Cutting → Material → Shopfloor → Delivery</p></div><span class="ready">DESIGN BASELINE · IMPLEMENTATION READY</span></header>
 <section class="kpis"><div class="kpi"><b>9,335</b><span>Cutting jobs ใน SO_WO extract</span></div><div class="kpi"><b>100%</b><span>Cutting → ItemCutting match</span></div><div class="kpi"><b>84.9%</b><span>Cutting → TimeEntry coverage</span></div><div class="kpi"><b>97.7%</b><span>Related SO → SaleInquiry coverage</span></div></section>
-<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="reports">Report Center</button><button class="tab" data-tab="scenario">Scenario Planner</button><button class="tab" data-tab="erpapi">ERP API Contract</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
+<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="reports">Report Center</button><button class="tab" data-tab="rebuildv2">Rebuild V2 Evidence</button><button class="tab" data-tab="scenario">Scenario Planner</button><button class="tab" data-tab="erpapi">ERP API Contract</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
 
 <section id="workflow" class="view active panel">
 <div class="head"><div><h2>Executive Business Workflow · Real Topology</h2><p>จัดตาม Domain, Gate, Exception และ feedback loop จริง — ไม่ใช่ flow ต่อเป็นขบวนรถไฟ</p></div><div class="legend"><span class="pill">Operational flow</span><span class="pill">Evidence / telemetry</span><span class="pill">Feedback / re-plan</span></div></div>
@@ -157,6 +159,7 @@ flowchart TB
   <article class="report-card" role="button" tabindex="0" data-report="dataquality"><span class="state ready">AVAILABLE NOW</span><h3>08 · Data Quality & Integration</h3><p>รายงานสุขภาพข้อมูลก่อนนำ KPI ไปใช้ตัดสินใจ</p><ul><li>Cutting → ItemCutting = 100%</li><li>Cutting → TimeEntry = 84.9%</li><li>Related SO → SaleInquiry ≈ 97.7%</li><li>Invalid date / missing hours / orphan / duplicate gates</li></ul></article>
 
   <article class="report-card" role="button" tabindex="0" data-report="otd"><span class="state partial">PARTIAL</span><h3>09 · Promise / OTD Governance</h3><p>นิยาม On-Time Delivery ระดับ Order/Line ให้เป็นมาตรฐานเดียวก่อนประกาศ KPI</p><ul><li>Promised Delivery และ Actual Ship มีใน SaleInquiry</li><li>พบ date anomaly จึงยังไม่ certify % OTD</li><li>ต้องกำหนด latest promise vs original promise policy</li><li>Report ต้องแสดง denominator และ excluded rows</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="route"><span class="state ready">AVAILABLE NOW</span><h3>10 · Route / Stage Bottleneck</h3><p>ใช้ ControlPlan เป็น Routing Backbone และ resolve สถานะงานด้วย Type + Status + Last ControlPlan Family</p><ul><li>886,404 operation-route rows</li><li>75 Work Centers · 60 operation descriptions</li><li>Latest monitor Cutting → Routing = 99.87%</li><li>Stage rule 789 observed rows + explicit UNMAPPED fallback</li></ul></article>
 </div>
 
 <div id="reportDetail" class="report-detail" hidden>
@@ -190,6 +193,56 @@ flowchart TB
 </section>
 
 
+
+<section id="rebuildv2" class="view panel">
+<div class="head"><div><h2>Rebuild V2 · Legacy Intelligence Recovered</h2><p>รอบที่สองพบ logic ที่สำคัญกว่าการเพิ่ม Dashboard: Source Snapshot lineage, Routing backbone, Stage Resolver และ ATP detail ต้องเป็นแกนระบบก่อนเปิด Dynamic Scheduler จริง</p></div><div class="legend"><span class="state ready">RDC ANALYZED</span><span class="pill">Jev SHADOW reviewed</span><span class="pill">Deterministic first</span></div></div>
+
+<div class="v2-summary">
+  <div class="v2-kpi"><span>CONTROL PLAN</span><b>886,404</b><span>operation-route rows · 149,616 groups</span></div>
+  <div class="v2-kpi"><span>ROUTE COVERAGE</span><b>99.87%</b><span>2021–22 Cutting → ControlPlan</span></div>
+  <div class="v2-kpi"><span>STAGE RULES</span><b>789</b><span>observed Type + Status + Route mappings</span></div>
+  <div class="v2-kpi"><span>PO DETAIL</span><b>1,414</b><span>rows · 713 PO · 247 suppliers</span></div>
+  <div class="v2-kpi"><span>ON HAND MODEL</span><b>226</b><span>fields incl. commits / leadtime / buyer / cost</span></div>
+  <div class="v2-kpi"><span>TIME ENTRY</span><b>152,551</b><span>rows · Actual Hours = 0 → quality gate required</span></div>
+</div>
+
+<div class="v2-alert"><b>Critical discovery:</b> ไฟล์ใน ZIP ไม่ได้เป็น snapshot เวลาเดียวกันทั้งหมด เช่น SO_WO.xlsx เป็นชุดปี 2020 ขณะที่ ItemCutting/SaleInquiry/PO เป็นหลักปี 2021 และ 40.xls ครอบคลุม 2021–2022 ดังนั้น “join ไม่ติด” ข้ามไฟล์อาจหมายถึงคนละ snapshot ไม่ใช่ key ผิด ระบบใหม่จึงต้องมี <b>source_batch / effective window</b> เป็น first-class data model.</div>
+
+<div class="decision-grid">
+  <article class="decision-card"><span class="eyebrow">01 · DATA LINEAGE</span><h3>Source Batch First</h3><p>ทุก extract/API payload มี batch, extract time, valid period, row hash และ quality state ก่อน normalize. ห้าม Latest-wins แบบเงียบ ๆ และห้าม force join คนละช่วงเวลา.</p><span class="jev">Jev 1.00 · SOURCE_BATCH_FIRST</span></article>
+  <article class="decision-card"><span class="eyebrow">02 · ROUTING</span><h3>ControlPlan = Routing Backbone</h3><p>ControlPlan ไม่ใช่ report เสริมอีกต่อไป แต่เป็น Operation Sequence + Work Center backbone สำหรับ stage flow, bottleneck และ Dynamic Planning.</p><span class="jev">Jev 1.00 · ROUTING_BACKBONE</span></article>
+  <article class="decision-card"><span class="eyebrow">03 · CURRENT STAGE</span><h3>Effective-dated Stage Rules</h3><p>Current Stage resolve ด้วย Cutting Type + Cutting Status + Last ControlPlan Family ผ่าน rule table แบบ versioned; status ใหม่ไม่รู้จักต้องขึ้น UNMAPPED ไม่เดา.</p><span class="jev">Jev 1.00 · EFFECTIVE_DATED_RULE_TABLE</span></article>
+  <article class="decision-card"><span class="eyebrow">04 · MATERIAL</span><h3>ATP Components, not On-Hand only</h3><p>แยก On Hand, soft/hard committed, WO/Project committed, in-transit, On PO, inspection และ inbound; ค่อย derive readiness ตามเวลา.</p><span class="jev">Jev 1.00 · ATP_LEDGER</span></article>
+  <article class="decision-card"><span class="eyebrow">05 · TIME ENTRY</span><h3>Derive with Quality Gate</h3><p>Hours-Actual = 0 ทุกแถว จึงห้ามใช้ตรง ๆ; derive provisional elapsed time จาก validated timestamps และ quarantine date anomaly พร้อมขอ certified actual minutes จาก ERP.</p><span class="jev">Jev 1.00 · DERIVE_WITH_QUALITY_GATE</span></article>
+  <article class="decision-card"><span class="eyebrow">06 · DYNAMIC PLANNER</span><h3>Scenario Only until Capacity is Certified</h3><p>Routing มีแล้ว แต่ Standard Time + Capacity Calendar ยังไม่ครบ. ทำ Scenario UI/constraint model ได้ทันที แต่ Publish/write-back ต้องปิดจน P0 timing/capacity ผ่าน UAT.</p><span class="jev">Jev 1.00 · SCENARIO_DESIGN_ONLY</span></article>
+</div>
+
+<div class="box" style="margin:0 16px 16px"><h3>Production Stage Resolver · Deterministic Flow</h3>
+<div class="stage-engine">
+  <div class="stage-node"><span class="eyebrow">INPUT</span><b>Cutting Type + Status</b><small>เช่น WD / ST / AP / 5C / 5P / CH / 5S และ status 15/30/40/60/70/99/9D</small></div>
+  <div class="stage-arrow">→</div>
+  <div class="stage-node"><span class="eyebrow">ROUTE CONTEXT</span><b>Last ControlPlan Family</b><small>L1 / L2 / L3 / L4 / L5 / L6 / S1 / S2 จาก Work Center routing</small></div>
+  <div class="stage-arrow">→</div>
+  <div class="stage-node"><span class="eyebrow">RULE OUTPUT</span><b>Resolved Production Stage</b><small>ENG · วางแผน · ผลิต1–5 · Store · Finish หรือ <b>UNMAPPED</b> ถ้ายังไม่มี rule ที่รับรอง</small></div>
+</div></div>
+
+<div class="source-matrix"><div class="box"><h3>Source Snapshot Matrix</h3><table><thead><tr><th>Source</th><th>Observed period / volume</th><th>Role in new system</th><th>Rule</th></tr></thead><tbody>
+<tr><td>SO_WO.xlsx</td><td>2020 · 4,445 Cutting / 1,263 WO</td><td>Historical production snapshot</td><td>Do not force join to 2021 component extracts</td></tr>
+<tr><td>40.xls</td><td>2021–2022 · 30,546 Cutting / 6,115 WO</td><td>Later production monitor snapshot</td><td>Cutting → ControlPlan 99.87%</td></tr>
+<tr><td>ControlPlan.csv</td><td>2020–2022 · 886,404 rows</td><td>Routing / Work Center backbone</td><td>Version + source batch</td></tr>
+<tr><td>ItemCutting.csv</td><td>mainly 2021 · 21,593 groups</td><td>Component requirement detail</td><td>Join within compatible batch/window</td></tr>
+<tr><td>Partlist.csv</td><td>2020 · 14,558 unique WO</td><td>WO master candidate</td><td>97.31% match to 2020 SO_WO WO</td></tr>
+<tr><td>PO.csv</td><td>1,414 rows · 713 PO</td><td>Supplier / inbound ETA</td><td>Line-level source preferred</td></tr>
+<tr><td>OnHand.csv</td><td>226 fields</td><td>Inventory + planning master</td><td>Preserve commitments separately</td></tr>
+<tr><td>phone.xls</td><td>152,551 operation events</td><td>Actual execution evidence</td><td>Hours zero; timestamps require validation</td></tr>
+</tbody></table></div></div>
+
+<div class="grid">
+  <div class="box"><h3>New Status Governance</h3><p>40.xls พบ status เพิ่มที่ mapping เดิมยังไม่ครอบคลุม: <b>50 = จ้างผลิต RM อุปกรณ์ - PTK</b>, <b>53 = จ้างผลิตบางส่วน</b>, <b>74 = ผ่านบางส่วน</b>, <b>80 = ซ่อมงาน</b>. ระบบใหม่ต้องขึ้น <span class="warn">UNMAPPED / REVIEW</span> จนมีผู้รับรอง rule ไม่ให้ AI เดาสถานะโรงงาน.</p></div>
+  <div class="box"><h3>Implementation Artifacts</h3><p>เพิ่ม schema สำหรับ Source Lineage, Stage Rule, ATP components และ TimeEntry quality โดยไม่เปิด Production write-back.</p><div class="links"><a href="production_domain_v2.sql">Production Domain V2 SQL</a><a href="data/jev_architecture_review.json">Jev SHADOW Review</a><a href="scheduler_schema.sql">Scenario Scheduler SQL</a><a href="erp_api_field_contract.csv">ERP API Field Contract</a></div></div>
+</div>
+</section>
+
 <section id="scenario" class="view panel">
 <div class="head"><div><h2>Dynamic Scenario Planner · What-if Production Scheduling</h2><p>เตรียมรองรับการเลื่อน Order เข้า/ออก โดยจำลองผลกระทบแบบ finite-capacity ก่อน Publish — Baseline ERP ไม่ถูกแก้จนผ่าน Human Gate</p></div><div class="legend"><span class="state partial">UI PROTOTYPE</span><span class="pill">Baseline vs Scenario</span><span class="pill">Fail-closed publish gate</span></div></div>
 <div class="scenario-layout">
@@ -201,7 +254,7 @@ flowchart TB
     <div class="field"><label>Optimization policy</label><select><option>Minimize total delivery risk</option><option>Protect VIP / due date first</option><option>Minimize overtime</option><option>Minimize total moves</option></select></div>
     <div class="field"><label><input id="protectFrozen" type="checkbox" checked> Protect frozen / locked slots</label></div>
     <div class="scenario-actions"><button id="simulateBtn" class="primary" type="button">Simulate Impact</button><button type="button" disabled>Publish</button></div>
-    <p class="scenario-note"><b>Prototype only:</b> slot loads below are illustrative until ERP Routing + Standard Time + Capacity Calendar are connected. Publish stays disabled.</p>
+    <p class="scenario-note"><b>Prototype only:</b> ControlPlan routing is now evidenced historically; slot loads below remain illustrative until certified Standard Time + Capacity Calendar are connected. Publish stays disabled.</p>
   </aside>
   <main class="scenario-main">
     <h3>Baseline Production Slots → Scenario Impact</h3>
@@ -375,7 +428,7 @@ flowchart LR
 <section id="implement" class="view panel">
 <div class="head"><div><h2>Implementation Baseline</h2><p>โครงการถูกปักไว้เป็น design baseline เพื่อให้เริ่ม backend/database ต่อได้โดยไม่ต้องย้อนตีความ Access ใหม่</p></div></div>
 <div class="grid">
-<div class="box"><h3>Build order</h3><ol><li>PostgreSQL staging จาก schema.sql</li><li>ETL 5 CSV ชุดปัจจุบัน → normalized tables</li><li>Data-quality gates: orphan, duplicate, invalid date, status sequence</li><li>Connector เพิ่ม PO / ControlPlan / Partlist</li><li>Read-only API + Control Tower dashboard</li><li>Rule engine: material readiness / late / WIP / bottleneck</li><li>AI recommendations หลัง Human Gate</li></ol></div>
+<div class="box"><h3>Build order</h3><ol><li>Source Batch / lineage staging + date quarantine</li><li>Normalize WO / Cutting / ControlPlan routing / Work Center</li><li>Import legacy Stage Rules as OBSERVED; business-verify before VERIFIED</li><li>Normalize ItemCutting + OnHand commitments + PO/Supplier ETA</li><li>TimeEntry timestamp quality + provisional elapsed duration</li><li>Read-only API + Route/Stage/WIP reports</li><li>Scenario scheduler after Standard Time + Capacity Calendar P0 data</li><li>AI recommendations only after deterministic rules + Human Gate</li></ol></div>
 <div class="box"><h3>Architecture rules</h3><ul><li>Raw source immutable + row hash</li><li>No browser → DB direct write</li><li>No hidden business logic in UI/query</li><li>AI = recommendation, not production authority</li><li>Release / reprioritize / override ต้องมี Human Gate + audit</li></ul></div>
 <div class="box"><h3>Artifacts</h3><p>DDL ถูกแยกจากหน้าจอเพื่อให้ backend implement ได้โดยตรง.</p><div class="links"><a href="schema.sql">Open schema.sql</a><a href="scheduler_schema.sql">Scheduler schema</a><a href="erp_api_field_contract.csv">ERP API fields</a><a href="README.md">Open README</a><a href="../">Back to Portal</a></div></div>
 <div class="box"><h3>Current boundary</h3><p><b>Design / read-only.</b> ยังไม่มี production database, API หรือ write-back. สิ่งที่พร้อมแล้วคือ workflow topology, target relational model, legacy evidence และ PostgreSQL DDL baseline.</p></div>
@@ -535,6 +588,20 @@ const reportCatalog={
     ],
     questions:['Supplier ไหนทำให้ Customer promise เสี่ยง?','PO ไหนต้อง expedite วันนี้?','ETA ที่ supplier confirm ต่างจาก ERP promise เท่าไร?'],
     fields:['po_no + line','supplier_no/name','item_no','open_qty','promised_delivery','confirmed_delivery','last_receipt','buyer','PO status']
+  },
+  route:{
+    state:'ready',stateText:'AVAILABLE NOW',
+    title:'10 · Route / Stage Bottleneck',
+    subtitle:'ControlPlan ถูกยกระดับเป็น routing backbone; stage resolver ใช้ Cutting Type + Status + Last ControlPlan Family แบบ deterministic.',
+    kpis:[['886,404','Route rows'],['149,616','ControlPlan groups'],['75','Business Units'],['99.87%','Latest Cutting → Route']],
+    charts:[
+      {title:'Routing Volume by Work-Center Family',type:'bars',note:'Historical operation-route rows',data:[['L2',385286],['L1',205033],['L4',176547],['L3',79000],['L5',35668],['S1',2933],['L6',1535],['S2',385]]},
+      {title:'Top Operation Descriptions',type:'bars',note:'Historical ControlPlan operation rows',data:[['ตัด',122583],['PACK',99888],['ล้าง',57666],['ทำสี',57591],['เจียรขัด',57284],['เจาะ',57153],['ประกอบ',48701],['เชื่อมขึ้นรูป',48152]]},
+      {title:'Stage Rule Coverage',type:'bars',note:'Observed legacy mapping rows by resolved stage family',data:[['ENG',189],['ผลิต5',134],['Store',89],['ผลิต1',77],['ผลิต3',63],['Finish',63],['ENG,วางแผน',63],['ผลิต2',36]]},
+      {title:'Unmapped New Status',type:'bars',note:'2021–22 monitor statuses that require explicit rule review',data:[['50',1321],['53',256],['74',1],['80',1]]}
+    ],
+    questions:['งานนี้ต้องผ่าน Work Center อะไรบ้างตามลำดับ?','Stage ปัจจุบัน resolve จาก rule ไหน?','Work Center family ไหนมี route demand สูงแต่ actual throughput ต่ำ?','Status ใหม่ใดกำลังตก UNMAPPED?'],
+    fields:['cutting_type','cutting_status','ControlPlan operation_seq','work_center_code / family','effective-dated stage rule','operation actual timestamps']
   },
   dataquality:{
     state:'ready',stateText:'AVAILABLE NOW',
