@@ -212,7 +212,7 @@ const overrides = {
   },
   "todo-agent-lab": {
     title:"Todo Agent Lab · Executive Business Workflow",
-    description:"Forkable Todo / Planner Agent Engine พร้อม Primary Agent + RDC/JEV Dual Shadow, Human Gate, Controlled Write, Verify และ Audit"
+    description:"Forkable Todo / Planner Agent Engine แบบ 13 Agent Intelligence Mesh พร้อม Meeting/Email Intelligence, Evidence Context, RDC/JEV Dual Shadow, Human Gate, Controlled Write, Verify และ Audit"
   }
 };
 
@@ -288,9 +288,9 @@ const architectures = {
     meta:["Building PMO","Backlog Control","Action Tracking"]
   },
   "todo-agent-lab": {
-    note:"Todo / Planner Agent Engine แบบ Primary + Dual Shadow: Todo Agent เป็นสมองหลัก, RDC Shadow ตรวจ operational feasibility / execution risk และ JEV Shadow เป็น typed decision coprocessor อิสระ ก่อนรวมผลเข้าสู่ Human Gate; Shadow ไม่มี execution authority",
-    flow:[["Business Input","Meeting · Email · Existing Planner Task"],["Source of Truth","Planner / Todo + Provider Adapter"],["Primary Agent","Radar · Stale · Doctor · HOLD · Priority · Weekly Brief"],["Dual Shadow Council","RDC Shadow + JEV Shadow → Compare / Conflict"],["Executive Decision","Primary + Shadow Signals → Proposal → Human Gate"],["Controlled Execution","Dry Run → RDC MCP/CLI/API/OI → Graph Write → Verify → Audit"],["Business Value","KPI review → Feedback → Pilot Go Live"]],
-    meta:["10 Use Cases","RDC Shadow","JEV READY_SHADOW","Human Gate","Golden UAT PASS"]
+    note:"Todo / Planner Agent Engine แบบ 13 Agent Intelligence Mesh: Meeting และ Email ถูกวิเคราะห์เป็น Draft ก่อนเข้า Canonical Task Model, Primary Agents ทำงานขนาน, Evidence Agent สร้างหลักฐานให้การตัดสินใจ, RDC/JEV ทำ Dual Shadow ก่อน Human Gate; Shadow ไม่มี execution authority",
+    flow:[["Business Input","Meeting · Email · Existing Planner / Todo"],["Intake Intelligence","Meeting Agent + Email Agent → Action Drafts"],["Canonical Task Mesh","Provider Adapter → Canonical Task Model"],["Parallel Intelligence","Radar · Doctor · HOLD · Evidence → Follow-up · Next Action · Weekly Brief"],["Dual Shadow Council","RDC Shadow + JEV Shadow → Consensus / Conflict / Evidence Gap"],["Executive Decision","Primary + Shadow Signals → Proposal → Human Gate"],["Controlled Execution","Dry Run → RDC MCP/API/CLI/OI → Graph Write → Verify → Audit"],["Business Value","KPI review → Feedback → Pilot Go Live"]],
+    meta:["13 Agents","Meeting/Email Intelligence","Evidence Context","RDC Shadow","JEV READY_SHADOW","Human Gate"]
   }
 };
 const manualApps = [
