@@ -150,6 +150,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "autonacadz-manual": {
+    title:"AutoNaCadz for Korex · Engineering Control Portal",
+    description:"Digital Engineering Rule Platform · Formula & Rule QA, STD Release/Version Gate, CAD QA + DWG TrueView และ Production Safety roadmap"
+  },
   "chat-steward-manual": {
     title:"Chat Steward · Conversation Control Center",
     description:"Full Inventory ตรวจ Chat เก่าทั้งหมด + Continue / Reference / Project / Delete Candidate พร้อม Human Gate และ Local-only Registry"
@@ -185,6 +189,11 @@ const overrides = {
 };
 
 const architectures = {
+  "autonacadz-manual": {
+    note:"Engineering automation แบบ fail-closed: Product Rule เป็น Single Source of Truth, deterministic QA คุมก่อน Release, CAD execution แยกจาก TrueView visual verification และ Human Gate คุม Production release.",
+    flow:[["Product Governance","STD / Formula / Part / Master"],["QA + Release","Formula Rule QA → Human Version Gate"],["Work Order","Requirement / Dimension / Configuration"],["CAD Engine","AutoLISP / AutoCAD deterministic execution"],["CAD QA","DWG check + TrueView visual verification"],["Production Gate","Drawing/Cutting reconciliation + Human release"],["Learning","QC / Rework → RCA → Improve STD"]],
+    meta:["0 QA Blockers baseline","DWG TrueView 2024","Human Release Gate","GitHub Executive Portal"]
+  },
   "chat-steward-manual": {
     note:"Local-only control layer สำหรับคัดวงจรชีวิตของ Chat โดยแยก AI suggestion ออกจาก Human decision และไม่ลบ Chat จริงอัตโนมัติ",
     flow:[["ChatGPT","Opened / imported conversation"],["Steward Engine","Lifecycle + Value / Completion / Reuse / Project scores"],["Local Registry","chrome.storage.local · derived metadata only"],["GitHub Web","Review · override · import/export"],["Human Gate","Open Chat → continue / move / delete manually"]],
@@ -227,6 +236,16 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"autonacadz-manual",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/autonacadz/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/autonacadz",
+    updated_at:"2026-10-05T04:10:00Z",
+    topics:["Engineering Automation"],
+    language:"HTML",
+    description:"Executive control portal for AutoNaCadz engineering rules, release governance and CAD QA"
+  },
   {
     name:"chat-steward-manual",
     visibility:"public",
