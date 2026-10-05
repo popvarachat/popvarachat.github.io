@@ -4,8 +4,14 @@ const fmt=n=>new Intl.NumberFormat("en",{notation:"compact",maximumFractionDigit
 
 (async()=>{
   const [s,w,a]=await Promise.all([loadJSON("data/status.json"),loadJSON("data/weekly.json"),loadJSON("data/arsenal.json")]);
+  const dc=s.decision_coprocessor||{};
   const metrics=[
-    [s.agents,"Agents / Roles"],[s.local_skills,"Local Skills"],[s.global_catalog,"Global Metadata"],["0","External Preload"],["v1.2","Gateway"]
+    [s.agents,"Agents / Roles"],
+    [s.local_skills,"Local Skills"],
+    [dc.product||"—","Decision Coprocessor"],
+    [s.global_catalog,"Global Metadata"],
+    ["0","External Preload"],
+    ["v1.3","Gateway"]
   ];
   document.getElementById("metrics").innerHTML=metrics.map(x=>`<div class="metric"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("");
   const hb=document.getElementById("healthBadge");hb.textContent=s.status;hb.classList.toggle("warn",s.status!=="READY");

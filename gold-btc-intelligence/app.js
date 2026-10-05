@@ -110,32 +110,85 @@ function alignmentCard(symbol,a){
     '<div class="inst-note">'+esc(a?.diversity_warning||'')+'</div></article>';
 }
 
+function flowInstrumentState(layerId,instrument){
+  const ins=(WORKFLOW?.instruments||[]).find(x=>x.instrument===instrument);
+  return ins?.layers?.[layerId]||{};
+}
+function flowStatusHtml(layerId){
+  const btc=flowInstrumentState(layerId,'BTCUSD');
+  const gold=flowInstrumentState(layerId,'XAUUSD');
+  return '<div class="flow-live-chip '+esc(btc.status||'FAILED')+'" data-wf-layer="'+esc(layerId)+'" data-wf-instrument="BTCUSD"><span>BTC</span><b>'+esc(btc.status||'—')+'</b></div>'+
+    '<div class="flow-live-chip '+esc(gold.status||'FAILED')+'" data-wf-layer="'+esc(layerId)+'" data-wf-instrument="XAUUSD"><span>GOLD</span><b>'+esc(gold.status||'—')+'</b></div>';
+}
 function renderWorkflow(){
   const w=WORKFLOW;
   if(!w) return;
   safeSet('wfOverall','<span class="flow-state '+esc(w.overall_status)+'">'+esc(w.overall_status)+'</span>');
   safeText('wfUpdated',wfTime(w.generated_at_utc));
 
-  safeSet('wfNodes',WF_IDS.map((id,i)=>{
-    const x=w.layers[id]||{}, states=x.instrument_states||{};
-    return '<article class="workflow-node" data-wf-layer="'+esc(id)+'">'+
-      '<div class="node-no">LAYER 0'+(i+1)+'</div>'+
-      '<h4>'+esc(WF_LABELS[id]||id)+'</h4>'+
-      '<span class="flow-state '+esc(x.status||'FAILED')+'">'+esc(x.status||'FAILED')+'</span>'+
-      '<div class="node-mini">BTC '+esc(states.BTCUSD||'—')+' · GOLD '+esc(states.XAUUSD||'—')+
-      '<br>'+esc(wfTime(x.updated_at_utc))+'</div>'+
-    '</article>';
-  }).join(''));
+  document.querySelectorAll('[data-status-slot]').forEach(el=>{
+    el.innerHTML=flowStatusHtml(el.dataset.statusSlot);
+  });
 
-  safeSet('wfLanes',w.instruments.map(ins=>
-    '<div class="workflow-lane"><div class="workflow-lane-name">'+esc(ins.instrument)+'</div>'+
-    WF_IDS.map(id=>{
-      const x=ins.layers[id]||{};
-      return '<div class="workflow-cell '+esc(x.status||'FAILED')+'" data-wf-layer="'+esc(id)+'" data-wf-instrument="'+esc(ins.instrument)+'">'+
-        '<span class="flow-state '+esc(x.status||'FAILED')+'">'+esc(x.status||'FAILED')+'</span>'+
-        '<small>'+esc(x.summary||'')+'</small></div>';
-    }).join('')+'</div>'
-  ).join(''));
+  const btcInput=flowInstrumentState('data_input','BTCUSD');
+  const goldInput=flowInstrumentState('data_input','XAUUSD');
+  const btcAgent=flowInstrumentState('multi_agent_core','BTCUSD');
+  const goldAgent=flowInstrumentState('multi_agent_core','XAUUSD');
+
+  const sb=byId('flowSourceBtc'); if(sb) sb.classList.toggle('is-degraded',btcInput.status!=='COMPLETE');
+  const sg=byId('flowSourceGold'); if(sg) sg.classList.toggle('is-degraded',goldInput.status!=='COMPLETE');
+
+  const orch=byId('flowOrchestrator');
+  if(orch) orch.querySelector('p').textContent=
+    'BTC '+(btcAgent.details?.candidate_count??'—')+' candidates · GOLD '+(goldAgent.details?.candidate_count??'—')+' candidates';
+
+  drawFlowConnectors();
+}
+function connectorSeverity(ids){
+  const ranks={FAILED:5,BLOCKED:4,DEGRADED:3,WAIT:2,COMPLETE:1};
+  let worst='COMPLETE',score=1;
+  for(const layerId of ids){
+    const status=WORKFLOW?.layers?.[layerId]?.status||'FAILED';
+    if((ranks[status]||5)>score){score=ranks[status]||5;worst=status;}
+  }
+  return worst;
+}
+function drawFlowConnectors(){
+  const graph=byId('flowGraph'),svg=byId('flowSvg');
+  if(!graph||!svg||window.innerWidth<=1180) return;
+  const box=graph.getBoundingClientRect();
+  svg.setAttribute('viewBox','0 0 '+box.width+' '+box.height);
+  const defs='<defs><linearGradient id="flowGradient" x1="0" x2="1"><stop offset="0%" stop-color="#5da4ff"/><stop offset="55%" stop-color="#7b70f2"/><stop offset="100%" stop-color="#56c693"/></linearGradient></defs>';
+  const paths=[
+    ['flowSourceBtc','flowDataInput',['data_input']],
+    ['flowSourceGold','flowDataInput',['data_input']],
+    ['flowSourceMacro','flowDataInput',['data_input']],
+    ['flowDataInput','flowPreprocess',['data_input','preprocess_feature']],
+    ['flowPreprocess','flowOrchestrator',['preprocess_feature','multi_agent_core']],
+    ['flowOrchestrator','flowAgentSearch',['multi_agent_core']],
+    ['flowOrchestrator','flowAgentEval',['multi_agent_core']],
+    ['flowOrchestrator','flowAgentHeur',['multi_agent_core']],
+    ['flowOrchestrator','flowAgentEnd',['multi_agent_core']],
+    ['flowAgentSearch','flowAgentMerge',['multi_agent_core']],
+    ['flowAgentEval','flowAgentMerge',['multi_agent_core']],
+    ['flowAgentHeur','flowAgentMerge',['multi_agent_core']],
+    ['flowAgentEnd','flowAgentMerge',['multi_agent_core']],
+    ['flowAgentMerge','flowDecision',['multi_agent_core','decision_risk_control']],
+    ['flowDecision','flowExecutive',['decision_risk_control','executive_output']]
+  ];
+  let html=defs;
+  for(const [fromId,toId,layers] of paths){
+    const from=byId(fromId),to=byId(toId);
+    if(!from||!to) continue;
+    const a=from.getBoundingClientRect(),b=to.getBoundingClientRect();
+    const x1=a.right-box.left,y1=a.top+a.height/2-box.top;
+    const x2=b.left-box.left,y2=b.top+b.height/2-box.top;
+    const mid=x1+(x2-x1)*0.52;
+    const sev=connectorSeverity(layers);
+    const cls=sev==='BLOCKED'||sev==='FAILED'?'blocked':sev==='DEGRADED'?'degraded':'active';
+    html+='<path class="'+cls+'" d="M '+x1+' '+y1+' C '+mid+' '+y1+', '+mid+' '+y2+', '+x2+' '+y2+'"/>';
+  }
+  svg.innerHTML=html;
 }
 
 const AGENT_META=[
@@ -348,8 +401,15 @@ function buildReportHtml(){
 
 const agentSquad=byId('agentSquad'); if(agentSquad) agentSquad.addEventListener('click',e=>{const card=e.target.closest('[data-agent-id]');if(card)openAgentDeepDive(card.dataset.agentId);});
 
-const wfNodes=byId('wfNodes'); if(wfNodes) wfNodes.addEventListener('click',e=>{const n=e.target.closest('[data-wf-layer]');if(n)openWorkflowDetail(n.dataset.wfLayer,null);});
-const wfLanes=byId('wfLanes'); if(wfLanes) wfLanes.addEventListener('click',e=>{const n=e.target.closest('[data-wf-layer]');if(n)openWorkflowDetail(n.dataset.wfLayer,n.dataset.wfInstrument);});
+const flowGraph=byId('flowGraph'); if(flowGraph) flowGraph.addEventListener('click',e=>{
+  const n=e.target.closest('[data-wf-layer]');
+  if(n) openWorkflowDetail(n.dataset.wfLayer,n.dataset.wfInstrument||null);
+});
+let flowResizeTimer=null;
+window.addEventListener('resize',()=>{
+  clearTimeout(flowResizeTimer);
+  flowResizeTimer=setTimeout(()=>{ if(WORKFLOW) drawFlowConnectors(); },120);
+});
 
 const refreshBtn=byId('refreshBtn'); if(refreshBtn) refreshBtn.onclick=()=>loadSnapshot().catch(showError);
 const autoBtn=byId('autoBtn'); if(autoBtn) autoBtn.onclick=e=>{

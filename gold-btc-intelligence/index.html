@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GOLD / BTCUSD Executive Intelligence</title>
-  <link rel="stylesheet" href="styles.css?v=institutional-v1" />
+  <link rel="stylesheet" href="styles.css?v=flow-arch-v1" />
 </head>
 <body>
   <div class="shell">
@@ -59,13 +59,103 @@
             </div>
           </div>
 
-          <div id="wfNodes" class="workflow-nodes">
-            <div class="workflow-loading">Loading live workflow…</div>
+          <div class="flow-legend">
+            <span><i class="legend-dot complete"></i> Healthy / Complete</span>
+            <span><i class="legend-dot degraded"></i> Degraded</span>
+            <span><i class="legend-dot blocked"></i> Blocked / WAIT</span>
+            <span><i class="legend-line"></i> Actual data path</span>
           </div>
 
-          <div class="workflow-flowline" aria-hidden="true"></div>
+          <div id="flowGraph" class="flow-graph">
+            <svg id="flowSvg" class="flow-svg" aria-hidden="true"></svg>
 
-          <div id="wfLanes" class="workflow-lanes"></div>
+            <div class="flow-column flow-sources">
+              <div class="flow-column-label">MARKET & CONTEXT SOURCES</div>
+              <article id="flowSourceBtc" class="flow-node source-node source-btc">
+                <div class="flow-node-icon">₿</div>
+                <div><small>MARKET DATA</small><h4>BTC Public Feeds</h4><p>Binance · Bybit · OKX · Order Flow</p></div>
+              </article>
+              <article id="flowSourceGold" class="flow-node source-node source-gold">
+                <div class="flow-node-icon">Au</div>
+                <div><small>MARKET DATA</small><h4>GOLD / XAUUSD</h4><p>MT5 broker / GC=F reference</p></div>
+              </article>
+              <article id="flowSourceMacro" class="flow-node source-node source-macro">
+                <div class="flow-node-icon">M</div>
+                <div><small>CONTEXT</small><h4>Macro & Events</h4><p>DXY · US10Y · Calendar · Session</p></div>
+              </article>
+            </div>
+
+            <div class="flow-column flow-processing">
+              <div class="flow-column-label">DATA PROCESSING</div>
+              <article id="flowDataInput" class="flow-node layer-node" data-wf-layer="data_input">
+                <div class="flow-step-no">01</div>
+                <small>INGEST / VALIDATE</small>
+                <h4>Data Input</h4>
+                <div class="flow-live-status" data-status-slot="data_input"></div>
+              </article>
+              <article id="flowPreprocess" class="flow-node layer-node" data-wf-layer="preprocess_feature">
+                <div class="flow-step-no">02</div>
+                <small>NORMALIZE / FEATURES</small>
+                <h4>Preprocess & Feature</h4>
+                <div class="flow-live-status" data-status-slot="preprocess_feature"></div>
+              </article>
+            </div>
+
+            <div class="flow-column flow-agent-core">
+              <div class="flow-column-label">MULTI-AGENT CORE</div>
+              <article id="flowOrchestrator" class="flow-node orchestrator-node">
+                <div class="flow-node-icon">⌘</div>
+                <div><small>COMMAND</small><h4>Agent Orchestrator</h4><p>Dispatch · collect · coordinate</p></div>
+              </article>
+
+              <div class="agent-branch-grid">
+                <article id="flowAgentSearch" class="flow-node mini-agent">
+                  <b>1</b><div><small>SEARCH</small><h4>Candidate Hunter</h4></div>
+                </article>
+                <article id="flowAgentEval" class="flow-node mini-agent">
+                  <b>2</b><div><small>EVALUATE</small><h4>NNUE-style Score</h4></div>
+                </article>
+                <article id="flowAgentHeur" class="flow-node mini-agent">
+                  <b>3</b><div><small>FILTER</small><h4>Heuristics Gate</h4></div>
+                </article>
+                <article id="flowAgentEnd" class="flow-node mini-agent">
+                  <b>4</b><div><small>ENDGAME</small><h4>Exit Defense</h4></div>
+                </article>
+              </div>
+
+              <article id="flowAgentMerge" class="flow-node agent-merge-node" data-wf-layer="multi_agent_core">
+                <small>MERGED AGENT OUTPUT</small>
+                <h4>Eligible Candidate Set</h4>
+                <div class="flow-live-status" data-status-slot="multi_agent_core"></div>
+              </article>
+            </div>
+
+            <div class="flow-column flow-governance">
+              <div class="flow-column-label">GOVERNANCE</div>
+              <article id="flowDecision" class="flow-node layer-node decision-node" data-wf-layer="decision_risk_control">
+                <div class="flow-step-no">04</div>
+                <small>SELECT / VETO / SIZE</small>
+                <h4>Decision & Risk</h4>
+                <div class="flow-live-status" data-status-slot="decision_risk_control"></div>
+              </article>
+            </div>
+
+            <div class="flow-column flow-output">
+              <div class="flow-column-label">EXECUTIVE</div>
+              <article id="flowExecutive" class="flow-node layer-node output-node" data-wf-layer="executive_output">
+                <div class="flow-step-no">05</div>
+                <small>ANALYSIS / CONTROL / REPORT</small>
+                <h4>Executive Output</h4>
+                <div class="flow-live-status" data-status-slot="executive_output"></div>
+              </article>
+              <div class="execution-stop">
+                <span>STOP</span>
+                <b>Execution Disabled</b>
+                <small>No TradeIntent · No Order Send</small>
+              </div>
+            </div>
+          </div>
+
           <div id="wfDetail" class="workflow-detail"></div>
         </article>
       </section>
@@ -160,6 +250,6 @@
       <span>Read-only / No financial mutation</span>
     </footer>
   </div>
-  <script src="app.js?v=institutional-v1"></script>
+  <script src="app.js?v=flow-arch-v1"></script>
 </body>
 </html>
