@@ -8,6 +8,15 @@
 <style>
 :root{--bg:#07111f;--panel:#0d1a2d;--panel2:#12243b;--line:#263b59;--text:#eef5ff;--muted:#9db0c8;--blue:#65a8ff;--cyan:#62d5e8;--green:#7ed8ad;--orange:#ffb56b;--red:#ff7a86;--violet:#b99cff;--shadow:0 18px 55px rgba(0,0,0,.24)}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,rgba(101,168,255,.16),transparent 30%),radial-gradient(circle at 90% 12%,rgba(126,216,173,.10),transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Thai",sans-serif}.wrap{max-width:1450px;margin:auto;padding:30px 22px 60px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--cyan);font-weight:800}.hero h1{font-size:clamp(30px,5vw,58px);line-height:1;margin:8px 0 10px;letter-spacing:-.04em}.hero p{margin:0;color:var(--muted);max-width:900px;line-height:1.65}.ready{border:1px solid rgba(126,216,173,.35);background:rgba(126,216,173,.08);color:#c9ffe5;border-radius:999px;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:20px 0}.kpi{border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,36,59,.9),rgba(12,26,44,.9));border-radius:15px;padding:14px}.kpi b{font-size:25px;display:block}.kpi span{font-size:11px;color:var(--muted)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 13px;border-radius:11px;font-weight:800;cursor:pointer}.tab.active{background:linear-gradient(135deg,#5697ef,#72c7d6);color:#07111f;border-color:transparent}.view{display:none}.view.active{display:block}.panel{border:1px solid var(--line);background:rgba(9,21,37,.84);border-radius:19px;box-shadow:var(--shadow);overflow:hidden}.head{display:flex;justify-content:space-between;gap:16px;padding:18px;border-bottom:1px solid var(--line)}.head h2{margin:0 0 5px;font-size:20px}.head p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.legend{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted);font-size:10px}.diagram{padding:20px;overflow:auto;min-height:650px}.mermaid{min-width:1050px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;padding:16px}.box{border:1px solid var(--line);background:rgba(18,36,59,.62);border-radius:15px;padding:15px}.box h3{margin:0 0 8px}.box p,.box li{color:var(--muted);font-size:13px;line-height:1.65}.box ul,.box ol{margin:8px 0 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:#e7f1ff}td{color:var(--muted)}.ok{color:#aef3ca;font-weight:800}.warn{color:#ffd989;font-weight:800}.links{display:flex;gap:8px;flex-wrap:wrap}.links a{color:#e9f4ff;text-decoration:none;border:1px solid var(--line);background:rgba(101,168,255,.08);padding:8px 10px;border-radius:10px;font-size:12px;font-weight:800}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#cfe4ff}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:16px}
+
+.report-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:16px 16px 0}
+.report-kpi{border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,36,59,.72),rgba(10,25,42,.72));border-radius:14px;padding:14px}
+.report-kpi b{display:block;font-size:24px;margin:5px 0}.report-kpi span{font-size:10px;color:var(--muted);line-height:1.45}.report-kpi .rk{font-size:9px;font-weight:900;letter-spacing:.09em;color:var(--cyan)}
+.report-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:16px}.report-card{border:1px solid var(--line);background:rgba(18,36,59,.62);border-radius:15px;padding:15px;min-height:190px}.report-card h3{margin:9px 0 7px;font-size:16px}.report-card p{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.6}.report-card ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:12px;line-height:1.6}
+.state{display:inline-flex;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900;letter-spacing:.05em;border:1px solid var(--line)}.state.ready{color:#aef3ca;border-color:rgba(126,216,173,.35);background:rgba(126,216,173,.08)}.state.partial{color:#ffd989;border-color:rgba(255,181,107,.35);background:rgba(255,181,107,.08)}.state.wait{color:#ffc2c8;border-color:rgba(255,122,134,.35);background:rgba(255,122,134,.08)}
+.report-flow{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:28px;padding:18px}.report-step{position:relative;border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px;min-height:110px}.report-step:not(:last-child)::after{content:"→";position:absolute;right:-21px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:22px;font-weight:900}.report-step b{display:block;margin:5px 0}.report-step small{color:var(--muted);line-height:1.5}.report-band{padding:0 16px 16px}.report-band .box{margin:0}
+@media(max-width:1050px){.report-summary{grid-template-columns:repeat(3,1fr)}.report-grid{grid-template-columns:repeat(2,1fr)}.report-flow{grid-template-columns:1fr}.report-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-26px;transform:translateX(-50%)}}
+@media(max-width:650px){.report-summary,.report-grid{grid-template-columns:1fr}}
 @media(max-width:900px){.hero{flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:560px){.wrap{padding:22px 12px 42px}.kpis{grid-template-columns:1fr}.head{flex-direction:column}}
 </style>
 </head>
@@ -15,7 +24,7 @@
 <div class="wrap">
 <header class="hero"><div><div class="eyebrow">PRACTIKA · PRODUCTION INTELLIGENCE REBUILD</div><h1>Production Control Tower</h1><p>Executive Business Workflow + Database Relation Blueprint รื้อจาก SO/WO/Cutting Access เดิม และปรับเป็นโครงสร้าง Web / API / Database / AI Agent ที่พร้อม implement ต่อ โดยรักษา traceability ตั้งแต่ Customer → SO → WO → Cutting → Material → Shopfloor → Delivery</p></div><span class="ready">DESIGN BASELINE · IMPLEMENTATION READY</span></header>
 <section class="kpis"><div class="kpi"><b>9,335</b><span>Cutting jobs ใน SO_WO extract</span></div><div class="kpi"><b>100%</b><span>Cutting → ItemCutting match</span></div><div class="kpi"><b>84.9%</b><span>Cutting → TimeEntry coverage</span></div><div class="kpi"><b>97.7%</b><span>Related SO → SaleInquiry coverage</span></div></section>
-<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
+<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="reports">Report Center</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
 
 <section id="workflow" class="view active panel">
 <div class="head"><div><h2>Executive Business Workflow · Real Topology</h2><p>จัดตาม Domain, Gate, Exception และ feedback loop จริง — ไม่ใช่ flow ต่อเป็นขบวนรถไฟ</p></div><div class="legend"><span class="pill">Operational flow</span><span class="pill">Evidence / telemetry</span><span class="pill">Feedback / re-plan</span></div></div>
@@ -107,6 +116,54 @@ flowchart TB
   class DONE,DOWN,QC,DEL finish;
   class TOWER,RULE,AI,HG risk;
 </pre></div>
+</section>
+
+
+<section id="reports" class="view panel">
+<div class="head"><div><h2>Management Report Center · Decision Surface</h2><p>รายงานถูกจัดเป็น Executive → Management Control → Operational Drill-down และแสดง Data Readiness ตามหลักฐานจาก extract เดิม ไม่ตีความข้อมูลเกินกว่าที่ source รองรับ</p></div><div class="legend"><span class="state ready">AVAILABLE NOW</span><span class="state partial">PARTIAL / NEEDS RULE</span><span class="state wait">WAITING SOURCE</span></div></div>
+
+<div class="report-summary">
+  <div class="report-kpi"><div class="rk">HISTORICAL SNAPSHOT</div><b>9,335</b><span>Cutting jobs · source SO_WO</span></div>
+  <div class="report-kpi"><div class="rk">WORK ORDERS</div><b>2,003</b><span>WO ที่เชื่อมกับ Cutting ใน extract</span></div>
+  <div class="report-kpi"><div class="rk">OPEN / NON-TERMINAL</div><b>3,570</b><span>38.2% ของ snapshot ไม่อยู่ 9D/99</span></div>
+  <div class="report-kpi"><div class="rk">TERMINAL STATUS</div><b>5,765</b><span>61.8% อยู่สถานะ 9D หรือ 99</span></div>
+  <div class="report-kpi"><div class="rk">TRACEABILITY</div><b>84.9%</b><span>Cutting ที่มี TimeEntry match อย่างน้อยหนึ่งรายการ</span></div>
+</div>
+
+<div class="report-grid">
+  <article class="report-card"><span class="state ready">AVAILABLE NOW</span><h3>01 · Executive Production Cockpit</h3><p>ตอบผู้บริหารว่า “งานทั้งหมดอยู่ตรงไหน และอะไรต้องสนใจวันนี้”</p><ul><li>WO / Cutting count by status</li><li>Open vs terminal WIP</li><li>Customer / Project exposure</li><li>Exception count และ drill-down ถึง Cutting Number</li></ul></article>
+
+  <article class="report-card"><span class="state partial">PARTIAL</span><h3>02 · Customer / Project Delivery Risk</h3><p>จัดอันดับงานเสี่ยงส่งช้าโดยใช้ Due Date + Progress + Material + Activity freshness</p><ul><li>Customer / Project / SO / WO risk ranking</li><li>Days to promise / overdue</li><li>Last activity / stale status</li><li>ต้องทำ date-quality rules ก่อน certify OTD</li></ul></article>
+
+  <article class="report-card"><span class="state partial">PARTIAL</span><h3>03 · Material Readiness & Shortage</h3><p>เทียบ Component Requirement กับ On Hand และ incoming quantity</p><ul><li>Material readiness % ต่อ Cutting/WO</li><li>Shortage item / required qty / available qty</li><li>OnHand + aggregate Qty on PO มีแล้ว</li><li>Supplier ETA ราย PO ต้องรอ PO source</li></ul></article>
+
+  <article class="report-card"><span class="state ready">AVAILABLE NOW</span><h3>04 · WIP Aging & Stale Work</h3><p>หา Cutting ที่หยุดนิ่งนานผิดปกติ และสถานะใดสะสมงานมากที่สุด</p><ul><li>Aging by status / engineer / project</li><li>Time since last TimeEntry</li><li>Status 30/40/45/54/60/65/70/99/9D</li><li>Escalation bucket ตาม SLA</li></ul></article>
+
+  <article class="report-card"><span class="state partial">PARTIAL</span><h3>05 · Capacity & Bottleneck</h3><p>ดู Work Center / Business Unit / Team ที่มี load สะสมและ queue สูง</p><ul><li>186,947 TimeEntry rows มี BU/Team/Begin-End</li><li>Queue / activity count วิเคราะห์ได้</li><li>Hours - Actual ใน extract ว่างทั้งหมด</li><li>Standard time ต้องรอ ControlPlan</li></ul></article>
+
+  <article class="report-card"><span class="state wait">WAITING SOURCE</span><h3>06 · Productivity / Efficiency</h3><p>Actual vs Standard Hours, efficiency, utilization และ labor productivity</p><ul><li>ต้องมี Actual Hours ที่เชื่อถือได้</li><li>ต้องมี Standard Minutes จาก ControlPlan</li><li>รองรับ Team / Work Center / Product family</li><li>ไม่สร้าง KPI เทียมจากข้อมูลที่ยังว่าง</li></ul></article>
+
+  <article class="report-card"><span class="state wait">WAITING SOURCE</span><h3>07 · Supplier / PO ETA Risk</h3><p>Material shortage จะถูกเชื่อมต่อถึง PO, Supplier และ Promise Date</p><ul><li>PO overdue / ETA slip</li><li>Supplier response / lead-time variance</li><li>Shortage impact ต่อ Customer promise</li><li>รอ PO.csv หรือ connector ต้นทาง</li></ul></article>
+
+  <article class="report-card"><span class="state ready">AVAILABLE NOW</span><h3>08 · Data Quality & Integration</h3><p>รายงานสุขภาพข้อมูลก่อนนำ KPI ไปใช้ตัดสินใจ</p><ul><li>Cutting → ItemCutting = 100%</li><li>Cutting → TimeEntry = 84.9%</li><li>Related SO → SaleInquiry ≈ 97.7%</li><li>Invalid date / missing hours / orphan / duplicate gates</li></ul></article>
+
+  <article class="report-card"><span class="state partial">PARTIAL</span><h3>09 · Promise / OTD Governance</h3><p>นิยาม On-Time Delivery ระดับ Order/Line ให้เป็นมาตรฐานเดียวก่อนประกาศ KPI</p><ul><li>Promised Delivery และ Actual Ship มีใน SaleInquiry</li><li>พบ date anomaly จึงยังไม่ certify % OTD</li><li>ต้องกำหนด latest promise vs original promise policy</li><li>Report ต้องแสดง denominator และ excluded rows</li></ul></article>
+</div>
+
+<div class="report-band">
+<div class="box"><h3>Executive Drill-down Path</h3>
+<div class="report-flow">
+  <div class="report-step"><span class="eyebrow">LEVEL 1</span><b>Executive KPI</b><small>Risk · WIP · Readiness · Bottleneck · Delivery</small></div>
+  <div class="report-step"><span class="eyebrow">LEVEL 2</span><b>Customer / Project</b><small>Exposure, promise, priority, value-at-risk</small></div>
+  <div class="report-step"><span class="eyebrow">LEVEL 3</span><b>SO → WO → Cutting</b><small>สถานะจริง, due date, aging, current owner</small></div>
+  <div class="report-step"><span class="eyebrow">LEVEL 4</span><b>Component / Operation</b><small>Material, stock, PO, work center, TimeEntry</small></div>
+  <div class="report-step"><span class="eyebrow">LEVEL 5</span><b>Evidence / Action</b><small>Source row → rule evidence → Human-approved action</small></div>
+</div></div></div>
+
+<div class="grid">
+<div class="box"><h3>Standard Report Filters</h3><p>ทุก Report ใช้ dimension ชุดเดียวกันเพื่อให้ตัวเลขไม่ทะเลาะกันเอง: <b>Customer · Project · SO · WO · Cutting · Item · Engineer · Work Center · Team · Status · Promise Date · Activity Date</b></p></div>
+<div class="box"><h3>Semantic Views for Implementation</h3><p class="code">v_exec_production_status<br/>v_delivery_risk<br/>v_material_readiness<br/>v_wip_aging<br/>v_work_center_load<br/>v_supplier_eta_risk<br/>v_data_quality<br/>mv_exec_daily_snapshot</p><div class="links"><a href="report_views.sql">Open report_views.sql</a><a href="schema.sql">Open schema.sql</a></div></div>
+</div>
 </section>
 
 <section id="erd" class="view panel">
