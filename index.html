@@ -25,16 +25,6 @@ h1{font-size:clamp(26px,4vw,42px);line-height:1.05;margin:0 0 8px;letter-spacing
 .sub{color:var(--muted);margin:0;max-width:720px;line-height:1.55}
 .pill{display:inline-flex;gap:8px;align-items:center;border:1px solid var(--line);background:rgba(15,27,45,.72);padding:8px 11px;border-radius:999px;color:var(--muted);font-size:13px;white-space:nowrap}
 .dot{width:8px;height:8px;border-radius:50%;background:var(--accent2);box-shadow:0 0 0 4px rgba(124,224,195,.10)}
-.live-workflow{border:1px solid var(--line);background:linear-gradient(145deg,rgba(15,27,45,.9),rgba(19,34,56,.82));border-radius:22px;padding:18px;margin:18px 0 24px;box-shadow:var(--shadow)}
-.live-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:14px}.live-head h2{margin:2px 0 4px;font-size:20px}.live-head p{margin:0;color:var(--muted);font-size:13px}.live-meta{display:flex;gap:8px;flex-wrap:wrap;justify-content:flex-end}
-.live-chip{display:inline-flex;align-items:center;gap:6px;padding:6px 9px;border:1px solid var(--line);border-radius:999px;font-size:11px;color:var(--muted)}
-.wf-overall{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:22px;margin:10px 0 18px}.wf-node{position:relative;border:1px solid var(--line);background:rgba(255,255,255,.035);border-radius:16px;padding:14px;min-height:116px;cursor:pointer;transition:.18s}.wf-node:hover{transform:translateY(-2px);border-color:#45658e}.wf-node:not(:last-child)::after{content:"→";position:absolute;right:-17px;top:50%;transform:translateY(-50%);font-size:20px;color:#6d8fbc;font-weight:900}
-.wf-node .n{font-size:10px;color:var(--muted);letter-spacing:.09em}.wf-node h3{margin:6px 0 8px;font-size:14px;line-height:1.25}.wf-state{display:inline-flex;padding:4px 7px;border-radius:999px;font-size:10px;font-weight:850;letter-spacing:.04em}.wf-state.COMPLETE{background:rgba(48,188,128,.16);color:#7ce0b6}.wf-state.DEGRADED{background:rgba(247,185,68,.17);color:#f6c96a}.wf-state.BLOCKED{background:rgba(237,92,92,.16);color:#ff9999}.wf-state.WAIT{background:rgba(110,160,255,.15);color:#9fc2ff}.wf-state.FAILED{background:rgba(237,92,92,.22);color:#ff7777}
-.wf-mini{margin-top:8px;color:var(--muted);font-size:10px;line-height:1.4}.wf-lanes{display:grid;gap:9px}.wf-lane{display:grid;grid-template-columns:110px repeat(5,minmax(0,1fr));gap:8px;align-items:center}.wf-lane-name{font-weight:850;font-size:12px}.wf-cell{position:relative;border:1px solid var(--line);border-radius:11px;padding:8px 7px;text-align:center;font-size:10px;background:rgba(255,255,255,.025);min-height:54px;display:flex;flex-direction:column;justify-content:center}.wf-cell b{font-size:10px}.wf-cell small{display:block;color:var(--muted);margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.wf-cell.COMPLETE{box-shadow:inset 0 0 0 1px rgba(48,188,128,.18)}.wf-cell.DEGRADED{box-shadow:inset 0 0 0 1px rgba(247,185,68,.20)}.wf-cell.BLOCKED,.wf-cell.FAILED{box-shadow:inset 0 0 0 1px rgba(237,92,92,.22)}.wf-cell.WAIT{box-shadow:inset 0 0 0 1px rgba(110,160,255,.18)}
-.wf-flowline{height:4px;margin:12px 0 14px;background:linear-gradient(90deg,#3fc88f 0 39%,#70a4ff 54%,#efb84d 70%,#e96a6a 84%,#70a4ff 100%);border-radius:999px;position:relative;overflow:hidden}.wf-flowline::after{content:"";position:absolute;top:0;left:-20%;width:18%;height:100%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.75),transparent);animation:wfmove 2.2s linear infinite}@keyframes wfmove{to{left:110%}}
-.wf-detail{margin-top:12px;border-top:1px solid var(--line);padding-top:12px;color:var(--muted);font-size:12px;display:none}.wf-detail.open{display:block}.wf-detail-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.wf-detail-box{border:1px solid var(--line);border-radius:11px;padding:9px;background:rgba(255,255,255,.025)}.wf-detail-box b{color:var(--text)}
-@media(max-width:900px){.wf-overall{grid-template-columns:1fr 1fr}.wf-node:not(:last-child)::after{display:none}.wf-lane{grid-template-columns:90px repeat(2,minmax(0,1fr));}.wf-cell:nth-child(n+4){display:none}}
-@media(max-width:620px){.live-head{flex-direction:column}.live-meta{justify-content:flex-start}.wf-overall{grid-template-columns:1fr}.wf-lane{grid-template-columns:78px 1fr}.wf-cell{display:none}.wf-cell:nth-child(2){display:flex}.wf-detail-grid{grid-template-columns:1fr}}
 .toolbar{display:flex;gap:10px;flex-wrap:wrap;align-items:center;margin:24px 0}
 .search{flex:1;min-width:250px;position:relative}
 .search input{width:100%;border:1px solid var(--line);background:rgba(15,27,45,.82);color:var(--text);border-radius:14px;padding:13px 44px 13px 14px;font-size:15px;outline:none}
@@ -103,28 +93,6 @@ code{color:#b9d7ff}
   </div>
   <div class="pill"><span class="dot"></span><span id="syncText">กำลังเชื่อม GitHub…</span></div>
 </header>
-
-<section class="live-workflow" aria-label="GOLD BTC live workflow">
-  <div class="live-head">
-    <div>
-      <div class="tag">Live Workflow Overview</div>
-      <h2>GOLD / BTCUSD Data Flow</h2>
-      <p>สถานะจริงจาก health snapshot ของแต่ละ Layer · Analysis / Control / Report only</p>
-    </div>
-    <div class="live-meta">
-      <span class="live-chip">Overall <b id="wfOverall">Loading…</b></span>
-      <span class="live-chip">Execution <b>DISABLED</b></span>
-      <span class="live-chip">Updated <b id="wfUpdated">—</b></span>
-      <a class="live-chip" href="https://popvarachat.github.io/gold-btc-intelligence/" style="text-decoration:none;color:inherit">Open Executive View ↗</a>
-    </div>
-  </div>
-  <div id="wfOverallNodes" class="wf-overall">
-    <div class="loading">กำลังโหลดสถานะ Workflow…</div>
-  </div>
-  <div class="wf-flowline" aria-hidden="true"></div>
-  <div id="wfLanes" class="wf-lanes"></div>
-  <div id="wfDetail" class="wf-detail"></div>
-</section>
 
 <div class="toolbar">
   <label class="search">
@@ -214,10 +182,6 @@ const overrides = {
     title:"Practika Building Digital Twin",
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม — ระบบภายใน ต้องได้รับสิทธิ์ก่อนเข้าใช้งาน"
   },
-  "network-digital-twin-internal": {
-    title:"Practika Network Digital Twin",
-    description:"Internal-only enterprise network discovery, health monitoring and evidence-based topology. Sensitive IP/host data stays on the authorized notebook."
-  },
   "chair-import-cost-manual": {
     title:"Chair Import Cost Intelligence · Independent GitHub Edition",
     description:"Independent Production · ระบบวิเคราะห์ต้นทุนเก้าอี้นำเข้าชุดใหม่ แยก DB / Backend / Deployment / Access Control ออกจากระบบ Apps Script เดิมโดยสมบูรณ์"
@@ -263,11 +227,6 @@ const architectures = {
     note:"ระบบ Digital Twin อาคารภายใน เชื่อมผังจริง ทรัพย์สิน และประวัติซ่อมภายใต้การควบคุมสิทธิ์ เพื่อให้ข้อมูลหน้างานย้อนกลับถึง Master ได้",
     flow:[["Access","Login / allowlist / role"],["Twin UI","Building Digital Twin web app"],["Master","As-built / CAD master"],["Assets","ทะเบียนทรัพย์สิน"],["Maintenance","แจ้งซ่อม + ประวัติซ่อม"],["Control","Admin / audit / update"],["Decision","Facility & management view"]],
     meta:["Internal · Admin","As-built Master","Maintenance History"]
-  },
-  "network-digital-twin-internal": {
-    note:"Internal network observability workflow. Public Portal shows only project metadata; IP addresses, hostnames and topology evidence remain local/internal.",
-    flow:[["Collector","Read-only PowerShell discovery"],["Discovery","Gateway · DNS · AD · subnets · neighbors"],["Health","Latency · loss · reachability"],["Topology","Evidence-based logical map"],["Internal Dashboard","Local browser view"],["Boundary","Switch/AP/Firewall writes disabled"]],
-    meta:["Internal Only","Read-only","No public topology","Human-controlled refresh"]
   },
   "car-digital-twin-dashboard-manual": {
     note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
@@ -347,16 +306,6 @@ const manualApps = [
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม"
   },
   {
-    name:"network-digital-twin-internal",
-    visibility:"restricted",
-    homepage:"",
-    html_url:"",
-    updated_at:"2026-10-05T05:20:00Z",
-    topics:["Network Intelligence"],
-    language:"Internal Web",
-    description:"Internal-only network health and topology dashboard. Sensitive infrastructure data is not published."
-  },
-  {
     name:"car-digital-twin-dashboard-manual",
     visibility:"public",
     homepage:"https://popvarachat.github.io/practika-flood-map-public/car-digital-twin-dashboard/",
@@ -418,8 +367,8 @@ function render(){
       <h2>${esc(title)}</h2>
       <p>${esc(desc)}</p>
       <div class="actions">
-        ${(r.visibility==="restricted" && !r.homepage) ? `<span class="repo" aria-label="internal only">🔒 Internal only</span>` : `<a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>`}
-        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : ((r.visibility==="restricted" && r.homepage) ? `<span class="repo" aria-label="restricted access">🔒 Login required</span>` : ``)}
+        <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
+        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
         <button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>
       </div>
     </article>`;
@@ -452,95 +401,6 @@ function closeArchitecture(){
   document.body.style.overflow="";
 }
 
-const WORKFLOW_URL = "https://popvarachat.github.io/gold-btc-intelligence/data/workflow_status.json";
-const WF_LABELS = {
-  data_input:"Data Input",
-  preprocess_feature:"Preprocess & Feature",
-  multi_agent_core:"Multi-Agent Core",
-  decision_risk_control:"Decision & Risk",
-  executive_output:"Executive Output"
-};
-let workflowStatus=null;
-
-function wfTime(s){
-  if(!s) return "—";
-  try{return new Intl.DateTimeFormat("th-TH",{dateStyle:"short",timeStyle:"short",timeZone:"Asia/Bangkok"}).format(new Date(s));}
-  catch{return String(s);}
-}
-function wfSafe(v){
-  if(v===null||v===undefined) return "—";
-  if(Array.isArray(v)) return v.length? v.join(", ") : "none";
-  if(typeof v==="object") return JSON.stringify(v);
-  return String(v);
-}
-function renderWorkflow(){
-  const w=workflowStatus;
-  if(!w) return;
-  document.getElementById("wfOverall").innerHTML='<span class="wf-state '+esc(w.overall_status)+'">'+esc(w.overall_status)+'</span>';
-  document.getElementById("wfUpdated").textContent=wfTime(w.generated_at_utc);
-
-  const ids=["data_input","preprocess_feature","multi_agent_core","decision_risk_control","executive_output"];
-  document.getElementById("wfOverallNodes").innerHTML=ids.map((id,i)=>{
-    const x=w.layers[id]||{};
-    const states=x.instrument_states||{};
-    return '<article class="wf-node" data-wf-layer="'+esc(id)+'">'+
-      '<div class="n">LAYER 0'+(i+1)+'</div>'+
-      '<h3>'+esc(WF_LABELS[id]||id)+'</h3>'+
-      '<span class="wf-state '+esc(x.status||"FAILED")+'">'+esc(x.status||"FAILED")+'</span>'+
-      '<div class="wf-mini">BTC '+esc(states.BTCUSD||"—")+' · GOLD '+esc(states.XAUUSD||"—")+'<br>'+esc(wfTime(x.updated_at_utc))+'</div>'+
-    '</article>';
-  }).join("");
-
-  document.getElementById("wfLanes").innerHTML=w.instruments.map(ins=>{
-    return '<div class="wf-lane"><div class="wf-lane-name">'+esc(ins.instrument)+'</div>'+
-      ids.map(id=>{
-        const x=ins.layers[id]||{};
-        return '<div class="wf-cell '+esc(x.status||"FAILED")+'" data-wf-instrument="'+esc(ins.instrument)+'" data-wf-layer="'+esc(id)+'">'+
-          '<b>'+esc(x.status||"FAILED")+'</b><small>'+esc(x.summary||"")+'</small></div>';
-      }).join("")+
-    '</div>';
-  }).join("");
-}
-
-function openWorkflowDetail(layerId, instrument){
-  if(!workflowStatus) return;
-  const detail=document.getElementById("wfDetail");
-  let rows=[];
-  if(instrument){
-    const ins=workflowStatus.instruments.find(x=>x.instrument===instrument);
-    if(ins && ins.layers[layerId]) rows=[{instrument,layer:ins.layers[layerId]}];
-  }else{
-    rows=workflowStatus.instruments.map(ins=>({instrument:ins.instrument,layer:ins.layers[layerId]})).filter(x=>x.layer);
-  }
-  detail.innerHTML='<div class="market-head"><div><div class="tag">'+esc(WF_LABELS[layerId]||layerId)+'</div><h3 style="margin:7px 0 2px;color:var(--text)">'+esc(instrument||"All instruments")+'</h3></div><button type="button" id="wfClose">Close</button></div>'+
-    '<div class="wf-detail-grid">'+rows.map(r=>{
-      const d=r.layer.details||{};
-      const items=Object.entries(d).map(([k,v])=>'<div><b>'+esc(k.replace(/_/g," "))+'</b>: '+esc(wfSafe(v))+'</div>').join("");
-      return '<div class="wf-detail-box"><b>'+esc(r.instrument)+' · '+esc(r.layer.status)+'</b><div style="margin-top:6px">'+esc(r.layer.summary||"")+'</div><div style="margin-top:7px">'+items+'</div><div style="margin-top:7px">Updated: '+esc(wfTime(r.layer.updated_at_utc))+'</div></div>';
-    }).join("")+'</div>';
-  detail.classList.add("open");
-  document.getElementById("wfClose").onclick=()=>detail.classList.remove("open");
-}
-async function loadWorkflow(){
-  try{
-    const res=await fetch(WORKFLOW_URL+"?ts="+Date.now(),{cache:"no-store"});
-    if(!res.ok) throw new Error("workflow HTTP "+res.status);
-    workflowStatus=await res.json();
-    renderWorkflow();
-  }catch(err){
-    document.getElementById("wfOverall").textContent="UNAVAILABLE";
-    document.getElementById("wfOverallNodes").innerHTML='<div class="empty">Live workflow status temporarily unavailable</div>';
-  }
-}
-document.getElementById("wfOverallNodes").addEventListener("click",e=>{
-  const n=e.target.closest("[data-wf-layer]");
-  if(n) openWorkflowDetail(n.dataset.wfLayer,null);
-});
-document.getElementById("wfLanes").addEventListener("click",e=>{
-  const n=e.target.closest("[data-wf-layer]");
-  if(n) openWorkflowDetail(n.dataset.wfLayer,n.dataset.wfInstrument);
-});
-
 async function fetchAllRepos(){
   const repos=[];
   for(let page=1; page<=10; page++){
@@ -555,7 +415,6 @@ async function fetchAllRepos(){
 
 async function load(){
   document.getElementById("syncText").textContent="กำลังเชื่อม GitHub…";
-  loadWorkflow();
   apps=[...manualApps].sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
   document.getElementById("appCount").textContent=apps.length;
   render();

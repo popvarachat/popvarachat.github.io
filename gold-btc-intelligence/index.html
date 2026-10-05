@@ -30,12 +30,35 @@
     </section>
 
     <main>
-      <section>
+      <section class="workflow-section">
         <div class="section-title">
-          <div><span class="step">01</span><h2>System Pipeline</h2></div>
-          <span class="muted">Data → Features → Agents → Decision/Risk → Executive Output</span>
+          <div><span class="step">01</span><h2>Live Workflow Overview</h2></div>
+          <span class="muted">สถานะการไหลของข้อมูลจริงจาก health snapshot ของแต่ละ Layer</span>
         </div>
-        <div id="layers" class="pipeline"></div>
+
+        <article class="workflow-board">
+          <div class="workflow-head">
+            <div>
+              <div class="eyebrow">REAL DATA FLOW · READ ONLY</div>
+              <h3>Data → Features → Agents → Decision/Risk → Executive Output</h3>
+              <p>แสดงสถานะจริงของ BTCUSD และ XAUUSD ตั้งแต่ต้นทางจนถึง Executive Output โดยหยุดก่อน Execution</p>
+            </div>
+            <div class="workflow-meta">
+              <span>Overall <b id="wfOverall">Loading…</b></span>
+              <span>Execution <b class="locked">DISABLED</b></span>
+              <span>Updated <b id="wfUpdated">—</b></span>
+            </div>
+          </div>
+
+          <div id="wfNodes" class="workflow-nodes">
+            <div class="workflow-loading">Loading live workflow…</div>
+          </div>
+
+          <div class="workflow-flowline" aria-hidden="true"></div>
+
+          <div id="wfLanes" class="workflow-lanes"></div>
+          <div id="wfDetail" class="workflow-detail"></div>
+        </article>
       </section>
 
       <section>
