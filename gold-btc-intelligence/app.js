@@ -1,4 +1,4 @@
-let SNAPSHOT=null, WORKFLOW=null, timer=null;
+let SNAPSHOT=null, WORKFLOW=null, INSTITUTIONAL=null, timer=null;
 
 const byId=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -30,21 +30,26 @@ function wfSafe(v){
 
 async function loadSnapshot(){
   const ts=Date.now();
-  const [snapshotRes,workflowRes]=await Promise.all([
+  const [snapshotRes,workflowRes,institutionalRes]=await Promise.all([
     fetch('data/executive_snapshot.json?ts='+ts,{cache:'no-store'}),
-    fetch('data/workflow_status.json?ts='+ts,{cache:'no-store'})
+    fetch('data/workflow_status.json?ts='+ts,{cache:'no-store'}),
+    fetch('data/institutional_analytics.json?ts='+ts,{cache:'no-store'})
   ]);
   if(!snapshotRes.ok) throw new Error('snapshot HTTP '+snapshotRes.status);
   if(!workflowRes.ok) throw new Error('workflow HTTP '+workflowRes.status);
+  if(!institutionalRes.ok) throw new Error('institutional HTTP '+institutionalRes.status);
   SNAPSHOT=await snapshotRes.json();
   WORKFLOW=await workflowRes.json();
+  INSTITUTIONAL=await institutionalRes.json();
   renderAll();
 }
 
 function renderAll(){
   renderHeader();
+  renderCioStrip();
   renderWorkflow();
   renderAgentSquad();
+  renderInstitutional();
   renderMarkets();
   renderTrace();
   renderReport();
@@ -56,6 +61,53 @@ function renderHeader(){
   safeSet('execution',s.system.execution_enabled?badge('ENABLED','warn'):badge('DISABLED','off'));
   safeText('generated',s.generated_at_utc);
   safeSet('systemHealth',badge('HEALTHY / READ-ONLY'));
+}
+
+function pct(v,d=1){
+  if(v===null||v===undefined||Number.isNaN(Number(v))) return '—';
+  return (Number(v)*100).toFixed(d)+'%';
+}
+function renderCioStrip(){
+  if(!INSTITUTIONAL) return;
+  safeText('cioState',INSTITUTIONAL.capital_allocation?.state||'—');
+  safeText('cioGoldEdge',INSTITUTIONAL.proof_of_edge?.gold_primary?.status==='EVIDENCED_RESEARCH_ONLY'?'EVIDENCED · RESEARCH':'—');
+  safeText('cioBtcEdge',INSTITUTIONAL.proof_of_edge?.btc?.status==='NOT_YET_EVIDENCED'?'NOT YET EVIDENCED':'EVIDENCED');
+  safeText('cioHeat',fmt(INSTITUTIONAL.portfolio_risk?.current_heat_r,2)+'R');
+  safeText('cioCorr',fmt(INSTITUTIONAL.portfolio_risk?.correlation?.btc_gold_corr_30d,2));
+  safeText('cioMacro',INSTITUTIONAL.macro_regime?.regime||'UNKNOWN');
+}
+function instStatusClass(status){
+  if(['EVIDENCED_RESEARCH_ONLY','LIVE_PUBLIC_CONTEXT','LIVE_PUBLIC_SERIES'].includes(status)) return 'good';
+  if(['NOT_YET_EVIDENCED','PARTIAL','DEGRADED'].includes(status)) return 'warn';
+  return '';
+}
+function renderInstitutional(){
+  if(!INSTITUTIONAL) return;
+  const i=INSTITUTIONAL, gold=i.proof_of_edge?.gold_primary||{}, oos=i.proof_of_edge?.gold_oos_separate_family||{}, stress=i.proof_of_edge?.gold_stress||{};
+  const corr=i.portfolio_risk?.correlation||{}, macro=i.macro_regime||{}, btc=(i.instruments||[]).find(x=>x.instrument==='BTCUSD')||{}, xau=(i.instruments||[]).find(x=>x.instrument==='XAUUSD')||{};
+  const btcTrig=btc.entry_trigger||{}, goldTrig=xau.entry_trigger||{}, btcAlign=btc.agent_alignment||{}, goldAlign=xau.agent_alignment||{};
+  safeSet('institutionalDeck',
+    '<article class="inst-card wide"><div class="inst-head"><div><div class="inst-kicker">Proof of Edge</div><h3>GOLD Research Evidence</h3></div><span class="inst-status '+instStatusClass(gold.status)+'">'+esc(gold.status||'—')+'</span></div>'+
+      '<div class="inst-big">PF '+fmt(gold.real_tick_pf,3)+'</div><div class="inst-sub">'+esc(gold.candidate||'—')+'</div>'+
+      '<div class="inst-metrics"><div class="inst-metric"><span>Real-tick DD</span><b>'+fmt(gold.real_tick_dd_pct,2)+'%</b></div><div class="inst-metric"><span>Trades</span><b>'+esc(gold.real_tick_trades??'—')+'</b></div><div class="inst-metric"><span>EV / trade</span><b>$'+fmt(gold.real_tick_ev_usd_trade,2)+'</b></div><div class="inst-metric"><span>P1 PF</span><b>'+fmt(gold.p1_pf,3)+'</b></div><div class="inst-metric"><span>P2 PF</span><b>'+fmt(gold.p2_pf,3)+'</b></div><div class="inst-metric"><span>Stress PF p05</span><b>'+fmt(stress.pf_p05,3)+'</b></div></div>'+
+      '<div class="inst-note">OOS separate family: PF '+fmt(oos.pf,3)+' · DD '+fmt(oos.dd,2)+'% · '+esc(oos.trades??'—')+' trades · Monte Carlo '+esc(stress.scenarios??'—')+' scenarios · Stress gate '+(stress.gate_pass?'PASS':'—')+'. <b>Research only; not live-readiness evidence.</b></div></article>'+
+    '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Proof of Edge</div><h3>BTC Evidence</h3></div><span class="inst-status warn">NOT YET EVIDENCED</span></div><div class="inst-big">—</div><div class="inst-sub">No linked BTC backtest/OOS artifact for this strategy stack.</div><div class="inst-note">The dashboard deliberately refuses to borrow GOLD metrics or fabricate Sharpe/PF for BTC.</div></article>'+
+    '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Portfolio Risk</div><h3>Capital Heat & Correlation</h3></div><span class="inst-status '+instStatusClass(corr.status)+'">'+esc(corr.status||'—')+'</span></div><div class="inst-big">'+fmt(i.portfolio_risk?.current_heat_r,2)+'R</div><div class="inst-sub">Current governed portfolio heat</div><div class="inst-metrics"><div class="inst-metric"><span>BTC↔GOLD 30D</span><b>'+fmt(corr.btc_gold_corr_30d,2)+'</b></div><div class="inst-metric"><span>90D</span><b>'+fmt(corr.btc_gold_corr_90d,2)+'</b></div><div class="inst-metric"><span>Exposure</span><b>'+esc(i.portfolio_risk?.execution_exposure||'—')+'</b></div></div><div class="inst-note">'+esc(i.portfolio_risk?.note||'')+'</div></article>'+
+    '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Macro Regime</div><h3>'+esc(macro.regime||'UNKNOWN')+'</h3></div><span class="inst-status '+instStatusClass(macro.status)+'">'+esc(macro.status||'—')+'</span></div><div class="inst-big">'+esc(macro.score??'—')+'</div><div class="inst-sub">Heuristic macro context score</div><div class="inst-metrics"><div class="inst-metric"><span>DXY 5D</span><b>'+pct(macro.dxy_5d)+'</b></div><div class="inst-metric"><span>US10Y 5D</span><b>'+pct(macro.us10y_5d)+'</b></div><div class="inst-metric"><span>SPY 5D</span><b>'+pct(macro.spy_5d)+'</b></div><div class="inst-metric"><span>VIX 5D</span><b>'+pct(macro.vix_5d)+'</b></div></div><div class="inst-note">'+esc(macro.note||'')+'</div></article>'+
+    triggerCard('BTCUSD',btcTrig)+triggerCard('XAUUSD',goldTrig)+
+    alignmentCard('BTCUSD',btcAlign)+alignmentCard('XAUUSD',goldAlign)+
+    '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Continuous Validation</div><h3>Agent Effectiveness Ledger</h3></div><span class="inst-status warn">'+esc(i.agent_effectiveness?.status||'—')+'</span></div><div class="inst-big">NO LABELS YET</div><div class="inst-sub">'+esc(i.agent_effectiveness?.reason||'')+'</div><div class="inst-note"><b>Next:</b> '+esc(i.agent_effectiveness?.required_next||'')+'</div></article>'
+  );
+}
+function triggerCard(symbol,t){
+  if(!t||t.status==='NOT_AVAILABLE') return '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Entry / Trigger</div><h3>'+esc(symbol)+'</h3></div><span class="inst-status warn">NOT AVAILABLE</span></div><div class="inst-note">'+esc(t?.reason||'No trigger data')+'</div></article>';
+  return '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Entry / Trigger</div><h3>'+esc(symbol)+' · '+esc(t.action||'—')+'</h3></div><span class="inst-status warn">'+esc(t.status||'—')+'</span></div><div class="inst-big">'+fmt(t.entry_reference,2)+'</div><div class="inst-sub">Research entry reference · '+esc(t.candidate_id||'—')+'</div><div class="inst-metrics"><div class="inst-metric"><span>Current ref</span><b>'+fmt(t.current_reference_price,2)+'</b></div><div class="inst-metric"><span>Stop ref</span><b>'+fmt(t.stop_reference,2)+'</b></div><div class="inst-metric"><span>Target ref</span><b>'+fmt(t.target_reference,2)+'</b></div></div><div class="inst-note">'+esc(t.authority||'')+' · Distance '+fmt(t.distance_atr,2)+' ATR</div></article>';
+}
+function alignmentCard(symbol,a){
+  const c=a?.counts||{}, total=Math.max(1,a?.eligible_candidates||0);
+  return '<article class="inst-card"><div class="inst-head"><div><div class="inst-kicker">Agent Alignment</div><h3>'+esc(symbol)+' · '+esc(a?.leader||'—')+'</h3></div><span class="inst-status warn">'+pct(a?.leader_share,0)+'</span></div>'+
+    '<div class="alignment-bars">'+['BUY','SELL','WAIT'].map(k=>'<div class="align-row"><span>'+k+'</span><div class="align-track"><div class="align-fill '+k.toLowerCase()+'" style="width:'+Math.round((c[k]||0)/total*100)+'%"></div></div><b>'+esc(c[k]||0)+'</b></div>').join('')+'</div>'+
+    '<div class="inst-note">'+esc(a?.diversity_warning||'')+'</div></article>';
 }
 
 function renderWorkflow(){
