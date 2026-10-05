@@ -198,6 +198,10 @@ const overrides = {
     title:"Practika Network Digital Twin · Internal IT Director",
     description:"Internal deep view · IP / Hostname / OS / OU / Vendor / Model / Services / AD / DNS / Subnet evidence พร้อม Node drill-down"
   },
+  "enterprise-digital-twin-public": {
+    title:"Practika Enterprise Digital Twin · Executive View",
+    description:"Public-safe Building × Network Digital Twin · Shared Relation Registry + JEV evidence decisions + Physical Topology progress โดยไม่เปิดเผย IP/hostname ภายใน"
+  },
   "enterprise-digital-twin-internal": {
     title:"Practika Enterprise Digital Twin · Building × Network",
     description:"Cross-Twin Integration Layer · Building/Floor/Room/Asset ↔ Network/Subnet/Service/Health ด้วย Shared Relation ID และ evidence confidence"
@@ -262,6 +266,11 @@ const architectures = {
     note:"Internal IT Director View ของ Digital Twin เดียวกัน รับ focus key จาก Executive View แล้ว filter ไปยัง subnet / asset class / infrastructure node ที่ตรงกัน.",
     flow:[["Focus Key","From Executive Node"],["Local Gateway","127.0.0.1 only"],["Digital Twin V2","Deep topology"],["Evidence","AD · DNS · ICMP · Ports · Banner"],["Inventory","IP · Host · OS · OU · Vendor"],["Action","Operations / remediation"]],
     meta:["Internal Only","Read-only evidence","Localhost bound","Node-level drill-down"]
+  },
+  "enterprise-digital-twin-public": {
+    note:"Executive/Public-safe View ของ Enterprise Digital Twin เดียวกัน แสดง Building × Network relationship, JEV decision states และ Physical Topology progress โดยเก็บ internal addressing ไว้เฉพาะ Internal Twin.",
+    flow:[["Building Twin","Physical truth"],["Cross-Twin Registry","Shared relation ID"],["Network Twin","Logical / operational truth"],["JEV Gate","Confirmed · Supported · Conflict · Pending"],["Topology","Building · Floor · Access layer"],["Decision","IT + Facility action"]],
+    meta:["Public-safe","Building × Network","JEV Evidence Gate","Physical Topology"]
   },
   "enterprise-digital-twin-internal": {
     note:"Cross-Twin layer เชื่อม Physical Truth จาก Building Twin กับ Logical/Operational Truth จาก Network Twin โดยไม่ทำฐานข้อมูลซ้ำ และแสดง Pending เมื่อหลักฐานตำแหน่งยังไม่พอ.",
@@ -385,6 +394,16 @@ const manualApps = [
     topics:["Network Digital Twin"],
     language:"Internal Web",
     description:"Internal IT Director deep view of the same Network Digital Twin."
+  },
+  {
+    name:"enterprise-digital-twin-public",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/enterprise-digital-twin/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/enterprise-digital-twin",
+    updated_at:"2026-10-05T16:58:00+07:00",
+    topics:["Enterprise Digital Twin"],
+    language:"HTML",
+    description:"Public-safe Building × Network Digital Twin with JEV evidence decisions and physical-topology progress."
   },
   {
     name:"enterprise-digital-twin-internal",
