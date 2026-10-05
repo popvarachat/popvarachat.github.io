@@ -17,7 +17,7 @@
 </style></head>
 <body><div class="wrap">
 <section class="hero"><div><div class="eyebrow">Executive System Architecture · Microsoft Fluent / Pastel Enterprise</div><h1>AutoNaCadz for Korex</h1><div class="lead">Digital Engineering Rule Platform เปลี่ยน Product Knowledge ให้เป็นมาตรฐานดิจิทัลที่ตรวจสอบได้ ก่อนแปลงเป็น Work Order, Cutting Data และ CAD Output พร้อม Human Gate, Version Control และ Closed-loop Quality.</div></div><div class="badge"><span class="dot"></span>Engineering Governance Active</div></section>
-<section class="kpis"><div class="kpi"><small>Formula & Rule QA</small><b>v1.0</b><span>Deterministic checks</span></div><div class="kpi"><small>QA Baseline</small><b>0 Blockers</b><span>2 STD · REVIEW</span></div><div class="kpi"><small>CAD Viewer</small><b>TrueView 2024</b><span>Detected workstation capability</span></div><div class="kpi"><small>Release Model</small><b>Human Gate</b><span>Immutable version snapshot</span></div></section>
+<section class="kpis"><div class="kpi"><small>Formula & Rule QA</small><b>v1.0</b><span>Deterministic checks</span></div><div class="kpi"><small>QA Baseline</small><b>0 Blockers</b><span>2 STD · REVIEW</span></div><div class="kpi"><small>CAD Viewer</small><b>TrueView 2024</b><span>Detected workstation capability</span></div><div class="kpi"><small>Work Order QA</small><b>v1.0</b><span>Fail-closed before Export</span></div></section>
 <section class="section"><div class="head"><div class="num">1</div><div><h2>Executive Business Workflow</h2><p>Single Source of Truth → Controlled Engineering → Production Release → Learning Loop</p></div></div><div class="flow">
 <div class="node violet"><b>Product Governance</b><p>STD, input, formula, part rule, master drawing and engineering approval.</p></div>
 <div class="node blue"><b>Project / Work Order</b><p>Customer requirement, configuration, dimension and options.</p></div>
@@ -35,7 +35,7 @@
 <div class="card"><span class="pill done">DONE</span><h3>Formula & Rule QA Agent</h3><p>Formula, dependency, part rule, master, CAD action และ baseline QA.</p></div>
 <div class="card"><span class="pill done">DONE</span><h3>Release Governance</h3><p>Human approver, semantic version, content hash และ audit snapshot.</p></div>
 <div class="card"><span class="pill ready">READY</span><h3>CAD QA Layer</h3><p>DWG file/header verification และเปิด output ผ่าน DWG TrueView.</p></div>
-<div class="card"><span class="pill next">NEXT</span><h3>Work Order QA Agent</h3><p>ตรวจ required input, unusual dimension และ READY/HOLD ก่อน generate.</p></div>
+<div class="card"><span class="pill done">DONE</span><h3>Work Order QA Agent</h3><p>Release lineage · READY/HOLD · input gates · dimensions · Master linkage · CAD action validation.</p></div>
 </div></section>
 <section class="section"><div class="head"><div class="num">4</div><div><h2>CAD Execution & Verification</h2><p>TrueView เป็น QA Viewer ไม่ใช่ CAD Engine</p></div></div><div class="grid3">
 <div class="card"><span class="pill ready">CAD ENGINE</span><h3>AutoCAD / AutoLISP</h3><p>Stretch, hole, latch, layout, cleanup และ save DWG ทำโดย deterministic CAD execution.</p></div>
@@ -44,9 +44,9 @@
 </div><div class="warn"><b>Deployment boundary:</b> GitHub Pages ใช้เป็น Executive/Web visibility layer. Flask, filesystem และ AutoCAD/TrueView execution ต้องอยู่บน Local/Server Agent เพราะ GitHub Pages เป็น static hosting.</div></section>
 <section class="section"><div class="head"><div class="num">5</div><div><h2>Roadmap</h2><p>Production Safety → Reliability → Quality Intelligence → Engineering Knowledge</p></div></div><div class="grid4">
 <div class="card"><span class="pill done">PHASE 1</span><h3>Production Safety</h3><p>Formula QA · Release Gate · Version · Master Gate · Audit.</p></div>
-<div class="card"><span class="pill next">PHASE 2</span><h3>Reliability</h3><p>CAD Job Queue · Multi-master · Retry · Error classification.</p></div>
+<div class="card"><span class="pill next">PHASE 2</span><h3>Reliability · NEXT</h3><p>CAD Job Queue · Multi-master automation · Retry · Error classification. Partial multi-master export is now blocked.</p></div>
 <div class="card"><span class="pill next">PHASE 3</span><h3>Quality Intelligence</h3><p>Drawing vs Cutting reconciliation · WO QA · exception dashboard.</p></div>
 <div class="card"><span class="pill next">PHASE 4</span><h3>Knowledge Loop</h3><p>RCA Agent · Knowledge Agent · rule improvement feedback.</p></div>
 </div><div class="links"><a class="primary" href="../">← Central Portal</a><a class="secondary" href="https://github.com/p-honei/AutoNaCadz" target="_blank" rel="noopener">Source Repository ↗</a></div></section>
-<div class="foot">Public page contains architecture/status only — no production formulas or customer data.</div>
+<div class="foot">Public page contains architecture/status only — no production formulas or customer data. Work Order QA v1.0 active · 15/15 automated tests passed.</div>
 </div></body></html>
