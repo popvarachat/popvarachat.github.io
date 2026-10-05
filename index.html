@@ -150,6 +150,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "production-control-tower-manual": {
+    title:"Practika Production Control Tower · Rebuild Blueprint",
+    description:"Pinned design baseline · Workflow topology + normalized Database ERD + PostgreSQL schema สำหรับรื้อ SO/WO/Cutting รุ่นเดิมและรอ implement ต่อ"
+  },
   "rdc-command-center-manual": {
     title:"RDC Command Center · Multi-Agent Arsenal",
     description:"Public-safe control view ของ RDC: FAST Execution Mode · Jev Decision Coprocessor · 12 Agents · 14 Local Skills · Lazy Global Arsenal · Weekly capability radar"
@@ -281,6 +285,17 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"production-control-tower-manual",
+    visibility:"public",
+    pinned:true,
+    homepage:"https://popvarachat.github.io/production-control-tower/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/production-control-tower",
+    updated_at:"2026-10-05T09:30:00Z",
+    topics:["Production Control Tower"],
+    language:"HTML / PostgreSQL",
+    description:"Executive workflow, real table relations, legacy evidence and implementation-ready normalized schema"
+  },
   {
     name:"rdc-command-center-manual",
     visibility:"public",
@@ -446,7 +461,7 @@ function render(){
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : (r.visibility==="local" ? `<span class="repo" aria-label="internal local">🔒 Internal Local</span>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`)}
         ${r.name==="network-diagram-public" ? `<a class="arch" href="https://popvarachat.github.io/network-diagram/#map" target="_blank" rel="noopener">Topology</a>` : ``}
-        <button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>
+        ${r.name==="production-control-tower-manual" ? `<a class="arch" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Workflow / ERD</a>` : `<button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>`}
       </div>
     </article>`;
   }).join("");
@@ -492,7 +507,7 @@ async function fetchAllRepos(){
 
 async function load(){
   document.getElementById("syncText").textContent="กำลังเชื่อม GitHub…";
-  apps=[...manualApps].sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
+  apps=[...manualApps].sort((a,b)=>(Number(b.pinned)-Number(a.pinned)) || (new Date(b.updated_at)-new Date(a.updated_at)));
   document.getElementById("appCount").textContent=apps.length;
   render();
   try{
@@ -500,7 +515,7 @@ async function load(){
     const discovered=repos
       .filter(r=>r.visibility==="public" && r.has_pages && !r.archived && r.name!==USER_SITE_REPO && r.name!=="building-backlog-dashboard");
     apps=[...manualApps,...discovered]
-      .sort((a,b)=>new Date(b.updated_at)-new Date(a.updated_at));
+      .sort((a,b)=>(Number(b.pinned)-Number(a.pinned)) || (new Date(b.updated_at)-new Date(a.updated_at)));
     document.getElementById("repoCount").textContent=repos.filter(r=>r.visibility==="public").length;
     document.getElementById("appCount").textContent=apps.length;
     document.getElementById("lastSync").textContent=new Intl.DateTimeFormat("th-TH",{hour:"2-digit",minute:"2-digit"}).format(new Date());
