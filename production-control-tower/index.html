@@ -110,159 +110,111 @@ flowchart TB
 </section>
 
 <section id="erd" class="view panel">
-<div class="head"><div><h2>Target Database ERD · Normalized & Implementable</h2><p>PK/FK และ cardinality ปรับใหม่เพื่อให้ relation ชัด ทดสอบได้ และไม่ซ่อน business logic ใน Access Query</p></div><div class="legend"><span class="pill">Master</span><span class="pill">Transaction</span><span class="pill">Event / Fact</span><span class="pill">Decision</span></div></div>
+<div class="head"><div><h2>Target Database ERD · Normalized & Implementable</h2><p>Relation จริงสำหรับ implement: แสดง Table, PK/FK, cardinality และเส้นทางข้อมูล โดยไม่ซ่อน business logic ใน Access Query</p></div><div class="legend"><span class="pill">Master</span><span class="pill">Transaction</span><span class="pill">Event / Fact</span><span class="pill">Decision</span></div></div>
 <div class="diagram"><pre class="mermaid">
-erDiagram
-  CUSTOMER ||--o{ PROJECT : owns
-  CUSTOMER ||--o{ SALES_ORDER : places
-  PROJECT ||--o{ SALES_ORDER : drives
-  SALES_ORDER ||--|{ SALES_ORDER_LINE : contains
-  ITEM ||--o{ SALES_ORDER_LINE : sold_item
-  SALES_ORDER_LINE ||--o{ WORK_ORDER : manufactures
-  ITEM ||--o{ WORK_ORDER : finished_good
-  WORK_ORDER ||--|{ CUTTING_JOB : splits_to
-  ITEM ||--o{ CUTTING_JOB : primary_material
-  CUTTING_JOB ||--|{ CUTTING_COMPONENT : requires
-  ITEM ||--o{ CUTTING_COMPONENT : component_item
-  CUTTING_JOB ||--o{ CONTROL_PLAN : routed_by
-  WORK_CENTER ||--o{ CONTROL_PLAN : planned_at
-  CUTTING_JOB ||--o{ OPERATION_EVENT : executes
-  WORK_CENTER ||--o{ OPERATION_EVENT : actual_at
-  CUTTING_JOB ||--o{ CUTTING_STATUS_EVENT : status_history
-  STATUS_CODE ||--o{ CUTTING_STATUS_EVENT : defines
-  ITEM ||--o{ INVENTORY_SNAPSHOT : stock_history
-  SUPPLIER ||--o{ PURCHASE_ORDER_LINE : supplies
-  ITEM ||--o{ PURCHASE_ORDER_LINE : incoming_item
-  CUTTING_JOB ||--o{ PLANNING_DECISION : decisions
-  CUTTING_JOB ||--o{ ALERT_EVENT : exceptions
+flowchart LR
+  subgraph SALES["COMMERCIAL / DEMAND"]
+    CUSTOMER["<b>CUSTOMER</b><br/>PK customer_id<br/>UK customer_no"]
+    PROJECT["<b>PROJECT</b><br/>PK project_id<br/>FK customer_id<br/>UK project_no"]
+    SALES_ORDER["<b>SALES_ORDER</b><br/>PK sales_order_id<br/>FK customer_id, project_id<br/>UK order_no<br/>promised_delivery"]
+    SALES_ORDER_LINE["<b>SALES_ORDER_LINE</b><br/>PK sales_order_line_id<br/>FK sales_order_id, item_id<br/>line_no · quantity_ordered"]
+  end
 
-  CUSTOMER {
-    uuid customer_id PK
-    text customer_no UK
-    text customer_name
-  }
-  PROJECT {
-    uuid project_id PK
-    uuid customer_id FK
-    text project_no UK
-    text project_name
-  }
-  SALES_ORDER {
-    uuid sales_order_id PK
-    uuid customer_id FK
-    uuid project_id FK
-    text order_no UK
-    date promised_delivery
-  }
-  SALES_ORDER_LINE {
-    uuid sales_order_line_id PK
-    uuid sales_order_id FK
-    uuid item_id FK
-    numeric line_no
-    numeric quantity_ordered
-  }
-  WORK_ORDER {
-    uuid work_order_id PK
-    uuid sales_order_line_id FK
-    uuid fg_item_id FK
-    text wo_no UK
-    date planned_complete
-  }
-  CUTTING_JOB {
-    uuid cutting_job_id PK
-    uuid work_order_id FK
-    uuid material_item_id FK
-    text cutting_no UK
-    text current_status
-    date delivery_due
-  }
-  CUTTING_COMPONENT {
-    uuid cutting_component_id PK
-    uuid cutting_job_id FK
-    uuid item_id FK
-    numeric required_qty
-    date need_date
-  }
-  CONTROL_PLAN {
-    uuid control_plan_id PK
-    uuid cutting_job_id FK
-    uuid work_center_id FK
-    numeric operation_seq
-    numeric standard_minutes
-  }
-  ITEM {
-    uuid item_id PK
-    text item_no UK
-    text item_code_2
-    text description
-  }
-  WORK_CENTER {
-    uuid work_center_id PK
-    text business_unit UK
-    text name
-  }
-  OPERATION_EVENT {
-    uuid operation_event_id PK
-    uuid cutting_job_id FK
-    uuid work_center_id FK
-    timestamptz started_at
-    timestamptz ended_at
-    numeric actual_hours
-  }
-  STATUS_CODE {
-    text domain PK
-    text status_code PK
-    text description
-    int sequence_no
-  }
-  CUTTING_STATUS_EVENT {
-    uuid status_event_id PK
-    uuid cutting_job_id FK
-    text status_code FK
-    timestamptz event_at
-    text source_user
-  }
-  INVENTORY_SNAPSHOT {
-    uuid inventory_snapshot_id PK
-    uuid item_id FK
-    text branch_plant
-    text location
-    text lot_no
-    numeric on_hand
-    numeric on_purchase_order
-    timestamptz snapshot_at
-  }
-  SUPPLIER {
-    uuid supplier_id PK
-    text supplier_no UK
-    text supplier_name
-  }
-  PURCHASE_ORDER_LINE {
-    uuid po_line_id PK
-    uuid supplier_id FK
-    uuid item_id FK
-    text po_no
-    numeric line_no
-    numeric quantity_open
-    date promised_delivery
-  }
-  PLANNING_DECISION {
-    uuid planning_decision_id PK
-    uuid cutting_job_id FK
-    text decision_type
-    numeric priority_score
-    jsonb recommendation
-    text decision_state
-  }
-  ALERT_EVENT {
-    uuid alert_event_id PK
-    uuid cutting_job_id FK
-    text alert_type
-    text severity
-    timestamptz detected_at
-    jsonb evidence
-  }
+  subgraph PROD["PRODUCTION PLANNING"]
+    WORK_ORDER["<b>WORK_ORDER</b><br/>PK work_order_id<br/>FK sales_order_line_id, fg_item_id<br/>UK wo_no"]
+    CUTTING_JOB["<b>CUTTING_JOB</b><br/>PK cutting_job_id<br/>FK work_order_id, material_item_id<br/>UK cutting_no<br/>current_status · delivery_due"]
+    CUTTING_COMPONENT["<b>CUTTING_COMPONENT</b><br/>PK cutting_component_id<br/>FK cutting_job_id, item_id<br/>required_qty · need_date"]
+    CONTROL_PLAN["<b>CONTROL_PLAN</b><br/>PK control_plan_id<br/>FK cutting_job_id, work_center_id<br/>operation_seq · standard_minutes"]
+  end
+
+  subgraph EXEC["SHOPFLOOR / STATUS"]
+    WORK_CENTER["<b>WORK_CENTER</b><br/>PK work_center_id<br/>UK business_unit"]
+    OPERATION_EVENT["<b>OPERATION_EVENT</b><br/>PK operation_event_id<br/>FK cutting_job_id, work_order_id, work_center_id<br/>started_at · ended_at · actual_hours"]
+    STATUS_CODE["<b>STATUS_CODE</b><br/>PK domain + status_code<br/>description · sequence_no"]
+    CUTTING_STATUS_EVENT["<b>CUTTING_STATUS_EVENT</b><br/>PK status_event_id<br/>FK cutting_job_id<br/>FK domain + status_code<br/>event_at · source_user"]
+  end
+
+  subgraph MAT["ITEM / SUPPLY"]
+    ITEM["<b>ITEM</b><br/>PK item_id<br/>UK item_no<br/>description · make_buy_code"]
+    INVENTORY_SNAPSHOT["<b>INVENTORY_SNAPSHOT</b><br/>PK inventory_snapshot_id<br/>FK item_id<br/>branch_plant · location<br/>on_hand · snapshot_at"]
+    SUPPLIER["<b>SUPPLIER</b><br/>PK supplier_id<br/>UK supplier_no"]
+    PURCHASE_ORDER_LINE["<b>PURCHASE_ORDER_LINE</b><br/>PK po_line_id<br/>FK supplier_id, item_id<br/>po_no · line_no<br/>quantity_open · promised_delivery"]
+  end
+
+  subgraph DEC["DECISION / GOVERNANCE"]
+    PLANNING_DECISION["<b>PLANNING_DECISION</b><br/>PK planning_decision_id<br/>FK cutting_job_id<br/>decision_type · priority_score<br/>decision_state"]
+    ALERT_EVENT["<b>ALERT_EVENT</b><br/>PK alert_event_id<br/>FK cutting_job_id<br/>alert_type · severity · evidence"]
+    SOURCE_RECORD_MAP["<b>SOURCE_RECORD_MAP</b><br/>PK source_record_map_id<br/>source_system · source_table · source_key<br/>target_table · target_id · row_hash"]
+  end
+
+  CUSTOMER -->|"1 : N"| PROJECT
+  CUSTOMER -->|"1 : N"| SALES_ORDER
+  PROJECT -->|"1 : N"| SALES_ORDER
+  SALES_ORDER -->|"1 : N"| SALES_ORDER_LINE
+  ITEM -->|"1 : N sold item"| SALES_ORDER_LINE
+
+  SALES_ORDER_LINE -->|"1 : N"| WORK_ORDER
+  ITEM -->|"1 : N FG"| WORK_ORDER
+  WORK_ORDER -->|"1 : N"| CUTTING_JOB
+  ITEM -->|"1 : N material"| CUTTING_JOB
+  CUTTING_JOB -->|"1 : N"| CUTTING_COMPONENT
+  ITEM -->|"1 : N component"| CUTTING_COMPONENT
+  CUTTING_JOB -->|"1 : N"| CONTROL_PLAN
+  WORK_CENTER -->|"1 : N planned"| CONTROL_PLAN
+
+  CUTTING_JOB -->|"1 : N actual"| OPERATION_EVENT
+  WORK_ORDER -->|"1 : N actual"| OPERATION_EVENT
+  WORK_CENTER -->|"1 : N actual"| OPERATION_EVENT
+  CUTTING_JOB -->|"1 : N history"| CUTTING_STATUS_EVENT
+  STATUS_CODE -->|"1 : N defines"| CUTTING_STATUS_EVENT
+
+  ITEM -->|"1 : N snapshots"| INVENTORY_SNAPSHOT
+  SUPPLIER -->|"1 : N"| PURCHASE_ORDER_LINE
+  ITEM -->|"1 : N incoming"| PURCHASE_ORDER_LINE
+
+  CUTTING_JOB -->|"1 : N"| PLANNING_DECISION
+  CUTTING_JOB -->|"1 : N"| ALERT_EVENT
+
+  classDef sales fill:#102a46,stroke:#65a8ff,color:#eef5ff;
+  classDef prod fill:#14352d,stroke:#7ed8ad,color:#eef5ff;
+  classDef exec fill:#12333a,stroke:#62d5e8,color:#eef5ff;
+  classDef mat fill:#3a291b,stroke:#ffb56b,color:#eef5ff;
+  classDef dec fill:#2b2343,stroke:#b99cff,color:#eef5ff;
+  class CUSTOMER,PROJECT,SALES_ORDER,SALES_ORDER_LINE sales;
+  class WORK_ORDER,CUTTING_JOB,CUTTING_COMPONENT,CONTROL_PLAN prod;
+  class WORK_CENTER,OPERATION_EVENT,STATUS_CODE,CUTTING_STATUS_EVENT exec;
+  class ITEM,INVENTORY_SNAPSHOT,SUPPLIER,PURCHASE_ORDER_LINE mat;
+  class PLANNING_DECISION,ALERT_EVENT,SOURCE_RECORD_MAP dec;
 </pre></div>
+
+<div class="grid">
+<div class="box"><h3>Foreign Key Relation Matrix</h3><table><thead><tr><th>Child table / FK</th><th>Parent table / PK</th><th>Cardinality</th></tr></thead><tbody>
+<tr><td>project.customer_id</td><td>customer.customer_id</td><td>Customer 1 → N Project</td></tr>
+<tr><td>sales_order.customer_id</td><td>customer.customer_id</td><td>Customer 1 → N SO</td></tr>
+<tr><td>sales_order.project_id</td><td>project.project_id</td><td>Project 1 → N SO</td></tr>
+<tr><td>sales_order_line.sales_order_id</td><td>sales_order.sales_order_id</td><td>SO 1 → N Line</td></tr>
+<tr><td>sales_order_line.item_id</td><td>item.item_id</td><td>Item 1 → N SO Line</td></tr>
+<tr><td>work_order.sales_order_line_id</td><td>sales_order_line.sales_order_line_id</td><td>SO Line 1 → N WO</td></tr>
+<tr><td>work_order.fg_item_id</td><td>item.item_id</td><td>Item 1 → N WO</td></tr>
+<tr><td>cutting_job.work_order_id</td><td>work_order.work_order_id</td><td>WO 1 → N Cutting</td></tr>
+<tr><td>cutting_job.material_item_id</td><td>item.item_id</td><td>Item 1 → N Cutting</td></tr>
+<tr><td>cutting_component.cutting_job_id</td><td>cutting_job.cutting_job_id</td><td>Cutting 1 → N Component</td></tr>
+<tr><td>cutting_component.item_id</td><td>item.item_id</td><td>Item 1 → N Component</td></tr>
+<tr><td>control_plan.cutting_job_id</td><td>cutting_job.cutting_job_id</td><td>Cutting 1 → N Operation Plan</td></tr>
+<tr><td>control_plan.work_center_id</td><td>work_center.work_center_id</td><td>Work Center 1 → N Plan</td></tr>
+</tbody></table></div>
+<div class="box"><h3>Execution / Supply / Decision Relations</h3><table><thead><tr><th>Child table / FK</th><th>Parent table / PK</th><th>Purpose</th></tr></thead><tbody>
+<tr><td>operation_event.cutting_job_id</td><td>cutting_job.cutting_job_id</td><td>Actual shopfloor history</td></tr>
+<tr><td>operation_event.work_center_id</td><td>work_center.work_center_id</td><td>Actual capacity / bottleneck</td></tr>
+<tr><td>cutting_status_event.cutting_job_id</td><td>cutting_job.cutting_job_id</td><td>Status transition history</td></tr>
+<tr><td>cutting_status_event.(domain,status_code)</td><td>status_code.(domain,status_code)</td><td>Status dictionary</td></tr>
+<tr><td>inventory_snapshot.item_id</td><td>item.item_id</td><td>Time-stamped availability</td></tr>
+<tr><td>purchase_order_line.item_id</td><td>item.item_id</td><td>Incoming material</td></tr>
+<tr><td>purchase_order_line.supplier_id</td><td>supplier.supplier_id</td><td>Supplier / ETA</td></tr>
+<tr><td>planning_decision.cutting_job_id</td><td>cutting_job.cutting_job_id</td><td>Proposal / Human Gate</td></tr>
+<tr><td>alert_event.cutting_job_id</td><td>cutting_job.cutting_job_id</td><td>Late / shortage / bottleneck alerts</td></tr>
+</tbody></table></div>
+</div>
 </section>
 
 <section id="legacy" class="view panel">
