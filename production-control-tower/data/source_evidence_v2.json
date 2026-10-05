@@ -1,0 +1,87 @@
+{
+  "generated_from": "second evidence pass",
+  "public_safe": true,
+  "discovered": {
+    "control_plan": {
+      "rows": 886404,
+      "groups": 149616,
+      "work_orders": 30789,
+      "business_units": 75,
+      "operation_descriptions": 60,
+      "period": "2020-2022"
+    },
+    "later_monitor": {
+      "source": "40.xls",
+      "rows": 30547,
+      "cuttings": 30546,
+      "work_orders": 6115,
+      "period": "2021-2022",
+      "cutting_to_controlplan_pct": 99.87,
+      "wo_to_controlplan_pct": 100
+    },
+    "stage_map": {
+      "rows": 789,
+      "unique_rules": 785,
+      "outputs": 12,
+      "new_unmapped_statuses": [
+        "50",
+        "53",
+        "74",
+        "80"
+      ]
+    },
+    "partlist": {
+      "rows": 14558,
+      "unique_work_orders": 14558,
+      "match_to_2020_so_wo_pct": 97.31
+    },
+    "purchase_orders": {
+      "rows": 1414,
+      "purchase_orders": 713,
+      "suppliers": 247,
+      "items": 356
+    },
+    "inventory": {
+      "columns": 226,
+      "important_dimensions": [
+        "commitments",
+        "project commitments",
+        "in transit",
+        "on PO",
+        "inspection",
+        "cost",
+        "lead time",
+        "planner",
+        "buyer",
+        "make/buy",
+        "stocking type"
+      ]
+    },
+    "time_entry": {
+      "rows": 152551,
+      "work_orders": 6033,
+      "cuttings": 25731,
+      "business_units": 61,
+      "actual_hours_nonzero": 0
+    }
+  },
+  "lineage_finding": "Archive contains multiple source periods. Join coverage must be interpreted inside compatible source batches/effective windows.",
+  "access_logic": [
+    "SO_WO.Cutting Number -> ControlPlanAdj.Group Number",
+    "Current production stage uses Cutting Type + Cutting Status + Last ControlPlan family",
+    "Legacy fallback uses StatusNoControlPlan when mapped stage is null"
+  ],
+  "jev_shadow": {
+    "model": "jev-1.13.0",
+    "decisions": {
+      "snapshot_model": "SOURCE_BATCH_FIRST",
+      "stage_resolver": "EFFECTIVE_DATED_RULE_TABLE",
+      "routing_role": "ROUTING_BACKBONE",
+      "inventory_model": "ATP_LEDGER",
+      "scheduler_state": "SCENARIO_DESIGN_ONLY",
+      "actual_time": "DERIVE_WITH_QUALITY_GATE",
+      "report_priority": "ROUTE_STAGE_BOTTLENECK",
+      "implementation_sequence": "LINEAGE_RULES_ROUTING_FIRST"
+    }
+  }
+}
