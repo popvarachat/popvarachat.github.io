@@ -194,6 +194,10 @@ const overrides = {
     title:"Practika Network Digital Twin · Internal IT Director",
     description:"Internal deep view · IP / Hostname / OS / OU / Vendor / Model / Services / AD / DNS / Subnet evidence พร้อม Node drill-down"
   },
+  "enterprise-digital-twin-internal": {
+    title:"Practika Enterprise Digital Twin · Building × Network",
+    description:"Cross-Twin Integration Layer · Building/Floor/Room/Asset ↔ Network/Subnet/Service/Health ด้วย Shared Relation ID และ evidence confidence"
+  },
   "chair-import-cost-manual": {
     title:"Chair Import Cost Intelligence · Independent GitHub Edition",
     description:"Independent Production · ระบบวิเคราะห์ต้นทุนเก้าอี้นำเข้าชุดใหม่ แยก DB / Backend / Deployment / Access Control ออกจากระบบ Apps Script เดิมโดยสมบูรณ์"
@@ -254,6 +258,11 @@ const architectures = {
     note:"Internal IT Director View ของ Digital Twin เดียวกัน รับ focus key จาก Executive View แล้ว filter ไปยัง subnet / asset class / infrastructure node ที่ตรงกัน.",
     flow:[["Focus Key","From Executive Node"],["Local Gateway","127.0.0.1 only"],["Digital Twin V2","Deep topology"],["Evidence","AD · DNS · ICMP · Ports · Banner"],["Inventory","IP · Host · OS · OU · Vendor"],["Action","Operations / remediation"]],
     meta:["Internal Only","Read-only evidence","Localhost bound","Node-level drill-down"]
+  },
+  "enterprise-digital-twin-internal": {
+    note:"Cross-Twin layer เชื่อม Physical Truth จาก Building Twin กับ Logical/Operational Truth จาก Network Twin โดยไม่ทำฐานข้อมูลซ้ำ และแสดง Pending เมื่อหลักฐานตำแหน่งยังไม่พอ.",
+    flow:[["Building Twin","Building · Floor · Room · Drawing · Asset"],["Relation Registry","XTWIN shared relation ID"],["Network Twin","Subnet · IP · Host · Service · Health"],["Confidence","High / Pending evidence"],["Cross Drill-down","Building ↔ Network"],["Action","IT + Facility decision"]],
+    meta:["Internal Only","Shared Registry","Evidence Confidence","No duplicate source of truth"]
   },
   "car-digital-twin-dashboard-manual": {
     note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
@@ -363,6 +372,16 @@ const manualApps = [
     description:"Internal IT Director deep view of the same Network Digital Twin."
   },
   {
+    name:"enterprise-digital-twin-internal",
+    visibility:"local",
+    homepage:"http://127.0.0.1:8766/enterprise-digital-twin.html",
+    html_url:"",
+    updated_at:"2026-10-05T08:55:00Z",
+    topics:["Enterprise Digital Twin"],
+    language:"Internal Web",
+    description:"Building × Network Cross-Twin Integration Layer with shared relation IDs and evidence confidence."
+  },
+  {
     name:"car-digital-twin-dashboard-manual",
     visibility:"public",
     homepage:"https://popvarachat.github.io/practika-flood-map-public/car-digital-twin-dashboard/",
@@ -425,7 +444,7 @@ function render(){
       <p>${esc(desc)}</p>
       <div class="actions">
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
-        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
+        ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : (r.visibility==="local" ? `<span class="repo" aria-label="internal local">🔒 Internal Local</span>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`)}
         ${r.name==="network-diagram-public" ? `<a class="arch" href="https://popvarachat.github.io/network-diagram/#map" target="_blank" rel="noopener">Topology</a>` : ``}
         <button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>
       </div>
