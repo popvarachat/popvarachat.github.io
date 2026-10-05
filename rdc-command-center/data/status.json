@@ -1,9 +1,9 @@
 {
-  "generated_at": "2026-10-05T13:29:54+07:00",
+  "generated_at": "2026-10-05T15:31:37.5463723+07:00",
   "status": "READY_WITH_WARNINGS",
   "mode": "FAST_EXECUTION_MODE",
   "agents": 12,
-  "local_skills": 13,
+  "local_skills": 14,
   "global_catalog": 8,
   "preload_external": 0,
   "providers": [
@@ -14,15 +14,27 @@
     },
     {
       "name": "Gemini CLI",
-      "status": "DISABLED · client/auth eligibility",
+      "status": "DISABLED · AUTH · UNSUPPORTED · CLIENT",
       "tone": "off"
     },
     {
       "name": "Ollama Local",
-      "status": "AVAILABLE · slow cold start",
+      "status": "AVAILABLE · SLOW · COLD · START",
+      "tone": "warning"
+    },
+    {
+      "name": "Jev Decision Coprocessor",
+      "status": "INSTALLED · WAITING · FOR · API · KEY",
       "tone": "warning"
     }
   ],
+  "decision_coprocessor": {
+    "provider": "TypeSafe",
+    "product": "Jev",
+    "status": "INSTALLED_WAITING_FOR_API_KEY",
+    "mode": "SHADOW",
+    "model": "jev-latest"
+  },
   "rules": [
     "API/MCP/CLI first",
     "Parallelize independent tasks",
@@ -34,12 +46,12 @@
     "Stop only at Human Gate or completion"
   ],
   "human_gates": [
-    "Destructive or difficult-to-reverse changes",
-    "Credential / secret / identity / access-control changes",
-    "Material external or production actions",
-    "Live trading or real-money orders",
-    "Large-scale delete / overwrite / migration",
-    "Security changes that reduce protection"
+    "destructive or hard to reverse changes",
+    "credentials secrets identity access control",
+    "material external or production actions",
+    "live trading or real money orders",
+    "large scale delete overwrite migration",
+    "security changes that reduce protection"
   ],
   "agents_list": [
     {
@@ -117,56 +129,60 @@
   ],
   "skills": [
     [
-      "orchestrate-workstream",
-      "Multi-tool orchestration from intent to verified DONE"
-    ],
-    [
       "api-cli-first",
       "Backend-first path selection and batching"
-    ],
-    [
-      "diagnose-recover",
-      "Red-capable debugging + recovery loop"
-    ],
-    [
-      "code-change",
-      "Scoped code/docs/tests implementation"
-    ],
-    [
-      "git-delivery",
-      "GitHub branch/PR/check/merge governance"
-    ],
-    [
-      "data-pipeline",
-      "Deterministic ingest/transform/validate"
-    ],
-    [
-      "ui-fallback",
-      "Minimal UI automation only when needed"
-    ],
-    [
-      "security-gate",
-      "Least privilege + approval boundary"
-    ],
-    [
-      "final-validation",
-      "Evidence before DONE"
-    ],
-    [
-      "context-loader",
-      "Fresh source-of-truth context loading"
-    ],
-    [
-      "multi-agent-review",
-      "Parallel independent review axes"
     ],
     [
       "checkpoint-resume",
       "Long-running resume/rollback discipline"
     ],
     [
+      "code-change",
+      "Scoped code/docs/tests implementation"
+    ],
+    [
+      "context-loader",
+      "Fresh source-of-truth context loading"
+    ],
+    [
+      "data-pipeline",
+      "Deterministic ingest/transform/validate"
+    ],
+    [
+      "diagnose-recover",
+      "Red-capable debugging + recovery loop"
+    ],
+    [
+      "final-validation",
+      "Evidence before DONE"
+    ],
+    [
+      "git-delivery",
+      "GitHub branch/PR/check/merge governance"
+    ],
+    [
       "global-skill-radar",
       "Know broadly, load narrowly from Global Arsenal"
+    ],
+    [
+      "jev-decision-coprocessor",
+      "Bounded System-One routing and decision signals under hard RDC policy"
+    ],
+    [
+      "multi-agent-review",
+      "Parallel independent review axes"
+    ],
+    [
+      "orchestrate-workstream",
+      "Multi-tool orchestration from intent to verified DONE"
+    ],
+    [
+      "security-gate",
+      "Least privilege + approval boundary"
+    ],
+    [
+      "ui-fallback",
+      "Minimal UI automation only when needed"
     ]
   ]
 }

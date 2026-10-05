@@ -8,7 +8,7 @@
       "testing",
       "recovery"
     ],
-    "desc": "Systematic debugging workflow for bugs, failures and unexpected behavior."
+    "desc": "Systematic debugging workflow for bugs, test failures, and unexpected behavior."
   },
   {
     "name": "cavecrew",
@@ -17,9 +17,10 @@
     "categories": [
       "subagent",
       "delegation",
-      "context"
+      "context-efficiency",
+      "code"
     ],
-    "desc": "Compressed investigator / builder / reviewer delegation."
+    "desc": "Delegates investigator, builder and reviewer work to compressed sub-agents to preserve main context."
   },
   {
     "name": "browser-use",
@@ -27,10 +28,11 @@
     "stars": 117130,
     "categories": [
       "browser",
-      "CDP",
-      "automation"
+      "cdp",
+      "automation",
+      "ui-fallback"
     ],
-    "desc": "Direct browser control for automation, scraping and testing."
+    "desc": "Direct browser control via CDP for automation, scraping, testing and screenshots."
   },
   {
     "name": "agent-builder",
@@ -39,31 +41,32 @@
     "categories": [
       "agent",
       "architecture",
-      "orchestration"
+      "orchestration",
+      "subagent"
     ],
-    "desc": "Agent architecture, capabilities, subagents and planning."
+    "desc": "Design and build agent systems, capabilities, subagents, planning and orchestration."
   },
   {
     "name": "open-code-review-delegate",
     "source": "alibaba/open-code-review",
     "stars": 43172,
     "categories": [
-      "review",
+      "code-review",
       "deterministic",
       "delegation"
     ],
-    "desc": "Deterministic engineering for host-driven code review."
+    "desc": "Delegation-mode code review with deterministic file selection and rule resolution."
   },
   {
     "name": "bmad-code-review",
     "source": "bmad-code-org/BMAD-METHOD",
     "stars": 53783,
     "categories": [
-      "review",
-      "parallel",
-      "QA"
+      "code-review",
+      "parallel-review",
+      "qa"
     ],
-    "desc": "Several independent reviewers in parallel with triage."
+    "desc": "Runs several independent code reviewers in parallel, then triages findings."
   },
   {
     "name": "entra-agent-id",
@@ -71,20 +74,23 @@
     "stars": 1536,
     "categories": [
       "identity",
-      "OAuth",
-      "agent security"
+      "rbac",
+      "oauth",
+      "agent-security",
+      "azure"
     ],
-    "desc": "Per-instance agent identity and token exchange patterns."
+    "desc": "Microsoft Entra Agent Identity blueprints, per-instance identities and OAuth token exchange for agents."
   },
   {
-    "name": "agent-observability",
+    "name": "google-agents-cli-observability",
     "source": "google/agents-cli",
     "stars": 5968,
     "categories": [
+      "observability",
       "tracing",
       "logging",
-      "analytics"
+      "agent-analytics"
     ],
-    "desc": "Observability, tracing and agent analytics guidance."
+    "desc": "Agent tracing, logging, analytics and production observability guidance."
   }
 ]

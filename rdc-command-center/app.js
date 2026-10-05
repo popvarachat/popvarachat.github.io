@@ -17,6 +17,12 @@ const fmt=n=>new Intl.NumberFormat("en",{notation:"compact",maximumFractionDigit
   const hb=document.getElementById("healthBadge");hb.textContent=s.status;hb.classList.toggle("warn",s.status!=="READY");
   document.getElementById("rules").innerHTML=s.rules.map((x,i)=>`<div class="rule"><i>${String(i+1).padStart(2,"0")}</i><span>${esc(x)}</span></div>`).join("");
   document.getElementById("humanGates").innerHTML=s.human_gates.map((x,i)=>`<div class="rule"><i>G${i+1}</i><span>${esc(x)}</span></div>`).join("");
+  document.getElementById("jevState").innerHTML=[
+    ["Status",dc.status||"UNKNOWN"],
+    ["Mode",dc.mode||"—"],
+    ["Model",dc.model||"—"],
+    ["Authority","SHADOW · no execution"]
+  ].map(x=>`<div class="provider"><span>${esc(x[0])}</span><b class="${String(x[1]).includes("READY")?"ok":"warning"}">${esc(x[1])}</b></div>`).join("");
 
   document.getElementById("agentsGrid").innerHTML=s.agents_list.map(x=>`
     <article class="card">

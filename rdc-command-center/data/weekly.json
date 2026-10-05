@@ -26,6 +26,11 @@
       "time": "05 Oct",
       "title": "Global Skills Scan scheduled weekly",
       "detail": "สแกน ecosystem ทุกสัปดาห์และเสนอเฉพาะ capability ที่เพิ่มคุณค่าจริง."
+    },
+    {
+      "time": "05 Oct",
+      "title": "Jev Decision Coprocessor installed",
+      "detail": "เพิ่ม bounded System-One decision layer ใต้ RDC Orchestrator สำหรับ Agent / Skill / Retry / Model routing และ advisory DONE; เริ่มใน SHADOW mode พร้อม hard-policy precedence."
     }
   ],
   "candidates": [
