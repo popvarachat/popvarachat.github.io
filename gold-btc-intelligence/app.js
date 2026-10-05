@@ -1,4 +1,4 @@
-let SNAPSHOT=null, WORKFLOW=null, INSTITUTIONAL=null, SETEQ=null, timer=null;
+let SNAPSHOT=null, WORKFLOW=null, INSTITUTIONAL=null, SETEQ=null, FOREX=null, timer=null;
 
 const byId=id=>document.getElementById(id);
 const esc=s=>String(s??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
@@ -31,20 +31,23 @@ function wfSafe(v){
 
 async function loadSnapshot(){
   const ts=Date.now();
-  const [snapshotRes,workflowRes,institutionalRes,setEqRes]=await Promise.all([
+  const [snapshotRes,workflowRes,institutionalRes,setEqRes,forexRes]=await Promise.all([
     fetch('data/executive_snapshot.json?ts='+ts,{cache:'no-store'}),
     fetch('data/workflow_status.json?ts='+ts,{cache:'no-store'}),
     fetch('data/institutional_analytics.json?ts='+ts,{cache:'no-store'}),
-    fetch('data/set_equity_intelligence.json?ts='+ts,{cache:'no-store'})
+    fetch('data/set_equity_intelligence.json?ts='+ts,{cache:'no-store'}),
+    fetch('data/forex_major_intelligence.json?ts='+ts,{cache:'no-store'})
   ]);
   if(!snapshotRes.ok) throw new Error('snapshot HTTP '+snapshotRes.status);
   if(!workflowRes.ok) throw new Error('workflow HTTP '+workflowRes.status);
   if(!institutionalRes.ok) throw new Error('institutional HTTP '+institutionalRes.status);
   if(!setEqRes.ok) throw new Error('SET equity HTTP '+setEqRes.status);
+  if(!forexRes.ok) throw new Error('FOREX HTTP '+forexRes.status);
   SNAPSHOT=await snapshotRes.json();
   WORKFLOW=await workflowRes.json();
   INSTITUTIONAL=await institutionalRes.json();
   SETEQ=await setEqRes.json();
+  FOREX=await forexRes.json();
   renderAll();
 }
 
@@ -55,6 +58,7 @@ function renderAll(){
   renderAgentSquad();
   renderJevReview();
   renderSetEquity();
+  renderForexMajor();
   renderInstitutional();
   renderMarkets();
   renderTrace();
@@ -121,6 +125,48 @@ function renderSetEquity(){
       '<td>'+fmt(x.corr_industry,3)+'</td>'+
       '<td><span class="set-stage '+setStageClass(stage)+'">'+esc(stage)+'</span><small>Thesis '+esc(thesis)+' · Risk '+esc(risk)+'</small></td>'+
       '<td class="pressure-cell">'+esc(x.pressure)+'<small>'+esc(x.resilience)+'</small></td>'+
+    '</tr>';
+  }).join(''));
+}
+
+
+function forexStageClass(stage){
+  if(stage==='TREND_WATCH') return 'good';
+  if(stage==='MEAN_REVERSION_WATCH') return 'neutral';
+  if(stage==='WAIT') return 'warn';
+  if(stage==='AVOID') return 'bad';
+  return 'neutral';
+}
+function thesisArrow(thesis){
+  if(thesis==='BULLISH') return '↑';
+  if(thesis==='BEARISH') return '↓';
+  return '↔';
+}
+function renderForexMajor(){
+  if(!FOREX) return;
+  const rows=FOREX.pairs||[];
+  const trend=rows.filter(x=>x.jev_shadow?.stage?.selected==='TREND_WATCH');
+  const waits=rows.filter(x=>x.jev_shadow?.stage?.selected==='WAIT');
+  safeSet('forexSummary',
+    '<div class="fx-summary-card"><span>Universe</span><b>'+rows.length+' major pairs</b><small>public reference · research only</small></div>'+
+    '<div class="fx-summary-card"><span>Trend Watch</span><b>'+trend.length+' pairs</b><small>'+trend.map(x=>esc(x.pair)).join(' · ')+'</small></div>'+
+    '<div class="fx-summary-card"><span>Wait</span><b>'+waits.length+' pairs</b><small>'+waits.map(x=>esc(x.pair)).join(' · ')+'</small></div>'+
+    '<div class="fx-summary-card"><span>JEV Shadow</span><b>'+esc(FOREX.jev?.model||'—')+'</b><small>no execution authority</small></div>'
+  );
+  safeSet('forexTable',rows.map(x=>{
+    const j=x.jev_shadow||{},stage=j.stage?.selected||'—',thesis=j.thesis?.selected||'—',risk=j.risk?.selected||'—';
+    return '<tr>'+
+      '<td><b>'+esc(x.pair)+'</b><small>'+esc(x.source_symbol||'')+'</small></td>'+
+      '<td><b>'+fmt(x.current_reference,5)+'</b><small>'+esc(x.asof_utc||'—')+'</small></td>'+
+      '<td>'+pct(x.return_1d,2)+'</td>'+
+      '<td>'+pct(x.return_5d,2)+'</td>'+
+      '<td>'+pct(x.return_1m,2)+'</td>'+
+      '<td>'+pct(x.return_3m,2)+'</td>'+
+      '<td>'+pct(x.volatility_20d_ann,1)+'</td>'+
+      '<td><b>'+esc(x.regime||'—')+'</b><small>strength '+fmt(x.trend_strength,2)+'</small></td>'+
+      '<td><b>'+esc(x.usd_bias_5d||'—')+'</b></td>'+
+      '<td><span class="fx-thesis '+(thesis==='BULLISH'?'up':thesis==='BEARISH'?'down':'flat')+'">'+thesisArrow(thesis)+' '+esc(thesis)+'</span></td>'+
+      '<td><span class="fx-stage '+forexStageClass(stage)+'">'+esc(stage)+'</span><small>Risk '+esc(risk)+'</small></td>'+
     '</tr>';
   }).join(''));
 }
