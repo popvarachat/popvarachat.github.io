@@ -93,38 +93,41 @@ function instStatusClass(status){
 }
 
 function setStageClass(stage){
-  if(stage==='ACCUMULATE_WATCH') return 'good';
-  if(stage==='HOLD_QUALITY') return 'neutral';
-  if(stage==='AVOID_CHASE') return 'warn';
+  if(stage==='TREND_WATCH') return 'good';
+  if(stage==='PULLBACK_WATCH') return 'neutral';
+  if(stage==='MEAN_REVERSION_WATCH') return 'neutral';
+  if(stage==='WAIT') return 'warn';
+  if(stage==='AVOID') return 'bad';
   return 'neutral';
-}
-function cdcBadge(cdc){
-  const map={RED:'🔴',BLUE:'🔵',GREEN:'🟢'};
-  return (map[cdc]||'⚪')+' '+esc(cdc||'—');
 }
 function renderSetEquity(){
   if(!SETEQ) return;
-  const rows=SETEQ.stocks||[], top=rows.slice(0,5);
+  const rows=SETEQ.stocks||[];
+  const good=rows.filter(x=>x.quality==='GOOD').length;
+  const setIdx=SETEQ.context?.set_index||{};
   safeSet('setEquitySummary',
-    '<div class="set-summary-card"><span>Universe</span><b>'+rows.length+' SET stocks</b><small>separate research group</small></div>'+
-    '<div class="set-summary-card"><span>Top Opportunity</span><b>'+esc(top[0]?.symbol||'—')+' · '+fmt(top[0]?.opportunity_score,1)+'</b><small>quality + dislocation + yield + resilience</small></div>'+
-    '<div class="set-summary-card"><span>JEV Shadow</span><b>'+esc(SETEQ.jev?.model||'—')+'</b><small>research-only · no execution authority</small></div>'+
-    '<div class="set-summary-card"><span>Top 5</span><b>'+top.map(x=>esc(x.symbol)).join(' · ')+'</b><small>ranked by transparent opportunity score</small></div>'
+    '<div class="set-summary-card"><span>Universe</span><b>'+rows.length+' SET stocks</b><small>ticker-only input</small></div>'+
+    '<div class="set-summary-card"><span>Market Data</span><b>'+good+'/'+rows.length+' GOOD</b><small>dynamic external fetch</small></div>'+
+    '<div class="set-summary-card"><span>SET Index</span><b>'+fmt(setIdx.last,2)+'</b><small>'+esc(setIdx.source||'—')+'</small></div>'+
+    '<div class="set-summary-card"><span>JEV Shadow</span><b>'+esc(SETEQ.jev?.model||'—')+'</b><small>research-only · no execution authority</small></div>'
   );
-  safeSet('setEquityTable',rows.map((x,i)=>{
+  safeSet('setEquityTable',rows.map(x=>{
     const j=x.jev_shadow||{},stage=j.stage?.selected||'—',thesis=j.thesis?.selected||'—',risk=j.risk?.selected||'—';
+    const src=(x.source_health||[]).find(v=>v.source==='YAHOO_DAILY');
     return '<tr>'+
-      '<td class="rank-cell">#'+(i+1)+'</td>'+
-      '<td><b>'+esc(x.symbol)+'</b><small>'+esc(x.grade)+'</small></td>'+
-      '<td><b>'+fmt(x.opportunity_score,1)+'</b><small>'+esc(stage.replaceAll('_',' '))+'</small></td>'+
-      '<td>'+esc(x.financials_3y)+'</td>'+
-      '<td><b>'+fmt(x.drawdown_3m_pct,1)+'%</b></td>'+
-      '<td>'+fmt(x.dividend_fy_pct,2)+'%</td>'+
-      '<td>'+cdcBadge(x.cdc)+'</td>'+
-      '<td>'+fmt(x.corr_set,3)+'</td>'+
-      '<td>'+fmt(x.corr_industry,3)+'</td>'+
-      '<td><span class="set-stage '+setStageClass(stage)+'">'+esc(stage)+'</span><small>Thesis '+esc(thesis)+' · Risk '+esc(risk)+'</small></td>'+
-      '<td class="pressure-cell">'+esc(x.pressure)+'<small>'+esc(x.resilience)+'</small></td>'+
+      '<td><b>'+esc(x.symbol)+'</b><small>'+esc(x.source_symbol||'')+'</small></td>'+
+      '<td><b>'+fmt(x.current_reference,2)+'</b><small>'+esc(x.asof_utc||'—')+'</small></td>'+
+      '<td>'+pct(x.return_1d,2)+'</td>'+
+      '<td>'+pct(x.return_5d,2)+'</td>'+
+      '<td>'+pct(x.return_1m,2)+'</td>'+
+      '<td>'+pct(x.return_3m,2)+'</td>'+
+      '<td>'+pct(x.drawdown_from_high_3m,2)+'</td>'+
+      '<td>'+pct(x.volatility_20d_ann,1)+'</td>'+
+      '<td><b>'+esc(x.regime||'—')+'</b><small>strength '+fmt(x.trend_strength,2)+'</small></td>'+
+      '<td>'+fmt(x.corr_set_3m,3)+'</td>'+
+      '<td><span class="fx-thesis '+(thesis==='BULLISH'?'up':thesis==='BEARISH'?'down':'flat')+'">'+thesisArrow(thesis)+' '+esc(thesis)+'</span></td>'+
+      '<td><span class="set-stage '+setStageClass(stage)+'">'+esc(stage)+'</span><small>Risk '+esc(risk)+'</small></td>'+
+      '<td><span class="src-chip '+(x.quality==='GOOD'?'good':x.quality==='FAILED'?'bad':'neutral')+'">'+esc(x.quality||'—')+'</span><small>'+esc(x.authority||'—')+' · '+esc(src?.source||'—')+'</small></td>'+
     '</tr>';
   }).join(''));
 }

@@ -1,10 +1,10 @@
-﻿<!doctype html>
+<!doctype html>
 <html lang="th">
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GOLD / BTCUSD Executive Intelligence</title>
-  <link rel="stylesheet" href="styles.css?v=utf8-fix-v2" />
+  <link rel="stylesheet" href="styles.css?v=set-dynamic-v2" />
 </head>
 <body>
   <div class="shell">
@@ -12,7 +12,7 @@
       <div>
         <div class="eyebrow">EXECUTIVE SYSTEM ARCHITECTURE</div>
         <h1>GOLD / BTCUSD <span>Multi-Agent Intelligence</span></h1>
-        <p>Analysis / Control / Report â€” read-only executive surface</p>
+        <p>Analysis / Control / Report — read-only executive surface</p>
       </div>
       <div class="hero-actions">
         <button id="refreshBtn" class="btn primary">Refresh View</button>
@@ -23,19 +23,19 @@
     </header>
 
     <section class="system-strip">
-      <div><span class="label">Mode</span><strong id="mode">â€”</strong></div>
-      <div><span class="label">Execution</span><strong id="execution">â€”</strong></div>
-      <div><span class="label">Snapshot UTC</span><strong id="generated">â€”</strong></div>
-      <div><span class="label">System</span><strong id="systemHealth">â€”</strong></div>
+      <div><span class="label">Mode</span><strong id="mode">—</strong></div>
+      <div><span class="label">Execution</span><strong id="execution">—</strong></div>
+      <div><span class="label">Snapshot UTC</span><strong id="generated">—</strong></div>
+      <div><span class="label">System</span><strong id="systemHealth">—</strong></div>
     </section>
 
     <section class="cio-strip" aria-label="CIO capital state">
       <div class="cio-title"><span>CIO CAPITAL STATE</span><b id="cioState">Loadingâ€¦</b></div>
-      <div><span>GOLD Edge</span><b id="cioGoldEdge">â€”</b></div>
-      <div><span>BTC Edge</span><b id="cioBtcEdge">â€”</b></div>
-      <div><span>Portfolio Heat</span><b id="cioHeat">â€”</b></div>
+      <div><span>GOLD Edge</span><b id="cioGoldEdge">—</b></div>
+      <div><span>BTC Edge</span><b id="cioBtcEdge">—</b></div>
+      <div><span>Portfolio Heat</span><b id="cioHeat">—</b></div>
       <div><span>BTC↔GOLD Corr 30D</span><b id="cioCorr">—</b></div>
-      <div><span>Macro Regime</span><b id="cioMacro">â€”</b></div>
+      <div><span>Macro Regime</span><b id="cioMacro">—</b></div>
     </section>
 
     <main>
@@ -55,7 +55,7 @@
             <div class="workflow-meta">
               <span>Overall <b id="wfOverall">Loadingâ€¦</b></span>
               <span>Execution <b class="locked">DISABLED</b></span>
-              <span>Updated <b id="wfUpdated">â€”</b></span>
+              <span>Updated <b id="wfUpdated">—</b></span>
             </div>
           </div>
 
@@ -169,7 +169,7 @@
 
       <section class="agent-squad-section">
         <div class="section-title">
-          <div><span class="step">02</span><h2>Elite Agent Squad â€” 5 Specialist Assistants</h2></div>
+          <div><span class="step">02</span><h2>Elite Agent Squad — 5 Specialist Assistants</h2></div>
           <span class="muted">Orchestrator + 4 specialist agents · live outputs from the current run</span>
         </div>
         <article class="agent-squad-board">
@@ -200,15 +200,15 @@
 
       <section class="set-equity-section">
         <div class="section-title">
-          <div><span class="step">04</span><h2>SET Equity Intelligence â€” Resilient Value Watchlist</h2></div>
-          <span class="muted">Separate research group · fundamentals · price dislocation · dividend · correlation · JEV Shadow</span>
+          <div><span class="step">04</span><h2>SET Equity Intelligence — Dynamic Market Pipeline</h2></div>
+          <span class="muted">Ticker-only universe · dynamic market data · regime · correlation · JEV Shadow</span>
         </div>
         <div id="setEquitySummary" class="set-summary-grid"></div>
         <article class="set-table-card">
-          <div class="set-table-note"><b>Research rule:</b> Opportunity Score ranks quality + 3M price dislocation + dividend + resilience + low SET correlation. CDC is shown separately and is <b>not</b> treated as a standalone buy/sell signal.</div>
+          <div class="set-table-note"><b>Input rule:</b> ระบบเก็บเฉพาะรายชื่อหลักทรัพย์ 13 ตัวเท่านั้น ข้อมูลราคา ผลตอบแทน Drawdown Volatility Regime Corr SET และ JEV ถูกดึงหรือคำนวณใหม่ทุกครั้ง</div>
           <div class="table-scroll">
             <table class="set-table">
-              <thead><tr><th>Rank</th><th>Stock</th><th>Score / Stage</th><th>3Y Fundamentals</th><th>From High 3M</th><th>Dividend</th><th>CDC</th><th>Corr SET</th><th>Corr Industry</th><th>JEV Shadow</th><th>Pressure / Resilience</th></tr></thead>
+              <thead><tr><th>Stock</th><th>Reference</th><th>1D</th><th>5D</th><th>1M</th><th>3M</th><th>DD 3M</th><th>Vol 20D</th><th>Regime</th><th>Corr SET</th><th>JEV Thesis</th><th>JEV Stage / Risk</th><th>Source</th></tr></thead>
               <tbody id="setEquityTable"></tbody>
             </table>
           </div>
@@ -217,7 +217,7 @@
 
       <section class="forex-major-section">
         <div class="section-title">
-          <div><span class="step">05</span><h2>FOREX Major Intelligence â€” MT5 Live + Broker Export + Macro + COT + JEV</h2></div>
+          <div><span class="step">05</span><h2>FOREX Major Intelligence — MT5 Live + Broker Export + Macro + COT + JEV</h2></div>
           <span class="muted">AUDUSD · NZDUSD · USDJPY · EURUSD · USDCHF · GBPUSD · USDCAD · institutional source lineage</span>
         </div>
         <div id="forexSummary" class="fx-summary-grid"></div>
@@ -299,6 +299,6 @@
       <span>Read-only / No financial mutation</span>
     </footer>
   </div>
-  <script src="app.js?v=utf8-fix-v2"></script>
+  <script src="app.js?v=set-dynamic-v2"></script>
 </body>
 </html>
