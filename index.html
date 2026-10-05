@@ -426,6 +426,7 @@ function render(){
       <div class="actions">
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`}
+        ${r.name==="network-diagram-public" ? `<a class="arch" href="https://popvarachat.github.io/network-diagram/#map" target="_blank" rel="noopener">Topology</a>` : ``}
         <button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>
       </div>
     </article>`;
