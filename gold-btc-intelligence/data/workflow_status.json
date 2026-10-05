@@ -1,0 +1,198 @@
+{
+  "schema_version": "grip-portal-workflow-v1",
+  "generated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+  "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
+  "execution_enabled": false,
+  "overall_status": "BLOCKED",
+  "layers": {
+    "data_input": {
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-10-05T04:09:45.333888+00:00",
+      "instrument_states": {
+        "BTCUSD": "DEGRADED",
+        "XAUUSD": "DEGRADED"
+      }
+    },
+    "preprocess_feature": {
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-10-05T04:23:20.344367+00:00",
+      "instrument_states": {
+        "BTCUSD": "COMPLETE",
+        "XAUUSD": "DEGRADED"
+      }
+    },
+    "multi_agent_core": {
+      "status": "COMPLETE",
+      "updated_at_utc": "2026-10-05T04:38:42.327352+00:00",
+      "instrument_states": {
+        "BTCUSD": "COMPLETE",
+        "XAUUSD": "COMPLETE"
+      }
+    },
+    "decision_risk_control": {
+      "status": "BLOCKED",
+      "updated_at_utc": "2026-10-05T04:43:38.383470+00:00",
+      "instrument_states": {
+        "BTCUSD": "BLOCKED",
+        "XAUUSD": "WAIT"
+      }
+    },
+    "executive_output": {
+      "status": "COMPLETE",
+      "updated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+      "instrument_states": {
+        "BTCUSD": "COMPLETE",
+        "XAUUSD": "COMPLETE"
+      }
+    }
+  },
+  "instruments": [
+    {
+      "instrument": "BTCUSD",
+      "overall_status": "BLOCKED",
+      "layers": {
+        "data_input": {
+          "status": "DEGRADED",
+          "summary": "quality=GOOD",
+          "updated_at_utc": "2026-10-05T04:09:45.333888+00:00",
+          "details": {
+            "authority": "PUBLIC_MARKET_DATA",
+            "failed_sources": [
+              "FAIR_ECONOMY_CALENDAR"
+            ],
+            "sources_ok": 6,
+            "sources_total": 7
+          }
+        },
+        "preprocess_feature": {
+          "status": "COMPLETE",
+          "summary": "regime=BULL_TREND",
+          "updated_at_utc": "2026-10-05T04:23:20.344367+00:00",
+          "details": {
+            "source_quality": "GOOD",
+            "data_valid": true,
+            "regime": "BULL_TREND",
+            "regime_confidence": 0.6267685839331013,
+            "risk_ready": false
+          }
+        },
+        "multi_agent_core": {
+          "status": "COMPLETE",
+          "summary": "3/3 candidates eligible",
+          "updated_at_utc": "2026-10-05T04:38:42.327352+00:00",
+          "details": {
+            "candidate_count": 3,
+            "accepted_count": 3,
+            "accepted_ids": [
+              "BUY-PULLBACK",
+              "BUY-BREAKOUT",
+              "WAIT-BASE"
+            ],
+            "endgame_plan_count": 3
+          }
+        },
+        "decision_risk_control": {
+          "status": "BLOCKED",
+          "summary": "BUY -> WAIT",
+          "updated_at_utc": "2026-10-05T04:43:38.383470+00:00",
+          "details": {
+            "selected_candidate_id": "BUY-PULLBACK",
+            "decision_action": "BUY",
+            "decision_reason": "DIRECTIONAL_CANDIDATE_SELECTED",
+            "risk_allowed": false,
+            "risk_reasons": [
+              "ACCOUNT_STATE_UNAVAILABLE",
+              "BROKER_QUOTE_UNAVAILABLE",
+              "NEWS_RISK_UNKNOWN",
+              "RISK_SNAPSHOT_NOT_READY"
+            ],
+            "final_action": "WAIT",
+            "proposed_volume": null
+          }
+        },
+        "executive_output": {
+          "status": "COMPLETE",
+          "summary": "published to GitHub Portal",
+          "updated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+          "details": {
+            "execution_enabled": false,
+            "trade_intent_enabled": false
+          }
+        }
+      }
+    },
+    {
+      "instrument": "XAUUSD",
+      "overall_status": "DEGRADED",
+      "layers": {
+        "data_input": {
+          "status": "DEGRADED",
+          "summary": "quality=DEGRADED",
+          "updated_at_utc": "2026-10-05T04:09:45.333888+00:00",
+          "details": {
+            "authority": "REFERENCE_ONLY_NOT_EXECUTABLE",
+            "failed_sources": [
+              "MT5",
+              "FAIR_ECONOMY_CALENDAR"
+            ],
+            "sources_ok": 3,
+            "sources_total": 5
+          }
+        },
+        "preprocess_feature": {
+          "status": "DEGRADED",
+          "summary": "regime=TRANSITION",
+          "updated_at_utc": "2026-10-05T04:23:20.344367+00:00",
+          "details": {
+            "source_quality": "DEGRADED",
+            "data_valid": true,
+            "regime": "TRANSITION",
+            "regime_confidence": 0.75,
+            "risk_ready": false
+          }
+        },
+        "multi_agent_core": {
+          "status": "COMPLETE",
+          "summary": "4/5 candidates eligible",
+          "updated_at_utc": "2026-10-05T04:38:42.327352+00:00",
+          "details": {
+            "candidate_count": 5,
+            "accepted_count": 4,
+            "accepted_ids": [
+              "SELL-PULLBACK",
+              "MEANREV-LONG",
+              "MEANREV-SHORT",
+              "WAIT-BASE"
+            ],
+            "endgame_plan_count": 4
+          }
+        },
+        "decision_risk_control": {
+          "status": "WAIT",
+          "summary": "WAIT -> WAIT",
+          "updated_at_utc": "2026-10-05T04:43:38.383470+00:00",
+          "details": {
+            "selected_candidate_id": "WAIT-BASE",
+            "decision_action": "WAIT",
+            "decision_reason": "WAIT_RANKED_HIGHEST",
+            "risk_allowed": false,
+            "risk_reasons": [
+              "DECISION:WAIT_RANKED_HIGHEST"
+            ],
+            "final_action": "WAIT",
+            "proposed_volume": null
+          }
+        },
+        "executive_output": {
+          "status": "COMPLETE",
+          "summary": "published to GitHub Portal",
+          "updated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+          "details": {
+            "execution_enabled": false,
+            "trade_intent_enabled": false
+          }
+        }
+      }
+    }
+  ]
+}
