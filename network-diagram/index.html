@@ -6,7 +6,7 @@
 :root{--bg:#eef4fb;--panel:#fff;--ink:#152238;--muted:#66758b;--line:#d8e3ef;--blue:#2563eb;--green:#16803b;--amber:#b56a0b;--shadow:0 18px 48px rgba(30,64,110,.10)}
 *{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 12% 0%,#dcecff 0,transparent 30%),linear-gradient(180deg,#eef4fb,#f8fafc 45%);color:var(--ink)}.wrap{max-width:1420px;margin:auto;padding:30px 22px 54px}
 .hero{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.eyebrow{font-size:12px;font-weight:800;letter-spacing:.1em;color:var(--blue);text-transform:uppercase}h1{font-size:clamp(30px,4.5vw,50px);letter-spacing:-.045em;margin:7px 0 10px}.sub{max-width:960px;color:var(--muted);line-height:1.6;margin:0}.hero-actions{display:flex;gap:8px;align-items:center;flex-wrap:wrap;justify-content:flex-end}.status,.internal-btn{padding:10px 13px;border-radius:999px;font-weight:800;white-space:nowrap;font-size:12px}.status{border:1px solid #bbdec6;background:#effbf3;color:var(--green)}.internal-btn{border:1px solid #aac4e5;background:#fff;color:#245da9;text-decoration:none}
-.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:24px 0 14px}.tab{border:1px solid var(--line);background:white;padding:10px 13px;border-radius:11px;font-weight:750;cursor:pointer}.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}.panel{display:none;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.panel.active{display:block}.panel h2{margin:0 0 7px}.lead{color:var(--muted);margin:0 0 18px;line-height:1.55}
+.levels{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:7px;margin:20px 0 10px}.level{border:1px solid var(--line);background:#fff;border-radius:11px;padding:9px 10px}.level b{display:block;font-size:11px}.level span{font-size:9.5px;color:var(--muted)}.level.active{background:#eaf3ff;border-color:#8bb4e6}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:14px 0}.tab{border:1px solid var(--line);background:white;padding:10px 13px;border-radius:11px;font-weight:750;cursor:pointer}.tab.active{background:var(--ink);color:#fff;border-color:var(--ink)}.panel{display:none;background:rgba(255,255,255,.96);border:1px solid var(--line);border-radius:20px;padding:20px;box-shadow:var(--shadow)}.panel.active{display:block}.panel h2{margin:0 0 7px}.lead{color:var(--muted);margin:0 0 18px;line-height:1.55}
 .diagram{overflow:auto;border:1px solid var(--line);border-radius:15px;background:#fbfdff}.diagram svg{min-width:1220px;width:100%;height:850px}.node rect{fill:#fff;stroke:#aebed1;stroke-width:1.5}.node text{fill:#152238;font-size:13px;font-weight:750}.node .small{fill:#66758b;font-size:10px;font-weight:500}.infra rect{stroke:#67a57b}.edge{stroke:#97a9bd;stroke-width:1.7;fill:none}.dash{stroke-dasharray:6 5}.core rect{fill:#eaf3ff;stroke:#6395db;stroke-width:2}.pending rect{stroke:#e3a04b;stroke-dasharray:6 4}
 .node[data-focus]{cursor:pointer}.node[data-focus] rect{transition:filter .15s,stroke-width .15s}.node[data-focus]:hover rect{filter:drop-shadow(0 5px 8px rgba(37,99,235,.14));stroke-width:2.4}
 .cards{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.card{border:1px solid var(--line);border-radius:15px;background:#fff;padding:15px}.card[data-focus],.role[data-focus]{cursor:pointer;transition:transform .12s,box-shadow .12s,border-color .12s}.card[data-focus]:hover,.role[data-focus]:hover{transform:translateY(-1px);box-shadow:0 9px 24px rgba(37,99,235,.10);border-color:#79a6df}.card b{display:block;margin-bottom:4px}.card p{color:var(--muted);font-size:12.5px;line-height:1.5;margin:0}.tag{display:inline-flex;margin-top:9px;padding:4px 7px;border-radius:999px;font-size:10.5px;font-weight:800}.ok{background:#e9f8ed;color:#176b38}.info{background:#e9f2ff;color:#245da9}.wait{background:#fff2dc;color:#94610d}
@@ -15,10 +15,19 @@
 footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-content:space-between;gap:10px;flex-wrap:wrap}
 @media(max-width:900px){.cards,.rolegrid{grid-template-columns:1fr}.hero{flex-direction:column}.hero-actions{justify-content:flex-start}.wrap{padding:22px 14px 44px}}
 </style></head><body><div class="wrap">
-<div class="hero"><div><div class="eyebrow">Practika · Network Digital Twin</div><h1>Network Digital Twin · Executive View</h1><p class="sub">หน้า Public นี้คือมุมมองระดับผู้บริหารของ Digital Twin ตัวเดียวกับ Internal IT Director View — ทุก Node สามารถกดดู evidence เชิงลึก และบนเครื่องที่ได้รับสิทธิ์สามารถ Drill-down เข้า IP/Hostname/OS/OU/Service/Device detail ของ Node เดียวกันได้</p></div><div class="hero-actions"><div class="status">● Twin Connected</div><a class="internal-btn" href="../enterprise-digital-twin/">Building × Network ↗</a><a class="internal-btn" href="http://127.0.0.1:8766/?focus=overview" target="_blank">Open Internal Twin ↗</a></div></div>
-<div class="tabs"><button class="tab active" data-tab="map">Network Topology</button><button class="tab" data-tab="zones">Logical Zones</button><button class="tab" data-tab="roles">Device Estate</button><button class="tab" data-tab="enterprise">Building × Network</button><button class="tab" data-tab="workflow">Workflow</button><button class="tab" data-tab="statusp">Discovery Status</button></div>
+<div class="hero"><div><div class="eyebrow">Practika · IT Network Digital Twin</div><h1>Company Network · IT Director View</h1><p class="sub">เริ่มจากภาพใหญ่ของ IT Network ทั้งบริษัท แล้วเจาะลงทีละระดับ: อาคาร/ชั้น → Network Zone → Infrastructure → Device → Port/Link → Evidence & Impact. หน้า Public แสดงโครงสร้างแบบปลอดภัย ส่วน Internal IT Director View แสดง IP, Hostname, OS, Vendor/Model, Service และ Port จริง</p></div><div class="hero-actions"><div class="status">● Twin Connected</div><a class="internal-btn" href="../enterprise-digital-twin/">Building × Network ↗</a><a class="internal-btn" href="http://127.0.0.1:8766/?focus=overview" target="_blank">Open Internal Twin ↗</a></div></div>
+<div class="levels">
+<div class="level active"><b>L0 · Company</b><span>Internet · Core · Services</span></div>
+<div class="level"><b>L1 · Building/Floor</b><span>Location / access layer</span></div>
+<div class="level"><b>L2 · Network Zone</b><span>LAN · Wi‑Fi · Server · Voice</span></div>
+<div class="level"><b>L3 · Infrastructure</b><span>Core · Switch · AP · Server</span></div>
+<div class="level"><b>L4 · Device</b><span>IP · Host · Model · OS</span></div>
+<div class="level"><b>L5 · Port / Link</b><span>Switch port · AP association</span></div>
+<div class="level"><b>L6 · Evidence / Impact</b><span>Health · dependency · history</span></div>
+</div>
+<div class="tabs"><button class="tab active" data-tab="map">Company Overview</button><button class="tab" data-tab="buildings">Building / Floor</button><button class="tab" data-tab="zones">Network Zones</button><button class="tab" data-tab="roles">Infrastructure & Devices</button><button class="tab" data-tab="statusp">Physical Detail</button><button class="tab" data-tab="enterprise">Building × Network</button><button class="tab" data-tab="workflow">Workflow</button></div>
 
-<section id="map" class="panel active"><h2>Network Topology</h2><p class="lead">มุมมอง Network จริงเป็นหลัก: Internet/Edge → Core L3 Fabric → Server/Infrastructure, Access Switching, Wireless และ Plant/Production → Endpoints/VoIP/Printer/CCTV. คลิก Node เพื่อ drill-down.</p>
+<section id="map" class="panel active"><h2>L0 · Company Network Overview</h2><p class="lead">ภาพใหญ่ที่สุดของระบบ IT บริษัท: Internet/Edge → Core L3 → Infrastructure/Server/Application → Access/Wi‑Fi/Building/Production. คลิก Node เพื่อเจาะลงรายละเอียดระดับถัดไป</p>
 <div class="diagram"><svg viewBox="0 0 1260 930">
 <g class="node infra" data-focus="health"><rect x="520" y="20" rx="15" width="220" height="68"/><text x="555" y="47">Internet / ISP</text><text class="small" x="555" y="67">External connectivity</text></g>
 <path class="edge" d="M630 88 V125"/>
@@ -53,7 +62,16 @@ footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-co
 <div class="card"><b>4 · Build Twin</b><p>รวม Logical Topology + Asset Inventory + Health + Evidence</p><span class="tag ok">Connected</span></div>
 <div class="card"><b>5 · Drill-down</b><p>คลิก Node → Evidence Drawer → Internal Twin focus key</p><span class="tag ok">Interactive</span></div>
 <div class="card"><b>6 · Operate</b><p>Refresh / investigate / remediate / add management-plane truth</p><span class="tag wait">Human controlled</span></div>
-</div></section><section id="zones" class="panel"><h2>Logical Zones</h2><p class="lead">16 live network segments ถูกยุบเป็น business/network roles; คลิกการ์ดเพื่อดู evidence และเปิด Internal Twin ต่อ</p><div class="cards">
+</div></section><section id="buildings" class="panel"><h2>L1 · Building / Floor View</h2><p class="lead">เริ่มจากสถานที่จริง แล้วกดลงไปยัง Network Zone และอุปกรณ์ของพื้นที่นั้น</p><div class="cards">
+<div class="card" data-focus="building1-floor1"><b>Building 1 · Floor 1</b><p>User LAN · VoIP · endpoint population · access-switch evidence</p><span class="tag ok">Mapped</span></div>
+<div class="card" data-focus="building1-floor2"><b>Building 1 · Floor 2</b><p>User LAN · training / office endpoints · location evidence</p><span class="tag ok">Mapped</span></div>
+<div class="card" data-focus="building1-floor3"><b>Building 1 · Floor 3</b><p>User LAN · IT endpoints · managed-switch evidence</p><span class="tag ok">Mapped</span></div>
+<div class="card" data-focus="production"><b>Production / Plant</b><p>Machine / production endpoints and plant-network evidence</p><span class="tag info">Strong evidence</span></div>
+<div class="card" data-focus="wifi"><b>Corporate Wi‑Fi</b><p>Wireless client access and AP-family evidence</p><span class="tag info">Partial physical mapping</span></div>
+<div class="card" data-focus="physical-pending"><b>Other Buildings / Special Areas</b><p>Known building estate; exact access-layer mapping still incomplete</p><span class="tag wait">Pending</span></div>
+</div></section>
+
+<section id="zones" class="panel"><h2>L2 · Network Zones</h2><p class="lead">16 live network segments ถูกยุบเป็น business/network roles; คลิกการ์ดเพื่อดู evidence และเปิด Internal Twin ต่อ</p><div class="cards">
 <div class="card" data-focus="directory"><b>Core Infrastructure / Security</b><p>Directory, DNS, DHCP, virtualization and embedded infrastructure services.</p><span class="tag ok">Confirmed</span></div>
 <div class="card" data-focus="applications"><b>Application / Server Zone</b><p>Intranet, application, backup and Windows application services.</p><span class="tag ok">Confirmed</span></div>
 <div class="card" data-focus="servers"><b>File / Backup Services</b><p>Corporate shared storage, backup and Windows server workloads.</p><span class="tag ok">Confirmed</span></div>
@@ -65,7 +83,7 @@ footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-co
 <div class="card" data-focus="print-device"><b>Print / Device / VoIP</b><p>Network printers and Grandstream voice endpoints.</p><span class="tag ok">Service/banner evidence</span></div>
 </div></section>
 
-<section id="roles" class="panel"><h2>Discovered Device Estate</h2><p class="lead">คลิก Device Class เพื่อ Drill-down เข้า asset list ใน Internal Digital Twin</p><div class="rolegrid">
+<section id="roles" class="panel"><h2>L3–L4 · Infrastructure & Device Estate</h2><p class="lead">คลิก Device Class เพื่อ Drill-down เข้า asset list ใน Internal Digital Twin</p><div class="rolegrid">
 <div class="role" data-focus="ad-endpoints"><b>Windows Endpoints</b><span>AD-managed desktop / notebook estate</span></div>
 <div class="role" data-focus="servers"><b>Windows Servers</b><span>Directory / file / backup / applications</span></div>
 <div class="role" data-focus="network-mgmt"><b>Managed Devices</b><span>HPE/H3C / RUCKUS / switch / AP / embedded</span></div>
@@ -76,14 +94,14 @@ footer{margin-top:22px;color:var(--muted);font-size:11px;display:flex;justify-co
 <div class="role" data-focus="physical-pending"><b>Unknown / Unclassified</b><span>Responding devices awaiting management-plane evidence</span></div>
 </div><div class="note">Internal Twin ปัจจุบันรวม AD, DNS/PTR, ICMP, ports, vendor/model fingerprint, OS, OU, latency และ evidence ราย asset ไว้ในระบบเดียวกัน</div></section>
 
-<section id="enterprise" class="panel"><h2>Building × Network Integration</h2><p class="lead">Network Twin เชื่อมกับ Building Twin ผ่าน Cross‑Twin Relation Registry และ JEV Evidence Gate เพื่อแยก Physical Truth ออกจาก logical inference อย่างชัดเจน</p><div class="cards">
+<section id="enterprise" class="panel"><h2>Building × Network Integration</h2><p class="lead">Network Twin เชื่อมกับ Building Twin ผ่าน Cross‑Twin Relationship Layer เพื่อแยก Physical Location ออกจาก Logical Network อย่างชัดเจน</p><div class="cards">
 <div class="card"><b>12 Cross‑Twin Relations</b><p>เชื่อม Building / Floor / Drawing / System กับ Network Zone และ asset evidence โดยไม่ทำฐานข้อมูลซ้ำ</p><span class="tag ok">Connected</span></div>
 <div class="card"><b>14 Building Drawings</b><p>LAN / Wi‑Fi / CCTV drawing evidence ถูกนำมาใช้ประกอบ confidence ของ relation</p><span class="tag info">Evidence</span></div>
-<div class="card"><b>JEV Evidence Gate</b><p>มี CONFIRMED / SUPPORTED / CONFLICT / PENDING และ veto การ auto-map เมื่อหลักฐานขัดกัน</p><span class="tag info">Decision Layer</span></div>
+<div class="card"><b>Mapping Confidence</b><p>แยก Verified / Supported / Needs Review / Pending เพื่อไม่ให้ระบบผูกตำแหน่งผิดเมื่อหลักฐานยังไม่ครบ</p><span class="tag info">Data Quality</span></div>
 <div class="card"><b>Physical Port Truth</b><p>Room → AP/Switch → Port → Endpoint จะยืนยันเมื่อมี authorized read-only MAC/LLDP/AP association</p><span class="tag wait">Human Gate</span></div>
 </div><div class="note"><a href="../enterprise-digital-twin/" style="font-weight:800;color:#245da9;text-decoration:none">Open Practika Enterprise Digital Twin · Executive View ↗</a></div></section>
 
-<section id="statusp" class="panel"><h2>Discovery Status</h2><div class="cards">
+<section id="statusp" class="panel"><h2>L5–L6 · Physical Detail / Evidence Completeness</h2><div class="cards">
 <div class="card" data-focus="overview"><b>Logical estate</b><p>16 live subnets / 407 live responders ใน snapshot ล่าสุดของ Internal Twin.</p><span class="tag ok">Complete baseline</span></div>
 <div class="card" data-focus="ad-endpoints"><b>Active Directory</b><p>622 computer objects; OS, last-logon, OU/location and DNS evidence integrated.</p><span class="tag ok">Integrated</span></div>
 <div class="card" data-focus="network-mgmt"><b>Service / Vendor fingerprint</b><p>334 identified/classified assets including managed infrastructure and endpoints.</p><span class="tag ok">Integrated</span></div>
