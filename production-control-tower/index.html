@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#07111f">
-<title>Practika Production Control Tower · Workflow & ERD</title>
+<title>Practika Production Control Tower · Workflow · Reports · Scenario · ERP API</title>
 <style>
 :root{--bg:#07111f;--panel:#0d1a2d;--panel2:#12243b;--line:#263b59;--text:#eef5ff;--muted:#9db0c8;--blue:#65a8ff;--cyan:#62d5e8;--green:#7ed8ad;--orange:#ffb56b;--red:#ff7a86;--violet:#b99cff;--shadow:0 18px 55px rgba(0,0,0,.24)}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 12% 0%,rgba(101,168,255,.16),transparent 30%),radial-gradient(circle at 90% 12%,rgba(126,216,173,.10),transparent 28%),var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Thai",sans-serif}.wrap{max-width:1450px;margin:auto;padding:30px 22px 60px}.hero{display:flex;justify-content:space-between;gap:24px;align-items:flex-start}.eyebrow{font-size:12px;letter-spacing:.12em;color:var(--cyan);font-weight:800}.hero h1{font-size:clamp(30px,5vw,58px);line-height:1;margin:8px 0 10px;letter-spacing:-.04em}.hero p{margin:0;color:var(--muted);max-width:900px;line-height:1.65}.ready{border:1px solid rgba(126,216,173,.35);background:rgba(126,216,173,.08);color:#c9ffe5;border-radius:999px;padding:9px 12px;font-size:11px;font-weight:900;white-space:nowrap}.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:11px;margin:20px 0}.kpi{border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,36,59,.9),rgba(12,26,44,.9));border-radius:15px;padding:14px}.kpi b{font-size:25px;display:block}.kpi span{font-size:11px;color:var(--muted)}.tabs{display:flex;gap:8px;flex-wrap:wrap;margin:18px 0}.tab{border:1px solid var(--line);background:var(--panel);color:var(--text);padding:10px 13px;border-radius:11px;font-weight:800;cursor:pointer}.tab.active{background:linear-gradient(135deg,#5697ef,#72c7d6);color:#07111f;border-color:transparent}.view{display:none}.view.active{display:block}.panel{border:1px solid var(--line);background:rgba(9,21,37,.84);border-radius:19px;box-shadow:var(--shadow);overflow:hidden}.head{display:flex;justify-content:space-between;gap:16px;padding:18px;border-bottom:1px solid var(--line)}.head h2{margin:0 0 5px;font-size:20px}.head p{margin:0;color:var(--muted);font-size:13px;line-height:1.5}.legend{display:flex;gap:7px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted);font-size:10px}.diagram{padding:20px;overflow:auto;min-height:650px}.mermaid{min-width:1050px}.grid{display:grid;grid-template-columns:1.15fr .85fr;gap:14px;padding:16px}.box{border:1px solid var(--line);background:rgba(18,36,59,.62);border-radius:15px;padding:15px}.box h3{margin:0 0 8px}.box p,.box li{color:var(--muted);font-size:13px;line-height:1.65}.box ul,.box ol{margin:8px 0 0;padding-left:20px}table{border-collapse:collapse;width:100%;font-size:12px}th,td{padding:9px 8px;border-bottom:1px solid var(--line);text-align:left}th{color:#e7f1ff}td{color:var(--muted)}.ok{color:#aef3ca;font-weight:800}.warn{color:#ffd989;font-weight:800}.links{display:flex;gap:8px;flex-wrap:wrap}.links a{color:#e9f4ff;text-decoration:none;border:1px solid var(--line);background:rgba(101,168,255,.08);padding:8px 10px;border-radius:10px;font-size:12px;font-weight:800}.code{font-family:ui-monospace,SFMono-Regular,Menlo,monospace;color:#cfe4ff}.footer{display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;color:var(--muted);font-size:11px;margin-top:16px}
@@ -12,9 +12,18 @@
 .report-summary{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:16px 16px 0}
 .report-kpi{border:1px solid var(--line);background:linear-gradient(180deg,rgba(18,36,59,.72),rgba(10,25,42,.72));border-radius:14px;padding:14px}
 .report-kpi b{display:block;font-size:24px;margin:5px 0}.report-kpi span{font-size:10px;color:var(--muted);line-height:1.45}.report-kpi .rk{font-size:9px;font-weight:900;letter-spacing:.09em;color:var(--cyan)}
-.report-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:16px}.report-card{border:1px solid var(--line);background:rgba(18,36,59,.62);border-radius:15px;padding:15px;min-height:190px}.report-card h3{margin:9px 0 7px;font-size:16px}.report-card p{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.6}.report-card ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:12px;line-height:1.6}
+.report-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:16px}.report-card{cursor:pointer;border:1px solid var(--line);background:rgba(18,36,59,.62);border-radius:15px;padding:15px;min-height:190px;transition:.16s ease}.report-card:hover,.report-card:focus{transform:translateY(-2px);border-color:var(--cyan);box-shadow:0 12px 30px rgba(0,0,0,.22);outline:none}.report-card h3{margin:9px 0 7px;font-size:16px}.report-card p{margin:0 0 10px;color:var(--muted);font-size:12px;line-height:1.6}.report-card ul{margin:8px 0 0;padding-left:18px;color:var(--muted);font-size:12px;line-height:1.6}
 .state{display:inline-flex;border-radius:999px;padding:4px 7px;font-size:9px;font-weight:900;letter-spacing:.05em;border:1px solid var(--line)}.state.ready{color:#aef3ca;border-color:rgba(126,216,173,.35);background:rgba(126,216,173,.08)}.state.partial{color:#ffd989;border-color:rgba(255,181,107,.35);background:rgba(255,181,107,.08)}.state.wait{color:#ffc2c8;border-color:rgba(255,122,134,.35);background:rgba(255,122,134,.08)}
 .report-flow{display:grid;grid-template-columns:repeat(5,minmax(130px,1fr));gap:28px;padding:18px}.report-step{position:relative;border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:13px;min-height:110px}.report-step:not(:last-child)::after{content:"→";position:absolute;right:-21px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:22px;font-weight:900}.report-step b{display:block;margin:5px 0}.report-step small{color:var(--muted);line-height:1.5}.report-band{padding:0 16px 16px}.report-band .box{margin:0}
+
+.report-detail{margin:0 16px 16px;border:1px solid var(--line);background:linear-gradient(180deg,rgba(12,28,48,.98),rgba(8,20,35,.98));border-radius:17px;overflow:hidden}.report-detail[hidden]{display:none}.detail-head{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;padding:18px;border-bottom:1px solid var(--line)}.detail-head h3{margin:5px 0;font-size:24px}.detail-head p{margin:0;color:var(--muted);max-width:900px;line-height:1.55}.back-btn{border:1px solid var(--line);background:var(--panel2);color:var(--text);padding:9px 11px;border-radius:10px;cursor:pointer;font-weight:800}.detail-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:16px}.detail-kpi{border:1px solid var(--line);border-radius:13px;padding:13px;background:rgba(18,36,59,.7)}.detail-kpi b{display:block;font-size:21px;margin-top:4px}.detail-kpi span{color:var(--muted);font-size:10px}.chart-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;padding:0 16px 16px}.chart-card{border:1px solid var(--line);border-radius:14px;background:rgba(18,36,59,.48);padding:14px;min-height:230px}.chart-card h4{margin:0 0 5px}.chart-note{color:var(--muted);font-size:10px;line-height:1.5;margin-bottom:12px}.bars{display:grid;gap:8px}.bar-row{display:grid;grid-template-columns:minmax(70px,150px) 1fr 56px;gap:8px;align-items:center;font-size:10px}.bar-label{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;color:#dceaff}.bar-track{height:11px;border-radius:999px;background:#071524;overflow:hidden;border:1px solid rgba(255,255,255,.05)}.bar-fill{height:100%;border-radius:999px;background:linear-gradient(90deg,var(--blue),var(--cyan))}.bar-value{text-align:right;color:var(--muted)}.donut-wrap{display:flex;align-items:center;gap:20px;min-height:150px}.donut{width:135px;height:135px;border-radius:50%;background:conic-gradient(var(--green) 0 61.8%,var(--orange) 61.8% 100%);position:relative}.donut:after{content:"";position:absolute;inset:22px;border-radius:50%;background:var(--panel)}.donut-legend{display:grid;gap:9px;font-size:11px}.swatch{display:inline-block;width:9px;height:9px;border-radius:2px;margin-right:7px}.detail-table{padding:0 16px 16px;overflow:auto}.detail-foot{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}.insight{border:1px solid var(--line);border-radius:13px;padding:13px;background:rgba(101,168,255,.06)}.insight h4{margin:0 0 7px}.insight p,.insight li{font-size:11px;line-height:1.6;color:var(--muted)}.chart-empty{min-height:155px;display:grid;place-items:center;text-align:center;color:var(--muted);border:1px dashed var(--line);border-radius:11px;padding:16px}
+
+.scenario-layout{display:grid;grid-template-columns:330px 1fr;gap:14px;padding:16px}.scenario-controls,.scenario-main{border:1px solid var(--line);background:rgba(18,36,59,.55);border-radius:15px;padding:15px}.field{display:grid;gap:5px;margin-bottom:12px}.field label{font-size:10px;color:var(--muted);font-weight:800}.field select,.field input{width:100%;background:#09182a;color:var(--text);border:1px solid var(--line);border-radius:9px;padding:9px}.scenario-actions{display:grid;grid-template-columns:1fr 1fr;gap:8px}.scenario-actions button{border:1px solid var(--line);background:var(--panel2);color:var(--text);border-radius:9px;padding:9px;font-weight:800;cursor:pointer}.scenario-actions .primary{background:linear-gradient(135deg,#5697ef,#72c7d6);color:#07111f}.slot-legend{display:flex;gap:9px;flex-wrap:wrap;margin:8px 0 14px;font-size:10px;color:var(--muted)}.slot-dot{width:9px;height:9px;border-radius:3px;display:inline-block;margin-right:5px}.schedule-table{overflow:auto}.schedule-grid{min-width:820px;display:grid;grid-template-columns:130px repeat(7,1fr);border-top:1px solid var(--line);border-left:1px solid var(--line)}.schedule-grid>div{min-height:54px;border-right:1px solid var(--line);border-bottom:1px solid var(--line);padding:7px;font-size:9px}.schedule-head{background:#0b1e33;color:#dceaff;font-weight:900}.lane{font-weight:900;color:#cfe4ff;background:#0a1a2c}.slot{border-radius:7px;padding:6px!important;margin:4px;min-height:38px!important}.slot.green{background:rgba(126,216,173,.14);box-shadow:inset 0 0 0 1px rgba(126,216,173,.3)}.slot.amber{background:rgba(255,181,107,.14);box-shadow:inset 0 0 0 1px rgba(255,181,107,.35)}.slot.red{background:rgba(255,122,134,.15);box-shadow:inset 0 0 0 1px rgba(255,122,134,.4)}.slot.locked{background:rgba(185,156,255,.13);box-shadow:inset 0 0 0 1px rgba(185,156,255,.35)}.scenario-gates{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.gate-card{border:1px solid var(--line);border-radius:11px;padding:10px}.gate-card b{display:block;font-size:12px;margin-bottom:3px}.gate-card small{color:var(--muted)}.gate-card.pass{border-color:rgba(126,216,173,.3)}.gate-card.block{border-color:rgba(255,122,134,.45)}.scenario-note{margin-top:12px;color:var(--muted);font-size:11px;line-height:1.6}.impact-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:9px;margin-top:13px}.impact{border:1px solid var(--line);border-radius:11px;padding:10px;background:rgba(9,22,38,.7)}.impact b{font-size:16px;display:block}.impact span{font-size:9px;color:var(--muted)}
+
+.api-summary{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px}.api-card{border:1px solid var(--line);border-radius:13px;padding:13px;background:rgba(18,36,59,.55)}.api-card b{font-size:19px;display:block;margin-top:5px}.api-card span{font-size:10px;color:var(--muted)}.contract-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 16px 16px}.contract-group{border:1px solid var(--line);border-radius:14px;padding:14px;background:rgba(18,36,59,.45)}.contract-group h3{margin:0 0 8px}.field-chips{display:flex;gap:6px;flex-wrap:wrap}.field-chip{border:1px solid var(--line);border-radius:8px;padding:5px 7px;font-size:9px;color:#cfe4ff;background:rgba(101,168,255,.06)}.api-rules{padding:0 16px 16px}.api-rules .box{margin:0}.p0{color:#aef3ca}.p1{color:#ffd989}.p2{color:#c7b9ff}
+
+@media(max-width:1000px){.scenario-layout{grid-template-columns:1fr}.scenario-gates,.impact-grid{grid-template-columns:repeat(2,1fr)}.api-summary{grid-template-columns:repeat(2,1fr)}.contract-grid{grid-template-columns:1fr}.detail-foot{grid-template-columns:1fr}.detail-kpis{grid-template-columns:repeat(2,1fr)}.chart-grid{grid-template-columns:1fr}}
+@media(max-width:600px){.detail-kpis,.api-summary,.scenario-gates,.impact-grid{grid-template-columns:1fr}}
 @media(max-width:1050px){.report-summary{grid-template-columns:repeat(3,1fr)}.report-grid{grid-template-columns:repeat(2,1fr)}.report-flow{grid-template-columns:1fr}.report-step:not(:last-child)::after{content:"↓";right:auto;left:50%;top:auto;bottom:-26px;transform:translateX(-50%)}}
 @media(max-width:650px){.report-summary,.report-grid{grid-template-columns:1fr}}
 @media(max-width:900px){.hero{flex-direction:column}.kpis{grid-template-columns:repeat(2,1fr)}.grid{grid-template-columns:1fr}}@media(max-width:560px){.wrap{padding:22px 12px 42px}.kpis{grid-template-columns:1fr}.head{flex-direction:column}}
@@ -24,7 +33,7 @@
 <div class="wrap">
 <header class="hero"><div><div class="eyebrow">PRACTIKA · PRODUCTION INTELLIGENCE REBUILD</div><h1>Production Control Tower</h1><p>Executive Business Workflow + Database Relation Blueprint รื้อจาก SO/WO/Cutting Access เดิม และปรับเป็นโครงสร้าง Web / API / Database / AI Agent ที่พร้อม implement ต่อ โดยรักษา traceability ตั้งแต่ Customer → SO → WO → Cutting → Material → Shopfloor → Delivery</p></div><span class="ready">DESIGN BASELINE · IMPLEMENTATION READY</span></header>
 <section class="kpis"><div class="kpi"><b>9,335</b><span>Cutting jobs ใน SO_WO extract</span></div><div class="kpi"><b>100%</b><span>Cutting → ItemCutting match</span></div><div class="kpi"><b>84.9%</b><span>Cutting → TimeEntry coverage</span></div><div class="kpi"><b>97.7%</b><span>Related SO → SaleInquiry coverage</span></div></section>
-<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="reports">Report Center</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
+<nav class="tabs"><button class="tab active" data-tab="workflow">Business Workflow</button><button class="tab" data-tab="reports">Report Center</button><button class="tab" data-tab="scenario">Scenario Planner</button><button class="tab" data-tab="erpapi">ERP API Contract</button><button class="tab" data-tab="erd">Target Database ERD</button><button class="tab" data-tab="legacy">Legacy Evidence</button><button class="tab" data-tab="implement">Implementation Baseline</button></nav>
 
 <section id="workflow" class="view active panel">
 <div class="head"><div><h2>Executive Business Workflow · Real Topology</h2><p>จัดตาม Domain, Gate, Exception และ feedback loop จริง — ไม่ใช่ flow ต่อเป็นขบวนรถไฟ</p></div><div class="legend"><span class="pill">Operational flow</span><span class="pill">Evidence / telemetry</span><span class="pill">Feedback / re-plan</span></div></div>
@@ -131,23 +140,37 @@ flowchart TB
 </div>
 
 <div class="report-grid">
-  <article class="report-card"><span class="state ready">AVAILABLE NOW</span><h3>01 · Executive Production Cockpit</h3><p>ตอบผู้บริหารว่า “งานทั้งหมดอยู่ตรงไหน และอะไรต้องสนใจวันนี้”</p><ul><li>WO / Cutting count by status</li><li>Open vs terminal WIP</li><li>Customer / Project exposure</li><li>Exception count และ drill-down ถึง Cutting Number</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="exec"><span class="state ready">AVAILABLE NOW</span><h3>01 · Executive Production Cockpit</h3><p>ตอบผู้บริหารว่า “งานทั้งหมดอยู่ตรงไหน และอะไรต้องสนใจวันนี้”</p><ul><li>WO / Cutting count by status</li><li>Open vs terminal WIP</li><li>Customer / Project exposure</li><li>Exception count และ drill-down ถึง Cutting Number</li></ul></article>
 
-  <article class="report-card"><span class="state partial">PARTIAL</span><h3>02 · Customer / Project Delivery Risk</h3><p>จัดอันดับงานเสี่ยงส่งช้าโดยใช้ Due Date + Progress + Material + Activity freshness</p><ul><li>Customer / Project / SO / WO risk ranking</li><li>Days to promise / overdue</li><li>Last activity / stale status</li><li>ต้องทำ date-quality rules ก่อน certify OTD</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="delivery"><span class="state partial">PARTIAL</span><h3>02 · Customer / Project Delivery Risk</h3><p>จัดอันดับงานเสี่ยงส่งช้าโดยใช้ Due Date + Progress + Material + Activity freshness</p><ul><li>Customer / Project / SO / WO risk ranking</li><li>Days to promise / overdue</li><li>Last activity / stale status</li><li>ต้องทำ date-quality rules ก่อน certify OTD</li></ul></article>
 
-  <article class="report-card"><span class="state partial">PARTIAL</span><h3>03 · Material Readiness & Shortage</h3><p>เทียบ Component Requirement กับ On Hand และ incoming quantity</p><ul><li>Material readiness % ต่อ Cutting/WO</li><li>Shortage item / required qty / available qty</li><li>OnHand + aggregate Qty on PO มีแล้ว</li><li>Supplier ETA ราย PO ต้องรอ PO source</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="material"><span class="state partial">PARTIAL</span><h3>03 · Material Readiness & Shortage</h3><p>เทียบ Component Requirement กับ On Hand และ incoming quantity</p><ul><li>Material readiness % ต่อ Cutting/WO</li><li>Shortage item / required qty / available qty</li><li>OnHand + aggregate Qty on PO มีแล้ว</li><li>Supplier ETA ราย PO ต้องรอ PO source</li></ul></article>
 
-  <article class="report-card"><span class="state ready">AVAILABLE NOW</span><h3>04 · WIP Aging & Stale Work</h3><p>หา Cutting ที่หยุดนิ่งนานผิดปกติ และสถานะใดสะสมงานมากที่สุด</p><ul><li>Aging by status / engineer / project</li><li>Time since last TimeEntry</li><li>Status 30/40/45/54/60/65/70/99/9D</li><li>Escalation bucket ตาม SLA</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="wip"><span class="state ready">AVAILABLE NOW</span><h3>04 · WIP Aging & Stale Work</h3><p>หา Cutting ที่หยุดนิ่งนานผิดปกติ และสถานะใดสะสมงานมากที่สุด</p><ul><li>Aging by status / engineer / project</li><li>Time since last TimeEntry</li><li>Status 30/40/45/54/60/65/70/99/9D</li><li>Escalation bucket ตาม SLA</li></ul></article>
 
-  <article class="report-card"><span class="state partial">PARTIAL</span><h3>05 · Capacity & Bottleneck</h3><p>ดู Work Center / Business Unit / Team ที่มี load สะสมและ queue สูง</p><ul><li>186,947 TimeEntry rows มี BU/Team/Begin-End</li><li>Queue / activity count วิเคราะห์ได้</li><li>Hours - Actual ใน extract ว่างทั้งหมด</li><li>Standard time ต้องรอ ControlPlan</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="capacity"><span class="state partial">PARTIAL</span><h3>05 · Capacity & Bottleneck</h3><p>ดู Work Center / Business Unit / Team ที่มี load สะสมและ queue สูง</p><ul><li>186,947 TimeEntry rows มี BU/Team/Begin-End</li><li>Queue / activity count วิเคราะห์ได้</li><li>Hours - Actual ใน extract ว่างทั้งหมด</li><li>Standard time ต้องรอ ControlPlan</li></ul></article>
 
-  <article class="report-card"><span class="state wait">WAITING SOURCE</span><h3>06 · Productivity / Efficiency</h3><p>Actual vs Standard Hours, efficiency, utilization และ labor productivity</p><ul><li>ต้องมี Actual Hours ที่เชื่อถือได้</li><li>ต้องมี Standard Minutes จาก ControlPlan</li><li>รองรับ Team / Work Center / Product family</li><li>ไม่สร้าง KPI เทียมจากข้อมูลที่ยังว่าง</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="productivity"><span class="state wait">WAITING SOURCE</span><h3>06 · Productivity / Efficiency</h3><p>Actual vs Standard Hours, efficiency, utilization และ labor productivity</p><ul><li>ต้องมี Actual Hours ที่เชื่อถือได้</li><li>ต้องมี Standard Minutes จาก ControlPlan</li><li>รองรับ Team / Work Center / Product family</li><li>ไม่สร้าง KPI เทียมจากข้อมูลที่ยังว่าง</li></ul></article>
 
-  <article class="report-card"><span class="state wait">WAITING SOURCE</span><h3>07 · Supplier / PO ETA Risk</h3><p>Material shortage จะถูกเชื่อมต่อถึง PO, Supplier และ Promise Date</p><ul><li>PO overdue / ETA slip</li><li>Supplier response / lead-time variance</li><li>Shortage impact ต่อ Customer promise</li><li>รอ PO.csv หรือ connector ต้นทาง</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="supplier"><span class="state wait">WAITING SOURCE</span><h3>07 · Supplier / PO ETA Risk</h3><p>Material shortage จะถูกเชื่อมต่อถึง PO, Supplier และ Promise Date</p><ul><li>PO overdue / ETA slip</li><li>Supplier response / lead-time variance</li><li>Shortage impact ต่อ Customer promise</li><li>รอ PO.csv หรือ connector ต้นทาง</li></ul></article>
 
-  <article class="report-card"><span class="state ready">AVAILABLE NOW</span><h3>08 · Data Quality & Integration</h3><p>รายงานสุขภาพข้อมูลก่อนนำ KPI ไปใช้ตัดสินใจ</p><ul><li>Cutting → ItemCutting = 100%</li><li>Cutting → TimeEntry = 84.9%</li><li>Related SO → SaleInquiry ≈ 97.7%</li><li>Invalid date / missing hours / orphan / duplicate gates</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="dataquality"><span class="state ready">AVAILABLE NOW</span><h3>08 · Data Quality & Integration</h3><p>รายงานสุขภาพข้อมูลก่อนนำ KPI ไปใช้ตัดสินใจ</p><ul><li>Cutting → ItemCutting = 100%</li><li>Cutting → TimeEntry = 84.9%</li><li>Related SO → SaleInquiry ≈ 97.7%</li><li>Invalid date / missing hours / orphan / duplicate gates</li></ul></article>
 
-  <article class="report-card"><span class="state partial">PARTIAL</span><h3>09 · Promise / OTD Governance</h3><p>นิยาม On-Time Delivery ระดับ Order/Line ให้เป็นมาตรฐานเดียวก่อนประกาศ KPI</p><ul><li>Promised Delivery และ Actual Ship มีใน SaleInquiry</li><li>พบ date anomaly จึงยังไม่ certify % OTD</li><li>ต้องกำหนด latest promise vs original promise policy</li><li>Report ต้องแสดง denominator และ excluded rows</li></ul></article>
+  <article class="report-card" role="button" tabindex="0" data-report="otd"><span class="state partial">PARTIAL</span><h3>09 · Promise / OTD Governance</h3><p>นิยาม On-Time Delivery ระดับ Order/Line ให้เป็นมาตรฐานเดียวก่อนประกาศ KPI</p><ul><li>Promised Delivery และ Actual Ship มีใน SaleInquiry</li><li>พบ date anomaly จึงยังไม่ certify % OTD</li><li>ต้องกำหนด latest promise vs original promise policy</li><li>Report ต้องแสดง denominator และ excluded rows</li></ul></article>
+</div>
+
+<div id="reportDetail" class="report-detail" hidden>
+  <div class="detail-head">
+    <div><span id="detailState" class="state ready">AVAILABLE NOW</span><h3 id="detailTitle">Report Detail</h3><p id="detailSubtitle"></p></div>
+    <button id="reportBack" class="back-btn" type="button">← Report Center</button>
+  </div>
+  <div id="detailKpis" class="detail-kpis"></div>
+  <div id="detailCharts" class="chart-grid"></div>
+  <div id="detailTable" class="detail-table"></div>
+  <div class="detail-foot">
+    <div class="insight"><h4>Management Questions</h4><div id="detailQuestions"></div></div>
+    <div class="insight"><h4>Data / API Required</h4><div id="detailFields"></div></div>
+  </div>
 </div>
 
 <div class="report-band">
@@ -164,6 +187,66 @@ flowchart TB
 <div class="box"><h3>Standard Report Filters</h3><p>ทุก Report ใช้ dimension ชุดเดียวกันเพื่อให้ตัวเลขไม่ทะเลาะกันเอง: <b>Customer · Project · SO · WO · Cutting · Item · Engineer · Work Center · Team · Status · Promise Date · Activity Date</b></p></div>
 <div class="box"><h3>Semantic Views for Implementation</h3><p class="code">v_exec_production_status<br/>v_delivery_risk<br/>v_material_readiness<br/>v_wip_aging<br/>v_work_center_load<br/>v_supplier_eta_risk<br/>v_data_quality<br/>mv_exec_daily_snapshot</p><div class="links"><a href="report_views.sql">Open report_views.sql</a><a href="schema.sql">Open schema.sql</a></div></div>
 </div>
+</section>
+
+
+<section id="scenario" class="view panel">
+<div class="head"><div><h2>Dynamic Scenario Planner · What-if Production Scheduling</h2><p>เตรียมรองรับการเลื่อน Order เข้า/ออก โดยจำลองผลกระทบแบบ finite-capacity ก่อน Publish — Baseline ERP ไม่ถูกแก้จนผ่าน Human Gate</p></div><div class="legend"><span class="state partial">UI PROTOTYPE</span><span class="pill">Baseline vs Scenario</span><span class="pill">Fail-closed publish gate</span></div></div>
+<div class="scenario-layout">
+  <aside class="scenario-controls">
+    <h3>Scenario Request</h3>
+    <div class="field"><label>Target</label><select id="scenarioTarget"><option>SO / WO / Cutting</option><option>Priority customer order</option><option>Urgent replacement job</option></select></div>
+    <div class="field"><label>Action</label><select id="scenarioAction"><option value="earlier">Move earlier</option><option value="later">Move later</option><option value="priority">Re-prioritize</option><option value="hold">Hold</option></select></div>
+    <div class="field"><label>Move by days</label><input id="scenarioDays" type="number" min="1" max="30" value="3"></div>
+    <div class="field"><label>Optimization policy</label><select><option>Minimize total delivery risk</option><option>Protect VIP / due date first</option><option>Minimize overtime</option><option>Minimize total moves</option></select></div>
+    <div class="field"><label><input id="protectFrozen" type="checkbox" checked> Protect frozen / locked slots</label></div>
+    <div class="scenario-actions"><button id="simulateBtn" class="primary" type="button">Simulate Impact</button><button type="button" disabled>Publish</button></div>
+    <p class="scenario-note"><b>Prototype only:</b> slot loads below are illustrative until ERP Routing + Standard Time + Capacity Calendar are connected. Publish stays disabled.</p>
+  </aside>
+  <main class="scenario-main">
+    <h3>Baseline Production Slots → Scenario Impact</h3>
+    <div class="slot-legend"><span><i class="slot-dot" style="background:var(--green)"></i>&lt;85%</span><span><i class="slot-dot" style="background:var(--orange)"></i>85–100%</span><span><i class="slot-dot" style="background:var(--red)"></i>&gt;100% / hard breach</span><span><i class="slot-dot" style="background:var(--violet)"></i>Frozen / Locked</span></div>
+    <div id="scheduleGrid" class="schedule-table"></div>
+    <div class="impact-grid">
+      <div class="impact"><b id="impactMoved">0</b><span>Operations moved</span></div>
+      <div class="impact"><b id="impactRed">0</b><span>Red slots</span></div>
+      <div class="impact"><b id="impactLate">0</b><span>Orders newly at risk</span></div>
+      <div class="impact"><b id="impactOvertime">0h</b><span>Overtime required</span></div>
+    </div>
+    <div class="scenario-gates">
+      <div id="gateCapacity" class="gate-card pass"><b>Capacity Gate</b><small>No >100% slot</small></div>
+      <div class="gate-card pass"><b>Precedence Gate</b><small>Operation sequence preserved</small></div>
+      <div class="gate-card pass"><b>Material Gate</b><small>Need date ≤ available date</small></div>
+      <div class="gate-card pass"><b>Frozen Gate</b><small>Locked work cannot move</small></div>
+    </div>
+    <p class="scenario-note">เป้าหมายสุดท้าย: ผู้บริหารสามารถทดลอง “แทรกงานด่วน” หรือ “เลื่อน Order” แล้วเห็น ripple effect ต่อ Work Center, Material, Due Date, Overtime และงานอื่นทั้งหมด ก่อนเลือก Approve / Reject.</p>
+  </main>
+</div>
+<div class="grid">
+  <div class="box"><h3>Dynamic Scheduling Data Model</h3><p><span class="code">capacity_calendar → schedule_scenario → scheduled_operation → schedule_slot_metric → constraint_violation → schedule_impact → publish audit</span></p><div class="links"><a href="scheduler_schema.sql">Open scheduler_schema.sql</a></div></div>
+  <div class="box"><h3>Recommended Solver</h3><p>Finite-capacity Job Shop / RCPSP ด้วย CP-SAT (เช่น OR-Tools): hard constraints ต้องเป็นศูนย์ก่อน Publish; soft objective ลด late delivery, จำนวนงานที่ถูกขยับ, setup change และ overtime.</p></div>
+</div>
+</section>
+
+<section id="erpapi" class="view panel">
+<div class="head"><div><h2>ERP API Data Contract · Request to IT</h2><p>Field contract สำหรับให้ IT Query รอเชื่อม API โดยเน้น Join Key, timestamp, capacity, routing และ material data ที่จำเป็นต่อ Report + Dynamic Scheduling</p></div><div class="links"><a href="erp_api_field_contract.csv">Download full 158-field CSV</a></div></div>
+<div class="api-summary">
+  <div class="api-card"><span class="p0">P0 · MUST HAVE</span><b>Order + WO + Cutting</b><span>Demand, promise, status, traceability</span></div>
+  <div class="api-card"><span class="p0">P0 · SCHEDULER CORE</span><b>Routing + Capacity</b><span>Operation sequence, standard time, work-center calendar</span></div>
+  <div class="api-card"><span class="p0">P0 · MATERIAL</span><b>BOM + Stock + PO</b><span>Need date, ATP, incoming ETA</span></div>
+  <div class="api-card"><span class="p0">P0 · ACTUAL</span><b>Execution Events</b><span>Actual start/end/minutes + status</span></div>
+</div>
+<div class="contract-grid">
+  <div class="contract-group"><h3>1 · Sales Order / Demand</h3><div class="field-chips"><span class="field-chip">order_no</span><span class="field-chip">line_no</span><span class="field-chip">customer_no</span><span class="field-chip">project_no</span><span class="field-chip">item_no</span><span class="field-chip">qty_ordered</span><span class="field-chip">request_date</span><span class="field-chip">original_promised</span><span class="field-chip">current_promised</span><span class="field-chip">actual_ship</span><span class="field-chip">last_status / next_status</span><span class="field-chip">updated_at</span></div></div>
+  <div class="contract-group"><h3>2 · Work Order / Cutting</h3><div class="field-chips"><span class="field-chip">wo_no</span><span class="field-chip">related_order_no + line</span><span class="field-chip">fg_item_no</span><span class="field-chip">wo_qty</span><span class="field-chip">release_date</span><span class="field-chip">planned_start / complete</span><span class="field-chip">cutting_no</span><span class="field-chip">cutting_status</span><span class="field-chip">delivery_due</span><span class="field-chip">branch_plant</span><span class="field-chip">updated_at</span></div></div>
+  <div class="contract-group"><h3>3 · BOM / Component</h3><div class="field-chips"><span class="field-chip">parent_wo_no</span><span class="field-chip">cutting_no</span><span class="field-chip">component_line_no</span><span class="field-chip">component_item_no</span><span class="field-chip">required_qty</span><span class="field-chip">uom</span><span class="field-chip">need_date</span><span class="field-chip">scrap_factor</span><span class="field-chip">substitute_group</span></div></div>
+  <div class="contract-group"><h3>4 · Routing / Standard Time</h3><div class="field-chips"><span class="field-chip">operation_seq</span><span class="field-chip">work_center_code</span><span class="field-chip">setup_minutes</span><span class="field-chip">run_minutes_per_unit</span><span class="field-chip">queue_minutes</span><span class="field-chip">move_minutes</span><span class="field-chip">crew_size</span><span class="field-chip">setup_family</span><span class="field-chip">alternate_work_center</span><span class="field-chip">effective_from/to</span></div></div>
+  <div class="contract-group"><h3>5 · Work Center Capacity Calendar</h3><div class="field-chips"><span class="field-chip">work_center_code</span><span class="field-chip">calendar_date</span><span class="field-chip">shift_code</span><span class="field-chip">available_minutes</span><span class="field-chip">labor_available_minutes</span><span class="field-chip">machine_available_minutes</span><span class="field-chip">overtime_available</span><span class="field-chip">planned_downtime</span><span class="field-chip">frozen_flag</span></div></div>
+  <div class="contract-group"><h3>6 · Actual Execution</h3><div class="field-chips"><span class="field-chip">wo_no</span><span class="field-chip">cutting_no</span><span class="field-chip">operation_seq</span><span class="field-chip">work_center_code</span><span class="field-chip">team_code</span><span class="field-chip">actual_start_at</span><span class="field-chip">actual_end_at</span><span class="field-chip">actual_minutes</span><span class="field-chip">operation_status</span><span class="field-chip">hold_reason</span></div></div>
+  <div class="contract-group"><h3>7 · Inventory / ATP</h3><div class="field-chips"><span class="field-chip">item_no</span><span class="field-chip">branch_plant</span><span class="field-chip">location</span><span class="field-chip">on_hand</span><span class="field-chip">soft_committed</span><span class="field-chip">hard_committed</span><span class="field-chip">project_committed</span><span class="field-chip">on_po</span><span class="field-chip">in_transit</span><span class="field-chip">inspection</span><span class="field-chip">snapshot_at</span></div></div>
+  <div class="contract-group"><h3>8 · Purchase Order / Supplier ETA</h3><div class="field-chips"><span class="field-chip">po_no + line</span><span class="field-chip">item_no</span><span class="field-chip">supplier_no</span><span class="field-chip">ordered_qty</span><span class="field-chip">received_qty</span><span class="field-chip">open_qty</span><span class="field-chip">promised_delivery</span><span class="field-chip">confirmed_delivery</span><span class="field-chip">po_status</span><span class="field-chip">buyer_id</span><span class="field-chip">updated_at</span></div></div>
+</div>
+<div class="api-rules"><div class="box"><h3>API / Query Rules ที่ควรขอ IT พร้อม Field</h3><ul><li><b>ทุก dataset ต้องมี stable business key + updated_at</b> เพื่อ incremental sync และป้องกัน duplicate</li><li>Date/time ขอเป็น ISO-8601 พร้อม timezone; หลีกเลี่ยง text date และเลขเวลาแยกคอลัมน์</li><li>Quantity ทุกช่องต้องมี UOM; ค่า null ต้องหมายถึง “unknown” ไม่ใช่ 0</li><li>อย่า aggregate Routing / PO / Inventory จนเสีย Line-level detail — Control Tower จะ aggregate เอง</li><li>ขอข้อมูลอย่างน้อยย้อนหลัง 12–24 เดือนเพื่อ calibrate lead time / capacity / variability</li><li>API รอบแรกเป็น <b>read-only</b>; write-back schedule เปิดหลัง UAT + Human Gate เท่านั้น</li></ul></div></div>
 </section>
 
 <section id="erd" class="view panel">
@@ -294,7 +377,7 @@ flowchart LR
 <div class="grid">
 <div class="box"><h3>Build order</h3><ol><li>PostgreSQL staging จาก schema.sql</li><li>ETL 5 CSV ชุดปัจจุบัน → normalized tables</li><li>Data-quality gates: orphan, duplicate, invalid date, status sequence</li><li>Connector เพิ่ม PO / ControlPlan / Partlist</li><li>Read-only API + Control Tower dashboard</li><li>Rule engine: material readiness / late / WIP / bottleneck</li><li>AI recommendations หลัง Human Gate</li></ol></div>
 <div class="box"><h3>Architecture rules</h3><ul><li>Raw source immutable + row hash</li><li>No browser → DB direct write</li><li>No hidden business logic in UI/query</li><li>AI = recommendation, not production authority</li><li>Release / reprioritize / override ต้องมี Human Gate + audit</li></ul></div>
-<div class="box"><h3>Artifacts</h3><p>DDL ถูกแยกจากหน้าจอเพื่อให้ backend implement ได้โดยตรง.</p><div class="links"><a href="schema.sql">Open schema.sql</a><a href="README.md">Open README</a><a href="../">Back to Portal</a></div></div>
+<div class="box"><h3>Artifacts</h3><p>DDL ถูกแยกจากหน้าจอเพื่อให้ backend implement ได้โดยตรง.</p><div class="links"><a href="schema.sql">Open schema.sql</a><a href="scheduler_schema.sql">Scheduler schema</a><a href="erp_api_field_contract.csv">ERP API fields</a><a href="README.md">Open README</a><a href="../">Back to Portal</a></div></div>
 <div class="box"><h3>Current boundary</h3><p><b>Design / read-only.</b> ยังไม่มี production database, API หรือ write-back. สิ่งที่พร้อมแล้วคือ workflow topology, target relational model, legacy evidence และ PostgreSQL DDL baseline.</p></div>
 </div></section>
 
@@ -352,6 +435,205 @@ function activateTab(button){
 document.querySelectorAll('.tab').forEach(function(b){
   b.addEventListener('click',function(){activateTab(b);});
 });
+
+
+const reportCatalog={
+  exec:{
+    state:'ready',stateText:'AVAILABLE NOW',
+    title:'01 · Executive Production Cockpit',
+    subtitle:'ภาพรวมสถานะการผลิตจาก historical extract พร้อม drill-down ถึง Cutting / WO โดยไม่เปิดเผยชื่อ Customer/Project บน Public Page',
+    kpis:[['9,335','Cutting jobs'],['3,570','Open / non-terminal'],['5,765','Terminal 9D/99'],['24 d','Median release → 9D']],
+    charts:[
+      {title:'Open vs Terminal WIP',type:'donut',note:'Historical snapshot: terminal = status 9D/99'},
+      {title:'Cutting Status Distribution',type:'bars',note:'Top status codes in supplied SO_WO extract',data:[['9D',5344],['40',2170],['60',522],['99',421],['70',359],['45',220],['30',168],['54',93],['65',27],['15',11]]},
+      {title:'Top Project Exposure (anonymized)',type:'bars',note:'Ranking by Cutting count; labels anonymized because this is a public GitHub Page',data:[['Project A',1498],['Project B',615],['Project C',555],['Project D',424],['Project E',362],['Project F',326],['Project G',302],['Project H',295]]},
+      {title:'Cycle-time Distribution',type:'bars',note:'Release → 9D: median 24 days, P90 85 days',data:[['Median',24],['P90',85]]}
+    ],
+    questions:['วันนี้ WIP สะสมอยู่สถานะไหน?','Project/WO ใดมี open Cutting สูงผิดปกติ?','Cycle time กำลังยืดจาก baseline หรือไม่?','ต้อง drill-down ไป Cutting / Work Center ใดก่อน?'],
+    fields:['SO / WO / Cutting key','current status + status timestamp','customer/project dimension','planned / actual dates','work-center execution events']
+  },
+  delivery:{
+    state:'partial',stateText:'PARTIAL / NEEDS RULE',
+    title:'02 · Customer / Project Delivery Risk',
+    subtitle:'ต้องรวม Due Date + Progress + Material + Activity freshness; historical SaleInquiry มี Promise/Actual แต่ยังต้องทำ date-governance ก่อน certify.',
+    kpis:[['19,358','Sales lines'],['2,222','Sales orders'],['11,818','Promise + Actual rows'],['2','Gross >365d date anomalies']],
+    charts:[
+      {title:'Risk Matrix',type:'empty',note:'Future: x = days to promise, y = completion %, bubble = order value; color = material risk'},
+      {title:'Delay Distribution',type:'empty',note:'Future: histogram actual ship - governed promise date after date-quality policy'},
+      {title:'Customer / Project Risk Pareto',type:'empty',note:'Future: high-risk exposure by Project / SO / WO'},
+      {title:'Risk Drivers',type:'bars',note:'Recommended scoring weights (configurable, not production truth yet)',data:[['Past due',50],['Material shortage',30],['Stale 14d+',20],['Waiting PO',15]]}
+    ],
+    questions:['Order ใดจะผิด promise ถ้าไม่แทรกแซง?','Risk มาจาก Material, Capacity หรือ Stale process?','การเร่ง Order นี้จะทำให้ Order ใดเสี่ยงเพิ่ม?'],
+    fields:['original_promised_date','current_promised_date','actual_ship_date','routing progress','material readiness','current WIP activity','order value / priority']
+  },
+  material:{
+    state:'partial',stateText:'PARTIAL',
+    title:'03 · Material Readiness & Shortage',
+    subtitle:'Current extract มี On Hand + aggregate quantity on PO แต่ยังไม่มี line-level PO/Supplier ETA และ allocation ต่อ Cutting.',
+    kpis:[['8,870','Inventory rows'],['5,943','Distinct items'],['20','Branch plants'],['690','Critical-item rows']],
+    charts:[
+      {title:'Inventory Records by Branch',type:'bars',note:'Row volume, not stock value',data:[['Fitting',2037],['Chair',1433],['Finished Goods',1406],['Production',1164],['Site by Project',963],['Mock Up',501],['Showroom Office',457],['Aluminum',206]]},
+      {title:'Material State by WO',type:'empty',note:'Future stacked bar: On-hand ready / Waiting PO / Shortage'},
+      {title:'Shortage Pareto',type:'empty',note:'Future: shortage qty/value by item + need date'},
+      {title:'Need Date vs Supplier ETA',type:'empty',note:'Future scatter: component need date vs confirmed PO ETA'}
+    ],
+    questions:['Cutting ไหนยังปล่อยไม่ได้เพราะวัสดุ?','Shortage ตัวไหนกระทบหลาย Project?','Stock ที่เห็นถูกจองให้ Order อื่นแล้วหรือไม่?','PO ไหนต้อง expedite?'],
+    fields:['BOM component + required_qty + need_date','on_hand + soft/hard/project committed','PO line + open_qty + confirmed ETA','substitute item','allocation / reservation rule']
+  },
+  wip:{
+    state:'ready',stateText:'AVAILABLE NOW',
+    title:'04 · WIP Aging & Stale Work',
+    subtitle:'Historical aging ใช้ source max date 2021-06-03 เป็น reference — ไม่ใช่ aging ณ วันนี้.',
+    kpis:[['3,570','Open jobs'],['2,170','Status 40'],['522','Status 60'],['359','Status 70']],
+    charts:[
+      {title:'Open WIP by Status',type:'bars',note:'Open/non-terminal Cutting only',data:[['40',2170],['60',522],['70',359],['45',220],['30',168],['54',93],['65',27],['15',11]]},
+      {title:'Historical Aging Buckets',type:'bars',note:'Relative to max source date; source is old snapshot',data:[['61–120d',1691],['120d+',1879]]},
+      {title:'Status × Aging Heatmap',type:'empty',note:'Future interactive heatmap after event timestamps are complete'},
+      {title:'Stale Work Drill-down',type:'empty',note:'Future table: Project → WO → Cutting → last activity → owner → days stale'}
+    ],
+    questions:['คอขวดเป็น WIP ที่กำลังทำ หรือเป็นงานที่หยุดนิ่ง?','Status ไหนกิน aging มากที่สุด?','Owner ใดต้อง follow-up?'],
+    fields:['status event timestamp','last operation timestamp','owner/work center','due date','hold reason']
+  },
+  capacity:{
+    state:'partial',stateText:'PARTIAL',
+    title:'05 · Capacity & Bottleneck',
+    subtitle:'TimeEntry แสดง event volume และ Business Unit ได้ แต่ Hours - Actual ว่างทั้งหมด จึงยังไม่ใช่ capacity utilization จริง.',
+    kpis:[['186,947','TimeEntry rows'],['31,902','Cuttings in TimeEntry'],['61','Business Units'],['0','Non-null Actual Hours']],
+    charts:[
+      {title:'Activity Events by Work Center',type:'bars',note:'Event count ≠ capacity load',data:[['L4W070',18578],['L1W010',14851],['L2W110',11894],['L2W120',11549],['L2W130',11432],['L2W010',11254],['L1W020',11158],['L4W060',9850],['L4W050',9388],['L2W100',9291]]},
+      {title:'Finite Capacity Utilization',type:'empty',note:'Needs standard minutes × remaining qty vs available slot minutes'},
+      {title:'Queue by Work Center',type:'empty',note:'Needs open operations / planned start / precedence'},
+      {title:'Calendar Heatmap',type:'empty',note:'Needs shift calendar + maintenance + overtime capacity'}
+    ],
+    questions:['Work Center ใดโหลดเกิน 100%?','ถ้าแทรก Order ด่วน slot ไหนจะเป็นสีแดง?','มี alternate Work Center หรือ overtime ช่วยได้หรือไม่?'],
+    fields:['routing operation_seq','setup_minutes','run_minutes_per_unit','remaining qty','capacity calendar','shift / labor / machine minutes','planned downtime']
+  },
+  productivity:{
+    state:'wait',stateText:'WAITING SOURCE',
+    title:'06 · Productivity / Efficiency',
+    subtitle:'ไม่สร้าง KPI เทียม: historical TimeEntry มี Hours - Actual ว่างทั้งหมด และยังไม่มี Standard Minutes ที่รับรอง.',
+    kpis:[['0','Actual Hours populated'],['0','Certified Standard Hours'],['—','Efficiency'],['—','Utilization']],
+    charts:[
+      {title:'Actual vs Standard',type:'empty',note:'Future: grouped bar / variance by Work Center'},
+      {title:'Efficiency Trend',type:'empty',note:'Future: weekly actual standard minutes / actual minutes'},
+      {title:'Labor Productivity',type:'empty',note:'Future: good units or earned hours per labor hour'},
+      {title:'Setup vs Run Loss',type:'empty',note:'Future: waterfall of setup / run / wait / downtime'}
+    ],
+    questions:['ช้าจาก process standard หรือ waiting?','ทีมใดทำได้ดีกว่า standard อย่างสม่ำเสมอ?','Product family ไหนกิน setup สูง?'],
+    fields:['actual_minutes','standard setup/run minutes','good qty','scrap qty','crew/labor hours','downtime reason']
+  },
+  supplier:{
+    state:'wait',stateText:'WAITING SOURCE',
+    title:'07 · Supplier / PO ETA Risk',
+    subtitle:'OnHand extract มี Quantity On P.O. แบบ aggregate แต่ไม่มี PO line + Supplier + Promise date ที่เพียงพอสำหรับ ETA risk.',
+    kpis:[['291,197','Aggregate Qty on PO'],['—','Open PO lines'],['—','Overdue PO'],['—','Supplier ETA confidence']],
+    charts:[
+      {title:'Open PO by ETA Bucket',type:'empty',note:'Future: overdue / 0–3 / 4–7 / >7 days'},
+      {title:'Supplier Lead-time Variance',type:'empty',note:'Future boxplot / control chart'},
+      {title:'Shortage Impact by Supplier',type:'empty',note:'Future Pareto: number of at-risk WO / order value'},
+      {title:'PO Need Date vs ETA',type:'empty',note:'Future scatter with critical material highlight'}
+    ],
+    questions:['Supplier ไหนทำให้ Customer promise เสี่ยง?','PO ไหนต้อง expedite วันนี้?','ETA ที่ supplier confirm ต่างจาก ERP promise เท่าไร?'],
+    fields:['po_no + line','supplier_no/name','item_no','open_qty','promised_delivery','confirmed_delivery','last_receipt','buyer','PO status']
+  },
+  dataquality:{
+    state:'ready',stateText:'AVAILABLE NOW',
+    title:'08 · Data Quality & Integration',
+    subtitle:'Data Quality ต้องอยู่หน้าเดียวกับ KPI เพื่อกันผู้บริหารตัดสินใจจากตัวเลขที่ source ยังไม่พร้อม.',
+    kpis:[['100%','Cutting → ItemCutting'],['84.9%','Cutting → TimeEntry'],['97.7%','Related SO → SaleInquiry'],['0','Actual Hours populated']],
+    charts:[
+      {title:'Join Coverage',type:'bars',note:'Coverage %',data:[['ItemCutting',100],['SaleInquiry',97.7],['TimeEntry',84.9],['Actual Hours',0]]},
+      {title:'Date Quality Flags',type:'bars',note:'Observed gross anomalies in supplied extracts',data:[['Sale promise >365d anomaly',2],['TimeEntry max year 2102',1]]},
+      {title:'Missing Critical Fields',type:'empty',note:'Future by API dataset and source owner'},
+      {title:'ETL Freshness',type:'empty',note:'Future: source_updated_at vs ingest_at SLA'}
+    ],
+    questions:['KPI ไหนไม่ควรเชื่อวันนี้?','Source ใด coverage ตก?','ข้อมูลช้ากว่า ERP กี่นาที?'],
+    fields:['source primary key','updated_at','row hash','ingested_at','validation code','reject reason']
+  },
+  otd:{
+    state:'partial',stateText:'PARTIAL / GOVERNANCE',
+    title:'09 · Promise / OTD Governance',
+    subtitle:'มี 11,818 rows ที่ Promise + Actual Ship จับคู่ได้ แต่ naive OTD ~4.1% ดูผิดธรรมชาติ จึงยังห้ามใช้เป็น KPI ก่อนนิยาม promise policy และ grain.',
+    kpis:[['11,818','Promise + Actual rows'],['2','Gross date anomalies >365d'],['4.1%','Naive OTD — NOT CERTIFIED'],['Line','Required KPI grain']],
+    charts:[
+      {title:'Promise → Actual Delay',type:'empty',note:'Future histogram after original/current promise policy is locked'},
+      {title:'OTD Trend',type:'empty',note:'Future weekly/monthly with denominator + exclusions shown'},
+      {title:'Promise Revision Waterfall',type:'empty',note:'Original promised → revised promised → actual ship'},
+      {title:'Data-quality Exclusions',type:'bars',note:'Current observed example',data:[['Matched rows',11818],['Gross >365d anomaly',2]]}
+    ],
+    questions:['OTD ใช้ Original Promise หรือ Current Promise?','วัดระดับ SO, line, shipment หรือ project?','Partial shipment ถือ On-time อย่างไร?','Cancelled / hold / customer delay ตัด denominator หรือไม่?'],
+    fields:['original_promised','current_promised + revision history','actual_ship','shipment/line quantity','hold reason','customer-caused delay flag']
+  }
+};
+
+function escHtml(v){return String(v??'').replace(/[&<>"']/g,m=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#039;'}[m]));}
+function renderBars(data){
+  const max=Math.max(...data.map(x=>Number(x[1])||0),1);
+  return '<div class="bars">'+data.map(x=>'<div class="bar-row"><div class="bar-label" title="'+escHtml(x[0])+'">'+escHtml(x[0])+'</div><div class="bar-track"><div class="bar-fill" style="width:'+Math.max(1,((Number(x[1])||0)/max*100))+'%"></div></div><div class="bar-value">'+Number(x[1]).toLocaleString()+'</div></div>').join('')+'</div>';
+}
+function renderChart(c){
+  if(c.type==='bars') return '<article class="chart-card"><h4>'+escHtml(c.title)+'</h4><div class="chart-note">'+escHtml(c.note)+'</div>'+renderBars(c.data||[])+'</article>';
+  if(c.type==='donut') return '<article class="chart-card"><h4>'+escHtml(c.title)+'</h4><div class="chart-note">'+escHtml(c.note)+'</div><div class="donut-wrap"><div class="donut"></div><div class="donut-legend"><div><i class="swatch" style="background:var(--green)"></i>Terminal 61.8% · 5,765</div><div><i class="swatch" style="background:var(--orange)"></i>Open 38.2% · 3,570</div></div></div></article>';
+  return '<article class="chart-card"><h4>'+escHtml(c.title)+'</h4><div class="chart-note">'+escHtml(c.note)+'</div><div class="chart-empty">Chart becomes live when required ERP/API fields are connected.<br><small>Specification is already defined for implementation.</small></div></article>';
+}
+function openReport(id){
+  const d=reportCatalog[id]; if(!d) return;
+  const detail=document.getElementById('reportDetail');
+  document.getElementById('detailTitle').textContent=d.title;
+  document.getElementById('detailSubtitle').textContent=d.subtitle;
+  const st=document.getElementById('detailState'); st.textContent=d.stateText; st.className='state '+(d.state==='ready'?'ready':d.state==='wait'?'wait':'partial');
+  document.getElementById('detailKpis').innerHTML=d.kpis.map(k=>'<div class="detail-kpi"><span>'+escHtml(k[1])+'</span><b>'+escHtml(k[0])+'</b></div>').join('');
+  document.getElementById('detailCharts').innerHTML=d.charts.map(renderChart).join('');
+  document.getElementById('detailTable').innerHTML='<div class="box"><h3>Required drill-down grain</h3><table><thead><tr><th>Level</th><th>Key</th><th>What the user should see</th></tr></thead><tbody><tr><td>Executive</td><td>KPI / Risk band</td><td>Summary + trend + exception count</td></tr><tr><td>Customer / Project</td><td>customer_id / project_id</td><td>Exposure, due date, risk driver</td></tr><tr><td>Order</td><td>SO → WO → Cutting</td><td>Status, current owner, material, capacity</td></tr><tr><td>Operation</td><td>operation_seq / work_center</td><td>Planned vs actual, queue, slot</td></tr><tr><td>Evidence</td><td>source key / timestamp</td><td>Raw ERP evidence + rule used</td></tr></tbody></table></div>';
+  document.getElementById('detailQuestions').innerHTML='<ul>'+d.questions.map(x=>'<li>'+escHtml(x)+'</li>').join('')+'</ul>';
+  document.getElementById('detailFields').innerHTML='<div class="field-chips">'+d.fields.map(x=>'<span class="field-chip">'+escHtml(x)+'</span>').join('')+'</div>';
+  detail.hidden=false;
+  detail.scrollIntoView({behavior:'smooth',block:'start'});
+}
+document.querySelectorAll('[data-report]').forEach(card=>{
+  card.addEventListener('click',()=>openReport(card.dataset.report));
+  card.addEventListener('keydown',e=>{if(e.key==='Enter'||e.key===' '){e.preventDefault();openReport(card.dataset.report);}});
+});
+document.getElementById('reportBack')?.addEventListener('click',()=>{document.getElementById('reportDetail').hidden=true;document.querySelector('#reports .report-summary')?.scrollIntoView({behavior:'smooth'});});
+
+const demoBase=[
+  {lane:'CUT-L1',loads:[68,74,82,91,77,64,58]},
+  {lane:'EDGE-L2',loads:[72,88,96,84,79,70,66]},
+  {lane:'ASM-L4',loads:[55,71,86,93,98,75,61]},
+  {lane:'QC',loads:[48,59,66,74,82,87,65]}
+];
+function renderSchedule(sim=false){
+  const days=['Mon','Tue','Wed','Thu','Fri','Sat','Sun'];
+  let html='<div class="schedule-grid"><div class="schedule-head">Work Center</div>'+days.map(x=>'<div class="schedule-head">'+x+'</div>').join('');
+  let red=0,moved=0;
+  demoBase.forEach((r,ri)=>{
+    html+='<div class="lane">'+r.lane+'</div>';
+    r.loads.forEach((base,di)=>{
+      let v=base;
+      if(sim){
+        const delta=Number(document.getElementById('scenarioDays')?.value||3);
+        const action=document.getElementById('scenarioAction')?.value;
+        const shift=Math.min(20,delta*3);
+        if((ri+di)%4===1){v= action==='later'?Math.max(35,base-shift):base+shift;moved++;}
+        if((ri+di)%7===3 && action==='priority'){v=base+18;moved++;}
+      }
+      let cls=v>100?'red':v>=85?'amber':'green';
+      if(di===0 && ri===1) cls='locked';
+      if(cls==='red') red++;
+      html+='<div><div class="slot '+cls+'"><b>'+Math.round(v)+'%</b><br><span>'+Math.round(v*4.8)+' / 480 min</span></div></div>';
+    });
+  });
+  html+='</div>';
+  document.getElementById('scheduleGrid').innerHTML=html;
+  document.getElementById('impactMoved').textContent=sim?moved:0;
+  document.getElementById('impactRed').textContent=sim?red:0;
+  document.getElementById('impactLate').textContent=sim?Math.max(0,red-1):0;
+  document.getElementById('impactOvertime').textContent=sim?(red*2)+'h':'0h';
+  const gate=document.getElementById('gateCapacity');
+  if(gate){gate.className='gate-card '+(red?'block':'pass');gate.querySelector('small').textContent=red?red+' red slot(s) — publish blocked':'No >100% slot';}
+}
+document.getElementById('simulateBtn')?.addEventListener('click',()=>renderSchedule(true));
+renderSchedule(false);
 
 window.addEventListener('DOMContentLoaded',function(){
   requestAnimationFrame(function(){
