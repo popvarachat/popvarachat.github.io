@@ -187,8 +187,12 @@ const overrides = {
     description:"ระบบผัง As-built, CAD Master, ทะเบียนทรัพย์สิน และประวัติซ่อม — ระบบภายใน ต้องได้รับสิทธิ์ก่อนเข้าใช้งาน"
   },
   "network-diagram-public": {
-    title:"Practika Network Diagram",
-    description:"Executive Public-safe Network Architecture · ภาพรวมองค์กรแบบ Web แยก Confirmed topology ออกจาก Discovery Pending โดยไม่เปิดเผย IP/hostname ภายใน"
+    title:"Practika Network Digital Twin · Executive View",
+    description:"Public-safe View ของ Network Digital Twin ตัวเดียวกัน · กด Node เพื่อดู evidence และ Drill-down ต่อเข้า Internal IT Director Twin บนเครื่องที่ได้รับสิทธิ์"
+  },
+  "network-digital-twin-internal": {
+    title:"Practika Network Digital Twin · Internal IT Director",
+    description:"Internal deep view · IP / Hostname / OS / OU / Vendor / Model / Services / AD / DNS / Subnet evidence พร้อม Node drill-down"
   },
   "chair-import-cost-manual": {
     title:"Chair Import Cost Intelligence · Independent GitHub Edition",
@@ -242,9 +246,14 @@ const architectures = {
     meta:["Internal · Admin","As-built Master","Maintenance History"]
   },
   "network-diagram-public": {
-    note:"Public-safe executive Network Diagram derived from verified discovery evidence. Sensitive addressing and infrastructure identifiers remain internal.",
-    flow:[["Endpoints","Employee devices"],["Access","Corporate Wi-Fi / LAN"],["Routing","Inter-zone routing"],["Core & Security","Firewall / Core layer"],["Services","Directory + File services"],["Internet","External connectivity"]],
-    meta:["Public-safe","Evidence-based","No internal IPs","Physical layer pending"]
+    note:"Executive/Public View ของ Practika Network Digital Twin เดียวกัน ทุก Node เชื่อม Deep Link ผ่าน Local Twin Gateway ไปยัง Internal IT Director evidence.",
+    flow:[["Executive View","Public-safe topology"],["Node Drill-down","Evidence drawer"],["Local Twin Gateway","localhost · authorized PC"],["Internal Twin","IP · Host · OS · OU · Service"],["Asset Evidence","AD · DNS · Vendor · Model"],["Decision","IT Director action"]],
+    meta:["One Digital Twin","Public-safe View","Deep-link connected","Internal evidence"]
+  },
+  "network-digital-twin-internal": {
+    note:"Internal IT Director View ของ Digital Twin เดียวกัน รับ focus key จาก Executive View แล้ว filter ไปยัง subnet / asset class / infrastructure node ที่ตรงกัน.",
+    flow:[["Focus Key","From Executive Node"],["Local Gateway","127.0.0.1 only"],["Digital Twin V2","Deep topology"],["Evidence","AD · DNS · ICMP · Ports · Banner"],["Inventory","IP · Host · OS · OU · Vendor"],["Action","Operations / remediation"]],
+    meta:["Internal Only","Read-only evidence","Localhost bound","Node-level drill-down"]
   },
   "car-digital-twin-dashboard-manual": {
     note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
@@ -338,10 +347,20 @@ const manualApps = [
     visibility:"public",
     homepage:"https://popvarachat.github.io/network-diagram/",
     html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/network-diagram",
-    updated_at:"2026-10-05T05:30:00Z",
-    topics:["Network Architecture"],
+    updated_at:"2026-10-05T07:58:00Z",
+    topics:["Network Digital Twin"],
     language:"HTML",
-    description:"Executive public-safe Network Diagram for Practika with logical zones and discovery status."
+    description:"Executive/Public-safe View of the connected Practika Network Digital Twin."
+  },
+  {
+    name:"network-digital-twin-internal",
+    visibility:"local",
+    homepage:"http://127.0.0.1:8766/?focus=overview",
+    html_url:"",
+    updated_at:"2026-10-05T07:58:00Z",
+    topics:["Network Digital Twin"],
+    language:"Internal Web",
+    description:"Internal IT Director deep view of the same Network Digital Twin."
   },
   {
     name:"car-digital-twin-dashboard-manual",
