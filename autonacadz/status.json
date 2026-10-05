@@ -51,5 +51,12 @@
     "dwg_trueview": "2024",
     "full_autocad_detected": false,
     "note": "TrueView is visual verification only; final geometry automation requires a compatible CAD execution engine."
+  },
+  "web": {
+    "default_page": "operational_gateway",
+    "operational_url": "https://popvarachat.github.io/autonacadz/",
+    "architecture_url": "https://popvarachat.github.io/autonacadz/architecture/",
+    "bridge_ports": "4017-4066",
+    "local_agent_required_for_cad_and_file_operations": true
   }
 }
