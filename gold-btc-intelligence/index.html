@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>GOLD / BTCUSD Executive Intelligence</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="shell">
+    <header class="hero">
+      <div>
+        <div class="eyebrow">EXECUTIVE SYSTEM ARCHITECTURE</div>
+        <h1>GOLD / BTCUSD <span>Multi-Agent Intelligence</span></h1>
+        <p>Analysis / Control / Report — read-only executive surface</p>
+      </div>
+      <div class="hero-actions">
+        <button id="refreshBtn" class="btn primary">Refresh View</button>
+        <button id="autoBtn" class="btn">Auto Refresh: Off</button>
+        <a class="btn" href="https://github.com/popvarachat/popvarachat.github.io/actions" target="_blank" rel="noreferrer">Portal Actions</a>
+        <a class="btn" href="https://github.com/popvarachat/popvarachat.github.io/tree/main/gold-btc-intelligence" target="_blank" rel="noreferrer">Source Folder</a>
+      </div>
+    </header>
+
+    <section class="system-strip">
+      <div><span class="label">Mode</span><strong id="mode">—</strong></div>
+      <div><span class="label">Execution</span><strong id="execution">—</strong></div>
+      <div><span class="label">Snapshot UTC</span><strong id="generated">—</strong></div>
+      <div><span class="label">System</span><strong id="systemHealth">—</strong></div>
+    </section>
+
+    <main>
+      <section>
+        <div class="section-title">
+          <div><span class="step">01</span><h2>System Pipeline</h2></div>
+          <span class="muted">Data → Features → Agents → Decision/Risk → Executive Output</span>
+        </div>
+        <div id="layers" class="pipeline"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div><span class="step">02</span><h2>Market Intelligence</h2></div>
+          <span class="muted">Current analytical state — not execution authority</span>
+        </div>
+        <div id="marketCards" class="market-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div><span class="step">03</span><h2>Decision & Risk Trace</h2></div>
+          <span class="muted">Why the system chose BUY / SELL / WAIT</span>
+        </div>
+        <div id="trace" class="trace-grid"></div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div><span class="step">04</span><h2>Control & Governance</h2></div>
+          <span class="muted">Read-only controls only</span>
+        </div>
+        <div class="control-grid">
+          <article class="panel">
+            <h3>Runtime Control</h3>
+            <div class="control-row"><span>Execution Layer</span><strong class="state off">DISABLED</strong></div>
+            <div class="control-row"><span>Trade Intent Creation</span><strong class="state off">DISABLED</strong></div>
+            <div class="control-row"><span>Broker Mutation</span><strong class="state off">DISABLED</strong></div>
+            <div class="control-row"><span>Executive Web</span><strong class="state on">ENABLED</strong></div>
+          </article>
+          <article class="panel">
+            <h3>Operator Actions</h3>
+            <button class="control-action" id="downloadBtn">Download Executive JSON</button>
+            <button class="control-action" id="copyBtn">Copy Executive Summary</button>
+            <a class="control-action link" href="https://github.com/popvarachat/popvarachat.github.io/tree/main/gold-btc-intelligence" target="_blank" rel="noreferrer">Open Source Snapshot</a>
+          </article>
+          <article class="panel">
+            <h3>Governance Boundary</h3>
+            <p>หน้านี้ใช้สำหรับวิเคราะห์ ควบคุมสถานะ และรายงานเท่านั้น ไม่มีคำสั่งซื้อขาย ไม่มี TradeIntent และไม่มี order_send</p>
+            <div class="boundary">ANALYSIS → CONTROL → REPORT<br><b>STOP BEFORE EXECUTION</b></div>
+          </article>
+        </div>
+      </section>
+
+      <section>
+        <div class="section-title">
+          <div><span class="step">05</span><h2>Executive Report</h2></div>
+          <span class="muted">Decision-ready summary</span>
+        </div>
+        <article class="report panel">
+          <div id="reportText">Loading…</div>
+        </article>
+      </section>
+    </main>
+
+    <footer>
+      <span>GRIP Executive Output Layer</span>
+      <span>Read-only / No financial mutation</span>
+    </footer>
+  </div>
+  <script src="app.js"></script>
+</body>
+</html>

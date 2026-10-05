@@ -150,6 +150,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "gold-btc-intelligence-manual": {
+    title:"GOLD / BTCUSD Multi-Agent Intelligence",
+    description:"Executive Analysis / Control / Report · Data → Feature → Multi-Agent → Decision/Risk · Read-only, no TradeIntent, no Order Send"
+  },
   "autonacadz-manual": {
     title:"AutoNaCadz for Korex · Engineering Control Portal",
     description:"Digital Engineering Rule Platform · Formula/Rule QA + Work Order QA · TrueView QA พร้อม CAD Execution Engine Gate · fail-closed Production Safety"
@@ -189,6 +193,11 @@ const overrides = {
 };
 
 const architectures = {
+  "gold-btc-intelligence-manual": {
+    note:"Executive surface ของระบบ GOLD/BTCUSD จบที่ Analysis / Control / Report โดยเก็บ Execution Layer, TradeIntent และ broker mutation ปิดทั้งหมด",
+    flow:[["Data Input","BTC exchanges · GOLD reference/broker · macro/events"],["Preprocess","Validation · Normalize · Multi-TF · Feature Vector"],["Multi-Agent","Search → NNUE-style Evaluate → Heuristics → Endgame"],["Decision/Risk","Winner selection · veto · sizing readiness"],["Executive Web","Analysis · Control · Report"],["Boundary","STOP before execution"]],
+    meta:["55 tests PASS","Read-only","WAIT fail-closed","No Order Send"]
+  },
   "autonacadz-manual": {
     note:"Engineering automation แบบ fail-closed: Product Rule เป็น Single Source of Truth, deterministic QA คุมก่อน Release, CAD execution แยกจาก TrueView visual verification และ Human Gate คุม Production release.",
     flow:[["Product Governance","STD / Formula / Part / Master"],["QA + Release","Formula Rule QA → Human Version Gate"],["Work Order","Requirement / Dimension / Configuration"],["CAD Engine","AutoLISP / AutoCAD deterministic execution"],["CAD QA","DWG check + TrueView visual verification"],["Production Gate","Drawing/Cutting reconciliation + Human release"],["Learning","QC / Rework → RCA → Improve STD"]],
@@ -236,6 +245,16 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"gold-btc-intelligence-manual",
+    visibility:"public",
+    homepage:"https://popvarachat.github.io/gold-btc-intelligence/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/gold-btc-intelligence",
+    updated_at:"2026-10-05T04:51:29Z",
+    topics:["Trading Intelligence"],
+    language:"HTML",
+    description:"Executive Analysis / Control / Report for GOLD / BTCUSD multi-agent intelligence"
+  },
   {
     name:"autonacadz-manual",
     visibility:"public",

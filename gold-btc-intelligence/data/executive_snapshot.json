@@ -1,0 +1,269 @@
+{
+  "schema_version": "grip-executive-web-v1",
+  "generated_at_utc": "2026-10-05T04:51:29.360451+00:00",
+  "system": {
+    "name": "GOLD / BTCUSD Multi-Agent Trading Intelligence",
+    "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
+    "execution_enabled": false,
+    "trade_intent_enabled": false,
+    "layers": {
+      "data_input": "COMPLETE",
+      "preprocess_feature": "COMPLETE",
+      "multi_agent_core": "COMPLETE",
+      "decision_risk_control": "COMPLETE",
+      "executive_output": "COMPLETE"
+    }
+  },
+  "instruments": [
+    {
+      "instrument": "BTCUSD",
+      "source_quality": "GOOD",
+      "data_valid": true,
+      "regime": {
+        "confidence": 0.6267685839331013,
+        "label": "BULL_TREND",
+        "momentum_alignment": 0.0,
+        "transition_warning": false,
+        "trend_alignment": 0.5,
+        "volatility_level": "LOW"
+      },
+      "aggregate": {
+        "liquidity_score": 0.8581478577442909,
+        "momentum_alignment": 0.0,
+        "momentum_score": 0.15100789664679695,
+        "trend_alignment": 0.5,
+        "trend_score": 0.21924786537503926,
+        "trend_strength": 0.9110578864242648,
+        "volatility_score": 0.13113012139834346
+      },
+      "signal": {
+        "session": "ASIA",
+        "news_risk": "UNKNOWN",
+        "authority": "PUBLIC_MARKET_DATA"
+      },
+      "agent_core": {
+        "candidate_count": 3,
+        "accepted_ids": [
+          "BUY-PULLBACK",
+          "BUY-BREAKOUT",
+          "WAIT-BASE"
+        ],
+        "rejected_ids": [],
+        "top_candidates": [
+          {
+            "candidate_id": "BUY-PULLBACK",
+            "action": "BUY",
+            "family": "PULLBACK",
+            "accepted": true,
+            "adjusted_score": 0.17661890710902245,
+            "confidence": 0.7383898081438051,
+            "risk_score": 0.5590085546292546,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "RISK_CONTEXT_NOT_READY"
+            ]
+          },
+          {
+            "candidate_id": "BUY-BREAKOUT",
+            "action": "BUY",
+            "family": "BREAKOUT",
+            "accepted": true,
+            "adjusted_score": 0.1400914431278361,
+            "confidence": 0.7089199570453336,
+            "risk_score": 0.5590085546292546,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "RISK_CONTEXT_NOT_READY"
+            ]
+          },
+          {
+            "candidate_id": "WAIT-BASE",
+            "action": "WAIT",
+            "family": "WAIT",
+            "accepted": true,
+            "adjusted_score": 0.1335496372603125,
+            "confidence": 0.7263120465753906,
+            "risk_score": 0.06311301213983435,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN"
+            ]
+          }
+        ]
+      },
+      "decision": {
+        "action": "BUY",
+        "adjusted_score": 0.17661890710902245,
+        "confidence": 0.7383898081438051,
+        "reason": "DIRECTIONAL_CANDIDATE_SELECTED",
+        "risk_score": 0.5590085546292546,
+        "score_gap": 0.03652746398118634,
+        "selected_candidate_id": "BUY-PULLBACK",
+        "strategy_family": "PULLBACK"
+      },
+      "risk_control": {
+        "allowed": false,
+        "final_action": "WAIT",
+        "proposed_volume": null,
+        "reasons": [
+          "ACCOUNT_STATE_UNAVAILABLE",
+          "BROKER_QUOTE_UNAVAILABLE",
+          "NEWS_RISK_UNKNOWN",
+          "RISK_SNAPSHOT_NOT_READY"
+        ],
+        "sizing_status": "BLOCKED_BY_RISK_GATE"
+      },
+      "final_action": "WAIT",
+      "proposed_volume": null,
+      "execution_invoked": false,
+      "trade_intent_created": false
+    },
+    {
+      "instrument": "XAUUSD",
+      "source_quality": "DEGRADED",
+      "data_valid": true,
+      "regime": {
+        "confidence": 0.75,
+        "label": "TRANSITION",
+        "momentum_alignment": -1.0,
+        "transition_warning": true,
+        "trend_alignment": -0.5,
+        "volatility_level": "LOW"
+      },
+      "aggregate": {
+        "liquidity_score": 0.9007527184707215,
+        "momentum_alignment": -1.0,
+        "momentum_score": -0.13486039100834885,
+        "trend_alignment": -0.5,
+        "trend_score": -0.21471998730208916,
+        "trend_strength": 0.2440857987062348,
+        "volatility_score": 0.17220061001559622
+      },
+      "signal": {
+        "session": "ASIA",
+        "news_risk": "UNKNOWN",
+        "authority": "REFERENCE_ONLY_NOT_EXECUTABLE"
+      },
+      "agent_core": {
+        "candidate_count": 5,
+        "accepted_ids": [
+          "SELL-PULLBACK",
+          "MEANREV-LONG",
+          "MEANREV-SHORT",
+          "WAIT-BASE"
+        ],
+        "rejected_ids": [
+          "SELL-BREAKDOWN"
+        ],
+        "top_candidates": [
+          {
+            "candidate_id": "SELL-PULLBACK",
+            "action": "SELL",
+            "family": "PULLBACK",
+            "accepted": true,
+            "adjusted_score": -0.20270602351106573,
+            "confidence": 0.6681951061288671,
+            "risk_score": 0.5774902745070183,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "REGIME_TRANSITION",
+              "RISK_CONTEXT_NOT_READY",
+              "SOURCE_DEGRADED"
+            ]
+          },
+          {
+            "candidate_id": "SELL-BREAKDOWN",
+            "action": "SELL",
+            "family": "BREAKOUT",
+            "accepted": false,
+            "adjusted_score": -0.23227171611421987,
+            "confidence": 0.6465020928547207,
+            "risk_score": 0.5774902745070183,
+            "hard_reasons": [
+              "BREAKOUT_TREND_TOO_WEAK",
+              "LOW_STATE_FIT"
+            ],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "REGIME_TRANSITION",
+              "RISK_CONTEXT_NOT_READY",
+              "SOURCE_DEGRADED"
+            ]
+          },
+          {
+            "candidate_id": "MEANREV-LONG",
+            "action": "BUY",
+            "family": "MEAN_REVERSION",
+            "accepted": true,
+            "adjusted_score": -0.31283378155114694,
+            "confidence": 0.6955221797326397,
+            "risk_score": 0.5774902745070183,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "REGIME_TRANSITION",
+              "RISK_CONTEXT_NOT_READY",
+              "SOURCE_DEGRADED"
+            ]
+          },
+          {
+            "candidate_id": "MEANREV-SHORT",
+            "action": "SELL",
+            "family": "MEAN_REVERSION",
+            "accepted": true,
+            "adjusted_score": -0.16591816190203443,
+            "confidence": 0.6955221797326397,
+            "risk_score": 0.5774902745070183,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "REGIME_TRANSITION",
+              "RISK_CONTEXT_NOT_READY",
+              "SOURCE_DEGRADED"
+            ]
+          },
+          {
+            "candidate_id": "WAIT-BASE",
+            "action": "WAIT",
+            "family": "WAIT",
+            "accepted": true,
+            "adjusted_score": 0.016069963438747253,
+            "confidence": 0.7744624542984342,
+            "risk_score": 0.06722006100155963,
+            "hard_reasons": [],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "SOURCE_DEGRADED"
+            ]
+          }
+        ]
+      },
+      "decision": {
+        "action": "WAIT",
+        "adjusted_score": 0.016069963438747253,
+        "confidence": 0.7744624542984342,
+        "reason": "WAIT_RANKED_HIGHEST",
+        "risk_score": 0.06722006100155963,
+        "score_gap": 0.18198812534078168,
+        "selected_candidate_id": "WAIT-BASE",
+        "strategy_family": "WAIT"
+      },
+      "risk_control": {
+        "allowed": false,
+        "final_action": "WAIT",
+        "proposed_volume": null,
+        "reasons": [
+          "DECISION:WAIT_RANKED_HIGHEST"
+        ],
+        "sizing_status": "NOT_APPLICABLE"
+      },
+      "final_action": "WAIT",
+      "proposed_volume": null,
+      "execution_invoked": false,
+      "trade_intent_created": false
+    }
+  ]
+}
