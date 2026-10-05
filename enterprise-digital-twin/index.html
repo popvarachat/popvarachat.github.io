@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Practika Enterprise Digital Twin · Building × Network</title>
+<meta name="description" content="Public-safe executive view connecting Practika Building Digital Twin and Network Digital Twin.">
+<style>
+:root{--bg:#eef4fb;--panel:#fff;--ink:#152238;--muted:#68788e;--line:#d8e3ef;--blue:#2563eb;--green:#16803b;--amber:#b56a0b;--red:#b91c1c;--shadow:0 18px 48px rgba(30,64,110,.10)}
+*{box-sizing:border-box}body{margin:0;font-family:Inter,"Segoe UI","Noto Sans Thai",sans-serif;background:radial-gradient(circle at 10% 0,#dcecff 0,transparent 30%),linear-gradient(180deg,#eef4fb,#f9fbfd 45%);color:var(--ink)}.wrap{max-width:1420px;margin:auto;padding:30px 22px 54px}
+.hero{display:flex;justify-content:space-between;gap:18px;align-items:flex-start}.eyebrow{font-size:12px;font-weight:850;letter-spacing:.1em;color:var(--blue);text-transform:uppercase}h1{font-size:clamp(30px,4vw,48px);letter-spacing:-.045em;margin:7px 0 10px}.sub{max-width:980px;color:var(--muted);line-height:1.6;margin:0}.actions{display:flex;gap:8px;flex-wrap:wrap}.actions a{padding:10px 12px;border:1px solid var(--line);border-radius:11px;background:#fff;color:var(--ink);font-weight:800;font-size:12px;text-decoration:none}.actions a.primary{background:#152238;color:#fff}
+.stats{display:grid;grid-template-columns:repeat(6,1fr);gap:10px;margin:22px 0}.stat,.panel{background:#fff;border:1px solid var(--line);border-radius:17px;box-shadow:var(--shadow)}.stat{padding:14px}.stat span{font-size:11px;color:var(--muted)}.stat b{display:block;font-size:25px;margin:4px 0}.panel{padding:18px;margin:14px 0}.panel h2{margin:0 0 7px}.lead{margin:0 0 16px;color:var(--muted);line-height:1.55}
+.twin{display:grid;grid-template-columns:1fr 130px 1fr;gap:12px;align-items:stretch}.lane{border:1px solid var(--line);background:#fbfdff;border-radius:15px;padding:14px}.lane h3{margin:0 0 10px}.node{border:1px solid var(--line);background:#fff;border-radius:12px;padding:11px;margin:8px 0}.node b{display:block}.node small{color:var(--muted);line-height:1.45}.bridge{display:flex;align-items:center;justify-content:center;text-align:center;font-weight:900;color:#476d9b}.bridge div{border:1px dashed #8faed1;border-radius:14px;padding:16px;background:#f6faff}
+.grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:11px}.card{border:1px solid var(--line);background:#fff;border-radius:14px;padding:14px}.card h3{margin:0 0 5px;font-size:15px}.card p{margin:0;color:var(--muted);font-size:12.5px;line-height:1.55}.pill{display:inline-flex;margin-top:9px;padding:4px 7px;border-radius:999px;font-size:10.5px;font-weight:800}.green{background:#e9f8ed;color:#176b38}.blue{background:#e9f2ff;color:#245da9}.amber{background:#fff2dc;color:#94610d}.red{background:#feecec;color:#a32929}
+.diagram{overflow:auto;border:1px solid var(--line);border-radius:14px;background:#fbfdff}.diagram svg{display:block;min-width:1180px;width:100%;height:560px}.n rect{fill:#fff;stroke:#aebed1;stroke-width:1.5}.n text{fill:#152238;font-size:13px;font-weight:750}.n .s{fill:#68788e;font-size:10px;font-weight:500}.e{stroke:#98aabd;stroke-width:1.8;fill:none}.core rect{fill:#eaf3ff;stroke:#6898da;stroke-width:2}.pending rect{stroke:#df9b43;stroke-dasharray:6 4}
+.note{border-left:4px solid var(--blue);background:#eff6ff;border-radius:10px;padding:12px 14px;color:#355372;line-height:1.55}.warn{border-left-color:#f59e0b;background:#fff8e8;color:#735014}
+footer{margin-top:22px;color:var(--muted);font-size:11px}
+@media(max-width:980px){.stats{grid-template-columns:repeat(3,1fr)}.grid{grid-template-columns:1fr 1fr}.twin{grid-template-columns:1fr}.bridge{min-height:80px}}@media(max-width:620px){.hero{flex-direction:column}.stats,.grid{grid-template-columns:1fr}.wrap{padding:20px 12px 44px}}
+</style></head><body><div class="wrap">
+<div class="hero"><div><div class="eyebrow">Practika · Enterprise Digital Twin</div><h1>Building × Network · Executive View</h1><p class="sub">Digital Twin เดียวที่เชื่อม Physical Truth จาก Building Twin กับ Logical / Operational Truth จาก Network Twin ผ่าน Shared Relation Registry และ JEV Evidence Decision Layer — Public page นี้ไม่เปิดเผย IP, hostname, MAC หรือ management endpoint ภายใน</p></div><div class="actions"><a href="https://practika-digital-twin.varachat.chatgpt.site" target="_blank">Building Twin ↗</a><a href="../network-diagram/">Network Twin ↗</a><a class="primary" href="http://127.0.0.1:8766/enterprise-digital-twin.html">Internal Twin</a></div></div>
+
+<section class="stats">
+<div class="stat"><span>Cross‑Twin Relations</span><b>12</b><span>Physical ↔ Network</span></div>
+<div class="stat"><span>Building Drawings</span><b>14</b><span>LAN / Wi‑Fi / CCTV evidence</span></div>
+<div class="stat"><span>High Confidence</span><b>4</b><span>Operational mapping</span></div>
+<div class="stat"><span>Infrastructure Candidates</span><b>18</b><span>Classified internally</span></div>
+<div class="stat"><span>JEV Confirmed</span><b>3</b><span>Evidence decisions</span></div>
+<div class="stat"><span>Management Ready</span><b>8/8</b><span>Awaiting authorized read-only auth</span></div>
+</section>
+
+<section class="panel"><h2>One Enterprise Twin · Two Sources of Truth</h2><p class="lead">ไม่รวมฐานข้อมูลกันแบบซ้ำซ้อน แต่เชื่อมความสัมพันธ์ด้วย Cross‑Twin Relation ID</p>
+<div class="twin"><div class="lane"><h3>Building Digital Twin</h3><div class="node"><b>Building / Floor / Room</b><small>ตำแหน่งจริงและพื้นที่</small></div><div class="node"><b>As-built / Drawing</b><small>LAN/WIFI · CCTV · Machine · Electrical</small></div><div class="node"><b>Asset / Maintenance</b><small>Asset · PM · Work Order · Repair history</small></div></div>
+<div class="bridge"><div>Shared Relation Registry<br>⇄<br>JEV Evidence Gate</div></div>
+<div class="lane"><h3>Network Digital Twin</h3><div class="node"><b>Network Zone / Device</b><small>Logical topology and device class</small></div><div class="node"><b>Switch / AP / Service</b><small>Connectivity evidence and management readiness</small></div><div class="node"><b>Health / Dependency</b><small>Reachability · service · operational impact</small></div></div></div></section>
+
+<section class="panel"><h2>Physical Network Topology · Current Evidence</h2><p class="lead">Topology แสดงเฉพาะระดับที่หลักฐานรองรับ และแยก Physical Pending ออกจาก Logical Confirmed</p>
+<div class="diagram"><svg viewBox="0 0 1180 560">
+<g class="n core"><rect x="455" y="25" width="270" height="72" rx="14"/><text x="494" y="54">Core L3 / Routing Fabric</text><text class="s" x="494" y="76">Multi-zone gateway / routing evidence</text></g>
+<path class="e" d="M590 97 V145 H165"/><path class="e" d="M590 145 H430"/><path class="e" d="M590 145 H695"/><path class="e" d="M590 145 H960"/>
+<g class="n"><rect x="45" y="175" width="240" height="72" rx="13"/><text x="68" y="204">Building 1 · Floor 1</text><text class="s" x="68" y="226">LAN + PoE access-switch evidence</text></g>
+<g class="n"><rect x="310" y="175" width="240" height="72" rx="13"/><text x="333" y="204">Building 1 · Floor 2</text><text class="s" x="333" y="226">LAN / AD location evidence</text></g>
+<g class="n"><rect x="575" y="175" width="240" height="72" rx="13"/><text x="598" y="204">Building 1 · Floor 3</text><text class="s" x="598" y="226">LAN + switch-candidate evidence</text></g>
+<g class="n"><rect x="840" y="175" width="290" height="72" rx="13"/><text x="864" y="204">Wireless / Plant / Other Buildings</text><text class="s" x="864" y="226">Supported / Pending physical location</text></g>
+<path class="e" d="M165 247 V310"/><path class="e" d="M430 247 V310"/><path class="e" d="M695 247 V310"/><path class="e" d="M985 247 V310"/>
+<g class="n"><rect x="45" y="330" width="240" height="72" rx="13"/><text x="68" y="359">Access Switch / PoE</text><text class="s" x="68" y="381">Model confirmed internally</text></g>
+<g class="n pending"><rect x="310" y="330" width="240" height="72" rx="13"/><text x="333" y="359">Access Switch / Port</text><text class="s" x="333" y="381">Physical port mapping pending</text></g>
+<g class="n"><rect x="575" y="330" width="240" height="72" rx="13"/><text x="598" y="359">Managed Switch Candidate</text><text class="s" x="598" y="381">Vendor/model not yet confirmed</text></g>
+<g class="n"><rect x="840" y="330" width="290" height="72" rx="13"/><text x="864" y="359">RUCKUS / Device Estate</text><text class="s" x="864" y="381">AP confirmed · location association pending</text></g>
+<path class="e" d="M165 402 V475 H590"/><path class="e" d="M430 402 V475 H590"/><path class="e" d="M695 402 V475 H590"/><path class="e" d="M985 402 V475 H590"/>
+<g class="n pending"><rect x="430" y="465" width="320" height="70" rx="13"/><text x="463" y="494">Room / Port / Cable Truth</text><text class="s" x="463" y="516">Requires authorized MAC table · LLDP/CDP · AP association</text></g>
+</svg></div></section>
+
+<section class="panel"><h2>JEV Evidence Decisions</h2><div class="grid">
+<div class="card"><h3>Floor 1 Logical Mapping</h3><p>Multiple independent Building + AD + Network evidence sources align.</p><span class="pill green">CONFIRMED</span></div>
+<div class="card"><h3>Floor 2 Logical Mapping</h3><p>Strong floor OU and active network evidence align.</p><span class="pill green">CONFIRMED</span></div>
+<div class="card"><h3>Floor 3 Logical Mapping</h3><p>Floor OU plus managed-switch evidence align.</p><span class="pill green">CONFIRMED</span></div>
+<div class="card"><h3>Wireless Physical Location</h3><p>AP family is confirmed; room/floor association still requires controller evidence.</p><span class="pill blue">SUPPORTED</span></div>
+<div class="card"><h3>Knowledge Meeting Room</h3><p>Physical room truth and hostname/network evidence conflict. Automatic room mapping is vetoed.</p><span class="pill red">CONFLICT · VETO</span></div>
+<div class="card"><h3>CCTV Physical Mapping</h3><p>CCTV class and drawings exist, but camera-to-floor/port truth is not yet sufficient.</p><span class="pill amber">PENDING</span></div>
+</div></section>
+
+<section class="panel"><h2>RDC + JEV Operating Model</h2><div class="grid">
+<div class="card"><h3>RDC · Discovery Executor</h3><p>Collects read-only network, AD, drawing, banner and management-plane evidence.</p><span class="pill blue">Evidence Collector</span></div>
+<div class="card"><h3>JEV · Decision Gate</h3><p>Separates discovered facts from permitted conclusions and vetoes conflicting mappings.</p><span class="pill blue">Evidence Scoring</span></div>
+<div class="card"><h3>Enterprise Twin · Shared View</h3><p>Only accepted/supportable relationships are surfaced as operational topology.</p><span class="pill green">Connected</span></div>
+</div></section>
+
+<div class="note warn"><b>Next Human Gate:</b> management endpoints are reachable, but exact Switch Port / MAC / LLDP / AP-client association requires an authorized read-only management account. No credential guessing or configuration change is performed.</div>
+<footer>Practika Enterprise Digital Twin · Public-safe Executive View · Sensitive addressing and asset identifiers remain internal</footer>
+</div></body></html>
