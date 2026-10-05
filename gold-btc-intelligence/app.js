@@ -11,10 +11,11 @@ const WF_LABELS={
   data_input:'Data Input',
   preprocess_feature:'Preprocess & Feature',
   multi_agent_core:'Multi-Agent Core',
+  jev_shadow:'JEV Shadow',
   decision_risk_control:'Decision & Risk',
   executive_output:'Executive Output'
 };
-const WF_IDS=['data_input','preprocess_feature','multi_agent_core','decision_risk_control','executive_output'];
+const WF_IDS=['data_input','preprocess_feature','multi_agent_core','jev_shadow','decision_risk_control','executive_output'];
 
 function wfTime(s){
   if(!s) return '—';
@@ -49,6 +50,7 @@ function renderAll(){
   renderCioStrip();
   renderWorkflow();
   renderAgentSquad();
+  renderJevReview();
   renderInstitutional();
   renderMarkets();
   renderTrace();
@@ -173,7 +175,8 @@ function drawFlowConnectors(){
     ['flowAgentEval','flowAgentMerge',['multi_agent_core']],
     ['flowAgentHeur','flowAgentMerge',['multi_agent_core']],
     ['flowAgentEnd','flowAgentMerge',['multi_agent_core']],
-    ['flowAgentMerge','flowDecision',['multi_agent_core','decision_risk_control']],
+    ['flowAgentMerge','flowJev',['multi_agent_core','jev_shadow']],
+    ['flowJev','flowDecision',['jev_shadow','decision_risk_control']],
     ['flowDecision','flowExecutive',['decision_risk_control','executive_output']]
   ];
   let html=defs;
@@ -266,6 +269,43 @@ function openAgentDeepDive(id){
   const close=byId('agentClose'); if(close) close.onclick=()=>box.classList.remove('open');
 }
 
+
+function jevSelected(x,key){
+  return x?.jev_shadow?.[key]?.selected||'—';
+}
+function jevConf(x,key){
+  const v=x?.jev_shadow?.[key]?.confidence;
+  return v===null||v===undefined?'—':pct(v,0);
+}
+function renderJevReview(){
+  if(!SNAPSHOT) return;
+  safeSet('jevReviewGrid',SNAPSHOT.instruments.map(x=>{
+    const j=x.jev_shadow||{}, d=x.decision||{}, rc=x.risk_control||{};
+    const hard=rc.allowed?'ALLOWED':'BLOCKED';
+    const conv=j.system_conviction_score;
+    const convPct=conv===null||conv===undefined?'—':pct(conv,0);
+    return '<article class="jev-review-card">'+
+      '<div class="jev-review-head"><div><div class="inst-kicker">SHADOW COPROCESSOR</div><h3>'+esc(x.instrument)+'</h3></div>'+
+      '<span class="jev-mode">JEV · '+esc(j.mode||'SHADOW')+'</span></div>'+
+      '<div class="jev-decision-chain">'+
+        '<div><span>Agent Core</span><b>'+esc(d.action||'WAIT')+'</b><small>'+esc(d.selected_candidate_id||'—')+'</small></div>'+
+        '<i>→</i><div class="jev-box"><span>JEV Shadow</span><b>'+esc(jevSelected(x,'jev_actionability'))+'</b><small>Risk posture '+esc(jevSelected(x,'jev_risk_posture'))+'</small></div>'+
+        '<i>→</i><div class="risk-box"><span>Hard Risk</span><b>'+hard+'</b><small>'+esc((rc.reasons||[]).join(' · ')||'No veto')+'</small></div>'+
+        '<i>→</i><div class="final-box"><span>Final</span><b>'+esc(x.final_action||'WAIT')+'</b><small>governed action</small></div>'+
+      '</div>'+
+      '<div class="jev-metric-grid">'+
+        '<div><span>Counter-Thesis</span><b>'+esc(jevSelected(x,'jev_counter_thesis'))+'</b><small>'+jevConf(x,'jev_counter_thesis')+'</small></div>'+
+        '<div><span>Evidence</span><b>'+esc(jevSelected(x,'jev_evidence_quality'))+'</b><small>'+jevConf(x,'jev_evidence_quality')+'</small></div>'+
+        '<div><span>Uncertainty</span><b>'+esc(jevSelected(x,'jev_uncertainty'))+'</b><small>'+jevConf(x,'jev_uncertainty')+'</small></div>'+
+        '<div><span>Macro</span><b>'+esc(jevSelected(x,'jev_macro_compatibility'))+'</b><small>'+jevConf(x,'jev_macro_compatibility')+'</small></div>'+
+        '<div><span>System Conviction</span><b>'+esc(j.system_conviction_label||'—')+'</b><small>'+convPct+'</small></div>'+
+        '<div><span>Decision Stage</span><b>'+esc(j.decision_stage||'—')+'</b><small>'+esc(j.model||'')+'</small></div>'+
+      '</div>'+
+      '<div class="jev-governance-note">JEV is advisory only · execution authority = FALSE · deterministic Hard Risk has precedence.</div>'+
+    '</article>';
+  }).join(''));
+}
+
 function renderMarkets(){
   const cards=SNAPSHOT.instruments.map(x=>{
     const r=x.regime||{}, a=x.aggregate||{}, d=x.decision||{}, rc=x.risk_control||{};
@@ -310,6 +350,7 @@ function renderMarkets(){
 
         <div class="analysis-reason">
           <div><b>Decision rationale:</b> ${esc(d.reason||'—')}</div>
+          <div><b>JEV Shadow:</b> ${esc(x.jev_shadow?.jev_actionability?.selected||'—')} · Evidence ${esc(x.jev_shadow?.jev_evidence_quality?.selected||'—')} · Uncertainty ${esc(x.jev_shadow?.jev_uncertainty?.selected||'—')} · Conviction ${esc(x.jev_shadow?.system_conviction_label||'—')}</div>
           <div><b>Risk/Veto:</b> ${esc(riskReasons)}</div>
           <div><b>Top candidate:</b> ${top?esc(top.candidate_id)+' · score '+fmt(top.adjusted_score)+' · conf '+fmt(top.confidence):'—'}</div>
         </div>
@@ -372,6 +413,7 @@ function buildReportText(){
   for(const x of SNAPSHOT.instruments){
     lines.push(`${x.instrument}: Suggest ${x.decision.action} -> FINAL ${x.final_action}`);
     lines.push(`Regime: ${x.regime.label} | Candidate: ${x.decision.selected_candidate_id||'—'} | Confidence: ${fmt(x.decision.confidence)}`);
+    lines.push(`JEV Shadow: ${x.jev_shadow?.jev_actionability?.selected||'—'} | Evidence: ${x.jev_shadow?.jev_evidence_quality?.selected||'—'} | Uncertainty: ${x.jev_shadow?.jev_uncertainty?.selected||'—'} | System Conviction: ${x.jev_shadow?.system_conviction_label||'—'}`);
     lines.push(`Risk allowed: ${x.risk_control.allowed} | Reasons: ${(x.risk_control.reasons||[]).join(', ')||'none'}`);
     lines.push('');
   }
@@ -391,6 +433,8 @@ function buildReportHtml(){
         <div><span>Confidence</span><b>${fmt(x.decision.confidence)}</b></div>
         <div><span>Risk Score</span><b>${fmt(x.decision.risk_score)}</b></div>
         <div><span>Score Gap</span><b>${fmt(x.decision.score_gap)}</b></div>
+        <div><span>JEV Actionability</span><b>${esc(x.jev_shadow?.jev_actionability?.selected||'—')}</b></div>
+        <div><span>System Conviction</span><b>${esc(x.jev_shadow?.system_conviction_label||'—')} · ${pct(x.jev_shadow?.system_conviction_score,0)}</b></div>
       </div>
       <p><b>Decision:</b> ${esc(x.decision.reason)}<br>
       <b>Risk/Veto:</b> ${esc((x.risk_control.reasons||[]).join(', ')||'none')}<br>

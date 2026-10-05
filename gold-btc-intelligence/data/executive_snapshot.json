@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-executive-web-v1",
-  "generated_at_utc": "2026-10-05T06:00:31.123233+00:00",
+  "generated_at_utc": "2026-10-05T13:15:03.064431+00:00",
   "system": {
     "name": "GOLD / BTCUSD Multi-Agent Trading Intelligence",
     "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
@@ -10,6 +10,7 @@
       "data_input": "COMPLETE",
       "preprocess_feature": "COMPLETE",
       "multi_agent_core": "COMPLETE",
+      "jev_shadow": "SHADOW",
       "decision_risk_control": "COMPLETE",
       "executive_output": "COMPLETE"
     }
@@ -263,6 +264,96 @@
           }
         ],
         "endgame_plan_count": 3
+      },
+      "jev_shadow": {
+        "status": "READY",
+        "mode": "SHADOW",
+        "execution_authority": false,
+        "model": "jev-1.13.0",
+        "latency_ms": 460.7,
+        "generated_at_utc": "2026-10-05T13:13:48.448302+00:00",
+        "instrument": "BTCUSD",
+        "agent_action": "BUY",
+        "agent_candidate": "BUY-PULLBACK",
+        "agent_confidence": 0.7383898081438051,
+        "jev_actionability": {
+          "selected": "WAIT",
+          "confidence": 0.57,
+          "probabilities": {
+            "WAIT": 0.68,
+            "ACTIONABLE": 0.0,
+            "ARMED": 0.2,
+            "IDEA": 0.12
+          },
+          "raw_type": "choice"
+        },
+        "jev_counter_thesis": {
+          "selected": "HIGH",
+          "confidence": 0.4,
+          "probabilities": {
+            "CRITICAL": 0.38,
+            "HIGH": 0.55,
+            "LOW": 0.0,
+            "MEDIUM": 0.07
+          },
+          "raw_type": "choice"
+        },
+        "jev_macro_compatibility": {
+          "selected": "UNKNOWN",
+          "confidence": 0.63,
+          "probabilities": {
+            "UNKNOWN": 0.71,
+            "SUPPORTIVE": 0.12,
+            "CONFLICTING": 0.0,
+            "HOSTILE": 0.0,
+            "NEUTRAL": 0.17
+          },
+          "raw_type": "choice"
+        },
+        "jev_evidence_quality": {
+          "selected": "WEAK",
+          "confidence": 0.52,
+          "probabilities": {
+            "ADEQUATE": 0.01,
+            "INSUFFICIENT": 0.36,
+            "STRONG": 0.0,
+            "WEAK": 0.63
+          },
+          "raw_type": "choice"
+        },
+        "jev_uncertainty": {
+          "selected": "HIGH",
+          "confidence": 0.83,
+          "probabilities": {
+            "EXTREME": 0.09,
+            "HIGH": 0.87,
+            "LOW": 0.0,
+            "MEDIUM": 0.04
+          },
+          "raw_type": "choice"
+        },
+        "jev_risk_posture": {
+          "selected": "WAIT",
+          "confidence": 0.9,
+          "probabilities": {
+            "NORMAL": 0.0,
+            "WAIT": 0.93,
+            "HUMAN_REVIEW": 0.05,
+            "REDUCED": 0.02
+          },
+          "raw_type": "choice"
+        },
+        "system_conviction_score": 0.32,
+        "system_conviction_label": "LOW",
+        "decision_stage": "WAIT_GOVERNANCE",
+        "hard_risk_allowed": false,
+        "hard_risk_reasons": [
+          "ACCOUNT_STATE_UNAVAILABLE",
+          "BROKER_QUOTE_UNAVAILABLE",
+          "NEWS_RISK_UNKNOWN",
+          "RISK_SNAPSHOT_NOT_READY"
+        ],
+        "final_action": "WAIT"
       },
       "decision": {
         "action": "BUY",
@@ -672,6 +763,93 @@
           }
         ],
         "endgame_plan_count": 4
+      },
+      "jev_shadow": {
+        "status": "READY",
+        "mode": "SHADOW",
+        "execution_authority": false,
+        "model": "jev-1.13.0",
+        "latency_ms": 460.7,
+        "generated_at_utc": "2026-10-05T13:13:48.448302+00:00",
+        "instrument": "XAUUSD",
+        "agent_action": "WAIT",
+        "agent_candidate": "WAIT-BASE",
+        "agent_confidence": 0.7744624542984342,
+        "jev_actionability": {
+          "selected": "WAIT",
+          "confidence": 0.99,
+          "probabilities": {
+            "WAIT": 0.99,
+            "ACTIONABLE": 0.0,
+            "ARMED": 0.01,
+            "IDEA": 0.0
+          },
+          "raw_type": "choice"
+        },
+        "jev_counter_thesis": {
+          "selected": "LOW",
+          "confidence": 0.46,
+          "probabilities": {
+            "CRITICAL": 0.06,
+            "HIGH": 0.17,
+            "LOW": 0.6,
+            "MEDIUM": 0.17
+          },
+          "raw_type": "choice"
+        },
+        "jev_macro_compatibility": {
+          "selected": "UNKNOWN",
+          "confidence": 0.27,
+          "probabilities": {
+            "UNKNOWN": 0.42,
+            "SUPPORTIVE": 0.3,
+            "CONFLICTING": 0.01,
+            "NEUTRAL": 0.27,
+            "HOSTILE": 0.0
+          },
+          "raw_type": "choice"
+        },
+        "jev_evidence_quality": {
+          "selected": "WEAK",
+          "confidence": 0.59,
+          "probabilities": {
+            "STRONG": 0.0,
+            "INSUFFICIENT": 0.12,
+            "ADEQUATE": 0.19,
+            "WEAK": 0.69
+          },
+          "raw_type": "choice"
+        },
+        "jev_uncertainty": {
+          "selected": "HIGH",
+          "confidence": 0.52,
+          "probabilities": {
+            "EXTREME": 0.19,
+            "HIGH": 0.63,
+            "LOW": 0.01,
+            "MEDIUM": 0.17
+          },
+          "raw_type": "choice"
+        },
+        "jev_risk_posture": {
+          "selected": "WAIT",
+          "confidence": 0.89,
+          "probabilities": {
+            "WAIT": 0.91,
+            "NORMAL": 0.0,
+            "HUMAN_REVIEW": 0.07,
+            "REDUCED": 0.02
+          },
+          "raw_type": "choice"
+        },
+        "system_conviction_score": 0.44,
+        "system_conviction_label": "LOW",
+        "decision_stage": "WAIT_GOVERNANCE",
+        "hard_risk_allowed": false,
+        "hard_risk_reasons": [
+          "DECISION:WAIT_RANKED_HIGHEST"
+        ],
+        "final_action": "WAIT"
       },
       "decision": {
         "action": "WAIT",

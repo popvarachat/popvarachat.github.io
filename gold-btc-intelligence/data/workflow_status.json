@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-portal-workflow-v1",
-  "generated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+  "generated_at_utc": "2026-10-05T13:15:03.147785+00:00",
   "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
   "execution_enabled": false,
   "overall_status": "BLOCKED",
@@ -29,6 +29,14 @@
         "XAUUSD": "COMPLETE"
       }
     },
+    "jev_shadow": {
+      "status": "WAIT",
+      "updated_at_utc": "2026-10-05T13:13:48.448302+00:00",
+      "instrument_states": {
+        "BTCUSD": "WAIT",
+        "XAUUSD": "WAIT"
+      }
+    },
     "decision_risk_control": {
       "status": "BLOCKED",
       "updated_at_utc": "2026-10-05T04:43:38.383470+00:00",
@@ -39,7 +47,7 @@
     },
     "executive_output": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+      "updated_at_utc": "2026-10-05T13:15:03.147785+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -91,6 +99,25 @@
             "endgame_plan_count": 3
           }
         },
+        "jev_shadow": {
+          "status": "WAIT",
+          "summary": "WAIT · conviction=LOW",
+          "updated_at_utc": "2026-10-05T13:13:48.448302+00:00",
+          "details": {
+            "mode": "SHADOW",
+            "execution_authority": false,
+            "model": "jev-1.13.0",
+            "latency_ms": 460.7,
+            "decision_stage": "WAIT_GOVERNANCE",
+            "actionability": "WAIT",
+            "counter_thesis": "HIGH",
+            "evidence_quality": "WEAK",
+            "uncertainty": "HIGH",
+            "risk_posture": "WAIT",
+            "system_conviction_score": 0.32,
+            "system_conviction_label": "LOW"
+          }
+        },
         "decision_risk_control": {
           "status": "BLOCKED",
           "summary": "BUY -> WAIT",
@@ -113,7 +140,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+          "updated_at_utc": "2026-10-05T13:15:03.147785+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
@@ -167,6 +194,25 @@
             "endgame_plan_count": 4
           }
         },
+        "jev_shadow": {
+          "status": "WAIT",
+          "summary": "WAIT · conviction=LOW",
+          "updated_at_utc": "2026-10-05T13:13:48.448302+00:00",
+          "details": {
+            "mode": "SHADOW",
+            "execution_authority": false,
+            "model": "jev-1.13.0",
+            "latency_ms": 460.7,
+            "decision_stage": "WAIT_GOVERNANCE",
+            "actionability": "WAIT",
+            "counter_thesis": "LOW",
+            "evidence_quality": "WEAK",
+            "uncertainty": "HIGH",
+            "risk_posture": "WAIT",
+            "system_conviction_score": 0.44,
+            "system_conviction_label": "LOW"
+          }
+        },
         "decision_risk_control": {
           "status": "WAIT",
           "summary": "WAIT -> WAIT",
@@ -186,7 +232,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-05T05:10:48.406288+00:00",
+          "updated_at_utc": "2026-10-05T13:15:03.147785+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
