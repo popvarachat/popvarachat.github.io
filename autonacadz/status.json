@@ -23,9 +23,26 @@
   "github_pages": {
     "status": "PUBLISHED_AS_STATIC_CONTROL_PORTAL"
   },
-  "next": "Work Order QA Agent",
+  "next": "CAD Job Queue & Multi-Master Automation",
   "tests": {
-    "passed": 10,
-    "total": 10
+    "passed": 15,
+    "total": 15
+  },
+  "work_order_qa": {
+    "version": "1.0.0",
+    "status": "ACTIVE",
+    "fail_closed": true,
+    "checks": [
+      "release lineage",
+      "ready status",
+      "input gates",
+      "part dimensions",
+      "master linkage",
+      "CAD actions"
+    ]
+  },
+  "multi_master": {
+    "status": "HOLD_UNTIL_JOB_QUEUE",
+    "partial_export_disabled": true
   }
 }
