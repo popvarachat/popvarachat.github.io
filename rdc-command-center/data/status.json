@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-05T15:31:37.5463723+07:00",
+  "generated_at": "2026-10-05T15:58:07.7198546+07:00",
   "status": "READY_WITH_WARNINGS",
   "mode": "FAST_EXECUTION_MODE",
   "agents": 12,
@@ -24,14 +24,14 @@
     },
     {
       "name": "Jev Decision Coprocessor",
-      "status": "INSTALLED · WAITING · FOR · API · KEY",
+      "status": "READY · SHADOW",
       "tone": "warning"
     }
   ],
   "decision_coprocessor": {
     "provider": "TypeSafe",
     "product": "Jev",
-    "status": "INSTALLED_WAITING_FOR_API_KEY",
+    "status": "READY_SHADOW",
     "mode": "SHADOW",
     "model": "jev-latest"
   },

@@ -31,6 +31,11 @@
       "time": "05 Oct",
       "title": "Jev Decision Coprocessor installed",
       "detail": "เพิ่ม bounded System-One decision layer ใต้ RDC Orchestrator สำหรับ Agent / Skill / Retry / Model routing และ advisory DONE; เริ่มใน SHADOW mode พร้อม hard-policy precedence."
+    },
+    {
+      "time": "05 Oct",
+      "title": "Jev live connection verified",
+      "detail": "API key เก็บใน Windows Credential Manager; models endpoint ผ่าน; smoke test 5 decisions ได้ 4/5 agreement, avg latency 419.54 ms, p95 451.4 ms. DONE signal ยังไม่ตรง baseline จึงคง SHADOW mode ตาม policy."
     }
   ],
   "candidates": [
