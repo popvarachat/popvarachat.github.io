@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-executive-web-v2",
-  "generated_at_utc": "2026-10-06T03:16:29.325952+00:00",
+  "generated_at_utc": "2026-10-06T04:20:04.206211+00:00",
   "system": {
     "name": "GOLD / BTCUSD Multi-Agent Trading Intelligence",
     "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
@@ -21,7 +21,7 @@
       "source_quality": "GOOD",
       "data_valid": true,
       "regime": {
-        "confidence": 0.7893868409183502,
+        "confidence": 0.7801584110787348,
         "label": "RANGE",
         "momentum_alignment": -0.5,
         "transition_warning": false,
@@ -29,13 +29,13 @@
         "volatility_level": "LOW"
       },
       "aggregate": {
-        "liquidity_score": 0.8912868834679486,
+        "liquidity_score": 0.8956167303088745,
         "momentum_alignment": -0.5,
-        "momentum_score": 0.011227710741996428,
+        "momentum_score": 0.036040596051952756,
         "trend_alignment": 0.0,
-        "trend_score": 0.08129870549020735,
-        "trend_strength": 0.21061315908164974,
-        "volatility_score": 0.171011289126727
+        "trend_score": 0.08989285475603866,
+        "trend_strength": 0.21984158892126518,
+        "volatility_score": 0.16097877530581667
       },
       "signal": {
         "session": "ASIA",
@@ -103,13 +103,13 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.3094311304740985,
-            "confidence": 0.6950730452102372,
-            "risk_score": 0.4269550801070272,
-            "state_fit": 0.5256230961670469,
+            "ev_score": 0.3178148342775963,
+            "confidence": 0.6979591180564392,
+            "risk_score": 0.42244044888761756,
+            "state_fit": 0.5283499005021095,
             "notes": [
-              "family_fit=0.685",
-              "directional_edge=0.050",
+              "family_fit=0.679",
+              "directional_edge=0.066",
               "news_risk=LOW",
               "source_quality=GOOD"
             ],
@@ -122,13 +122,13 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.27115689233919305,
-            "confidence": 0.6950730452102372,
-            "risk_score": 0.4269550801070272,
-            "state_fit": 0.5256230961670469,
+            "ev_score": 0.26739926431786515,
+            "confidence": 0.6979591180564392,
+            "risk_score": 0.42244044888761756,
+            "state_fit": 0.5283499005021095,
             "notes": [
-              "family_fit=0.685",
-              "directional_edge=-0.050",
+              "family_fit=0.679",
+              "directional_edge=-0.066",
               "news_risk=LOW",
               "source_quality=GOOD"
             ],
@@ -141,12 +141,12 @@
             "rationale": [
               "WAIT is always an explicit candidate."
             ],
-            "ev_score": 0.23261748782775887,
-            "confidence": 0.7782718597846987,
-            "risk_score": 0.0671011289126727,
-            "state_fit": 0.7107513345706039,
+            "ev_score": 0.22841736944359697,
+            "confidence": 0.7730217118044963,
+            "risk_score": 0.06609787753058168,
+            "state_fit": 0.6991542308002093,
             "notes": [
-              "family_fit=0.593",
+              "family_fit=0.590",
               "directional_edge=0.000",
               "news_risk=LOW",
               "source_quality=GOOD"
@@ -163,11 +163,11 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": true,
-            "adjusted_score": 0.20943113047409848,
-            "ev_score": 0.3094311304740985,
-            "confidence": 0.6950730452102372,
-            "risk_score": 0.4269550801070272,
-            "state_fit": 0.5256230961670469,
+            "adjusted_score": 0.21781483427759632,
+            "ev_score": 0.3178148342775963,
+            "confidence": 0.6979591180564392,
+            "risk_score": 0.42244044888761756,
+            "state_fit": 0.5283499005021095,
             "hard_reasons": [],
             "soft_penalties": [
               "RISK_CONTEXT_NOT_READY"
@@ -181,11 +181,11 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": true,
-            "adjusted_score": 0.17115689233919304,
-            "ev_score": 0.27115689233919305,
-            "confidence": 0.6950730452102372,
-            "risk_score": 0.4269550801070272,
-            "state_fit": 0.5256230961670469,
+            "adjusted_score": 0.16739926431786514,
+            "ev_score": 0.26739926431786515,
+            "confidence": 0.6979591180564392,
+            "risk_score": 0.42244044888761756,
+            "state_fit": 0.5283499005021095,
             "hard_reasons": [],
             "soft_penalties": [
               "RISK_CONTEXT_NOT_READY"
@@ -199,11 +199,11 @@
               "WAIT is always an explicit candidate."
             ],
             "accepted": true,
-            "adjusted_score": 0.23261748782775887,
-            "ev_score": 0.23261748782775887,
-            "confidence": 0.7782718597846987,
-            "risk_score": 0.0671011289126727,
-            "state_fit": 0.7107513345706039,
+            "adjusted_score": 0.22841736944359697,
+            "ev_score": 0.22841736944359697,
+            "confidence": 0.7730217118044963,
+            "risk_score": 0.06609787753058168,
+            "state_fit": 0.6991542308002093,
             "hard_reasons": [],
             "soft_penalties": []
           }
@@ -260,80 +260,80 @@
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 431.1,
-        "generated_at_utc": "2026-10-06T03:16:29.128941+00:00",
+        "latency_ms": 485.3,
+        "generated_at_utc": "2026-10-06T04:20:03.956479+00:00",
         "instrument": "BTCUSD",
         "agent_action": "WAIT",
         "agent_candidate": "WAIT-BASE",
-        "agent_confidence": 0.7782718597846987,
+        "agent_confidence": 0.7730217118044963,
         "jev_actionability": {
           "selected": "WAIT",
-          "confidence": 0.98,
+          "confidence": 0.97,
           "probabilities": {
+            "WAIT": 0.98,
+            "IDEA": 0.0,
             "ACTIONABLE": 0.0,
-            "ARMED": 0.01,
-            "WAIT": 0.99,
-            "IDEA": 0.0
+            "ARMED": 0.02
           },
           "raw_type": "choice"
         },
         "jev_counter_thesis": {
           "selected": "HIGH",
-          "confidence": 0.2,
+          "confidence": 0.21,
           "probabilities": {
+            "CRITICAL": 0.11,
+            "HIGH": 0.39999999999999997,
             "LOW": 0.27,
-            "CRITICAL": 0.1,
-            "MEDIUM": 0.23,
-            "HIGH": 0.4
+            "MEDIUM": 0.22
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
           "selected": "SUPPORTIVE",
-          "confidence": 0.46,
+          "confidence": 0.51,
           "probabilities": {
-            "CONFLICTING": 0.0,
-            "UNKNOWN": 0.06,
-            "NEUTRAL": 0.37,
             "HOSTILE": 0.0,
-            "SUPPORTIVE": 0.5700000000000001
+            "CONFLICTING": 0.0,
+            "SUPPORTIVE": 0.61,
+            "UNKNOWN": 0.05,
+            "NEUTRAL": 0.34
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
-          "selected": "WEAK",
-          "confidence": 0.42,
+          "selected": "INSUFFICIENT",
+          "confidence": 0.33,
           "probabilities": {
-            "STRONG": 0.0,
+            "INSUFFICIENT": 0.5,
             "ADEQUATE": 0.0,
-            "INSUFFICIENT": 0.43,
-            "WEAK": 0.5700000000000001
+            "WEAK": 0.5,
+            "STRONG": 0.0
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
           "selected": "MEDIUM",
-          "confidence": 0.32,
+          "confidence": 0.31,
           "probabilities": {
-            "LOW": 0.04,
+            "HIGH": 0.46,
+            "LOW": 0.02,
             "EXTREME": 0.03,
-            "HIGH": 0.44,
             "MEDIUM": 0.49
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.87,
+          "confidence": 0.85,
           "probabilities": {
-            "HUMAN_REVIEW": 0.09,
             "REDUCED": 0.01,
-            "WAIT": 0.9,
+            "WAIT": 0.89,
+            "HUMAN_REVIEW": 0.1,
             "NORMAL": 0.0
           },
           "raw_type": "choice"
         },
-        "system_conviction_score": 0.39,
+        "system_conviction_score": 0.34,
         "system_conviction_label": "LOW",
         "decision_stage": "WAIT_GOVERNANCE",
         "hard_risk_allowed": false,
@@ -345,15 +345,15 @@
       "action_now": {
         "action_now": "WAIT",
         "directional_thesis": "BEARISH",
-        "confidence": 0.7783,
+        "confidence": 0.773,
         "risk": "MEDIUM",
         "stage": "WAIT",
         "regime": "RANGE",
-        "trend_strength": 0.2106,
+        "trend_strength": 0.2198,
         "signal_age_bars": 0,
         "signal_age_label": "new/unknown",
         "signal_start_price": null,
-        "current_price": 85508.9,
+        "current_price": 85552.02506522,
         "move_since_signal_frac": null,
         "favorable_move_frac": null,
         "move_units": null,
@@ -361,22 +361,22 @@
         "exhaustion_risk": "UNKNOWN",
         "late_entry": false,
         "reason": "STAGE_WAIT",
-        "asof_utc": "2026-10-06T03:16:22.875282+00:00",
+        "asof_utc": "2026-10-06T04:19:55.571300+00:00",
         "execution_authority": false,
         "schema_version": "grip-action-now-v1",
         "observed_started_at_utc": "2026-10-06T03:12:51.279045+00:00",
         "observed_start_price": 85545.4,
-        "observed_runs": 2,
-        "observed_age_seconds": 218.049906,
-        "observed_move_frac": -0.0004266740233840327
+        "observed_runs": 3,
+        "observed_age_seconds": 4032.931177,
+        "observed_move_frac": 7.74450200713428e-05
       },
       "decision": {
         "action": "WAIT",
-        "adjusted_score": 0.23261748782775887,
-        "confidence": 0.7782718597846987,
+        "adjusted_score": 0.22841736944359697,
+        "confidence": 0.7730217118044963,
         "reason": "WAIT_RANKED_HIGHEST",
-        "risk_score": 0.0671011289126727,
-        "score_gap": 0.023186357353660397,
+        "risk_score": 0.06609787753058168,
+        "score_gap": 0.010602535166000654,
         "selected_candidate_id": "WAIT-BASE",
         "strategy_family": "WAIT"
       },
@@ -603,20 +603,20 @@
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 431.1,
-        "generated_at_utc": "2026-10-06T03:16:29.128941+00:00",
+        "latency_ms": 485.3,
+        "generated_at_utc": "2026-10-06T04:20:03.956479+00:00",
         "instrument": "XAUUSD",
         "agent_action": "WAIT",
         "agent_candidate": null,
         "agent_confidence": null,
         "jev_actionability": {
           "selected": "WAIT",
-          "confidence": 0.83,
+          "confidence": 0.86,
           "probabilities": {
+            "WAIT": 0.9,
             "ACTIONABLE": 0.0,
-            "ARMED": 0.11,
-            "WAIT": 0.88,
-            "IDEA": 0.01
+            "IDEA": 0.01,
+            "ARMED": 0.09
           },
           "raw_type": "choice"
         },
@@ -624,54 +624,54 @@
           "selected": "CRITICAL",
           "confidence": 0.09,
           "probabilities": {
-            "LOW": 0.29,
             "CRITICAL": 0.32,
-            "MEDIUM": 0.11,
-            "HIGH": 0.28
+            "HIGH": 0.29,
+            "LOW": 0.28,
+            "MEDIUM": 0.11
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
           "selected": "NEUTRAL",
-          "confidence": 0.24,
+          "confidence": 0.2,
           "probabilities": {
-            "CONFLICTING": 0.01,
-            "UNKNOWN": 0.28,
-            "NEUTRAL": 0.39,
-            "SUPPORTIVE": 0.32,
-            "HOSTILE": 0.0
+            "HOSTILE": 0.0,
+            "CONFLICTING": 0.02,
+            "SUPPORTIVE": 0.35,
+            "UNKNOWN": 0.27,
+            "NEUTRAL": 0.36
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
           "selected": "WEAK",
-          "confidence": 0.38,
+          "confidence": 0.41,
           "probabilities": {
-            "STRONG": 0.02,
+            "INSUFFICIENT": 0.15,
             "ADEQUATE": 0.28,
-            "INSUFFICIENT": 0.17,
-            "WEAK": 0.53
+            "WEAK": 0.55,
+            "STRONG": 0.02
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
           "selected": "MEDIUM",
-          "confidence": 0.17,
+          "confidence": 0.15,
           "probabilities": {
-            "LOW": 0.17,
-            "EXTREME": 0.15,
-            "HIGH": 0.3,
-            "MEDIUM": 0.38
+            "LOW": 0.16,
+            "EXTREME": 0.16,
+            "HIGH": 0.31,
+            "MEDIUM": 0.37
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.6,
+          "confidence": 0.62,
           "probabilities": {
-            "HUMAN_REVIEW": 0.27,
             "REDUCED": 0.02,
-            "WAIT": 0.71,
+            "WAIT": 0.72,
+            "HUMAN_REVIEW": 0.26,
             "NORMAL": 0.0
           },
           "raw_type": "choice"
@@ -696,7 +696,7 @@
         "signal_age_bars": 0,
         "signal_age_label": "new/unknown",
         "signal_start_price": null,
-        "current_price": 4128.205,
+        "current_price": 4127.655000000001,
         "move_since_signal_frac": null,
         "favorable_move_frac": null,
         "move_units": null,
@@ -704,11 +704,11 @@
         "exhaustion_risk": "UNKNOWN",
         "late_entry": false,
         "reason": "DIRECTION_NEUTRAL",
-        "asof_utc": "2026-10-06T03:16:26.637111+00:00",
+        "asof_utc": "2026-10-06T04:20:01.417119+00:00",
         "execution_authority": false,
         "schema_version": "grip-action-now-v1",
-        "observed_started_at_utc": "2026-10-06T03:16:29.331953+00:00",
-        "observed_start_price": 4128.205,
+        "observed_started_at_utc": "2026-10-06T04:20:04.213739+00:00",
+        "observed_start_price": 4127.655000000001,
         "observed_runs": 1,
         "observed_age_seconds": 0.0,
         "observed_move_frac": 0.0
