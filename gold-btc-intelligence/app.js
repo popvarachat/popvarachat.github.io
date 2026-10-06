@@ -193,9 +193,9 @@ function renderForexMajor(){
   const mt5Age=mt5.server_age_seconds==null?'—':fmt(mt5.server_age_seconds/86400,1)+'d';
   safeSet('forexSummary',
     '<div class="fx-summary-card"><span>MT5 Live Broker</span><b>'+esc(mt5State)+'</b><small>'+esc(mt5.server_connected?'server connected · read-only broker feed active':'server disconnected · last broker time age '+mt5Age)+'</small></div>'+
-    '<div class="fx-summary-card"><span>MT5 Broker Export</span><b>'+esc(mt5exp.status||'—')+' · '+esc(mt5exp.count??'—')+'/7</b><small>historical broker evidence · freshness shown per pair</small></div>'+
+    '<div class="fx-summary-card"><span>MT5 Broker Export</span><b>'+esc(mt5exp.status||'—')+' · '+esc(mt5exp.count??'—')+'/'+rows.length+'</b><small>historical broker evidence · freshness shown per asset</small></div>'+
     '<div class="fx-summary-card"><span>Macro</span><b>'+esc(FOREX.macro_health||'—')+'</b><small>DXY · US10Y · VIX · SPY</small></div>'+
-    '<div class="fx-summary-card"><span>CFTC COT</span><b>'+esc(cot.status||'—')+' · '+esc(cot.count??'—')+'/7</b><small>TFF Futures Only · positioning</small></div>'+
+    '<div class="fx-summary-card"><span>CFTC COT</span><b>'+esc(cot.status||'—')+' · '+esc(cot.count??'—')+'/'+rows.length+'</b><small>FX: TFF · GOLD: Disaggregated Futures Only</small></div>'+
     '<div class="fx-summary-card"><span>JEV Shadow</span><b>'+esc(FOREX.jev?.model||'—')+'</b><small>'+trend.length+' TREND_WATCH · '+waits.length+' WAIT</small></div>'+
     '<div class="fx-summary-card"><span>Action Now</span><b>'+rows.filter(x=>['STRONG_BUY','BUY'].includes(x.action_now?.action_now)).length+' Buy-side · '+rows.filter(x=>['STRONG_SELL','SELL'].includes(x.action_now?.action_now)).length+' Sell-side</b><small>'+rows.filter(x=>x.action_now?.action_now==='WAIT').length+' WAIT</small></div>'
   );
@@ -204,7 +204,7 @@ function renderForexMajor(){
     const pub=x.public_reference||{}, cot=x.cot||{}, broker=x.broker||{}, bh=x.broker_historical||{};
     const spread=broker.quote?.spread;
     return '<tr>'+
-      '<td><b>'+esc(x.pair)+'</b><small>'+esc(x.quality||'—')+' · '+esc(x.authority||'—')+'</small></td>'+
+      '<td><b>'+esc(x.pair)+'</b><small>'+(x.pair==='XAUUSD'?'GOLD / GOLDmicro · ':'')+esc(x.quality||'—')+' · '+esc(x.authority||'—')+'</small></td>'+
       '<td><b>'+fmt(x.current_reference,5)+'</b><small>'+esc(broker.broker_symbol||pub.source_symbol||'—')+'</small></td>'+
       '<td>'+actionNowCell(x.action_now)+'</td>'+
       '<td>'+lifecycleCell(x.action_now)+'</td>'+
