@@ -1,29 +1,29 @@
 {
   "schema_version": "grip-portal-workflow-v1",
-  "generated_at_utc": "2026-10-06T04:20:04.324795+00:00",
+  "generated_at_utc": "2026-10-06T07:00:30.433454+00:00",
   "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
   "execution_enabled": false,
-  "overall_status": "FAILED",
+  "overall_status": "BLOCKED",
   "layers": {
     "data_input": {
-      "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T04:20:02.343734+00:00",
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-10-06T07:00:26.969021+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
-        "XAUUSD": "COMPLETE"
+        "XAUUSD": "DEGRADED"
       }
     },
     "preprocess_feature": {
-      "status": "FAILED",
-      "updated_at_utc": "2026-10-06T04:20:02.678763+00:00",
+      "status": "DEGRADED",
+      "updated_at_utc": "2026-10-06T07:00:27.375540+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
-        "XAUUSD": "FAILED"
+        "XAUUSD": "DEGRADED"
       }
     },
     "multi_agent_core": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T04:20:02.925768+00:00",
+      "updated_at_utc": "2026-10-06T07:00:27.962615+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -31,23 +31,23 @@
     },
     "jev_shadow": {
       "status": "WAIT",
-      "updated_at_utc": "2026-10-06T04:20:03.956479+00:00",
+      "updated_at_utc": "2026-10-06T07:00:29.431065+00:00",
       "instrument_states": {
         "BTCUSD": "WAIT",
         "XAUUSD": "WAIT"
       }
     },
     "decision_risk_control": {
-      "status": "WAIT",
-      "updated_at_utc": "2026-10-06T04:20:03.157178+00:00",
+      "status": "BLOCKED",
+      "updated_at_utc": "2026-10-06T07:00:28.365129+00:00",
       "instrument_states": {
         "BTCUSD": "WAIT",
-        "XAUUSD": "WAIT"
+        "XAUUSD": "BLOCKED"
       }
     },
     "executive_output": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T04:20:04.324795+00:00",
+      "updated_at_utc": "2026-10-06T07:00:30.433454+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -62,7 +62,7 @@
         "data_input": {
           "status": "COMPLETE",
           "summary": "quality=GOOD",
-          "updated_at_utc": "2026-10-06T04:20:02.343734+00:00",
+          "updated_at_utc": "2026-10-06T07:00:26.969021+00:00",
           "details": {
             "authority": "PUBLIC_MARKET_DATA",
             "failed_sources": [],
@@ -73,19 +73,19 @@
         "preprocess_feature": {
           "status": "COMPLETE",
           "summary": "regime=RANGE",
-          "updated_at_utc": "2026-10-06T04:20:02.678763+00:00",
+          "updated_at_utc": "2026-10-06T07:00:27.375540+00:00",
           "details": {
             "source_quality": "GOOD",
             "data_valid": true,
             "regime": "RANGE",
-            "regime_confidence": 0.7801584110787348,
+            "regime_confidence": 0.69638622093679,
             "risk_ready": false
           }
         },
         "multi_agent_core": {
           "status": "COMPLETE",
           "summary": "3/3 candidates eligible",
-          "updated_at_utc": "2026-10-06T04:20:02.925768+00:00",
+          "updated_at_utc": "2026-10-06T07:00:27.962615+00:00",
           "details": {
             "candidate_count": 3,
             "accepted_count": 3,
@@ -99,27 +99,27 @@
         },
         "jev_shadow": {
           "status": "WAIT",
-          "summary": "WAIT · conviction=LOW",
-          "updated_at_utc": "2026-10-06T04:20:03.956479+00:00",
+          "summary": "WAIT · conviction=MEDIUM",
+          "updated_at_utc": "2026-10-06T07:00:29.431065+00:00",
           "details": {
             "mode": "SHADOW",
             "execution_authority": false,
             "model": "jev-1.13.0",
-            "latency_ms": 485.3,
+            "latency_ms": 561.5,
             "decision_stage": "WAIT_GOVERNANCE",
             "actionability": "WAIT",
-            "counter_thesis": "HIGH",
-            "evidence_quality": "INSUFFICIENT",
+            "counter_thesis": "LOW",
+            "evidence_quality": "WEAK",
             "uncertainty": "MEDIUM",
             "risk_posture": "WAIT",
-            "system_conviction_score": 0.34,
-            "system_conviction_label": "LOW"
+            "system_conviction_score": 0.51,
+            "system_conviction_label": "MEDIUM"
           }
         },
         "decision_risk_control": {
           "status": "WAIT",
           "summary": "WAIT -> WAIT",
-          "updated_at_utc": "2026-10-06T04:20:03.157178+00:00",
+          "updated_at_utc": "2026-10-06T07:00:28.365129+00:00",
           "details": {
             "selected_candidate_id": "WAIT-BASE",
             "decision_action": "WAIT",
@@ -135,7 +135,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-06T04:20:04.324795+00:00",
+          "updated_at_utc": "2026-10-06T07:00:30.433454+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
@@ -145,72 +145,81 @@
     },
     {
       "instrument": "XAUUSD",
-      "overall_status": "FAILED",
+      "overall_status": "BLOCKED",
       "layers": {
         "data_input": {
-          "status": "COMPLETE",
-          "summary": "quality=GOOD",
-          "updated_at_utc": "2026-10-06T04:20:02.343734+00:00",
+          "status": "DEGRADED",
+          "summary": "quality=DEGRADED",
+          "updated_at_utc": "2026-10-06T07:00:26.969021+00:00",
           "details": {
-            "authority": "BROKER_EXECUTION_REFERENCE",
-            "failed_sources": [],
+            "authority": "REFERENCE_ONLY_NOT_EXECUTABLE",
+            "failed_sources": [
+              "MT5"
+            ],
             "sources_ok": 4,
-            "sources_total": 4
+            "sources_total": 5
           }
         },
         "preprocess_feature": {
-          "status": "FAILED",
-          "summary": "regime=RANGE",
-          "updated_at_utc": "2026-10-06T04:20:02.678763+00:00",
+          "status": "DEGRADED",
+          "summary": "regime=BEAR_TREND",
+          "updated_at_utc": "2026-10-06T07:00:27.375540+00:00",
           "details": {
-            "source_quality": "GOOD",
-            "data_valid": false,
-            "regime": "RANGE",
-            "regime_confidence": 1.0,
+            "source_quality": "DEGRADED",
+            "data_valid": true,
+            "regime": "BEAR_TREND",
+            "regime_confidence": 0.5681472476894709,
             "risk_ready": false
           }
         },
         "multi_agent_core": {
           "status": "COMPLETE",
-          "summary": "0/3 candidates eligible",
-          "updated_at_utc": "2026-10-06T04:20:02.925768+00:00",
+          "summary": "3/3 candidates eligible",
+          "updated_at_utc": "2026-10-06T07:00:27.962615+00:00",
           "details": {
             "candidate_count": 3,
-            "accepted_count": 0,
-            "accepted_ids": [],
-            "endgame_plan_count": 0
+            "accepted_count": 3,
+            "accepted_ids": [
+              "SELL-PULLBACK",
+              "SELL-BREAKDOWN",
+              "WAIT-BASE"
+            ],
+            "endgame_plan_count": 3
           }
         },
         "jev_shadow": {
           "status": "WAIT",
           "summary": "WAIT · conviction=LOW",
-          "updated_at_utc": "2026-10-06T04:20:03.956479+00:00",
+          "updated_at_utc": "2026-10-06T07:00:29.431065+00:00",
           "details": {
             "mode": "SHADOW",
             "execution_authority": false,
             "model": "jev-1.13.0",
-            "latency_ms": 485.3,
+            "latency_ms": 561.5,
             "decision_stage": "WAIT_GOVERNANCE",
             "actionability": "WAIT",
             "counter_thesis": "CRITICAL",
             "evidence_quality": "WEAK",
-            "uncertainty": "MEDIUM",
+            "uncertainty": "HIGH",
             "risk_posture": "WAIT",
-            "system_conviction_score": 0.33,
+            "system_conviction_score": 0.26,
             "system_conviction_label": "LOW"
           }
         },
         "decision_risk_control": {
-          "status": "WAIT",
-          "summary": "WAIT -> WAIT",
-          "updated_at_utc": "2026-10-06T04:20:03.157178+00:00",
+          "status": "BLOCKED",
+          "summary": "SELL -> WAIT",
+          "updated_at_utc": "2026-10-06T07:00:28.365129+00:00",
           "details": {
-            "selected_candidate_id": null,
-            "decision_action": "WAIT",
-            "decision_reason": "NO_ELIGIBLE_CANDIDATE",
+            "selected_candidate_id": "SELL-PULLBACK",
+            "decision_action": "SELL",
+            "decision_reason": "DIRECTIONAL_CANDIDATE_SELECTED",
             "risk_allowed": false,
             "risk_reasons": [
-              "DECISION:NO_ELIGIBLE_CANDIDATE"
+              "ACCOUNT_STATE_UNAVAILABLE",
+              "BROKER_QUOTE_UNAVAILABLE",
+              "RISK_SNAPSHOT_NOT_READY",
+              "SOURCE_QUALITY_NOT_GOOD"
             ],
             "final_action": "WAIT",
             "proposed_volume": null
@@ -219,7 +228,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-06T04:20:04.324795+00:00",
+          "updated_at_utc": "2026-10-06T07:00:30.433454+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
