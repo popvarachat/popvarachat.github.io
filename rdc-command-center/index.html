@@ -46,9 +46,9 @@
   <section id="live-monitor" class="section live-monitor-section">
     <div class="section-head">
       <div><span class="kicker">LIVE EXECUTION MONITOR</span><h2>ตอนนี้ใครกำลังทำอะไร อยู่ขั้นตอนไหน</h2></div>
-      <span id="liveMonitorBadge" class="badge ghost">CONNECTING</span>
+      <div class="live-head-actions"><span id="liveMonitorBadge" class="badge ghost">CONNECTING</span><a class="secondary local-live-link" href="http://127.0.0.1:8876/view" target="_blank" rel="noopener">Local Live 1s ↗</a></div>
     </div>
-    <p class="section-intro">แสดงเฉพาะงานที่เข้า RDC trace แล้วเท่านั้น. ขั้นตรวจสอบของแพลตฟอร์ม ChatGPT ก่อน RDC เริ่มทำงานจะไม่ปรากฏที่นี่.</p>
+    <p class="section-intro">แสดงเฉพาะงานที่เข้า RDC trace แล้วเท่านั้น. หน้า GitHub ใช้ snapshot fallback ไม่เกินประมาณ 30 วินาที; ถ้าอยู่เครื่อง RDC ให้กด <b>Local Live 1s</b> เพื่อดูตรงจากเครื่องโดยไม่เรียก GitHub. ขั้นตรวจสอบของแพลตฟอร์ม ChatGPT ก่อน RDC เริ่มทำงานจะไม่ปรากฏที่นี่.</p>
     <div class="live-monitor-grid">
       <article class="live-primary">
         <div class="live-head"><div><span class="live-label">CURRENT WORKSTREAM</span><h3 id="liveWorkstream">No active RDC trace</h3></div><div class="live-state" id="liveState">IDLE</div></div>
