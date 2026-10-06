@@ -1,6 +1,6 @@
 {
-  "schema_version": "grip-forex-major-intelligence-v2",
-  "generated_at_utc": "2026-10-06T02:51:45.161222+00:00",
+  "schema_version": "grip-forex-major-intelligence-v3",
+  "generated_at_utc": "2026-10-06T03:17:04.332703+00:00",
   "mode": "RESEARCH_ONLY",
   "execution_enabled": false,
   "source_architecture": [
@@ -44,9 +44,9 @@
     "mode": "SHADOW",
     "execution_authority": false,
     "model": "jev-1.13.0",
-    "latency_ms": 485.2,
+    "latency_ms": 521.1,
     "usage": {
-      "input_tokens": 19263,
+      "input_tokens": 19302,
       "output_tokens": 1041
     }
   },
@@ -69,7 +69,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "AUDUSDmicro age=10.41d"
+          "detail": "AUDUSDmicro age=10.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -87,14 +87,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 0.6969,
+      "current_reference": 0.6973499999999999,
       "broker": {
         "broker_symbol": "AUDUSD",
         "quote": {
-          "bid": 0.69683,
-          "ask": 0.69697,
-          "spread": 0.000140000000000029,
-          "broker_time": "2026-10-06T05:51:16"
+          "bid": 0.69729,
+          "ask": 0.69741,
+          "spread": 0.00012000000000000899,
+          "broker_time": "2026-10-06T06:16:23"
         },
         "symbol_spec": {
           "selected": true,
@@ -134,11 +134,11 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:16",
-          "bid": 0.69683,
+          "update_time": "2026-10-06T06:16:23",
+          "bid": 0.69729,
           "bid_high": 0.69731,
           "bid_low": 0.69602,
-          "ask": 0.69697,
+          "ask": 0.69741,
           "ask_high": 0.6984,
           "ask_low": 0.69636,
           "price_open": 0.69704,
@@ -149,9 +149,9 @@
         },
         "timeframe_counts": {
           "M1": 1439,
-          "M5": 359,
+          "M5": 364,
           "M15": 288,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -160,7 +160,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\AUDUSDmicro_M5_202505231805_202609252355.csv",
         "broker_symbol": "AUDUSDmicro",
         "last_broker_time": "2026-09-25T23:55:00",
-        "age_days": 10.41,
+        "age_days": 10.43,
         "bars_used": 5000,
         "last_close": 0.70225,
         "spread_points_latest": 26.0,
@@ -196,15 +196,15 @@
       },
       "public_reference": {
         "source_symbol": "AUDUSD=X",
-        "asof_utc": "2026-10-06T02:50:50+00:00",
-        "return_1d": 0.002841590138133787,
-        "return_5d": -0.0063915019647340365,
-        "return_1m": -0.03258506638342018,
-        "return_3m": 0.005082932899803216,
-        "volatility_20d_ann": 0.06014124519134396
+        "asof_utc": "2026-10-06T03:16:51+00:00",
+        "return_1d": 0.003471177863205055,
+        "return_5d": -0.005767710809639004,
+        "return_1m": -0.03197771964666196,
+        "return_3m": 0.005713927748297154,
+        "volatility_20d_ann": 0.06078117511826955
       },
       "regime": "TRANSITION",
-      "trend_strength": 0.1668,
+      "trend_strength": 0.1658,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -226,10 +226,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -267,35 +267,63 @@
       "jev_shadow": {
         "stage": {
           "selected": "TREND_WATCH",
-          "confidence": 0.31,
+          "confidence": 0.29,
           "probabilities": {
-            "AVOID": 0.0,
-            "WAIT": 0.38,
+            "WAIT": 0.39,
             "MEAN_REVERSION_WATCH": 0.14,
-            "TREND_WATCH": 0.48
+            "AVOID": 0.0,
+            "TREND_WATCH": 0.47
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 0.4,
+          "confidence": 0.15,
           "probabilities": {
-            "BULLISH": 0.19,
-            "BEARISH": 0.61,
-            "NEUTRAL": 0.2
+            "NEUTRAL": 0.25,
+            "BEARISH": 0.44,
+            "BULLISH": 0.31
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.59,
+          "confidence": 0.58,
           "probabilities": {
-            "MEDIUM": 0.73,
-            "HIGH": 0.19,
-            "LOW": 0.08
+            "LOW": 0.08,
+            "HIGH": 0.2,
+            "MEDIUM": 0.72
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.15,
+        "risk": "MEDIUM",
+        "stage": "TREND_WATCH",
+        "regime": "TRANSITION",
+        "trend_strength": 0.1658,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 0.6973499999999999,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "CONFIDENCE_OR_ALIGNMENT_INSUFFICIENT",
+        "asof_utc": "2026-10-06T06:16:23",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:09.023968+00:00",
+        "observed_start_price": 0.6969,
+        "observed_runs": 2,
+        "observed_age_seconds": 235.3,
+        "observed_move_frac": 0.0006457167455875545
       }
     },
     {
@@ -316,7 +344,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "NZDUSDmicro age=10.41d"
+          "detail": "NZDUSDmicro age=10.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -334,14 +362,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 0.55986,
+      "current_reference": 0.5599700000000001,
       "broker": {
         "broker_symbol": "NZDUSD",
         "quote": {
-          "bid": 0.5598,
-          "ask": 0.55992,
+          "bid": 0.55991,
+          "ask": 0.56003,
           "spread": 0.00012000000000000899,
-          "broker_time": "2026-10-06T05:51:17"
+          "broker_time": "2026-10-06T06:16:34"
         },
         "symbol_spec": {
           "selected": true,
@@ -381,13 +409,13 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:17",
-          "bid": 0.5598,
+          "update_time": "2026-10-06T06:16:34",
+          "bid": 0.55991,
           "bid_high": 0.56053,
           "bid_low": 0.55887,
-          "ask": 0.55992,
+          "ask": 0.56003,
           "ask_high": 0.56189,
-          "ask_low": 0.55947,
+          "ask_low": 0.55938,
           "price_open": 0.56032,
           "price_close": 0.55983,
           "trade_mode_name": "full",
@@ -396,9 +424,9 @@
         },
         "timeframe_counts": {
           "M1": 1438,
-          "M5": 359,
+          "M5": 364,
           "M15": 288,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -407,7 +435,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\NZDUSDmicro_M5_202505230750_202609252355.csv",
         "broker_symbol": "NZDUSDmicro",
         "last_broker_time": "2026-09-25T23:55:00",
-        "age_days": 10.41,
+        "age_days": 10.43,
         "bars_used": 5000,
         "last_close": 0.56613,
         "spread_points_latest": 32.0,
@@ -443,15 +471,15 @@
       },
       "public_reference": {
         "source_symbol": "NZDUSD=X",
-        "asof_utc": "2026-10-06T02:50:50+00:00",
-        "return_1d": -0.0030184767234454624,
-        "return_5d": -0.011150214854253826,
-        "return_1m": -0.04802864877789803,
-        "return_3m": -0.02019479428595916,
-        "volatility_20d_ann": 0.05095898379352613
+        "asof_utc": "2026-10-06T03:16:51+00:00",
+        "return_1d": -0.0028510370542502717,
+        "return_5d": -0.010984140882928428,
+        "return_1m": -0.04786876841461096,
+        "return_3m": -0.02003023932110748,
+        "volatility_20d_ann": 0.050938918479251825
       },
       "regime": "MIXED",
-      "trend_strength": 0.176,
+      "trend_strength": 0.1753,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -473,10 +501,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -514,12 +542,12 @@
       "jev_shadow": {
         "stage": {
           "selected": "WAIT",
-          "confidence": 0.45,
+          "confidence": 0.42,
           "probabilities": {
-            "AVOID": 0.0,
-            "WAIT": 0.59,
+            "WAIT": 0.56,
             "MEAN_REVERSION_WATCH": 0.16,
-            "TREND_WATCH": 0.25
+            "AVOID": 0.0,
+            "TREND_WATCH": 0.28
           },
           "raw_type": "choice"
         },
@@ -527,22 +555,50 @@
           "selected": "BEARISH",
           "confidence": 0.96,
           "probabilities": {
-            "BULLISH": 0.0,
-            "BEARISH": 0.98,
-            "NEUTRAL": 0.02
+            "NEUTRAL": 0.03,
+            "BEARISH": 0.97,
+            "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.78,
+          "confidence": 0.74,
           "probabilities": {
-            "MEDIUM": 0.85,
-            "HIGH": 0.08,
-            "LOW": 0.07
+            "HIGH": 0.11,
+            "LOW": 0.06,
+            "MEDIUM": 0.83
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.96,
+        "risk": "MEDIUM",
+        "stage": "WAIT",
+        "regime": "MIXED",
+        "trend_strength": 0.1753,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 0.5599700000000001,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "STAGE_WAIT",
+        "asof_utc": "2026-10-06T06:16:34",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:09.023968+00:00",
+        "observed_start_price": 0.55986,
+        "observed_runs": 2,
+        "observed_age_seconds": 235.3,
+        "observed_move_frac": 0.00019647769085140432
       }
     },
     {
@@ -563,7 +619,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "USDJPYmicro age=10.41d"
+          "detail": "USDJPYmicro age=10.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -581,14 +637,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 157.9625,
+      "current_reference": 157.97750000000002,
       "broker": {
         "broker_symbol": "USDJPY",
         "quote": {
-          "bid": 157.955,
-          "ask": 157.97,
-          "spread": 0.014999999999986358,
-          "broker_time": "2026-10-06T05:51:26"
+          "bid": 157.97,
+          "ask": 157.985,
+          "spread": 0.01500000000001478,
+          "broker_time": "2026-10-06T06:16:34"
         },
         "symbol_spec": {
           "selected": true,
@@ -628,11 +684,11 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:26",
-          "bid": 157.955,
-          "bid_high": 157.992,
+          "update_time": "2026-10-06T06:16:34",
+          "bid": 157.97,
+          "bid_high": 158.047,
           "bid_low": 157.763,
-          "ask": 157.97,
+          "ask": 157.985,
           "ask_high": 158.114,
           "ask_low": 157.777,
           "price_open": 157.862,
@@ -643,9 +699,9 @@
         },
         "timeframe_counts": {
           "M1": 1437,
-          "M5": 356,
+          "M5": 361,
           "M15": 287,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -654,7 +710,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\USDJPYmicro_M5_202505231750_202609252355.csv",
         "broker_symbol": "USDJPYmicro",
         "last_broker_time": "2026-09-25T23:55:00",
-        "age_days": 10.41,
+        "age_days": 10.43,
         "bars_used": 5000,
         "last_close": 157.271,
         "spread_points_latest": 28.0,
@@ -690,15 +746,15 @@
       },
       "public_reference": {
         "source_symbol": "JPY=X",
-        "asof_utc": "2026-10-06T02:51:44+00:00",
-        "return_1d": 0.0013631278322920881,
-        "return_5d": 0.0037367119145994554,
-        "return_1m": 0.01121659719160606,
-        "return_3m": -0.028239353610668094,
-        "volatility_20d_ann": 0.06233747384822329
+        "asof_utc": "2026-10-06T03:17:03+00:00",
+        "return_1d": 0.0015089112148245487,
+        "return_5d": 0.0038828408552082916,
+        "return_1m": 0.011363815090801754,
+        "return_3m": -0.028097879903373535,
+        "volatility_20d_ann": 0.06234095360524501
       },
       "regime": "MIXED",
-      "trend_strength": 0.0462,
+      "trend_strength": 0.0493,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -720,10 +776,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -761,22 +817,22 @@
       "jev_shadow": {
         "stage": {
           "selected": "WAIT",
-          "confidence": 0.52,
+          "confidence": 0.55,
           "probabilities": {
+            "WAIT": 0.67,
+            "MEAN_REVERSION_WATCH": 0.21,
             "AVOID": 0.0,
-            "WAIT": 0.65,
-            "MEAN_REVERSION_WATCH": 0.23,
             "TREND_WATCH": 0.12
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "NEUTRAL",
-          "confidence": 0.67,
+          "confidence": 0.65,
           "probabilities": {
-            "BULLISH": 0.11,
-            "BEARISH": 0.11,
-            "NEUTRAL": 0.78
+            "NEUTRAL": 0.77,
+            "BEARISH": 0.13,
+            "BULLISH": 0.1
           },
           "raw_type": "choice"
         },
@@ -784,12 +840,40 @@
           "selected": "MEDIUM",
           "confidence": 0.7,
           "probabilities": {
-            "MEDIUM": 0.8,
-            "HIGH": 0.08,
-            "LOW": 0.12
+            "HIGH": 0.11,
+            "LOW": 0.09,
+            "MEDIUM": 0.8
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "NEUTRAL",
+        "confidence": 0.65,
+        "risk": "MEDIUM",
+        "stage": "WAIT",
+        "regime": "MIXED",
+        "trend_strength": 0.0493,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 157.97750000000002,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "UNKNOWN",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "DIRECTION_NEUTRAL",
+        "asof_utc": "2026-10-06T06:16:34",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:17:04.324475+00:00",
+        "observed_start_price": 157.97750000000002,
+        "observed_runs": 1,
+        "observed_age_seconds": 0.0,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -810,7 +894,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "EURUSDmicro age=10.41d"
+          "detail": "EURUSDmicro age=10.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -828,14 +912,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 1.1214149999999998,
+      "current_reference": 1.1218650000000001,
       "broker": {
         "broker_symbol": "EURUSD",
         "quote": {
-          "bid": 1.12136,
-          "ask": 1.12147,
+          "bid": 1.12181,
+          "ask": 1.12192,
           "spread": 0.0001100000000000545,
-          "broker_time": "2026-10-06T05:51:15"
+          "broker_time": "2026-10-06T06:16:33"
         },
         "symbol_spec": {
           "selected": true,
@@ -875,11 +959,11 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:15",
-          "bid": 1.12136,
+          "update_time": "2026-10-06T06:16:33",
+          "bid": 1.12181,
           "bid_high": 1.12306,
           "bid_low": 1.12118,
-          "ask": 1.12147,
+          "ask": 1.12192,
           "ask_high": 1.12317,
           "ask_low": 1.12129,
           "price_open": 1.12183,
@@ -890,9 +974,9 @@
         },
         "timeframe_counts": {
           "M1": 1438,
-          "M5": 359,
+          "M5": 364,
           "M15": 288,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -901,7 +985,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\EURUSDmicro_M5_202505231840_202609252355.csv",
         "broker_symbol": "EURUSDmicro",
         "last_broker_time": "2026-09-25T23:55:00",
-        "age_days": 10.41,
+        "age_days": 10.43,
         "bars_used": 5000,
         "last_close": 1.13898,
         "spread_points_latest": 16.0,
@@ -937,15 +1021,15 @@
       },
       "public_reference": {
         "source_symbol": "EURUSD=X",
-        "asof_utc": "2026-10-06T02:50:50+00:00",
-        "return_1d": -0.0033314281671128487,
-        "return_5d": -0.013684765083125994,
-        "return_1m": -0.03417829891567148,
-        "return_3m": -0.017947180531659668,
-        "volatility_20d_ann": 0.03528487325802603
+        "asof_utc": "2026-10-06T03:16:51+00:00",
+        "return_1d": -0.0028841236666131698,
+        "return_5d": -0.013242107156551275,
+        "return_1m": -0.033744838479790706,
+        "return_3m": -0.017506435575622037,
+        "volatility_20d_ann": 0.03507170867328072
       },
       "regime": "MIXED",
-      "trend_strength": 0.2005,
+      "trend_strength": 0.1973,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -967,10 +1051,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1008,35 +1092,63 @@
       "jev_shadow": {
         "stage": {
           "selected": "WAIT",
-          "confidence": 0.3,
+          "confidence": 0.37,
           "probabilities": {
+            "WAIT": 0.53,
+            "MEAN_REVERSION_WATCH": 0.26,
             "AVOID": 0.0,
-            "WAIT": 0.48,
-            "MEAN_REVERSION_WATCH": 0.21,
-            "TREND_WATCH": 0.31
+            "TREND_WATCH": 0.21
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 0.58,
+          "confidence": 0.39,
           "probabilities": {
-            "BULLISH": 0.11,
-            "BEARISH": 0.72,
-            "NEUTRAL": 0.17
+            "NEUTRAL": 0.25,
+            "BEARISH": 0.6,
+            "BULLISH": 0.15
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.64,
+          "confidence": 0.51,
           "probabilities": {
-            "MEDIUM": 0.76,
-            "HIGH": 0.05,
-            "LOW": 0.19
+            "LOW": 0.3,
+            "HIGH": 0.02,
+            "MEDIUM": 0.68
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.39,
+        "risk": "MEDIUM",
+        "stage": "WAIT",
+        "regime": "MIXED",
+        "trend_strength": 0.1973,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 1.1218650000000001,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "STAGE_WAIT",
+        "asof_utc": "2026-10-06T06:16:33",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:09.023968+00:00",
+        "observed_start_price": 1.1214149999999998,
+        "observed_runs": 2,
+        "observed_age_seconds": 235.300507,
+        "observed_move_frac": 0.00040127874159012755
       }
     },
     {
@@ -1057,7 +1169,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "USDCHFmicro age=17.41d"
+          "detail": "USDCHFmicro age=17.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -1075,14 +1187,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 0.83163,
+      "current_reference": 0.831485,
       "broker": {
         "broker_symbol": "USDCHF",
         "quote": {
-          "bid": 0.83156,
-          "ask": 0.8317,
-          "spread": 0.000140000000000029,
-          "broker_time": "2026-10-06T05:51:28"
+          "bid": 0.83141,
+          "ask": 0.83156,
+          "spread": 0.00014999999999998348,
+          "broker_time": "2026-10-06T06:16:32"
         },
         "symbol_spec": {
           "selected": true,
@@ -1122,11 +1234,11 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:28",
-          "bid": 0.83156,
+          "update_time": "2026-10-06T06:16:32",
+          "bid": 0.83141,
           "bid_high": 0.83177,
           "bid_low": 0.83006,
-          "ask": 0.8317,
+          "ask": 0.83156,
           "ask_high": 0.83276,
           "ask_low": 0.83034,
           "price_open": 0.83093,
@@ -1136,10 +1248,10 @@
           "trade_calculation_mode": "forex"
         },
         "timeframe_counts": {
-          "M1": 1424,
-          "M5": 359,
+          "M1": 1439,
+          "M5": 364,
           "M15": 288,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -1148,7 +1260,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\USDCHFmicro_M5_202505161605_202609182355.csv",
         "broker_symbol": "USDCHFmicro",
         "last_broker_time": "2026-09-18T23:55:00",
-        "age_days": 17.41,
+        "age_days": 17.43,
         "bars_used": 5000,
         "last_close": 0.82181,
         "spread_points_latest": 33.0,
@@ -1184,15 +1296,15 @@
       },
       "public_reference": {
         "source_symbol": "CHF=X",
-        "asof_utc": "2026-10-06T02:51:44+00:00",
-        "return_1d": 0.004154064741625163,
-        "return_5d": -0.0002043866301331132,
-        "return_1m": 0.026693633843232645,
-        "return_3m": 0.029069638357226202,
-        "volatility_20d_ann": 0.050002791987661846
+        "asof_utc": "2026-10-06T03:17:04+00:00",
+        "return_1d": 0.0040091755929803075,
+        "return_5d": -0.0003486468988772584,
+        "return_1m": 0.026545492465579468,
+        "return_3m": 0.02892115414645291,
+        "volatility_20d_ann": 0.049904458067848004
       },
       "regime": "BULL_TREND",
-      "trend_strength": 0.0372,
+      "trend_strength": 0.0412,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -1214,10 +1326,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1255,35 +1367,63 @@
       "jev_shadow": {
         "stage": {
           "selected": "TREND_WATCH",
-          "confidence": 0.4,
+          "confidence": 0.32,
           "probabilities": {
-            "AVOID": 0.06,
-            "WAIT": 0.37,
+            "WAIT": 0.4,
             "MEAN_REVERSION_WATCH": 0.03,
-            "TREND_WATCH": 0.54
+            "AVOID": 0.08,
+            "TREND_WATCH": 0.49
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BULLISH",
-          "confidence": 0.82,
+          "confidence": 0.85,
           "probabilities": {
-            "BULLISH": 0.88,
-            "BEARISH": 0.1,
-            "NEUTRAL": 0.02
+            "NEUTRAL": 0.03,
+            "BEARISH": 0.07,
+            "BULLISH": 0.9
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "HIGH",
-          "confidence": 0.45,
+          "confidence": 0.46,
           "probabilities": {
-            "MEDIUM": 0.35,
             "HIGH": 0.63,
-            "LOW": 0.02
+            "LOW": 0.02,
+            "MEDIUM": 0.35
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BULLISH",
+        "confidence": 0.85,
+        "risk": "HIGH",
+        "stage": "TREND_WATCH",
+        "regime": "BULL_TREND",
+        "trend_strength": 0.0412,
+        "signal_age_bars": 30,
+        "signal_age_label": "30 H1 bars",
+        "signal_start_price": 0.82799,
+        "current_price": 0.831485,
+        "move_since_signal_frac": 0.004221065471805341,
+        "favorable_move_frac": 0.004221065471805341,
+        "move_units": 4.551627906976856,
+        "freshness": "OLD",
+        "exhaustion_risk": "HIGH",
+        "late_entry": true,
+        "reason": "LATE_ENTRY_OR_EXHAUSTION",
+        "asof_utc": "2026-10-06T06:16:32",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:09.027294+00:00",
+        "observed_start_price": 0.83163,
+        "observed_runs": 2,
+        "observed_age_seconds": 235.297181,
+        "observed_move_frac": -0.00017435638444973645
       }
     },
     {
@@ -1304,7 +1444,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "GBPUSDmicro age=10.41d"
+          "detail": "GBPUSDmicro age=10.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -1322,14 +1462,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 1.321515,
+      "current_reference": 1.32188,
       "broker": {
         "broker_symbol": "GBPUSD",
         "quote": {
-          "bid": 1.32145,
-          "ask": 1.32158,
-          "spread": 0.00012999999999996348,
-          "broker_time": "2026-10-06T05:51:15"
+          "bid": 1.32182,
+          "ask": 1.32194,
+          "spread": 0.00011999999999989797,
+          "broker_time": "2026-10-06T06:16:33"
         },
         "symbol_spec": {
           "selected": true,
@@ -1369,13 +1509,13 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:15",
-          "bid": 1.32145,
+          "update_time": "2026-10-06T06:16:33",
+          "bid": 1.32182,
           "bid_high": 1.32311,
           "bid_low": 1.32054,
-          "ask": 1.32158,
+          "ask": 1.32194,
           "ask_high": 1.32326,
-          "ask_low": 1.32137,
+          "ask_low": 1.3213,
           "price_open": 1.32071,
           "price_close": 1.32207,
           "trade_mode_name": "full",
@@ -1384,9 +1524,9 @@
         },
         "timeframe_counts": {
           "M1": 1438,
-          "M5": 359,
+          "M5": 364,
           "M15": 288,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -1395,7 +1535,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\GBPUSDmicro_M5_202505231625_202609252355.csv",
         "broker_symbol": "GBPUSDmicro",
         "last_broker_time": "2026-09-25T23:55:00",
-        "age_days": 10.41,
+        "age_days": 10.43,
         "bars_used": 5000,
         "last_close": 1.3244,
         "spread_points_latest": 17.0,
@@ -1431,15 +1571,15 @@
       },
       "public_reference": {
         "source_symbol": "GBPUSD=X",
-        "asof_utc": "2026-10-06T02:50:50+00:00",
-        "return_1d": -0.002074899086090265,
-        "return_5d": -0.002933837380146187,
-        "return_1m": -0.02232097265531363,
-        "return_3m": -0.013492974270552849,
-        "volatility_20d_ann": 0.045682391986214876
+        "asof_utc": "2026-10-06T03:16:51+00:00",
+        "return_1d": -0.0017714507208316244,
+        "return_5d": -0.002630650200242002,
+        "return_1m": -0.02202368070191596,
+        "return_3m": -0.013192997905593695,
+        "volatility_20d_ann": 0.04562412920461203
       },
       "regime": "BEAR_TREND",
-      "trend_strength": 0.0256,
+      "trend_strength": 0.0272,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -1461,10 +1601,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1502,35 +1642,63 @@
       "jev_shadow": {
         "stage": {
           "selected": "TREND_WATCH",
-          "confidence": 0.33,
+          "confidence": 0.3,
           "probabilities": {
-            "AVOID": 0.0,
-            "TREND_WATCH": 0.5,
+            "WAIT": 0.3,
             "MEAN_REVERSION_WATCH": 0.21,
-            "WAIT": 0.29
+            "AVOID": 0.0,
+            "TREND_WATCH": 0.49
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 0.99,
+          "confidence": 0.98,
           "probabilities": {
-            "BULLISH": 0.0,
+            "NEUTRAL": 0.01,
             "BEARISH": 0.99,
-            "NEUTRAL": 0.01
+            "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.62,
+          "confidence": 0.59,
           "probabilities": {
-            "MEDIUM": 0.75,
-            "HIGH": 0.09,
-            "LOW": 0.16
+            "LOW": 0.17,
+            "HIGH": 0.1,
+            "MEDIUM": 0.73
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "SELL",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.98,
+        "risk": "MEDIUM",
+        "stage": "TREND_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.0272,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 1.32188,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "BEARISH_ACTIONABLE",
+        "asof_utc": "2026-10-06T06:16:33",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:09.027294+00:00",
+        "observed_start_price": 1.321515,
+        "observed_runs": 2,
+        "observed_age_seconds": 235.297181,
+        "observed_move_frac": 0.0002761981513641487
       }
     },
     {
@@ -1551,7 +1719,7 @@
           "source": "MT5_BROKER_EXPORT",
           "ok": true,
           "authority": "MT5_BROKER_HISTORICAL_EXPORT",
-          "detail": "USDCADmicro age=10.41d"
+          "detail": "USDCADmicro age=10.43d"
         },
         {
           "source": "YAHOO_DAILY",
@@ -1569,14 +1737,14 @@
           "detail": "2026-09-29T00:00:00.000"
         }
       ],
-      "current_reference": 1.426505,
+      "current_reference": 1.42636,
       "broker": {
         "broker_symbol": "USDCAD",
         "quote": {
-          "bid": 1.42644,
-          "ask": 1.42657,
-          "spread": 0.00012999999999996348,
-          "broker_time": "2026-10-06T05:51:14"
+          "bid": 1.42629,
+          "ask": 1.42643,
+          "spread": 0.000140000000000029,
+          "broker_time": "2026-10-06T06:16:32"
         },
         "symbol_spec": {
           "selected": true,
@@ -1616,11 +1784,11 @@
           "volume_min": 0.01,
           "volume_max": 50,
           "volume_step": 0.01,
-          "update_time": "2026-10-06T05:51:14",
-          "bid": 1.42644,
+          "update_time": "2026-10-06T06:16:32",
+          "bid": 1.42629,
           "bid_high": 1.42682,
           "bid_low": 1.42383,
-          "ask": 1.42657,
+          "ask": 1.42643,
           "ask_high": 1.42695,
           "ask_low": 1.42549,
           "price_open": 1.42479,
@@ -1631,9 +1799,9 @@
         },
         "timeframe_counts": {
           "M1": 1438,
-          "M5": 359,
+          "M5": 364,
           "M15": 288,
-          "H1": 150,
+          "H1": 151,
           "H4": 188
         }
       },
@@ -1642,7 +1810,7 @@
         "source_file": "C:\\Users\\varachat.num\\Downloads\\USDCADmicro_M5_202505231640_202609252355.csv",
         "broker_symbol": "USDCADmicro",
         "last_broker_time": "2026-09-25T23:55:00",
-        "age_days": 10.41,
+        "age_days": 10.43,
         "bars_used": 5000,
         "last_close": 1.41395,
         "spread_points_latest": 31.0,
@@ -1678,15 +1846,15 @@
       },
       "public_reference": {
         "source_symbol": "CAD=X",
-        "asof_utc": "2026-10-06T02:51:45+00:00",
-        "return_1d": 0.0007296121330382377,
-        "return_5d": 0.006150792933394822,
-        "return_1m": 0.03112684517080333,
-        "return_3m": 0.006868060552293942,
-        "volatility_20d_ann": 0.023658067668939065
+        "asof_utc": "2026-10-06T03:17:04+00:00",
+        "return_1d": 0.000680519707305427,
+        "return_5d": 0.0061014345627827815,
+        "return_1m": 0.03107626155915244,
+        "return_3m": 0.0068186669949472645,
+        "volatility_20d_ann": 0.02368237406703364
       },
       "regime": "BULL_TREND",
-      "trend_strength": 0.0986,
+      "trend_strength": 0.0976,
       "macro": {
         "status": "GOOD",
         "sources": [
@@ -1708,10 +1876,10 @@
           }
         ],
         "dxy": {
-          "last": 102.19000244140625,
-          "change_1d": 0.0001957939984285062,
-          "change_5d": 0.008089175028180184,
-          "asof_utc": "2026-10-06T02:41:38+00:00"
+          "last": 102.19599914550781,
+          "change_1d": 0.0002544873938385983,
+          "change_5d": 0.008148331622232607,
+          "asof_utc": "2026-10-06T03:06:43+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1751,33 +1919,61 @@
           "selected": "TREND_WATCH",
           "confidence": 0.76,
           "probabilities": {
+            "WAIT": 0.12,
+            "MEAN_REVERSION_WATCH": 0.05,
             "AVOID": 0.01,
-            "WAIT": 0.11,
-            "MEAN_REVERSION_WATCH": 0.06,
             "TREND_WATCH": 0.82
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BULLISH",
-          "confidence": 0.92,
+          "confidence": 0.91,
           "probabilities": {
-            "BULLISH": 0.95,
+            "NEUTRAL": 0.03,
             "BEARISH": 0.03,
-            "NEUTRAL": 0.02
+            "BULLISH": 0.94
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.32,
+          "confidence": 0.35,
           "probabilities": {
-            "MEDIUM": 0.55,
-            "HIGH": 0.16,
-            "LOW": 0.29
+            "LOW": 0.27,
+            "HIGH": 0.17,
+            "MEDIUM": 0.5599999999999999
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "BUY",
+        "directional_thesis": "BULLISH",
+        "confidence": 0.91,
+        "risk": "MEDIUM",
+        "stage": "TREND_WATCH",
+        "regime": "BULL_TREND",
+        "trend_strength": 0.0976,
+        "signal_age_bars": 4,
+        "signal_age_label": "4 H1 bars",
+        "signal_start_price": 1.42629,
+        "current_price": 1.42636,
+        "move_since_signal_frac": 4.907837816992e-05,
+        "favorable_move_frac": 4.907837816992e-05,
+        "move_units": 0.07030129124822308,
+        "freshness": "MATURE",
+        "exhaustion_risk": "LOW",
+        "late_entry": false,
+        "reason": "BULLISH_ACTIONABLE",
+        "asof_utc": "2026-10-06T06:16:32",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:09.027294+00:00",
+        "observed_start_price": 1.426505,
+        "observed_runs": 2,
+        "observed_age_seconds": 235.298195,
+        "observed_move_frac": -0.0001016470324323171
       }
     }
   ]

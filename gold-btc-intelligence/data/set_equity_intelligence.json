@@ -1,6 +1,6 @@
 {
-  "schema_version": "grip-set-equity-intelligence-v2",
-  "generated_at_utc": "2026-10-06T02:51:50.627122+00:00",
+  "schema_version": "grip-set-equity-intelligence-v3",
+  "generated_at_utc": "2026-10-06T03:17:10.063234+00:00",
   "mode": "RESEARCH_ONLY",
   "execution_enabled": false,
   "input_contract": "TICKER_UNIVERSE_ONLY",
@@ -66,10 +66,10 @@
       "symbol": "SET:SET"
     },
     "usdthb": {
-      "last": 33.650001525878906,
-      "return_1d": 0.0035789666254364416,
-      "return_5d": 0.0014881861318036815,
-      "asof_utc": "2026-10-06T02:51:45+00:00"
+      "last": 33.63999938964844,
+      "return_1d": 0.0032806625218095853,
+      "return_5d": 0.0011905034923782587,
+      "asof_utc": "2026-10-06T03:17:05+00:00"
     },
     "us10y": {
       "last": 5.310999870300293,
@@ -78,20 +78,20 @@
       "asof_utc": "2026-10-05T12:20:00+00:00"
     },
     "brent": {
-      "last": 100.79000091552734,
-      "return_1d": 0.0046850201568269245,
-      "return_5d": -0.01754552574926327,
-      "asof_utc": "2026-10-06T02:39:48+00:00"
+      "last": 100.62000274658203,
+      "return_1d": 0.002990461051340043,
+      "return_5d": -0.019202589547037463,
+      "asof_utc": "2026-10-06T03:07:03+00:00"
     }
   },
   "jev": {
     "mode": "SHADOW",
     "execution_authority": false,
     "model": "jev-1.13.0",
-    "latency_ms": 512.2,
+    "latency_ms": 507.0,
     "usage": {
-      "input_tokens": 19657,
-      "output_tokens": 2101
+      "input_tokens": 19643,
+      "output_tokens": 2094
     }
   },
   "stocks": [
@@ -159,10 +159,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -171,22 +171,22 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.49,
+          "confidence": 0.52,
           "probabilities": {
-            "WAIT": 0.17,
-            "TREND_WATCH": 0.19,
-            "PULLBACK_WATCH": 0.6,
-            "AVOID": 0.01,
-            "MEAN_REVERSION_WATCH": 0.03
+            "MEAN_REVERSION_WATCH": 0.03,
+            "WAIT": 0.19,
+            "TREND_WATCH": 0.14,
+            "PULLBACK_WATCH": 0.63,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
@@ -194,22 +194,50 @@
           "selected": "BEARISH",
           "confidence": 0.99,
           "probabilities": {
-            "BEARISH": 1.0,
             "NEUTRAL": 0.0,
+            "BEARISH": 1.0,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.38,
+          "confidence": 0.39,
           "probabilities": {
             "MEDIUM": 0.59,
-            "LOW": 0.0,
-            "HIGH": 0.41
+            "HIGH": 0.41,
+            "LOW": 0.0
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.99,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.243,
+        "signal_age_bars": 46,
+        "signal_age_label": "46 days",
+        "signal_start_price": 374.0,
+        "current_price": 344.0,
+        "move_since_signal_frac": -0.0802139037433155,
+        "favorable_move_frac": 0.0802139037433155,
+        "move_units": 5.384615384615385,
+        "freshness": "OLD",
+        "exhaustion_risk": "HIGH",
+        "late_entry": true,
+        "reason": "LATE_ENTRY_OR_EXHAUSTION",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 344.0,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.974503,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -276,10 +304,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -288,22 +316,22 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.52,
+          "confidence": 0.5,
           "probabilities": {
+            "TREND_WATCH": 0.26,
             "WAIT": 0.09,
-            "TREND_WATCH": 0.24,
-            "PULLBACK_WATCH": 0.63,
-            "AVOID": 0.01,
-            "MEAN_REVERSION_WATCH": 0.03
+            "MEAN_REVERSION_WATCH": 0.04,
+            "PULLBACK_WATCH": 0.6,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
@@ -311,22 +339,50 @@
           "selected": "BEARISH",
           "confidence": 1.0,
           "probabilities": {
-            "BEARISH": 1.0,
             "NEUTRAL": 0.0,
+            "BEARISH": 1.0,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.74,
+          "confidence": 0.73,
           "probabilities": {
-            "MEDIUM": 0.83,
-            "LOW": 0.02,
-            "HIGH": 0.15
+            "MEDIUM": 0.82,
+            "HIGH": 0.16,
+            "LOW": 0.02
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 1.0,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.3096,
+        "signal_age_bars": 32,
+        "signal_age_label": "32 days",
+        "signal_start_price": 46.75,
+        "current_price": 43.0,
+        "move_since_signal_frac": -0.0802139037433155,
+        "favorable_move_frac": 0.0802139037433155,
+        "move_units": 5.0,
+        "freshness": "OLD",
+        "exhaustion_risk": "HIGH",
+        "late_entry": true,
+        "reason": "LATE_ENTRY_OR_EXHAUSTION",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 43.0,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.974503,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -393,10 +449,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -405,45 +461,73 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
-          "selected": "PULLBACK_WATCH",
-          "confidence": 0.2,
+          "selected": "WAIT",
+          "confidence": 0.26,
           "probabilities": {
-            "WAIT": 0.35,
             "TREND_WATCH": 0.06,
-            "PULLBACK_WATCH": 0.36,
-            "AVOID": 0.01,
-            "MEAN_REVERSION_WATCH": 0.22
+            "WAIT": 0.39999999999999997,
+            "MEAN_REVERSION_WATCH": 0.19,
+            "PULLBACK_WATCH": 0.34,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 0.84,
+          "confidence": 0.82,
           "probabilities": {
-            "BEARISH": 0.9,
-            "NEUTRAL": 0.08,
-            "BULLISH": 0.02
+            "NEUTRAL": 0.09,
+            "BEARISH": 0.88,
+            "BULLISH": 0.03
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.55,
+          "confidence": 0.52,
           "probabilities": {
-            "MEDIUM": 0.7,
-            "LOW": 0.0,
-            "HIGH": 0.3
+            "MEDIUM": 0.68,
+            "HIGH": 0.32,
+            "LOW": 0.0
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.82,
+        "risk": "MEDIUM",
+        "stage": "WAIT",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.0182,
+        "signal_age_bars": 3,
+        "signal_age_label": "3 days",
+        "signal_start_price": 41.25,
+        "current_price": 42.25,
+        "move_since_signal_frac": 0.024242424242424176,
+        "favorable_move_frac": -0.024242424242424176,
+        "move_units": 1.1199999999999999,
+        "freshness": "FRESH",
+        "exhaustion_risk": "LOW",
+        "late_entry": false,
+        "reason": "STAGE_WAIT",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 42.25,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.974503,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -510,10 +594,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -522,45 +606,73 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.37,
+          "confidence": 0.32,
           "probabilities": {
-            "WAIT": 0.21,
-            "TREND_WATCH": 0.14,
-            "PULLBACK_WATCH": 0.5,
-            "AVOID": 0.01,
-            "MEAN_REVERSION_WATCH": 0.14
+            "TREND_WATCH": 0.16,
+            "WAIT": 0.24,
+            "MEAN_REVERSION_WATCH": 0.13,
+            "PULLBACK_WATCH": 0.46,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 1.0,
+          "confidence": 0.99,
           "probabilities": {
-            "BEARISH": 1.0,
             "NEUTRAL": 0.0,
+            "BEARISH": 1.0,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.91,
+          "confidence": 0.9,
           "probabilities": {
-            "MEDIUM": 0.94,
-            "LOW": 0.03,
-            "HIGH": 0.03
+            "MEDIUM": 0.93,
+            "HIGH": 0.04,
+            "LOW": 0.03
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "SELL",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.99,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.023,
+        "signal_age_bars": 2,
+        "signal_age_label": "2 days",
+        "signal_start_price": 185.5,
+        "current_price": 184.5,
+        "move_since_signal_frac": -0.005390835579514808,
+        "favorable_move_frac": 0.005390835579514808,
+        "move_units": 0.3684210526315789,
+        "freshness": "FRESH",
+        "exhaustion_risk": "LOW",
+        "late_entry": false,
+        "reason": "BEARISH_ACTIONABLE",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 184.5,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.975519,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -627,10 +739,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -639,22 +751,22 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.44,
+          "confidence": 0.4,
           "probabilities": {
-            "WAIT": 0.22,
+            "MEAN_REVERSION_WATCH": 0.17,
+            "WAIT": 0.25,
             "TREND_WATCH": 0.05,
-            "PULLBACK_WATCH": 0.55,
-            "AVOID": 0.01,
-            "MEAN_REVERSION_WATCH": 0.17
+            "PULLBACK_WATCH": 0.52,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
@@ -662,22 +774,50 @@
           "selected": "BEARISH",
           "confidence": 0.99,
           "probabilities": {
-            "BEARISH": 0.99,
             "NEUTRAL": 0.01,
+            "BEARISH": 0.99,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.62,
+          "confidence": 0.63,
           "probabilities": {
-            "MEDIUM": 0.75,
-            "LOW": 0.0,
-            "HIGH": 0.25
+            "MEDIUM": 0.76,
+            "HIGH": 0.24,
+            "LOW": 0.0
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "SELL",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.99,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.0254,
+        "signal_age_bars": 2,
+        "signal_age_label": "2 days",
+        "signal_start_price": 236.0,
+        "current_price": 236.0,
+        "move_since_signal_frac": 0.0,
+        "favorable_move_frac": -0.0,
+        "move_units": 0.0,
+        "freshness": "FRESH",
+        "exhaustion_risk": "LOW",
+        "late_entry": false,
+        "reason": "BEARISH_ACTIONABLE",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 236.0,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.975519,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -744,10 +884,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -756,22 +896,22 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.34,
+          "confidence": 0.29,
           "probabilities": {
+            "MEAN_REVERSION_WATCH": 0.09,
             "WAIT": 0.21,
-            "TREND_WATCH": 0.22,
-            "PULLBACK_WATCH": 0.48,
-            "AVOID": 0.01,
-            "MEAN_REVERSION_WATCH": 0.08
+            "TREND_WATCH": 0.26,
+            "PULLBACK_WATCH": 0.43,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
@@ -779,22 +919,50 @@
           "selected": "BEARISH",
           "confidence": 1.0,
           "probabilities": {
-            "BEARISH": 1.0,
             "NEUTRAL": 0.0,
+            "BEARISH": 1.0,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.92,
+          "confidence": 0.9,
           "probabilities": {
-            "MEDIUM": 0.95,
-            "LOW": 0.03,
-            "HIGH": 0.02
+            "MEDIUM": 0.93,
+            "HIGH": 0.02,
+            "LOW": 0.04
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "SELL",
+        "directional_thesis": "BEARISH",
+        "confidence": 1.0,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.0166,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 148.0,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "BEARISH_ACTIONABLE",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 148.0,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.975519,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -861,10 +1029,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -873,21 +1041,21 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.76,
+          "confidence": 0.73,
           "probabilities": {
-            "WAIT": 0.09,
-            "TREND_WATCH": 0.06,
-            "PULLBACK_WATCH": 0.81,
-            "MEAN_REVERSION_WATCH": 0.03,
+            "MEAN_REVERSION_WATCH": 0.04,
+            "WAIT": 0.08,
+            "TREND_WATCH": 0.09,
+            "PULLBACK_WATCH": 0.78,
             "AVOID": 0.01
           },
           "raw_type": "choice"
@@ -896,8 +1064,8 @@
           "selected": "BEARISH",
           "confidence": 0.99,
           "probabilities": {
-            "BEARISH": 0.99,
             "NEUTRAL": 0.01,
+            "BEARISH": 0.99,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
@@ -907,11 +1075,39 @@
           "confidence": 0.91,
           "probabilities": {
             "MEDIUM": 0.94,
-            "LOW": 0.02,
-            "HIGH": 0.04
+            "HIGH": 0.03,
+            "LOW": 0.03
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.99,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.2503,
+        "signal_age_bars": 36,
+        "signal_age_label": "36 days",
+        "signal_start_price": 66.25,
+        "current_price": 62.25,
+        "move_since_signal_frac": -0.060377358490566024,
+        "favorable_move_frac": 0.060377358490566024,
+        "move_units": 3.7333333333333334,
+        "freshness": "OLD",
+        "exhaustion_risk": "HIGH",
+        "late_entry": true,
+        "reason": "LATE_ENTRY_OR_EXHAUSTION",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 62.25,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.976516,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -978,10 +1174,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -990,45 +1186,73 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "MEAN_REVERSION_WATCH",
-          "confidence": 0.95,
+          "confidence": 0.96,
           "probabilities": {
+            "MEAN_REVERSION_WATCH": 0.97,
             "WAIT": 0.02,
             "TREND_WATCH": 0.0,
-            "PULLBACK_WATCH": 0.02,
-            "AVOID": 0.0,
-            "MEAN_REVERSION_WATCH": 0.96
+            "PULLBACK_WATCH": 0.01,
+            "AVOID": 0.0
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "NEUTRAL",
-          "confidence": 0.53,
+          "confidence": 0.59,
           "probabilities": {
-            "BEARISH": 0.31,
-            "NEUTRAL": 0.6900000000000001,
+            "NEUTRAL": 0.73,
+            "BEARISH": 0.27,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
-          "selected": "MEDIUM",
-          "confidence": 0.26,
+          "selected": "LOW",
+          "confidence": 0.29,
           "probabilities": {
-            "MEDIUM": 0.51,
-            "LOW": 0.49,
-            "HIGH": 0.0
+            "MEDIUM": 0.47,
+            "HIGH": 0.0,
+            "LOW": 0.53
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "NEUTRAL",
+        "confidence": 0.59,
+        "risk": "LOW",
+        "stage": "MEAN_REVERSION_WATCH",
+        "regime": "RANGE",
+        "trend_strength": 0.0908,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 188.5,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "UNKNOWN",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "DIRECTION_NEUTRAL",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:17:10.055230+00:00",
+        "observed_start_price": 188.5,
+        "observed_runs": 1,
+        "observed_age_seconds": 0.0,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -1095,10 +1319,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1107,22 +1331,22 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.53,
+          "confidence": 0.48,
           "probabilities": {
-            "WAIT": 0.16,
-            "TREND_WATCH": 0.17,
-            "PULLBACK_WATCH": 0.64,
-            "AVOID": 0.0,
-            "MEAN_REVERSION_WATCH": 0.03
+            "MEAN_REVERSION_WATCH": 0.04,
+            "WAIT": 0.17,
+            "TREND_WATCH": 0.21,
+            "PULLBACK_WATCH": 0.57,
+            "AVOID": 0.01
           },
           "raw_type": "choice"
         },
@@ -1130,22 +1354,50 @@
           "selected": "BEARISH",
           "confidence": 0.99,
           "probabilities": {
-            "BEARISH": 1.0,
             "NEUTRAL": 0.0,
+            "BEARISH": 1.0,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.75,
+          "confidence": 0.76,
           "probabilities": {
             "MEDIUM": 0.84,
-            "LOW": 0.0,
-            "HIGH": 0.16
+            "HIGH": 0.16,
+            "LOW": 0.0
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.99,
+        "risk": "MEDIUM",
+        "stage": "PULLBACK_WATCH",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.1351,
+        "signal_age_bars": 10,
+        "signal_age_label": "10 days",
+        "signal_start_price": 15.300000190734863,
+        "current_price": 14.800000190734863,
+        "move_since_signal_frac": -0.03267973815469505,
+        "favorable_move_frac": 0.03267973815469505,
+        "move_units": 1.4,
+        "freshness": "OLD",
+        "exhaustion_risk": "MEDIUM",
+        "late_entry": true,
+        "reason": "LATE_ENTRY_OR_EXHAUSTION",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 14.800000190734863,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.976516,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -1212,10 +1464,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1224,45 +1476,73 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "PULLBACK_WATCH",
-          "confidence": 0.48,
+          "confidence": 0.5,
           "probabilities": {
-            "WAIT": 0.22,
-            "TREND_WATCH": 0.19,
-            "PULLBACK_WATCH": 0.59,
-            "AVOID": 0.0,
-            "MEAN_REVERSION_WATCH": 0.0
+            "MEAN_REVERSION_WATCH": 0.0,
+            "WAIT": 0.24,
+            "TREND_WATCH": 0.16,
+            "PULLBACK_WATCH": 0.6,
+            "AVOID": 0.0
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BULLISH",
-          "confidence": 0.36,
+          "confidence": 0.27,
           "probabilities": {
-            "BEARISH": 0.03,
-            "NEUTRAL": 0.4,
-            "BULLISH": 0.57
+            "NEUTRAL": 0.44,
+            "BEARISH": 0.04,
+            "BULLISH": 0.52
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "HIGH",
-          "confidence": 0.77,
+          "confidence": 0.78,
           "probabilities": {
-            "MEDIUM": 0.16,
-            "LOW": 0.0,
-            "HIGH": 0.84
+            "MEDIUM": 0.15,
+            "HIGH": 0.85,
+            "LOW": 0.0
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BULLISH",
+        "confidence": 0.27,
+        "risk": "HIGH",
+        "stage": "PULLBACK_WATCH",
+        "regime": "TRANSITION",
+        "trend_strength": 0.2432,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 49.0,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "HIGH_RISK",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 49.0,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.976516,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -1329,10 +1609,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1341,45 +1621,73 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "WAIT",
-          "confidence": 0.39,
+          "confidence": 0.41,
           "probabilities": {
-            "WAIT": 0.51,
-            "TREND_WATCH": 0.15,
-            "PULLBACK_WATCH": 0.06,
-            "MEAN_REVERSION_WATCH": 0.27,
+            "MEAN_REVERSION_WATCH": 0.23,
+            "WAIT": 0.52,
+            "TREND_WATCH": 0.17,
+            "PULLBACK_WATCH": 0.07,
             "AVOID": 0.01
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 0.92,
+          "confidence": 0.94,
           "probabilities": {
-            "BEARISH": 0.95,
-            "NEUTRAL": 0.05,
+            "NEUTRAL": 0.04,
+            "BEARISH": 0.96,
             "BULLISH": 0.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "LOW",
-          "confidence": 0.93,
+          "confidence": 0.87,
           "probabilities": {
-            "MEDIUM": 0.05,
-            "LOW": 0.95,
-            "HIGH": 0.0
+            "MEDIUM": 0.09,
+            "HIGH": 0.0,
+            "LOW": 0.91
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.94,
+        "risk": "LOW",
+        "stage": "WAIT",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.1028,
+        "signal_age_bars": 0,
+        "signal_age_label": "new/unknown",
+        "signal_start_price": null,
+        "current_price": 12.0,
+        "move_since_signal_frac": null,
+        "favorable_move_frac": null,
+        "move_units": null,
+        "freshness": "NEW_OBSERVATION",
+        "exhaustion_risk": "UNKNOWN",
+        "late_entry": false,
+        "reason": "STAGE_WAIT",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.078714+00:00",
+        "observed_start_price": 12.0,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.977516,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -1446,10 +1754,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1458,10 +1766,10 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
@@ -1469,10 +1777,10 @@
           "selected": "TREND_WATCH",
           "confidence": 1.0,
           "probabilities": {
-            "WAIT": 0.0,
-            "PULLBACK_WATCH": 0.0,
             "TREND_WATCH": 1.0,
+            "WAIT": 0.0,
             "MEAN_REVERSION_WATCH": 0.0,
+            "PULLBACK_WATCH": 0.0,
             "AVOID": 0.0
           },
           "raw_type": "choice"
@@ -1481,22 +1789,50 @@
           "selected": "BULLISH",
           "confidence": 0.99,
           "probabilities": {
-            "BEARISH": 0.0,
             "NEUTRAL": 0.0,
+            "BEARISH": 0.0,
             "BULLISH": 1.0
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.48,
+          "confidence": 0.41,
           "probabilities": {
-            "MEDIUM": 0.66,
-            "LOW": 0.28,
-            "HIGH": 0.06
+            "MEDIUM": 0.6,
+            "HIGH": 0.05,
+            "LOW": 0.35
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BULLISH",
+        "confidence": 0.99,
+        "risk": "MEDIUM",
+        "stage": "TREND_WATCH",
+        "regime": "BULL_TREND",
+        "trend_strength": 0.3725,
+        "signal_age_bars": 76,
+        "signal_age_label": "76 days",
+        "signal_start_price": 8.600000381469727,
+        "current_price": 11.5,
+        "move_since_signal_frac": 0.3372092430110647,
+        "favorable_move_frac": 0.3372092430110647,
+        "move_units": 8.826090553083718,
+        "freshness": "OLD",
+        "exhaustion_risk": "HIGH",
+        "late_entry": true,
+        "reason": "LATE_ENTRY_OR_EXHAUSTION",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.081806+00:00",
+        "observed_start_price": 11.5,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.974424,
+        "observed_move_frac": 0.0
       }
     },
     {
@@ -1563,10 +1899,10 @@
           "symbol": "SET:SET"
         },
         "usdthb": {
-          "last": 33.650001525878906,
-          "return_1d": 0.0035789666254364416,
-          "return_5d": 0.0014881861318036815,
-          "asof_utc": "2026-10-06T02:51:45+00:00"
+          "last": 33.63999938964844,
+          "return_1d": 0.0032806625218095853,
+          "return_5d": 0.0011905034923782587,
+          "asof_utc": "2026-10-06T03:17:05+00:00"
         },
         "us10y": {
           "last": 5.310999870300293,
@@ -1575,45 +1911,73 @@
           "asof_utc": "2026-10-05T12:20:00+00:00"
         },
         "brent": {
-          "last": 100.79000091552734,
-          "return_1d": 0.0046850201568269245,
-          "return_5d": -0.01754552574926327,
-          "asof_utc": "2026-10-06T02:39:48+00:00"
+          "last": 100.62000274658203,
+          "return_1d": 0.002990461051340043,
+          "return_5d": -0.019202589547037463,
+          "asof_utc": "2026-10-06T03:07:03+00:00"
         }
       },
       "jev_shadow": {
         "stage": {
           "selected": "WAIT",
-          "confidence": 0.32,
+          "confidence": 0.31,
           "probabilities": {
-            "WAIT": 0.46,
-            "TREND_WATCH": 0.27,
-            "PULLBACK_WATCH": 0.12,
-            "AVOID": 0.0,
-            "MEAN_REVERSION_WATCH": 0.15
+            "TREND_WATCH": 0.24,
+            "WAIT": 0.45,
+            "MEAN_REVERSION_WATCH": 0.17,
+            "PULLBACK_WATCH": 0.14,
+            "AVOID": 0.0
           },
           "raw_type": "choice"
         },
         "thesis": {
           "selected": "BEARISH",
-          "confidence": 0.89,
+          "confidence": 0.85,
           "probabilities": {
-            "BEARISH": 0.92,
-            "NEUTRAL": 0.07,
+            "NEUTRAL": 0.09,
+            "BEARISH": 0.9,
             "BULLISH": 0.01
           },
           "raw_type": "choice"
         },
         "risk": {
           "selected": "MEDIUM",
-          "confidence": 0.54,
+          "confidence": 0.55,
           "probabilities": {
-            "MEDIUM": 0.69,
-            "LOW": 0.31,
-            "HIGH": 0.0
+            "MEDIUM": 0.7,
+            "HIGH": 0.0,
+            "LOW": 0.3
           },
           "raw_type": "choice"
         }
+      },
+      "action_now": {
+        "action_now": "WAIT",
+        "directional_thesis": "BEARISH",
+        "confidence": 0.85,
+        "risk": "MEDIUM",
+        "stage": "WAIT",
+        "regime": "BEAR_TREND",
+        "trend_strength": 0.1526,
+        "signal_age_bars": 33,
+        "signal_age_label": "33 days",
+        "signal_start_price": 10.399999618530273,
+        "current_price": 10.100000381469727,
+        "move_since_signal_frac": -0.028846081544659063,
+        "favorable_move_frac": 0.028846081544659063,
+        "move_units": 2.270266369188768,
+        "freshness": "OLD",
+        "exhaustion_risk": "HIGH",
+        "late_entry": true,
+        "reason": "STAGE_WAIT",
+        "asof_utc": "2026-10-05T03:00:00+00:00",
+        "execution_authority": false,
+        "schema_version": "grip-action-now-v1",
+        "observed_started_at_utc": "2026-10-06T03:13:15.081806+00:00",
+        "observed_start_price": 10.100000381469727,
+        "observed_runs": 2,
+        "observed_age_seconds": 234.974424,
+        "observed_move_frac": 0.0
       }
     }
   ]
