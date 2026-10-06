@@ -14,7 +14,7 @@
     <div>
       <div class="eyebrow"><span class="pulse"></span> RDC HYBRID SYSTEM-1 / SYSTEM-2 · PUBLIC SAFE</div>
       <h1>RDC Command Center</h1>
-      <p class="lede">Remote execution ที่ไม่ได้มีแค่ “มือ” แต่มี <b>Orchestrator + Jev Decision Coprocessor + Agent + Sub-agent + Skill + Global Arsenal</b> อยู่หลังบ้าน พร้อมกฎ FAST EXECUTION MODE และ Human Gate.</p>
+      <p class="lede">Remote execution ที่ไม่ได้มีแค่ “มือ” แต่มี <b>Orchestrator + Jev Decision Coprocessor + Qwen3 Local Agent + Agent + Sub-agent + Skill + Global Arsenal</b> อยู่หลังบ้าน พร้อมกฎ FAST EXECUTION MODE และ Human Gate.</p>
       <div class="hero-actions">
         <a href="#architecture" class="primary">ดูโครงสร้างระบบ</a>
         <a href="#weekly" class="secondary">ดูอาวุธใหม่สัปดาห์นี้</a>
@@ -73,7 +73,7 @@
 
   <section id="architecture" class="section">
     <div class="section-head">
-      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Workflow จริง v1.5: RDC · Jev · Agent · Sub-Agent · Skill · Tool Broker · Sandbox · Trace</h2></div>
+      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Workflow จริง v1.6: RDC · Jev · Qwen3 Local Agent · Agent · Sub-Agent · Skill · Tool Broker · Sandbox · Trace</h2></div>
       <span id="healthBadge" class="badge"></span>
     </div>
     <div class="workflow-shell">
@@ -114,6 +114,9 @@
             <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M760 215 C790 210 800 205 825 205"/>
             <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M760 320 C800 300 805 240 825 220"/>
             <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M760 425 C805 380 810 260 825 235"/>
+            <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M675 462 C675 500 675 540 675 590"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M760 632 C820 560 850 330 875 245"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M760 642 C790 642 800 642 825 642"/>
             <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1045 205 C1100 250 1090 380 1045 420"/>
             <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M935 245 C935 255 935 260 935 270"/>
             <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M935 352 C935 362 935 367 935 375"/>
@@ -172,6 +175,10 @@
 
           <button class="wf-node router retry-router" data-node="retry-router" data-title="Retry / Recovery Router" data-detail="จำแนก RETRY_SAME, CHANGE_METHOD, CALL_DEBUGGER, ROLLBACK, DEEP_REASONING หรือ HUMAN_GATE. Safe retry ทำอัตโนมัติ.">
             <b>Retry Router</b><small>Recover · rollback · resume</small>
+          </button>
+
+          <button class="wf-node qwen-local" data-node="qwen-local" data-title="Qwen3 RDC JEV Local Agent" data-detail="Local AI member บน POP-FARM01 ใช้ rdc-jev-qwen3 ผ่าน MCP/CLI สำหรับ planning, research และ review. Proposal-only: ไม่มีสิทธิ์ mutation/host execution โดยตรง และทุก host action ต้องผ่าน QA/Human Gate.">
+            <span class="wf-kicker">LOCAL AI MEMBER</span><b>Qwen3 8B</b><small>rdc-jev-qwen3 · MCP / CLI · proposal-only</small>
           </button>
 
           <button class="wf-node agent-force" data-node="agent-force" data-title="Agent Force" data-detail="Controller/Execution roles: shell-api-executor, code-builder, data-engineer, github-release, recovery-agent และ ui-fallback ทำ mutation เฉพาะ scope ที่ได้รับอนุญาต.">
