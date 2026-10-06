@@ -114,3 +114,11 @@ html,body{font-family:"Segoe UI","Noto Sans Thai",Tahoma,Arial,sans-serif}
 .bridge-status.offline{background:#ffe7e7;color:#9b3d3d;border-color:#f3c7c7}
 .bridge-status.running{background:#fff0d8;color:#8b5e12;border-color:#efd7a8}
 .btn:disabled{opacity:.65;cursor:wait}
+.action-now{display:inline-flex;align-items:center;justify-content:center;min-width:88px;padding:6px 9px;border-radius:999px;font-size:9px;font-weight:900;letter-spacing:.02em;white-space:nowrap}
+.action-now.strong-buy,.big-action.strong-buy{background:#c9f4da;color:#086b3d}
+.action-now.buy,.big-action.buy{background:#dcf7e8;color:#17764c}
+.action-now.wait,.big-action.wait{background:#fff0d8;color:#8b5e12}
+.action-now.sell,.big-action.sell{background:#ffe5e5;color:#a43b3b}
+.action-now.strong-sell,.big-action.strong-sell{background:#ffd0d0;color:#821f1f}
+.action-box{border:1px solid #cfdcff;background:linear-gradient(180deg,#f8fbff,#f1f5ff)}
+.set-table td small,.fx-table td small{display:block;margin-top:4px;line-height:1.35;color:var(--muted)}

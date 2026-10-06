@@ -93,6 +93,32 @@ function instStatusClass(status){
   return '';
 }
 
+function actionClass(a){
+  if(a==='STRONG_BUY') return 'strong-buy';
+  if(a==='BUY') return 'buy';
+  if(a==='STRONG_SELL') return 'strong-sell';
+  if(a==='SELL') return 'sell';
+  return 'wait';
+}
+function actionLabel(a){return String(a||'WAIT').replace(/_/g,' ');}
+function ageClock(sec){
+  const s=Number(sec||0);
+  if(!s) return 'just observed';
+  if(s<3600) return Math.max(1,Math.round(s/60))+'m observed';
+  if(s<86400) return (s/3600).toFixed(1)+'h observed';
+  return (s/86400).toFixed(1)+'d observed';
+}
+function actionNowCell(a){
+  a=a||{};
+  return '<span class="action-now '+actionClass(a.action_now)+'">'+esc(actionLabel(a.action_now))+'</span>'+
+    '<small>'+esc(a.reason||'—')+'</small>';
+}
+function lifecycleCell(a){
+  a=a||{};
+  const age=a.signal_age_bars?esc(a.signal_age_label):ageClock(a.observed_age_seconds);
+  return '<b>'+esc(a.freshness||'UNKNOWN')+'</b><small>'+age+' · Exhaustion '+esc(a.exhaustion_risk||'UNKNOWN')+
+    (a.move_since_signal_frac==null?'':' · Move '+pct(a.move_since_signal_frac,2))+'</small>';
+}
 function setStageClass(stage){
   if(stage==='TREND_WATCH') return 'good';
   if(stage==='PULLBACK_WATCH') return 'neutral';
@@ -110,7 +136,8 @@ function renderSetEquity(){
     '<div class="set-summary-card"><span>Universe</span><b>'+rows.length+' SET stocks</b><small>ticker-only input</small></div>'+
     '<div class="set-summary-card"><span>Market Data</span><b>'+good+'/'+rows.length+' GOOD</b><small>dynamic external fetch</small></div>'+
     '<div class="set-summary-card"><span>SET Index</span><b>'+fmt(setIdx.last,2)+'</b><small>'+esc(setIdx.source||'—')+'</small></div>'+
-    '<div class="set-summary-card"><span>JEV Shadow</span><b>'+esc(SETEQ.jev?.model||'—')+'</b><small>research-only · no execution authority</small></div>'
+    '<div class="set-summary-card"><span>JEV Shadow</span><b>'+esc(SETEQ.jev?.model||'—')+'</b><small>research-only · no execution authority</small></div>'+
+    '<div class="set-summary-card"><span>Action Now</span><b>'+rows.filter(x=>x.action_now?.action_now==='STRONG_BUY'||x.action_now?.action_now==='BUY').length+' Buy-side · '+rows.filter(x=>x.action_now?.action_now==='STRONG_SELL'||x.action_now?.action_now==='SELL').length+' Sell-side</b><small>'+rows.filter(x=>x.action_now?.action_now==='WAIT').length+' WAIT / late / not ready</small></div>'
   );
   safeSet('setEquityTable',rows.map(x=>{
     const j=x.jev_shadow||{},stage=j.stage?.selected||'—',thesis=j.thesis?.selected||'—',risk=j.risk?.selected||'—';
@@ -118,6 +145,8 @@ function renderSetEquity(){
     return '<tr>'+
       '<td><b>'+esc(x.symbol)+'</b><small>'+esc(x.source_symbol||'')+'</small></td>'+
       '<td><b>'+fmt(x.current_reference,2)+'</b><small>'+esc(x.asof_utc||'—')+'</small></td>'+
+      '<td>'+actionNowCell(x.action_now)+'</td>'+
+      '<td>'+lifecycleCell(x.action_now)+'</td>'+
       '<td>'+pct(x.return_1d,2)+'</td>'+
       '<td>'+pct(x.return_5d,2)+'</td>'+
       '<td>'+pct(x.return_1m,2)+'</td>'+
@@ -167,7 +196,8 @@ function renderForexMajor(){
     '<div class="fx-summary-card"><span>MT5 Broker Export</span><b>'+esc(mt5exp.status||'—')+' · '+esc(mt5exp.count??'—')+'/7</b><small>historical broker evidence · freshness shown per pair</small></div>'+
     '<div class="fx-summary-card"><span>Macro</span><b>'+esc(FOREX.macro_health||'—')+'</b><small>DXY · US10Y · VIX · SPY</small></div>'+
     '<div class="fx-summary-card"><span>CFTC COT</span><b>'+esc(cot.status||'—')+' · '+esc(cot.count??'—')+'/7</b><small>TFF Futures Only · positioning</small></div>'+
-    '<div class="fx-summary-card"><span>JEV Shadow</span><b>'+esc(FOREX.jev?.model||'—')+'</b><small>'+trend.length+' TREND_WATCH · '+waits.length+' WAIT</small></div>'
+    '<div class="fx-summary-card"><span>JEV Shadow</span><b>'+esc(FOREX.jev?.model||'—')+'</b><small>'+trend.length+' TREND_WATCH · '+waits.length+' WAIT</small></div>'+
+    '<div class="fx-summary-card"><span>Action Now</span><b>'+rows.filter(x=>['STRONG_BUY','BUY'].includes(x.action_now?.action_now)).length+' Buy-side · '+rows.filter(x=>['STRONG_SELL','SELL'].includes(x.action_now?.action_now)).length+' Sell-side</b><small>'+rows.filter(x=>x.action_now?.action_now==='WAIT').length+' WAIT</small></div>'
   );
   safeSet('forexTable',rows.map(x=>{
     const j=x.jev_shadow||{},stage=j.stage?.selected||'—',thesis=j.thesis?.selected||'—',risk=j.risk?.selected||'—';
@@ -176,6 +206,8 @@ function renderForexMajor(){
     return '<tr>'+
       '<td><b>'+esc(x.pair)+'</b><small>'+esc(x.quality||'—')+' · '+esc(x.authority||'—')+'</small></td>'+
       '<td><b>'+fmt(x.current_reference,5)+'</b><small>'+esc(broker.broker_symbol||pub.source_symbol||'—')+'</small></td>'+
+      '<td>'+actionNowCell(x.action_now)+'</td>'+
+      '<td>'+lifecycleCell(x.action_now)+'</td>'+
       '<td><span class="src-chip '+sourceClass(sourceState(x,'MT5'))+'">Live '+sourceState(x,'MT5')+'</span><small>'+esc(x.source_health?.find(v=>v.source==='MT5')?.detail||'')+(spread==null?'':' · Spread '+fmt(spread,6))+'</small></td>'+
       '<td><span class="src-chip '+sourceClass(sourceState(x,'MT5_BROKER_EXPORT'))+'">Export '+sourceState(x,'MT5_BROKER_EXPORT')+'</span><small>Age '+(bh.age_days==null?'—':fmt(bh.age_days,1)+'d')+' · med spread '+(bh.spread_points_median==null?'—':fmt(bh.spread_points_median,1)+' pt')+'</small></td>'+
       '<td><span class="src-chip '+sourceClass(sourceState(x,'YAHOO_DAILY'))+'">Public '+sourceState(x,'YAHOO_DAILY')+'</span></td>'+
@@ -440,6 +472,12 @@ function renderMarkets(){
             <small>${esc(d.strategy_family||'—')} · ${esc(d.selected_candidate_id||'—')}</small>
           </div>
           <div class="suggest-arrow">→</div>
+          <div class="suggest-box action-box">
+            <span class="suggest-label">RESEARCH ACTION NOW</span>
+            <strong class="big-action ${actionClass(x.action_now?.action_now)}">${esc(actionLabel(x.action_now?.action_now))}</strong>
+            <small>${esc(x.action_now?.freshness||'—')} · ${x.action_now?.signal_age_bars?esc(x.action_now.signal_age_label):ageClock(x.action_now?.observed_age_seconds)} · Exhaustion ${esc(x.action_now?.exhaustion_risk||'—')}</small>
+          </div>
+          <div class="suggest-arrow">→</div>
           <div class="suggest-box final-box">
             <span class="suggest-label">FINAL GOVERNED ACTION</span>
             <strong class="big-action ${finalClass}">${esc(final)}</strong>
@@ -459,6 +497,7 @@ function renderMarkets(){
         </div>
 
         <div class="analysis-reason">
+          <div><b>Action Now:</b> ${esc(actionLabel(x.action_now?.action_now))} · ${esc(x.action_now?.reason||'—')} · Freshness ${esc(x.action_now?.freshness||'—')} · Exhaustion ${esc(x.action_now?.exhaustion_risk||'—')}</div>
           <div><b>Decision rationale:</b> ${esc(d.reason||'—')}</div>
           <div><b>JEV Shadow:</b> ${esc(x.jev_shadow?.jev_actionability?.selected||'—')} · Evidence ${esc(x.jev_shadow?.jev_evidence_quality?.selected||'—')} · Uncertainty ${esc(x.jev_shadow?.jev_uncertainty?.selected||'—')} · Conviction ${esc(x.jev_shadow?.system_conviction_label||'—')}</div>
           <div><b>Risk/Veto:</b> ${esc(riskReasons)}</div>
@@ -521,7 +560,7 @@ function buildReportText(){
   if(!SNAPSHOT) return '';
   const lines=['GOLD / BTCUSD Executive Intelligence','Generated: '+SNAPSHOT.generated_at_utc,''];
   for(const x of SNAPSHOT.instruments){
-    lines.push(`${x.instrument}: Suggest ${x.decision.action} -> FINAL ${x.final_action}`);
+    lines.push(`${x.instrument}: Action Now ${actionLabel(x.action_now?.action_now)} | Suggest ${x.decision.action} -> FINAL ${x.final_action}`);
     lines.push(`Regime: ${x.regime.label} | Candidate: ${x.decision.selected_candidate_id||'—'} | Confidence: ${fmt(x.decision.confidence)}`);
     lines.push(`JEV Shadow: ${x.jev_shadow?.jev_actionability?.selected||'—'} | Evidence: ${x.jev_shadow?.jev_evidence_quality?.selected||'—'} | Uncertainty: ${x.jev_shadow?.jev_uncertainty?.selected||'—'} | System Conviction: ${x.jev_shadow?.system_conviction_label||'—'}`);
     lines.push(`Risk allowed: ${x.risk_control.allowed} | Reasons: ${(x.risk_control.reasons||[]).join(', ')||'none'}`);
@@ -535,8 +574,10 @@ function buildReportHtml(){
   if(!SNAPSHOT) return 'Loading…';
   return SNAPSHOT.instruments.map(x=>`
     <div class="exec-report-block">
-      <h3>${esc(x.instrument)} — Suggest ${esc(x.decision.action)} → Final ${esc(x.final_action)}</h3>
+      <h3>${esc(x.instrument)} — Action Now ${esc(actionLabel(x.action_now?.action_now))} · Final ${esc(x.final_action)}</h3>
       <div class="report-grid">
+        <div><span>Action Now</span><b>${esc(actionLabel(x.action_now?.action_now))}</b></div>
+        <div><span>Signal Lifecycle</span><b>${esc(x.action_now?.freshness||'—')} · ${x.action_now?.signal_age_bars?esc(x.action_now.signal_age_label):ageClock(x.action_now?.observed_age_seconds)}</b></div>
         <div><span>Regime</span><b>${esc(x.regime.label)}</b></div>
         <div><span>Selected Candidate</span><b>${esc(x.decision.selected_candidate_id||'—')}</b></div>
         <div><span>Decision Score</span><b>${fmt(x.decision.adjusted_score)}</b></div>
