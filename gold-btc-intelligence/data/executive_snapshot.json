@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-executive-web-v2",
-  "generated_at_utc": "2026-10-06T10:39:41.948979+00:00",
+  "generated_at_utc": "2026-10-06T10:53:41.609391+00:00",
   "system": {
     "name": "GOLD / BTCUSD Multi-Agent Trading Intelligence",
     "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
@@ -21,7 +21,7 @@
       "source_quality": "GOOD",
       "data_valid": true,
       "regime": {
-        "confidence": 0.5867661833066182,
+        "confidence": 0.6033004399128684,
         "label": "BULL_TREND",
         "momentum_alignment": 1.0,
         "transition_warning": false,
@@ -29,13 +29,13 @@
         "volatility_level": "LOW"
       },
       "aggregate": {
-        "liquidity_score": 0.8910003974383074,
+        "liquidity_score": 0.8856098752398806,
         "momentum_alignment": 1.0,
-        "momentum_score": 0.19922471130742775,
+        "momentum_score": 0.26328298104146564,
         "trend_alignment": 1.0,
-        "trend_score": 0.18117145994626285,
-        "trend_strength": 0.5791270899735919,
-        "volatility_score": 0.18133625279721963
+        "trend_score": 0.2241011717768785,
+        "trend_strength": 0.5858001479617267,
+        "volatility_score": 0.18178637114054952
       },
       "signal": {
         "session": "LONDON",
@@ -62,7 +62,7 @@
             "action": "BUY",
             "candidate_id": "BUY-PULLBACK",
             "entry_bias_atr": -0.35,
-            "priority_hint": 0.8368690634960387,
+            "priority_hint": 0.837870022194259,
             "rationale": [
               "Positive multi-timeframe trend.",
               "Prefer retracement entry over chasing."
@@ -75,7 +75,7 @@
             "action": "BUY",
             "candidate_id": "BUY-BREAKOUT",
             "entry_bias_atr": 0.2,
-            "priority_hint": 0.6598449422614856,
+            "priority_hint": 0.6726565962082931,
             "rationale": [
               "Positive trend supports continuation.",
               "Breakout requires momentum confirmation."
@@ -106,13 +106,13 @@
               "Positive multi-timeframe trend.",
               "Prefer retracement entry over chasing."
             ],
-            "ev_score": 0.39755861257545444,
-            "confidence": 0.7143730555571562,
-            "risk_score": 0.4316013137587489,
-            "state_fit": 0.5394240618341617,
+            "ev_score": 0.41982946168363655,
+            "confidence": 0.7303097221600146,
+            "risk_score": 0.43180386701324724,
+            "state_fit": 0.5646237265749305,
             "notes": [
-              "family_fit=0.607",
-              "directional_edge=0.189",
+              "family_fit=0.622",
+              "directional_edge=0.242",
               "news_risk=LOW",
               "source_quality=GOOD"
             ],
@@ -126,13 +126,13 @@
               "Positive trend supports continuation.",
               "Breakout requires momentum confirmation."
             ],
-            "ev_score": 0.3743910409909567,
-            "confidence": 0.6949261827379047,
-            "risk_score": 0.4316013137587489,
-            "state_fit": 0.4956685979908458,
+            "ev_score": 0.39783072740176134,
+            "confidence": 0.7114412542714799,
+            "risk_score": 0.43180386701324724,
+            "state_fit": 0.5221696738257273,
             "notes": [
-              "family_fit=0.510",
-              "directional_edge=0.189",
+              "family_fit=0.528",
+              "directional_edge=0.242",
               "news_risk=LOW",
               "source_quality=GOOD"
             ],
@@ -145,10 +145,10 @@
             "rationale": [
               "WAIT is always an explicit candidate."
             ],
-            "ev_score": 0.19384323688000465,
-            "confidence": 0.7298040461000059,
-            "risk_score": 0.06813362527972197,
-            "state_fit": 0.593396085360292,
+            "ev_score": 0.17885146754047776,
+            "confidence": 0.7110643344255972,
+            "risk_score": 0.06817863711405496,
+            "state_fit": 0.5483757655073782,
             "notes": [
               "family_fit=0.595",
               "directional_edge=0.000",
@@ -168,11 +168,11 @@
               "Prefer retracement entry over chasing."
             ],
             "accepted": true,
-            "adjusted_score": 0.29755861257545446,
-            "ev_score": 0.39755861257545444,
-            "confidence": 0.7143730555571562,
-            "risk_score": 0.4316013137587489,
-            "state_fit": 0.5394240618341617,
+            "adjusted_score": 0.3198294616836366,
+            "ev_score": 0.41982946168363655,
+            "confidence": 0.7303097221600146,
+            "risk_score": 0.43180386701324724,
+            "state_fit": 0.5646237265749305,
             "hard_reasons": [],
             "soft_penalties": [
               "RISK_CONTEXT_NOT_READY"
@@ -187,11 +187,11 @@
               "Breakout requires momentum confirmation."
             ],
             "accepted": true,
-            "adjusted_score": 0.2743910409909567,
-            "ev_score": 0.3743910409909567,
-            "confidence": 0.6949261827379047,
-            "risk_score": 0.4316013137587489,
-            "state_fit": 0.4956685979908458,
+            "adjusted_score": 0.2978307274017613,
+            "ev_score": 0.39783072740176134,
+            "confidence": 0.7114412542714799,
+            "risk_score": 0.43180386701324724,
+            "state_fit": 0.5221696738257273,
             "hard_reasons": [],
             "soft_penalties": [
               "RISK_CONTEXT_NOT_READY"
@@ -205,11 +205,11 @@
               "WAIT is always an explicit candidate."
             ],
             "accepted": true,
-            "adjusted_score": 0.19384323688000465,
-            "ev_score": 0.19384323688000465,
-            "confidence": 0.7298040461000059,
-            "risk_score": 0.06813362527972197,
-            "state_fit": 0.593396085360292,
+            "adjusted_score": 0.17885146754047776,
+            "ev_score": 0.17885146754047776,
+            "confidence": 0.7110643344255972,
+            "risk_score": 0.06817863711405496,
+            "state_fit": 0.5483757655073782,
             "hard_reasons": [],
             "soft_penalties": []
           }
@@ -266,80 +266,80 @@
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 727.4,
-        "generated_at_utc": "2026-10-06T10:39:41.320021+00:00",
+        "latency_ms": 406.2,
+        "generated_at_utc": "2026-10-06T10:53:41.271429+00:00",
         "instrument": "BTCUSD",
         "agent_action": "WAIT",
         "agent_candidate": "BUY-PULLBACK",
-        "agent_confidence": 0.7143730555571562,
+        "agent_confidence": 0.7303097221600146,
         "jev_actionability": {
           "selected": "WAIT",
           "confidence": 0.97,
           "probabilities": {
-            "ARMED": 0.02,
-            "ACTIONABLE": 0.0,
-            "WAIT": 0.97,
-            "IDEA": 0.01
+            "WAIT": 0.98,
+            "IDEA": 0.01,
+            "ARMED": 0.01,
+            "ACTIONABLE": 0.0
           },
           "raw_type": "choice"
         },
         "jev_counter_thesis": {
           "selected": "HIGH",
-          "confidence": 0.28,
+          "confidence": 0.37,
           "probabilities": {
-            "HIGH": 0.46,
-            "MEDIUM": 0.1,
-            "CRITICAL": 0.43,
-            "LOW": 0.01
+            "CRITICAL": 0.35,
+            "LOW": 0.01,
+            "HIGH": 0.53,
+            "MEDIUM": 0.11
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
           "selected": "SUPPORTIVE",
-          "confidence": 0.71,
+          "confidence": 0.72,
           "probabilities": {
             "UNKNOWN": 0.07,
+            "SUPPORTIVE": 0.78,
             "CONFLICTING": 0.02,
-            "NEUTRAL": 0.14,
             "HOSTILE": 0.0,
-            "SUPPORTIVE": 0.77
+            "NEUTRAL": 0.13
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
           "selected": "WEAK",
-          "confidence": 0.54,
+          "confidence": 0.5,
           "probabilities": {
-            "ADEQUATE": 0.0,
-            "WEAK": 0.66,
             "STRONG": 0.0,
-            "INSUFFICIENT": 0.34
+            "INSUFFICIENT": 0.37,
+            "ADEQUATE": 0.01,
+            "WEAK": 0.62
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
-          "selected": "HIGH",
-          "confidence": 0.33,
+          "selected": "EXTREME",
+          "confidence": 0.34,
           "probabilities": {
-            "HIGH": 0.5,
-            "MEDIUM": 0.04,
-            "EXTREME": 0.46,
-            "LOW": 0.0
+            "LOW": 0.0,
+            "HIGH": 0.45,
+            "EXTREME": 0.51,
+            "MEDIUM": 0.04
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.72,
+          "confidence": 0.73,
           "probabilities": {
+            "WAIT": 0.8,
             "NORMAL": 0.0,
-            "HUMAN_REVIEW": 0.19,
             "REDUCED": 0.02,
-            "WAIT": 0.79
+            "HUMAN_REVIEW": 0.18
           },
           "raw_type": "choice"
         },
-        "system_conviction_score": 0.32,
+        "system_conviction_score": 0.26,
         "system_conviction_label": "LOW",
         "decision_stage": "WAIT_GOVERNANCE",
         "hard_risk_allowed": false,
@@ -351,15 +351,15 @@
       "action_now": {
         "action_now": "WAIT",
         "directional_thesis": "BULLISH",
-        "confidence": 0.7144,
+        "confidence": 0.7303,
         "risk": "HIGH",
         "stage": "WAIT",
         "regime": "BULL_TREND",
-        "trend_strength": 0.5791,
+        "trend_strength": 0.5858,
         "signal_age_bars": 0,
         "signal_age_label": "new/unknown",
         "signal_start_price": null,
-        "current_price": 85991.0,
+        "current_price": 86197.2,
         "move_since_signal_frac": null,
         "favorable_move_frac": null,
         "move_units": null,
@@ -367,22 +367,31 @@
         "exhaustion_risk": "UNKNOWN",
         "late_entry": false,
         "reason": "STAGE_WAIT",
-        "asof_utc": "2026-10-06T10:39:29.530870+00:00",
+        "edge_evidenced": false,
+        "edge_status": "UNVALIDATED",
+        "strong_signal_allowed": false,
+        "asof_utc": "2026-10-06T10:53:34.026108+00:00",
         "execution_authority": false,
-        "schema_version": "grip-action-now-v1",
+        "schema_version": "grip-action-now-v2",
         "observed_started_at_utc": "2026-10-06T09:06:39.069465+00:00",
         "observed_start_price": 85943.0,
-        "observed_runs": 2,
-        "observed_age_seconds": 5582.879514,
-        "observed_move_frac": 0.0005585097099241043
+        "observed_runs": 4,
+        "observed_age_seconds": 6422.539926,
+        "observed_move_frac": 0.002957774338805841,
+        "raw_action_now": "WAIT",
+        "pending_action": "WAIT",
+        "pending_runs": 2,
+        "smoothed_conviction_score": 0.0,
+        "stability_state": "HOLD_STABLE_STATE",
+        "stability_confirmed": true
       },
       "decision": {
         "action": "WAIT",
-        "adjusted_score": 0.29755861257545446,
-        "confidence": 0.7143730555571562,
+        "adjusted_score": 0.3198294616836366,
+        "confidence": 0.7303097221600146,
         "reason": "UNRESOLVED_SCORE_CONTRADICTION",
-        "risk_score": 0.4316013137587489,
-        "score_gap": 0.02316757158449778,
+        "risk_score": 0.43180386701324724,
+        "score_gap": 0.021998734281875265,
         "selected_candidate_id": "BUY-PULLBACK",
         "strategy_family": "PULLBACK"
       },
@@ -609,81 +618,81 @@
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 727.4,
-        "generated_at_utc": "2026-10-06T10:39:41.320021+00:00",
+        "latency_ms": 406.2,
+        "generated_at_utc": "2026-10-06T10:53:41.271429+00:00",
         "instrument": "XAUUSD",
         "agent_action": "WAIT",
         "agent_candidate": null,
         "agent_confidence": null,
         "jev_actionability": {
           "selected": "WAIT",
-          "confidence": 0.96,
+          "confidence": 0.95,
           "probabilities": {
-            "ARMED": 0.02,
-            "ACTIONABLE": 0.0,
-            "WAIT": 0.97,
-            "IDEA": 0.01
+            "WAIT": 0.96,
+            "IDEA": 0.01,
+            "ARMED": 0.03,
+            "ACTIONABLE": 0.0
           },
           "raw_type": "choice"
         },
         "jev_counter_thesis": {
-          "selected": "LOW",
-          "confidence": 0.12,
+          "selected": "CRITICAL",
+          "confidence": 0.14,
           "probabilities": {
-            "HIGH": 0.25,
-            "MEDIUM": 0.08,
-            "CRITICAL": 0.33,
-            "LOW": 0.34
+            "CRITICAL": 0.36,
+            "LOW": 0.3,
+            "HIGH": 0.27,
+            "MEDIUM": 0.07
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
           "selected": "SUPPORTIVE",
-          "confidence": 0.34,
+          "confidence": 0.31,
           "probabilities": {
+            "UNKNOWN": 0.18,
             "CONFLICTING": 0.01,
-            "UNKNOWN": 0.17,
-            "NEUTRAL": 0.34,
+            "SUPPORTIVE": 0.45,
             "HOSTILE": 0.0,
-            "SUPPORTIVE": 0.48
+            "NEUTRAL": 0.36
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
           "selected": "WEAK",
-          "confidence": 0.44,
+          "confidence": 0.34,
           "probabilities": {
-            "ADEQUATE": 0.21,
-            "WEAK": 0.58,
             "STRONG": 0.01,
-            "INSUFFICIENT": 0.2
+            "INSUFFICIENT": 0.23,
+            "ADEQUATE": 0.25,
+            "WEAK": 0.51
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
           "selected": "MEDIUM",
-          "confidence": 0.1,
+          "confidence": 0.12,
           "probabilities": {
-            "HIGH": 0.29,
-            "MEDIUM": 0.33,
-            "EXTREME": 0.21,
-            "LOW": 0.17
+            "MEDIUM": 0.34,
+            "HIGH": 0.33,
+            "EXTREME": 0.17,
+            "LOW": 0.16
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.82,
+          "confidence": 0.84,
           "probabilities": {
+            "WAIT": 0.88,
             "NORMAL": 0.0,
-            "HUMAN_REVIEW": 0.12,
             "REDUCED": 0.01,
-            "WAIT": 0.87
+            "HUMAN_REVIEW": 0.11
           },
           "raw_type": "choice"
         },
-        "system_conviction_score": 0.51,
-        "system_conviction_label": "MEDIUM",
+        "system_conviction_score": 0.33,
+        "system_conviction_label": "LOW",
         "decision_stage": "WAIT_GOVERNANCE",
         "hard_risk_allowed": false,
         "hard_risk_reasons": [
@@ -694,7 +703,7 @@
       "action_now": {
         "action_now": "WAIT",
         "directional_thesis": "NEUTRAL",
-        "confidence": 0.51,
+        "confidence": 0.33,
         "risk": "MEDIUM",
         "stage": "WAIT",
         "regime": "RANGE",
@@ -702,7 +711,7 @@
         "signal_age_bars": 0,
         "signal_age_label": "new/unknown",
         "signal_start_price": null,
-        "current_price": 4157.950000000001,
+        "current_price": 4160.655000000001,
         "move_since_signal_frac": null,
         "favorable_move_frac": null,
         "move_units": null,
@@ -710,14 +719,23 @@
         "exhaustion_risk": "UNKNOWN",
         "late_entry": false,
         "reason": "DIRECTION_NEUTRAL",
-        "asof_utc": "2026-10-06T10:39:34.660457+00:00",
+        "edge_evidenced": false,
+        "edge_status": "UNVALIDATED",
+        "strong_signal_allowed": false,
+        "asof_utc": "2026-10-06T10:53:37.963604+00:00",
         "execution_authority": false,
-        "schema_version": "grip-action-now-v1",
-        "observed_started_at_utc": "2026-10-06T10:39:41.948979+00:00",
-        "observed_start_price": 4157.950000000001,
+        "schema_version": "grip-action-now-v2",
+        "observed_started_at_utc": "2026-10-06T10:53:41.612481+00:00",
+        "observed_start_price": 4160.655000000001,
         "observed_runs": 1,
         "observed_age_seconds": 0.0,
-        "observed_move_frac": 0.0
+        "observed_move_frac": 0.0,
+        "raw_action_now": "WAIT",
+        "pending_action": "WAIT",
+        "pending_runs": 2,
+        "smoothed_conviction_score": 0.0,
+        "stability_state": "HOLD_STABLE_STATE",
+        "stability_confirmed": true
       },
       "decision": {
         "action": "WAIT",

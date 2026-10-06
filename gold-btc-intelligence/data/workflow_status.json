@@ -1,13 +1,13 @@
 {
   "schema_version": "grip-portal-workflow-v1",
-  "generated_at_utc": "2026-10-06T10:39:42.610781+00:00",
+  "generated_at_utc": "2026-10-06T10:53:41.918003+00:00",
   "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
   "execution_enabled": false,
   "overall_status": "FAILED",
   "layers": {
     "data_input": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T10:39:36.116600+00:00",
+      "updated_at_utc": "2026-10-06T10:53:38.680154+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -15,7 +15,7 @@
     },
     "preprocess_feature": {
       "status": "FAILED",
-      "updated_at_utc": "2026-10-06T10:39:37.113133+00:00",
+      "updated_at_utc": "2026-10-06T10:53:39.360896+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "FAILED"
@@ -23,7 +23,7 @@
     },
     "multi_agent_core": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T10:39:37.833641+00:00",
+      "updated_at_utc": "2026-10-06T10:53:39.707454+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -31,7 +31,7 @@
     },
     "jev_shadow": {
       "status": "WAIT",
-      "updated_at_utc": "2026-10-06T10:39:41.320021+00:00",
+      "updated_at_utc": "2026-10-06T10:53:41.271429+00:00",
       "instrument_states": {
         "BTCUSD": "WAIT",
         "XAUUSD": "WAIT"
@@ -39,7 +39,7 @@
     },
     "decision_risk_control": {
       "status": "WAIT",
-      "updated_at_utc": "2026-10-06T10:39:39.115852+00:00",
+      "updated_at_utc": "2026-10-06T10:53:40.096255+00:00",
       "instrument_states": {
         "BTCUSD": "WAIT",
         "XAUUSD": "WAIT"
@@ -47,7 +47,7 @@
     },
     "executive_output": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T10:39:42.610781+00:00",
+      "updated_at_utc": "2026-10-06T10:53:41.918003+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -62,7 +62,7 @@
         "data_input": {
           "status": "COMPLETE",
           "summary": "quality=GOOD",
-          "updated_at_utc": "2026-10-06T10:39:36.116600+00:00",
+          "updated_at_utc": "2026-10-06T10:53:38.680154+00:00",
           "details": {
             "authority": "PUBLIC_MARKET_DATA",
             "failed_sources": [],
@@ -73,19 +73,19 @@
         "preprocess_feature": {
           "status": "COMPLETE",
           "summary": "regime=BULL_TREND",
-          "updated_at_utc": "2026-10-06T10:39:37.113133+00:00",
+          "updated_at_utc": "2026-10-06T10:53:39.360896+00:00",
           "details": {
             "source_quality": "GOOD",
             "data_valid": true,
             "regime": "BULL_TREND",
-            "regime_confidence": 0.5867661833066182,
+            "regime_confidence": 0.6033004399128684,
             "risk_ready": false
           }
         },
         "multi_agent_core": {
           "status": "COMPLETE",
           "summary": "3/3 candidates eligible",
-          "updated_at_utc": "2026-10-06T10:39:37.833641+00:00",
+          "updated_at_utc": "2026-10-06T10:53:39.707454+00:00",
           "details": {
             "candidate_count": 3,
             "accepted_count": 3,
@@ -100,26 +100,26 @@
         "jev_shadow": {
           "status": "WAIT",
           "summary": "WAIT · conviction=LOW",
-          "updated_at_utc": "2026-10-06T10:39:41.320021+00:00",
+          "updated_at_utc": "2026-10-06T10:53:41.271429+00:00",
           "details": {
             "mode": "SHADOW",
             "execution_authority": false,
             "model": "jev-1.13.0",
-            "latency_ms": 727.4,
+            "latency_ms": 406.2,
             "decision_stage": "WAIT_GOVERNANCE",
             "actionability": "WAIT",
             "counter_thesis": "HIGH",
             "evidence_quality": "WEAK",
-            "uncertainty": "HIGH",
+            "uncertainty": "EXTREME",
             "risk_posture": "WAIT",
-            "system_conviction_score": 0.32,
+            "system_conviction_score": 0.26,
             "system_conviction_label": "LOW"
           }
         },
         "decision_risk_control": {
           "status": "WAIT",
           "summary": "WAIT -> WAIT",
-          "updated_at_utc": "2026-10-06T10:39:39.115852+00:00",
+          "updated_at_utc": "2026-10-06T10:53:40.096255+00:00",
           "details": {
             "selected_candidate_id": "BUY-PULLBACK",
             "decision_action": "WAIT",
@@ -135,7 +135,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-06T10:39:42.610781+00:00",
+          "updated_at_utc": "2026-10-06T10:53:41.918003+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
@@ -150,7 +150,7 @@
         "data_input": {
           "status": "COMPLETE",
           "summary": "quality=GOOD",
-          "updated_at_utc": "2026-10-06T10:39:36.116600+00:00",
+          "updated_at_utc": "2026-10-06T10:53:38.680154+00:00",
           "details": {
             "authority": "BROKER_EXECUTION_REFERENCE",
             "failed_sources": [],
@@ -161,7 +161,7 @@
         "preprocess_feature": {
           "status": "FAILED",
           "summary": "regime=RANGE",
-          "updated_at_utc": "2026-10-06T10:39:37.113133+00:00",
+          "updated_at_utc": "2026-10-06T10:53:39.360896+00:00",
           "details": {
             "source_quality": "GOOD",
             "data_valid": false,
@@ -173,7 +173,7 @@
         "multi_agent_core": {
           "status": "COMPLETE",
           "summary": "0/3 candidates eligible",
-          "updated_at_utc": "2026-10-06T10:39:37.833641+00:00",
+          "updated_at_utc": "2026-10-06T10:53:39.707454+00:00",
           "details": {
             "candidate_count": 3,
             "accepted_count": 0,
@@ -183,27 +183,27 @@
         },
         "jev_shadow": {
           "status": "WAIT",
-          "summary": "WAIT · conviction=MEDIUM",
-          "updated_at_utc": "2026-10-06T10:39:41.320021+00:00",
+          "summary": "WAIT · conviction=LOW",
+          "updated_at_utc": "2026-10-06T10:53:41.271429+00:00",
           "details": {
             "mode": "SHADOW",
             "execution_authority": false,
             "model": "jev-1.13.0",
-            "latency_ms": 727.4,
+            "latency_ms": 406.2,
             "decision_stage": "WAIT_GOVERNANCE",
             "actionability": "WAIT",
-            "counter_thesis": "LOW",
+            "counter_thesis": "CRITICAL",
             "evidence_quality": "WEAK",
             "uncertainty": "MEDIUM",
             "risk_posture": "WAIT",
-            "system_conviction_score": 0.51,
-            "system_conviction_label": "MEDIUM"
+            "system_conviction_score": 0.33,
+            "system_conviction_label": "LOW"
           }
         },
         "decision_risk_control": {
           "status": "WAIT",
           "summary": "WAIT -> WAIT",
-          "updated_at_utc": "2026-10-06T10:39:39.115852+00:00",
+          "updated_at_utc": "2026-10-06T10:53:40.096255+00:00",
           "details": {
             "selected_candidate_id": null,
             "decision_action": "WAIT",
@@ -219,7 +219,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-06T10:39:42.610781+00:00",
+          "updated_at_utc": "2026-10-06T10:53:41.918003+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
