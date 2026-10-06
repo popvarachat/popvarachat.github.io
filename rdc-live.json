@@ -1,0 +1,82 @@
+{
+  "version": "1.0",
+  "generated_at": "2026-10-06T09:16:26.259577+00:00",
+  "state": "DONE",
+  "trace_id": "20261006161619-7f548d",
+  "workstream": "live-monitor-integration-test",
+  "started_at": "2026-10-06T09:16:19.642757+00:00",
+  "current": {
+    "ts": "2026-10-06T09:16:26.259577+00:00",
+    "component": "orchestrator",
+    "action": "Workstream finished",
+    "status": "DONE"
+  },
+  "components": {
+    "orchestrator": {
+      "status": "DONE",
+      "action": "Workstream finished",
+      "updated_at": "2026-10-06T09:16:26.259577+00:00"
+    },
+    "tool-broker": {
+      "status": "PASS",
+      "action": "Route code → mcp",
+      "updated_at": "2026-10-06T09:16:19.994606+00:00"
+    },
+    "sandbox": {
+      "status": "PASS",
+      "action": "Sandbox: READ_ONLY_SAFE",
+      "updated_at": "2026-10-06T09:16:20.349477+00:00"
+    },
+    "test-regression-engineer": {
+      "status": "PASS",
+      "action": "test-regression-engineer via ollama",
+      "updated_at": "2026-10-06T09:16:25.943204+00:00"
+    }
+  },
+  "timeline": [
+    {
+      "ts": "2026-10-06T09:16:19.642757+00:00",
+      "component": "orchestrator",
+      "action": "Workstream started",
+      "status": "RUNNING"
+    },
+    {
+      "ts": "2026-10-06T09:16:19.994606+00:00",
+      "component": "tool-broker",
+      "action": "Route code → mcp",
+      "status": "PASS"
+    },
+    {
+      "ts": "2026-10-06T09:16:20.349477+00:00",
+      "component": "sandbox",
+      "action": "Sandbox: READ_ONLY_SAFE",
+      "status": "PASS"
+    },
+    {
+      "ts": "2026-10-06T09:16:20.669829+00:00",
+      "component": "test-regression-engineer",
+      "action": "test-regression-engineer via ollama",
+      "status": "RUNNING"
+    },
+    {
+      "ts": "2026-10-06T09:16:25.943204+00:00",
+      "component": "test-regression-engineer",
+      "action": "test-regression-engineer via ollama",
+      "status": "PASS",
+      "latency_ms": 5274.2
+    },
+    {
+      "ts": "2026-10-06T09:16:26.259577+00:00",
+      "component": "orchestrator",
+      "action": "Workstream finished",
+      "status": "DONE"
+    }
+  ],
+  "transport": {
+    "local": "http://127.0.0.1:8876/live.json",
+    "public_branch": "rdc-live",
+    "publish_policy": "Start + terminal + max once/30s for intermediate events",
+    "github_actions": "NOT_USED_FOR_LIVE_TELEMETRY"
+  },
+  "visibility_note": "ChatGPT platform pre-checks before RDC starts are outside RDC visibility."
+}
