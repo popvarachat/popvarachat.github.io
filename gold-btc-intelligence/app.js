@@ -110,8 +110,16 @@ function ageClock(sec){
 }
 function actionNowCell(a){
   a=a||{};
-  return '<span class="action-now '+actionClass(a.action_now)+'">'+esc(actionLabel(a.action_now))+'</span>'+
-    '<small>'+esc(a.reason||'—')+'</small>';
+  const raw=a.raw_action_now||a.action_now||'WAIT';
+  const stable=a.action_now||'WAIT';
+  const gate=a.edge_status||'UNVALIDATED';
+  const pending=a.pending_action||raw;
+  const runs=Number(a.pending_runs||0);
+  const conv=Number(a.smoothed_conviction_score||0);
+  return '<span class="action-now '+actionClass(stable)+'">'+esc(actionLabel(stable))+'</span>'+
+    '<small><b>Raw:</b> '+esc(actionLabel(raw))+' · <b>Pending:</b> '+esc(actionLabel(pending))+' x'+runs+
+    ' · <b>Conv:</b> '+conv.toFixed(2)+'</small>'+
+    '<small><b>Stability:</b> '+esc(a.stability_state||'—')+' · <b>Proof:</b> '+esc(gate)+'</small>';
 }
 function lifecycleCell(a){
   a=a||{};
