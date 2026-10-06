@@ -1,29 +1,29 @@
 {
   "schema_version": "grip-portal-workflow-v1",
-  "generated_at_utc": "2026-10-06T07:00:30.433454+00:00",
+  "generated_at_utc": "2026-10-06T09:06:40.290917+00:00",
   "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
   "execution_enabled": false,
-  "overall_status": "BLOCKED",
+  "overall_status": "FAILED",
   "layers": {
     "data_input": {
       "status": "DEGRADED",
-      "updated_at_utc": "2026-10-06T07:00:26.969021+00:00",
+      "updated_at_utc": "2026-10-06T09:06:32.127944+00:00",
       "instrument_states": {
-        "BTCUSD": "COMPLETE",
-        "XAUUSD": "DEGRADED"
+        "BTCUSD": "DEGRADED",
+        "XAUUSD": "COMPLETE"
       }
     },
     "preprocess_feature": {
-      "status": "DEGRADED",
-      "updated_at_utc": "2026-10-06T07:00:27.375540+00:00",
+      "status": "FAILED",
+      "updated_at_utc": "2026-10-06T09:06:33.238205+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
-        "XAUUSD": "DEGRADED"
+        "XAUUSD": "FAILED"
       }
     },
     "multi_agent_core": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T07:00:27.962615+00:00",
+      "updated_at_utc": "2026-10-06T09:06:34.438316+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -31,23 +31,23 @@
     },
     "jev_shadow": {
       "status": "WAIT",
-      "updated_at_utc": "2026-10-06T07:00:29.431065+00:00",
+      "updated_at_utc": "2026-10-06T09:06:37.919814+00:00",
       "instrument_states": {
         "BTCUSD": "WAIT",
         "XAUUSD": "WAIT"
       }
     },
     "decision_risk_control": {
-      "status": "BLOCKED",
-      "updated_at_utc": "2026-10-06T07:00:28.365129+00:00",
+      "status": "WAIT",
+      "updated_at_utc": "2026-10-06T09:06:35.686091+00:00",
       "instrument_states": {
         "BTCUSD": "WAIT",
-        "XAUUSD": "BLOCKED"
+        "XAUUSD": "WAIT"
       }
     },
     "executive_output": {
       "status": "COMPLETE",
-      "updated_at_utc": "2026-10-06T07:00:30.433454+00:00",
+      "updated_at_utc": "2026-10-06T09:06:40.290917+00:00",
       "instrument_states": {
         "BTCUSD": "COMPLETE",
         "XAUUSD": "COMPLETE"
@@ -57,69 +57,73 @@
   "instruments": [
     {
       "instrument": "BTCUSD",
-      "overall_status": "WAIT",
+      "overall_status": "DEGRADED",
       "layers": {
         "data_input": {
-          "status": "COMPLETE",
+          "status": "DEGRADED",
           "summary": "quality=GOOD",
-          "updated_at_utc": "2026-10-06T07:00:26.969021+00:00",
+          "updated_at_utc": "2026-10-06T09:06:32.127944+00:00",
           "details": {
             "authority": "PUBLIC_MARKET_DATA",
-            "failed_sources": [],
-            "sources_ok": 7,
+            "failed_sources": [
+              "OKX"
+            ],
+            "sources_ok": 6,
             "sources_total": 7
           }
         },
         "preprocess_feature": {
           "status": "COMPLETE",
-          "summary": "regime=RANGE",
-          "updated_at_utc": "2026-10-06T07:00:27.375540+00:00",
+          "summary": "regime=TRANSITION",
+          "updated_at_utc": "2026-10-06T09:06:33.238205+00:00",
           "details": {
             "source_quality": "GOOD",
             "data_valid": true,
-            "regime": "RANGE",
-            "regime_confidence": 0.69638622093679,
+            "regime": "TRANSITION",
+            "regime_confidence": 0.5,
             "risk_ready": false
           }
         },
         "multi_agent_core": {
           "status": "COMPLETE",
-          "summary": "3/3 candidates eligible",
-          "updated_at_utc": "2026-10-06T07:00:27.962615+00:00",
+          "summary": "5/5 candidates eligible",
+          "updated_at_utc": "2026-10-06T09:06:34.438316+00:00",
           "details": {
-            "candidate_count": 3,
-            "accepted_count": 3,
+            "candidate_count": 5,
+            "accepted_count": 5,
             "accepted_ids": [
+              "BUY-PULLBACK",
+              "BUY-BREAKOUT",
               "MEANREV-LONG",
               "MEANREV-SHORT",
               "WAIT-BASE"
             ],
-            "endgame_plan_count": 3
+            "endgame_plan_count": 5
           }
         },
         "jev_shadow": {
           "status": "WAIT",
-          "summary": "WAIT · conviction=MEDIUM",
-          "updated_at_utc": "2026-10-06T07:00:29.431065+00:00",
+          "summary": "WAIT · conviction=LOW",
+          "updated_at_utc": "2026-10-06T09:06:37.919814+00:00",
           "details": {
             "mode": "SHADOW",
             "execution_authority": false,
             "model": "jev-1.13.0",
-            "latency_ms": 561.5,
+            "latency_ms": 1017.5,
             "decision_stage": "WAIT_GOVERNANCE",
             "actionability": "WAIT",
-            "counter_thesis": "LOW",
+            "counter_thesis": "HIGH",
             "evidence_quality": "WEAK",
-            "uncertainty": "MEDIUM",
+            "uncertainty": "HIGH",
             "risk_posture": "WAIT",
-            "system_conviction_score": 0.51,
-            "system_conviction_label": "MEDIUM"
+            "system_conviction_score": 0.32,
+            "system_conviction_label": "LOW"
           }
         },
         "decision_risk_control": {
           "status": "WAIT",
           "summary": "WAIT -> WAIT",
-          "updated_at_utc": "2026-10-06T07:00:28.365129+00:00",
+          "updated_at_utc": "2026-10-06T09:06:35.686091+00:00",
           "details": {
             "selected_candidate_id": "WAIT-BASE",
             "decision_action": "WAIT",
@@ -135,7 +139,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-06T07:00:30.433454+00:00",
+          "updated_at_utc": "2026-10-06T09:06:40.290917+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
@@ -145,81 +149,72 @@
     },
     {
       "instrument": "XAUUSD",
-      "overall_status": "BLOCKED",
+      "overall_status": "FAILED",
       "layers": {
         "data_input": {
-          "status": "DEGRADED",
-          "summary": "quality=DEGRADED",
-          "updated_at_utc": "2026-10-06T07:00:26.969021+00:00",
+          "status": "COMPLETE",
+          "summary": "quality=GOOD",
+          "updated_at_utc": "2026-10-06T09:06:32.127944+00:00",
           "details": {
-            "authority": "REFERENCE_ONLY_NOT_EXECUTABLE",
-            "failed_sources": [
-              "MT5"
-            ],
+            "authority": "BROKER_EXECUTION_REFERENCE",
+            "failed_sources": [],
             "sources_ok": 4,
-            "sources_total": 5
+            "sources_total": 4
           }
         },
         "preprocess_feature": {
-          "status": "DEGRADED",
-          "summary": "regime=BEAR_TREND",
-          "updated_at_utc": "2026-10-06T07:00:27.375540+00:00",
+          "status": "FAILED",
+          "summary": "regime=RANGE",
+          "updated_at_utc": "2026-10-06T09:06:33.238205+00:00",
           "details": {
-            "source_quality": "DEGRADED",
-            "data_valid": true,
-            "regime": "BEAR_TREND",
-            "regime_confidence": 0.5681472476894709,
+            "source_quality": "GOOD",
+            "data_valid": false,
+            "regime": "RANGE",
+            "regime_confidence": 1.0,
             "risk_ready": false
           }
         },
         "multi_agent_core": {
           "status": "COMPLETE",
-          "summary": "3/3 candidates eligible",
-          "updated_at_utc": "2026-10-06T07:00:27.962615+00:00",
+          "summary": "0/3 candidates eligible",
+          "updated_at_utc": "2026-10-06T09:06:34.438316+00:00",
           "details": {
             "candidate_count": 3,
-            "accepted_count": 3,
-            "accepted_ids": [
-              "SELL-PULLBACK",
-              "SELL-BREAKDOWN",
-              "WAIT-BASE"
-            ],
-            "endgame_plan_count": 3
+            "accepted_count": 0,
+            "accepted_ids": [],
+            "endgame_plan_count": 0
           }
         },
         "jev_shadow": {
           "status": "WAIT",
           "summary": "WAIT · conviction=LOW",
-          "updated_at_utc": "2026-10-06T07:00:29.431065+00:00",
+          "updated_at_utc": "2026-10-06T09:06:37.919814+00:00",
           "details": {
             "mode": "SHADOW",
             "execution_authority": false,
             "model": "jev-1.13.0",
-            "latency_ms": 561.5,
+            "latency_ms": 1017.5,
             "decision_stage": "WAIT_GOVERNANCE",
             "actionability": "WAIT",
             "counter_thesis": "CRITICAL",
             "evidence_quality": "WEAK",
-            "uncertainty": "HIGH",
+            "uncertainty": "MEDIUM",
             "risk_posture": "WAIT",
-            "system_conviction_score": 0.26,
+            "system_conviction_score": 0.33,
             "system_conviction_label": "LOW"
           }
         },
         "decision_risk_control": {
-          "status": "BLOCKED",
-          "summary": "SELL -> WAIT",
-          "updated_at_utc": "2026-10-06T07:00:28.365129+00:00",
+          "status": "WAIT",
+          "summary": "WAIT -> WAIT",
+          "updated_at_utc": "2026-10-06T09:06:35.686091+00:00",
           "details": {
-            "selected_candidate_id": "SELL-PULLBACK",
-            "decision_action": "SELL",
-            "decision_reason": "DIRECTIONAL_CANDIDATE_SELECTED",
+            "selected_candidate_id": null,
+            "decision_action": "WAIT",
+            "decision_reason": "NO_ELIGIBLE_CANDIDATE",
             "risk_allowed": false,
             "risk_reasons": [
-              "ACCOUNT_STATE_UNAVAILABLE",
-              "BROKER_QUOTE_UNAVAILABLE",
-              "RISK_SNAPSHOT_NOT_READY",
-              "SOURCE_QUALITY_NOT_GOOD"
+              "DECISION:NO_ELIGIBLE_CANDIDATE"
             ],
             "final_action": "WAIT",
             "proposed_volume": null
@@ -228,7 +223,7 @@
         "executive_output": {
           "status": "COMPLETE",
           "summary": "published to GitHub Portal",
-          "updated_at_utc": "2026-10-06T07:00:30.433454+00:00",
+          "updated_at_utc": "2026-10-06T09:06:40.290917+00:00",
           "details": {
             "execution_enabled": false,
             "trade_intent_enabled": false
