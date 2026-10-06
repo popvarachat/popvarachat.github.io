@@ -1,0 +1,46 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Adaptive Trading Supervisor · System Health</title>
+<style>
+:root{--bg:#08111f;--panel:#101c2d;--line:#233753;--text:#edf4ff;--muted:#91a4bd;--g:#41d695;--y:#f2c14e;--r:#ff6b6b}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(circle at 15% 0%,rgba(65,214,149,.12),transparent 30%),var(--bg);color:var(--text);font:15px/1.5 Inter,system-ui,"Segoe UI","Noto Sans Thai",sans-serif}
+.wrap{max-width:1050px;margin:auto;padding:32px 18px 54px}.top{display:flex;justify-content:space-between;gap:20px;align-items:flex-start;margin-bottom:24px}
+h1{font-size:clamp(28px,5vw,46px);margin:0 0 8px}.sub{margin:0;color:var(--muted)}.badge{padding:9px 13px;border:1px solid var(--line);border-radius:999px;font-weight:800}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.card{background:linear-gradient(180deg,#132238,#0d1828);border:1px solid var(--line);border-radius:18px;padding:17px}
+.card b{display:block;font-size:22px;margin-top:5px}.muted{color:var(--muted);font-size:12px}.green{color:var(--g)}.yellow{color:var(--y)}.red{color:var(--r)}
+.full{grid-column:1/-1}.strategy{display:grid;grid-template-columns:1.1fr .8fr 1.2fr .8fr .7fr;gap:10px;padding:12px 0;border-bottom:1px solid var(--line)}.strategy:last-child{border-bottom:0}
+.head{color:var(--muted);font-size:12px;text-transform:uppercase}.foot{margin-top:24px;color:var(--muted);font-size:12px}
+@media(max-width:760px){.grid{grid-template-columns:1fr 1fr}.strategy{grid-template-columns:1fr 1fr}.strategy .head{display:none}.top{flex-direction:column}}
+</style>
+</head>
+<body><main class="wrap">
+<div class="top"><div><div class="muted">PUBLIC-SAFE STATUS</div><h1>Adaptive Trading Supervisor</h1><p class="sub">MT5 → Research → Shadow/Paper → Decision → Human Gate</p></div><div id="statusBadge" class="badge">Loading…</div></div>
+<section class="grid">
+<div class="card"><span class="muted">SYSTEM</span><b id="systemHealth">—</b></div>
+<div class="card"><span class="muted">MT5</span><b id="mt5">—</b></div>
+<div class="card"><span class="muted">SHADOW LOOP</span><b id="loop">—</b></div>
+<div class="card"><span class="muted">WATCHDOG</span><b id="watchdog">—</b></div>
+<div class="card full"><div class="head strategy"><span>Symbol</span><span>TF</span><span>Strategy</span><span>Decision</span><span>Test Lot</span></div><div id="strategies"></div></div>
+<div class="card full"><b style="font-size:16px">Execution Safety</b><p id="safety" class="sub" style="margin-top:7px"></p></div>
+</section>
+<div class="foot">Last public snapshot: <span id="updated">—</span> · This page excludes account identifiers and private financial details. <button onclick="load()" style="margin-left:8px;background:#132238;color:#edf4ff;border:1px solid #233753;border-radius:9px;padding:6px 9px">Refresh</button></div>
+</main>
+<script>
+async function load(){
+ try{
+  const r=await fetch('./status.json?ts='+Date.now(),{cache:'no-store'}); const d=await r.json();
+  const cls=d.status==='GREEN'?'green':d.status==='YELLOW'?'yellow':'red';
+  statusBadge.className='badge '+cls; statusBadge.textContent='● '+d.status;
+  systemHealth.textContent=d.status; systemHealth.className=cls;
+  mt5.textContent=d.mt5_connected?'CONNECTED':'DISCONNECTED'; mt5.className=d.mt5_connected?'green':'red';
+  loop.textContent=d.paper_shadow_loop; loop.className=d.paper_shadow_loop==='RUNNING'?'green':'red';
+  watchdog.textContent=d.watchdog; watchdog.className=d.watchdog==='RUNNING'?'green':'red';
+  strategies.innerHTML=(d.strategies||[]).map(x=>'<div class="strategy"><span><b style="font-size:16px">'+x.symbol+'</b></span><span>'+x.timeframe+'</span><span>'+x.family+'</span><span class="'+(x.decision==='WAIT'?'yellow':'green')+'"><b style="font-size:16px">'+x.decision+'</b></span><span>'+Number(x.test_lot).toFixed(2)+'</span></div>').join('');
+  safety.textContent='Mode: '+d.execution_mode+' · Auto live order send: '+(d.live_order_auto_send?'ON':'OFF')+' · Watchdog interval: '+d.watchdog_interval_min+' min';
+  updated.textContent=new Date(d.last_updated).toLocaleString('th-TH');
+ }catch(e){statusBadge.className='badge red';statusBadge.textContent='● STATUS DATA UNAVAILABLE';}
+}
+load(); setInterval(load,30000);
+</script></body></html>
