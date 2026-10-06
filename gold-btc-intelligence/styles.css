@@ -108,3 +108,9 @@ footer{display:flex;justify-content:space-between;color:var(--muted);font-size:1
 .src-chip{display:inline-flex;padding:4px 6px;border-radius:999px;font-size:8px;font-weight:900;white-space:nowrap}
 .src-chip.good{background:#ddf7e9;color:#18724a}.src-chip.bad{background:#ffe4e4;color:#973c3c}.src-chip.neutral{background:#edf3fb;color:#43688e}
 .src-chip.stale{background:#fff0d8;color:#8b5e12}
+html,body{font-family:"Segoe UI","Noto Sans Thai",Tahoma,Arial,sans-serif}
+.bridge-status{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;border-radius:999px;border:1px solid var(--line);font-size:9px;font-weight:800;color:var(--muted);background:#fff}
+.bridge-status.online{background:#ddf7e9;color:#18724a;border-color:#bfead2}
+.bridge-status.offline{background:#ffe7e7;color:#9b3d3d;border-color:#f3c7c7}
+.bridge-status.running{background:#fff0d8;color:#8b5e12;border-color:#efd7a8}
+.btn:disabled{opacity:.65;cursor:wait}

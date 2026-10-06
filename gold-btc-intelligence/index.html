@@ -4,7 +4,7 @@
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
   <title>GOLD / BTCUSD Executive Intelligence</title>
-  <link rel="stylesheet" href="styles.css?v=set-dynamic-v2" />
+  <link rel="stylesheet" href="styles.css?v=live-refresh-v1" />
 </head>
 <body>
   <div class="shell">
@@ -15,8 +15,8 @@
         <p>Analysis / Control / Report — read-only executive surface</p>
       </div>
       <div class="hero-actions">
-        <button id="refreshBtn" class="btn primary">Refresh View</button>
-        <button id="autoBtn" class="btn">Auto Refresh: Off</button>
+        <button id="refreshBtn" class="btn primary">Refresh Latest Data</button>
+        <button id="autoBtn" class="btn">Auto View: Off</button>\n        <span id="refreshState" class="bridge-status">Bridge: checking…</span>
         <a class="btn" href="https://github.com/popvarachat/popvarachat.github.io/actions" target="_blank" rel="noreferrer">Portal Actions</a>
         <a class="btn" href="https://github.com/popvarachat/popvarachat.github.io/tree/main/gold-btc-intelligence" target="_blank" rel="noreferrer">Source Folder</a>
       </div>
@@ -30,7 +30,7 @@
     </section>
 
     <section class="cio-strip" aria-label="CIO capital state">
-      <div class="cio-title"><span>CIO CAPITAL STATE</span><b id="cioState">Loadingâ€¦</b></div>
+      <div class="cio-title"><span>CIO CAPITAL STATE</span><b id="cioState">Loading…</b></div>
       <div><span>GOLD Edge</span><b id="cioGoldEdge">—</b></div>
       <div><span>BTC Edge</span><b id="cioBtcEdge">—</b></div>
       <div><span>Portfolio Heat</span><b id="cioHeat">—</b></div>
@@ -53,7 +53,7 @@
               <p>แสดงสถานะจริงของ BTCUSD และ XAUUSD ตั้งแต่ต้นทางจนถึง Executive Output โดยหยุดก่อน Execution</p>
             </div>
             <div class="workflow-meta">
-              <span>Overall <b id="wfOverall">Loadingâ€¦</b></span>
+              <span>Overall <b id="wfOverall">Loading…</b></span>
               <span>Execution <b class="locked">DISABLED</b></span>
               <span>Updated <b id="wfUpdated">—</b></span>
             </div>
@@ -289,7 +289,7 @@
           <span class="muted">Decision-ready summary</span>
         </div>
         <article class="report panel">
-          <div id="reportText">Loadingâ€¦</div>
+          <div id="reportText">Loading…</div>
         </article>
       </section>
     </main>
@@ -299,6 +299,6 @@
       <span>Read-only / No financial mutation</span>
     </footer>
   </div>
-  <script src="app.js?v=set-dynamic-v2"></script>
+  <script src="app.js?v=live-refresh-v1"></script>
 </body>
 </html>
