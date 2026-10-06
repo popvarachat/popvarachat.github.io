@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-executive-web-v1",
-  "generated_at_utc": "2026-10-06T02:06:19.719543+00:00",
+  "generated_at_utc": "2026-10-06T02:51:22.150341+00:00",
   "system": {
     "name": "GOLD / BTCUSD Multi-Agent Trading Intelligence",
     "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
@@ -21,7 +21,7 @@
       "source_quality": "GOOD",
       "data_valid": true,
       "regime": {
-        "confidence": 0.7113086976849152,
+        "confidence": 0.7598698768051034,
         "label": "RANGE",
         "momentum_alignment": -0.5,
         "transition_warning": false,
@@ -29,13 +29,13 @@
         "volatility_level": "LOW"
       },
       "aggregate": {
-        "liquidity_score": 0.891330613370508,
+        "liquidity_score": 0.8891331882878033,
         "momentum_alignment": -0.5,
-        "momentum_score": 0.0309394318160029,
+        "momentum_score": 0.02759191981251645,
         "trend_alignment": 0.0,
-        "trend_score": 0.09051607794534297,
-        "trend_strength": 0.2886913023150847,
-        "volatility_score": 0.1735694394633256
+        "trend_score": 0.08838491765536868,
+        "trend_strength": 0.24013012319489657,
+        "volatility_score": 0.1771354046812451
       },
       "signal": {
         "session": "ASIA",
@@ -103,13 +103,13 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.3174280552378246,
-            "confidence": 0.6910718502259805,
-            "risk_score": 0.4281062477584965,
-            "state_fit": 0.5136542580278433,
+            "ev_score": 0.31324377468543085,
+            "confidence": 0.6947913877177243,
+            "risk_score": 0.4297109321065603,
+            "state_fit": 0.5227901708359344,
             "notes": [
-              "family_fit=0.647",
-              "directional_edge=0.064",
+              "family_fit=0.670",
+              "directional_edge=0.061",
               "news_risk=LOW",
               "source_quality=GOOD"
             ],
@@ -122,13 +122,13 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.268522507075411,
-            "confidence": 0.6910718502259805,
-            "risk_score": 0.4281062477584965,
-            "state_fit": 0.5136542580278433,
+            "ev_score": 0.2662975186835225,
+            "confidence": 0.6947913877177243,
+            "risk_score": 0.4297109321065603,
+            "state_fit": 0.5227901708359344,
             "notes": [
-              "family_fit=0.647",
-              "directional_edge=-0.064",
+              "family_fit=0.670",
+              "directional_edge=-0.061",
               "news_risk=LOW",
               "source_quality=GOOD"
             ],
@@ -141,12 +141,12 @@
             "rationale": [
               "WAIT is always an explicit candidate."
             ],
-            "ev_score": 0.22880284122933114,
-            "confidence": 0.773503551536664,
-            "risk_score": 0.06735694394633257,
-            "state_fit": 0.6990515797416608,
+            "ev_score": 0.22956382448767465,
+            "confidence": 0.7744547806095934,
+            "risk_score": 0.06771354046812451,
+            "state_fit": 0.7009779329948993,
             "notes": [
-              "family_fit=0.593",
+              "family_fit=0.594",
               "directional_edge=0.000",
               "news_risk=LOW",
               "source_quality=GOOD"
@@ -163,11 +163,11 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": true,
-            "adjusted_score": 0.21742805523782457,
-            "ev_score": 0.3174280552378246,
-            "confidence": 0.6910718502259805,
-            "risk_score": 0.4281062477584965,
-            "state_fit": 0.5136542580278433,
+            "adjusted_score": 0.21324377468543085,
+            "ev_score": 0.31324377468543085,
+            "confidence": 0.6947913877177243,
+            "risk_score": 0.4297109321065603,
+            "state_fit": 0.5227901708359344,
             "hard_reasons": [],
             "soft_penalties": [
               "RISK_CONTEXT_NOT_READY"
@@ -181,11 +181,11 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": true,
-            "adjusted_score": 0.16852250707541097,
-            "ev_score": 0.268522507075411,
-            "confidence": 0.6910718502259805,
-            "risk_score": 0.4281062477584965,
-            "state_fit": 0.5136542580278433,
+            "adjusted_score": 0.16629751868352252,
+            "ev_score": 0.2662975186835225,
+            "confidence": 0.6947913877177243,
+            "risk_score": 0.4297109321065603,
+            "state_fit": 0.5227901708359344,
             "hard_reasons": [],
             "soft_penalties": [
               "RISK_CONTEXT_NOT_READY"
@@ -199,11 +199,11 @@
               "WAIT is always an explicit candidate."
             ],
             "accepted": true,
-            "adjusted_score": 0.22880284122933114,
-            "ev_score": 0.22880284122933114,
-            "confidence": 0.773503551536664,
-            "risk_score": 0.06735694394633257,
-            "state_fit": 0.6990515797416608,
+            "adjusted_score": 0.22956382448767465,
+            "ev_score": 0.22956382448767465,
+            "confidence": 0.7744547806095934,
+            "risk_score": 0.06771354046812451,
+            "state_fit": 0.7009779329948993,
             "hard_reasons": [],
             "soft_penalties": []
           }
@@ -260,76 +260,76 @@
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 407.7,
-        "generated_at_utc": "2026-10-06T02:06:19.517345+00:00",
+        "latency_ms": 524.8,
+        "generated_at_utc": "2026-10-06T02:51:21.967180+00:00",
         "instrument": "BTCUSD",
         "agent_action": "WAIT",
         "agent_candidate": "WAIT-BASE",
-        "agent_confidence": 0.773503551536664,
+        "agent_confidence": 0.7744547806095934,
         "jev_actionability": {
           "selected": "WAIT",
-          "confidence": 0.96,
+          "confidence": 0.98,
           "probabilities": {
+            "ACTIONABLE": 0.0,
             "IDEA": 0.0,
-            "ARMED": 0.03,
-            "WAIT": 0.97,
-            "ACTIONABLE": 0.0
+            "WAIT": 0.99,
+            "ARMED": 0.01
           },
           "raw_type": "choice"
         },
         "jev_counter_thesis": {
           "selected": "HIGH",
-          "confidence": 0.11,
+          "confidence": 0.19,
           "probabilities": {
-            "CRITICAL": 0.09,
-            "MEDIUM": 0.26,
-            "LOW": 0.31,
-            "HIGH": 0.34
+            "HIGH": 0.39,
+            "MEDIUM": 0.24,
+            "LOW": 0.26,
+            "CRITICAL": 0.11
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
           "selected": "SUPPORTIVE",
-          "confidence": 0.49,
+          "confidence": 0.58,
           "probabilities": {
-            "SUPPORTIVE": 0.6,
-            "NEUTRAL": 0.36,
+            "NEUTRAL": 0.29,
+            "HOSTILE": 0.0,
             "UNKNOWN": 0.04,
-            "CONFLICTING": 0.0,
-            "HOSTILE": 0.0
+            "SUPPORTIVE": 0.67,
+            "CONFLICTING": 0.0
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
           "selected": "WEAK",
-          "confidence": 0.41,
+          "confidence": 0.4,
           "probabilities": {
-            "INSUFFICIENT": 0.44,
+            "WEAK": 0.56,
             "STRONG": 0.0,
-            "ADEQUATE": 0.01,
-            "WEAK": 0.55
+            "INSUFFICIENT": 0.44,
+            "ADEQUATE": 0.0
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
           "selected": "MEDIUM",
-          "confidence": 0.47,
+          "confidence": 0.31,
           "probabilities": {
-            "EXTREME": 0.01,
-            "MEDIUM": 0.6,
+            "MEDIUM": 0.49,
+            "HIGH": 0.45,
             "LOW": 0.03,
-            "HIGH": 0.36
+            "EXTREME": 0.03
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.88,
+          "confidence": 0.9,
           "probabilities": {
-            "NORMAL": 0.0,
-            "REDUCED": 0.01,
-            "WAIT": 0.91,
-            "HUMAN_REVIEW": 0.08
+            "HUMAN_REVIEW": 0.07,
+            "REDUCED": 0.0,
+            "WAIT": 0.93,
+            "NORMAL": 0.0
           },
           "raw_type": "choice"
         },
@@ -344,11 +344,11 @@
       },
       "decision": {
         "action": "WAIT",
-        "adjusted_score": 0.22880284122933114,
-        "confidence": 0.773503551536664,
+        "adjusted_score": 0.22956382448767465,
+        "confidence": 0.7744547806095934,
         "reason": "WAIT_RANKED_HIGHEST",
-        "risk_score": 0.06735694394633257,
-        "score_gap": 0.01137478599150657,
+        "risk_score": 0.06771354046812451,
+        "score_gap": 0.016320049802243802,
         "selected_candidate_id": "WAIT-BASE",
         "strategy_family": "WAIT"
       },
@@ -389,7 +389,7 @@
       },
       "signal": {
         "session": "ASIA",
-        "news_risk": "UNKNOWN",
+        "news_risk": "LOW",
         "authority": "BROKER_EXECUTION_REFERENCE"
       },
       "agent_core": {
@@ -453,14 +453,14 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.13644369569152728,
+            "ev_score": 0.2796478443718645,
             "confidence": 0.6337499999999999,
-            "risk_score": 0.5,
+            "risk_score": 0.35,
             "state_fit": 0.6072500000000001,
             "notes": [
               "family_fit=0.800",
               "directional_edge=-0.135",
-              "news_risk=UNKNOWN",
+              "news_risk=LOW",
               "source_quality=GOOD"
             ],
             "evaluator_version": "nnue-style-fixed-v1"
@@ -472,14 +472,14 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.24557655989845495,
+            "ev_score": 0.3805477500515185,
             "confidence": 0.6337499999999999,
-            "risk_score": 0.5,
+            "risk_score": 0.35,
             "state_fit": 0.6072500000000001,
             "notes": [
               "family_fit=0.800",
               "directional_edge=0.135",
-              "news_risk=UNKNOWN",
+              "news_risk=LOW",
               "source_quality=GOOD"
             ],
             "evaluator_version": "nnue-style-fixed-v1"
@@ -491,14 +491,14 @@
             "rationale": [
               "WAIT is always an explicit candidate."
             ],
-            "ev_score": 0.24250000000000002,
+            "ev_score": 0.22000000000000003,
             "confidence": 0.7625000000000001,
             "risk_score": 0.05,
             "state_fit": 0.69,
             "notes": [
               "family_fit=0.550",
               "directional_edge=-0.000",
-              "news_risk=UNKNOWN",
+              "news_risk=LOW",
               "source_quality=GOOD"
             ],
             "evaluator_version": "nnue-style-fixed-v1"
@@ -513,17 +513,16 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": false,
-            "adjusted_score": -0.04355630430847271,
-            "ev_score": 0.13644369569152728,
+            "adjusted_score": 0.1796478443718645,
+            "ev_score": 0.2796478443718645,
             "confidence": 0.6337499999999999,
-            "risk_score": 0.5,
+            "risk_score": 0.35,
             "state_fit": 0.6072500000000001,
             "hard_reasons": [
               "DATA_INCOMPLETE",
               "DATA_INVALID"
             ],
             "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
               "RISK_CONTEXT_NOT_READY"
             ]
           },
@@ -535,17 +534,16 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": false,
-            "adjusted_score": 0.06557655989845496,
-            "ev_score": 0.24557655989845495,
+            "adjusted_score": 0.28054775005151844,
+            "ev_score": 0.3805477500515185,
             "confidence": 0.6337499999999999,
-            "risk_score": 0.5,
+            "risk_score": 0.35,
             "state_fit": 0.6072500000000001,
             "hard_reasons": [
               "DATA_INCOMPLETE",
               "DATA_INVALID"
             ],
             "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
               "RISK_CONTEXT_NOT_READY"
             ]
           },
@@ -557,8 +555,8 @@
               "WAIT is always an explicit candidate."
             ],
             "accepted": false,
-            "adjusted_score": 0.16250000000000003,
-            "ev_score": 0.24250000000000002,
+            "adjusted_score": 0.22000000000000003,
+            "ev_score": 0.22000000000000003,
             "confidence": 0.7625000000000001,
             "risk_score": 0.05,
             "state_fit": 0.69,
@@ -566,9 +564,7 @@
               "DATA_INCOMPLETE",
               "DATA_INVALID"
             ],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN"
-            ]
+            "soft_penalties": []
           }
         ],
         "endgame_plans": [],
@@ -579,80 +575,80 @@
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 407.7,
-        "generated_at_utc": "2026-10-06T02:06:19.517345+00:00",
+        "latency_ms": 524.8,
+        "generated_at_utc": "2026-10-06T02:51:21.967180+00:00",
         "instrument": "XAUUSD",
         "agent_action": "WAIT",
         "agent_candidate": null,
         "agent_confidence": null,
         "jev_actionability": {
           "selected": "WAIT",
-          "confidence": 0.94,
+          "confidence": 0.82,
           "probabilities": {
-            "IDEA": 0.0,
-            "ARMED": 0.04,
-            "WAIT": 0.96,
-            "ACTIONABLE": 0.0
+            "WAIT": 0.88,
+            "IDEA": 0.01,
+            "ACTIONABLE": 0.0,
+            "ARMED": 0.11
           },
           "raw_type": "choice"
         },
         "jev_counter_thesis": {
-          "selected": "HIGH",
-          "confidence": 0.11,
+          "selected": "CRITICAL",
+          "confidence": 0.08,
           "probabilities": {
-            "MEDIUM": 0.11,
-            "CRITICAL": 0.3,
-            "LOW": 0.26,
-            "HIGH": 0.33
+            "HIGH": 0.29,
+            "MEDIUM": 0.12,
+            "LOW": 0.28,
+            "CRITICAL": 0.31
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
-          "selected": "UNKNOWN",
-          "confidence": 0.66,
+          "selected": "NEUTRAL",
+          "confidence": 0.22,
           "probabilities": {
-            "SUPPORTIVE": 0.11,
-            "NEUTRAL": 0.16,
-            "UNKNOWN": 0.73,
-            "CONFLICTING": 0.0,
-            "HOSTILE": 0.0
+            "NEUTRAL": 0.38,
+            "HOSTILE": 0.0,
+            "UNKNOWN": 0.27,
+            "SUPPORTIVE": 0.34,
+            "CONFLICTING": 0.01
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
           "selected": "WEAK",
-          "confidence": 0.45,
+          "confidence": 0.4,
           "probabilities": {
-            "INSUFFICIENT": 0.22,
+            "WEAK": 0.56,
             "STRONG": 0.01,
-            "ADEQUATE": 0.18,
-            "WEAK": 0.59
+            "INSUFFICIENT": 0.14,
+            "ADEQUATE": 0.29
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
-          "selected": "HIGH",
-          "confidence": 0.39,
+          "selected": "MEDIUM",
+          "confidence": 0.21,
           "probabilities": {
-            "EXTREME": 0.18,
-            "MEDIUM": 0.27,
-            "LOW": 0.01,
-            "HIGH": 0.54
+            "HIGH": 0.27,
+            "MEDIUM": 0.41,
+            "LOW": 0.22,
+            "EXTREME": 0.1
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.68,
+          "confidence": 0.65,
           "probabilities": {
-            "NORMAL": 0.0,
+            "HUMAN_REVIEW": 0.24,
             "REDUCED": 0.02,
-            "WAIT": 0.76,
-            "HUMAN_REVIEW": 0.22
+            "WAIT": 0.74,
+            "NORMAL": 0.0
           },
           "raw_type": "choice"
         },
-        "system_conviction_score": 0.32,
+        "system_conviction_score": 0.33,
         "system_conviction_label": "LOW",
         "decision_stage": "WAIT_GOVERNANCE",
         "hard_risk_allowed": false,
