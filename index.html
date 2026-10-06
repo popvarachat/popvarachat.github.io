@@ -50,6 +50,16 @@ border-radius:18px;padding:18px;min-height:220px;display:flex;flex-direction:col
 .repo,.arch{border:1px solid var(--line);color:var(--text)}
 .arch{background:rgba(100,168,255,.07);cursor:pointer}
 .arch:hover{border-color:var(--accent);background:rgba(100,168,255,.12)}
+.unpin{border:1px solid var(--line);background:rgba(255,120,120,.06);color:var(--text);cursor:pointer}
+.unpin:hover{border-color:#d66;background:rgba(255,120,120,.12)}
+.hidden-manage{white-space:nowrap}
+.hidden-list{display:grid;gap:10px}
+.hidden-row{display:flex;align-items:center;justify-content:space-between;gap:14px;border:1px solid var(--line);background:var(--panel2);border-radius:14px;padding:12px 14px}
+.hidden-title{font-weight:800;line-height:1.3}
+.hidden-sub{font-size:12px;color:var(--muted);margin-top:3px}
+.restore{padding:8px 10px;border-radius:10px;border:1px solid var(--line);background:rgba(124,224,195,.08);cursor:pointer;white-space:nowrap}
+.restore:hover{border-color:var(--accent2)}
+.manage-note{color:var(--muted);font-size:13px;line-height:1.55;margin:0 0 14px}
 .modal{position:fixed;inset:0;display:none;align-items:center;justify-content:center;padding:22px;background:rgba(3,9,18,.66);backdrop-filter:blur(8px);z-index:1000}
 .modal.opened{display:flex}
 .modal-card{width:min(980px,100%);max-height:90vh;overflow:auto;border:1px solid var(--line);border-radius:22px;background:var(--panel);box-shadow:0 28px 90px rgba(0,0,0,.38)}
@@ -100,6 +110,7 @@ code{color:#b9d7ff}
     <span>⌕</span>
   </label>
   <button id="refreshBtn" type="button">Refresh</button>
+  <button id="hiddenManageBtn" class="hidden-manage" type="button">การ์ดที่ซ่อน <span id="hiddenCount">(0)</span></button>
 </div>
 
 <section class="stats" aria-label="summary">
@@ -136,6 +147,26 @@ code{color:#b9d7ff}
   </section>
 </div>
 
+<div id="hiddenModal" class="modal" role="dialog" aria-modal="true" aria-labelledby="hiddenTitle" aria-hidden="true">
+  <section class="modal-card" style="width:min(760px,100%)">
+    <div class="modal-head">
+      <div>
+        <div class="tag">Portal Personalization</div>
+        <h3 id="hiddenTitle">การ์ดที่ถอนหมุด</h3>
+        <p class="modal-sub">ซ่อนเฉพาะ Portal บน Browser นี้ · ไม่ลบ Repository และไม่ลบ Web App</p>
+      </div>
+      <button id="hiddenClose" class="modal-close" type="button" aria-label="Close">×</button>
+    </div>
+    <div class="modal-body">
+      <p class="manage-note">กด “คืนการ์ด” เพื่อให้รายการกลับมาแสดง หรือคืนทั้งหมดในครั้งเดียว</p>
+      <div id="hiddenList" class="hidden-list"></div>
+      <div style="margin-top:16px;display:flex;justify-content:flex-end">
+        <button id="restoreAllBtn" type="button">คืนการ์ดทั้งหมด</button>
+      </div>
+    </div>
+  </section>
+</div>
+
 <script>
 const OWNER = "popvarachat";
 const USER_SITE_REPO = OWNER + ".github.io";
@@ -143,6 +174,13 @@ const API_BASE = "https://api.github.com/users/" + OWNER + "/repos?per_page=100&
 const grid = document.getElementById("grid");
 const q = document.getElementById("q");
 let apps = [];
+const HIDDEN_KEY = "public_apps_portal_hidden_v1";
+let hiddenNames = new Set(JSON.parse(localStorage.getItem(HIDDEN_KEY) || "[]"));
+
+function saveHidden(){
+  localStorage.setItem(HIDDEN_KEY, JSON.stringify([...hiddenNames]));
+  document.getElementById("hiddenCount").textContent="("+hiddenNames.size+")";
+}
 
 const pretty = name => name
   .replace(/-public$/i,"")
@@ -455,9 +493,11 @@ function esc(s=""){return s.replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"
 function render(){
   const needle = q.value.trim().toLowerCase();
   const filtered = apps.filter(r=>{
+    if(hiddenNames.has(r.name)) return false;
     const o=overrides[r.name]||{};
     return [r.name,o.title,o.description,r.description,(r.topics||[]).join(" ")].join(" ").toLowerCase().includes(needle);
   });
+  document.getElementById("hiddenCount").textContent="("+hiddenNames.size+")";
 
   if(!filtered.length){
     grid.innerHTML='<div class="empty">ไม่พบรายการที่ตรงกับการค้นหา</div>';
@@ -482,6 +522,7 @@ function render(){
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : (r.visibility==="local" ? `<span class="repo" aria-label="internal local">🔒 Internal Local</span>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`)}
         ${r.name==="network-diagram-public" ? `<a class="arch" href="https://popvarachat.github.io/network-diagram/#map" target="_blank" rel="noopener">Topology</a>` : ``}
         ${r.name==="production-control-tower-manual" ? `<a class="arch" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Workflow / ERD</a>` : `<button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>`}
+        <button class="unpin" type="button" data-hide="${esc(r.name)}" title="ซ่อนการ์ดนี้จาก Portal">ถอนหมุด</button>
       </div>
     </article>`;
   }).join("");
@@ -508,6 +549,47 @@ function openArchitecture(name){
 
 function closeArchitecture(){
   const m=document.getElementById("archModal");
+  m.classList.remove("opened");
+  m.setAttribute("aria-hidden","true");
+  document.body.style.overflow="";
+}
+
+function hideCard(name){
+  hiddenNames.add(name);
+  saveHidden();
+  render();
+}
+
+function restoreCard(name){
+  hiddenNames.delete(name);
+  saveHidden();
+  renderHiddenList();
+  render();
+}
+
+function renderHiddenList(){
+  const box=document.getElementById("hiddenList");
+  const rows=[...hiddenNames].map(name=>{
+    const r=apps.find(x=>x.name===name);
+    const o=overrides[name]||{};
+    const title=o.title || (r ? pretty(r.name) : pretty(name));
+    const tag=r && r.topics && r.topics[0] ? r.topics[0] : "Hidden Card";
+    return '<div class="hidden-row"><div><div class="hidden-title">'+esc(title)+'</div><div class="hidden-sub">'+esc(String(tag))+'</div></div><button class="restore" type="button" data-restore="'+esc(name)+'">คืนการ์ด</button></div>';
+  });
+  box.innerHTML=rows.length ? rows.join("") : '<div class="empty" style="padding:24px">ยังไม่มีการ์ดที่ถอนหมุด</div>';
+  document.getElementById("restoreAllBtn").disabled=rows.length===0;
+}
+
+function openHiddenManager(){
+  renderHiddenList();
+  const m=document.getElementById("hiddenModal");
+  m.classList.add("opened");
+  m.setAttribute("aria-hidden","false");
+  document.body.style.overflow="hidden";
+}
+
+function closeHiddenManager(){
+  const m=document.getElementById("hiddenModal");
   m.classList.remove("opened");
   m.setAttribute("aria-hidden","true");
   document.body.style.overflow="";
@@ -551,10 +633,21 @@ async function load(){
 }
 q.addEventListener("input",render);
 document.getElementById("refreshBtn").addEventListener("click",load);
-grid.addEventListener("click",e=>{const btn=e.target.closest("[data-arch]");if(btn) openArchitecture(btn.dataset.arch);});
+document.getElementById("hiddenManageBtn").addEventListener("click",openHiddenManager);
+grid.addEventListener("click",e=>{
+  const arch=e.target.closest("[data-arch]");
+  if(arch) return openArchitecture(arch.dataset.arch);
+  const hide=e.target.closest("[data-hide]");
+  if(hide) return hideCard(hide.dataset.hide);
+});
 document.getElementById("archClose").addEventListener("click",closeArchitecture);
 document.getElementById("archModal").addEventListener("click",e=>{if(e.target.id==="archModal") closeArchitecture();});
-document.addEventListener("keydown",e=>{if(e.key==="Escape") closeArchitecture();});
+document.getElementById("hiddenClose").addEventListener("click",closeHiddenManager);
+document.getElementById("hiddenModal").addEventListener("click",e=>{if(e.target.id==="hiddenModal") closeHiddenManager();});
+document.getElementById("hiddenList").addEventListener("click",e=>{const b=e.target.closest("[data-restore]");if(b) restoreCard(b.dataset.restore);});
+document.getElementById("restoreAllBtn").addEventListener("click",()=>{hiddenNames.clear();saveHidden();renderHiddenList();render();});
+document.addEventListener("keydown",e=>{if(e.key==="Escape"){closeArchitecture();closeHiddenManager();}});
+saveHidden();
 load();
 </script>
 </body>
