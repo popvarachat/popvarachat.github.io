@@ -188,6 +188,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "adaptive-trading-supervisor-manual": {
+    title:"Adaptive Trading Supervisor · System Health",
+    description:"Public-safe live status view ของระบบเทรด: MT5 connection · Shadow/Paper Loop · Watchdog · Strategy Decision · Human Gate"
+  },
   "production-control-tower-manual": {
     title:"Practika Production Control Tower · Rebuild Blueprint",
     description:"Pinned design baseline · Workflow topology + normalized Database ERD + PostgreSQL schema สำหรับรื้อ SO/WO/Cutting รุ่นเดิมและรอ implement ต่อ"
@@ -255,6 +259,11 @@ const overrides = {
 };
 
 const architectures = {
+  "adaptive-trading-supervisor-manual": {
+    note:"Operational health view ของ Adaptive Trading Supervisor: MT5 เป็น Source of Truth, Strategy ทำงานใน Shadow/Paper, Watchdog ตรวจ process และ Live Execution ถูกล็อกด้วย Human Gate.",
+    flow:[["Market Source","MT5 broker data"],["Strategy Brain","Trend Breakout / Mean Reversion"],["Shadow / Paper","Evaluate without auto live order"],["Watchdog","Health + restart checks"],["Human Gate","Approve live execution"],["Status Web","Public-safe health snapshot"]],
+    meta:["MT5 Source of Truth","Shadow/Paper","Watchdog","Human Gate","Public-safe"]
+  },
   "rdc-command-center-manual": {
     note:"RDC ใช้ Orchestrator คุม Agent/Skill โดยเลือก API → MCP → CLI ก่อน UI, fan-out งานอิสระแบบขนาน, โหลด Global Skill แบบ lazy และหยุดเฉพาะ Human Gate หรือ DONE ที่มีหลักฐาน.",
     flow:[["Intent","Human / ChatGPT goal + scope"],["Orchestrator","Context → route Agent/Skill → parallel plan"],["Jev Decision Layer","Bounded Agent / Skill / Retry / Model routing · SHADOW first"],["Backend","API → MCP → CLI · batch + retry"],["Agent Swarm","Build · Debug · Data · Research · QA · Security"],["Lazy Arsenal","Global metadata → pinned fetch → SHA verify on demand"],["Validation","Independent QA + source-of-truth re-read"],["Boundary","DONE or Human Gate"]],
@@ -332,6 +341,17 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"adaptive-trading-supervisor-manual",
+    visibility:"public",
+    pinned:true,
+    homepage:"https://popvarachat.github.io/adaptive-trading-supervisor/",
+    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/adaptive-trading-supervisor",
+    updated_at:"2026-10-07T00:58:00+07:00",
+    topics:["Trading System Health"],
+    language:"HTML",
+    description:"MT5 connection, Shadow/Paper Loop, Watchdog, Strategy Decision and Human Gate status."
+  },
   {
     name:"production-control-tower-manual",
     visibility:"public",
