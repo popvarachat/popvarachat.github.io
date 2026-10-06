@@ -278,9 +278,9 @@ const architectures = {
     meta:["Internal Only","Shared Registry","Evidence Confidence","No duplicate source of truth"]
   },
   "car-digital-twin-dashboard-manual": {
-    note:"Executive analytics ของ CAR โดยรักษาเส้นทางจากข้อมูลต้นทางไปถึง KPI, Trend และ Drill-down เพื่อให้ผู้บริหารย้อนตรวจเหตุผลาของตัวเลขได้",
-    flow:[["Source","CAR records / revisions"],["Data Model","Normalize + category mapping"],["Analytics","KPI · YoY · trend · aging"],["Dashboard","Executive CAR overview"],["Drill-down","CAR detail + revision timeline"],["Decision","Quality action / management review"]],
-    meta:["Quality Analytics","Traceable Drill-down","Executive Dashboard"]
+    note:"CAR Digital Twin อ่าน PDF ทุก revision ลงฐานข้อมูลจริง รวม Page Text, Form Widgets, Annotation และ File Attachment แล้วใช้ CAR Integrity Audit คัด Root Cause / System Corrective Action / Effectiveness ก่อน QMR Closure Gate",
+    flow:[["Sources","CAR 2568–2569 · 747 PDF"],["PDF Ingestion","Page · Widget · Annotation · Attachment"],["Database","SQLite CAR Digital Twin"],["Evidence","Why-Why · WI · PPTX · XLSX · Visual queue"],["Audit Engine","Opening · Root Cause · System Action · Effectiveness"],["Public Safe","Redacted JSON · GitHub Pages"],["QMR Gate","Review / Reopen / Close decision"]],
+    meta:["357 CAR","747 PDF","Database-backed","CAR Integrity Audit"]
   },
   "building-backlog-dashboard-manual": {
     note:"ภาพรวมงานอาคารคงค้างจากทะเบียนงานสู่การจัดลำดับ ความคืบหน้า และ Drill-down เพื่อใช้ติดตาม Owner และ Action ต่อเนื่อง",
