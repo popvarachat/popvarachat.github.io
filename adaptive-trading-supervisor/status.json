@@ -1,0 +1,31 @@
+{
+  "public_safe": true,
+  "system": "Adaptive Trading Supervisor",
+  "status": "GREEN",
+  "last_updated": "2026-10-07T00:56:00+07:00",
+  "mt5_connected": true,
+  "broker_connection": "CONNECTED",
+  "paper_shadow_loop": "RUNNING",
+  "paper_loop_instances": 1,
+  "watchdog": "RUNNING",
+  "watchdog_interval_min": 5,
+  "execution_mode": "SHADOW / HUMAN GATE",
+  "live_order_auto_send": false,
+  "strategies": [
+    {
+      "symbol": "GOLDmicro",
+      "timeframe": "H4",
+      "family": "TREND_BREAKOUT",
+      "decision": "WAIT",
+      "test_lot": 0.1
+    },
+    {
+      "symbol": "USDJPYmicro",
+      "timeframe": "H4",
+      "family": "MEAN_REVERSION",
+      "decision": "WAIT",
+      "test_lot": 0.2
+    }
+  ],
+  "note": "Public-safe operational snapshot. Account identifiers and private financial details are intentionally excluded."
+}
