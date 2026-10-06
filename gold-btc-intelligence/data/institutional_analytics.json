@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-institutional-analytics-v1",
-  "generated_at_utc": "2026-10-06T09:06:41.259776+00:00",
+  "generated_at_utc": "2026-10-06T10:39:43.548366+00:00",
   "proof_of_edge": {
     "gold_primary": {
       "status": "EVIDENCED_RESEARCH_ONLY",
@@ -47,9 +47,9 @@
     "current_heat_r": 0.0,
     "correlation": {
       "status": "LIVE_PUBLIC_SERIES",
-      "btc_gold_corr_30d": 0.4758719906780058,
+      "btc_gold_corr_30d": 0.4758752610357423,
       "obs_30d": 30,
-      "btc_gold_corr_90d": 0.48539158560168577,
+      "btc_gold_corr_90d": 0.4854232649296643,
       "obs_90d": 90
     },
     "execution_exposure": "NONE",
@@ -59,12 +59,12 @@
     "status": "LIVE_PUBLIC_CONTEXT",
     "regime": "MIXED",
     "score": 0,
-    "dxy_1d": -0.001145118598742223,
-    "dxy_5d": 0.006737680168895865,
+    "dxy_1d": -0.0016247466887142625,
+    "dxy_5d": 0.006254266932765873,
     "us10y_1d": 0.006443039645797732,
     "us10y_5d": 0.013549637840342577,
     "spy_5d": 0.012042726603216147,
-    "vix_5d": -0.03678310926348283,
+    "vix_5d": -0.04052372413366656,
     "note": "Heuristic macro context from public market proxies; not a trained macro model."
   },
   "capital_allocation": {
@@ -86,28 +86,28 @@
         "reason": "No BTC backtest/OOS artifact linked to this strategy stack."
       },
       "entry_trigger": {
-        "status": "NO_ACTIVE_ENTRY",
-        "candidate_id": "WAIT-BASE",
-        "action": "WAIT",
-        "family": "WAIT",
-        "current_reference_price": 85943.1,
-        "atr_h1": 300.42857142857144,
-        "entry_reference": null,
-        "distance_atr": null,
-        "stop_reference": null,
-        "target_reference": null,
+        "status": "WAIT_GOVERNANCE",
+        "candidate_id": "BUY-PULLBACK",
+        "action": "BUY",
+        "family": "PULLBACK",
+        "current_reference_price": 85991.0,
+        "atr_h1": 334.471428571429,
+        "entry_reference": 85873.935,
+        "distance_atr": 0.35000000000000653,
+        "stop_reference": 85455.84571428571,
+        "target_reference": 86542.87785714286,
         "authority": "RESEARCH_REFERENCE_NOT_EXECUTION"
       },
       "agent_alignment": {
         "label": "PIPELINE_ALIGNMENT_NOT_INDEPENDENT_CONSENSUS",
         "leader": "BUY",
-        "leader_share": 0.6,
+        "leader_share": 0.6666666666666666,
         "counts": {
-          "BUY": 3,
-          "SELL": 1,
+          "BUY": 2,
+          "SELL": 0,
           "WAIT": 1
         },
-        "eligible_candidates": 5,
+        "eligible_candidates": 3,
         "diversity_warning": "Agents currently share the same upstream feature state; agreement must not be treated as independent votes."
       },
       "capital_state": {
