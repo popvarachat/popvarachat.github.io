@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-institutional-analytics-v1",
-  "generated_at_utc": "2026-10-05T06:37:05.724663+00:00",
+  "generated_at_utc": "2026-10-06T02:06:20.087702+00:00",
   "proof_of_edge": {
     "gold_primary": {
       "status": "EVIDENCED_RESEARCH_ONLY",
@@ -47,9 +47,9 @@
     "current_heat_r": 0.0,
     "correlation": {
       "status": "LIVE_PUBLIC_SERIES",
-      "btc_gold_corr_30d": 0.49726655463283953,
+      "btc_gold_corr_30d": 0.48309216440876435,
       "obs_30d": 30,
-      "btc_gold_corr_90d": 0.48016084736162495,
+      "btc_gold_corr_90d": 0.47842870351668876,
       "obs_90d": 90
     },
     "execution_exposure": "NONE",
@@ -58,13 +58,13 @@
   "macro_regime": {
     "status": "LIVE_PUBLIC_CONTEXT",
     "regime": "MIXED",
-    "score": -1,
-    "dxy_1d": 0.003620163786850261,
-    "dxy_5d": 0.010859749861396706,
-    "us10y_1d": 0.007637953397066299,
-    "us10y_5d": 0.017939802252393333,
-    "spy_5d": -0.0022168418897026143,
-    "vix_5d": 0.029589814219495914,
+    "score": 0,
+    "dxy_1d": -0.0003327452543850917,
+    "dxy_5d": 0.007556464630340098,
+    "us10y_1d": 0.006443039645797732,
+    "us10y_5d": 0.013549637840342577,
+    "spy_5d": 0.012042726603216147,
+    "vix_5d": -0.03422521764189512,
     "note": "Heuristic macro context from public market proxies; not a trained macro model."
   },
   "capital_allocation": {
@@ -86,25 +86,25 @@
         "reason": "No BTC backtest/OOS artifact linked to this strategy stack."
       },
       "entry_trigger": {
-        "status": "WAIT_GOVERNANCE",
-        "candidate_id": "BUY-PULLBACK",
-        "action": "BUY",
-        "family": "PULLBACK",
-        "current_reference_price": 86006.9,
-        "atr_h1": 366.09999999999854,
-        "entry_reference": 85878.765,
-        "distance_atr": 0.3499999999999871,
-        "stop_reference": 85421.14,
-        "target_reference": 86610.965,
+        "status": "NO_ACTIVE_ENTRY",
+        "candidate_id": "WAIT-BASE",
+        "action": "WAIT",
+        "family": "WAIT",
+        "current_reference_price": 85561.2,
+        "atr_h1": 401.32857142856875,
+        "entry_reference": null,
+        "distance_atr": null,
+        "stop_reference": null,
+        "target_reference": null,
         "authority": "RESEARCH_REFERENCE_NOT_EXECUTION"
       },
       "agent_alignment": {
         "label": "PIPELINE_ALIGNMENT_NOT_INDEPENDENT_CONSENSUS",
         "leader": "BUY",
-        "leader_share": 0.6666666666666666,
+        "leader_share": 0.3333333333333333,
         "counts": {
-          "BUY": 2,
-          "SELL": 0,
+          "BUY": 1,
+          "SELL": 1,
           "WAIT": 1
         },
         "eligible_candidates": 3,
@@ -134,28 +134,19 @@
         "source_artifact": "EA_ALL_SYMBOL_ALL_TF_FINAL_REPORT.md"
       },
       "entry_trigger": {
-        "status": "NO_ACTIVE_ENTRY",
-        "candidate_id": "WAIT-BASE",
-        "action": "WAIT",
-        "family": "WAIT",
-        "current_reference_price": 4171.5,
-        "atr_h1": 21.842947823660715,
-        "entry_reference": null,
-        "distance_atr": null,
-        "stop_reference": null,
-        "target_reference": null,
-        "authority": "RESEARCH_REFERENCE_NOT_EXECUTION"
+        "status": "NOT_AVAILABLE",
+        "reason": "selected candidate / H1 price / ATR incomplete"
       },
       "agent_alignment": {
         "label": "PIPELINE_ALIGNMENT_NOT_INDEPENDENT_CONSENSUS",
-        "leader": "SELL",
-        "leader_share": 0.5,
+        "leader": "BUY",
+        "leader_share": 0.0,
         "counts": {
-          "BUY": 1,
-          "SELL": 2,
-          "WAIT": 1
+          "BUY": 0,
+          "SELL": 0,
+          "WAIT": 0
         },
-        "eligible_candidates": 4,
+        "eligible_candidates": 0,
         "diversity_warning": "Agents currently share the same upstream feature state; agreement must not be treated as independent votes."
       },
       "capital_state": {

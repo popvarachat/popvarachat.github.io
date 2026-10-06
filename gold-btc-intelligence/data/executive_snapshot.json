@@ -1,6 +1,6 @@
 {
   "schema_version": "grip-executive-web-v1",
-  "generated_at_utc": "2026-10-05T13:15:03.064431+00:00",
+  "generated_at_utc": "2026-10-06T02:06:19.719543+00:00",
   "system": {
     "name": "GOLD / BTCUSD Multi-Agent Trading Intelligence",
     "mode": "ANALYSIS_CONTROL_REPORT_ONLY",
@@ -21,25 +21,25 @@
       "source_quality": "GOOD",
       "data_valid": true,
       "regime": {
-        "confidence": 0.6267685839331013,
-        "label": "BULL_TREND",
-        "momentum_alignment": 0.0,
+        "confidence": 0.7113086976849152,
+        "label": "RANGE",
+        "momentum_alignment": -0.5,
         "transition_warning": false,
-        "trend_alignment": 0.5,
+        "trend_alignment": 0.0,
         "volatility_level": "LOW"
       },
       "aggregate": {
-        "liquidity_score": 0.8581478577442909,
-        "momentum_alignment": 0.0,
-        "momentum_score": 0.15100789664679695,
-        "trend_alignment": 0.5,
-        "trend_score": 0.21924786537503926,
-        "trend_strength": 0.9110578864242648,
-        "volatility_score": 0.13113012139834346
+        "liquidity_score": 0.891330613370508,
+        "momentum_alignment": -0.5,
+        "momentum_score": 0.0309394318160029,
+        "trend_alignment": 0.0,
+        "trend_score": 0.09051607794534297,
+        "trend_strength": 0.2886913023150847,
+        "volatility_score": 0.1735694394633256
       },
       "signal": {
         "session": "ASIA",
-        "news_risk": "UNKNOWN",
+        "news_risk": "LOW",
         "authority": "PUBLIC_MARKET_DATA"
       },
       "agent_core": {
@@ -52,407 +52,12 @@
         },
         "candidate_count": 3,
         "accepted_ids": [
-          "BUY-PULLBACK",
-          "BUY-BREAKOUT",
-          "WAIT-BASE"
-        ],
-        "rejected_ids": [],
-        "search_candidates": [
-          {
-            "action": "BUY",
-            "candidate_id": "BUY-PULLBACK",
-            "entry_bias_atr": -0.35,
-            "priority_hint": 0.8866586829636397,
-            "rationale": [
-              "Positive multi-timeframe trend.",
-              "Prefer retracement entry over chasing."
-            ],
-            "stop_distance_atr": 1.25,
-            "strategy_family": "PULLBACK",
-            "target_distance_atr": 2.0
-          },
-          {
-            "action": "BUY",
-            "candidate_id": "BUY-BREAKOUT",
-            "entry_bias_atr": 0.2,
-            "priority_hint": 0.6502015793293594,
-            "rationale": [
-              "Positive trend supports continuation.",
-              "Breakout requires momentum confirmation."
-            ],
-            "stop_distance_atr": 1.1,
-            "strategy_family": "BREAKOUT",
-            "target_distance_atr": 1.8
-          },
-          {
-            "action": "WAIT",
-            "candidate_id": "WAIT-BASE",
-            "entry_bias_atr": 0.0,
-            "priority_hint": 0.15,
-            "rationale": [
-              "WAIT is always an explicit candidate."
-            ],
-            "stop_distance_atr": 0.0,
-            "strategy_family": "WAIT",
-            "target_distance_atr": 0.0
-          }
-        ],
-        "evaluated_candidates": [
-          {
-            "candidate_id": "BUY-PULLBACK",
-            "action": "BUY",
-            "family": "PULLBACK",
-            "rationale": [
-              "Positive multi-timeframe trend.",
-              "Prefer retracement entry over chasing."
-            ],
-            "ev_score": 0.35661890710902244,
-            "confidence": 0.7383898081438051,
-            "risk_score": 0.5590085546292546,
-            "state_fit": 0.5965790367440176,
-            "notes": [
-              "family_fit=0.735",
-              "directional_edge=0.189",
-              "news_risk=UNKNOWN",
-              "source_quality=GOOD"
-            ],
-            "evaluator_version": "nnue-style-fixed-v1"
-          },
-          {
-            "candidate_id": "BUY-BREAKOUT",
-            "action": "BUY",
-            "family": "BREAKOUT",
-            "rationale": [
-              "Positive trend supports continuation.",
-              "Breakout requires momentum confirmation."
-            ],
-            "ev_score": 0.3200914431278361,
-            "confidence": 0.7089199570453336,
-            "risk_score": 0.5590085546292546,
-            "state_fit": 0.5302718717724568,
-            "notes": [
-              "family_fit=0.587",
-              "directional_edge=0.189",
-              "news_risk=UNKNOWN",
-              "source_quality=GOOD"
-            ],
-            "evaluator_version": "nnue-style-fixed-v1"
-          },
-          {
-            "candidate_id": "WAIT-BASE",
-            "action": "WAIT",
-            "family": "WAIT",
-            "rationale": [
-              "WAIT is always an explicit candidate."
-            ],
-            "ev_score": 0.21354963726031248,
-            "confidence": 0.7263120465753906,
-            "risk_score": 0.06311301213983435,
-            "state_fit": 0.590035899641103,
-            "notes": [
-              "family_fit=0.583",
-              "directional_edge=0.000",
-              "news_risk=UNKNOWN",
-              "source_quality=GOOD"
-            ],
-            "evaluator_version": "nnue-style-fixed-v1"
-          }
-        ],
-        "top_candidates": [
-          {
-            "candidate_id": "BUY-PULLBACK",
-            "action": "BUY",
-            "family": "PULLBACK",
-            "rationale": [
-              "Positive multi-timeframe trend.",
-              "Prefer retracement entry over chasing."
-            ],
-            "accepted": true,
-            "adjusted_score": 0.17661890710902245,
-            "ev_score": 0.35661890710902244,
-            "confidence": 0.7383898081438051,
-            "risk_score": 0.5590085546292546,
-            "state_fit": 0.5965790367440176,
-            "hard_reasons": [],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "RISK_CONTEXT_NOT_READY"
-            ]
-          },
-          {
-            "candidate_id": "BUY-BREAKOUT",
-            "action": "BUY",
-            "family": "BREAKOUT",
-            "rationale": [
-              "Positive trend supports continuation.",
-              "Breakout requires momentum confirmation."
-            ],
-            "accepted": true,
-            "adjusted_score": 0.1400914431278361,
-            "ev_score": 0.3200914431278361,
-            "confidence": 0.7089199570453336,
-            "risk_score": 0.5590085546292546,
-            "state_fit": 0.5302718717724568,
-            "hard_reasons": [],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "RISK_CONTEXT_NOT_READY"
-            ]
-          },
-          {
-            "candidate_id": "WAIT-BASE",
-            "action": "WAIT",
-            "family": "WAIT",
-            "rationale": [
-              "WAIT is always an explicit candidate."
-            ],
-            "accepted": true,
-            "adjusted_score": 0.1335496372603125,
-            "ev_score": 0.21354963726031248,
-            "confidence": 0.7263120465753906,
-            "risk_score": 0.06311301213983435,
-            "state_fit": 0.590035899641103,
-            "hard_reasons": [],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN"
-            ]
-          }
-        ],
-        "endgame_plans": [
-          {
-            "candidate_id": "BUY-PULLBACK",
-            "emergency_conditions": [
-              "DATA_INVALID",
-              "SOURCE_UNAVAILABLE",
-              "NEWS_RISK_HIGH",
-              "ABNORMAL_SPREAD_OR_EXECUTION"
-            ],
-            "expiry_bars": 10,
-            "mode": "MANAGED_EXIT_PLAN",
-            "partial_exit_r": 1.5,
-            "stop_atr": 1.25,
-            "target_atr": 2.0,
-            "trail_activation_r": 1.25
-          },
-          {
-            "candidate_id": "BUY-BREAKOUT",
-            "emergency_conditions": [
-              "DATA_INVALID",
-              "SOURCE_UNAVAILABLE",
-              "NEWS_RISK_HIGH",
-              "ABNORMAL_SPREAD_OR_EXECUTION"
-            ],
-            "expiry_bars": 6,
-            "mode": "MANAGED_EXIT_PLAN",
-            "partial_exit_r": 1.25,
-            "stop_atr": 1.1,
-            "target_atr": 1.8,
-            "trail_activation_r": 1.0
-          },
-          {
-            "candidate_id": "WAIT-BASE",
-            "emergency_conditions": [
-              "DATA_INVALID",
-              "SOURCE_UNAVAILABLE"
-            ],
-            "expiry_bars": 1,
-            "mode": "WAIT_MONITOR",
-            "partial_exit_r": null,
-            "stop_atr": 0.0,
-            "target_atr": 0.0,
-            "trail_activation_r": null
-          }
-        ],
-        "endgame_plan_count": 3
-      },
-      "jev_shadow": {
-        "status": "READY",
-        "mode": "SHADOW",
-        "execution_authority": false,
-        "model": "jev-1.13.0",
-        "latency_ms": 460.7,
-        "generated_at_utc": "2026-10-05T13:13:48.448302+00:00",
-        "instrument": "BTCUSD",
-        "agent_action": "BUY",
-        "agent_candidate": "BUY-PULLBACK",
-        "agent_confidence": 0.7383898081438051,
-        "jev_actionability": {
-          "selected": "WAIT",
-          "confidence": 0.57,
-          "probabilities": {
-            "WAIT": 0.68,
-            "ACTIONABLE": 0.0,
-            "ARMED": 0.2,
-            "IDEA": 0.12
-          },
-          "raw_type": "choice"
-        },
-        "jev_counter_thesis": {
-          "selected": "HIGH",
-          "confidence": 0.4,
-          "probabilities": {
-            "CRITICAL": 0.38,
-            "HIGH": 0.55,
-            "LOW": 0.0,
-            "MEDIUM": 0.07
-          },
-          "raw_type": "choice"
-        },
-        "jev_macro_compatibility": {
-          "selected": "UNKNOWN",
-          "confidence": 0.63,
-          "probabilities": {
-            "UNKNOWN": 0.71,
-            "SUPPORTIVE": 0.12,
-            "CONFLICTING": 0.0,
-            "HOSTILE": 0.0,
-            "NEUTRAL": 0.17
-          },
-          "raw_type": "choice"
-        },
-        "jev_evidence_quality": {
-          "selected": "WEAK",
-          "confidence": 0.52,
-          "probabilities": {
-            "ADEQUATE": 0.01,
-            "INSUFFICIENT": 0.36,
-            "STRONG": 0.0,
-            "WEAK": 0.63
-          },
-          "raw_type": "choice"
-        },
-        "jev_uncertainty": {
-          "selected": "HIGH",
-          "confidence": 0.83,
-          "probabilities": {
-            "EXTREME": 0.09,
-            "HIGH": 0.87,
-            "LOW": 0.0,
-            "MEDIUM": 0.04
-          },
-          "raw_type": "choice"
-        },
-        "jev_risk_posture": {
-          "selected": "WAIT",
-          "confidence": 0.9,
-          "probabilities": {
-            "NORMAL": 0.0,
-            "WAIT": 0.93,
-            "HUMAN_REVIEW": 0.05,
-            "REDUCED": 0.02
-          },
-          "raw_type": "choice"
-        },
-        "system_conviction_score": 0.32,
-        "system_conviction_label": "LOW",
-        "decision_stage": "WAIT_GOVERNANCE",
-        "hard_risk_allowed": false,
-        "hard_risk_reasons": [
-          "ACCOUNT_STATE_UNAVAILABLE",
-          "BROKER_QUOTE_UNAVAILABLE",
-          "NEWS_RISK_UNKNOWN",
-          "RISK_SNAPSHOT_NOT_READY"
-        ],
-        "final_action": "WAIT"
-      },
-      "decision": {
-        "action": "BUY",
-        "adjusted_score": 0.17661890710902245,
-        "confidence": 0.7383898081438051,
-        "reason": "DIRECTIONAL_CANDIDATE_SELECTED",
-        "risk_score": 0.5590085546292546,
-        "score_gap": 0.03652746398118634,
-        "selected_candidate_id": "BUY-PULLBACK",
-        "strategy_family": "PULLBACK"
-      },
-      "risk_control": {
-        "allowed": false,
-        "final_action": "WAIT",
-        "proposed_volume": null,
-        "reasons": [
-          "ACCOUNT_STATE_UNAVAILABLE",
-          "BROKER_QUOTE_UNAVAILABLE",
-          "NEWS_RISK_UNKNOWN",
-          "RISK_SNAPSHOT_NOT_READY"
-        ],
-        "sizing_status": "BLOCKED_BY_RISK_GATE"
-      },
-      "final_action": "WAIT",
-      "proposed_volume": null,
-      "execution_invoked": false,
-      "trade_intent_created": false
-    },
-    {
-      "instrument": "XAUUSD",
-      "source_quality": "DEGRADED",
-      "data_valid": true,
-      "regime": {
-        "confidence": 0.75,
-        "label": "TRANSITION",
-        "momentum_alignment": -1.0,
-        "transition_warning": true,
-        "trend_alignment": -0.5,
-        "volatility_level": "LOW"
-      },
-      "aggregate": {
-        "liquidity_score": 0.9007527184707215,
-        "momentum_alignment": -1.0,
-        "momentum_score": -0.13486039100834885,
-        "trend_alignment": -0.5,
-        "trend_score": -0.21471998730208916,
-        "trend_strength": 0.2440857987062348,
-        "volatility_score": 0.17220061001559622
-      },
-      "signal": {
-        "session": "ASIA",
-        "news_risk": "UNKNOWN",
-        "authority": "REFERENCE_ONLY_NOT_EXECUTABLE"
-      },
-      "agent_core": {
-        "orchestrator_version": "agent-core-v1",
-        "agent_versions": {
-          "endgame": "endgame-v1",
-          "evaluator": "nnue-style-fixed-v1",
-          "heuristics": "heuristics-v1",
-          "search": "search-v1"
-        },
-        "candidate_count": 5,
-        "accepted_ids": [
-          "SELL-PULLBACK",
           "MEANREV-LONG",
           "MEANREV-SHORT",
           "WAIT-BASE"
         ],
-        "rejected_ids": [
-          "SELL-BREAKDOWN"
-        ],
+        "rejected_ids": [],
         "search_candidates": [
-          {
-            "action": "SELL",
-            "candidate_id": "SELL-PULLBACK",
-            "entry_bias_atr": 0.35,
-            "priority_hint": 0.7866128698059353,
-            "rationale": [
-              "Negative multi-timeframe trend.",
-              "Prefer rally-fade entry over chasing."
-            ],
-            "stop_distance_atr": 1.25,
-            "strategy_family": "PULLBACK",
-            "target_distance_atr": 2.0
-          },
-          {
-            "action": "SELL",
-            "candidate_id": "SELL-BREAKDOWN",
-            "entry_bias_atr": -0.2,
-            "priority_hint": 0.6469720782016698,
-            "rationale": [
-              "Negative trend supports continuation.",
-              "Breakdown requires momentum confirmation."
-            ],
-            "stop_distance_atr": 1.1,
-            "strategy_family": "BREAKOUT",
-            "target_distance_atr": 1.8
-          },
           {
             "action": "BUY",
             "candidate_id": "MEANREV-LONG",
@@ -481,7 +86,7 @@
             "action": "WAIT",
             "candidate_id": "WAIT-BASE",
             "entry_bias_atr": 0.0,
-            "priority_hint": 0.35,
+            "priority_hint": 0.15,
             "rationale": [
               "WAIT is always an explicit candidate."
             ],
@@ -492,61 +97,21 @@
         ],
         "evaluated_candidates": [
           {
-            "candidate_id": "SELL-PULLBACK",
-            "action": "SELL",
-            "family": "PULLBACK",
-            "rationale": [
-              "Negative multi-timeframe trend.",
-              "Prefer rally-fade entry over chasing."
-            ],
-            "ev_score": 0.17729397648893433,
-            "confidence": 0.6681951061288671,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.3975048207214811,
-            "notes": [
-              "family_fit=0.500",
-              "directional_edge=0.179",
-              "news_risk=UNKNOWN",
-              "source_quality=DEGRADED"
-            ],
-            "evaluator_version": "nnue-style-fixed-v1"
-          },
-          {
-            "candidate_id": "SELL-BREAKDOWN",
-            "action": "SELL",
-            "family": "BREAKOUT",
-            "rationale": [
-              "Negative trend supports continuation.",
-              "Breakdown requires momentum confirmation."
-            ],
-            "ev_score": 0.1477282838857802,
-            "confidence": 0.6465020928547207,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.3486955408546517,
-            "notes": [
-              "family_fit=0.391",
-              "directional_edge=0.179",
-              "news_risk=UNKNOWN",
-              "source_quality=DEGRADED"
-            ],
-            "evaluator_version": "nnue-style-fixed-v1"
-          },
-          {
             "candidate_id": "MEANREV-LONG",
             "action": "BUY",
             "family": "MEAN_REVERSION",
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.06716621844885315,
-            "confidence": 0.6955221797326397,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.45899073632996956,
+            "ev_score": 0.3174280552378246,
+            "confidence": 0.6910718502259805,
+            "risk_score": 0.4281062477584965,
+            "state_fit": 0.5136542580278433,
             "notes": [
-              "family_fit=0.636",
-              "directional_edge=-0.179",
-              "news_risk=UNKNOWN",
-              "source_quality=DEGRADED"
+              "family_fit=0.647",
+              "directional_edge=0.064",
+              "news_risk=LOW",
+              "source_quality=GOOD"
             ],
             "evaluator_version": "nnue-style-fixed-v1"
           },
@@ -557,15 +122,15 @@
             "rationale": [
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
-            "ev_score": 0.21408183809796563,
-            "confidence": 0.6955221797326397,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.45899073632996956,
+            "ev_score": 0.268522507075411,
+            "confidence": 0.6910718502259805,
+            "risk_score": 0.4281062477584965,
+            "state_fit": 0.5136542580278433,
             "notes": [
-              "family_fit=0.636",
-              "directional_edge=0.179",
-              "news_risk=UNKNOWN",
-              "source_quality=DEGRADED"
+              "family_fit=0.647",
+              "directional_edge=-0.064",
+              "news_risk=LOW",
+              "source_quality=GOOD"
             ],
             "evaluator_version": "nnue-style-fixed-v1"
           },
@@ -576,68 +141,21 @@
             "rationale": [
               "WAIT is always an explicit candidate."
             ],
-            "ev_score": 0.21606996343874726,
-            "confidence": 0.7744624542984342,
-            "risk_score": 0.06722006100155963,
-            "state_fit": 0.5934898293146822,
+            "ev_score": 0.22880284122933114,
+            "confidence": 0.773503551536664,
+            "risk_score": 0.06735694394633257,
+            "state_fit": 0.6990515797416608,
             "notes": [
               "family_fit=0.593",
-              "directional_edge=-0.000",
-              "news_risk=UNKNOWN",
-              "source_quality=DEGRADED"
+              "directional_edge=0.000",
+              "news_risk=LOW",
+              "source_quality=GOOD"
             ],
             "evaluator_version": "nnue-style-fixed-v1"
           }
         ],
         "top_candidates": [
           {
-            "candidate_id": "SELL-PULLBACK",
-            "action": "SELL",
-            "family": "PULLBACK",
-            "rationale": [
-              "Negative multi-timeframe trend.",
-              "Prefer rally-fade entry over chasing."
-            ],
-            "accepted": true,
-            "adjusted_score": -0.20270602351106573,
-            "ev_score": 0.17729397648893433,
-            "confidence": 0.6681951061288671,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.3975048207214811,
-            "hard_reasons": [],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "REGIME_TRANSITION",
-              "RISK_CONTEXT_NOT_READY",
-              "SOURCE_DEGRADED"
-            ]
-          },
-          {
-            "candidate_id": "SELL-BREAKDOWN",
-            "action": "SELL",
-            "family": "BREAKOUT",
-            "rationale": [
-              "Negative trend supports continuation.",
-              "Breakdown requires momentum confirmation."
-            ],
-            "accepted": false,
-            "adjusted_score": -0.23227171611421987,
-            "ev_score": 0.1477282838857802,
-            "confidence": 0.6465020928547207,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.3486955408546517,
-            "hard_reasons": [
-              "BREAKOUT_TREND_TOO_WEAK",
-              "LOW_STATE_FIT"
-            ],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "REGIME_TRANSITION",
-              "RISK_CONTEXT_NOT_READY",
-              "SOURCE_DEGRADED"
-            ]
-          },
-          {
             "candidate_id": "MEANREV-LONG",
             "action": "BUY",
             "family": "MEAN_REVERSION",
@@ -645,17 +163,14 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": true,
-            "adjusted_score": -0.31283378155114694,
-            "ev_score": 0.06716621844885315,
-            "confidence": 0.6955221797326397,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.45899073632996956,
+            "adjusted_score": 0.21742805523782457,
+            "ev_score": 0.3174280552378246,
+            "confidence": 0.6910718502259805,
+            "risk_score": 0.4281062477584965,
+            "state_fit": 0.5136542580278433,
             "hard_reasons": [],
             "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "REGIME_TRANSITION",
-              "RISK_CONTEXT_NOT_READY",
-              "SOURCE_DEGRADED"
+              "RISK_CONTEXT_NOT_READY"
             ]
           },
           {
@@ -666,17 +181,14 @@
               "Weak/transition trend allows mean-reversion hypothesis."
             ],
             "accepted": true,
-            "adjusted_score": -0.16591816190203443,
-            "ev_score": 0.21408183809796563,
-            "confidence": 0.6955221797326397,
-            "risk_score": 0.5774902745070183,
-            "state_fit": 0.45899073632996956,
+            "adjusted_score": 0.16852250707541097,
+            "ev_score": 0.268522507075411,
+            "confidence": 0.6910718502259805,
+            "risk_score": 0.4281062477584965,
+            "state_fit": 0.5136542580278433,
             "hard_reasons": [],
             "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "REGIME_TRANSITION",
-              "RISK_CONTEXT_NOT_READY",
-              "SOURCE_DEGRADED"
+              "RISK_CONTEXT_NOT_READY"
             ]
           },
           {
@@ -687,49 +199,29 @@
               "WAIT is always an explicit candidate."
             ],
             "accepted": true,
-            "adjusted_score": 0.016069963438747253,
-            "ev_score": 0.21606996343874726,
-            "confidence": 0.7744624542984342,
-            "risk_score": 0.06722006100155963,
-            "state_fit": 0.5934898293146822,
+            "adjusted_score": 0.22880284122933114,
+            "ev_score": 0.22880284122933114,
+            "confidence": 0.773503551536664,
+            "risk_score": 0.06735694394633257,
+            "state_fit": 0.6990515797416608,
             "hard_reasons": [],
-            "soft_penalties": [
-              "NEWS_RISK_UNKNOWN",
-              "SOURCE_DEGRADED"
-            ]
+            "soft_penalties": []
           }
         ],
         "endgame_plans": [
-          {
-            "candidate_id": "SELL-PULLBACK",
-            "emergency_conditions": [
-              "DATA_INVALID",
-              "SOURCE_UNAVAILABLE",
-              "NEWS_RISK_HIGH",
-              "ABNORMAL_SPREAD_OR_EXECUTION",
-              "REGIME_TRANSITION_CONFIRMED"
-            ],
-            "expiry_bars": 10,
-            "mode": "MANAGED_EXIT_PLAN",
-            "partial_exit_r": 1.5,
-            "stop_atr": 1.25,
-            "target_atr": 1.7,
-            "trail_activation_r": 1.25
-          },
           {
             "candidate_id": "MEANREV-LONG",
             "emergency_conditions": [
               "DATA_INVALID",
               "SOURCE_UNAVAILABLE",
               "NEWS_RISK_HIGH",
-              "ABNORMAL_SPREAD_OR_EXECUTION",
-              "REGIME_TRANSITION_CONFIRMED"
+              "ABNORMAL_SPREAD_OR_EXECUTION"
             ],
             "expiry_bars": 5,
             "mode": "MANAGED_EXIT_PLAN",
             "partial_exit_r": 1.0,
             "stop_atr": 1.0,
-            "target_atr": 1.0625,
+            "target_atr": 1.25,
             "trail_activation_r": 0.8
           },
           {
@@ -738,14 +230,13 @@
               "DATA_INVALID",
               "SOURCE_UNAVAILABLE",
               "NEWS_RISK_HIGH",
-              "ABNORMAL_SPREAD_OR_EXECUTION",
-              "REGIME_TRANSITION_CONFIRMED"
+              "ABNORMAL_SPREAD_OR_EXECUTION"
             ],
             "expiry_bars": 5,
             "mode": "MANAGED_EXIT_PLAN",
             "partial_exit_r": 1.0,
             "stop_atr": 1.0,
-            "target_atr": 1.0625,
+            "target_atr": 1.25,
             "trail_activation_r": 0.8
           },
           {
@@ -762,87 +253,87 @@
             "trail_activation_r": null
           }
         ],
-        "endgame_plan_count": 4
+        "endgame_plan_count": 3
       },
       "jev_shadow": {
         "status": "READY",
         "mode": "SHADOW",
         "execution_authority": false,
         "model": "jev-1.13.0",
-        "latency_ms": 460.7,
-        "generated_at_utc": "2026-10-05T13:13:48.448302+00:00",
-        "instrument": "XAUUSD",
+        "latency_ms": 407.7,
+        "generated_at_utc": "2026-10-06T02:06:19.517345+00:00",
+        "instrument": "BTCUSD",
         "agent_action": "WAIT",
         "agent_candidate": "WAIT-BASE",
-        "agent_confidence": 0.7744624542984342,
+        "agent_confidence": 0.773503551536664,
         "jev_actionability": {
           "selected": "WAIT",
-          "confidence": 0.99,
+          "confidence": 0.96,
           "probabilities": {
-            "WAIT": 0.99,
-            "ACTIONABLE": 0.0,
-            "ARMED": 0.01,
-            "IDEA": 0.0
+            "IDEA": 0.0,
+            "ARMED": 0.03,
+            "WAIT": 0.97,
+            "ACTIONABLE": 0.0
           },
           "raw_type": "choice"
         },
         "jev_counter_thesis": {
-          "selected": "LOW",
-          "confidence": 0.46,
+          "selected": "HIGH",
+          "confidence": 0.11,
           "probabilities": {
-            "CRITICAL": 0.06,
-            "HIGH": 0.17,
-            "LOW": 0.6,
-            "MEDIUM": 0.17
+            "CRITICAL": 0.09,
+            "MEDIUM": 0.26,
+            "LOW": 0.31,
+            "HIGH": 0.34
           },
           "raw_type": "choice"
         },
         "jev_macro_compatibility": {
-          "selected": "UNKNOWN",
-          "confidence": 0.27,
+          "selected": "SUPPORTIVE",
+          "confidence": 0.49,
           "probabilities": {
-            "UNKNOWN": 0.42,
-            "SUPPORTIVE": 0.3,
-            "CONFLICTING": 0.01,
-            "NEUTRAL": 0.27,
+            "SUPPORTIVE": 0.6,
+            "NEUTRAL": 0.36,
+            "UNKNOWN": 0.04,
+            "CONFLICTING": 0.0,
             "HOSTILE": 0.0
           },
           "raw_type": "choice"
         },
         "jev_evidence_quality": {
           "selected": "WEAK",
-          "confidence": 0.59,
+          "confidence": 0.41,
           "probabilities": {
+            "INSUFFICIENT": 0.44,
             "STRONG": 0.0,
-            "INSUFFICIENT": 0.12,
-            "ADEQUATE": 0.19,
-            "WEAK": 0.69
+            "ADEQUATE": 0.01,
+            "WEAK": 0.55
           },
           "raw_type": "choice"
         },
         "jev_uncertainty": {
-          "selected": "HIGH",
-          "confidence": 0.52,
+          "selected": "MEDIUM",
+          "confidence": 0.47,
           "probabilities": {
-            "EXTREME": 0.19,
-            "HIGH": 0.63,
-            "LOW": 0.01,
-            "MEDIUM": 0.17
+            "EXTREME": 0.01,
+            "MEDIUM": 0.6,
+            "LOW": 0.03,
+            "HIGH": 0.36
           },
           "raw_type": "choice"
         },
         "jev_risk_posture": {
           "selected": "WAIT",
-          "confidence": 0.89,
+          "confidence": 0.88,
           "probabilities": {
-            "WAIT": 0.91,
             "NORMAL": 0.0,
-            "HUMAN_REVIEW": 0.07,
-            "REDUCED": 0.02
+            "REDUCED": 0.01,
+            "WAIT": 0.91,
+            "HUMAN_REVIEW": 0.08
           },
           "raw_type": "choice"
         },
-        "system_conviction_score": 0.44,
+        "system_conviction_score": 0.39,
         "system_conviction_label": "LOW",
         "decision_stage": "WAIT_GOVERNANCE",
         "hard_risk_allowed": false,
@@ -853,11 +344,11 @@
       },
       "decision": {
         "action": "WAIT",
-        "adjusted_score": 0.016069963438747253,
-        "confidence": 0.7744624542984342,
+        "adjusted_score": 0.22880284122933114,
+        "confidence": 0.773503551536664,
         "reason": "WAIT_RANKED_HIGHEST",
-        "risk_score": 0.06722006100155963,
-        "score_gap": 0.18198812534078168,
+        "risk_score": 0.06735694394633257,
+        "score_gap": 0.01137478599150657,
         "selected_candidate_id": "WAIT-BASE",
         "strategy_family": "WAIT"
       },
@@ -867,6 +358,325 @@
         "proposed_volume": null,
         "reasons": [
           "DECISION:WAIT_RANKED_HIGHEST"
+        ],
+        "sizing_status": "NOT_APPLICABLE"
+      },
+      "final_action": "WAIT",
+      "proposed_volume": null,
+      "execution_invoked": false,
+      "trade_intent_created": false
+    },
+    {
+      "instrument": "XAUUSD",
+      "source_quality": "GOOD",
+      "data_valid": false,
+      "regime": {
+        "confidence": 1.0,
+        "label": "RANGE",
+        "momentum_alignment": 0.0,
+        "transition_warning": false,
+        "trend_alignment": 0.0,
+        "volatility_level": "LOW"
+      },
+      "aggregate": {
+        "liquidity_score": 1.0,
+        "momentum_alignment": 0.0,
+        "momentum_score": -0.3,
+        "trend_alignment": 0.0,
+        "trend_score": 0.0,
+        "trend_strength": 0.0,
+        "volatility_score": 0.0
+      },
+      "signal": {
+        "session": "ASIA",
+        "news_risk": "UNKNOWN",
+        "authority": "BROKER_EXECUTION_REFERENCE"
+      },
+      "agent_core": {
+        "orchestrator_version": "agent-core-v1",
+        "agent_versions": {
+          "endgame": "endgame-v1",
+          "evaluator": "nnue-style-fixed-v1",
+          "heuristics": "heuristics-v1",
+          "search": "search-v1"
+        },
+        "candidate_count": 3,
+        "accepted_ids": [],
+        "rejected_ids": [
+          "MEANREV-LONG",
+          "MEANREV-SHORT",
+          "WAIT-BASE"
+        ],
+        "search_candidates": [
+          {
+            "action": "BUY",
+            "candidate_id": "MEANREV-LONG",
+            "entry_bias_atr": -0.6,
+            "priority_hint": 0.48,
+            "rationale": [
+              "Weak/transition trend allows mean-reversion hypothesis."
+            ],
+            "stop_distance_atr": 1.0,
+            "strategy_family": "MEAN_REVERSION",
+            "target_distance_atr": 1.25
+          },
+          {
+            "action": "SELL",
+            "candidate_id": "MEANREV-SHORT",
+            "entry_bias_atr": 0.6,
+            "priority_hint": 0.48,
+            "rationale": [
+              "Weak/transition trend allows mean-reversion hypothesis."
+            ],
+            "stop_distance_atr": 1.0,
+            "strategy_family": "MEAN_REVERSION",
+            "target_distance_atr": 1.25
+          },
+          {
+            "action": "WAIT",
+            "candidate_id": "WAIT-BASE",
+            "entry_bias_atr": 0.0,
+            "priority_hint": 0.15,
+            "rationale": [
+              "WAIT is always an explicit candidate."
+            ],
+            "stop_distance_atr": 0.0,
+            "strategy_family": "WAIT",
+            "target_distance_atr": 0.0
+          }
+        ],
+        "evaluated_candidates": [
+          {
+            "candidate_id": "MEANREV-LONG",
+            "action": "BUY",
+            "family": "MEAN_REVERSION",
+            "rationale": [
+              "Weak/transition trend allows mean-reversion hypothesis."
+            ],
+            "ev_score": 0.13644369569152728,
+            "confidence": 0.6337499999999999,
+            "risk_score": 0.5,
+            "state_fit": 0.6072500000000001,
+            "notes": [
+              "family_fit=0.800",
+              "directional_edge=-0.135",
+              "news_risk=UNKNOWN",
+              "source_quality=GOOD"
+            ],
+            "evaluator_version": "nnue-style-fixed-v1"
+          },
+          {
+            "candidate_id": "MEANREV-SHORT",
+            "action": "SELL",
+            "family": "MEAN_REVERSION",
+            "rationale": [
+              "Weak/transition trend allows mean-reversion hypothesis."
+            ],
+            "ev_score": 0.24557655989845495,
+            "confidence": 0.6337499999999999,
+            "risk_score": 0.5,
+            "state_fit": 0.6072500000000001,
+            "notes": [
+              "family_fit=0.800",
+              "directional_edge=0.135",
+              "news_risk=UNKNOWN",
+              "source_quality=GOOD"
+            ],
+            "evaluator_version": "nnue-style-fixed-v1"
+          },
+          {
+            "candidate_id": "WAIT-BASE",
+            "action": "WAIT",
+            "family": "WAIT",
+            "rationale": [
+              "WAIT is always an explicit candidate."
+            ],
+            "ev_score": 0.24250000000000002,
+            "confidence": 0.7625000000000001,
+            "risk_score": 0.05,
+            "state_fit": 0.69,
+            "notes": [
+              "family_fit=0.550",
+              "directional_edge=-0.000",
+              "news_risk=UNKNOWN",
+              "source_quality=GOOD"
+            ],
+            "evaluator_version": "nnue-style-fixed-v1"
+          }
+        ],
+        "top_candidates": [
+          {
+            "candidate_id": "MEANREV-LONG",
+            "action": "BUY",
+            "family": "MEAN_REVERSION",
+            "rationale": [
+              "Weak/transition trend allows mean-reversion hypothesis."
+            ],
+            "accepted": false,
+            "adjusted_score": -0.04355630430847271,
+            "ev_score": 0.13644369569152728,
+            "confidence": 0.6337499999999999,
+            "risk_score": 0.5,
+            "state_fit": 0.6072500000000001,
+            "hard_reasons": [
+              "DATA_INCOMPLETE",
+              "DATA_INVALID"
+            ],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "RISK_CONTEXT_NOT_READY"
+            ]
+          },
+          {
+            "candidate_id": "MEANREV-SHORT",
+            "action": "SELL",
+            "family": "MEAN_REVERSION",
+            "rationale": [
+              "Weak/transition trend allows mean-reversion hypothesis."
+            ],
+            "accepted": false,
+            "adjusted_score": 0.06557655989845496,
+            "ev_score": 0.24557655989845495,
+            "confidence": 0.6337499999999999,
+            "risk_score": 0.5,
+            "state_fit": 0.6072500000000001,
+            "hard_reasons": [
+              "DATA_INCOMPLETE",
+              "DATA_INVALID"
+            ],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN",
+              "RISK_CONTEXT_NOT_READY"
+            ]
+          },
+          {
+            "candidate_id": "WAIT-BASE",
+            "action": "WAIT",
+            "family": "WAIT",
+            "rationale": [
+              "WAIT is always an explicit candidate."
+            ],
+            "accepted": false,
+            "adjusted_score": 0.16250000000000003,
+            "ev_score": 0.24250000000000002,
+            "confidence": 0.7625000000000001,
+            "risk_score": 0.05,
+            "state_fit": 0.69,
+            "hard_reasons": [
+              "DATA_INCOMPLETE",
+              "DATA_INVALID"
+            ],
+            "soft_penalties": [
+              "NEWS_RISK_UNKNOWN"
+            ]
+          }
+        ],
+        "endgame_plans": [],
+        "endgame_plan_count": 0
+      },
+      "jev_shadow": {
+        "status": "READY",
+        "mode": "SHADOW",
+        "execution_authority": false,
+        "model": "jev-1.13.0",
+        "latency_ms": 407.7,
+        "generated_at_utc": "2026-10-06T02:06:19.517345+00:00",
+        "instrument": "XAUUSD",
+        "agent_action": "WAIT",
+        "agent_candidate": null,
+        "agent_confidence": null,
+        "jev_actionability": {
+          "selected": "WAIT",
+          "confidence": 0.94,
+          "probabilities": {
+            "IDEA": 0.0,
+            "ARMED": 0.04,
+            "WAIT": 0.96,
+            "ACTIONABLE": 0.0
+          },
+          "raw_type": "choice"
+        },
+        "jev_counter_thesis": {
+          "selected": "HIGH",
+          "confidence": 0.11,
+          "probabilities": {
+            "MEDIUM": 0.11,
+            "CRITICAL": 0.3,
+            "LOW": 0.26,
+            "HIGH": 0.33
+          },
+          "raw_type": "choice"
+        },
+        "jev_macro_compatibility": {
+          "selected": "UNKNOWN",
+          "confidence": 0.66,
+          "probabilities": {
+            "SUPPORTIVE": 0.11,
+            "NEUTRAL": 0.16,
+            "UNKNOWN": 0.73,
+            "CONFLICTING": 0.0,
+            "HOSTILE": 0.0
+          },
+          "raw_type": "choice"
+        },
+        "jev_evidence_quality": {
+          "selected": "WEAK",
+          "confidence": 0.45,
+          "probabilities": {
+            "INSUFFICIENT": 0.22,
+            "STRONG": 0.01,
+            "ADEQUATE": 0.18,
+            "WEAK": 0.59
+          },
+          "raw_type": "choice"
+        },
+        "jev_uncertainty": {
+          "selected": "HIGH",
+          "confidence": 0.39,
+          "probabilities": {
+            "EXTREME": 0.18,
+            "MEDIUM": 0.27,
+            "LOW": 0.01,
+            "HIGH": 0.54
+          },
+          "raw_type": "choice"
+        },
+        "jev_risk_posture": {
+          "selected": "WAIT",
+          "confidence": 0.68,
+          "probabilities": {
+            "NORMAL": 0.0,
+            "REDUCED": 0.02,
+            "WAIT": 0.76,
+            "HUMAN_REVIEW": 0.22
+          },
+          "raw_type": "choice"
+        },
+        "system_conviction_score": 0.32,
+        "system_conviction_label": "LOW",
+        "decision_stage": "WAIT_GOVERNANCE",
+        "hard_risk_allowed": false,
+        "hard_risk_reasons": [
+          "DECISION:NO_ELIGIBLE_CANDIDATE"
+        ],
+        "final_action": "WAIT"
+      },
+      "decision": {
+        "action": "WAIT",
+        "adjusted_score": null,
+        "confidence": null,
+        "reason": "NO_ELIGIBLE_CANDIDATE",
+        "risk_score": null,
+        "score_gap": null,
+        "selected_candidate_id": null,
+        "strategy_family": null
+      },
+      "risk_control": {
+        "allowed": false,
+        "final_action": "WAIT",
+        "proposed_volume": null,
+        "reasons": [
+          "DECISION:NO_ELIGIBLE_CANDIDATE"
         ],
         "sizing_status": "NOT_APPLICABLE"
       },
