@@ -578,31 +578,10 @@ async function checkLocalBridge(){
     return null;
   }
 }
-async function refreshLatestData(){
-  const btn=byId('refreshBtn'), state=byId('refreshState');
-  if(btn){btn.disabled=true;btn.textContent='Refreshing pipeline…';}
-  if(state){state.textContent='Running data → agents → JEV → publish…';state.className='bridge-status running';}
-  try{
-    const r=await fetch(LOCAL_REFRESH_BRIDGE+'/refresh',{method:'POST',cache:'no-store',mode:'cors'});
-    const d=await r.json();
-    if(!r.ok||!d.ok) throw new Error(d.error||('HTTP '+r.status));
-    const x=d.data||{};
-    SNAPSHOT=x.snapshot;
-    WORKFLOW=x.workflow;
-    INSTITUTIONAL=x.institutional;
-    SETEQ=x.set_equity;
-    FOREX=x.forex;
-    renderAll();
-    const sec=Number(d.duration_seconds||0).toFixed(0);
-    if(state){state.textContent='Updated live · '+sec+'s · '+String(d.commit||'').slice(0,7);state.className='bridge-status online';}
-    if(btn) btn.textContent='Refresh Latest Data';
-  }catch(err){
-    if(state){state.textContent='Refresh failed: '+err.message;state.className='bridge-status offline';}
-    if(btn) btn.textContent='Retry Refresh Latest Data';
-    showError(err);
-  }finally{
-    if(btn) btn.disabled=false;
-  }
+function refreshLatestData(){
+  const returnUrl=location.origin+location.pathname;
+  const target=LOCAL_REFRESH_BRIDGE+'/refresh-ui?return='+encodeURIComponent(returnUrl);
+  location.assign(target);
 }
 const refreshBtn=byId('refreshBtn'); if(refreshBtn) refreshBtn.onclick=()=>refreshLatestData();
 const autoBtn=byId('autoBtn'); if(autoBtn) autoBtn.onclick=e=>{
@@ -622,4 +601,4 @@ function showError(err){
   safeSet('reportText','<b>Unable to load executive snapshot:</b> '+esc(err.message));
   console.error(err);
 }
-loadSnapshot().then(()=>checkLocalBridge()).catch(showError);
+loadSnapshot().catch(showError);
