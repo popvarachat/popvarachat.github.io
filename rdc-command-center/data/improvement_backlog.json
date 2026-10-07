@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-07T23:10:00+07:00",
+  "priority_formula": "Impact × Frequency × Confidence ÷ Cost/Risk",
+  "items": [
+    {
+      "id": "IMP-001",
+      "finding": "Historical KPI telemetry is not yet populated",
+      "candidate": "Start central runtime telemetry collection",
+      "priority": "P0",
+      "status": "DISCOVERED",
+      "impact": "HIGH",
+      "confidence": "HIGH",
+      "evidence": [
+        "performance_summary.history_points=0"
+      ],
+      "experiment": "Collect task/tool/model/validation events on PC and NB using one schema",
+      "shadow_plan": "Observe-only collection",
+      "promotion_gate": "Schema integrity + zero secret leakage",
+      "owner": "RDC Runtime"
+    },
+    {
+      "id": "IMP-002",
+      "finding": "Economic Router has policy but lacks outcome/regret dataset",
+      "candidate": "Instrument route outcome and route regret",
+      "priority": "P1",
+      "status": "DISCOVERED",
+      "impact": "HIGH",
+      "confidence": "HIGH",
+      "evidence": [
+        "routing_recommendations.collection_status=COLLECTION_STARTED"
+      ],
+      "experiment": "Log candidate routes, selected route, quality, latency, cost and fallback",
+      "shadow_plan": "Measure only; no routing change",
+      "promotion_gate": "Sufficient sample by task type",
+      "owner": "Economic Router"
+    },
+    {
+      "id": "IMP-003",
+      "finding": "Confidence thresholds cannot be calibrated without actual outcomes",
+      "candidate": "Build confidence calibration dataset",
+      "priority": "P1",
+      "status": "DISCOVERED",
+      "impact": "HIGH",
+      "confidence": "HIGH",
+      "evidence": [
+        "confidence_calibration chart has no points"
+      ],
+      "experiment": "Log predicted confidence + validation outcome",
+      "shadow_plan": "No threshold change during collection",
+      "promotion_gate": "Calibration error measured",
+      "owner": "Confidence Gate"
+    }
+  ]
+}

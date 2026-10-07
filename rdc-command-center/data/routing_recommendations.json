@@ -1,0 +1,15 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-07T23:10:00+07:00",
+  "collection_status": "COLLECTION_STARTED",
+  "recommendations": [],
+  "active_policy": {
+    "notebook_heavy_peer": "codex-corporate",
+    "fallback": [
+      "claude-cli",
+      "gemini-cli"
+    ],
+    "unavailable": "SKIP_IMMEDIATELY"
+  },
+  "note": "Recommendation scoring starts after route outcome telemetry exists."
+}

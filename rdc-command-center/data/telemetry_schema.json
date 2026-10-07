@@ -1,0 +1,119 @@
+{
+  "schema_version": "1.0",
+  "entities": {
+    "runtime_events": [
+      "ts",
+      "host",
+      "trace_id",
+      "event_type",
+      "component",
+      "status",
+      "latency_ms",
+      "details_ref"
+    ],
+    "task_runs": [
+      "trace_id",
+      "task_type",
+      "start_ts",
+      "end_ts",
+      "status",
+      "first_pass",
+      "retry_count",
+      "human_gate",
+      "automation_level"
+    ],
+    "dag_runs": [
+      "trace_id",
+      "goal_id",
+      "task_count",
+      "depth",
+      "parallelization_ratio",
+      "critical_path_ms",
+      "replan_count"
+    ],
+    "agent_runs": [
+      "trace_id",
+      "agent",
+      "task_type",
+      "status",
+      "latency_ms",
+      "retry_count",
+      "human_intervention"
+    ],
+    "tool_runs": [
+      "trace_id",
+      "tool",
+      "task_type",
+      "status",
+      "latency_ms",
+      "cost",
+      "fallback_from"
+    ],
+    "model_runs": [
+      "trace_id",
+      "model",
+      "task_type",
+      "status",
+      "latency_ms",
+      "cost",
+      "confidence"
+    ],
+    "skill_runs": [
+      "trace_id",
+      "skill",
+      "version",
+      "status",
+      "latency_ms",
+      "regression_flag"
+    ],
+    "decision_runs": [
+      "trace_id",
+      "decision_pack",
+      "choice",
+      "confidence",
+      "final_outcome",
+      "overridden"
+    ],
+    "validation_runs": [
+      "trace_id",
+      "validator",
+      "status",
+      "checks",
+      "evidence_complete"
+    ],
+    "canary_runs": [
+      "trace_id",
+      "primary",
+      "shadow",
+      "quality_delta",
+      "latency_delta",
+      "cost_delta",
+      "decision"
+    ],
+    "improvement_candidates": [
+      "id",
+      "finding",
+      "priority",
+      "status",
+      "experiment",
+      "decision"
+    ],
+    "architecture_proposals": [
+      "id",
+      "evidence",
+      "expected_benefit",
+      "risk",
+      "confidence",
+      "test_plan",
+      "rollback_plan"
+    ],
+    "evidence_ledger": [
+      "trace_id",
+      "ts",
+      "entry_type",
+      "payload_hash",
+      "prev_hash",
+      "chain_ok"
+    ]
+  }
+}

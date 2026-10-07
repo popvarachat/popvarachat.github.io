@@ -1,0 +1,152 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-07T16:39:55.126811+00:00",
+  "collection_status": "COLLECTING",
+  "window": {
+    "current": "bootstrap",
+    "history_points": 0,
+    "baseline": null,
+    "previous_version": "v1.6",
+    "current_version": "v1.7"
+  },
+  "bootstrap_facts": {
+    "runtime_version": "1.7",
+    "pc_validation": "12/12",
+    "notebook_validation": "12/12",
+    "heartbeat_minutes": 15,
+    "architecture_manifest": "v2"
+  },
+  "kpis": [
+    {
+      "id": "success_rate",
+      "name": "Success rate",
+      "value": null,
+      "unit": "%",
+      "status": "NO_DATA",
+      "formula": "successful_tasks / total_tasks",
+      "sources": [
+        "task_runs"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "first_pass_success",
+      "name": "First-pass success",
+      "value": null,
+      "unit": "%",
+      "status": "NO_DATA",
+      "formula": "tasks_without_retry / total_tasks",
+      "sources": [
+        "task_runs"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "retry_rate",
+      "name": "Retry rate",
+      "value": null,
+      "unit": "%",
+      "status": "NO_DATA",
+      "formula": "tasks_with_retry / total_tasks",
+      "sources": [
+        "task_runs",
+        "runtime_events"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "human_gate_rate",
+      "name": "Human Gate rate",
+      "value": null,
+      "unit": "%",
+      "status": "NO_DATA",
+      "formula": "human_gate_tasks / total_tasks",
+      "sources": [
+        "task_runs",
+        "runtime_events"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "latency_p95",
+      "name": "P95 latency",
+      "value": null,
+      "unit": "ms",
+      "status": "NO_DATA",
+      "formula": "p95(task_duration_ms)",
+      "sources": [
+        "task_runs"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "cost_per_task",
+      "name": "Cost / task",
+      "value": null,
+      "unit": "currency",
+      "status": "NO_DATA",
+      "formula": "sum(model_cost + api_cost) / total_tasks",
+      "sources": [
+        "model_runs",
+        "tool_runs",
+        "task_runs"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "automation_rate",
+      "name": "Automation rate",
+      "value": null,
+      "unit": "%",
+      "status": "NO_DATA",
+      "formula": "autonomous_completed / total_tasks",
+      "sources": [
+        "task_runs"
+      ],
+      "window": "7d"
+    },
+    {
+      "id": "evidence_completeness",
+      "name": "Evidence completeness",
+      "value": null,
+      "unit": "%",
+      "status": "NO_DATA",
+      "formula": "complete_evidence_traces / completed_traces",
+      "sources": [
+        "evidence_ledger",
+        "validation_runs"
+      ],
+      "window": "7d"
+    }
+  ],
+  "self_improvement_score": {
+    "value": null,
+    "status": "NO_DATA",
+    "dimensions": {
+      "quality": null,
+      "reliability": null,
+      "speed": null,
+      "cost_efficiency": null,
+      "autonomy": null,
+      "safety": null
+    },
+    "formula": "weighted normalized telemetry metrics; requires historical baseline",
+    "source": [
+      "task_runs",
+      "validation_runs",
+      "tool_runs",
+      "model_runs",
+      "runtime_events",
+      "evidence_ledger"
+    ]
+  },
+  "charts": {
+    "runtime_health": [],
+    "latency": [],
+    "cost_quality": [],
+    "confidence_calibration": [],
+    "agent_tool_heatmap": [],
+    "canary_comparison": [],
+    "self_improvement_trend": []
+  }
+}

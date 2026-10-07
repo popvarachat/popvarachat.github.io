@@ -1,0 +1,7 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-07T23:10:00+07:00",
+  "collection_status": "COLLECTION_STARTED",
+  "patterns": [],
+  "note": "No historical failure corpus yet. Do not infer failure rates until runtime_events/task_runs are populated."
+}

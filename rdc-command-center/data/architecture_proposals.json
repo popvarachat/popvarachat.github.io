@@ -1,0 +1,8 @@
+{
+  "schema_version": "1.0",
+  "generated_at": "2026-10-07T23:10:00+07:00",
+  "collection_status": "COLLECTION_STARTED",
+  "proposals": [],
+  "promotion_policy": "PROPOSAL -> CANARY/SHADOW -> EVAL -> HUMAN/POLICY DECISION -> PROMOTE OR ROLLBACK",
+  "auto_promote": false
+}

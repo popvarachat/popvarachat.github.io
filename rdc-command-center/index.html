@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Adaptive AI Runtime</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261007-runtime17b">
+<link rel="stylesheet" href="styles.css?v=20261007-selfimprove1">
 </head>
 <body>
 <div class="shell">
@@ -35,6 +35,7 @@
     <a href="#live-monitor">Live Monitor</a>
     <a href="#architecture">Architecture</a>
     <a href="#adaptive-runtime">Adaptive Runtime</a>
+    <a href="#self-improvement">Self Improve</a>
     <a href="#eval-harness">Eval Harness</a>
     <a href="#jev-arsenal">Jev Arsenal</a>
     <a href="#agents">Agents</a>
@@ -221,6 +222,60 @@
     </div>
   </section>
 
+
+  <section id="self-improvement" class="section self-improvement-section">
+    <div class="section-head">
+      <div><span class="kicker">SELF-IMPROVING CONTROL LOOP</span><h2>Operational Performance · Learning · Improvement</h2></div>
+      <span id="siCollectionBadge" class="badge ghost">COLLECTION STARTED</span>
+    </div>
+    <p class="section-intro">ระบบนี้ไม่ hardcode KPI. ทุกค่าต้องย้อนกลับถึง source, formula, time window และ Trace ได้. ถ้ายังไม่มีข้อมูลจริงจะแสดง <b>NO DATA / COLLECTION STARTED</b> แทนการสร้างตัวเลขสมมุติ.</p>
+
+    <div class="si-loop">
+      <span>Observe</span><b>→</b><span>Measure</span><b>→</b><span>Compare</span><b>→</b><span>Diagnose</span><b>→</b><span>Recommend</span><b>→</b><span>Shadow / Canary</span><b>→</b><span>Evaluate</span><b>→</b><span>Promote / Rollback</span><b>→</b><span>Learn</span>
+    </div>
+
+    <div class="si-score-layout">
+      <article class="si-score-card">
+        <span class="kicker">SELF-IMPROVEMENT SCORE</span>
+        <div class="si-score-main"><b id="siScore">NO DATA</b><small id="siScoreMeta">Historical baseline required</small></div>
+        <div id="siDimensions" class="si-dimensions"></div>
+      </article>
+      <article class="si-facts-card">
+        <span class="kicker">VERIFIED BOOTSTRAP FACTS</span>
+        <div id="siFacts" class="provider-list"></div>
+      </article>
+    </div>
+
+    <div id="siKpis" class="si-kpi-grid"></div>
+
+    <div class="section-head si-subhead">
+      <div><span class="kicker">STATISTICAL VIEW</span><h2>Runtime Analytics Charts</h2></div>
+      <span class="hint">Charts render only from real telemetry</span>
+    </div>
+    <div class="si-chart-grid">
+      <article class="si-chart-card"><h3>Runtime Health Trend</h3><div id="chartRuntime" class="si-chart"></div><p>Success · Failure · Retry · Human Gate</p></article>
+      <article class="si-chart-card"><h3>Latency Trend</h3><div id="chartLatency" class="si-chart"></div><p>P50 · P95 by route / tool / model</p></article>
+      <article class="si-chart-card"><h3>Cost vs Quality</h3><div id="chartCostQuality" class="si-chart"></div><p>Detect expensive routes with little quality gain</p></article>
+      <article class="si-chart-card"><h3>Confidence Calibration</h3><div id="chartConfidence" class="si-chart"></div><p>Predicted confidence vs actual success</p></article>
+      <article class="si-chart-card"><h3>Agent / Tool Heatmap</h3><div id="chartHeatmap" class="si-chart"></div><p>Quality · latency · cost · retry</p></article>
+      <article class="si-chart-card"><h3>Canary / Shadow Comparison</h3><div id="chartCanary" class="si-chart"></div><p>Primary vs candidate before promotion</p></article>
+      <article class="si-chart-card wide"><h3>Self-Improvement Trend</h3><div id="chartImprovement" class="si-chart"></div><p>Quality · Reliability · Speed · Cost · Autonomy · Safety</p></article>
+    </div>
+
+    <div class="section-head si-subhead">
+      <div><span class="kicker">LEARNING QUEUE</span><h2>Improvement Backlog</h2></div>
+      <span class="hint">Impact × Frequency × Confidence ÷ Cost/Risk</span>
+    </div>
+    <div id="siBacklog" class="si-backlog"></div>
+
+    <div class="si-machine">
+      <div><span class="kicker">MACHINE-READABLE FEEDBACK</span><h3>Orchestrator Inputs</h3><p>ไฟล์ด้านล่างคือ feedback surface สำหรับ runtime รอบถัดไป ไม่ใช่ report เพื่อคนดูอย่างเดียว.</p></div>
+      <div class="si-machine-files">
+        <code>performance_summary.json</code><code>failure_patterns.json</code><code>routing_recommendations.json</code><code>architecture_proposals.json</code><code>improvement_backlog.json</code><code>promotion_candidates.json</code><code>telemetry_schema.json</code>
+      </div>
+    </div>
+  </section>
+
   <section id="eval-harness" class="section">
     <div class="section-head">
       <div><span class="kicker">MEASURE → COMPARE → CHANGE</span><h2>RDC Eval / Benchmark Harness</h2></div>
@@ -324,6 +379,7 @@
     <span id="lastUpdated"></span>
   </footer>
 </div>
-<script src="app.js?v=20261007-runtime17c"></script>
+<script src="app.js?v=20261007-selfimprove1"></script>
+<script src="self-improvement.js?v=20261007-selfimprove1"></script>
 </body>
 </html>
