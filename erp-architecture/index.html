@@ -287,6 +287,17 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 @media(max-width:760px){.report-summary{grid-template-columns:repeat(2,1fr)}.report-pipeline,.report-class-grid,.report-library{grid-template-columns:1fr 1fr}.report-stage::after{display:none!important}.report-detail-head{grid-template-columns:1fr}.report-cert{justify-content:flex-start}.report-library-head{align-items:flex-start;flex-direction:column}}
 @media(max-width:480px){.report-summary,.report-pipeline,.report-class-grid,.report-library,.report-detail-grid{grid-template-columns:1fr}}
 
+
+.report-query-wrap{padding:0 18px 18px}
+.report-query-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}
+.report-query-card{border:1px solid #29415f;border-radius:14px;background:#0b192a;padding:13px}
+.report-query-card h4{margin:0 0 8px;color:#eef5ff;font-size:12px}
+.report-query-card .rq-label{font-size:8px;font-weight:950;letter-spacing:.09em;text-transform:uppercase;color:#62d5e8;margin-top:8px}
+.report-query-card p{margin:4px 0 0;color:#91a5bf;font-size:9px;line-height:1.5}
+.report-query-card code{display:inline-block;margin:4px 4px 0 0;padding:3px 5px;border-radius:7px;border:1px solid #314762;background:#0e2035;color:#cfe4ff;font-size:8px}
+.report-private-note{margin:0 18px 18px;border:1px solid #4d435f;background:rgba(185,156,255,.06);border-radius:13px;padding:11px 12px;color:#b8aacd;font-size:9px;line-height:1.55}
+@media(max-width:760px){.report-query-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -526,6 +537,36 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
         </div>
         <div class="report-warning" id="reportWarning"></div>
       </div>
+
+
+      <div class="report-library-head">
+        <div><h3>Report Catalog & Query Playbook</h3><p>ชื่อ Report/Inquiry ที่ควรใช้ในแต่ละกลุ่ม พร้อม Grain และ Key ที่ต้องใส่เพื่อให้ Query ได้ผลลัพธ์ตรงความต้องการ</p></div>
+        <div class="flow-status">KEY → GRAIN → FILTER → RESULT</div>
+      </div>
+      <div class="report-query-wrap">
+        <div class="report-query-grid">
+          <div class="report-query-card"><h4>Executive Production Health</h4><div class="rq-label">ERP Entry Points</div><p>WO Monitor · Cutting Inquiry · Review Cutting Status · Sales Order Inquiry</p><div class="rq-label">Grain</div><p>Customer / Project / SO Line / WO / Cutting</p><div class="rq-label">Minimum Query Keys</div><p><code>Customer</code><code>Project</code><code>Sales Order</code><code>Work Order</code><code>Cutting No.</code></p><div class="rq-label">Useful Filters</div><p>Status · Due Date · Open/Terminal · Date Range</p></div>
+
+          <div class="report-query-card"><h4>Customer / Project Due-Date Risk</h4><div class="rq-label">ERP Entry Points</div><p>Sales Order Inquiry · WO Monitor · Cutting Inquiry · Review Cutting Status</p><div class="rq-label">Grain</div><p>Project / SO Line / WO / Cutting</p><div class="rq-label">Minimum Query Keys</div><p><code>Customer/Project</code><code>SO</code><code>WO</code><code>Cutting</code><code>Due/Promise</code></p><div class="rq-label">Useful Filters</div><p>Risk Band · Material State · Stale Days · Overdue/Open</p></div>
+
+          <div class="report-query-card"><h4>WIP / Aging / Current Stage</h4><div class="rq-label">ERP Entry Points</div><p>WO Monitor · Review Order Hours · Shop Floor Workbench · Review Cutting Status · Cutting Inquiry</p><div class="rq-label">Grain</div><p>WO / Cutting / Operation</p><div class="rq-label">Minimum Query Keys</div><p><code>WO</code><code>Cutting</code><code>Operation Seq.</code><code>Work Center / BU</code></p><div class="rq-label">Useful Filters</div><p>Current Stage · Operation Status · Last Activity · Stale Days</p></div>
+
+          <div class="report-query-card"><h4>Material Readiness / Shortage</h4><div class="rq-label">ERP Entry Points</div><p>Parts List Inquiry · Item Ledger · PO/PR · PO Receive · Supplier Master · Receipt Inquiry</p><div class="rq-label">Grain</div><p>WO / Cutting / Component Item</p><div class="rq-label">Minimum Query Keys</div><p><code>WO/Cutting</code><code>Item</code><code>Branch</code><code>Need Date</code></p><div class="rq-label">Useful Filters</div><p>Readiness State · Required Qty · Available Qty · PO · Supplier · ETA</p></div>
+
+          <div class="report-query-card"><h4>Routing / Stage Bottleneck</h4><div class="rq-label">ERP Entry Points</div><p>Shop Floor Workbench → WO Routing · Review Order Hours · WO Monitor</p><div class="rq-label">Grain</div><p>WO / Cutting / Operation Sequence / Work Center</p><div class="rq-label">Minimum Query Keys</div><p><code>WO</code><code>Cutting</code><code>Operation Seq.</code></p><div class="rq-label">Useful Filters</div><p>BU / Work Center · Operation Status · Activity Date · Current/Last Operation</p></div>
+
+          <div class="report-query-card"><h4>Work Center Load / Capacity</h4><div class="rq-label">ERP Entry Points</div><p>Review Order Hours · Shop Floor Workbench · Work Day Calendar</p><div class="rq-label">Grain</div><p>Work Center / BU / Date or Shift / Operation</p><div class="rq-label">Minimum Query Keys</div><p><code>Work Center/BU</code><code>Date Range</code><code>Shift/Calendar</code></p><div class="rq-label">Extra Keys Needed for Finite Capacity</div><p>Resource Units · Standard Setup/Run/Labor/Machine Time · Availability Factor</p></div>
+
+          <div class="report-query-card"><h4>Productivity · Actual vs Standard</h4><div class="rq-label">ERP Entry Points</div><p>Review Order Hours · Time Entry</p><div class="rq-label">Grain</div><p>WO / Cutting / Operation</p><div class="rq-label">Minimum Query Keys</div><p><code>WO</code><code>Cutting</code><code>Operation Seq.</code><code>Date Range</code></p><div class="rq-label">Measures</div><p>Actual Machine · Labor · Setup; Standard values still require Admin certification</p></div>
+
+          <div class="report-query-card"><h4>Supplier / PO ETA Risk</h4><div class="rq-label">ERP Entry Points</div><p>PO/PR · PO Receive · Supplier Master · Supplier Price Catalog · Supplier/Item Routing · Receipt Inquiry</p><div class="rq-label">Grain</div><p>Supplier / PO / PO Line / Item</p><div class="rq-label">Minimum Query Keys</div><p><code>Supplier</code><code>PO No.</code><code>Item</code></p><div class="rq-label">Useful Filters</div><p>Open Qty · ETA · Overdue · Due 3D/7D · No ETA</p></div>
+
+          <div class="report-query-card"><h4>Promise / OTD Governance</h4><div class="rq-label">ERP Entry Points</div><p>Sales Order Inquiry + WO/Cutting/Delivery evidence chain</p><div class="rq-label">Grain</div><p>Pending policy: SO / SO Line / Project / Delivery Event</p><div class="rq-label">Minimum Query Keys</div><p><code>Customer</code><code>Project</code><code>SO/Line</code><code>Promise/Due</code><code>Actual Delivery</code></p><div class="rq-label">Control</div><p>Do not certify OTD until official Promise Date and grain policy are approved</p></div>
+
+          <div class="report-query-card"><h4>Data Quality / Integration Health</h4><div class="rq-label">Reporting Entry</div><p>Data-quality checks · Source batch / lineage monitoring</p><div class="rq-label">Grain</div><p>DQ Check / Source Batch / Affected Entity</p><div class="rq-label">Minimum Query Keys</div><p><code>Source</code><code>Batch</code><code>Check Name</code><code>Severity</code></p><div class="rq-label">Useful Filters</div><p>Extract/Ingest Time · DQ State · Quarantine Reason · Domain</p></div>
+        </div>
+      </div>
+      <div class="report-private-note"><b>Private technical mapping:</b> UBE Object ID, official report name, version, Processing Options, Data Selection, Data Sequence, Business View/Table, Update Y/N และ downstream job chain ถูกเก็บใน Private ERP Source of Truth และจะยังไม่เผยบน Public Web จนผ่าน Admin/Developer certification.</div>
 
       <div class="report-library-head">
         <div><h3>Report Certification Matrix</h3><p>สถานะนี้ประเมินแยก Source / Grain / Calculation / Refresh / Write Behavior — ไม่ใช้คำว่า “Report พร้อมแล้ว” แบบเหมารวม</p></div>
