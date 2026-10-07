@@ -6,15 +6,15 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Agent Arsenal</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261006-qwen1">
+<link rel="stylesheet" href="styles.css?v=20261007-playwright1">
 </head>
 <body>
 <div class="shell">
   <header class="hero">
     <div>
       <div class="eyebrow"><span class="pulse"></span> RDC HYBRID SYSTEM-1 / SYSTEM-2 · PUBLIC SAFE</div>
-      <h1>RDC Command Center <small style="font-size:12px;color:#6ce5d5">v1.6-QWEN</small></h1>
-      <p class="lede">Remote execution ที่ไม่ได้มีแค่ “มือ” แต่มี <b>Orchestrator + Jev Decision Coprocessor + Qwen3 Local Agent + Agent + Sub-agent + Skill + Global Arsenal</b> อยู่หลังบ้าน พร้อมกฎ FAST EXECUTION MODE และ Human Gate.</p>
+      <h1>RDC Command Center <small style="font-size:12px;color:#6ce5d5">v1.7-PLAYWRIGHT</small></h1>
+      <p class="lede">Remote execution ที่ไม่ได้มีแค่ “มือ” แต่มี <b>Orchestrator + Jev Decision Coprocessor + Qwen3 Local Agent + Playwright Browser Executor + Agent + Sub-agent + Skill + Global Arsenal</b> อยู่หลังบ้าน พร้อมกฎ FAST EXECUTION MODE และ Human Gate.</p>
       <div class="hero-actions">
         <a href="#architecture" class="primary">ดูโครงสร้างระบบ</a>
         <a href="#weekly" class="secondary">ดูอาวุธใหม่สัปดาห์นี้</a>
@@ -73,7 +73,7 @@
 
   <section id="architecture" class="section">
     <div class="section-head">
-      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Workflow จริง v1.6: RDC · Jev · Qwen3 Local Agent · Agent · Sub-Agent · Skill · Tool Broker · Sandbox · Trace</h2></div>
+      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Workflow จริง v1.7: RDC · Jev · Qwen3 · Playwright Primary Browser · Agent · Sub-Agent · Tool Broker · Sandbox · Trace</h2></div>
       <span id="healthBadge" class="badge"></span>
     </div>
     <div class="workflow-shell">
@@ -181,8 +181,8 @@
             <span class="wf-kicker">LOCAL AI MEMBER</span><b>Qwen3 8B</b><small>rdc-jev-qwen3 · MCP / CLI · proposal-only</small>
           </button>
 
-          <button class="wf-node agent-force" data-node="agent-force" data-title="Agent Force" data-detail="Controller/Execution roles: shell-api-executor, code-builder, data-engineer, github-release, recovery-agent และ ui-fallback ทำ mutation เฉพาะ scope ที่ได้รับอนุญาต.">
-            <span class="wf-kicker">EXECUTORS</span><b>Agent Force</b><small>Shell/API · Code · Data · GitHub · Recovery · UI</small>
+          <button class="wf-node agent-force" data-node="agent-force" data-title="Agent Force" data-detail="Controller/Execution roles: shell-api-executor, browser-automation-executor, code-builder, data-engineer, github-release, recovery-agent และ ui-fallback ทำ mutation เฉพาะ scope ที่ได้รับอนุญาต.">
+            <span class="wf-kicker">EXECUTORS</span><b>Agent Force</b><small>Shell/API · Playwright Browser · Code · Data · GitHub · Recovery</small>
           </button>
 
           <button class="wf-node subagents" data-node="subagents" data-title="Sub-Agent / Reviewer Swarm" data-detail="Advisory/read-only by default: debugger, research-scout, qa-verifier, security-gatekeeper, context-librarian, test-regression-engineer และ architecture-blast-radius-reviewer. ทำงานขนานเพื่อลดภาระ context หลัก.">
@@ -193,8 +193,8 @@
             <span class="wf-kicker">LAZY LOAD</span><b>Global Arsenal</b><small>Know broadly · load narrowly</small>
           </button>
 
-          <button class="wf-node tool-broker" data-node="tool-broker" data-title="Tool Capability Broker" data-detail="อ่าน capability สดของ API/MCP/CLI/OI/UI และเลือก backend path ที่แคบที่สุดก่อนลงมือ. ถ้าทางเลือกยังสูสีกัน Jev Tool Router ช่วย score แบบ SHADOW.">
-            <span class="wf-kicker">LIVE CAPABILITY</span><b>Tool Broker</b><small>API · MCP · CLI · OI · UI</small>
+          <button class="wf-node tool-broker" data-node="tool-broker" data-title="Tool Capability Broker" data-detail="อ่าน capability สดแล้วเลือก backend-first. งาน Browser ใช้ลำดับ API/MCP → Playwright CLI/MCP → TinyFish → Windows-MCP → RDC โดย Playwright เป็น Primary และ TinyFish เป็น Secondary fallback.">
+            <span class="wf-kicker">LIVE CAPABILITY</span><b>Tool Broker</b><small>API/MCP · Playwright · TinyFish · Windows-MCP · RDC</small>
           </button>
 
           <button class="wf-node sandbox" data-node="sandbox" data-title="Sandbox / Dry Run" data-detail="Pre-mutation guard สำหรับ code/config/data: classify command, ใช้ native dry-run/check, syntax/static validation และ release condition ก่อน scoped mutation.">
@@ -202,11 +202,12 @@
           </button>
 
           <div class="wf-node execution" data-node="execution" role="button" tabindex="0" data-title="Execution Fabric">
-            <span class="wf-kicker">EXECUTION FABRIC</span><b>API · MCP · CLI · OI · UI</b>
+            <span class="wf-kicker">EXECUTION FABRIC</span><b>API · MCP · CLI · OI · Browser</b>
             <div id="fabricGraph" class="fabric-pills">
-              <span>API</span><span>MCP</span><span>CLI</span><span>OI</span><span>UI</span>
+              <span>API</span><span>MCP</span><span>CLI</span><span>OI</span><span>Browser</span>
             </div>
-            <small>Backend first · UI last</small>
+            <div id="browserGraph" class="browser-route"><span>BROWSER ROUTE</span><b>API/MCP → Playwright → TinyFish → Windows-MCP → RDC</b></div>
+            <small>Backend first · Playwright primary browser · TinyFish fallback</small>
           </div>
 
           <button class="wf-node validator" data-node="validator" data-title="Final Validator" data-detail="ตรวจ source of truth ใหม่หลัง mutation, run tests/health checks และไม่รายงาน DONE จาก intent หรือ partial success. Jev DONE เป็น advisory เท่านั้น.">
@@ -371,6 +372,6 @@
     <span id="lastUpdated"></span>
   </footer>
 </div>
-<script src="app.js?v=20261006-qwen1"></script>
+<script src="app.js?v=20261007-playwright1"></script>
 </body>
 </html>
