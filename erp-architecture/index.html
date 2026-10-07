@@ -292,6 +292,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
         <div class="flow-legend">
           <span><i></i> Business Flow</span><span><i class="lg-data"></i> Data / Evidence</span><span><i class="lg-decision"></i> Decision</span><span><i class="lg-gate"></i> Human Gate</span>
         </div>
+        <div id="layoutAuditStatus" class="flow-status" style="padding:6px 9px;font-size:8px">LAYOUT CHECK…</div>
         <div class="flow-filters">
           <button class="flow-filter active" data-flow-filter="all">ALL</button>
           <button class="flow-filter" data-flow-filter="business">BUSINESS</button>
@@ -634,10 +635,19 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     const out=list.filter(function(a){
       return a.x<0 || a.y<0 || (a.x+a.w)>baseW || (a.y+a.h)>baseH;
     }).map(function(a){return a.name});
-    map.classList.toggle("layout-pass",overlaps.length===0 && out.length===0);
-    map.classList.toggle("layout-fail",overlaps.length>0 || out.length>0);
+    const pass=overlaps.length===0 && out.length===0;
+    map.classList.toggle("layout-pass",pass);
+    map.classList.toggle("layout-fail",!pass);
     window.__ERP_LAYOUT_AUDIT__={overlaps:overlaps,outOfBounds:out,nodeCount:list.length,checkedAt:new Date().toISOString()};
-    if(overlaps.length || out.length) console.warn("ERP layout audit",window.__ERP_LAYOUT_AUDIT__);
+    const auditEl=document.getElementById("layoutAuditStatus");
+    if(auditEl){
+      auditEl.textContent=pass
+        ? "LAYOUT PASS · "+list.length+" NODES · 0 OVERLAP · 0 OUT"
+        : "LAYOUT CHECK · "+overlaps.length+" OVERLAP · "+out.length+" OUT";
+      auditEl.style.color=pass?"#c8ffe4":"#ffd2d7";
+      auditEl.style.borderColor=pass?"rgba(126,216,173,.35)":"rgba(255,122,134,.45)";
+    }
+    if(!pass) console.warn("ERP layout audit",window.__ERP_LAYOUT_AUDIT__);
     return window.__ERP_LAYOUT_AUDIT__;
   }
 
