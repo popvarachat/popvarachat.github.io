@@ -1,5 +1,5 @@
 {
-  "generated_at": "2026-10-07T11:06:00+07:00",
+  "generated_at": "2026-10-07T13:22:00+07:00",
   "status": "READY_WITH_WARNINGS",
   "gateway_version": "1.7",
   "mode": "FAST_EXECUTION_MODE",
@@ -42,6 +42,15 @@
       "name": "Windows-MCP",
       "status": "AVAILABLE · TERTIARY BROWSER FALLBACK",
       "tone": "warning"
+    },
+    {
+      "name": "OpenAI Codex Corporate",
+      "status": "AUTHENTICATED · CLI PEER · OPTIONAL",
+      "tone": "ok",
+      "peer_group": "Claude CLI / Gemini CLI",
+      "routing": "RDC decides",
+      "auth": "ChatGPT Standard seat",
+      "mode": "read-only default"
     }
   ],
   "decision_coprocessor": {
@@ -330,6 +339,18 @@
         "RDC"
       ],
       "validation": "PASS_7_OF_7"
+    },
+    "codex_corporate": {
+      "status": "READY",
+      "type": "CLI_AI_PEER",
+      "level": "PEER_WITH_CLAUDE_GEMINI",
+      "optional": true,
+      "routing": "RDC_DECIDES",
+      "availability_policy": "SKIP_IF_UNAVAILABLE",
+      "auth": "CHATGPT_STANDARD_SEAT",
+      "default_mode": "READ_ONLY",
+      "validation": "PASS",
+      "test_result": "CODEX_CORPORATE_READY"
     }
   },
   "eval_harness": {
@@ -386,7 +407,8 @@
     "Batch commands whenever possible",
     "Report only blocker, decision needed, and final validation",
     "Retry automatically when safe",
-    "Stop only at Human Gate or completion"
+    "Stop only at Human Gate or completion",
+    "Codex Corporate is an optional CLI AI peer; RDC may route to it like Claude/Gemini and must skip if unavailable"
   ],
   "human_gates": [
     "destructive or hard to reverse changes",
