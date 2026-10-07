@@ -34,6 +34,7 @@
   <nav class="tabs" aria-label="sections">
     <a href="#live-monitor">Live Monitor</a>
     <a href="#architecture">Architecture</a>
+    <a href="#adaptive-runtime">Adaptive Runtime</a>
     <a href="#eval-harness">Eval Harness</a>
     <a href="#jev-arsenal">Jev Arsenal</a>
     <a href="#agents">Agents</a>
@@ -273,6 +274,28 @@
       <article><h3>Jev Decision Coprocessor</h3><p>System-One layer สำหรับ bounded routing: Agent · Skill · Retry · Model · advisory DONE โดย hard policy และ Human Gate อยู่เหนือ Jev เสมอ.</p><div id="jevState" class="provider-list"></div></article>
       <article><h3>Lazy Arsenal</h3><p>RDC รู้ว่ามี Skill อะไรในโลก แต่ไม่ preload ทั้งหมดเข้าความจำ. โหลดเฉพาะตัวที่ต้องใช้, pin commit, verify SHA และ cache จำกัด.</p><div class="mini-flow"><span>Local</span><b>→</b><span>Metadata</span><b>→</b><span>Fetch 1</span><b>→</b><span>Verify</span></div></article>
       <article><h3>RDC v1.5 Reinforcement</h3><p>ชั้นเสริมที่ทำให้ระบบเลือกเครื่องมือจริง, ซ้อมก่อน mutation, review regression/blast-radius และตามรอยงานข้าม Agent ได้.</p><div id="reinforcementState" class="provider-list"></div></article>
+    </div>
+  </section>
+
+
+  <section id="adaptive-runtime" class="section adaptive-runtime-section">
+    <div class="section-head">
+      <div><span class="kicker">RDC v1.6 · ADAPTIVE CONTROL LAYER</span><h2>5 Item ลับที่เริ่มทำงานแล้ว</h2></div>
+      <span id="adaptiveBadge" class="badge ghost">READY SHADOW</span>
+    </div>
+    <p class="section-intro">ชั้นนี้ทำให้ RDC ขยับจาก “route ตามกฎ” ไปสู่ runtime ที่รู้สถานะตัวเอง, เลือก capability ตามหลักฐาน, escalate ตาม confidence, optimize cost/latency และตอบสนองต่อ event โดยยังไม่ขยาย execution authority ข้าม Hard Policy/Human Gate.</p>
+    <div class="adaptive-grid" id="adaptiveGrid">
+      <article data-adaptive="world_state"><span>01 · WORLD STATE</span><h3>Digital State / World Model</h3><p>เก็บสถานะ runtime, git, disk, policy boundary และ lifecycle เพื่อให้ Agent อ่าน state เดียวกันแทนการเดาจาก chat.</p><b>ACTIVE</b></article>
+      <article data-adaptive="capability_registry"><span>02 · CAPABILITY REGISTRY</span><h3>Live Capability Registry</h3><p>probe เครื่องมือที่มีจริง พร้อม availability/version metadata เพื่อให้ Tool/Model Router เลือกจากของที่พร้อมใช้งาน.</p><b>ACTIVE</b></article>
+      <article data-adaptive="confidence_escalation"><span>03 · CONFIDENCE</span><h3>Confidence Escalation</h3><p>≥97% execute ใน policy · 85–96% second review · 65–84% sandbox · &lt;65% Human Gate.</p><b>ACTIVE</b></article>
+      <article data-adaptive="economic_router"><span>04 · ECONOMIC ROUTER</span><h3>Quality × Latency × Cost</h3><p>ให้คะแนน route จากคุณภาพ, latency, cost และ failure probability แล้วเลือกเส้นทางที่ “พอเหมาะ” ไม่ใช่ตัวแพงสุดทุกครั้ง.</p><b>SHADOW</b></article>
+      <article data-adaptive="event_nervous_system"><span>05 · EVENT NERVOUS SYSTEM</span><h3>Event-driven Trigger Layer</h3><p>ตรวจ event เช่น disk ต่ำ, provider หาย, validation fail, worktree delta แล้ว route ไป Recovery/Retry/Human Gate แบบ shadow ก่อน.</p><b>SHADOW</b></article>
+    </div>
+    <div class="adaptive-policy">
+      <div><span>Execution authority</span><b>UNCHANGED</b><small>Hard Policy + Human Gate เหมือนเดิม</small></div>
+      <div><span>Runtime tests</span><b id="adaptiveTests">8 / 8 PASS</b><small>world · capability · confidence · economic · event</small></div>
+      <div><span>Capability probes</span><b id="adaptiveCapabilities">9</b><small>public-safe count only</small></div>
+      <div><span>Promotion path</span><b>SHADOW → EVAL → ACTIVE</b><small>ไม่มี auto-promotion</small></div>
     </div>
   </section>
 

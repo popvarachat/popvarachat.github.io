@@ -229,6 +229,22 @@ const NODE_DETAILS={
     flowToggle.innerHTML=paused?"<span></span> FLOW PAUSED":"<span></span> FLOW LIVE";
   });
 
+
+  const ar=s.adaptive_runtime||{};
+  const adaptiveBadge=document.getElementById("adaptiveBadge");
+  if(adaptiveBadge) adaptiveBadge.textContent=String(ar.status||"UNKNOWN").replaceAll("_"," ");
+  const layers=ar.layers||{};
+  document.querySelectorAll("[data-adaptive]").forEach(card=>{
+    const item=layers[card.dataset.adaptive]||{};
+    const state=String(item.status||"UNKNOWN").replaceAll("_"," ");
+    const b=card.querySelector("b");
+    if(b){b.textContent=state;b.classList.toggle("warning",state.includes("SHADOW")||state.includes("WARN"));}
+  });
+  const at=document.getElementById("adaptiveTests");
+  if(at) at.textContent=`${ar.validation?.checks_passed??"–"} / ${ar.validation?.checks_total??"–"} ${ar.validation?.status||""}`;
+  const ac=document.getElementById("adaptiveCapabilities");
+  if(ac) ac.textContent=ar.capability_probe_count??"–";
+
   const ja=s.jev_decision_arsenal||{};
   const packs=Array.isArray(ja.packs)?ja.packs:[];
   const profiles=ja.profiles||{};

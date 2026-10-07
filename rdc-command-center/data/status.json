@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-07T13:25:00+07:00",
+  "generated_at": "2026-10-07T22:04:19+07:00",
   "status": "READY_WITH_WARNINGS",
-  "gateway_version": "1.8",
+  "gateway_version": "1.6-shadow",
   "mode": "FAST_EXECUTION_MODE",
   "agents": 15,
   "local_skills": 18,
@@ -641,5 +641,56 @@
         "mode": "CLI"
       }
     ]
+  },
+  "adaptive_runtime": {
+    "status": "READY_SHADOW",
+    "authority_expanded": false,
+    "validation": {
+      "status": "PASS",
+      "checks_passed": 8,
+      "checks_total": 8
+    },
+    "capability_probe_count": 9,
+    "layers": {
+      "world_state": {
+        "status": "ACTIVE",
+        "mode": "LOCAL_STATE"
+      },
+      "capability_registry": {
+        "status": "ACTIVE",
+        "mode": "LIVE_PROBE"
+      },
+      "confidence_escalation": {
+        "status": "ACTIVE",
+        "mode": "DETERMINISTIC_THRESHOLDS"
+      },
+      "economic_router": {
+        "status": "SHADOW",
+        "mode": "QUALITY_LATENCY_COST_FAILURE"
+      },
+      "event_nervous_system": {
+        "status": "SHADOW",
+        "mode": "NO_EXTERNAL_MUTATION"
+      }
+    },
+    "confidence_policy": [
+      {
+        "min": 0.97,
+        "action": "EXECUTE_WITHIN_POLICY"
+      },
+      {
+        "min": 0.85,
+        "action": "SECOND_AGENT_REVIEW"
+      },
+      {
+        "min": 0.65,
+        "action": "SANDBOX_SIMULATE"
+      },
+      {
+        "min": 0.0,
+        "action": "HUMAN_GATE"
+      }
+    ],
+    "promotion_policy": "SHADOW → EVAL → ACTIVE; no auto-promotion"
   }
 }
