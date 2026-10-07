@@ -13,12 +13,12 @@ const NODE_DETAILS={
   "model-router":{kicker:"REASONING ROUTE",purpose:"เลือก local rule, Jev, Claude, Ollama หรือ deep reasoning ตามความซับซ้อน latency และต้นทุน.",authority:"Routing advisory; governed actions ยังอยู่ใต้ policy.",inputs:["Complexity","Latency","Privacy"],outputs:["Reasoning route"],related:"#architecture"},
   "qwen-local":{kicker:"LOCAL AI MEMBER",purpose:"Qwen3 8B ที่ปรับเป็น rdc-jev-qwen3 ทำหน้าที่ planner/researcher/reviewer ผ่าน MCP/CLI.",authority:"Proposal-only; ไม่มี host execution authority. Host mutation ต้องผ่าน QA และ Human Gate ตาม policy.",inputs:["Task packet","Local context","Decision/review request"],outputs:["Plan","Review","Structured recommendation"],related:"#architecture"},
   "retry-router":{kicker:"RECOVERY CONTROL",purpose:"ตัดสิน RETRY_SAME, CHANGE_METHOD, CALL_DEBUGGER, ROLLBACK, DEEP_REASONING หรือ HUMAN_GATE หลัง failure.",authority:"Safe/idempotent retry อัตโนมัติได้; high-impact retry ต้อง gate.",inputs:["Failure evidence","Idempotency","Checkpoint"],outputs:["Recovery action"],related:"#architecture"},
-  "agent-force":{kicker:"EXECUTION ROLES",purpose:"กลุ่ม Agent ที่ลงมือทำ scoped work เช่น shell/API, code, data, GitHub, recovery และ UI fallback.",authority:"Scoped write ตามงานที่ RDC มอบหมาย; ห้ามขยาย scope เอง.",inputs:["Task packet","Skill","Tool route"],outputs:["Mutation","Artifacts","Evidence"],related:"#agents"},
+  "agent-force":{kicker:"EXECUTION ROLES",purpose:"กลุ่ม Agent ที่ลงมือทำ scoped work เช่น shell/API, Playwright browser automation, code, data, GitHub, recovery และ UI fallback.",authority:"Scoped write ตามงานที่ RDC มอบหมาย; ห้ามขยาย scope เอง.",inputs:["Task packet","Skill","Tool route"],outputs:["Mutation","Artifacts","Evidence"],related:"#agents"},
   "subagents":{kicker:"PARALLEL ADVISORY",purpose:"Reviewer/Scout/Debugger/QA/Security/Context ทำงานขนานเพื่อลด context load และเพิ่ม independent review.",authority:"Read-only/advisory by default.",inputs:["Narrow review question"],outputs:["Finding","Recommendation","Evidence"],related:"#agents"},
   "arsenal":{kicker:"LAZY CAPABILITY",purpose:"Global skill metadata ที่รู้จักกว้างแต่ไม่ preload; fetch เฉพาะ pinned commit และ verify SHA ตอนต้องใช้.",authority:"ไม่มี execution authority จนถูกเลือกและผ่าน validation.",inputs:["Capability gap"],outputs:["Verified skill candidate"],related:"#arsenal"},
-  "execution":{kicker:"EXECUTION FABRIC",purpose:"พื้นผิวลงมือจริงโดยเรียง backend-first: API → MCP → CLI → OI → UI fallback.",authority:"ทำตาม scope ของ RDC และ policy; UI เป็นทางเลือกสุดท้าย.",inputs:["Action","Credentials via secure store","Tool args"],outputs:["Observed external/local state"],related:"#architecture"},
+  "execution":{kicker:"EXECUTION FABRIC",purpose:"พื้นผิวลงมือจริงแบบ backend-first. งาน Browser ใช้ API/MCP ก่อน แล้ว Playwright CLI/MCP เป็น Primary; TinyFish เป็น Secondary fallback; จากนั้น Windows-MCP และ RDC.",authority:"ทำตาม scope ของ RDC และ policy; Router เลือก browser engine อัตโนมัติจาก intent.",inputs:["Action","Credentials via secure store","Tool args","Browser intent"],outputs:["Observed external/local state"],related:"#architecture"},
   "validator":{kicker:"SYSTEM-TWO CHECK",purpose:"ตรวจ source of truth ใหม่หลัง mutation, tests/health checks และหลักฐานสุดท้ายก่อนรายงาน DONE.",authority:"ถือ final-validation authority; Jev DONE เป็น advisory เท่านั้น.",inputs:["Requested outcome","Observed state","Tests"],outputs:["PASS","RETRY","BLOCKED"],related:"#guardrails"},
-  "tool-broker":{kicker:"LIVE CAPABILITY BROKER",purpose:"อ่านสถานะเครื่องมือจริงแล้วจัดอันดับ API/MCP/CLI/OI/UI ก่อน execution เพื่อลดการเปิด UI และลด route ที่เดาเอา.",authority:"เลือก/เสนอ execution surface; ไม่อนุมัติ governed action.",inputs:["Task need","Live capabilities","Privacy/latency constraints"],outputs:["Preferred route","Fallback order"],related:"#architecture"},
+  "tool-broker":{kicker:"LIVE CAPABILITY BROKER",purpose:"อ่านสถานะเครื่องมือจริงแล้วจัด route ที่แคบและคุ้มที่สุด. งาน Browser ใช้ API/MCP → Playwright CLI/MCP → TinyFish → Windows-MCP → RDC.",authority:"เลือก/เสนอ execution surface; Playwright เป็น Primary Browser Executor และ TinyFish เป็น Secondary fallback; ไม่อนุมัติ governed action.",inputs:["Task need","Live capabilities","Privacy/latency constraints","Session availability"],outputs:["Preferred route","Fallback order"],related:"#architecture"},
   "sandbox":{kicker:"PRE-MUTATION GUARD",purpose:"จำแนก mutation, ใช้ dry-run/check และ syntax/static validation ก่อนปล่อยงานให้ executor.",authority:"หยุดที่ HUMAN_GATE เมื่อพบ governed/destructive/live-money action; ไม่แทน Final Validator.",inputs:["Planned action","Target artifacts","Rollback context"],outputs:["READ_ONLY_SAFE","DRY_RUN_REQUIRED","HUMAN_GATE"],related:"#guardrails"},
   "test-engineer":{kicker:"READ-ONLY TEST REVIEWER",purpose:"ออกแบบ test matrix ตาม failure mode และพยายาม falsify ผลลัพธ์ด้วย unit/contract/integration/regression/negative-path checks ที่เกี่ยวข้อง.",authority:"Advisory/read-only; ไม่แก้ source code.",inputs:["Change scope","Expected behavior","Evidence"],outputs:["Test matrix","Regression findings"],related:"#agents"},
   "architecture-reviewer":{kicker:"READ-ONLY ARCHITECTURE REVIEWER",purpose:"ตรวจ dependency, coupling, backward compatibility, migration sequencing, rollback และ downstream blast radius.",authority:"Advisory/read-only; broad mutation ยังอยู่กับ RDC + Human Gate.",inputs:["Change graph","Interfaces","Consumers"],outputs:["Blast-radius map","Safe sequencing","Rollback concerns"],related:"#agents"},
@@ -92,6 +92,14 @@ const NODE_DETAILS={
   const jevGraph=document.getElementById("jevGraphStatus");
   if(jevGraph) jevGraph.textContent=`${dc.status||"UNKNOWN"} · ${dc.model||"—"}`;
 
+  const browserRoute=s.browser_routing||{};
+  const browserEl=document.getElementById("browserGraph");
+  if(browserEl){
+    const order=Array.isArray(browserRoute.order)?browserRoute.order:[];
+    browserEl.innerHTML='<span>BROWSER ROUTE</span><b>'+esc(order.join(' → ')||'API/MCP → Playwright → TinyFish → Windows-MCP → RDC')+'</b>';
+    browserEl.title=browserRoute.status?('Status: '+browserRoute.status):'';
+  }
+
   const fabric=s.execution_fabric||{};
   const fabricEl=document.getElementById("fabricGraph");
   if(fabricEl){
@@ -132,7 +140,7 @@ const NODE_DETAILS={
     if(id==="test-engineer") return ix.test_regression_engineer?.status||"UNKNOWN";
     if(id==="architecture-reviewer") return ix.architecture_blast_radius_reviewer?.status||"UNKNOWN";
     if(id==="trace") return `${ix.observability?.status||"UNKNOWN"} · ${ix.observability?.traces||0} TRACES`;
-    if(id==="execution") return Object.values(fabric).map(x=>`${x.name}:${x.status}`).join(" · ");
+    if(id==="execution") return "PLAYWRIGHT PRIMARY · TINYFISH FALLBACK · "+Object.values(fabric).map(x=>`${x.name}:${x.status}`).join(" · ");
     if(id==="validator") return "AUTHORITATIVE";
     if(id==="telemetry") return "JEV SHADOW OBSERVE";
     if(id==="done") return "VERIFIED ONLY";
@@ -284,7 +292,7 @@ const NODE_DETAILS={
 (()=> {
   const LOCAL_LIVE="http://127.0.0.1:8876/live.json";
   const REMOTE_LIVE="https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/rdc-live/rdc-live.json";
-  const NODE={"orchestrator":"rdc","rdc":"rdc","jev":"jev","agent-router":"agent-router","skill-router":"skill-router","model-router":"model-router","qwen-local":"qwen-local","qwen3":"qwen-local","rdc-jev-qwen3":"qwen-local","retry-router":"retry-router","tool-broker":"tool-broker","sandbox":"sandbox","execution":"execution","executor":"execution","shell-api-executor":"agent-force","code-builder":"agent-force","data-engineer":"agent-force","github-release":"agent-force","recovery-agent":"agent-force","ui-fallback":"agent-force","debugger":"subagents","research-scout":"subagents","qa-verifier":"subagents","security-gatekeeper":"subagents","context-librarian":"subagents","test-regression-engineer":"test-engineer","test-engineer":"test-engineer","architecture-blast-radius-reviewer":"architecture-reviewer","architecture-reviewer":"architecture-reviewer","validator":"validator","final-validator":"validator","telemetry":"telemetry","trace":"trace"};
+  const NODE={"orchestrator":"rdc","rdc":"rdc","jev":"jev","agent-router":"agent-router","skill-router":"skill-router","model-router":"model-router","qwen-local":"qwen-local","qwen3":"qwen-local","rdc-jev-qwen3":"qwen-local","retry-router":"retry-router","tool-broker":"tool-broker","sandbox":"sandbox","execution":"execution","executor":"execution","shell-api-executor":"agent-force","code-builder":"agent-force","data-engineer":"agent-force","github-release":"agent-force","recovery-agent":"agent-force","browser-automation-executor":"agent-force","playwright":"execution","playwright-cli":"execution","playwright-mcp":"execution","tinyfish":"execution","windows-mcp":"execution","ui-fallback":"agent-force","debugger":"subagents","research-scout":"subagents","qa-verifier":"subagents","security-gatekeeper":"subagents","context-librarian":"subagents","test-regression-engineer":"test-engineer","test-engineer":"test-engineer","architecture-blast-radius-reviewer":"architecture-reviewer","architecture-reviewer":"architecture-reviewer","validator":"validator","final-validator":"validator","telemetry":"telemetry","trace":"trace"};
   let source="—",timer=null,localOK=null,lastLocalTry=0,lastRemote=0,lastData=null;
   const fetchTimed=async(url,ms)=>{const ac=new AbortController(),t=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(url+(url.includes("?")?"&":"?")+"ts="+Date.now(),{cache:"no-store",signal:ac.signal});if(!r.ok)throw new Error(String(r.status));return await r.json()}finally{clearTimeout(t)}};
   const label=x=>String(x||"").replaceAll("_"," ");
