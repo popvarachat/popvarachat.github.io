@@ -103,3 +103,21 @@ Jev has no production execution authority.
 7. Connect Standard Time + Capacity Calendar.
 8. Run finite-capacity scenarios.
 9. Enable Human-approved write-back only after UAT and source-of-truth verification.
+
+## 2026 live ERP verification
+
+A read-only live-ERP verification pass has now validated the architectural assumptions behind V2.
+
+Confirmed at user level:
+- operation-level production monitoring exists,
+- Shop Floor Workbench exposes WO Routing / Reschedule / Parts List actions,
+- Work Day Calendar structure exists by Branch/Plant, Calendar Type/Name, month/year and shift,
+- Work Order operation status screens expose Actual Machine, Labor and Setup Hours,
+- live runtime evidence references the WO routing-hours data family,
+- Parts List Inquiry exposes component requirement, on-hand and available quantities.
+
+Current reverse-engineering completeness is approximately **99% for user-visible / user-authorized evidence**.
+
+The final certification items require ERP Admin / Developer access: manufacturing capacity/resource master, certified standard-time source, Processing Options, UBE Data Selection, and selected physical table/business-view mappings.
+
+See **[REBUILD_BLUEPRINT.md](./REBUILD_BLUEPRINT.md)** for the consolidated architecture and implementation blueprint.
