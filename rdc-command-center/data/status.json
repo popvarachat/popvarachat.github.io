@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-10-05T23:48:36.7091912+07:00",
+  "generated_at": "2026-10-07T11:06:00+07:00",
   "status": "READY_WITH_WARNINGS",
-  "gateway_version": "1.5",
+  "gateway_version": "1.7",
   "mode": "FAST_EXECUTION_MODE",
-  "agents": 14,
-  "local_skills": 17,
+  "agents": 15,
+  "local_skills": 18,
   "global_catalog": 8,
   "preload_external": 0,
   "providers": [
@@ -26,6 +26,21 @@
     {
       "name": "Jev Decision Coprocessor",
       "status": "READY · SHADOW",
+      "tone": "warning"
+    },
+    {
+      "name": "Playwright CLI / MCP",
+      "status": "READY · PRIMARY BROWSER EXECUTOR",
+      "tone": "ok"
+    },
+    {
+      "name": "TinyFish",
+      "status": "AVAILABLE · SECONDARY BROWSER FALLBACK",
+      "tone": "warning"
+    },
+    {
+      "name": "Windows-MCP",
+      "status": "AVAILABLE · TERTIARY BROWSER FALLBACK",
       "tone": "warning"
     }
   ],
@@ -238,9 +253,9 @@
       "preferred_order": 4
     },
     "ui": {
-      "name": "UI",
-      "status": "FALLBACK_ONLY",
-      "detail": "Use only when backend path is insufficient",
+      "name": "Browser / UI",
+      "status": "ROUTED",
+      "detail": "Browser Router: Playwright primary → TinyFish → Windows-MCP → RDC",
       "preferred_order": 5
     }
   },
@@ -305,15 +320,25 @@
       "provider_note": "Claude CLI organization subscription access is disabled; Gemini CLI auth/client remains disabled; Ollama local fallback is operational but slower.",
       "jev_authority": "SHADOW",
       "execution_authority_expanded": false
+    },
+    "browser_router": {
+      "status": "READY",
+      "primary": "Playwright",
+      "fallback_chain": [
+        "TinyFish",
+        "Windows-MCP",
+        "RDC"
+      ],
+      "validation": "PASS_7_OF_7"
     }
   },
   "eval_harness": {
     "status": "FROZEN_BASELINE",
     "architecture": "RDC v1.5",
     "baseline": "v1.5",
-    "baseline_score": 1.0,
-    "latest_score": 1.0,
-    "delta_vs_baseline": 0.0,
+    "baseline_score": 1,
+    "latest_score": 1,
+    "delta_vs_baseline": 0,
     "cases": 50,
     "passed": 50,
     "failed": 0,
@@ -321,27 +346,27 @@
       "hard_policy": {
         "passed": 10,
         "total": 10,
-        "score": 1.0
+        "score": 1
       },
       "tool_routing": {
         "passed": 10,
         "total": 10,
-        "score": 1.0
+        "score": 1
       },
       "sandbox": {
         "passed": 10,
         "total": 10,
-        "score": 1.0
+        "score": 1
       },
       "reviewer_selection": {
         "passed": 10,
         "total": 10,
-        "score": 1.0
+        "score": 1
       },
       "final_validation": {
         "passed": 10,
         "total": 10,
-        "score": 1.0
+        "score": 1
       }
     },
     "avg_case_latency_ms": 8.035,
@@ -351,7 +376,10 @@
     "change_policy": "Measure → compare → change only when evidence justifies it"
   },
   "rules": [
-    "API/MCP/CLI first",
+    "API/MCP first",
+    "For interactive browser work use Playwright CLI/MCP first",
+    "TinyFish is secondary browser fallback only when Playwright is unavailable or unsuitable",
+    "Then fallback to Windows-MCP and RDC",
     "Parallelize independent tasks",
     "Do not narrate intermediate reasoning",
     "Do not open browser/UI unless required",
@@ -380,6 +408,12 @@
       "type": "executor",
       "write": true,
       "mission": "API / MCP / CLI / process / filesystem"
+    },
+    {
+      "id": "browser-automation-executor",
+      "type": "executor",
+      "write": true,
+      "mission": "Interactive web workflows via Playwright CLI/MCP; reuse existing browser session/login where available"
     },
     {
       "id": "code-builder",
@@ -415,7 +449,7 @@
       "id": "ui-fallback",
       "type": "specialist",
       "write": true,
-      "mission": "Browser/UI only when backend path is insufficient"
+      "mission": "Fallback browser/UI via TinyFish → Windows-MCP → RDC when Playwright is unavailable or unsuitable"
     },
     {
       "id": "qa-verifier",
@@ -521,7 +555,41 @@
     ],
     [
       "ui-fallback",
-      "Minimal UI automation only when needed"
+      "Secondary browser fallback via TinyFish / Windows-MCP / RDC"
+    ],
+    [
+      "playwright-browser-automation",
+      "Primary interactive browser automation with Playwright CLI/MCP and session reuse"
     ]
-  ]
+  ],
+  "browser_routing": {
+    "status": "READY",
+    "policy": "backend-first",
+    "primary": "Playwright",
+    "secondary": "TinyFish",
+    "order": [
+      "API/MCP",
+      "Playwright",
+      "TinyFish",
+      "Windows-MCP",
+      "RDC"
+    ],
+    "playwright": {
+      "status": "READY",
+      "mode": "PRIMARY_BROWSER_EXECUTOR",
+      "session_reuse": true,
+      "existing_login_session": true,
+      "auto_attach": true,
+      "extension_ready": true
+    },
+    "tinyfish": {
+      "status": "FALLBACK_ONLY",
+      "mode": "SECONDARY_BROWSER_FALLBACK"
+    },
+    "validation": {
+      "status": "PASS",
+      "cases": 7,
+      "passed": 7
+    }
+  }
 }
