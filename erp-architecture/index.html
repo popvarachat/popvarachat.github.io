@@ -118,6 +118,48 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 .node-detail .hint{border:1px solid #28415e;border-radius:12px;padding:10px 11px;background:#0d1c2f;color:#9fb1c8;font-size:10px;line-height:1.5}
 @media(max-width:760px){.flow-head{flex-direction:column}.flow-status{white-space:normal}.node-detail{grid-template-columns:1fr}.flow-viewport{margin:0}.arch-map{margin-left:0}}
 
+
+/* ===== Recursive Semantic Zoom ===== */
+.drill-panel{border-top:1px solid #203650;background:#07111f}
+.drill-panel[hidden]{display:none}
+.drill-nav{display:flex;align-items:center;gap:10px;justify-content:space-between;padding:12px 16px;border-bottom:1px solid #203650;background:#091522}
+.drill-nav-left{display:flex;align-items:center;gap:9px;min-width:0}
+.drill-btn{border:1px solid #2b4565;background:#0d1c2f;color:#dce8f8;border-radius:10px;padding:8px 10px;font-size:10px;font-weight:900;cursor:pointer}
+.drill-btn:hover{border-color:#62d5e8}
+.drill-crumb{color:#8298b5;font-size:10px;font-weight:800;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;max-width:850px}
+.drill-crumb b{color:#dce8f8}
+.drill-depth{white-space:nowrap;border:1px solid #314762;border-radius:999px;padding:6px 9px;color:#9fb1c8;font-size:9px;font-weight:900}
+.drill-stage{min-height:555px;padding:24px;overflow:auto;background:
+ radial-gradient(circle at 50% 12%,rgba(98,213,232,.09),transparent 25%),
+ linear-gradient(rgba(255,255,255,.014) 1px,transparent 1px),
+ linear-gradient(90deg,rgba(255,255,255,.014) 1px,transparent 1px),#07111f;background-size:auto,28px 28px,28px 28px}
+.drill-title{text-align:center;max-width:840px;margin:0 auto 24px}
+.drill-title .ey{font-size:9px;font-weight:950;letter-spacing:.14em;text-transform:uppercase;color:#62d5e8}
+.drill-title h3{font-size:clamp(22px,3vw,34px);margin:6px 0 7px;color:#f0f6ff;letter-spacing:-.03em}
+.drill-title p{margin:0;color:#96a9c2;font-size:12px;line-height:1.65}
+.drill-status{display:inline-flex;margin-top:9px;border:1px solid #2a425f;border-radius:999px;padding:5px 8px;font-size:8px;font-weight:950;letter-spacing:.07em;color:#a9b9cc}
+.drill-flow{display:flex;align-items:stretch;justify-content:center;gap:13px;min-width:max-content;padding:20px 10px 28px}
+.drill-flow.branch{display:grid;grid-template-columns:repeat(3,minmax(220px,280px));min-width:0;max-width:920px;margin:auto}
+.drill-subnode{position:relative;width:220px;min-height:122px;border:1px solid #2d4b6e;border-radius:15px;padding:14px;background:linear-gradient(180deg,#10213a,#0c1a2d);box-shadow:0 12px 28px rgba(0,0,0,.22);cursor:pointer;transition:.18s ease}
+.drill-flow.branch .drill-subnode{width:auto}
+.drill-subnode:hover{transform:translateY(-3px);border-color:#62d5e8;box-shadow:0 0 0 2px rgba(98,213,232,.09),0 16px 34px rgba(0,0,0,.30)}
+.drill-subnode .idx{font-size:8px;font-weight:950;letter-spacing:.1em;color:#62d5e8;text-transform:uppercase}
+.drill-subnode b{display:block;margin:7px 0 5px;color:#f0f6ff;font-size:13px;line-height:1.3}
+.drill-subnode p{margin:0;color:#93a6c0;font-size:10px;line-height:1.5}
+.drill-subnode .zoom{position:absolute;right:10px;bottom:9px;font-size:8px;font-weight:900;color:#73d9e4}
+.drill-subnode.leafish .zoom{color:#9fb1c8}
+.drill-arrow{display:grid;place-items:center;color:#62d5e8;font-size:21px;font-weight:900;min-width:24px}
+.drill-branch-note{text-align:center;color:#7189a8;font-size:9px;font-weight:800;margin:-8px 0 8px}
+.terminal{max-width:880px;margin:30px auto;border:1px solid #2c4868;border-radius:20px;background:linear-gradient(180deg,#10213a,#0b192a);padding:26px;box-shadow:0 18px 45px rgba(0,0,0,.25)}
+.terminal .terminal-k{font-size:9px;font-weight:950;letter-spacing:.14em;color:#7ed8ad;text-transform:uppercase}
+.terminal h3{font-size:25px;margin:8px 0;color:#f0f6ff}.terminal p{color:#9fb1c8;line-height:1.7;font-size:12px}
+.terminal-box{margin-top:16px;border:1px solid #29425f;border-radius:13px;background:#0a1728;padding:13px;color:#9fb1c8;font-size:10px;line-height:1.6}
+.drill-footer{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:0 18px 18px}
+.drill-info{border:1px solid #203650;background:#0a1626;border-radius:13px;padding:12px;color:#8fa3bd;font-size:10px;line-height:1.55}
+.drill-info b{color:#dce8f8}
+@media(max-width:900px){.drill-flow.branch{grid-template-columns:repeat(2,minmax(220px,1fr))}.drill-footer{grid-template-columns:1fr}}
+@media(max-width:620px){.drill-flow.branch{grid-template-columns:1fr}.drill-nav{align-items:flex-start;flex-direction:column}.drill-crumb{max-width:92vw}.drill-stage{padding:17px}.drill-footer{padding:0 12px 12px}}
+
 </style>
 </head>
 <body>
@@ -283,6 +325,22 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
         <div><div class="nd-label">Selected Node</div><h3 id="flowNodeTitle">Resolved Production State</h3></div>
         <p id="flowNodeText">สถานะที่ผู้บริหารควรใช้ไม่ได้มาจาก status code เดียว แต่เกิดจากการประกอบหลาย state และ evidence ด้วย rule ที่ตรวจสอบย้อนกลับได้</p>
         <div class="hint"><b>วิธีใช้:</b> คลิก Node เพื่ออ่านความหมาย · ใช้ปุ่มด้านบนเพื่อกรอง Business / Data / Decision / Governance แล้วดูเส้นที่เกี่ยวข้องเด่นขึ้น</div>
+      </div>
+
+      <div class="drill-panel" id="drillPanel" hidden>
+        <div class="drill-nav">
+          <div class="drill-nav-left">
+            <button class="drill-btn" id="drillBack" type="button">← Back</button>
+            <button class="drill-btn" id="drillRoot" type="button">⌂ Main Map</button>
+            <div class="drill-crumb" id="drillCrumb">Main Map</div>
+          </div>
+          <div class="drill-depth" id="drillDepth">DEPTH 1</div>
+        </div>
+        <div class="drill-stage" id="drillStage"></div>
+        <div class="drill-footer">
+          <div class="drill-info"><b>Semantic Zoom</b><br>คลิก Node ย่อยเพื่อซูมลงไปอีกระดับ ระบบจะลงต่อได้จนถึง Evidence Leaf / End State ของเส้นทางนั้น</div>
+          <div class="drill-info"><b>Public-safe boundary</b><br>Flow นี้อธิบายโครงสร้างและตรรกะเชิงระบบ ส่วน object / version / physical table / internal configuration รายละเอียดสูงยังคงอยู่ใน Private Source of Truth</div>
+        </div>
       </div>
     </div>
   </section>
@@ -451,37 +509,391 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 </div>
 
 <script>
+
 (function(){
   const map=document.getElementById("erpArchMap");
   if(!map) return;
+  const viewport=map.closest(".flow-viewport");
+  const nodeDetail=document.getElementById("flowNodeDetail");
+  const drillPanel=document.getElementById("drillPanel");
+  const drillStage=document.getElementById("drillStage");
+  const drillCrumb=document.getElementById("drillCrumb");
+  const drillDepth=document.getElementById("drillDepth");
+  const drillBack=document.getElementById("drillBack");
+  const drillRoot=document.getElementById("drillRoot");
   const nodes=[...map.querySelectorAll(".arch-node")];
   const edges=[...map.querySelectorAll(".edge")];
   const buttons=[...document.querySelectorAll("[data-flow-filter]")];
   const title=document.getElementById("flowNodeTitle");
   const text=document.getElementById("flowNodeText");
+  let pathStack=[];
+
+  function N(name,desc,facts,type){
+    return {name:name,desc:desc,facts:facts||[],type:type||"process"};
+  }
+  function R(summary,mode,children,state){
+    return {summary:summary,mode:mode||"sequence",children:children||[],state:state||"STRONG"};
+  }
+
+  const DRILL={
+    "Customer / Project":R("จุดกำเนิดของ Demand และบริบทของคำสัญญาที่ downstream ต้องรักษา","branch",[
+      N("Customer Context","ระบุตัวลูกค้าและความสัมพันธ์กับงาน",["Customer identity / reference","Customer relation to demand","Traceable business context"]),
+      N("Project Context","ผูก demand เข้ากับโครงการที่เกี่ยวข้อง",["Project identity / reference","Project-to-order relation","Project context carried downstream"]),
+      N("Requested Date","เวลาที่ลูกค้าต้องการให้เกิดผลลัพธ์",["Requested date captured","Date grain is explicit","Source timestamp retained"]),
+      N("Promise Context","บริบทของ commitment ที่ใช้วัดผลปลายทาง",["Promised / committed date context","Policy source identified","Outcome can trace back to promise"])
+    ]),
+    "Sales Order / Demand":R("ทำให้ความต้องการกลายเป็น demand record ที่ downstream ใช้อ้างอิงร่วมกัน","sequence",[
+      N("Demand Header","บริบทระดับ order / customer / project",["Demand identity","Customer / project relation","Order-level status context"]),
+      N("Demand Line","grain ที่ใช้เชื่อมสินค้า ปริมาณ และวัน",["Line identity","Item / quantity context","Requested / promise date grain"]),
+      N("Demand Signal","สัญญาณที่ Planning ใช้สร้าง/ติดตามงาน",["Demand is traceable","Priority context retained","Downstream WO relation"]),
+      N("Commitment Check","ตรวจว่าคำสัญญาถูกเก็บใน grain ที่วัดผลได้",["Promise field/source identified","Blank is not zero","Policy awaiting certification where applicable"])
+    ]),
+    "Planning / Work Order":R("แปลง demand เป็นงานผลิตและแผน โดยต้องมอง route, material และ calendar พร้อมกัน","sequence",[
+      N("Demand Selection","เลือก demand ที่ต้องตอบสนอง",["Customer / project context","Requested / promise context","Priority context"]),
+      N("Work Order Context","สร้าง/ระบุ production work package",["WO identity","WO-to-demand relation","WO status context"]),
+      N("Cutting Link","เชื่อม WO เข้ากับ operational spine",["WO ↔ Cutting relation","Cutting identity retained","Status evidence attached"]),
+      N("Feasibility Inputs","รวบรวมข้อจำกัดก่อนวางลำดับ",["Routing input","Material readiness input","Calendar / capacity input"]),
+      N("Plan State","ได้แผน/ลำดับที่ยังต้องผ่าน governance",["Sequence / hold context","Evidence-backed state","No automatic production write"])
+    ]),
+    "Cutting / Release":R("Operational spine ที่เชื่อม WO, routing, component, execution และ stage resolution","branch",[
+      N("Cutting Identity","ตัวเชื่อมหลักของงานใน operational workflow",["Cutting number retained as text","WO relation","Source/version evidence"]),
+      N("Cutting Type","บริบทที่ใช้ร่วมกับ status ใน stage logic",["Type captured","Effective rule context","Unknown type is reviewable"]),
+      N("Cutting Status","หนึ่งใน state inputs ไม่ใช่ current stage ทั้งหมด",["Status captured","Definition source required","Transition authority separated"]),
+      N("Routing Link","เชื่อมไป last/current operation และ BU",["Operation sequence relation","Work-center/BU context","Execution evidence"]),
+      N("Stage Resolution","ประมวลผลร่วมกับ evidence อื่น",["Type + status + routing family","Fallback governed","UNMAPPED → REVIEW"])
+    ]),
+    "Routing / Operation":R("โครงงานระดับ Operation สำหรับ execution, time, bottleneck และ capacity","sequence",[
+      N("Routing Identity","ระบุ route ของ WO/Cutting",["WO/Cutting key relation","Route source evidence","Version/source context"]),
+      N("Operation Sequence","ลำดับงานที่ต้องเคารพ precedence",["Operation sequence","Operation description","Predecessor / order"]),
+      N("Work Center / BU","จุดที่ operation ถูกทำ",["Business Unit / work-center context","Resource master requires certification","Alternate resource policy if any"]),
+      N("Standard Time","ฐานเวลาสำหรับ planning/capacity",["Setup standard","Run standard","Labor / machine standard","Certified source still required"],"gap"),
+      N("Actual Execution","หลักฐานเวลาที่เกิดจริง",["Actual machine hours","Actual labor hours","Actual setup hours","Operation status"])
+    ]),
+    "Shop Floor Execution":R("จุดที่แผนกลายเป็นการปฏิบัติจริงและสร้าง actual evidence","sequence",[
+      N("Operation Context","ระบุ WO/Cutting/operation ที่กำลังทำ",["WO identity","Operation sequence","Work center / BU"]),
+      N("Execution Start","เริ่มเกิด actual execution evidence",["Begin date/time","Operator/resource context where available","Source transaction class identified"]),
+      N("Actual Time","เวลาที่ใช้จริงใน operation",["Machine hours","Labor hours","Setup hours"]),
+      N("Operation State","สถานะระหว่าง/หลังการทำงาน",["Operation status","Complete date where available","Exception / stale state detectable"]),
+      N("Downstream Signal","ส่ง evidence ไป quality, WIP และ resolved state",["WIP update input","Quality context","Risk / bottleneck input"])
+    ]),
+    "Quality / Hold / Rework":R("Quality เป็น stateful domain ที่เปลี่ยนเส้นทางของงานได้","branch",[
+      N("Inspection / Test","รับผลตรวจที่เกี่ยวข้อง",["Test result evidence","Lot/item/work context","Timestamp / source"]),
+      N("Hold State","กักงานหรือวัสดุเมื่อยังไม่พร้อมผ่าน",["Hold reason/context","Affected entity","Release requires authority"]),
+      N("Nonconforming","บันทึกข้อไม่เป็นไปตามข้อกำหนด",["NC evidence","Disposition context","Trace to item/work"]),
+      N("Rework","ส่งงานกลับเข้าสู่เส้นทางแก้ไข",["Rework work context","Re-entry to execution","Separate status tracking"]),
+      N("Quality Feedback","ป้อน state กลับเข้า resolved production state",["Pass / hold / rework state","Evidence timestamp","No AI-invented disposition"])
+    ]),
+    "Finished Goods":R("รวมหลักฐานว่างานเสร็จและพร้อมเข้าสู่ fulfillment จริง","sequence",[
+      N("Completion Evidence","ยืนยันผลผลิตที่เสร็จใน grain ที่ถูกต้อง",["WO/output relation","Completion state","Timestamp"]),
+      N("FG Position","สถานะสินค้าสำเร็จและความพร้อม",["FG availability context","Movement/location context","Hold state checked"]),
+      N("Fulfillment Ready","ตรวจว่าพร้อมตอบ promise หรือยัง",["Quality cleared","Quantity available","Delivery requirement known"]),
+      N("Outcome Link","เชื่อมกลับ customer/project/demand",["SO/customer trace","Promise context","Delivery handoff"])
+    ]),
+    "Delivery / Installation":R("ปิดวงจรจาก production evidence ไปสู่ customer outcome","sequence",[
+      N("Delivery Requirement","สิ่งที่ต้องส่งมอบและวันอ้างอิง",["Customer/project context","Order/line relation","Promise context"]),
+      N("Ready Check","ตรวจ FG / quality / quantity ก่อนส่ง",["FG available","Quality cleared","Exception surfaced"]),
+      N("Delivery Execution","หลักฐานการส่ง/ติดตั้ง",["Delivery event","Installation context where applicable","Timestamp"]),
+      N("Promise Outcome","เปรียบเทียบผลจริงกับ commitment",["Actual outcome date","Promise policy","OTD remains uncertified until policy approved"])
+    ]),
+    "BOM / Parts List":R("แตก WO/Cutting ไปเป็น component requirement","sequence",[
+      N("Parent Context","กำหนดงานแม่ที่ component รองรับ",["WO/Cutting relation","Parent item/context","Source/version"]),
+      N("Component Requirement","รายการและปริมาณที่ต้องใช้",["Component item","Quantity required","Unit of measure"]),
+      N("Need Timing","วันที่และ branch ที่ต้องพร้อม",["Request date","Component branch","Effective context"]),
+      N("Readiness Input","ส่ง requirement ไปเทียบ supply position",["Requirement quantity","Available comparison","Shortage derivation"])
+    ]),
+    "Inventory / Commitments":R("Supply position ที่ต้องแยก On Hand ออกจาก commitments, hold และ inbound","branch",[
+      N("On Hand","ปริมาณที่มีอยู่ ไม่ใช่คำตอบ readiness เพียงตัวเดียว",["On hand quantity","Branch/location context","Timestamp"]),
+      N("Commitments","สิทธิ์การใช้ stock ที่ถูกจองไว้",["Soft commitment","Hard commitment","Project / WO commitment"]),
+      N("Unavailable / Hold","ส่วนที่มีแต่ยังใช้ไม่ได้",["Inspection","Quality hold","Backorder context"]),
+      N("Inbound Supply","ของที่กำลังเข้ามา",["On PO","Transit","Supplier ETA"]),
+      N("Available Position","ผลคำนวณที่พร้อมเทียบ requirement",["Available quantity","Derivation rule","DQ state"])
+    ]),
+    "Material Ready?":R("Decision Gate แบบ deterministic ระหว่าง requirement กับ supply","branch",[
+      N("Aggregate Requirement","รวม component need ใน grain ที่กำหนด",["Required quantity","Need date","Component/WO context"]),
+      N("Net Available","หัก commitments และส่วนที่ใช้ไม่ได้",["On hand","Commitments","Inspection/hold"]),
+      N("Inbound Check","พิจารณา PO / transit / ETA",["Open inbound","Confirmed ETA","Timing vs need date"]),
+      N("Decision State","แปลงเป็น state ที่ audit ได้",["READY","PARTIAL","SHORT","WAIT_PO","HOLD","DATA_INCOMPLETE"]),
+      N("Loop / Proceed","กำหนดเส้นทางถัดไป",["READY → execution","Not ready → procurement/inbound loop","Unknown → review"])
+    ]),
+    "PR / PO / Supplier":R("เส้นทางจัดหาเมื่อ material gate ยังไม่พร้อม","sequence",[
+      N("Shortage Trigger","evidence ที่บอกว่าต้องจัดหา",["Short quantity","Need date","Responsible item/context"]),
+      N("Purchase Requirement","สร้างบริบทการจัดซื้อ",["PR/PO relation","Item / supplier context","Required date"]),
+      N("Supplier Commitment","ติดตามคำมั่นและ ETA",["Supplier identity","ETA / confirmation","Risk state"]),
+      N("Inbound Handoff","ส่งต่อไป receipt / inspection",["Expected receipt","PO line context","Traceable supply link"])
+    ]),
+    "Receipt / Inspection":R("เปลี่ยน inbound supply ให้เป็น inventory ที่ใช้ได้อย่างถูกต้อง","sequence",[
+      N("Receipt Event","หลักฐานว่าของมาถึง",["PO/item relation","Receipt quantity","Receipt timestamp"]),
+      N("Inspection","ตรวจคุณภาพ/lot ตาม requirement",["Inspection/test context","Lot/status context","Result"]),
+      N("Disposition","ตัดสินว่าปล่อย กัก หรือ reclass",["Release / hold context","Authority boundary","Evidence recorded"]),
+      N("Inventory Update","สะท้อน supply position หลัง disposition",["Available/inspection state","Quantity update evidence","Material readiness re-evaluation"])
+    ]),
+    "ERP Applications / Versions":R("ชั้นหน้าจอที่ผู้ใช้เห็น แต่ behavior จริงต้องอ่านร่วมกับ version และ action class","sequence",[
+      N("Menu / Task","บริบทที่ผู้ใช้เข้าถึง function",["Task/menu identity","Role/access context","Discovery path"]),
+      N("Application / Form","หน้าจอและ grain ที่กำลังทำงาน",["Application identity","Form identity","Visible fields/actions"]),
+      N("Version","configuration context ของ application",["Version identity","Purpose/role","Authoritative version to certify"]),
+      N("Row / Form Actions","ทางออกไป function อื่นหรือ transaction",["Action list","Target function","Read vs write classification"]),
+      N("Security Class","จัดประเภทความเสี่ยงของ function",["Inquiry","Transaction/status/posting","Master/admin config"])
+    ]),
+    "Processing Options / UBE":R("ชั้น behavior/config ที่อธิบายว่าทำไม application/report จึงทำงานต่างกัน","sequence",[
+      N("Version Context","ผูก option กับ version ที่ถูกต้อง",["Application/report version","Owner","Verification date"]),
+      N("Processing Options","ค่า config ที่กำหนด behavior",["Option name","Configured value","No-save inspection / export"]),
+      N("Data Selection","เงื่อนไขที่กำหนด record scope",["Selection rule","Effective filters","Source BV/table to certify"]),
+      N("Data Sequence","ลำดับข้อมูล/processing ที่มีผลต่อผลลัพธ์",["Sequence fields","Sort/processing order","Downstream effect"]),
+      N("Update Classification","แยก report-only ออกจาก update/post/process",["Update Y/N","Transaction impact","Safe inspection method"])
+    ]),
+    "Source Data / Lineage":R("ทำให้ทุก KPI / rule / decision ย้อนกลับถึงหลักฐานได้","sequence",[
+      N("Source Identity","ระบุแหล่งข้อมูลอย่างไม่กำกวม",["source_system","source_object","source_version"]),
+      N("Batch / Time","บริบทว่า extract นี้มาจากช่วงไหน",["source_batch_id","extract_datetime","effective period"]),
+      N("Business Key","รักษา key และชนิดข้อมูล",["source key","Text keys remain text","No silent coercion"]),
+      N("Integrity","ตรวจความเปลี่ยนแปลงและ ingest",["row_hash","ingest timestamp","Duplicate/change detection"]),
+      N("Data Quality","แยกข้อมูลใช้ได้ออกจากข้อมูลต้องกัก",["dq_state","dq_reason","Quarantine / review"]),
+      N("Normalized Model","ส่งผ่าน raw/staging ไป semantic layer",["Immutable raw","Normalized operational model","Semantic/API views"])
+    ]),
+    "Document Status":R("สถานะระดับเอกสารเป็น input หนึ่งของ current business state","sequence",[
+      N("Capture","อ่าน status จาก source ที่ถูกต้อง",["Document identity","Status value","Timestamp/source"]),
+      N("Definition","ผูก code กับความหมายที่ผ่านการรับรอง",["Definition source","Effective version","Unknown stays unknown"]),
+      N("Transition","รู้ว่า status เปลี่ยนจากอะไรไปอะไร",["Allowed transition","Trigger/action","Authority"]),
+      N("Impact","ระบุ downstream effect",["Planning effect","Execution effect","Reporting/risk effect"])
+    ]),
+    "Cutting Status":R("Cutting status ต้องตีความร่วมกับ type และ routing context","sequence",[
+      N("Status Capture","อ่าน current cutting state",["Cutting identity","Status value","Source/version"]),
+      N("Type Context","เพิ่ม cutting type / class",["Cutting type","Rule effective period","Mapping context"]),
+      N("Routing Context","ดึง last/current operation family",["Last operation","Business Unit/family","Operation status"]),
+      N("Resolve","ใช้ rule table แทน hard-code ซ่อน",["Type + status + routing family","Fallback rule","UNMAPPED / REVIEW"]),
+      N("Govern","เก็บ rule version และ evidence",["Rule state","Approved/effective dates","Source evidence"])
+    ]),
+    "Routing State":R("สรุปตำแหน่ง execution จาก operation-level evidence","sequence",[
+      N("Operation Order","เรียง operation ตาม sequence",["Operation sequence","Description","Precedence"]),
+      N("Current / Last","หาว่าขั้นไหนกำลังทำหรือเพิ่งจบ",["Operation status","Begin/end/completion","Last known evidence"]),
+      N("Work Center Context","ผูก operation กับจุดทำงาน",["BU/work-center context","Resource relation","Capacity link"]),
+      N("Actual Time","ใช้ actual machine/labor/setup เป็น evidence",["Machine hours","Labor hours","Setup hours"]),
+      N("State Output","ส่ง routing state เข้า resolver",["Current operation","Last completed","Stale/contradictory evidence flag"])
+    ]),
+    "Material State":R("สรุปความพร้อมของวัสดุในระดับที่ decision engine ใช้ได้","sequence",[
+      N("Requirement","ของที่ต้องใช้",["Component quantity","Need date","WO/Cutting context"]),
+      N("Committed Supply","ของที่มีแต่ถูกจองแล้ว",["Soft/hard commitments","Project/WO commitments","Backorder"]),
+      N("Inbound","ของที่ยังไม่ถึง",["PO quantity","Transit","ETA"]),
+      N("Quality Availability","ของที่มีแต่ยัง release ไม่ได้",["Inspection","Hold","Disposition"]),
+      N("Derived State","state ที่ได้จาก deterministic calculation",["READY/PARTIAL/SHORT","WAIT_PO/HOLD","DATA_INCOMPLETE"])
+    ]),
+    "Quality State":R("รวม evidence คุณภาพที่มีผลต่อ production state","sequence",[
+      N("Test / Inspection","ผลตรวจที่ผูกกับ entity",["Test result","Lot/item/work relation","Timestamp"]),
+      N("Nonconforming","ข้อผิดปกติที่ต้องจัดการ",["NC state","Reason/context","Affected scope"]),
+      N("Hold / Disposition","การกักและการตัดสิน disposition",["Hold state","Disposition result","Authority"]),
+      N("Rework","เส้นทางกลับไปแก้ไข",["Rework context","Related work order","Return to execution"]),
+      N("Resolved Quality","state สำหรับ decision hub",["Pass","Hold","Rework","Unknown/review"])
+    ]),
+    "Capacity / Calendar":R("ข้อจำกัดด้านเวลาและ resource สำหรับ finite-capacity planning","sequence",[
+      N("Work Day Calendar","กรอบวัน/shift ที่ทำงานได้",["Branch/plant","Calendar/shift","Working period"]),
+      N("Resource Master","จำนวนและชนิด resource ที่ใช้ได้",["Work center/resource units","Machine/labor capacity","Requires Admin certification"],"gap"),
+      N("Standard Time","เวลามาตรฐานต่อ operation",["Setup minutes","Run minutes/unit","Labor/machine standards","Requires certified source"],"gap"),
+      N("Available Minutes","คำนวณ supply capacity",["Resource units × shift minutes","Availability factor","Maintenance/overtime policy"]),
+      N("Required Minutes","คำนวณ demand capacity",["Setup + run × remaining qty","Operation grain","Remaining work"]),
+      N("Load / Gate","เทียบ required กับ available",["Load %","Overload flag","Publish disabled until certified"])
+    ],"PROVISIONAL"),
+    "Resolved Production State":R("Decision Hub ที่ประกอบหลาย state และ evidence ก่อนให้คำตอบทางธุรกิจ","sequence",[
+      N("Collect Evidence","รับ state จากเอกสาร งานตัด routing material quality capacity",["Document state","Cutting state","Routing state","Material state","Quality state","Capacity/calendar"]),
+      N("Validate Data","ตรวจ freshness, completeness และ contradiction",["DQ state","Timestamp/freshness","Contradiction detection"]),
+      N("Apply Versioned Rule","ใช้ deterministic rule ที่มี effective period",["Rule id/version","Effective date","Evidence reference"]),
+      N("Resolve / Fail Closed","สร้าง business state โดยไม่เดา",["Resolved stage/state","UNMAPPED / REVIEW","Reason code"]),
+      N("Publish Semantic State","ส่งผลให้ report/risk/API ใช้",["Semantic view/API","Trace to source","No hidden rewrite"]),
+      N("Audit Decision","เก็บว่าตัดสินจากอะไร",["Rule version","Input evidence","Decision timestamp/confidence"])
+    ]),
+    "Read-only Integration":R("นำ ERP evidence ออกมาใช้โดยไม่ให้ analytics/AI ได้ production authority","sequence",[
+      N("Supported ERP Interface","เลือก interface มาตรฐานก่อน",["API / AIS / Orchestrator availability","Read scope","Auth model"]),
+      N("Governed DB View","fallback สำหรับ read-only data access",["SELECT-only","Governed view/schema","Separate credentials"]),
+      N("Certified Export","fallback เมื่อยังเชื่อม live ไม่ได้",["Scheduled export","Source/version/timestamp","Certified format"]),
+      N("Ingestion","นำเข้าด้วย batch + validation",["Immutable source batch","Schema validation","Retry/idempotency"]),
+      N("Normalized Access","เปิด semantic/API layer ให้ Control Tower",["Normalized DB","Rules/semantic views","Read-only consumer"])
+    ],"PROVISIONAL"),
+    "Risk / Bottleneck":R("ตรวจความเสี่ยงแบบ deterministic ก่อนให้ AI อธิบาย","branch",[
+      N("Due-date Risk","งานอาจไม่ทัน promise",["Promise/due evidence","Current state","Projected exposure"]),
+      N("Material Risk","วัสดุไม่พร้อมหรือ ETA เสี่ยง",["Shortage state","Supplier ETA","Need-date comparison"]),
+      N("Capacity Risk","โหลดเกินทรัพยากร",["Required vs available minutes","Overload","Calendar constraints"]),
+      N("Routing Bottleneck","คิว/operation ติดขัด",["Operation queue","Aging/stale execution","Work-center concentration"]),
+      N("Quality / Rework Risk","hold/rework กระทบ flow",["Quality state","Rework loop","Downstream delay"]),
+      N("Data Risk","ข้อมูลไม่พอให้ตัดสินใจ",["DQ incomplete","Stale/contradictory data","Evidence gap"])
+    ]),
+    "Executive Dashboard":R("Decision surfaces ที่ต้อง drill กลับถึง evidence ไม่ใช่ KPI ลอย ๆ","branch",[
+      N("Production Health","ภาพรวมสถานะงานปัจจุบัน",["WIP mix","Resolved states","Exception count"]),
+      N("Due-date Risk","มุม customer/project commitment",["At-risk demand","Reason","Owner/action"]),
+      N("Material Readiness","ภาพพร้อม/ขาด/รอ",["READY/PARTIAL/SHORT","WAIT_PO/HOLD","Drill to component"]),
+      N("Bottleneck / Capacity","จุดคอขวดและ load",["Work-center load","Queue/aging","Certification state"]),
+      N("Supplier / PO Risk","ความเสี่ยง inbound",["ETA risk","Late PO","Affected jobs"]),
+      N("Data Quality","สุขภาพข้อมูลที่ใช้ตัดสินใจ",["DQ state","Freshness","Unmapped/unknown"])
+    ]),
+    "Scenario Planning":R("what-if ต้องแยกออกจาก production baseline และผ่าน hard gate ก่อน publish","sequence",[
+      N("Clone Baseline","สร้าง scenario copy โดยไม่แก้ production truth",["Baseline reference","Scenario id","Created by/time"]),
+      N("Move / Re-prioritize","ทดลองลำดับใหม่",["Priority change","Sequence change","Frozen/locked constraints"]),
+      N("Recalculate Material","ตรวจ readiness ใหม่",["Requirement timing","Availability","Inbound impact"]),
+      N("Recalculate Capacity","ตรวจ resource/calendar ใหม่",["Load","Shift/calendar","Overload"]),
+      N("Recalculate Promise","ประเมิน due-date exposure",["Projected completion","Promise impact","Risk delta"]),
+      N("Hard Gate","ตรวจข้อห้ามก่อนพร้อม review",["Material","Routing precedence","Capacity","Quality hold","Frozen orders"]),
+      N("Human Review","พร้อมเสนอ ไม่ได้ publish เอง",["READY_FOR_REVIEW","Approve/reject","Audit"])
+    ]),
+    "Human Gate / Write-back":R("ขอบเขตสุดท้ายก่อน action ที่มีผลต่อ ERP จริง — Future phase only","sequence",[
+      N("Proposed Action","รับข้อเสนอจาก rule/AI/scenario",["Action type","Target entity","Reason/evidence"]),
+      N("Precondition Validation","ตรวจ state ก่อนทำ",["Before state","Expected state","Hard constraints"]),
+      N("Human Approval","ผู้มีอำนาจอนุมัติอย่าง explicit",["Approver","Approval timestamp","Maker/checker separation"]),
+      N("Controlled Execute","ใช้ identity และ action allowlist เฉพาะ",["Execution identity","Idempotency key","Allowlisted action"]),
+      N("ERP Response","เก็บผลจริงจาก ERP",["Response/status","After state","Error/fail closed"]),
+      N("Audit / Correction","สามารถ trace และแก้ไขอย่าง governable",["Audit id","Rollback/correction path","No silent overwrite"])
+    ],"FUTURE / DISABLED")
+  };
+
+  function factNodes(node){
+    if(node.children) return node.children;
+    if(node.facts && node.facts.length){
+      return node.facts.map(function(x,i){
+        return {name:String(x),desc:"Evidence / field / control leaf " + String(i+1) + " ของ " + node.name,type:"leaf"};
+      });
+    }
+    return [];
+  }
 
   function selectNode(node){
-    nodes.forEach(n=>n.classList.remove("selected"));
+    nodes.forEach(function(n){n.classList.remove("selected")});
     node.classList.add("selected");
     title.textContent=node.dataset.title || "Architecture Node";
     text.textContent=node.dataset.detail || "";
   }
-  nodes.forEach(n=>n.addEventListener("click",()=>selectNode(n)));
 
-  buttons.forEach(btn=>btn.addEventListener("click",()=>{
+  function confidenceFor(stack){
+    if(!stack.length) return "STRONG";
+    return stack[0].state || "STRONG";
+  }
+
+  function showMain(){
+    pathStack=[];
+    drillPanel.hidden=true;
+    viewport.hidden=false;
+    nodeDetail.hidden=false;
+    drillBack.disabled=true;
+  }
+
+  function openRoot(name){
+    const root=DRILL[name];
+    if(!root){
+      rootFallback(name);
+      return;
+    }
+    pathStack=[{name:name,desc:root.summary,mode:root.mode,children:root.children,state:root.state}];
+    viewport.hidden=true;
+    nodeDetail.hidden=true;
+    drillPanel.hidden=false;
+    renderDrill();
+    drillPanel.scrollIntoView({behavior:"smooth",block:"nearest"});
+  }
+
+  function rootFallback(name){
+    const sourceNode=nodes.find(function(n){return n.dataset.title===name});
+    pathStack=[{name:name,desc:sourceNode ? sourceNode.dataset.detail : "Architecture detail",mode:"branch",children:[
+      N("Input","ข้อมูล/เหตุการณ์ที่เข้าสู่ node",["Source evidence","Context","Timestamp"]),
+      N("Logic","กฎหรือการประมวลผลภายใน node",["Rule / calculation","Validation","Exception"]),
+      N("Output","ผลลัพธ์ที่ node ส่งต่อ",["Output state","Downstream relation","Audit trace"])
+    ],state:"PROVISIONAL"}];
+    viewport.hidden=true;nodeDetail.hidden=true;drillPanel.hidden=false;renderDrill();
+  }
+
+  function pushChild(index){
+    const cur=pathStack[pathStack.length-1];
+    const kids=factNodes(cur);
+    const child=kids[index];
+    if(!child) return;
+    pathStack.push(child);
+    renderDrill();
+  }
+
+  function renderDrill(){
+    const cur=pathStack[pathStack.length-1];
+    const kids=factNodes(cur);
+    const names=["Main Map"].concat(pathStack.map(function(x){return x.name}));
+    drillCrumb.innerHTML=names.map(function(x,i){
+      return i===names.length-1 ? "<b>"+escapeHtml(x)+"</b>" : escapeHtml(x);
+    }).join(" &nbsp;›&nbsp; ");
+    drillDepth.textContent="DEPTH "+String(pathStack.length)+" · "+confidenceFor(pathStack);
+    drillBack.disabled=pathStack.length===0;
+
+    if(!kids.length){
+      drillStage.innerHTML=
+        '<div class="terminal">'+
+          '<div class="terminal-k">Evidence Leaf · End of current path</div>'+
+          '<h3>'+escapeHtml(cur.name)+'</h3>'+
+          '<p>'+escapeHtml(cur.desc || "ปลายทางของรายละเอียดที่ยืนยัน/อธิบายได้ใน public-safe architecture ขณะนี้")+'</p>'+
+          '<div class="terminal-box"><b>สุดทางปัจจุบัน:</b> Node นี้ไม่มี sub-flow ต่อใน public view แล้ว หากต้องลงถึง JDE object / version / processing option / business view / physical table / key หรือ internal configuration ให้ย้อนกลับไปใช้ Private ERP Source of Truth และ Admin/Developer evidence ตามขอบเขต READ-ONLY.</div>'+
+        '</div>';
+      return;
+    }
+
+    const mode=cur.mode || (kids.length<=4 ? "sequence" : "branch");
+    let flow='';
+    if(mode==="sequence"){
+      flow='<div class="drill-flow sequence">';
+      kids.forEach(function(k,i){
+        if(i>0) flow+='<div class="drill-arrow">→</div>';
+        flow+=subNodeHtml(k,i);
+      });
+      flow+='</div>';
+    }else{
+      flow='<div class="drill-branch-note">แตกเป็นองค์ประกอบที่ทำงานร่วมกัน — คลิกแต่ละกล่องเพื่อเจาะต่อ</div><div class="drill-flow branch">';
+      kids.forEach(function(k,i){flow+=subNodeHtml(k,i)});
+      flow+='</div>';
+    }
+    drillStage.innerHTML=
+      '<div class="drill-title">'+
+        '<div class="ey">Semantic Zoom · '+escapeHtml(mode.toUpperCase())+'</div>'+
+        '<h3>'+escapeHtml(cur.name)+'</h3>'+
+        '<p>'+escapeHtml(cur.desc || cur.summary || "")+'</p>'+
+        '<span class="drill-status">'+escapeHtml(confidenceFor(pathStack))+' · '+String(kids.length)+' SUB-NODES</span>'+
+      '</div>'+flow;
+    [...drillStage.querySelectorAll("[data-drill-index]")].forEach(function(el){
+      el.addEventListener("click",function(){pushChild(Number(el.dataset.drillIndex))});
+    });
+  }
+
+  function subNodeHtml(k,i){
+    const hasMore=factNodes(k).length>0;
+    return '<div class="drill-subnode '+(hasMore?"":"leafish")+'" data-drill-index="'+String(i)+'">'+
+      '<div class="idx">'+(k.type==="gap"?"GAP / VERIFY":"STEP "+String(i+1).padStart(2,"0"))+'</div>'+
+      '<b>'+escapeHtml(k.name)+'</b>'+
+      '<p>'+escapeHtml(k.desc || "")+'</p>'+
+      '<div class="zoom">'+(hasMore?"CLICK TO DRILL ↓":"OPEN LEAF ↓")+'</div>'+
+    '</div>';
+  }
+
+  function escapeHtml(s){
+    return String(s||"").replace(/[&<>"']/g,function(m){
+      return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m];
+    });
+  }
+
+  nodes.forEach(function(n){
+    n.addEventListener("click",function(){
+      selectNode(n);
+      openRoot(n.dataset.title || "Architecture Node");
+    });
+  });
+
+  buttons.forEach(function(btn){btn.addEventListener("click",function(){
     const mode=btn.dataset.flowFilter;
-    buttons.forEach(b=>b.classList.toggle("active",b===btn));
-    edges.forEach(e=>e.classList.toggle("dim", mode!=="all" && !e.classList.contains(mode) && !(mode==="business" && e.classList.contains("feedback"))));
-    nodes.forEach(n=>{
+    buttons.forEach(function(b){b.classList.toggle("active",b===btn)});
+    edges.forEach(function(e){e.classList.toggle("dim", mode!=="all" && !e.classList.contains(mode) && !(mode==="business" && e.classList.contains("feedback")))});
+    nodes.forEach(function(n){
       const g=n.dataset.group || "business";
       const keep=mode==="all" || g===mode || (mode==="data" && n.classList.contains("data")) || (mode==="decision" && n.classList.contains("decision"));
       n.classList.toggle("dim",!keep);
     });
-  }));
+  })});
+
+  drillBack.addEventListener("click",function(){
+    if(pathStack.length>1){pathStack.pop();renderDrill()} else {showMain()}
+  });
+  drillRoot.addEventListener("click",showMain);
 
   const initial=map.querySelector('[data-title="Resolved Production State"]');
   if(initial) selectNode(initial);
 })();
+
 </script>
 
 </body>
