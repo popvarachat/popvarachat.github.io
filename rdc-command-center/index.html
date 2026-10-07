@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Agent Arsenal</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261007-lanes3">
+<link rel="stylesheet" href="styles.css?v=20261007-lanes4">
 </head>
 <body>
 <div class="shell">
@@ -103,7 +103,7 @@
             <path class="wf-link advisory" data-from="jev" data-to="skill-router" d="M480 225 C505 240 515 280 530 301"/>
             <path class="wf-link advisory" data-from="jev" data-to="model-router" d="M480 230 C510 275 515 365 530 396"/>
             <path class="wf-link advisory" data-from="jev" data-to="retry-router" d="M480 235 C515 310 515 455 530 491"/>
-            <path class="wf-link advisory" data-from="jev" data-to="tool-broker" d="M480 205 C610 125 735 145 820 205"/>
+            <path class="wf-link advisory" data-from="jev" data-to="tool-broker" d="M480 205 C610 125 720 145 800 205"/>
             <path class="wf-link solid" data-from="rdc" data-to="agent-force" d="M315 131 C275 185 245 300 220 365"/>
             <path class="wf-link solid" data-from="rdc" data-to="skill-router" d="M430 131 C470 185 500 255 530 301"/>
             <path class="wf-link solid" data-from="agent-router" data-to="agent-force" d="M530 206 C440 245 330 305 220 365"/>
@@ -111,36 +111,36 @@
             <path class="wf-link advisory" data-from="arsenal" data-to="skill-router" d="M460 450 C490 420 500 335 530 301"/>
             <path class="wf-link solid" data-from="agent-force" data-to="execution" d="M220 410 C430 410 650 450 820 470"/>
             <path class="wf-link advisory" data-from="subagents" data-to="rdc" d="M220 540 C300 520 330 300 330 131"/>
-            <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M710 206 C750 206 780 206 820 206"/>
-            <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M710 301 C765 285 785 235 820 220"/>
-            <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M710 396 C775 355 790 265 820 235"/>
+            <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M710 206 C745 206 770 206 800 206"/>
+            <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M710 301 C755 285 775 235 800 220"/>
+            <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M710 396 C760 355 780 265 800 235"/>
             <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M620 432 C620 490 610 535 605 585"/>
             <path class="wf-link advisory" data-from="model-router" data-to="cli-ai-peers" d="M650 432 C690 510 690 650 650 710"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M710 750 C780 680 800 380 850 253"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M710 760 C760 760 785 680 820 660"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M710 625 C770 570 795 350 850 253"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M710 650 C755 650 780 650 820 650"/>
-            <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1060 210 C1090 260 1090 420 1060 455"/>
-            <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M940 253 C940 262 940 270 940 280"/>
-            <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M940 368 C940 378 940 385 940 395"/>
-            <path class="wf-link solid" data-from="execution" data-to="validator" d="M940 565 C940 580 940 590 940 605"/>
-            <path class="wf-link solid" data-from="validator" data-to="done" d="M940 699 C940 750 940 790 940 825"/>
-            <path class="wf-link feedback" data-from="validator" data-to="retry-router" d="M820 650 C760 610 740 520 710 491"/>
+            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M710 750 C770 680 790 380 830 253"/>
+            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M710 760 C750 760 775 765 800 765"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M710 625 C760 570 785 350 830 253"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M710 650 C750 680 775 735 800 760"/>
+            <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1060 210 C1090 270 1090 470 1060 500"/>
+            <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M930 253 C930 262 930 270 930 280"/>
+            <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M930 368 C930 378 930 385 930 395"/>
+            <path class="wf-link solid" data-from="execution" data-to="validator" d="M930 703 C930 715 930 725 930 735"/>
+            <path class="wf-link solid" data-from="validator" data-to="done" d="M930 829 C930 842 930 852 930 865"/>
+            <path class="wf-link feedback" data-from="validator" data-to="retry-router" d="M800 770 C740 680 720 530 710 491"/>
             <path class="wf-link feedback" data-from="retry-router" data-to="telemetry" d="M530 491 C450 610 390 790 370 880"/>
             <path class="wf-link feedback" data-from="telemetry" data-to="rdc" d="M330 880 C250 700 245 250 300 131"/>
             <path class="wf-link advisory" data-from="jev" data-to="telemetry" d="M480 230 C500 500 470 760 420 880"/>
-            <path class="wf-link advisory" data-from="validator" data-to="telemetry" d="M820 660 C700 740 560 835 470 910"/>
+            <path class="wf-link advisory" data-from="validator" data-to="telemetry" d="M800 780 C690 820 550 880 470 915"/>
             <path class="wf-link advisory" data-from="subagents" data-to="test-engineer" d="M125 616 C125 640 125 665 125 690"/>
             <path class="wf-link advisory" data-from="subagents" data-to="architecture-reviewer" d="M200 580 C235 620 300 650 345 690"/>
-            <path class="wf-link advisory" data-from="test-engineer" data-to="validator" d="M220 740 C430 740 650 700 820 660"/>
+            <path class="wf-link advisory" data-from="test-engineer" data-to="validator" d="M220 740 C420 740 620 760 800 770"/>
             <path class="wf-link advisory" data-from="architecture-reviewer" data-to="sandbox" d="M440 730 C600 650 720 430 820 325"/>
-            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="validator" d="M440 755 C600 755 720 700 820 665"/>
+            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="validator" d="M440 755 C590 755 700 765 800 770"/>
             <path class="wf-link advisory" data-from="rdc" data-to="trace" d="M480 90 C600 230 605 650 605 850"/>
             <path class="wf-link advisory" data-from="jev" data-to="trace" d="M480 230 C585 390 605 680 605 850"/>
             <path class="wf-link advisory" data-from="execution" data-to="trace" d="M820 485 C760 610 710 760 650 850"/>
             <path class="wf-link advisory" data-from="retry-router" data-to="trace" d="M710 491 C710 620 675 760 640 850"/>
-            <path class="wf-link advisory" data-from="validator" data-to="trace" d="M820 660 C760 720 700 800 650 850"/>
-            <path class="wf-link solid" data-from="done" data-to="eval-harness" d="M940 901 C940 920 940 940 940 960"/>
+            <path class="wf-link advisory" data-from="validator" data-to="trace" d="M800 780 C745 800 690 825 650 850"/>
+            <path class="wf-link solid" data-from="done" data-to="eval-harness" d="M930 941 C930 952 930 965 930 980"/>
             <path class="wf-link feedback" data-from="eval-harness" data-to="rdc" d="M820 1005 C620 1110 180 1040 285 131"/>
           </svg>
 
@@ -379,6 +379,6 @@
     <span id="lastUpdated"></span>
   </footer>
 </div>
-<script src="app.js?v=20261007-lanes3"></script>
+<script src="app.js?v=20261007-lanes4"></script>
 </body>
 </html>
