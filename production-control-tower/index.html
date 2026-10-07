@@ -3,269 +3,282 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#0b1220">
-<title>Practika Production Control Tower · Automation First</title>
+<meta name="theme-color" content="#0a1220">
+<title>Practika Production Control Tower · Planning Automation Workflow</title>
 <style>
 :root{
-  --bg:#0b1220;--bg2:#101a2b;--panel:#121e31;--panel2:#17263d;--line:#2b3d59;
-  --text:#f4f7fb;--muted:#a9b7cb;--blue:#7db4ff;--cyan:#73d7e6;--green:#8edbb4;
-  --amber:#f3c278;--red:#ff8e98;--violet:#c4a8ff;--shadow:0 18px 50px rgba(0,0,0,.24);
+  --bg:#09111d;--bg2:#0f1a2b;--panel:#111f33;--panel2:#172842;--line:#29405f;
+  --text:#f3f7fb;--muted:#9fb0c5;--blue:#78b5ff;--cyan:#68d8e6;--green:#8edcb7;
+  --amber:#f2c279;--red:#ff8d98;--violet:#c2a7ff;--shadow:0 20px 60px rgba(0,0,0,.28)
 }
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:
-radial-gradient(circle at 10% 0%,rgba(125,180,255,.15),transparent 28%),
-radial-gradient(circle at 90% 10%,rgba(115,215,230,.10),transparent 24%),
-linear-gradient(180deg,#0a111e,#0d1625 52%,#0a111e);color:var(--text);
+radial-gradient(circle at 10% 0%,rgba(120,181,255,.14),transparent 28%),
+radial-gradient(circle at 92% 8%,rgba(104,216,230,.10),transparent 24%),
+linear-gradient(180deg,#08101c,#0d1727 52%,#08101c);color:var(--text);
 font-family:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif}
-a{color:inherit}.wrap{max-width:1480px;margin:auto;padding:28px 22px 60px}
-.topbar{display:flex;justify-content:space-between;gap:16px;align-items:center;margin-bottom:18px}
-.brand{display:flex;align-items:center;gap:10px;font-size:12px;font-weight:900;letter-spacing:.08em;color:#d9e9ff}
-.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--cyan));box-shadow:0 0 0 6px rgba(125,180,255,.08)}
-.badge{border:1px solid rgba(142,219,180,.32);background:rgba(142,219,180,.08);color:#caffdf;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:900}
-.hero{border:1px solid var(--line);background:linear-gradient(135deg,rgba(23,38,61,.94),rgba(15,27,45,.94));border-radius:24px;padding:28px;box-shadow:var(--shadow)}
-.hero-grid{display:grid;grid-template-columns:1.35fr .65fr;gap:22px;align-items:center}
+a{color:inherit;text-decoration:none}.shell{max-width:1540px;margin:auto;padding:22px 20px 60px}
+.top{display:flex;justify-content:space-between;align-items:center;gap:14px;margin-bottom:16px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900;font-size:12px;letter-spacing:.08em}
+.logo{width:34px;height:34px;border-radius:11px;background:linear-gradient(135deg,var(--blue),var(--cyan));box-shadow:0 0 0 6px rgba(120,181,255,.08)}
+.state{border:1px solid rgba(142,220,183,.34);background:rgba(142,220,183,.08);color:#cafbe0;border-radius:999px;padding:8px 11px;font-size:10px;font-weight:900}
+.hero{border:1px solid var(--line);border-radius:24px;background:linear-gradient(135deg,rgba(23,40,66,.96),rgba(13,28,47,.96));padding:28px;box-shadow:var(--shadow)}
+.hero-grid{display:grid;grid-template-columns:1.4fr .6fr;gap:22px;align-items:center}
 .eyebrow{font-size:11px;font-weight:900;letter-spacing:.14em;color:var(--cyan)}
-h1{font-size:clamp(34px,5vw,68px);line-height:.97;margin:8px 0 13px;letter-spacing:-.045em}
-.hero p{color:var(--muted);max-width:930px;line-height:1.75;margin:0;font-size:14px}
-.hero-callout{border:1px solid var(--line);border-radius:18px;padding:17px;background:rgba(8,20,35,.55)}
-.hero-callout b{display:block;font-size:17px;margin-bottom:8px}.hero-callout p{font-size:11px;line-height:1.55}
-.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}
-.kpi{border:1px solid var(--line);background:rgba(17,31,50,.75);border-radius:15px;padding:14px}
-.kpi small{display:block;color:var(--muted);font-size:9px;font-weight:800;letter-spacing:.06em}
-.kpi b{display:block;font-size:23px;margin:5px 0}.kpi span{font-size:10px;color:var(--muted);line-height:1.45}
-.nav{position:sticky;top:0;z-index:20;display:flex;gap:7px;flex-wrap:wrap;padding:14px 0;background:linear-gradient(180deg,rgba(11,18,32,.98),rgba(11,18,32,.86),transparent)}
-.nav button{border:1px solid var(--line);background:#101d30;color:var(--text);padding:9px 12px;border-radius:10px;font-size:11px;font-weight:800;cursor:pointer}
-.nav button.active{background:linear-gradient(135deg,var(--blue),var(--cyan));color:#07111f;border-color:transparent}
-.view{display:none}.view.active{display:block}.section{border:1px solid var(--line);border-radius:20px;background:rgba(12,24,41,.87);box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
-.head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:18px;border-bottom:1px solid var(--line)}
-.head h2{margin:0 0 5px;font-size:21px}.head p{margin:0;color:var(--muted);font-size:12px;line-height:1.6;max-width:930px}
-.pills{display:flex;gap:6px;flex-wrap:wrap}.pill{border:1px solid var(--line);border-radius:999px;padding:5px 8px;color:var(--muted);font-size:9px}
-.grid2{display:grid;grid-template-columns:1fr 1fr;gap:12px;padding:16px}.grid3{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;padding:16px}
-.card{border:1px solid var(--line);background:rgba(22,38,61,.62);border-radius:15px;padding:15px}.card h3{margin:0 0 7px;font-size:15px}.card p,.card li{font-size:11px;color:var(--muted);line-height:1.65}.card ul{margin:8px 0 0;padding-left:18px}
-.flow{display:grid;grid-template-columns:repeat(8,minmax(120px,1fr));gap:20px;padding:18px;overflow:auto}
-.node{position:relative;min-height:132px;border:1px solid var(--line);border-radius:15px;padding:12px;background:linear-gradient(180deg,rgba(23,38,61,.9),rgba(15,28,47,.9))}
-.node:not(:last-child)::after{content:"→";position:absolute;right:-16px;top:50%;transform:translateY(-50%);color:var(--cyan);font-size:20px;font-weight:900}
-.node .n{font-size:9px;color:var(--cyan);font-weight:900}.node b{display:block;margin:7px 0;font-size:13px}.node span{font-size:9px;color:var(--muted);line-height:1.45}
-.loop{margin:0 16px 16px;border:1px solid rgba(142,219,180,.28);background:rgba(142,219,180,.06);border-radius:14px;padding:12px;font-size:11px;color:#d5f7e3}
-.map{padding:16px;display:grid;gap:10px}
-.learn{display:grid;grid-template-columns:220px 1fr 1fr;gap:10px;align-items:stretch}
-.learn>div{border:1px solid var(--line);border-radius:12px;padding:12px;background:rgba(20,34,55,.52)}
-.learn .title{font-weight:900;color:#e6f0ff}.learn .before{color:#ffcad0}.learn .after{color:#c8f1d9}.learn small{display:block;color:var(--muted);margin-top:5px;line-height:1.45}
-.auto-grid{display:grid;grid-template-columns:1.05fr .95fr;gap:12px;padding:16px}
-.stack{display:grid;gap:9px}.stage{border:1px solid var(--line);border-radius:13px;padding:12px;background:rgba(20,34,55,.55);display:grid;grid-template-columns:34px 1fr auto;gap:10px;align-items:center}
-.num{width:30px;height:30px;border-radius:9px;display:grid;place-items:center;background:rgba(125,180,255,.12);color:var(--blue);font-weight:900;font-size:11px}
-.stage b{font-size:12px}.stage small{display:block;color:var(--muted);font-size:9px;margin-top:3px}.state{font-size:8px;font-weight:900;border-radius:999px;padding:5px 7px;border:1px solid var(--line)}
-.ready{color:#bff4d4;border-color:rgba(142,219,180,.35)}.wait{color:#ffe0ab;border-color:rgba(243,194,120,.35)}.block{color:#ffc1c7;border-color:rgba(255,142,152,.35)}
-.gate{border:1px solid rgba(196,168,255,.35);background:rgba(196,168,255,.07);border-radius:14px;padding:14px}
-.gate h3{margin:0 0 9px}.gate-row{display:grid;grid-template-columns:1fr auto;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:10px}.gate-row:last-child{border:0}.gate-row span{color:var(--muted)}
-.sim{display:grid;grid-template-columns:280px 1fr;gap:12px;padding:16px}.controls{border:1px solid var(--line);border-radius:15px;padding:14px;background:rgba(20,34,55,.55)}
-.field{display:grid;gap:5px;margin-bottom:11px}.field label{font-size:9px;color:var(--muted);font-weight:800}.field select,.field input{width:100%;border:1px solid var(--line);background:#0b1829;color:var(--text);border-radius:9px;padding:9px}
-.btn{width:100%;border:0;border-radius:10px;padding:10px;font-weight:900;cursor:pointer;background:linear-gradient(135deg,var(--blue),var(--cyan));color:#07111f}
-.result{border:1px solid var(--line);border-radius:15px;padding:14px;background:rgba(20,34,55,.45)}
-.result-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:12px}.metric{border:1px solid var(--line);border-radius:11px;padding:10px}.metric b{display:block;font-size:18px}.metric span{font-size:8px;color:var(--muted)}
-.timeline{display:grid;gap:7px}.job{display:grid;grid-template-columns:135px 1fr 72px;gap:8px;align-items:center;font-size:9px}.track{height:14px;background:#0b1727;border:1px solid var(--line);border-radius:999px;overflow:hidden}.bar{height:100%;border-radius:999px}.good{background:linear-gradient(90deg,#5aa987,#8edbb4)}.risk{background:linear-gradient(90deg,#d29b57,#f3c278)}.late{background:linear-gradient(90deg,#cd6f79,#ff8e98)}
-.arch{display:grid;grid-template-columns:repeat(7,minmax(130px,1fr));gap:18px;padding:18px;overflow:auto}.arch .a{position:relative;border:1px solid var(--line);border-radius:14px;padding:13px;background:rgba(20,34,55,.56);min-height:110px}.arch .a:not(:last-child)::after{content:"→";position:absolute;right:-14px;top:48%;color:var(--cyan);font-weight:900}.arch b{font-size:12px}.arch p{font-size:9px;color:var(--muted);line-height:1.5}
-.road{padding:16px;display:grid;gap:10px}.road-row{display:grid;grid-template-columns:130px 1fr 110px;gap:10px;align-items:center}.road-row>div{border:1px solid var(--line);border-radius:12px;padding:11px}.road-row .phase{font-weight:900;color:var(--cyan)}.road-row .desc{color:var(--muted);font-size:10px;line-height:1.5}.road-row .status{text-align:center;font-size:9px;font-weight:900}
-.notice{margin:0 16px 16px;border:1px solid rgba(243,194,120,.34);background:rgba(243,194,120,.07);border-radius:13px;padding:12px;color:#ffe5bb;font-size:10px;line-height:1.6}
-.footer{color:var(--muted);font-size:9px;text-align:center;padding:10px 0}
-@media(max-width:1050px){.hero-grid,.auto-grid,.sim{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}.grid3{grid-template-columns:1fr 1fr}.learn{grid-template-columns:1fr}.result-grid{grid-template-columns:repeat(2,1fr)}}
-@media(max-width:680px){.wrap{padding:18px 12px 40px}.kpis,.grid2,.grid3,.result-grid{grid-template-columns:1fr}.hero{padding:20px}.head{flex-direction:column}.road-row{grid-template-columns:1fr}.job{grid-template-columns:95px 1fr 50px}}
+h1{font-size:clamp(36px,5.2vw,70px);line-height:.98;letter-spacing:-.045em;margin:8px 0 13px}
+.hero p{margin:0;color:var(--muted);font-size:14px;line-height:1.72}.hero-note{border:1px solid var(--line);border-radius:17px;padding:16px;background:rgba(8,18,31,.48)}
+.hero-note b{display:block;margin-bottom:8px}.hero-note p{font-size:11px;line-height:1.55}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:18px}.kpi{border:1px solid var(--line);background:rgba(17,31,50,.75);border-radius:14px;padding:13px}.kpi small{display:block;font-size:9px;color:var(--muted);font-weight:900;letter-spacing:.07em}.kpi b{display:block;font-size:22px;margin:4px 0}.kpi span{font-size:10px;color:var(--muted);line-height:1.45}
+.layout{display:grid;grid-template-columns:225px 1fr;gap:18px;margin-top:18px}.nav{position:sticky;top:14px;align-self:start;border:1px solid var(--line);background:rgba(12,25,42,.93);border-radius:16px;padding:11px;max-height:calc(100vh - 28px);overflow:auto}
+.nav .t{font-size:9px;color:var(--muted);font-weight:900;letter-spacing:.1em;padding:7px 9px}.nav a{display:block;padding:10px;border-radius:10px;font-size:10px;font-weight:800;color:#d9e6f6;border:1px solid transparent}.nav a:hover{background:rgba(120,181,255,.09);border-color:rgba(120,181,255,.22)}
+.section{border:1px solid var(--line);border-radius:20px;background:rgba(11,24,41,.88);box-shadow:var(--shadow);overflow:hidden;margin-bottom:18px}
+.head{display:flex;justify-content:space-between;gap:14px;align-items:flex-start;padding:18px;border-bottom:1px solid var(--line)}.head h2{margin:0 0 5px;font-size:21px}.head p{margin:0;color:var(--muted);font-size:12px;line-height:1.6;max-width:920px}.tags{display:flex;gap:6px;flex-wrap:wrap}.tag{border:1px solid var(--line);border-radius:999px;padding:5px 8px;font-size:9px;color:var(--muted)}
+.story{padding:16px;display:grid;grid-template-columns:repeat(3,1fr);gap:10px}.story-card{border:1px solid var(--line);border-radius:14px;padding:13px;background:rgba(20,34,56,.52)}.story-card .n{font-size:9px;font-weight:900;color:var(--cyan)}.story-card b{display:block;margin:5px 0;font-size:13px}.story-card p{margin:0;font-size:10px;color:var(--muted);line-height:1.55}
+.diagram-wrap{padding:18px;overflow:auto}.diagram-card{min-width:1180px;border:1px solid var(--line);border-radius:16px;background:linear-gradient(180deg,rgba(9,22,38,.9),rgba(12,25,42,.9));padding:8px}.diagram-hint{padding:0 18px 16px;color:var(--muted);font-size:10px;line-height:1.5}
+svg{width:100%;height:auto;display:block}.node{cursor:pointer;transition:.18s}.node:hover .shape{filter:brightness(1.16);stroke:#cceaff;stroke-width:2.1}.node text{pointer-events:none;font-family:Inter,system-ui,-apple-system,"Segoe UI","Noto Sans Thai",sans-serif}.box-shape{fill:#173056;stroke:#78b5ff;stroke-width:1.5}.auto-shape{fill:#17382f;stroke:#8edcb7;stroke-width:1.5}.decision-shape{fill:#3a2d1a;stroke:#f2c279;stroke-width:1.7}.human-shape{fill:#2e2548;stroke:#c2a7ff;stroke-width:1.7}.risk-shape{fill:#40212a;stroke:#ff8d98;stroke-width:1.6}.monitor-shape{fill:#14333c;stroke:#68d8e6;stroke-width:1.6}.title-t{fill:#f5f9ff;font-size:16px;font-weight:800}.sub-t{fill:#a7b8cc;font-size:11px}.mini-t{fill:#d6e5f7;font-size:10px;font-weight:700}.yes-t{fill:#aef0cb;font-size:11px;font-weight:900}.no-t{fill:#ffc5cb;font-size:11px;font-weight:900}.arrow{stroke:#93a8bf;stroke-width:2.2;fill:none;marker-end:url(#arrow)}.arrow-yes{stroke:#8edcb7;stroke-width:2.2;fill:none;marker-end:url(#arrowGreen)}.arrow-no{stroke:#ff8d98;stroke-width:2.2;fill:none;marker-end:url(#arrowRed)}.loop{stroke:#68d8e6;stroke-width:2.2;stroke-dasharray:6 6;fill:none;marker-end:url(#arrowCyan)}
+.deep{display:grid;grid-template-columns:360px 1fr;gap:12px;padding:16px}.phase-list{display:grid;gap:8px}.phase{border:1px solid var(--line);border-radius:13px;padding:12px;background:rgba(20,34,56,.5);cursor:pointer}.phase:hover,.phase.active{border-color:var(--cyan);background:rgba(104,216,230,.06)}.phase b{font-size:11px}.phase p{font-size:9px;color:var(--muted);line-height:1.45;margin:4px 0 0}.detail{border:1px solid var(--line);border-radius:15px;background:linear-gradient(180deg,rgba(15,30,50,.98),rgba(9,20,34,.98));padding:16px}.detail .ey{font-size:9px;font-weight:900;color:var(--cyan);letter-spacing:.09em}.detail h3{font-size:20px;margin:4px 0 8px}.detail p{font-size:10px;color:var(--muted);line-height:1.6}.detail-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:9px;margin-top:11px}.dcard{border:1px solid var(--line);border-radius:11px;padding:10px}.dcard b{display:block;font-size:10px;margin-bottom:4px}.dcard span,.dcard li{font-size:9px;color:var(--muted);line-height:1.45}.dcard ul{padding-left:16px;margin:5px 0}
+.cats{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;padding:16px}.cat{border:1px solid var(--line);border-radius:14px;background:rgba(20,34,56,.5);padding:14px}.cat h3{font-size:13px;margin:0 0 6px}.cat p,.cat li{font-size:9px;color:var(--muted);line-height:1.52}.cat ul{padding-left:17px}.cat.blue{border-color:rgba(120,181,255,.28)}.cat.green{border-color:rgba(142,220,183,.28)}.cat.amber{border-color:rgba(242,194,121,.28)}.cat.violet{border-color:rgba(194,167,255,.28)}
+.lessons{padding:16px;display:grid;gap:9px}.lesson{display:grid;grid-template-columns:220px 1fr 1fr;gap:9px}.lesson>div{border:1px solid var(--line);border-radius:12px;padding:11px;background:rgba(20,34,56,.48)}.lesson .l{font-size:10px;font-weight:900;color:#e5f0ff}.lesson .old{font-size:9px;color:#ffc8cf}.lesson .new{font-size:9px;color:#c9f0d9}.lesson small{display:block;color:var(--muted);font-size:8px;margin-top:4px;line-height:1.45}
+.matrix{padding:16px;overflow:auto}table{width:100%;border-collapse:collapse;min-width:860px;font-size:9px}th,td{padding:9px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}th{color:#dce9f8}td{color:var(--muted);line-height:1.45}.ok{color:#bdf2d2;font-weight:900}.wait{color:#ffe1ad;font-weight:900}.lock{color:#ffc3c9;font-weight:900}
+.notice{margin:0 16px 16px;border:1px solid rgba(242,194,121,.34);background:rgba(242,194,121,.07);border-radius:13px;padding:12px;color:#ffe4bb;font-size:10px;line-height:1.58}.footer{text-align:center;color:var(--muted);font-size:9px;padding:12px 0}
+@media(max-width:1120px){.layout{grid-template-columns:1fr}.nav{position:static;display:flex;overflow:auto;max-height:none}.nav .t{display:none}.nav a{white-space:nowrap}.hero-grid{grid-template-columns:1fr}.story{grid-template-columns:1fr 1fr}.deep{grid-template-columns:1fr}.cats{grid-template-columns:1fr 1fr}.lesson{grid-template-columns:1fr}.kpis{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:700px){.shell{padding:15px 10px 38px}.story,.cats,.kpis,.detail-grid{grid-template-columns:1fr}.head{flex-direction:column}}
 </style>
 </head>
 <body>
-<div class="wrap">
-  <div class="topbar">
-    <div class="brand"><div class="logo"></div> PRACTIKA · PRODUCTION PLANNING AUTOMATION</div>
-    <div class="badge">READ-ONLY → AUTOMATION-FIRST DESIGN</div>
+<div class="shell">
+  <div class="top">
+    <div class="brand"><div class="logo"></div>PRACTIKA · PRODUCTION PLANNING AUTOMATION</div>
+    <div class="state">WORKFLOW V4 · AUTOMATION-FIRST</div>
   </div>
 
   <section class="hero">
     <div class="hero-grid">
       <div>
-        <div class="eyebrow">PRODUCTION CONTROL TOWER · REBUILD V3</div>
-        <h1>วางแผนการผลิต<br>ให้ระบบคิดก่อนคน</h1>
-        <p>เปลี่ยนจาก “Dashboard ที่บอกว่าเกิดอะไรขึ้น” ไปเป็น <b>Production Planning Automation</b> ที่รับ Demand จาก ERP, ตรวจ Material, Routing, Capacity และ Due Date อัตโนมัติ สร้างแผนและ Scenario, หา Exception, เสนอทางเลือก และส่งให้คนอนุมัติเฉพาะจุดที่ต้องใช้ judgment จริง</p>
+        <div class="eyebrow">PRODUCTION CONTROL TOWER</div>
+        <h1>วางแผนการผลิต<br>เป็นวงจรอัตโนมัติ</h1>
+        <p>ใช้สิ่งที่เรียนรู้จาก ERP มาสร้างระบบที่ไม่ได้แค่ “มองเห็นสถานะ” แต่ <b>รับ Demand → ตรวจข้อจำกัด → สร้างแผน → หา Exception → เสนอ Scenario → ขออนุมัติ → ติดตาม Actual → Re-plan</b> โดย Planner เปลี่ยนบทบาทจากคนไล่เช็กงาน เป็น Supervisor ของ Automation</p>
       </div>
-      <div class="hero-callout">
-        <b>ERP สอนเราว่าอะไร?</b>
-        <p>สถานะเดียวไม่พอ · On Hand ไม่เท่ากับพร้อมใช้ · WO ไม่พอถ้าไม่ลงถึง Operation · Calendar ไม่พอถ้าไม่มี Capacity · Rule ต้อง versioned · AI ต้องอยู่หลัง deterministic logic และ Human Gate</p>
+      <div class="hero-note">
+        <b>หลักคิดที่ใช้วาด Workflow</b>
+        <p>กล่อง = Process / Automation<br>ข้าวหลามตัด = Decision / Gate<br>ลูกศรเขียว = ผ่าน<br>ลูกศรแดง = Block / Exception<br>เส้นประฟ้า = Closed-loop feedback</p>
       </div>
     </div>
     <div class="kpis">
-      <div class="kpi"><small>CORE PURPOSE</small><b>Auto Plan</b><span>Demand → feasible production plan</span></div>
-      <div class="kpi"><small>DECISION MODEL</small><b>Exception-first</b><span>คนดูเฉพาะสิ่งที่ระบบแก้เองไม่ได้</span></div>
-      <div class="kpi"><small>ERP DISCOVERY</small><b>99%</b><span>User-level workflow evidence ready</span></div>
-      <div class="kpi"><small>PUBLISH POLICY</small><b>Human Gate</b><span>ยังไม่ write-back จนกว่า source/capacity ถูก certify</span></div>
+      <div class="kpi"><small>PLANNING CORE</small><b>Operation-level</b><span>WO/Cutting → Operation → Work Center → Slot</span></div>
+      <div class="kpi"><small>ERP LESSON</small><b>Status ≠ State</b><span>ต้องรวม Routing + Material + Quality + Actual</span></div>
+      <div class="kpi"><small>PLANNER ROLE</small><b>Exception Supervisor</b><span>ระบบจัดการ Normal Flow ให้เอง</span></div>
+      <div class="kpi"><small>PUBLISH CONTROL</small><b>Human Gate</b><span>Fail-closed ก่อนเขียนกลับ ERP</span></div>
     </div>
   </section>
 
-  <nav class="nav">
-    <button class="active" data-tab="control">Control Room</button>
-    <button data-tab="automation">Automation Loop</button>
-    <button data-tab="erp">ERP → Design</button>
-    <button data-tab="scheduler">Scheduler Lab</button>
-    <button data-tab="architecture">Architecture</button>
-    <button data-tab="roadmap">Roadmap</button>
-  </nav>
+  <div class="layout">
+    <aside class="nav">
+      <div class="t">STORY NAVIGATION</div>
+      <a href="#story">01 · Storyline</a>
+      <a href="#master">02 · Master Workflow</a>
+      <a href="#deep">03 · Drill-down</a>
+      <a href="#categories">04 · Categories</a>
+      <a href="#lessons">05 · ERP Lessons</a>
+      <a href="#maturity">06 · Automation Levels</a>
+    </aside>
 
-  <main>
-    <section id="control" class="view active section">
-      <div class="head"><div><h2>Production Planning Control Room</h2><p>จุดศูนย์กลางไม่ใช่ Report แต่คือ “ระบบสร้างแผน → ตรวจข้อจำกัด → หา Exception → ขอการตัดสินใจ → Re-plan”</p></div><div class="pills"><span class="pill">Demand Driven</span><span class="pill">Finite Capacity Ready</span><span class="pill">Human Approved</span></div></div>
-      <div class="flow">
-        <div class="node"><div class="n">01</div><b>Demand Intake</b><span>SO / Project / Due date / Priority</span></div>
-        <div class="node"><div class="n">02</div><b>Normalize</b><span>WO / Cutting / Routing / source lineage</span></div>
-        <div class="node"><div class="n">03</div><b>Material Gate</b><span>Requirement / Commit / PO / ETA</span></div>
-        <div class="node"><div class="n">04</div><b>Capacity Gate</b><span>Routing / Calendar / Standard Time / Resource</span></div>
-        <div class="node"><div class="n">05</div><b>Auto Schedule</b><span>Sequence / precedence / slot / due date</span></div>
-        <div class="node"><div class="n">06</div><b>Detect Risk</b><span>Late / shortage / overload / stale / quality</span></div>
-        <div class="node"><div class="n">07</div><b>Recommend</b><span>Reprioritize / expedite / OT / alternate route</span></div>
-        <div class="node"><div class="n">08</div><b>Approve & Publish</b><span>Human Gate → ERP write-back future phase</span></div>
-      </div>
-      <div class="loop"><b>Closed Loop:</b> หลัง Publish ระบบติดตาม Actual จาก ERP แล้วเทียบกับ Baseline อัตโนมัติ หาก drift เกิน threshold → สร้าง Exception → Re-plan ใหม่ โดยไม่รอประชุมเช้า</div>
-      <div class="grid3">
-        <div class="card"><h3>ระบบทำเอง</h3><ul><li>อ่าน Demand และ dependency</li><li>คำนวณ material readiness</li><li>จัดลำดับและ slot เบื้องต้น</li><li>ตรวจ overload / lateness</li><li>สร้าง scenario ทางเลือก</li></ul></div>
-        <div class="card"><h3>คนตัดสินใจเฉพาะ Exception</h3><ul><li>เปลี่ยน Priority ลูกค้า</li><li>อนุมัติ OT / outsource</li><li>ยอมรับ delay / promise change</li><li>เลือก scenario เมื่อ trade-off สูง</li><li>อนุมัติ Publish</li></ul></div>
-        <div class="card"><h3>AI ช่วยตีความ</h3><ul><li>อธิบายเหตุผลของ risk</li><li>เปรียบเทียบ scenario</li><li>จัดกลุ่ม root cause</li><li>สรุปสิ่งที่ Planner ต้องทำวันนี้</li><li>ไม่เปลี่ยน ERP เอง</li></ul></div>
-      </div>
-    </section>
-
-    <section id="automation" class="view section">
-      <div class="head"><div><h2>Automation Loop · Planner becomes Supervisor</h2><p>เป้าหมายคือย้ายงานซ้ำ ๆ ของ Planner ไปให้ระบบ และให้คนดูเฉพาะ policy, exception และ approval</p></div></div>
-      <div class="auto-grid">
-        <div class="stack">
-          <div class="stage"><div class="num">1</div><div><b>Auto Collect</b><small>อ่าน SO/WO/Cutting/Material/Actual จาก ERP ตามรอบ</small></div><span class="state ready">READY</span></div>
-          <div class="stage"><div class="num">2</div><div><b>Auto Validate</b><small>ตรวจ key, date, missing route, unknown status, stale source</small></div><span class="state ready">READY</span></div>
-          <div class="stage"><div class="num">3</div><div><b>Auto Readiness</b><small>คำนวณ Material Ready + operation prerequisites</small></div><span class="state ready">READY DESIGN</span></div>
-          <div class="stage"><div class="num">4</div><div><b>Auto Schedule</b><small>finite-capacity sequence และ slot ต่อ Work Center</small></div><span class="state wait">WAIT CERTIFY</span></div>
-          <div class="stage"><div class="num">5</div><div><b>Auto Exception</b><small>late / shortage / overload / quality / stale / rework</small></div><span class="state ready">READY DESIGN</span></div>
-          <div class="stage"><div class="num">6</div><div><b>Auto Scenario</b><small>สร้างทางเลือกหลายแบบพร้อม impact</small></div><span class="state ready">SIMULATION</span></div>
-          <div class="stage"><div class="num">7</div><div><b>Human Approve</b><small>Planner/Manager เลือก scenario และ reason</small></div><span class="state ready">MANDATORY</span></div>
-          <div class="stage"><div class="num">8</div><div><b>Auto Publish / Monitor</b><small>write-back และ watch actual drift ใน phase หลัง UAT</small></div><span class="state block">LOCKED</span></div>
+    <main>
+      <section id="story" class="section">
+        <div class="head"><div><h2>01 · Storyline · ลำดับเรื่องราว</h2><p>เรียงจากสิ่งที่ธุรกิจต้องการ → สิ่งที่ระบบต้องพิสูจน์ → สิ่งที่ Automation ทำ → จุดที่คนตัดสินใจ → การเรียนรู้จาก Actual</p></div></div>
+        <div class="story">
+          <div class="story-card"><div class="n">A · DEMAND</div><b>เราต้องส่งอะไร เมื่อไร ให้ใคร</b><p>SO / Project / Due Date / Priority ถูกแปลงเป็น Planning Demand</p></div>
+          <div class="story-card"><div class="n">B · READINESS</div><b>ทำได้จริงหรือยัง</b><p>Material, Routing, Capacity, Quality และ Data Quality ต้องผ่าน Gate</p></div>
+          <div class="story-card"><div class="n">C · SCHEDULE</div><b>ลง Operation ให้ถูก Work Center และเวลา</b><p>สร้าง Baseline ตาม precedence, standard time และ due date</p></div>
+          <div class="story-card"><div class="n">D · EXCEPTION</div><b>กรองเฉพาะสิ่งที่ผิดปกติ</b><p>Late, shortage, overload, rework, hold, stale, data gap</p></div>
+          <div class="story-card"><div class="n">E · DECISION</div><b>เปรียบเทียบ Scenario ก่อนอนุมัติ</b><p>Solver คำนวณ feasibility, AI อธิบาย trade-off, Human ตัดสินใจ</p></div>
+          <div class="story-card"><div class="n">F · CLOSED LOOP</div><b>Actual กลับมาเป็น Trigger ของ Re-plan</b><p>เมื่อ Plan vs Actual drift เกิน threshold ระบบเปิดรอบวางแผนใหม่อัตโนมัติ</p></div>
         </div>
-        <div class="gate">
-          <h3>Publish Gate</h3>
-          <div class="gate-row"><span>Routing complete</span><b>PASS</b></div>
-          <div class="gate-row"><span>Material feasibility</span><b>PASS / BLOCK</b></div>
-          <div class="gate-row"><span>Capacity ≤ policy</span><b>PASS / BLOCK</b></div>
-          <div class="gate-row"><span>Frozen order protected</span><b>PASS</b></div>
-          <div class="gate-row"><span>Quality hold cleared</span><b>PASS / BLOCK</b></div>
-          <div class="gate-row"><span>Human approval</span><b>REQUIRED</b></div>
-          <p style="font-size:10px;color:var(--muted);line-height:1.6;margin-top:12px">หลักการ fail-closed: ถ้าข้อมูลสำคัญไม่ครบ ระบบต้อง “หยุด Publish” ไม่ใช่เดาแล้วเดินต่อ</p>
-        </div>
-      </div>
-    </section>
+      </section>
 
-    <section id="erp" class="view section">
-      <div class="head"><div><h2>สิ่งที่เรียนรู้จาก ERP → สิ่งที่เปลี่ยนใน Control Tower</h2><p>เราไม่ได้ copy หน้าจอ ERP แต่ดึง “ความจริงของ workflow” มาออกแบบระบบวางแผนอัตโนมัติใหม่</p></div></div>
-      <div class="map">
-        <div class="learn"><div class="title">1 · Status ≠ State<small>สถานะเดียวบอกความจริงของงานไม่พอ</small></div><div class="before">เดิม: ดู Cutting Status แล้วสรุปว่าอยู่แผนกไหน</div><div class="after">ใหม่: State Resolver = status + routing + last operation + material + quality + downstream state</div></div>
-        <div class="learn"><div class="title">2 · WO ต้องลงถึง Operation<small>ERP มี operation sequence และ actual hours</small></div><div class="before">เดิม: วางแผนระดับ WO/Cutting</div><div class="after">ใหม่: Scheduler วางแผนระดับ operation / work center / time slot</div></div>
-        <div class="learn"><div class="title">3 · On Hand ≠ Material Ready<small>มี commitment, inspection, inbound และ project allocation</small></div><div class="before">เดิม: มี stock = พร้อมผลิต</div><div class="after">ใหม่: ATP/Readiness engine แยก required, committed, available, shortage, PO ETA</div></div>
-        <div class="learn"><div class="title">4 · Calendar ≠ Capacity<small>ต้องรู้ resource และ standard time ด้วย</small></div><div class="before">เดิม: วันทำงานเป็นฐาน</div><div class="after">ใหม่: capacity = resource × shift × availability; load = standard minutes × remaining qty</div></div>
-        <div class="learn"><div class="title">5 · Version/Rule สำคัญพอ ๆ กับ Data<small>ERP behavior เปลี่ยนได้ตาม version / option</small></div><div class="before">เดิม: logic ซ่อนใน query / program</div><div class="after">ใหม่: effective-dated rule + rule version + evidence + approver + audit</div></div>
-        <div class="learn"><div class="title">6 · Snapshot ต้องมี Lineage<small>ข้อมูลคนละช่วงเวลาห้าม join แบบไม่รู้ context</small></div><div class="before">เดิม: extract หลายไฟล์เหมือนเป็นชุดเดียวกัน</div><div class="after">ใหม่: source_batch / extract time / valid period / DQ state เป็น first-class fields</div></div>
-        <div class="learn"><div class="title">7 · Planner ไม่ควรไล่เช็กทุก Order<small>ERP ให้ raw operational evidence ได้</small></div><div class="before">เดิม: Planner เปิดหลายหน้าจอและรวมข้อมูลเอง</div><div class="after">ใหม่: system pre-computes plan + exceptions; Planner เป็น supervisor ของ automation</div></div>
-        <div class="learn"><div class="title">8 · AI ไม่ใช่ Scheduler<small>deterministic constraint ต้องมาก่อนคำแนะนำ</small></div><div class="before">เดิม: เสี่ยงให้ AI เดาแผน</div><div class="after">ใหม่: Rules/Solver คำนวณก่อน → AI อธิบาย/เสนอ → Human Gate → Publish</div></div>
-      </div>
-    </section>
+      <section id="master" class="section">
+        <div class="head"><div><h2>02 · Master Workflow · Production Planning Automation</h2><p>วาดเป็น Process + Decision Gate แบบเดียวกับตัวอย่าง และทุก Node กดเพื่อเปิดรายละเอียดด้านล่างได้</p></div><div class="tags"><span class="tag">Process</span><span class="tag">Decision Gate</span><span class="tag">Feedback Loop</span></div></div>
+        <div class="diagram-wrap">
+          <div class="diagram-card">
+            <svg viewBox="0 0 1460 790" role="img" aria-label="Production Planning Automation Workflow">
+              <defs>
+                <marker id="arrow" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#93a8bf"/></marker>
+                <marker id="arrowGreen" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#8edcb7"/></marker>
+                <marker id="arrowRed" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#ff8d98"/></marker>
+                <marker id="arrowCyan" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto"><path d="M0,0 L9,4.5 L0,9 z" fill="#68d8e6"/></marker>
+              </defs>
 
-    <section id="scheduler" class="view section">
-      <div class="head"><div><h2>Scheduler Lab · Automation Scenario</h2><p>ตัวอย่างแนวคิดการทำ What-if: ทุกการเปลี่ยนแผนอยู่ใน Scenario ไม่แก้ Baseline โดยตรง</p></div><span class="pill">DEMO LOGIC · NOT LIVE ERP</span></div>
-      <div class="sim">
-        <div class="controls">
-          <div class="field"><label>TRIGGER</label><select id="trigger"><option value="urgent">ลูกค้าด่วน / Priority สูง</option><option value="material">Material มาช้า 2 วัน</option><option value="capacity">Work Center overload</option><option value="rework">Rework แทรกกลางแผน</option></select></div>
-          <div class="field"><label>POLICY</label><select id="policy"><option value="balanced">Balanced · Due date + Stability</option><option value="delivery">Protect Delivery</option><option value="stability">Minimize Plan Change</option></select></div>
-          <div class="field"><label>OVERTIME LIMIT</label><input id="ot" type="range" min="0" max="4" value="2"></div>
-          <button class="btn" id="run">Run Scenario</button>
-          <p style="font-size:9px;color:var(--muted);line-height:1.6">ระบบจริงจะคำนวณจาก routing, material readiness, standard minutes, calendar และ resource capacity ที่ certify จาก ERP</p>
-        </div>
-        <div class="result">
-          <div class="result-grid">
-            <div class="metric"><b id="late">2</b><span>Orders at risk</span></div>
-            <div class="metric"><b id="over">1</b><span>Overload slots</span></div>
-            <div class="metric"><b id="move">4</b><span>Operations moved</span></div>
-            <div class="metric"><b id="score">82</b><span>Plan score / 100</span></div>
+              <!-- top row -->
+              <g class="node" data-phase="demand"><rect class="shape box-shape" x="40" y="70" rx="20" ry="20" width="185" height="96"/><text class="title-t" x="132" y="105" text-anchor="middle">Demand Intake</text><text class="sub-t" x="132" y="128" text-anchor="middle">SO · Project · Due Date</text><text class="mini-t" x="132" y="148" text-anchor="middle">Priority / Promise</text></g>
+              <path class="arrow" d="M225 118 H285"/>
+
+              <g class="node" data-phase="normalize"><rect class="shape box-shape" x="285" y="70" rx="20" ry="20" width="195" height="96"/><text class="title-t" x="382" y="103" text-anchor="middle">Normalize & Lineage</text><text class="sub-t" x="382" y="127" text-anchor="middle">WO · Cutting · Source Batch</text><text class="mini-t" x="382" y="148" text-anchor="middle">Version · DQ · Effective Time</text></g>
+              <path class="arrow" d="M480 118 H530"/>
+
+              <g class="node" data-phase="material"><polygon class="shape decision-shape" points="610,60 690,118 610,176 530,118"/><text class="title-t" x="610" y="108" text-anchor="middle">Material</text><text class="mini-t" x="610" y="128" text-anchor="middle">Ready?</text></g>
+              <text class="yes-t" x="700" y="102">YES</text>
+              <path class="arrow-yes" d="M690 118 H765"/>
+
+              <g class="node" data-phase="capacity"><polygon class="shape decision-shape" points="850,60 935,118 850,176 765,118"/><text class="title-t" x="850" y="105" text-anchor="middle">Route /</text><text class="mini-t" x="850" y="126" text-anchor="middle">Capacity Ready?</text></g>
+              <text class="yes-t" x="948" y="102">YES</text>
+              <path class="arrow-yes" d="M935 118 H1020"/>
+
+              <g class="node" data-phase="schedule"><rect class="shape auto-shape" x="1020" y="70" rx="20" ry="20" width="205" height="96"/><text class="title-t" x="1122" y="104" text-anchor="middle">Auto Scheduler</text><text class="sub-t" x="1122" y="128" text-anchor="middle">Sequence · Slot · Precedence</text><text class="mini-t" x="1122" y="148" text-anchor="middle">Due Date / Freeze Policy</text></g>
+              <path class="arrow" d="M1225 118 H1280"/>
+
+              <g class="node" data-phase="feasible"><polygon class="shape decision-shape" points="1360,60 1440,118 1360,176 1280,118"/><text class="title-t" x="1360" y="107" text-anchor="middle">Feasible</text><text class="mini-t" x="1360" y="128" text-anchor="middle">Plan?</text></g>
+
+              <!-- no paths down -->
+              <text class="no-t" x="548" y="202">NO</text>
+              <path class="arrow-no" d="M575 166 V260 H710"/>
+              <text class="no-t" x="790" y="202">NO</text>
+              <path class="arrow-no" d="M815 166 V236 H710 V260"/>
+              <text class="no-t" x="1375" y="202">NO</text>
+              <path class="arrow-no" d="M1360 176 V260 H1010"/>
+
+              <!-- middle row -->
+              <g class="node" data-phase="exception"><rect class="shape risk-shape" x="585" y="260" rx="20" ry="20" width="260" height="108"/><text class="title-t" x="715" y="297" text-anchor="middle">Exception Queue</text><text class="sub-t" x="715" y="322" text-anchor="middle">Shortage · Missing Route · Overload</text><text class="mini-t" x="715" y="344" text-anchor="middle">Quality Hold · Stale · Data Gap</text></g>
+
+              <path class="arrow" d="M845 314 H930"/>
+              <g class="node" data-phase="scenario"><rect class="shape auto-shape" x="930" y="260" rx="20" ry="20" width="250" height="108"/><text class="title-t" x="1055" y="297" text-anchor="middle">Scenario Generator</text><text class="sub-t" x="1055" y="322" text-anchor="middle">Reprioritize · Expedite · OT</text><text class="mini-t" x="1055" y="344" text-anchor="middle">Alternate Route / Delay Trade-off</text></g>
+
+              <path class="arrow" d="M1180 314 H1230"/>
+              <g class="node" data-phase="decision"><polygon class="shape human-shape" points="1335,250 1440,314 1335,378 1230,314"/><text class="title-t" x="1335" y="304" text-anchor="middle">Human</text><text class="mini-t" x="1335" y="326" text-anchor="middle">Approve?</text></g>
+
+              <!-- feasible yes to human decision -->
+              <text class="yes-t" x="1410" y="214">YES</text>
+              <path class="arrow-yes" d="M1410 158 V224 H1335 V250"/>
+
+              <!-- reject loop to scenario -->
+              <text class="no-t" x="1298" y="407">REJECT</text>
+              <path class="arrow-no" d="M1300 364 V420 H1055 V368"/>
+
+              <!-- bottom row publish -->
+              <text class="yes-t" x="1360" y="424">APPROVE</text>
+              <path class="arrow-yes" d="M1335 378 V470"/>
+              <g class="node" data-phase="publish"><rect class="shape human-shape" x="1235" y="470" rx="20" ry="20" width="200" height="92"/><text class="title-t" x="1335" y="504" text-anchor="middle">Publish Plan</text><text class="sub-t" x="1335" y="528" text-anchor="middle">Human-approved baseline</text><text class="mini-t" x="1335" y="548" text-anchor="middle">ERP write-back = future gate</text></g>
+
+              <path class="arrow" d="M1235 516 H1120"/>
+              <g class="node" data-phase="execute"><rect class="shape box-shape" x="920" y="470" rx="20" ry="20" width="200" height="92"/><text class="title-t" x="1020" y="504" text-anchor="middle">ERP / Execution</text><text class="sub-t" x="1020" y="528" text-anchor="middle">Time Entry · Operation Status</text><text class="mini-t" x="1020" y="548" text-anchor="middle">Material / Quality / Completion</text></g>
+
+              <path class="arrow" d="M920 516 H805"/>
+              <g class="node" data-phase="monitor"><rect class="shape monitor-shape" x="605" y="470" rx="20" ry="20" width="200" height="92"/><text class="title-t" x="705" y="504" text-anchor="middle">Monitor Actual</text><text class="sub-t" x="705" y="528" text-anchor="middle">Actual vs Baseline</text><text class="mini-t" x="705" y="548" text-anchor="middle">WIP · Hours · Delay · Drift</text></g>
+
+              <path class="arrow" d="M605 516 H520"/>
+              <g class="node" data-phase="drift"><polygon class="shape decision-shape" points="430,454 520,516 430,578 340,516"/><text class="title-t" x="430" y="505" text-anchor="middle">Drift over</text><text class="mini-t" x="430" y="527" text-anchor="middle">threshold?</text></g>
+
+              <text class="no-t" x="355" y="610">NO → CONTINUE</text>
+              <path class="arrow" d="M430 578 V650 H730"/>
+              <text class="yes-t" x="220" y="505">YES</text>
+              <path class="loop" d="M340 516 H180 V690 H1120 V166"/>
+              <text class="mini-t" x="520" y="714">CLOSED LOOP · AUTO RE-PLAN → กลับเข้า Auto Scheduler เมื่อ Actual drift เกิน policy threshold</text>
+
+              <!-- material no label -->
+              <text class="mini-t" x="535" y="242">SHORT / HOLD / ETA</text>
+              <text class="mini-t" x="782" y="222">MISSING / OVERLOAD</text>
+            </svg>
           </div>
-          <div class="timeline" id="timeline"></div>
-          <div class="notice" id="recommend" style="margin:12px 0 0">Recommendation: ปรับลำดับ 4 operations, ใช้ OT 2h ใน bottleneck และคง frozen order เดิม → ต้อง Human Approve ก่อน Publish</div>
         </div>
-      </div>
-    </section>
+        <div class="diagram-hint">กดกล่องหรือข้าวหลามตัดใน Workflow เพื่อเปิดรายละเอียดของ Phase นั้นในหัวข้อ “Drill-down” ด้านล่าง</div>
+      </section>
 
-    <section id="architecture" class="view section">
-      <div class="head"><div><h2>Automation Architecture</h2><p>แยก ERP ออกจาก Planning Intelligence ชัดเจน เพื่อให้ระบบวางแผนเร็วขึ้น แต่ยัง trace กลับไปยัง source ได้ทุกจุด</p></div></div>
-      <div class="arch">
-        <div class="a"><b>ERP / Sources</b><p>Demand, WO, Routing, Material, Actual, Quality</p></div>
-        <div class="a"><b>Source Batch</b><p>Immutable ingest + lineage + data quality</p></div>
-        <div class="a"><b>Operational Model</b><p>Normalized order / routing / ATP / execution</p></div>
-        <div class="a"><b>Rules & Solver</b><p>Readiness, capacity, precedence, risk, schedule</p></div>
-        <div class="a"><b>Control Tower API</b><p>Plan, exception, scenario, evidence</p></div>
-        <div class="a"><b>AI Copilot</b><p>Explain, compare, recommend, summarize</p></div>
-        <div class="a"><b>Human Gate</b><p>Approve → governed publish → monitor drift</p></div>
-      </div>
-      <div class="grid2">
-        <div class="card"><h3>Deterministic Core</h3><p>สิ่งที่กระทบ feasibility ต้องเป็น rule/solver ที่คำนวณซ้ำได้ เช่น precedence, material, capacity, due date, freeze, quality hold</p></div>
-        <div class="card"><h3>AI Layer</h3><p>ใช้ AI หลังจากมีผลคำนวณแล้ว เพื่ออธิบายเหตุผล สรุปผลกระทบ จัดอันดับ exception และเสนอ action — ไม่ให้ AI เป็นผู้กำหนดข้อเท็จจริงของแผน</p></div>
-      </div>
-      <div class="notice"><b>Public-safe design:</b> หน้า Web นี้แสดง Architecture และ Planning Concept เท่านั้น รายละเอียด ERP object/version/table/security เก็บใน Private ERP Architecture repository แยกต่างหาก</div>
-    </section>
+      <section id="deep" class="section">
+        <div class="head"><div><h2>03 · Drill-down · Input → Logic → Output → Exception → Human</h2><p>แยกแต่ละ Phase ให้เห็นว่าระบบต้องอ่านอะไร คำนวณอะไร ส่งอะไรออก และเมื่อไรต้องหยุดให้คนตัดสินใจ</p></div></div>
+        <div class="deep">
+          <div class="phase-list">
+            <div class="phase active" data-phase="demand"><b>01 · Demand Intake</b><p>จาก SO / Project / Promise ไปเป็น Planning Demand</p></div>
+            <div class="phase" data-phase="normalize"><b>02 · Normalize & Lineage</b><p>แยก source, version, batch, date, key และ DQ</p></div>
+            <div class="phase" data-phase="material"><b>03 · Material Readiness Gate</b><p>Required, committed, available, PO ETA, inspection</p></div>
+            <div class="phase" data-phase="capacity"><b>04 · Routing & Capacity Gate</b><p>Operation, Work Center, Standard Time, Calendar, Resource</p></div>
+            <div class="phase" data-phase="schedule"><b>05 · Auto Scheduler</b><p>สร้าง Baseline และ sequence ภายใต้ hard constraints</p></div>
+            <div class="phase" data-phase="exception"><b>06 · Exception Queue</b><p>ให้ Planner เห็นเฉพาะงานที่ระบบแก้เองไม่ได้</p></div>
+            <div class="phase" data-phase="scenario"><b>07 · Scenario Generator</b><p>สร้างหลายทางเลือกและวัด impact</p></div>
+            <div class="phase" data-phase="decision"><b>08 · Human Gate</b><p>Approve / Reject / Override พร้อมเหตุผล</p></div>
+            <div class="phase" data-phase="monitor"><b>09 · Monitor Actual</b><p>Actual vs Plan และ trigger Closed Loop</p></div>
+          </div>
+          <div class="detail" id="detail"></div>
+        </div>
+      </section>
 
-    <section id="roadmap" class="view section">
-      <div class="head"><div><h2>Automation Roadmap</h2><p>ไม่กระโดดจาก Dashboard ไป Auto-Write ERP ทันที แต่ยกระดับ authority ตาม evidence และ UAT</p></div></div>
-      <div class="road">
-        <div class="road-row"><div class="phase">Level 0</div><div class="desc">Observe · รวมข้อมูลและแสดง state จริงจาก ERP</div><div class="status ready">DONE / READY</div></div>
-        <div class="road-row"><div class="phase">Level 1</div><div class="desc">Detect · ระบบหา late / shortage / overload / stale / quality exception</div><div class="status ready">DESIGN READY</div></div>
-        <div class="road-row"><div class="phase">Level 2</div><div class="desc">Recommend · Rules + AI เสนอการจัดลำดับ / expedite / OT / re-plan</div><div class="status ready">BUILD NEXT</div></div>
-        <div class="road-row"><div class="phase">Level 3</div><div class="desc">Simulate · สร้าง finite-capacity scenarios และเทียบ impact อัตโนมัติ</div><div class="status wait">WAIT CAPACITY CERT</div></div>
-        <div class="road-row"><div class="phase">Level 4</div><div class="desc">Approve & Publish · Planner อนุมัติ แล้วระบบเขียนกลับแบบ allowlist/audit</div><div class="status block">LOCKED UNTIL UAT</div></div>
-        <div class="road-row"><div class="phase">Level 5</div><div class="desc">Closed-loop Automation · monitor actual drift และ re-plan อัตโนมัติภายใต้ policy</div><div class="status block">FUTURE</div></div>
-      </div>
-      <div class="notice"><b>สิ่งที่เหลือจาก ERP Admin:</b> certify Work Center/Resource Capacity, Standard Time, Routing Master source, Processing Options/UBE และ integration path. สิ่งเหล่านี้ไม่เปลี่ยน Blueprint แต่เป็นกุญแจเปิด Level 3–5</div>
-    </section>
-  </main>
+      <section id="categories" class="section">
+        <div class="head"><div><h2>04 · แยกหมวดหมู่ให้ชัด</h2><p>ลดความสับสนระหว่าง “ข้อมูล”, “ข้อจำกัด”, “Automation”, “AI” และ “อำนาจตัดสินใจ”</p></div></div>
+        <div class="cats">
+          <div class="cat blue"><h3>ERP / Evidence</h3><p>ข้อเท็จจริงที่ระบบต้นทางรู้</p><ul><li>SO / WO / Cutting</li><li>BOM / Parts List</li><li>Routing / Operation</li><li>Inventory / PO / Quality</li><li>Time Entry / Actual Hours</li></ul></div>
+          <div class="cat amber"><h3>Deterministic Constraints</h3><p>สิ่งที่ต้องผ่านก่อนแผนจะ feasible</p><ul><li>Material readiness</li><li>Routing precedence</li><li>Capacity / Calendar</li><li>Quality hold</li><li>Freeze / Priority policy</li></ul></div>
+          <div class="cat green"><h3>Automation / Solver</h3><p>งานที่ระบบควรทำเอง</p><ul><li>Validate source</li><li>Build baseline</li><li>Detect exception</li><li>Generate scenario</li><li>Monitor drift / Re-plan</li></ul></div>
+          <div class="cat violet"><h3>AI + Human Authority</h3><p>แยกคำแนะนำออกจากอำนาจผลิต</p><ul><li>AI explain / compare</li><li>Planner policy decision</li><li>Manager approve trade-off</li><li>Human Gate publish</li><li>Audit / override reason</li></ul></div>
+        </div>
+      </section>
 
-  <div class="footer">Practika Production Control Tower · Automation-first planning architecture · Human-approved production authority</div>
+      <section id="lessons" class="section">
+        <div class="head"><div><h2>05 · สิ่งที่เรียนรู้จาก ERP → สิ่งที่เปลี่ยนใน Control Tower</h2><p>ไม่ copy ERP UI แต่เอา “ความจริงของ workflow” มาปรับหลักคิดของระบบวางแผนอัตโนมัติ</p></div></div>
+        <div class="lessons">
+          <div class="lesson"><div class="l">Status ไม่ใช่ State<small>ERP แสดงหลายมิติของงาน</small></div><div class="old">เดิม: Cutting Status → สรุปว่าอยู่แผนกไหน</div><div class="new">ใหม่: Status + Routing + Last Operation + Material + Quality + downstream</div></div>
+          <div class="lesson"><div class="l">WO ต้องลงถึง Operation<small>พบ Operation Sequence และ Actual Hours จริง</small></div><div class="old">เดิม: วางแผนระดับ WO/Cutting</div><div class="new">ใหม่: วางแผนระดับ Operation / Work Center / Time Slot</div></div>
+          <div class="lesson"><div class="l">On Hand ≠ Ready<small>มี commitment / inspection / inbound</small></div><div class="old">เดิม: มีของ = ผลิตได้</div><div class="new">ใหม่: ATP = Required → Commitment → Available → Shortage → PO ETA</div></div>
+          <div class="lesson"><div class="l">Calendar ≠ Capacity<small>ยังต้อง Resource + Standard Time</small></div><div class="old">เดิม: วันทำงานเป็นฐาน</div><div class="new">ใหม่: Available Minutes เทียบ Required Minutes ต่อ Operation</div></div>
+          <div class="lesson"><div class="l">Rule ต้อง Versioned<small>ERP behavior ผูกกับ Version/Option</small></div><div class="old">เดิม: logic ซ่อนใน query/program</div><div class="new">ใหม่: effective-dated rule + evidence + approver + audit</div></div>
+          <div class="lesson"><div class="l">Planner = Supervisor<small>ระบบควรจัดการ Normal Flow</small></div><div class="old">เดิม: คนไล่เช็กทุก Order</div><div class="new">ใหม่: ระบบกรองเฉพาะ Exception แล้วให้คนตัดสินใจ</div></div>
+        </div>
+      </section>
+
+      <section id="maturity" class="section">
+        <div class="head"><div><h2>06 · Automation Maturity · จาก Read-only ไป Closed Loop</h2><p>ไม่กระโดดจาก Dashboard ไป Auto-Write ERP แต่เพิ่ม authority ทีละระดับตาม evidence, UAT และ control</p></div></div>
+        <div class="matrix">
+          <table>
+            <thead><tr><th>Level</th><th>ระบบทำอะไร</th><th>ERP dependency</th><th>Human role</th><th>Status</th></tr></thead>
+            <tbody>
+              <tr><td>0 · Observe</td><td>รวม state และ evidence จาก ERP</td><td>Read-only source</td><td>ตรวจความถูกต้อง</td><td class="ok">READY</td></tr>
+              <tr><td>1 · Detect</td><td>หา Late / Shortage / Overload / Stale / Hold</td><td>Routing + Material + Actual</td><td>ดู Exception</td><td class="ok">BUILD NOW</td></tr>
+              <tr><td>2 · Recommend</td><td>เสนอ Reprioritize / Expedite / OT / Alternate</td><td>Deterministic risk result</td><td>เลือก policy</td><td class="ok">BUILD NOW</td></tr>
+              <tr><td>3 · Simulate</td><td>Finite-capacity Scenario และ plan scoring</td><td>Certified Capacity + Standard Time</td><td>Review trade-off</td><td class="wait">WAIT ADMIN CERT</td></tr>
+              <tr><td>4 · Publish</td><td>Human-approved plan write-back</td><td>AIS/API/Orchestrator + UAT</td><td>Approve</td><td class="lock">LOCKED</td></tr>
+              <tr><td>5 · Closed Loop</td><td>Actual drift → Auto re-plan ภายใต้ policy</td><td>Stable write-back + audit</td><td>Supervise / Override</td><td class="lock">FUTURE</td></tr>
+            </tbody>
+          </table>
+        </div>
+        <div class="notice"><b>Admin items ที่ยังต้องปิด:</b> Manufacturing Work Center/Resource Capacity, Standard Time, Routing Master source, Processing Options / UBE และ supported integration path. สิ่งเหล่านี้ไม่เปลี่ยน Workflow แต่เป็นกุญแจเปิด finite-capacity และ closed-loop automation จริง</div>
+      </section>
+    </main>
+  </div>
+
+  <div class="footer">Practika Production Control Tower · Planning Automation Workflow · ERP Evidence → Deterministic Solver → AI Recommendation → Human Gate</div>
 </div>
+
 <script>
-const tabs=[...document.querySelectorAll('.nav button')];
-tabs.forEach(b=>b.addEventListener('click',()=>{
-  tabs.forEach(x=>x.classList.remove('active'));b.classList.add('active');
-  document.querySelectorAll('.view').forEach(v=>v.classList.remove('active'));
-  document.getElementById(b.dataset.tab).classList.add('active');
-}));
-const base=[
-  ['WOOD CUT',72,'good'],['EDGE / CNC',88,'risk'],['METAL',64,'good'],
-  ['ASSEMBLY',94,'risk'],['FINISH',76,'good'],['QC / PACK',69,'good']
-];
-function draw(mult=1){
- const t=document.getElementById('timeline');t.innerHTML='';
- base.forEach((r,i)=>{
-   const val=Math.min(112,Math.round(r[1]*mult+(i===3?4:0)));
-   const cls=val>100?'late':val>=85?'risk':'good';
-   t.innerHTML+=`<div class="job"><b>${r[0]}</b><div class="track"><div class="bar ${cls}" style="width:${Math.min(100,val)}%"></div></div><span>${val}% load</span></div>`;
- });
+const catalog={
+ demand:{ey:'PHASE 01',title:'Demand Intake',desc:'เปลี่ยน Demand จาก ERP ให้กลายเป็น planning demand ที่มี business priority และ trace กลับ source ได้',input:['SO / SO line','Project / Customer','Requested / Promised date','Priority / freeze policy'],logic:['Normalize demand grain','Resolve due date policy','Attach source lineage','Create planning demand version'],output:['Demand queue','Due-date target','Priority class','Planning baseline candidate'],exception:['Missing promise','Conflicting priority','Cancelled / hold'],human:'Sales/Planner แก้ policy เฉพาะกรณี conflict'},
+ normalize:{ey:'PHASE 02',title:'Normalize & Lineage',desc:'กันปัญหาข้อมูลคนละ snapshot และ logic ซ่อน โดยเก็บ source/version/time/DQ เป็น first-class fields',input:['WO / Cutting','Source batch','Extract time','Version / object'],logic:['Validate key/date','Quarantine anomalies','Map business keys','Preserve raw evidence'],output:['Normalized operational model','DQ state','Traceable key map'],exception:['Unknown key','Date anomaly','Cross-period mismatch'],human:'Data owner ยืนยัน mapping ใหม่'},
+ material:{ey:'PHASE 03',title:'Material Readiness Gate',desc:'ตัดสินความพร้อมจาก Requirement + Commitments + Inspection + Inbound ไม่ใช้ On Hand อย่างเดียว',input:['BOM / Parts List','On Hand','Soft/Hard commit','Inspection/Hold','PO ETA'],logic:['Compute required','Subtract commitments','Evaluate available','Project inbound ETA','Find material-ready date'],output:['READY / PARTIAL / SHORT / WAIT_PO / HOLD'],exception:['Supplier ETA missing','Inspection hold','Shortage critical'],human:'Buyer/Planner ตัดสิน expedite/substitute'},
+ capacity:{ey:'PHASE 04',title:'Routing & Capacity Gate',desc:'พิสูจน์ว่าแต่ละ Operation มี route, resource และเวลาพอจริงก่อนลงแผน',input:['Routing sequence','Work Center','Standard setup/run','Shift calendar','Resource units'],logic:['Validate route completeness','Compute required minutes','Compute available minutes','Check overload'],output:['Capacity-ready state','Earliest feasible slot','Load %'],exception:['Missing standard time','No resource','Capacity > policy'],human:'Production Manager อนุมัติ OT/alternate/outsource'},
+ schedule:{ey:'PHASE 05',title:'Auto Scheduler',desc:'สร้าง Baseline ที่ feasible โดยเคารพ precedence, material-ready date, capacity, freeze และ due date',input:['Ready demand','Operation graph','Material ready date','Capacity calendar','Policies'],logic:['Sequence operations','Reserve slots','Protect frozen work','Score lateness/stability','Create immutable scenario'],output:['Baseline plan','Operation slots','At-risk list','Plan score'],exception:['No feasible slot','Hard constraint conflict'],human:'Planner reviewเฉพาะ exception'},
+ feasible:{ey:'DECISION',title:'Feasible Plan?',desc:'Hard Gate ก่อนเข้า approval: ถ้า constraint ใดไม่ผ่าน ห้าม Publish',input:['Plan result','Constraint results'],logic:['Check all hard gates','Fail closed on missing critical source'],output:['PASS หรือ BLOCK'],exception:['Material/route/capacity/quality block'],human:'ไม่มีการ bypass เงียบ ๆ; override ต้องมี approver + reason'},
+ exception:{ey:'PHASE 06',title:'Exception Queue',desc:'รวมเฉพาะสิ่งที่ Normal Automation จัดการเองไม่ได้ เพื่อไม่ให้ Planner ไล่เช็กทุก Order',input:['Blocked demand','Risk rules','Data-quality flags'],logic:['Classify cause','Rank severity','Assign owner','Set SLA'],output:['Exception queue','Owner','Severity','Required decision'],exception:['Repeated unresolved issue'],human:'Planner/Buyer/Production/QC ตาม owner'},
+ scenario:{ey:'PHASE 07',title:'Scenario Generator',desc:'สร้างหลายทางเลือกโดยไม่แก้ Baseline จริง แล้วคำนวณ impact ให้เทียบกันได้',input:['Exception','Policies','Available options'],logic:['Clone baseline','Apply reprioritize/OT/expedite/alternate','Recalculate constraints','Score each scenario'],output:['Scenario A/B/C','Due-date impact','Capacity impact','Material impact'],exception:['All scenarios infeasible'],human:'Manager เลือก trade-off'},
+ decision:{ey:'HUMAN GATE',title:'Human Approval',desc:'จุดแบ่งระหว่างคำแนะนำกับอำนาจผลิตจริง',input:['Scenario comparison','AI explanation','Risk evidence'],logic:['Review policy','Approve / Reject / Override','Record reason'],output:['Approved plan version หรือ return to scenario'],exception:['Approval timeout','Policy conflict'],human:'Planner/Manager/Approver ตาม authority matrix'},
+ publish:{ey:'PHASE 08',title:'Publish Plan',desc:'เผยแพร่เฉพาะ plan ที่ผ่าน deterministic gate และ Human approval',input:['Approved scenario'],logic:['Validate preconditions again','Create audit id','Publish via governed adapter'],output:['Published baseline','Audit trail'],exception:['ERP precondition changed'],human:'Write-back ยัง LOCK จน UAT + Admin certification'},
+ execute:{ey:'ERP EXECUTION',title:'ERP / Shopfloor Execution',desc:'ERP ยังคงเป็น System of Record สำหรับ transaction และ actual execution',input:['Published plan / WO','Shopfloor actions'],logic:['Production executes','Time Entry / status / completion','Material / quality transaction'],output:['Actual hours','Operation status','Completion','Quality/material evidence'],exception:['Rework / hold / downtime'],human:'หน้างานทำ transaction ตาม authority เดิม'},
+ monitor:{ey:'PHASE 09',title:'Monitor Actual',desc:'อ่าน Actual จาก ERP แล้วเทียบกับ Baseline ทุก cycle',input:['Actual operation status','Actual hours','Material / quality events'],logic:['Compare plan vs actual','Measure delay/load drift','Update risk'],output:['Drift metric','New exception trigger','Forecast'],exception:['Stale actual','Unexpected rework'],human:'Supervisor ดูเฉพาะ drift สำคัญ'},
+ drift:{ey:'DECISION',title:'Drift over threshold?',desc:'ถ้า Actual เบี่ยงเกิน policy ระบบเปิดรอบ Re-plan ใหม่โดยอัตโนมัติ',input:['Actual vs plan variance','Threshold policy'],logic:['Evaluate drift','Protect frozen horizon','Trigger new scenario'],output:['Continue plan หรือ Auto Re-plan'],exception:['Repeated oscillation'],human:'Override threshold/policy เมื่อจำเป็น'}
+};
+
+function renderDetail(k){
+ const d=catalog[k]||catalog.demand;
+ document.querySelectorAll('.phase').forEach(x=>x.classList.toggle('active',x.dataset.phase===k));
+ const list=(arr)=>'<ul>'+arr.map(x=>'<li>'+x+'</li>').join('')+'</ul>';
+ document.getElementById('detail').innerHTML=
+ '<div class="ey">'+d.ey+'</div><h3>'+d.title+'</h3><p>'+d.desc+'</p>'+
+ '<div class="detail-grid">'+
+ '<div class="dcard"><b>INPUT</b>'+list(d.input)+'</div>'+
+ '<div class="dcard"><b>LOGIC / RULE</b>'+list(d.logic)+'</div>'+
+ '<div class="dcard"><b>OUTPUT</b>'+list(d.output)+'</div>'+
+ '<div class="dcard"><b>EXCEPTION</b>'+list(d.exception)+'</div>'+
+ '</div><div class="dcard" style="margin-top:9px"><b>HUMAN ROLE</b><span>'+d.human+'</span></div>';
 }
-draw();
-document.getElementById('run').addEventListener('click',()=>{
- const tr=document.getElementById('trigger').value;
- const pol=document.getElementById('policy').value;
- const ot=+document.getElementById('ot').value;
- let late=2,over=1,move=4,score=82,m=1;
- if(tr==='material'){late=3;move=5;score=76;m=1.04}
- if(tr==='capacity'){over=2;move=6;score=73;m=1.12}
- if(tr==='rework'){late=2;over=2;move=7;score=78;m=1.08}
- if(pol==='delivery'){late=Math.max(0,late-1);move+=2;score+=3}
- if(pol==='stability'){move=Math.max(2,move-2);late+=1;score-=2}
- if(ot>=3){over=Math.max(0,over-1);score+=4;m-=.04}
- document.getElementById('late').textContent=late;
- document.getElementById('over').textContent=over;
- document.getElementById('move').textContent=move;
- document.getElementById('score').textContent=Math.min(99,score);
- draw(m);
- const reason=tr==='material'?'เร่ง PO/เปลี่ยน sequence เพื่อรอ Material':
- tr==='capacity'?'กระจาย bottleneck + OT ภายใต้ policy':
- tr==='rework'?'แทรก Rework โดยปกป้อง frozen order':'แทรกงานด่วนโดยลดผลกระทบ due date รวม';
- document.getElementById('recommend').innerHTML='<b>Recommendation:</b> '+reason+' · moved '+move+' operations · OT limit '+ot+'h → ต้อง Human Approve ก่อน Publish';
-});
+document.querySelectorAll('[data-phase]').forEach(el=>el.addEventListener('click',()=>{
+ renderDetail(el.dataset.phase);
+ document.getElementById('deep').scrollIntoView({behavior:'smooth',block:'start'});
+}));
+renderDetail('demand');
 </script>
 </body>
 </html>
