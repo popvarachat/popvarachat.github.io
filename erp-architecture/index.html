@@ -250,6 +250,43 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
   background:rgba(55,22,31,.82);pointer-events:none;
 }
 
+
+/* ===== Reporting / UBE / Decision Surface Deep Dive ===== */
+.report-shell{margin-top:22px;border:1px solid #203650;border-radius:24px;overflow:hidden;background:#07111f;color:#eef5ff;box-shadow:0 28px 75px rgba(7,17,31,.20)}
+.report-head{display:flex;justify-content:space-between;gap:18px;align-items:flex-start;padding:20px 22px 16px;border-bottom:1px solid #203650;background:linear-gradient(180deg,#0b1728,#091422)}
+.report-head h2{margin:3px 0 6px;font-size:clamp(24px,3vw,38px);letter-spacing:-.035em}
+.report-head p{margin:0;color:#9fb1c8;font-size:13px;line-height:1.6;max-width:900px}
+.report-kicker{font-size:10px;font-weight:900;letter-spacing:.13em;text-transform:uppercase;color:#b99cff}
+.report-summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:16px;border-bottom:1px solid #203650}
+.report-kpi{border:1px solid #29415f;border-radius:13px;padding:12px;background:#0c1a2c}
+.report-kpi b{display:block;font-size:23px;color:#eef5ff;margin-bottom:3px}.report-kpi span{font-size:9px;color:#91a5bf;line-height:1.45}
+.report-pipeline{padding:18px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;border-bottom:1px solid #203650}
+.report-stage{position:relative;border:1px solid #2c4668;border-radius:14px;padding:13px;background:linear-gradient(180deg,#10213a,#0c1a2d);min-height:128px}
+.report-stage:not(:last-child)::after{content:"→";position:absolute;right:-10px;top:50%;transform:translateY(-50%);z-index:4;color:#62d5e8;font-size:16px;font-weight:950}
+.report-stage .n{font-size:8px;font-weight:950;letter-spacing:.1em;text-transform:uppercase;color:#62d5e8}.report-stage h3{font-size:13px;margin:6px 0 5px;color:#eff6ff}.report-stage p{font-size:10px;color:#91a5bf;line-height:1.5;margin:0}.report-stage.risk{border-color:#6a5032}.report-stage.risk .n{color:#ffbf69}.report-stage.output{border-color:#4c4474}.report-stage.output .n{color:#b99cff}
+.report-class-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;padding:16px;border-bottom:1px solid #203650}
+.report-class{border:1px solid #29415f;border-radius:13px;padding:12px;background:#0a1728}.report-class b{display:block;font-size:11px;color:#e9f3ff;margin-bottom:4px}.report-class span{font-size:9px;color:#8fa3bd;line-height:1.5}
+.report-library-head{display:flex;justify-content:space-between;gap:15px;align-items:end;padding:18px 18px 10px}.report-library-head h3{margin:0;font-size:18px}.report-library-head p{margin:0;color:#8fa3bd;font-size:10px;line-height:1.5;max-width:650px}
+.report-library{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;padding:8px 18px 18px}
+.report-card{position:relative;border:1px solid #2c4668;border-radius:14px;padding:13px;background:linear-gradient(180deg,#10213a,#0c1a2d);min-height:154px;cursor:pointer;transition:.18s ease}
+.report-card:hover,.report-card.selected{transform:translateY(-2px);border-color:#b99cff;box-shadow:0 0 0 2px rgba(185,156,255,.09),0 14px 30px rgba(0,0,0,.26)}
+.report-card .state{display:inline-flex;padding:3px 6px;border-radius:999px;font-size:7px;font-weight:950;letter-spacing:.06em;border:1px solid #314762}
+.report-card .ready{color:#aef3ca;border-color:rgba(126,216,173,.35);background:rgba(126,216,173,.08)}
+.report-card .prov{color:#ffd989;border-color:rgba(255,181,107,.35);background:rgba(255,181,107,.08)}
+.report-card .block{color:#ffc2c8;border-color:rgba(255,122,134,.4);background:rgba(255,122,134,.08)}
+.report-card h4{font-size:12px;margin:9px 0 5px;color:#eff6ff;line-height:1.3}.report-card p{font-size:9px;color:#8fa3bd;line-height:1.5;margin:0 0 12px}.report-card .open-detail{position:absolute;right:10px;bottom:9px;color:#b99cff;font-size:8px;font-weight:900}
+.report-detail{margin:0 18px 18px;border:1px solid #314762;border-radius:16px;background:#0a1626;overflow:hidden}
+.report-detail-head{display:grid;grid-template-columns:1.2fr .8fr;gap:14px;padding:16px;border-bottom:1px solid #203650}
+.report-detail-head h3{font-size:21px;margin:4px 0 5px;color:#eff6ff}.report-detail-head p{font-size:10px;color:#91a5bf;line-height:1.6;margin:0}
+.report-cert{display:flex;align-items:flex-start;justify-content:flex-end;gap:8px;flex-wrap:wrap}.report-chip{display:inline-flex;padding:5px 8px;border:1px solid #314762;border-radius:999px;color:#9fb1c8;font-size:8px;font-weight:900}
+.report-detail-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;padding:14px}
+.report-detail-box{border:1px solid #29415f;border-radius:12px;padding:11px;background:#0c1a2c;min-height:120px}.report-detail-box .k{font-size:8px;color:#62d5e8;font-weight:950;letter-spacing:.09em;text-transform:uppercase}.report-detail-box h4{font-size:11px;margin:5px 0 5px;color:#e9f3ff}.report-detail-box ul{margin:0;padding-left:16px;color:#91a5bf;font-size:9px;line-height:1.55}
+.report-warning{margin:0 14px 14px;border-left:3px solid #ffbf69;background:rgba(255,191,105,.07);padding:10px 12px;color:#d7b77b;font-size:9px;line-height:1.55}
+.report-matrix-wrap{padding:0 18px 18px;overflow:hidden}.report-matrix{width:100%;border-collapse:collapse;font-size:9px}.report-matrix th,.report-matrix td{padding:9px 8px;border-bottom:1px solid #203650;text-align:left;vertical-align:top}.report-matrix th{font-size:8px;color:#7189a8;text-transform:uppercase;letter-spacing:.08em}.report-matrix td{color:#9fb1c8;line-height:1.45}.report-matrix td:first-child{color:#e7f1ff;font-weight:800}
+@media(max-width:1100px){.report-pipeline{grid-template-columns:repeat(3,1fr)}.report-stage:nth-child(3)::after,.report-stage:nth-child(6)::after{display:none}.report-library{grid-template-columns:repeat(3,1fr)}.report-detail-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:760px){.report-summary{grid-template-columns:repeat(2,1fr)}.report-pipeline,.report-class-grid,.report-library{grid-template-columns:1fr 1fr}.report-stage::after{display:none!important}.report-detail-head{grid-template-columns:1fr}.report-cert{justify-content:flex-start}.report-library-head{align-items:flex-start;flex-direction:column}}
+@media(max-width:480px){.report-summary,.report-pipeline,.report-class-grid,.report-library,.report-detail-grid{grid-template-columns:1fr}}
+
 </style>
 </head>
 <body>
@@ -258,7 +295,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     <div class="topbar-inner">
       <div class="brand"><span class="brand-mark">ERP</span><span>Practika ERP Architecture</span></div>
       <nav class="nav">
-        <a href="#flowmap">Flow Map</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
+        <a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
         <a href="#deep">Deep Dive</a><a href="#control">Controls</a><a href="#integration">Integration</a><a href="#cert">Certification</a>
       </nav>
     </div>
@@ -432,6 +469,83 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
           <div class="drill-info"><b>Semantic Zoom</b><br>คลิก Node ย่อยเพื่อซูมลงไปอีกระดับ ระบบจะลงต่อได้จนถึง Evidence Leaf / End State ของเส้นทางนั้น</div>
           <div class="drill-info"><b>Public-safe boundary</b><br>Flow นี้อธิบายโครงสร้างและตรรกะเชิงระบบ ส่วน object / version / physical table / internal configuration รายละเอียดสูงยังคงอยู่ใน Private Source of Truth</div>
         </div>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="reports" class="section">
+    <div class="section-head"><h2>Report Architecture · UBE · Decision Surfaces</h2><p>Report ที่ดีไม่ใช่เพียง “หน้าจอหรือไฟล์ออกมาได้” แต่ต้องรู้ว่าอ่านจากไหน คำนวณอย่างไร refresh เมื่อไร มีสิทธิ์เปลี่ยนข้อมูลหรือไม่ และผู้บริหารใช้ตัดสินใจอะไรต่อ</p></div>
+    <div class="report-shell">
+      <div class="report-head">
+        <div><div class="report-kicker">Reporting Deep Dive · Public-safe</div><h2>Source → Logic → Semantic Report → Decision</h2><p>แยก Inquiry, UBE/Batch, Semantic View, Snapshot และ Executive Decision Surface ออกจากกัน เพื่อไม่ให้ “รายงาน” ที่ดูเหมือน read-only แอบมี update/process behavior และไม่ให้ KPI ที่ยังไม่ certified ถูกใช้เหมือนเป็นความจริงสุดท้าย</p></div>
+        <div class="flow-status">REPORT CONTROL · FAIL-CLOSED</div>
+      </div>
+
+      <div class="report-summary">
+        <div class="report-kpi"><b>10</b><span>Target executive / management decision surfaces</span></div>
+        <div class="report-kpi"><b>9 + 1</b><span>Current semantic views + daily snapshot baseline in Control Tower</span></div>
+        <div class="report-kpi"><b>6</b><span>Report/output classes separated by behavior and governance</span></div>
+        <div class="report-kpi"><b>8</b><span>Priority ERP batch/report families awaiting Admin certification</span></div>
+      </div>
+
+      <div class="report-pipeline">
+        <div class="report-stage"><div class="n">01 · Question</div><h3>Business Question</h3><p>ผู้บริหารหรือหน้างานต้องการรู้ “อะไร” และเพื่อการตัดสินใจใด</p></div>
+        <div class="report-stage"><div class="n">02 · Source</div><h3>Certified Evidence</h3><p>ERP inquiry / batch source / export / normalized operational data พร้อม lineage</p></div>
+        <div class="report-stage risk"><div class="n">03 · Behavior</div><h3>Version / Options / Selection</h3><p>รู้ว่า config ใดควบคุมผลลัพธ์ และ UBE เป็น report-only หรือ update/process</p></div>
+        <div class="report-stage"><div class="n">04 · Semantic</div><h3>Governed Report View</h3><p>แปลง source เป็น grain, state และ calculation ที่ใช้ซ้ำได้และ audit ได้</p></div>
+        <div class="report-stage output"><div class="n">05 · Decision</div><h3>KPI / Risk / Snapshot</h3><p>สร้าง exception, risk, trend และ management context โดย deterministic rule</p></div>
+        <div class="report-stage output"><div class="n">06 · Evidence</div><h3>Drill-down / Human Action</h3><p>ทุก KPI ต้องย้อนกลับถึง WO / Cutting / Item / PO / Source evidence ได้</p></div>
+      </div>
+
+      <div class="report-class-grid">
+        <div class="report-class"><b>Inquiry Surface</b><span>Interactive read view; ต้องตรวจ Row/Form Action เพิ่ม เพราะ inquiry อาจพาไป transaction ได้</span></div>
+        <div class="report-class"><b>Report-only UBE</b><span>Batch output ที่ update = N ต้องยืนยัน version, option, selection, source และ owner</span></div>
+        <div class="report-class"><b>Update / Process UBE</b><span>ห้าม submit ระหว่าง discovery จนรู้ผลกระทบ; ขอ Admin export definition แทน</span></div>
+        <div class="report-class"><b>Semantic Report View</b><span>Reusable logic ใน normalized reporting layer สำหรับ dashboard/API/report</span></div>
+        <div class="report-class"><b>Snapshot / Trend</b><span>เก็บ dated output เพื่อวิเคราะห์แนวโน้ม ต้องกำกับ refresh และห้าม silent overwrite</span></div>
+        <div class="report-class"><b>Decision Surface</b><span>KPI + Risk + Reason + Owner/Action + Evidence drill-down ไม่ใช่ dashboard ตัวเลขลอย ๆ</span></div>
+      </div>
+
+      <div class="report-library-head">
+        <div><h3>Decision Surface Library</h3><p>คลิก Report แต่ละกลุ่มเพื่อดู Business Question, Source/Grain, Calculation, Limitation และ Drill-down path</p></div>
+        <div class="flow-status">CLICK REPORT TO DEEP DIVE</div>
+      </div>
+      <div class="report-library" id="reportLibrary"></div>
+
+      <div class="report-detail" id="reportDetail">
+        <div class="report-detail-head">
+          <div><div class="report-kicker">Selected Decision Surface</div><h3 id="reportDetailTitle">Executive Production Health</h3><p id="reportDetailSummary"></p></div>
+          <div class="report-cert" id="reportDetailCert"></div>
+        </div>
+        <div class="report-detail-grid">
+          <div class="report-detail-box"><div class="k">Business Question</div><h4>What decision does it support?</h4><ul id="reportQuestion"></ul></div>
+          <div class="report-detail-box"><div class="k">Source / Grain</div><h4>What evidence feeds it?</h4><ul id="reportSource"></ul></div>
+          <div class="report-detail-box"><div class="k">Logic / Measures</div><h4>What is calculated?</h4><ul id="reportLogic"></ul></div>
+          <div class="report-detail-box"><div class="k">Drill-down / Action</div><h4>Where can management go next?</h4><ul id="reportDrill"></ul></div>
+        </div>
+        <div class="report-warning" id="reportWarning"></div>
+      </div>
+
+      <div class="report-library-head">
+        <div><h3>Report Certification Matrix</h3><p>สถานะนี้ประเมินแยก Source / Grain / Calculation / Refresh / Write Behavior — ไม่ใช้คำว่า “Report พร้อมแล้ว” แบบเหมารวม</p></div>
+      </div>
+      <div class="report-matrix-wrap">
+        <table class="report-matrix">
+          <thead><tr><th>Report Family</th><th>Current Architecture State</th><th>Primary Gap / Risk</th><th>Required Certification</th></tr></thead>
+          <tbody>
+            <tr><td>Executive Production Health</td><td>STRONG baseline</td><td>Status meaning / due-date governance</td><td>Authoritative status + freshness</td></tr>
+            <tr><td>WIP / Aging / Current Stage</td><td>STRONG baseline</td><td>Stale events can mislead current state</td><td>Event freshness + stage rule version</td></tr>
+            <tr><td>Material Readiness / Shortage</td><td>PROVISIONAL</td><td>Current baseline is gross/non-allocated</td><td>Allocation / ATP policy</td></tr>
+            <tr><td>Routing / Stage Bottleneck</td><td>STRONG design</td><td>Need certified routing/master context</td><td>Routing BV/table + stage rules</td></tr>
+            <tr><td>Work Center Load / Capacity</td><td>BLOCKED for finite capacity</td><td>No certified standards/resource units yet</td><td>Standard time + resource master</td></tr>
+            <tr><td>Productivity / Actual vs Standard</td><td>BLOCKED</td><td>Actual exists; certified standard missing</td><td>Standard setup/run/labor/machine source</td></tr>
+            <tr><td>Supplier / PO ETA Risk</td><td>STRONG baseline</td><td>ETA quality / missing promised date</td><td>Supplier ETA ownership and freshness</td></tr>
+            <tr><td>Promise / OTD Governance</td><td>PROVISIONAL</td><td>Promise policy not certified</td><td>Approved promise date + grain policy</td></tr>
+            <tr><td>Data Quality / Integration Health</td><td>STRONG baseline</td><td>Rules must remain visible beside KPI</td><td>DQ ownership + alert threshold</td></tr>
+            <tr><td>ERP UBE / Batch Reports</td><td>ADMIN CERTIFICATION REQUIRED</td><td>Unknown report-only vs update/process behavior</td><td>Version + options + selection + update Y/N</td></tr>
+          </tbody>
+        </table>
       </div>
     </div>
   </section>
@@ -1050,6 +1164,126 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
   if(initial) selectNode(initial);
 })();
 
+</script>
+
+
+<script>
+(function(){
+  const library=document.getElementById("reportLibrary");
+  if(!library) return;
+
+  const REPORTS=[
+    {
+      id:"exec",title:"Executive Production Health",state:"STRONG",cls:"ready",
+      summary:"ภาพรวม production ที่ตอบว่าอะไรเปิดอยู่ อะไรจบแล้ว อะไรเลยกำหนด และจุดไหนต้องสนใจทันที",
+      q:["สถานะ production รวมเป็นอย่างไรวันนี้","งานเปิด/ปิด/เลยกำหนดมีเท่าไร","ลูกค้า/โครงการใดได้รับผลกระทบ"],
+      s:["Customer / Project / SO / WO / Cutting grain","Resolved status / due-date evidence","Semantic executive production status view"],
+      l:["Open vs terminal state","Overdue-open classification","Daily snapshot for trend"],
+      d:["Drill to Customer / Project","Drill to WO / Cutting","Open related risk / material / activity evidence"],
+      warn:"ต้องใช้ authoritative status definition และ due-date source; summary ห้ามซ่อนรายการที่ยัง UNMAPPED / REVIEW."
+    },
+    {
+      id:"due",title:"Customer / Project Due-Date Risk",state:"PROVISIONAL",cls:"prov",
+      summary:"รวม current state, due date, material readiness และ stale activity เพื่อบอกว่างานใดเสี่ยงส่งไม่ทันและเพราะอะไร",
+      q:["งานใดเสี่ยงไม่ทัน due/promise","เหตุหลักคือ material, activity หรือ state ใด","ใครควรรับ action ต่อ"],
+      s:["Executive production state","Material readiness","WIP aging / last activity"],
+      l:["Deterministic risk score/band baseline","Overdue + shortage + stale activity factors","Reason must remain visible beside score"],
+      d:["Drill to project/order/cutting","Open shortage components","Open last activity / aging evidence"],
+      warn:"Risk weights เป็น architecture baseline ไม่ใช่นโยบายผู้บริหารที่ certified แล้ว และ OTD/promise policy ยังต้องรับรอง."
+    },
+    {
+      id:"wip",title:"WIP / Aging / Current Stage",state:"STRONG",cls:"ready",
+      summary:"ติดตามว่างานอยู่ stage ไหนจริงและไม่มี activity มานานเท่าไร โดยไม่ใช้ Cutting Status ตัวเดียว",
+      q:["WIP อยู่ stage ใด","งานใดหยุดนิ่งนานผิดปกติ","last evidence ล่าสุดคืออะไร"],
+      s:["Cutting + routing/operation evidence","Status event + operation event","Resolved production state"],
+      l:["Last activity timestamp","Stale days / aging bucket","Current stage from versioned rule"],
+      d:["Drill to operation sequence","Show last status / operation evidence","Flag stale or contradictory state"],
+      warn:"Current stage ต้องมาจาก deterministic resolver และ freshness ต้องมองเห็นได้เสมอ."
+    },
+    {
+      id:"mat",title:"Material Readiness / Shortage",state:"PROVISIONAL",cls:"prov",
+      summary:"ตอบว่าวัสดุพร้อมแค่ไหน ขาดอะไร รอ PO อะไร และวันพร้อมจริงอาจเป็นเมื่อไร",
+      q:["Component ใดพร้อม/ขาด/รอ PO","งานใดปล่อยไม่ได้เพราะ material","Inbound ใดเป็นตัวปลด blocker"],
+      s:["BOM / component requirement","Latest inventory position","Open PO / promised delivery"],
+      l:["READY / WAITING_PO / SHORTAGE baseline","Gross readiness %","Shortage quantity + supporting ETA"],
+      d:["Drill to item/component","Open PO / supplier ETA","Return to affected WO/Cutting"],
+      warn:"Baseline ปัจจุบันเป็น gross/non-allocated readiness; ห้ามใช้เป็น final release authority จน allocation/ATP policy ถูก implement."
+    },
+    {
+      id:"route",title:"Routing / Stage Bottleneck",state:"STRONG",cls:"ready",
+      summary:"วิเคราะห์คิวและจุดติดจาก operation sequence, work-center context และ actual execution evidence",
+      q:["Operation/Stage ใดเป็นคอขวด","งานใดค้างที่ขั้นเดียวกัน","last/current operation สอดคล้องกับ status หรือไม่"],
+      s:["Routing operation sequence","Work center / BU","Operation status + actual time"],
+      l:["Queue / concentration by stage","Stale operation / routing exception","Stage rule contradiction detection"],
+      d:["Drill to operation","Drill to work center","Compare status vs routing evidence"],
+      warn:"การวิเคราะห์ bottleneck ทำได้ แต่ authoritative routing BV/table และ stage-control source ยังต้อง Admin/Developer certify."
+    },
+    {
+      id:"cap",title:"Work Center Load / Capacity",state:"BLOCKED",cls:"block",
+      summary:"แยกสิ่งที่รู้จาก actual activity ออกจาก finite-capacity load ที่ยังห้ามสรุปจนมี resource และ standard time ที่ certified",
+      q:["Work center ใดมี activity/queue สูง","มีงานเปิดกี่งานต่อศูนย์งาน","โหลดจริงเกิน capacity หรือไม่"],
+      s:["Work center / BU context","Operation events / actual hours","Calendar + resource master (gap)"],
+      l:["Current actual activity / open operations","Future: required vs available minutes","Future: load % / overload"],
+      d:["Drill to work center","Open operations / actual hours","Capacity detail only after certification"],
+      warn:"ห้ามเรียก actual-hours aggregation ว่า finite-capacity utilization จน standard time, resource units, shift capacity และ availability policy ถูก certify."
+    },
+    {
+      id:"prod",title:"Productivity · Actual vs Standard",state:"BLOCKED",cls:"block",
+      summary:"Actual machine/labor/setup evidence มีแล้ว แต่ comparison กับ Standard ยังไม่ production-grade เพราะ standard source ยังไม่ certified",
+      q:["Operation ใช้เวลาจริงเทียบมาตรฐานเท่าไร","จุดไหนมี variance สูง","variance มาจาก setup, labor หรือ machine"],
+      s:["Actual machine/labor/setup hours","Operation grain","Certified standard time source (gap)"],
+      l:["Actual vs standard variance","Efficiency / productivity ratio","Variance by operation/work center"],
+      d:["Drill to operation","Compare time components","Trace to standard version/effective date"],
+      warn:"Report นี้ต้อง BLOCK จน Standard Setup / Run / Labor / Machine Time มี authoritative source และ effective-date governance."
+    },
+    {
+      id:"sup",title:"Supplier / PO ETA Risk",state:"STRONG",cls:"ready",
+      summary:"ติดตาม PO ที่ยังเปิดและ ETA ที่เสี่ยง เพื่อบอกว่างานผลิตใดอาจถูกกระทบจาก supplier",
+      q:["PO line ใด overdue / ใกล้ due","supplier/item ใดมี ETA risk","งานใดพึ่งพา inbound นี้"],
+      s:["Open PO line","Supplier + item","Promised delivery / open quantity"],
+      l:["CLOSED / NO_ETA / OVERDUE / DUE_3D / DUE_7D / OPEN","Open PO quantity","Next/affected ETA"],
+      d:["Drill to PO line","Drill to supplier/item","Link back to shortage / affected production"],
+      warn:"Missing ETA ต้องถูกแสดงเป็น risk state ไม่ใช่ตีความเป็น on-time; ownership ของ promised date และ refresh ต้องชัด."
+    },
+    {
+      id:"otd",title:"Promise / OTD Governance",state:"PROVISIONAL",cls:"prov",
+      summary:"วัด outcome เทียบกับคำสัญญาลูกค้า แต่ยังต้องยืนยันว่า promise date ใดและ grain ใดคือ official policy",
+      q:["ส่งมอบตรงตามคำสัญญาหรือไม่","ใช้ promised date จากจุดใด","วัดที่ SO, line, project หรือ delivery event"],
+      s:["Customer / Project / SO/line","Promise/due date candidate","Actual delivery / completion evidence"],
+      l:["OTD / lateness only after policy approval","Promise change history required","Exception reason / approved re-promise"],
+      d:["Drill to promise history","Drill to delivery evidence","Separate approved re-promise from late outcome"],
+      warn:"OTD remains uncertified until promise-date source, change policy, grain and actual-delivery rule are formally approved."
+    },
+    {
+      id:"dq",title:"Data Quality / Integration Health",state:"STRONG",cls:"ready",
+      summary:"แสดงว่าข้อมูลที่ใช้ในรายงานพร้อมตัดสินใจหรือไม่ โดยวาง DQ ข้าง business KPI ไม่ใช่ซ่อนหลังบ้าน",
+      q:["ข้อมูลใดขาด/ขัดแย้ง/ stale","KPI ใดได้รับผลกระทบ","integration/source batch ล่าสุดสมบูรณ์หรือไม่"],
+      s:["Lineage metadata","Source batch / timestamp","Defined DQ checks and quarantine"],
+      l:["Missing relation / missing actual / missing due / missing ETA","Issue count + severity","Freshness / batch health"],
+      d:["Drill to failed record","Show source batch / reason","Block or downgrade affected KPI"],
+      warn:"Business dashboard ต้องแสดง data-confidence/DQ เมื่อเกี่ยวข้อง มิฉะนั้นตัวเลขที่ดูแม่นอาจสร้าง false precision."
+    }
+  ];
+
+  function esc(s){return String(s||"").replace(/[&<>"']/g,function(m){return {"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]})}
+  function ul(id,arr){document.getElementById(id).innerHTML=arr.map(function(x){return "<li>"+esc(x)+"</li>"}).join("")}
+  function select(r){
+    [...library.querySelectorAll(".report-card")].forEach(function(x){x.classList.toggle("selected",x.dataset.reportId===r.id)});
+    document.getElementById("reportDetailTitle").textContent=r.title;
+    document.getElementById("reportDetailSummary").textContent=r.summary;
+    document.getElementById("reportDetailCert").innerHTML='<span class="report-chip">'+esc(r.state)+'</span><span class="report-chip">EVIDENCE DRILL-DOWN REQUIRED</span>';
+    ul("reportQuestion",r.q);ul("reportSource",r.s);ul("reportLogic",r.l);ul("reportDrill",r.d);
+    document.getElementById("reportWarning").innerHTML="<b>Control / Limitation:</b> "+esc(r.warn);
+  }
+  library.innerHTML=REPORTS.map(function(r){
+    return '<article class="report-card" data-report-id="'+r.id+'"><span class="state '+r.cls+'">'+esc(r.state)+'</span><h4>'+esc(r.title)+'</h4><p>'+esc(r.summary)+'</p><span class="open-detail">DEEP DIVE ↓</span></article>';
+  }).join("");
+  library.addEventListener("click",function(e){
+    const card=e.target.closest("[data-report-id]");if(!card)return;
+    const r=REPORTS.find(function(x){return x.id===card.dataset.reportId});if(r)select(r);
+  });
+  select(REPORTS[0]);
+})();
 </script>
 
 </body>
