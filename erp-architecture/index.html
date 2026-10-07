@@ -160,6 +160,78 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 @media(max-width:900px){.drill-flow.branch{grid-template-columns:repeat(2,minmax(220px,1fr))}.drill-footer{grid-template-columns:1fr}}
 @media(max-width:620px){.drill-flow.branch{grid-template-columns:1fr}.drill-nav{align-items:flex-start;flex-direction:column}.drill-crumb{max-width:92vw}.drill-stage{padding:17px}.drill-footer{padding:0 12px 12px}}
 
+
+/* ===== No-horizontal-scroll responsive workflow ===== */
+.flow-viewport{
+  overflow:hidden !important;
+  position:relative;
+  width:100%;
+}
+.arch-fit-shell{
+  position:relative;
+  width:100%;
+  overflow:hidden;
+}
+.arch-fit-shell .arch-map{
+  position:absolute !important;
+  top:0;
+  margin:0 !important;
+  transform-origin:top left;
+}
+.drill-stage{
+  overflow:hidden !important;
+  width:100%;
+}
+.drill-flow,
+.drill-flow.sequence,
+.drill-flow.branch{
+  display:grid !important;
+  grid-template-columns:repeat(auto-fit,minmax(170px,1fr)) !important;
+  gap:18px !important;
+  width:min(1180px,100%) !important;
+  max-width:1180px !important;
+  min-width:0 !important;
+  margin:0 auto !important;
+  padding:20px 0 28px !important;
+  align-items:stretch !important;
+}
+.drill-flow .drill-subnode,
+.drill-flow.sequence .drill-subnode,
+.drill-flow.branch .drill-subnode{
+  width:auto !important;
+  min-width:0 !important;
+  min-height:128px;
+}
+.drill-flow.sequence .drill-arrow{
+  display:none !important;
+}
+.drill-subnode{
+  overflow-wrap:anywhere;
+}
+@media(max-width:1100px){
+  .drill-flow,
+  .drill-flow.sequence,
+  .drill-flow.branch{
+    grid-template-columns:repeat(auto-fit,minmax(185px,1fr)) !important;
+  }
+}
+@media(max-width:720px){
+  .drill-flow,
+  .drill-flow.sequence,
+  .drill-flow.branch{
+    grid-template-columns:repeat(2,minmax(0,1fr)) !important;
+    gap:12px !important;
+  }
+  .drill-subnode{min-height:118px}
+}
+@media(max-width:460px){
+  .drill-flow,
+  .drill-flow.sequence,
+  .drill-flow.branch{
+    grid-template-columns:1fr !important;
+  }
+}
+
 </style>
 </head>
 <body>
@@ -514,6 +586,22 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
   const map=document.getElementById("erpArchMap");
   if(!map) return;
   const viewport=map.closest(".flow-viewport");
+  let fitShell=map.parentElement && map.parentElement.classList.contains("arch-fit-shell") ? map.parentElement : null;
+  if(!fitShell){
+    fitShell=document.createElement("div");
+    fitShell.className="arch-fit-shell";
+    viewport.insertBefore(fitShell,map);
+    fitShell.appendChild(map);
+  }
+  function fitMainMap(){
+    const baseW=1380, baseH=930;
+    const available=Math.max(280,fitShell.clientWidth);
+    const scale=Math.min(1,available/baseW);
+    const visualW=baseW*scale;
+    map.style.left=Math.max(0,(available-visualW)/2)+"px";
+    map.style.transform="scale("+scale+")";
+    fitShell.style.height=Math.ceil(baseH*scale)+"px";
+  }
   const nodeDetail=document.getElementById("flowNodeDetail");
   const drillPanel=document.getElementById("drillPanel");
   const drillStage=document.getElementById("drillStage");
@@ -889,6 +977,14 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     if(pathStack.length>1){pathStack.pop();renderDrill()} else {showMain()}
   });
   drillRoot.addEventListener("click",showMain);
+
+  if("ResizeObserver" in window){
+    const ro=new ResizeObserver(function(){fitMainMap()});
+    ro.observe(viewport);
+  }else{
+    window.addEventListener("resize",fitMainMap);
+  }
+  fitMainMap();
 
   const initial=map.querySelector('[data-title="Resolved Production State"]');
   if(initial) selectNode(initial);
