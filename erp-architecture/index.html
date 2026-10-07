@@ -1,0 +1,261 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#f4f7fb">
+<title>Practika ERP Architecture · Executive Story to Deep Dive</title>
+<meta name="description" content="Public-safe executive architecture of Practika ERP: business workflow, data, controls, integration and the relationship to Production Control Tower.">
+<style>
+:root{
+  --bg:#f4f7fb;--paper:#ffffff;--ink:#172033;--muted:#66758c;--line:#dbe4ef;
+  --blue:#3578e5;--blue2:#e9f2ff;--teal:#168c87;--teal2:#e8f7f5;
+  --violet:#7258cc;--violet2:#f0ecff;--amber:#a96b12;--amber2:#fff4de;
+  --red:#b64954;--red2:#fff0f1;--green:#2b7d59;--green2:#eaf7f0;
+  --shadow:0 16px 44px rgba(36,60,92,.10);
+}
+*{box-sizing:border-box}html{scroll-behavior:smooth}
+body{margin:0;background:
+  radial-gradient(circle at 0 0,rgba(53,120,229,.09),transparent 31%),
+  radial-gradient(circle at 100% 10%,rgba(22,140,135,.07),transparent 30%),var(--bg);
+  color:var(--ink);font-family:Inter,ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,"Noto Sans Thai",sans-serif}
+a{color:inherit}.wrap{max-width:1450px;margin:auto;padding:24px 22px 70px}
+.topbar{position:sticky;top:0;z-index:30;background:rgba(244,247,251,.88);backdrop-filter:blur(16px);
+ border-bottom:1px solid rgba(219,228,239,.8);margin:0 -22px;padding:11px 22px}
+.topbar-inner{max-width:1450px;margin:auto;display:flex;align-items:center;justify-content:space-between;gap:14px}
+.brand{display:flex;align-items:center;gap:10px;font-weight:900}.brand-mark{width:34px;height:34px;border-radius:11px;
+ background:linear-gradient(135deg,var(--blue),var(--teal));display:grid;place-items:center;color:white;font-size:12px;box-shadow:var(--shadow)}
+.nav{display:flex;gap:6px;flex-wrap:wrap}.nav a{text-decoration:none;color:var(--muted);font-size:12px;font-weight:800;
+ padding:7px 9px;border-radius:9px}.nav a:hover{background:var(--paper);color:var(--ink)}
+.hero{padding:54px 0 24px;display:grid;grid-template-columns:1.2fr .8fr;gap:22px;align-items:stretch}
+.eyebrow{font-size:12px;font-weight:900;letter-spacing:.12em;text-transform:uppercase;color:var(--blue)}
+h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:10px 0 16px;max-width:950px}
+.lead{font-size:18px;line-height:1.7;color:var(--muted);max-width:900px;margin:0}
+.hero-card{border:1px solid var(--line);background:rgba(255,255,255,.82);border-radius:26px;padding:22px;box-shadow:var(--shadow)}
+.hero-card h3{margin:0 0 14px;font-size:17px}.signal{display:grid;grid-template-columns:42px 1fr;gap:11px;align-items:start;padding:11px 0;border-top:1px solid var(--line)}
+.signal:first-of-type{border-top:0}.num{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;font-weight:900;background:var(--blue2);color:var(--blue)}
+.signal b{display:block;font-size:13px;margin:1px 0 3px}.signal small{display:block;color:var(--muted);line-height:1.45}
+.badges{display:flex;gap:7px;flex-wrap:wrap;margin-top:18px}.badge{font-size:11px;font-weight:850;border:1px solid var(--line);background:var(--paper);padding:7px 9px;border-radius:999px;color:var(--muted)}
+.section{margin-top:28px;scroll-margin-top:80px}.section-head{display:flex;justify-content:space-between;gap:20px;align-items:end;margin-bottom:13px}
+.section-head h2{margin:0;font-size:clamp(24px,3.2vw,40px);letter-spacing:-.03em}.section-head p{margin:0;color:var(--muted);max-width:720px;line-height:1.6}
+.panel{border:1px solid var(--line);background:rgba(255,255,255,.88);border-radius:22px;box-shadow:var(--shadow)}
+.story-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:12px}.story{padding:18px;border:1px solid var(--line);border-radius:18px;background:var(--paper)}
+.story .k{font-size:11px;font-weight:900;letter-spacing:.08em;text-transform:uppercase;color:var(--blue)}.story h3{font-size:18px;margin:8px 0}.story p{color:var(--muted);font-size:13px;line-height:1.6;margin:0}
+.layer-stack{padding:18px;display:grid;gap:10px}.layer{display:grid;grid-template-columns:180px 1fr 220px;gap:15px;align-items:center;border:1px solid var(--line);border-radius:16px;padding:14px 16px}
+.layer b{font-size:14px}.layer .what{font-size:13px;color:var(--muted);line-height:1.55}.layer .why{font-size:11px;font-weight:800;padding:8px 10px;border-radius:10px;text-align:center}
+.l1{background:linear-gradient(90deg,var(--blue2),#fff 20%)}.l2{background:linear-gradient(90deg,var(--teal2),#fff 20%)}.l3{background:linear-gradient(90deg,var(--violet2),#fff 20%)}.l4{background:linear-gradient(90deg,var(--amber2),#fff 20%)}
+.domain-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:12px}.domain{padding:18px;position:relative;overflow:hidden}.domain:before{content:"";position:absolute;width:80px;height:80px;border-radius:50%;right:-24px;top:-30px;background:var(--blue2)}
+.domain h3{margin:2px 0 8px;font-size:17px}.domain p{margin:0;color:var(--muted);line-height:1.55;font-size:13px}.domain ul{margin:12px 0 0;padding-left:18px;color:var(--muted);font-size:12px;line-height:1.65}
+.domain .role{font-size:10px;font-weight:900;letter-spacing:.07em;color:var(--blue);text-transform:uppercase}
+.state-board{padding:20px;display:grid;grid-template-columns:1fr 260px 1fr;gap:18px;align-items:center}.state-side{display:grid;gap:9px}
+.state-chip{border:1px solid var(--line);border-radius:13px;background:#fff;padding:11px 12px}.state-chip b{font-size:12px;display:block}.state-chip span{font-size:11px;color:var(--muted)}
+.state-core{border:1px solid #bfd3f3;background:linear-gradient(180deg,#f0f6ff,#fff);border-radius:24px;padding:22px;text-align:center;box-shadow:0 12px 30px rgba(53,120,229,.12)}
+.state-core .orb{width:76px;height:76px;margin:0 auto 12px;border-radius:50%;display:grid;place-items:center;background:linear-gradient(135deg,var(--blue),var(--teal));color:white;font-size:26px;font-weight:950}
+.state-core h3{margin:0 0 7px}.state-core p{font-size:12px;color:var(--muted);line-height:1.55;margin:0}
+.note{margin-top:12px;border-left:4px solid var(--amber);background:var(--amber2);padding:12px 14px;border-radius:0 12px 12px 0;color:#6e4b17;font-size:12px;line-height:1.6}
+.deep-grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}.deep{padding:18px}.deep h3{margin:0 0 9px}.deep p,.deep li{font-size:12px;color:var(--muted);line-height:1.65}.deep ul{margin:8px 0 0;padding-left:18px}
+.stack{display:grid;gap:8px;margin-top:12px}.stack-row{border:1px solid var(--line);border-radius:12px;padding:10px 12px;display:grid;grid-template-columns:135px 1fr;gap:10px;align-items:start}.stack-row b{font-size:11px;color:var(--violet)}.stack-row span{font-size:11px;color:var(--muted);line-height:1.55}
+.control-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.control{padding:15px;border-radius:16px;border:1px solid var(--line);background:#fff}.control b{font-size:12px}.control p{font-size:11px;color:var(--muted);line-height:1.55;margin:7px 0 0}
+.lane-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px}.lane{padding:18px}.lane h3{margin:0 0 4px}.lane .sub{font-size:12px;color:var(--muted);margin:0 0 14px}.step-list{display:grid;gap:8px}.lane-step{display:grid;grid-template-columns:34px 1fr;gap:9px;align-items:start;border:1px solid var(--line);border-radius:12px;padding:10px}.lane-step i{width:28px;height:28px;border-radius:9px;display:grid;place-items:center;font-style:normal;font-size:11px;font-weight:900;background:var(--blue2);color:var(--blue)}.lane-step b{font-size:12px;display:block}.lane-step span{font-size:11px;color:var(--muted);line-height:1.45}
+.future{opacity:.78}.future .lane-step i{background:var(--red2);color:var(--red)}
+.matrix{width:100%;border-collapse:collapse;font-size:12px}.matrix th,.matrix td{padding:12px 11px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}.matrix th{color:var(--muted);font-size:10px;text-transform:uppercase;letter-spacing:.08em}.matrix td{line-height:1.5}.tag{display:inline-flex;padding:4px 7px;border-radius:999px;font-size:9px;font-weight:900}.ok{background:var(--green2);color:var(--green)}.wait{background:var(--amber2);color:var(--amber)}.no{background:var(--red2);color:var(--red)}
+.evidence{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.ev{padding:16px;border:1px solid var(--line);border-radius:15px;background:#fff}.ev .level{font-size:10px;font-weight:950;letter-spacing:.08em}.ev h3{font-size:15px;margin:7px 0 5px}.ev p{font-size:11px;color:var(--muted);line-height:1.5;margin:0}
+.bridge{padding:20px;display:grid;grid-template-columns:1fr 90px 1fr;gap:16px;align-items:center}.bigbox{border:1px solid var(--line);border-radius:18px;padding:18px;background:#fff}.bigbox h3{margin:0 0 8px}.bigbox p{font-size:12px;color:var(--muted);line-height:1.6;margin:0}.bridge-arrow{text-align:center;font-size:34px;color:var(--blue);font-weight:900}
+.footer{margin-top:34px;padding-top:18px;border-top:1px solid var(--line);display:flex;justify-content:space-between;gap:15px;flex-wrap:wrap;color:var(--muted);font-size:11px}
+.footer a{text-decoration:none;font-weight:850;color:var(--blue)}
+@media(max-width:1050px){.story-grid,.control-grid,.evidence{grid-template-columns:repeat(2,1fr)}.domain-grid{grid-template-columns:repeat(2,1fr)}.hero{grid-template-columns:1fr}.layer{grid-template-columns:150px 1fr}.layer .why{grid-column:2;text-align:left}.state-board{grid-template-columns:1fr}.state-core{grid-row:1}.lane-grid,.deep-grid{grid-template-columns:1fr}.bridge{grid-template-columns:1fr}.bridge-arrow{transform:rotate(90deg)}}
+@media(max-width:680px){.wrap{padding:16px 14px 50px}.topbar{margin:0 -14px;padding:9px 14px}.nav{display:none}.hero{padding-top:34px}.story-grid,.domain-grid,.control-grid,.evidence{grid-template-columns:1fr}.layer{grid-template-columns:1fr}.layer .why{grid-column:auto}.section-head{align-items:start;flex-direction:column}.matrix{font-size:11px}.panel{border-radius:18px}.bridge{padding:14px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="topbar">
+    <div class="topbar-inner">
+      <div class="brand"><span class="brand-mark">ERP</span><span>Practika ERP Architecture</span></div>
+      <nav class="nav">
+        <a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
+        <a href="#deep">Deep Dive</a><a href="#control">Controls</a><a href="#integration">Integration</a><a href="#cert">Certification</a>
+      </nav>
+    </div>
+  </div>
+
+  <header class="hero">
+    <div>
+      <div class="eyebrow">ERP Workflow & Architecture Deep Dive · Public-safe Executive Surface</div>
+      <h1>เข้าใจ ERP ทั้งระบบ<br>โดยไม่ต้องเริ่มจากเมนู</h1>
+      <p class="lead">หน้าจอนี้เล่า ERP จาก “เหตุผลทางธุรกิจ” ลงไปสู่ “โครงสร้างระบบ” เป็นชั้น ๆ: ลูกค้าสร้าง Demand อย่างไร งานถูกวางแผนและผลิตอย่างไร วัสดุ คุณภาพ และการส่งมอบเข้ามาคุมสถานะตรงไหน ข้อมูลถูกเก็บและตรวจสอบอย่างไร และเหตุใด Production Control Tower จึงต้องใช้ ERP Architecture เป็น Source of Truth ก่อนตัดสินใจ</p>
+      <div class="badges"><span class="badge">READ-ONLY / OBSERVE-FIRST</span><span class="badge">Evidence → Gap → Verify</span><span class="badge">Private Repo = Source of Truth</span><span class="badge">Control Tower = Decision Layer</span></div>
+    </div>
+    <aside class="hero-card">
+      <h3>อ่านหน้านี้อย่างไร</h3>
+      <div class="signal"><span class="num">1</span><div><b>เริ่มจากเรื่องราว</b><small>ก่อนรู้ว่าโปรแกรมไหนทำอะไร ต้องเข้าใจว่าธุรกิจพยายามส่งมอบอะไรให้ลูกค้า</small></div></div>
+      <div class="signal"><span class="num">2</span><div><b>แยกเป็น Domain</b><small>Demand, Planning, Material, Execution, Quality และ Delivery มีหน้าที่คนละแบบแต่เชื่อมกัน</small></div></div>
+      <div class="signal"><span class="num">3</span><div><b>ค่อยลง Architecture</b><small>Business → Application → Rules → Data → Security → Integration</small></div></div>
+      <div class="signal"><span class="num">4</span><div><b>จบด้วย Governance</b><small>อะไรอ่านได้ อะไรต้อง Admin ยืนยัน และอะไร AI/ระบบภายนอกห้ามเขียนกลับเอง</small></div></div>
+    </aside>
+  </header>
+
+  <section id="story" class="section">
+    <div class="section-head"><h2>1 · เรื่องเดียวกัน แต่มี 4 มุมมอง</h2><p>ERP ไม่ใช่ “ชุดหน้าจอ” แต่เป็นระบบที่แปลงคำสัญญากับลูกค้าให้กลายเป็นงาน วัตถุดิบ การผลิต หลักฐานคุณภาพ และการส่งมอบที่ตรวจสอบย้อนกลับได้</p></div>
+    <div class="story-grid">
+      <article class="story"><div class="k">Business</div><h3>เราสัญญาอะไรกับลูกค้า</h3><p>Customer / Project และ Sales Order เป็นจุดเริ่มของ Demand, วันต้องการ และ Commitment ที่ทั้งระบบต้องทำให้เกิดขึ้นจริง</p></article>
+      <article class="story"><div class="k">Planning</div><h3>ต้องทำอะไร เมื่อไร ที่ไหน</h3><p>Demand ถูกแตกเป็น Work Order, Cutting, Component, Routing และลำดับปฏิบัติงาน โดยต้องมองวัสดุและปฏิทินควบคู่กัน</p></article>
+      <article class="story"><div class="k">Execution</div><h3>ตอนนี้งานอยู่ตรงไหนจริง</h3><p>สถานะจริงไม่ได้มาจาก code เดียว แต่ต้องประกอบเอกสาร งานตัด Operation วัตถุดิบ คุณภาพ และ downstream completion เข้าด้วยกัน</p></article>
+      <article class="story"><div class="k">Governance</div><h3>เรารู้ได้อย่างไรว่าข้อมูลเชื่อถือได้</h3><p>ทุกข้อสรุปต้องย้อนกลับถึง Source, Version, Evidence และ Confidence พร้อมแยกสิทธิ์ Read ออกจาก Write อย่างเด็ดขาด</p></article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>2 · Architecture 4 ชั้น</h2><p>แทนการต่อ Flow ยาวเป็นรถไฟ ระบบถูกจัดเป็น “ชั้นความหมาย” เพื่อให้ผู้บริหาร ผู้ดูแลระบบ และ Developer เห็นสิ่งเดียวกันจากความลึกต่างกัน</p></div>
+    <div class="panel layer-stack">
+      <div class="layer l1"><b>Business Layer</b><div class="what">Customer → Demand → Plan → Material → Execute → Quality → Delivery</div><div class="why">ตอบว่า “ธุรกิจต้องทำอะไร”</div></div>
+      <div class="layer l2"><b>ERP Application Layer</b><div class="what">Menu / Task, Application, Form, Version, Row Action, Report และ Workflow ที่ผู้ใช้เห็นหรือเรียกใช้งาน</div><div class="why">ตอบว่า “ผู้ใช้ทำผ่านอะไร”</div></div>
+      <div class="layer l3"><b>Logic & Data Layer</b><div class="what">Processing Options, Report Selection, Business Rule, Business View, Physical Data, Key, Status และ Lineage</div><div class="why">ตอบว่า “ระบบตัดสินใจจากอะไร”</div></div>
+      <div class="layer l4"><b>Control & Integration Layer</b><div class="what">Authority, Audit, Read-only Interface, API/AIS/Orchestrator, DB View และ Future Governed Write-back</div><div class="why">ตอบว่า “ใครเข้าถึงและเชื่อมต่อได้แค่ไหน”</div></div>
+    </div>
+  </section>
+
+  <section id="domains" class="section">
+    <div class="section-head"><h2>3 · Business Domain Map</h2><p>หก Domain หลักทำงานเป็นวงจร ไม่ใช่สายพานเส้นเดียว เพราะ Material, Quality และ Planning สามารถย้อนกลับไปเปลี่ยน Execution ได้ตลอดเวลา</p></div>
+    <div class="domain-grid">
+      <article class="panel domain"><div class="role">01 · Demand</div><h3>Customer / Project / Sales</h3><p>แปลงความต้องการลูกค้าเป็น demand ที่มีตัวตนและวันผูกพัน</p><ul><li>ลูกค้า / โครงการ / รายการขาย</li><li>Requested / Promised dates</li><li>Priority และ commitment context</li></ul></article>
+      <article class="panel domain"><div class="role">02 · Planning</div><h3>WO / Cutting / Plan</h3><p>กำหนดสิ่งที่จะผลิตและลำดับการทำงาน โดยต้องมอง Route, Material และ Calendar พร้อมกัน</p><ul><li>Work Order และ production unit</li><li>Cutting / operational spine</li><li>Release / Hold / Sequence</li></ul></article>
+      <article class="panel domain"><div class="role">03 · Material</div><h3>BOM / Inventory / Procurement</h3><p>ตอบว่า “ของพร้อมจริงหรือยัง” โดยไม่ใช้ On Hand ตัวเดียวเป็นคำตอบ</p><ul><li>Requirement และ commitment</li><li>Available / Shortage</li><li>Inbound PO / ETA / Inspection</li></ul></article>
+      <article class="panel domain"><div class="role">04 · Execution</div><h3>Routing / Operation / Time</h3><p>ติดตามการทำงานในระดับ Operation และ Work Center พร้อม Actual Time</p><ul><li>Operation sequence</li><li>Machine / Labor / Setup</li><li>Begin / End / Completion state</li></ul></article>
+      <article class="panel domain"><div class="role">05 · Quality</div><h3>Lot / Test / NC / Rework</h3><p>คุณภาพเป็น Domain ของ ERP จริง ไม่ใช่รายงานปลายทาง เพราะสามารถ Hold, Reclass หรือ Rework งานได้</p><ul><li>Incoming / in-process evidence</li><li>Disposition / Hold</li><li>Nonconforming / Rework</li></ul></article>
+      <article class="panel domain"><div class="role">06 · Fulfillment</div><h3>Finished Goods / Delivery</h3><p>ปิดวงจรจากงานผลิตที่เสร็จจริงกลับไปหาคำสัญญากับลูกค้า</p><ul><li>FG movement / availability</li><li>Delivery / installation</li><li>Promise outcome / evidence</li></ul></article>
+    </div>
+  </section>
+
+  <section id="state" class="section">
+    <div class="section-head"><h2>4 · “งานอยู่ตรงไหน?” ไม่ใช่คำถามของ Status เดียว</h2><p>หัวใจสำคัญของการ Reverse Engineering คือแยก “รหัสสถานะที่หน้าจอแสดง” ออกจาก “สถานะทางธุรกิจจริง” ซึ่งต้องประกอบหลายหลักฐานเข้าด้วยกัน</p></div>
+    <div class="panel state-board">
+      <div class="state-side">
+        <div class="state-chip"><b>Document State</b><span>สถานะเอกสาร/คำสั่งงาน</span></div>
+        <div class="state-chip"><b>Production / Cutting State</b><span>สถานะงานตัดและการวางแผน</span></div>
+        <div class="state-chip"><b>Routing State</b><span>Operation ล่าสุด / Work Center ล่าสุด</span></div>
+        <div class="state-chip"><b>Material State</b><span>Ready / shortage / inbound / hold</span></div>
+      </div>
+      <div class="state-core"><div class="orb">Σ</div><h3>Resolved Business State</h3><p>สถานะที่ระบบบริหารควรใช้ตัดสินใจ ต้องเกิดจาก deterministic rule ที่มี evidence และ version ไม่ใช่การเดาโดย AI</p></div>
+      <div class="state-side">
+        <div class="state-chip"><b>Quality State</b><span>Pass / hold / NC / rework</span></div>
+        <div class="state-chip"><b>Calendar / Capacity</b><span>ทำได้เมื่อไรและมี resource พอหรือไม่</span></div>
+        <div class="state-chip"><b>Downstream Completion</b><span>ขั้นถัดไปหรือการส่งมอบสำเร็จหรือยัง</span></div>
+        <div class="state-chip"><b>Data Quality</b><span>หลักฐานครบ สอดคล้อง และสดพอหรือไม่</span></div>
+      </div>
+    </div>
+    <div class="note"><b>Fail-closed principle:</b> ถ้า combination ใหม่ยังไม่มี rule ที่รับรอง ระบบควรแสดง <b>UNMAPPED / REVIEW</b> แทนการเดา stage ให้ดูเหมือนมั่นใจ</div>
+  </section>
+
+  <section id="deep" class="section">
+    <div class="section-head"><h2>5 · Deep Dive: จากหน้าจอไปถึง Data</h2><p>เมื่อรู้ Business Domain แล้ว จึงค่อยไล่ลงทีละชั้นเพื่อหาว่า logic อยู่ที่ Application, Version, Processing Options, Report, Custom Logic หรือ Data Source กันแน่</p></div>
+    <div class="deep-grid">
+      <article class="panel deep">
+        <h3>Application Anatomy</h3>
+        <p>ชื่อ Application อย่างเดียวไม่พอ เพราะ behavior ของ JDE สามารถเปลี่ยนตาม Form, Version, Processing Options, Row/Form Exit และ UBE ที่ถูกเรียกต่อ</p>
+        <div class="stack">
+          <div class="stack-row"><b>Task / Menu</b><span>ผู้ใช้เข้าถึง function จากบริบทใด</span></div>
+          <div class="stack-row"><b>Application / Form</b><span>หน้าจอและ grain ของข้อมูลที่กำลังทำงาน</span></div>
+          <div class="stack-row"><b>Version</b><span>ชุด config ที่ทำให้ application เดียวกันทำงานต่างกันได้</span></div>
+          <div class="stack-row"><b>Processing Options</b><span>behavior, default, branch, status, call sequence หรือ rule ที่ซ่อนอยู่หลังหน้าจอ</span></div>
+          <div class="stack-row"><b>UBE / Report</b><span>batch/report/process ต้องแยกว่า report-only หรือมี update/post</span></div>
+          <div class="stack-row"><b>Custom Logic</b><span>custom application, event rule, business function หรือ custom table ที่อาจถือกฎจริง</span></div>
+        </div>
+      </article>
+      <article class="panel deep">
+        <h3>Data & Lineage Anatomy</h3>
+        <p>ข้อมูล historical extract ไม่จำเป็นต้องเป็น snapshot เวลาเดียวกัน ดังนั้น missing join ไม่ควรถูกตีความทันทีว่า key เสีย</p>
+        <div class="stack">
+          <div class="stack-row"><b>Source Identity</b><span>source system / object / version / batch</span></div>
+          <div class="stack-row"><b>Time Context</b><span>extract time และ effective period</span></div>
+          <div class="stack-row"><b>Business Key</b><span>เก็บ key เป็นชนิดข้อมูลที่ถูกต้องและไม่ทำลาย leading zero</span></div>
+          <div class="stack-row"><b>Row Integrity</b><span>row hash, ingest timestamp, DQ state และ quarantine reason</span></div>
+          <div class="stack-row"><b>Normalization</b><span>Raw → Staging → Operational Model → Semantic View</span></div>
+          <div class="stack-row"><b>Evidence Link</b><span>KPI / rule / decision ต้อง drill กลับไปหา source evidence ได้</span></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="control" class="section">
+    <div class="section-head"><h2>6 · Control Model: ทุกหน้าจอไม่ได้เสี่ยงเท่ากัน</h2><p>การทำ Deep Dive ต้องจัดประเภท action ก่อนสำรวจ เพราะ “ดูข้อมูล” กับ “กดให้เกิด transaction” เป็นคนละโลก</p></div>
+    <div class="control-grid">
+      <div class="control"><b>INQUIRY</b><p>อ่านข้อมูล ตรวจ field/version/menu ได้ เป็นพื้นที่หลักของ discovery</p></div>
+      <div class="control"><b>MASTER DATA</b><p>ข้อมูลมาตรฐานที่มีผลวงกว้าง การแก้ไขต้องแยกสิทธิ์และมี governance</p></div>
+      <div class="control"><b>TRANSACTION</b><p>สร้างหรือบันทึก transaction จริง เช่น execution, receipt หรือ completion</p></div>
+      <div class="control"><b>STATUS CHANGE</b><p>เปลี่ยน state ทางธุรกิจ มีผล downstream และอาจ trigger process ต่อ</p></div>
+      <div class="control"><b>POSTING</b><p>ยืนยัน/ลงบัญชี/ผลักข้อมูลเข้าสู่สถานะที่ย้อนกลับยาก ต้องห้ามใน discovery</p></div>
+      <div class="control"><b>APPROVAL</b><p>สิทธิ์ตัดสินใจของคน ไม่ควรถูกแทนด้วย automation หรือ agent</p></div>
+      <div class="control"><b>REPORT / BATCH</b><p>ต้องรู้ก่อนว่า report-only หรือ update/process เพราะหน้าตา “รายงาน” ไม่ได้แปลว่าปลอดภัยเสมอ</p></div>
+      <div class="control"><b>ADMIN CONFIG</b><p>Version, processing option และ system configuration ต้อง inspect แบบไม่ save หรือขอ Admin export</p></div>
+    </div>
+  </section>
+
+  <section id="integration" class="section">
+    <div class="section-head"><h2>7 · Integration: แยก Read Path ออกจาก Write Path</h2><p>เส้นทางอ่านข้อมูลควรเปิดได้โดยไม่ทำให้ analytics/AI มีอำนาจ production transaction ไปพร้อมกัน</p></div>
+    <div class="lane-grid">
+      <article class="panel lane">
+        <h3>READ PATH · เป้าหมายปัจจุบัน</h3><p class="sub">เส้นทางที่ควรผลักให้พร้อมก่อน เพื่อให้ Control Tower อ่าน ERP ได้อย่าง governable</p>
+        <div class="step-list">
+          <div class="lane-step"><i>1</i><div><b>Supported ERP Interface</b><span>ใช้ API / AIS / Orchestrator ที่ระบบรองรับก่อน</span></div></div>
+          <div class="lane-step"><i>2</i><div><b>Governed Read-only DB View</b><span>เมื่อ interface มาตรฐานไม่ตอบโจทย์ ให้ใช้ view ที่จำกัด schema และสิทธิ์</span></div></div>
+          <div class="lane-step"><i>3</i><div><b>Certified Scheduled Export</b><span>ใช้เมื่อยังเปิด API/DB read ไม่ได้ แต่ต้องมี source/version/timestamp ชัดเจน</span></div></div>
+          <div class="lane-step"><i>4</i><div><b>UI Automation</b><span>ใช้เฉพาะ discovery หรือ exceptional fallback ไม่ใช่ production integration หลัก</span></div></div>
+        </div>
+      </article>
+      <article class="panel lane future">
+        <h3>WRITE PATH · Future only</h3><p class="sub">ต้องไม่เกิดขึ้นเพียงเพราะ Control Tower หรือ AI “เชื่อม ERP ได้แล้ว”</p>
+        <div class="step-list">
+          <div class="lane-step"><i>A</i><div><b>Allowlist Action</b><span>กำหนด action ที่อนุญาตชัดเจน ไม่ใช่ generic write access</span></div></div>
+          <div class="lane-step"><i>B</i><div><b>Validate Before/After State</b><span>ตรวจ precondition และผลที่คาดก่อน execute</span></div></div>
+          <div class="lane-step"><i>C</i><div><b>Human Gate</b><span>Maker/checker, approver และ timestamp ต้องมีจริง</span></div></div>
+          <div class="lane-step"><i>D</i><div><b>Audit + ERP Response</b><span>เก็บ identity, ERP response, audit id และ correction path</span></div></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+  <section id="cert" class="section">
+    <div class="section-head"><h2>8 · สิ่งที่รู้แล้ว vs สิ่งที่ต้อง Admin รับรอง</h2><p>ภาพ workflow ฝั่ง user เข้าใจเกือบครบแล้ว ช่องว่างที่เหลือไม่ใช่การ “ไล่เมนูใหม่” แต่เป็น metadata และ source ระดับ Admin/Developer เพื่อให้ architecture certified</p></div>
+    <div class="panel" style="overflow:auto">
+      <table class="matrix">
+        <thead><tr><th>Area</th><th>สถานะ</th><th>สิ่งที่เข้าใจแล้ว</th><th>สิ่งที่ต้องยืนยันเพิ่ม</th><th>วิธีที่เหมาะสม</th></tr></thead>
+        <tbody>
+          <tr><td>Business workflow</td><td><span class="tag ok">STRONG</span></td><td>Demand → Planning → Material → Execution → Quality → Delivery</td><td>รายละเอียด exception บางกรณี</td><td>Read-only observation</td></tr>
+          <tr><td>Routing / operation</td><td><span class="tag ok">STRONG</span></td><td>Operation grain, work-center context และ actual execution evidence</td><td>authoritative master / key mapping</td><td>Admin export / metadata</td></tr>
+          <tr><td>Capacity</td><td><span class="tag wait">GAP</span></td><td>รู้ว่าต้องใช้ calendar + resource + standard time</td><td>resource units, capacity policy, certified standards</td><td>Admin/Developer export</td></tr>
+          <tr><td>Application behavior</td><td><span class="tag wait">PARTIAL</span></td><td>core applications และ user workflow</td><td>version options / batch selection / custom rules</td><td>Inspect no-save / export</td></tr>
+          <tr><td>Physical data dictionary</td><td><span class="tag wait">PARTIAL</span></td><td>key relationships และ runtime evidence บางส่วน</td><td>Business View / Physical Table / key certification</td><td>Developer metadata</td></tr>
+          <tr><td>Read integration</td><td><span class="tag wait">DECIDE</span></td><td>preferred hierarchy ชัดเจน</td><td>interface availability และ security model</td><td>Admin architecture session</td></tr>
+          <tr><td>Production write-back</td><td><span class="tag no">DISABLED</span></td><td>control model ออกแบบแล้ว</td><td>ยังไม่ควรเปิดสิทธิ์</td><td>Future governed phase only</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>9 · Evidence Model</h2><p>ทุก finding ในโครงการต้องมีระดับความมั่นใจ เพื่อไม่ให้ “เคยเห็นใน Chat” กลายเป็น architecture fact โดยอัตโนมัติ</p></div>
+    <div class="evidence">
+      <div class="ev"><div class="level" style="color:var(--green)">CONFIRMED</div><h3>เห็นโดยตรง</h3><p>หลักฐานจาก live ERP, source extract หรือ Admin/Developer evidence ที่ระบุชัด</p></div>
+      <div class="ev"><div class="level" style="color:var(--blue)">STRONG</div><h3>หลายหลักฐานสอดคล้อง</h3><p>ยังอาจไม่ใช่ certified physical dictionary แต่มี evidence หลายเส้นสนับสนุน</p></div>
+      <div class="ev"><div class="level" style="color:var(--amber)">PROVISIONAL</div><h3>สมเหตุผลแต่ยังรอรับรอง</h3><p>ใช้ทำ hypothesis หรือออกแบบ gap list ได้ แต่ห้ามถือเป็น production truth</p></div>
+      <div class="ev"><div class="level" style="color:var(--red)">UNKNOWN</div><h3>ยังไม่รู้</h3><p>ควรแสดงตรง ๆ ว่าเป็น gap และกำหนดวิธี verify แทนการเติมคำตอบให้ดูครบ</p></div>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="section-head"><h2>10 · ERP Architecture กับ Production Control Tower ต่างกันอย่างไร</h2><p>สองระบบต้องเชื่อมกัน แต่ห้ามรวมกันจน source evidence, business rule และ decision layer กลายเป็นก้อนเดียว</p></div>
+    <div class="panel bridge">
+      <div class="bigbox"><div class="eyebrow">Evidence Layer</div><h3>ERP Architecture</h3><p>ตอบว่า workflow จริงคืออะไร, application/logic/data อยู่ที่ไหน, key และ status หมายถึงอะไร, source ไหนเชื่อถือได้ และขอบเขตสิทธิ์อยู่ตรงไหน</p></div>
+      <div class="bridge-arrow">→</div>
+      <div class="bigbox"><div class="eyebrow" style="color:var(--teal)">Decision Layer</div><h3>Production Control Tower</h3><p>นำ source ที่ผ่านการรับรองไปทำ WIP, Material Readiness, Risk, Bottleneck, Capacity, Scenario Planning, Executive Decision และ AI Recommendation โดยยังคง Human Gate</p></div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <span>Public-safe architecture surface · Detailed ERP objects, versions, tables and internal rules remain in the Private Source of Truth.</span>
+    <span><a href="https://github.com/popvarachat/practika-erp-architecture" target="_blank" rel="noopener">Private ERP Repository ↗</a> · <a href="https://popvarachat.github.io/production-control-tower/" target="_blank" rel="noopener">Production Control Tower ↗</a></span>
+  </div>
+</div>
+</body>
+</html>
