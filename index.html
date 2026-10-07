@@ -188,6 +188,10 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "erp-architecture-manual": {
+    title:"Practika ERP Architecture · Executive Deep Dive",
+    description:"Source-of-Truth architecture map · Business Domains → ERP Application → Logic/Data → Controls/Integration พร้อม Progressive Deep Dive แบบไม่ต่อ Flow เป็นรถไฟ"
+  },
   "adaptive-trading-supervisor-manual": {
     title:"Adaptive Trading Supervisor · System Health",
     description:"Public-safe live status view ของระบบเทรด: MT5 connection · Shadow/Paper Loop · Watchdog · Strategy Decision · Human Gate"
@@ -341,6 +345,17 @@ const architectures = {
   }
 };
 const manualApps = [
+  {
+    name:"erp-architecture-manual",
+    visibility:"public",
+    pinned:true,
+    homepage:"https://popvarachat.github.io/erp-architecture/",
+    html_url:"https://github.com/popvarachat/practika-erp-architecture",
+    updated_at:"2026-10-07T17:55:00+07:00",
+    topics:["ERP Architecture"],
+    language:"Architecture / HTML",
+    description:"Executive-to-deep-dive ERP architecture surface backed by the private Source of Truth."
+  },
   {
     name:"adaptive-trading-supervisor-manual",
     visibility:"public",
@@ -541,7 +556,7 @@ function render(){
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : (r.visibility==="local" ? `<span class="repo" aria-label="internal local">🔒 Internal Local</span>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`)}
         ${r.name==="network-diagram-public" ? `<a class="arch" href="https://popvarachat.github.io/network-diagram/#map" target="_blank" rel="noopener">Topology</a>` : ``}
-        ${r.name==="production-control-tower-manual" ? `<a class="arch" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Workflow / ERD</a>` : `<button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>`}
+        ${r.name==="production-control-tower-manual" ? `<a class="arch" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Workflow / ERD</a>` : r.name==="erp-architecture-manual" ? `<a class="arch" href="${esc(pageUrl(r))}#domains" target="_blank" rel="noopener">Workflow</a>` : `<button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>`}
         <button class="unpin" type="button" data-hide="${esc(r.name)}" title="ซ่อนการ์ดนี้จาก Portal">ถอนหมุด</button>
       </div>
     </article>`;
