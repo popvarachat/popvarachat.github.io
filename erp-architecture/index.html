@@ -706,7 +706,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
       N("Ingestion","นำเข้าด้วย batch + validation",["Immutable source batch","Schema validation","Retry/idempotency"]),
       N("Normalized Access","เปิด semantic/API layer ให้ Control Tower",["Normalized DB","Rules/semantic views","Read-only consumer"])
     ],"PROVISIONAL"),
-    "Risk / Bottleneck":R("ตรวจความเสี่ยงแบบ deterministic ก่อนให้ AI อธิบาย","branch",[
+    "Risk / Bottleneck Engine":R("ตรวจความเสี่ยงแบบ deterministic ก่อนให้ AI อธิบาย","branch",[
       N("Due-date Risk","งานอาจไม่ทัน promise",["Promise/due evidence","Current state","Projected exposure"]),
       N("Material Risk","วัสดุไม่พร้อมหรือ ETA เสี่ยง",["Shortage state","Supplier ETA","Need-date comparison"]),
       N("Capacity Risk","โหลดเกินทรัพยากร",["Required vs available minutes","Overload","Calendar constraints"]),
@@ -731,7 +731,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
       N("Hard Gate","ตรวจข้อห้ามก่อนพร้อม review",["Material","Routing precedence","Capacity","Quality hold","Frozen orders"]),
       N("Human Review","พร้อมเสนอ ไม่ได้ publish เอง",["READY_FOR_REVIEW","Approve/reject","Audit"])
     ]),
-    "Human Gate / Write-back":R("ขอบเขตสุดท้ายก่อน action ที่มีผลต่อ ERP จริง — Future phase only","sequence",[
+    "Human Gate / Future Write-back":R("ขอบเขตสุดท้ายก่อน action ที่มีผลต่อ ERP จริง — Future phase only","sequence",[
       N("Proposed Action","รับข้อเสนอจาก rule/AI/scenario",["Action type","Target entity","Reason/evidence"]),
       N("Precondition Validation","ตรวจ state ก่อนทำ",["Before state","Expected state","Hard constraints"]),
       N("Human Approval","ผู้มีอำนาจอนุมัติอย่าง explicit",["Approver","Approval timestamp","Maker/checker separation"]),
