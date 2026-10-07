@@ -3,6 +3,11 @@
   "period": "5–11 ต.ค. 2569",
   "changes": [
     {
+      "time": "07 Oct",
+      "title": "OpenAI Codex Corporate recruited into RDC Team",
+      "detail": "เพิ่ม Codex Corporate ผ่าน Codex CLI ด้วย ChatGPT Corporate Standard seat เป็น AI CLI peer ระดับเดียวกับ Claude CLI / Gemini CLI. RDC เป็นผู้เลือกใช้ตามงาน; provider เป็น optional และถ้า unavailable ให้ skip ทันทีโดยไม่ block workflow."
+    },
+    {
       "time": "05 Oct",
       "title": "FAST EXECUTION MODE activated",
       "detail": "API/MCP/CLI first · parallelize · batch · retry safely · UI only as fallback."
