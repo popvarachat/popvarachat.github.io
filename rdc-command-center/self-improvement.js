@@ -2,8 +2,10 @@
 (async()=>{
   const esc2=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#039;"}[m]));
   const load=async p=>{const r=await fetch(p,{cache:"no-store"});if(!r.ok)throw new Error(p+" "+r.status);return r.json()};
+  const isLocal=["127.0.0.1","localhost"].includes(location.hostname);
+  const perfPath=isLocal?"data/local/performance_live.json":"data/performance_summary.json";
   const [perf,backlog,routing,failures,arch,promotions]=await Promise.all([
-    load("data/performance_summary.json"),load("data/improvement_backlog.json"),load("data/routing_recommendations.json"),
+    load(perfPath),load("data/improvement_backlog.json"),load("data/routing_recommendations.json"),
     load("data/failure_patterns.json"),load("data/architecture_proposals.json"),load("data/promotion_candidates.json")
   ]);
   const badge=document.getElementById("siCollectionBadge"); if(badge) badge.textContent=perf.collection_status||"UNKNOWN";

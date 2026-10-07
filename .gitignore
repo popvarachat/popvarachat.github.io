@@ -1,0 +1,17 @@
+# RDC local runtime / high-churn telemetry (never publish continuously)
+rdc-command-center/data/telemetry/
+rdc-command-center/data/local/
+rdc-command-center/local-web*.log
+rdc-command-center/local-web*.err.log
+rdc-command-center/Ensure-Local-RDC-Web.ps1
+rdc-command-center/Start-Local-RDC-Web.cmd
+rdc-command-center/__pycache__/
+*.pyc
+
+# Local build/review scratch
+.gh_payload_*.json
+apply_cost_guard.py
+build_self_improvement_local.py
+codex_review_prompt.txt
+patch_*.py
+publish_via_api.py
