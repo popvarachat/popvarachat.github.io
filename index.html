@@ -192,10 +192,6 @@ const overrides = {
     title:"Practika ERP Architecture · Executive Deep Dive",
     description:"Source-of-Truth architecture map · Business Domains → ERP Application → Logic/Data → Controls/Integration พร้อม Progressive Deep Dive แบบไม่ต่อ Flow เป็นรถไฟ"
   },
-  "adaptive-trading-supervisor-manual": {
-    title:"Adaptive Trading Supervisor · System Health",
-    description:"Public-safe live status view ของระบบเทรด: MT5 connection · Shadow/Paper Loop · Watchdog · Strategy Decision · Human Gate"
-  },
   "production-control-tower-manual": {
     title:"Practika Production Control Tower · Rebuild Blueprint",
     description:"Pinned design baseline · Workflow topology + normalized Database ERD + PostgreSQL schema สำหรับรื้อ SO/WO/Cutting รุ่นเดิมและรอ implement ต่อ"
@@ -204,17 +200,9 @@ const overrides = {
     title:"RDC Command Center · Multi-Agent Arsenal",
     description:"Public-safe control view ของ RDC: FAST Execution Mode · Jev Decision Coprocessor · 12 Agents · 14 Local Skills · Lazy Global Arsenal · Weekly capability radar"
   },
-  "gold-btc-intelligence-manual": {
-    title:"GOLD / BTCUSD Multi-Agent Intelligence",
-    description:"Executive Analysis / Control / Report · Data → Feature → Multi-Agent → Decision/Risk · Read-only, no TradeIntent, no Order Send"
-  },
   "autonacadz-manual": {
     title:"AutoNaCadz for Korex · Engineering Control Portal",
     description:"Operational AutoNaCadz Web App · User Mode / Create Mode / WO / QA / CSV-DWG Export เชื่อม Local CAD Agent; Workflow แยกเป็นหน้ารอง"
-  },
-  "chat-steward-manual": {
-    title:"Chat Steward · Conversation Control Center",
-    description:"Full Inventory ตรวจ Chat เก่าทั้งหมด + Continue / Reference / Project / Delete Candidate พร้อม Human Gate และ Local-only Registry"
   },
   "estimating-workflow-manual": {
     title:"Practika Estimating Workflow",
@@ -263,30 +251,15 @@ const overrides = {
 };
 
 const architectures = {
-  "adaptive-trading-supervisor-manual": {
-    note:"Operational health view ของ Adaptive Trading Supervisor: MT5 เป็น Source of Truth, Strategy ทำงานใน Shadow/Paper, Watchdog ตรวจ process และ Live Execution ถูกล็อกด้วย Human Gate.",
-    flow:[["Market Source","MT5 broker data"],["Strategy Brain","Trend Breakout / Mean Reversion"],["Shadow / Paper","Evaluate without auto live order"],["Watchdog","Health + restart checks"],["Human Gate","Approve live execution"],["Status Web","Public-safe health snapshot"]],
-    meta:["MT5 Source of Truth","Shadow/Paper","Watchdog","Human Gate","Public-safe"]
-  },
   "rdc-command-center-manual": {
     note:"RDC ใช้ Orchestrator คุม Agent/Skill โดยเลือก API → MCP → CLI ก่อน UI, fan-out งานอิสระแบบขนาน, โหลด Global Skill แบบ lazy และหยุดเฉพาะ Human Gate หรือ DONE ที่มีหลักฐาน.",
     flow:[["Intent","Human / ChatGPT goal + scope"],["Orchestrator","Context → route Agent/Skill → parallel plan"],["Jev Decision Layer","Bounded Agent / Skill / Retry / Model routing · SHADOW first"],["Backend","API → MCP → CLI · batch + retry"],["Agent Swarm","Build · Debug · Data · Research · QA · Security"],["Lazy Arsenal","Global metadata → pinned fetch → SHA verify on demand"],["Validation","Independent QA + source-of-truth re-read"],["Boundary","DONE or Human Gate"]],
     meta:["Jev Decision Coprocessor","12 Agent roles","14 Local Skills","FAST EXECUTION MODE","Global Arsenal · Lazy","Public-safe"]
   },
-  "gold-btc-intelligence-manual": {
-    note:"Executive surface ของระบบ GOLD/BTCUSD จบที่ Analysis / Control / Report โดยเก็บ Execution Layer, TradeIntent และ broker mutation ปิดทั้งหมด",
-    flow:[["Data Input","BTC exchanges · GOLD reference/broker · macro/events"],["Preprocess","Validation · Normalize · Multi-TF · Feature Vector"],["Multi-Agent","Search → NNUE-style Evaluate → Heuristics → Endgame"],["Decision/Risk","Winner selection · veto · sizing readiness"],["Executive Web","Analysis · Control · Report"],["Boundary","STOP before execution"]],
-    meta:["55 tests PASS","Read-only","WAIT fail-closed","No Order Send"]
-  },
   "autonacadz-manual": {
     note:"Engineering automation แบบ fail-closed: Product Rule เป็น Single Source of Truth, deterministic QA คุมก่อน Release, CAD execution แยกจาก TrueView visual verification และ Human Gate คุม Production release.",
     flow:[["Product Governance","STD / Formula / Part / Master"],["QA + Release","Formula Rule QA → Human Version Gate"],["Work Order","Requirement / Dimension / Configuration"],["CAD Engine","AutoLISP / AutoCAD deterministic execution"],["CAD QA","DWG check + TrueView visual verification"],["Production Gate","Drawing/Cutting reconciliation + Human release"],["Learning","QC / Rework → RCA → Improve STD"]],
     meta:["0 QA Blockers baseline","DWG TrueView 2024","Human Release Gate","GitHub Executive Portal"]
-  },
-  "chat-steward-manual": {
-    note:"Local-only control layer สำหรับคัดวงจรชีวิตของ Chat โดยแยก AI suggestion ออกจาก Human decision และไม่ลบ Chat จริงอัตโนมัติ",
-    flow:[["ChatGPT","Opened / imported conversation"],["Steward Engine","Lifecycle + Value / Completion / Reuse / Project scores"],["Local Registry","chrome.storage.local · derived metadata only"],["GitHub Web","Review · override · import/export"],["Human Gate","Open Chat → continue / move / delete manually"]],
-    meta:["Local-only","Human Gate","No automatic deletion"]
   },
   "estimating-workflow-manual": {
     note:"Workflow ถ่ายทอดความรู้ประมาณราคา จากหลักฐาน 5 ไฟล์ 32 ชีต โดย AI เตรียมข้อมูลและคำนวณ คนรับรองสเปก ขอบเขต กฎ และราคา คำเสนอของ AI เป็น PROPOSED; กฎจากไฟล์ยังรอรับรอง",
@@ -357,17 +330,6 @@ const manualApps = [
     description:"Executive-to-deep-dive ERP architecture surface backed by the private Source of Truth."
   },
   {
-    name:"adaptive-trading-supervisor-manual",
-    visibility:"public",
-    pinned:true,
-    homepage:"https://popvarachat.github.io/adaptive-trading-supervisor/",
-    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/adaptive-trading-supervisor",
-    updated_at:"2026-10-07T00:58:00+07:00",
-    topics:["Trading System Health"],
-    language:"HTML",
-    description:"MT5 connection, Shadow/Paper Loop, Watchdog, Strategy Decision and Human Gate status."
-  },
-  {
     name:"production-control-tower-manual",
     visibility:"public",
     pinned:true,
@@ -389,16 +351,6 @@ const manualApps = [
     description:"RDC Multi-Agent Arsenal · Jev Decision Coprocessor · FAST Execution · Agent / Sub-agent / Skills · Weekly Global Skill Radar"
   },
   {
-    name:"gold-btc-intelligence-manual",
-    visibility:"public",
-    homepage:"https://popvarachat.github.io/gold-btc-intelligence/",
-    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/gold-btc-intelligence",
-    updated_at:"2026-10-05T04:51:29Z",
-    topics:["Trading Intelligence"],
-    language:"HTML",
-    description:"Executive Analysis / Control / Report for GOLD / BTCUSD multi-agent intelligence"
-  },
-  {
     name:"autonacadz-manual",
     visibility:"public",
     homepage:"https://popvarachat.github.io/autonacadz/",
@@ -407,16 +359,6 @@ const manualApps = [
     topics:["Engineering Automation"],
     language:"HTML",
     description:"Executive control portal for AutoNaCadz engineering rules, release governance and CAD QA"
-  },
-  {
-    name:"chat-steward-manual",
-    visibility:"public",
-    homepage:"https://popvarachat.github.io/chat-steward/",
-    html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/chat-steward",
-    updated_at:"2026-10-03T15:10:00Z",
-    topics:["AI Operations"],
-    language:"HTML",
-    description:"Full-history conversation inventory and lifecycle control center with local-only registry and Human Gate"
   },
   {
     name:"estimating-workflow-manual",
@@ -653,6 +595,8 @@ async function load(){
       .filter(r=>r.visibility==="public" && r.has_pages && !r.archived && r.name!==USER_SITE_REPO && r.name!=="building-backlog-dashboard");
     apps=[...manualApps,...discovered]
       .sort((a,b)=>(Number(b.pinned)-Number(a.pinned)) || (new Date(b.updated_at)-new Date(a.updated_at)));
+    hiddenNames=new Set([...hiddenNames].filter(name=>apps.some(x=>x.name===name)));
+    saveHidden();
     document.getElementById("repoCount").textContent=repos.filter(r=>r.visibility==="public").length;
     document.getElementById("appCount").textContent=apps.length;
     document.getElementById("lastSync").textContent=new Intl.DateTimeFormat("th-TH",{hour:"2-digit",minute:"2-digit"}).format(new Date());
