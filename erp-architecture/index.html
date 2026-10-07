@@ -86,8 +86,8 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 .arch-map svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .zone-label{position:absolute;z-index:2;font-size:9px;font-weight:950;letter-spacing:.15em;text-transform:uppercase;color:#6f88a7}
 .zone-line{position:absolute;z-index:1;border:1px dashed rgba(117,151,191,.18);border-radius:22px;background:rgba(12,27,47,.22);pointer-events:none}
-.zone-business{left:20px;top:44px;width:1325px;height:235px}.zone-material{left:300px;top:292px;width:730px;height:225px}.zone-decision{left:205px;top:535px;width:760px;height:285px}.zone-data{left:20px;top:535px;width:205px;height:352px}.zone-intel{left:960px;top:535px;width:395px;height:352px}
-.z-business{left:38px;top:57px}.z-material{left:318px;top:305px}.z-decision{left:223px;top:548px}.z-data{left:38px;top:548px}.z-intel{left:978px;top:548px}
+.zone-business{left:20px;top:44px;width:1325px;height:235px}.zone-material{left:300px;top:292px;width:730px;height:225px}.zone-decision{left:205px;top:535px;width:755px;height:352px}.zone-data{left:20px;top:535px;width:205px;height:352px}.zone-intel{left:965px;top:535px;width:390px;height:352px}
+.z-business{left:38px;top:57px}.z-material{left:318px;top:305px}.z-decision{left:223px;top:548px}.z-data{left:38px;top:548px}.z-intel{left:983px;top:548px}
 .arch-node{position:absolute;z-index:4;width:164px;min-height:72px;border:1px solid #2b4869;border-radius:14px;padding:11px 12px;background:linear-gradient(180deg,#10213a,#0c1a2d);box-shadow:0 12px 28px rgba(0,0,0,.20);cursor:pointer;transition:.18s ease}
 .arch-node:hover,.arch-node.selected{transform:translateY(-2px);border-color:#63d5e8;box-shadow:0 0 0 2px rgba(98,213,232,.10),0 16px 36px rgba(0,0,0,.28)}
 .arch-node .ey{font-size:8px;font-weight:950;letter-spacing:.11em;text-transform:uppercase;color:#62d5e8}
@@ -334,10 +334,10 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <path class="edge decision" d="M779 362 C805 362 813 362 839 362"/>
             <path class="edge business" d="M1003 340 C1060 310 1069 240 1094 168"/>
             <text class="edge-label yes" x="1014" y="305">YES · READY</text>
-            <path class="edge decision" d="M921 398 C921 438 834 454 756 454"/>
-            <text class="edge-label no" x="861" y="430">NO · SHORT / WAIT</text>
-            <path class="edge business" d="M674 490 C674 514 785 517 839 480"/>
-            <path class="edge feedback" d="M839 454 C790 420 760 404 697 398"/>
+            <path class="edge decision" d="M921 413 C921 447 834 471 756 471"/>
+            <text class="edge-label no" x="861" y="445">NO · SHORT / WAIT</text>
+            <path class="edge business" d="M674 507 C674 530 785 532 839 497"/>
+            <path class="edge feedback" d="M839 471 C790 438 760 414 697 398"/>
 
             <!-- Business state inputs to hub -->
             <path class="edge decision" d="M394 611 C438 611 462 630 500 646"/>
@@ -360,15 +360,15 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <path class="edge data" d="M204 646 C330 646 420 651 500 654"/>
 
             <!-- Hub to intelligence -->
-            <path class="edge data" d="M720 654 C810 633 888 621 970 621"/>
-            <path class="edge decision" d="M720 676 C810 704 888 720 970 721"/>
-            <path class="edge decision" d="M1134 621 C1151 621 1168 621 1185 621"/>
-            <path class="edge decision" d="M1134 721 C1151 721 1168 721 1185 721"/>
-            <path class="edge data" d="M1052 757 C1052 789 1115 812 1185 817"/>
-            <path class="edge gate" d="M1267 757 C1267 776 1267 786 1267 805"/>
+            <path class="edge data" d="M720 654 C815 636 900 636 980 636"/>
+            <path class="edge decision" d="M720 676 C815 708 900 736 980 736"/>
+            <path class="edge decision" d="M1144 636 C1156 636 1168 636 1180 636"/>
+            <path class="edge decision" d="M1144 736 C1156 736 1168 736 1180 736"/>
+            <path class="edge data" d="M1062 772 C1062 801 1118 824 1180 827"/>
+            <path class="edge gate" d="M1262 772 C1262 790 1262 800 1262 815"/>
 
             <!-- Feedback / learning -->
-            <path class="edge feedback" d="M1185 846 C1005 905 648 913 204 864"/>
+            <path class="edge feedback" d="M1180 856 C1005 910 648 915 204 864"/>
             <text class="edge-label" x="690" y="904">Evidence / audit feedback</text>
           </svg>
 
@@ -387,8 +387,8 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
           <div class="arch-node material" style="left:394px;top:326px" data-group="business" data-title="BOM / Parts List" data-detail="แตกความต้องการของ WO/Cutting ไปเป็น component requirement ที่ต้องพร้อมก่อนหรือระหว่าง execution"><div class="ey">Requirement</div><b>BOM / Parts List</b><small>Component · Qty · Need date</small></div>
           <div class="arch-node material" style="left:615px;top:326px" data-group="business" data-title="Inventory / Commitments" data-detail="Material readiness ต้องดู requirement, commitment, available, inspection/hold และ inbound supply ไม่ใช่ดู On Hand อย่างเดียว"><div class="ey">Supply Position</div><b>Inventory / Commitments</b><small>Available · Commit · Hold</small></div>
           <div class="arch-node decision" style="left:839px;top:311px" data-group="decision" data-title="Material Ready?" data-detail="Decision แบบ deterministic: ถ้าพร้อมจึงไหลไป execution; ถ้าไม่พร้อมต้องไป procurement/inbound loop และกลับมาตรวจ readiness ใหม่"><div class="ey">Decision Gate</div><b>Material Ready?</b><small>READY · PARTIAL · SHORT · WAIT PO · HOLD</small><span class="mini-state">FAIL CLOSED</span></div>
-          <div class="arch-node material" style="left:592px;top:418px" data-group="business" data-title="PR / PO / Supplier" data-detail="เส้นทางจัดหาเมื่อวัสดุไม่พร้อม: procurement, supplier และ expected inbound ที่ต้องย้อนกลับมาเป็น evidence ของ readiness"><div class="ey">Procurement</div><b>PR / PO / Supplier</b><small>Buy · Supplier · ETA</small></div>
-          <div class="arch-node material" style="left:839px;top:418px" data-group="business" data-title="Receipt / Inspection" data-detail="ของเข้าไม่ได้แปลว่าพร้อมใช้ทันที ต้องพิจารณา receipt, inspection, lot/quality disposition แล้วจึงสะท้อนกลับสู่ inventory position"><div class="ey">Inbound Gate</div><b>Receipt / Inspection</b><small>Receive · Inspect · Release</small></div>
+          <div class="arch-node material" style="left:592px;top:435px" data-group="business" data-title="PR / PO / Supplier" data-detail="เส้นทางจัดหาเมื่อวัสดุไม่พร้อม: procurement, supplier และ expected inbound ที่ต้องย้อนกลับมาเป็น evidence ของ readiness"><div class="ey">Procurement</div><b>PR / PO / Supplier</b><small>Buy · Supplier · ETA</small></div>
+          <div class="arch-node material" style="left:839px;top:435px" data-group="business" data-title="Receipt / Inspection" data-detail="ของเข้าไม่ได้แปลว่าพร้อมใช้ทันที ต้องพิจารณา receipt, inspection, lot/quality disposition แล้วจึงสะท้อนกลับสู่ inventory position"><div class="ey">Inbound Gate</div><b>Receipt / Inspection</b><small>Receive · Inspect · Release</small></div>
 
           <!-- Data / evidence nodes -->
           <div class="arch-node data" style="left:40px;top:610px" data-group="data" data-title="ERP Applications / Versions" data-detail="หน้าจอเดียวกันอาจทำงานต่างกันตาม Form และ Version จึงต้องเก็บ object context และ version evidence ทุกครั้ง"><div class="ey">ERP Surface</div><b>Applications / Versions</b><small>Task · App · Form · Version</small></div>
@@ -405,11 +405,11 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
           <div class="arch-node decision hub" style="left:500px;top:605px" data-group="decision" data-title="Resolved Production State" data-detail="ศูนย์รวมการตัดสินใจแบบ deterministic: ประกอบ document, cutting, routing, material, quality, capacity และ evidence เพื่อได้ state ที่บริหารใช้ได้ หาก rule ไม่รู้จักต้อง UNMAPPED / REVIEW"><div class="ey">Decision Hub</div><b>Resolved Production State</b><small>Deterministic · Evidence-backed · Versioned</small><span class="mini-state">UNMAPPED → REVIEW</span></div>
 
           <!-- Intelligence -->
-          <div class="arch-node intel" style="left:970px;top:585px" data-group="data" data-title="Read-only Integration" data-detail="ลำดับ preferred path คือ supported ERP interface ก่อน ตามด้วย governed read-only DB view และ certified export; UI automation เป็น fallback สำหรับ discovery"><div class="ey">Read Path</div><b>Read-only Integration</b><small>API / AIS / DB View / Export</small></div>
-          <div class="arch-node intel" style="left:970px;top:685px" data-group="decision" data-title="Risk / Bottleneck Engine" data-detail="นำ resolved state และ evidence ไปตรวจ late risk, shortage, supplier ETA, overload, bottleneck, aging และ data-quality risk ด้วยกฎที่ audit ได้"><div class="ey">Deterministic Risk</div><b>Risk / Bottleneck</b><small>Detect · Explain · Prioritize</small></div>
-          <div class="arch-node intel" style="left:1185px;top:585px" data-group="decision" data-title="Executive Dashboard" data-detail="Decision surface สำหรับผู้บริหารที่ต้อง drill-down กลับถึงหลักฐานได้ ไม่ใช่ KPI ที่ตัดขาดจาก source"><div class="ey">Decision Surface</div><b>Executive Dashboard</b><small>Health · Risk · Drill-down</small></div>
-          <div class="arch-node intel" style="left:1185px;top:685px" data-group="decision" data-title="Scenario Planning" data-detail="what-if ต้อง clone baseline ไปเป็น scenario แล้วคำนวณ material/capacity/due-date ใหม่ ไม่แก้ production baseline โดยตรง"><div class="ey">What-if</div><b>Scenario Planning</b><small>Clone · Compare · Validate</small></div>
-          <div class="arch-node gate" style="left:1185px;top:805px" data-group="gate" data-title="Human Gate / Future Write-back" data-detail="AI และ Control Tower ไม่มี production authority อัตโนมัติ การ write-back ในอนาคตต้อง allowlist, validate, approve, audit และ fail closed"><div class="ey">Governance Boundary</div><b>Human Gate / Write-back</b><small>Approve · Audit · Future only</small></div>
+          <div class="arch-node intel" style="left:980px;top:600px" data-group="data" data-title="Read-only Integration" data-detail="ลำดับ preferred path คือ supported ERP interface ก่อน ตามด้วย governed read-only DB view และ certified export; UI automation เป็น fallback สำหรับ discovery"><div class="ey">Read Path</div><b>Read-only Integration</b><small>API / AIS / DB View / Export</small></div>
+          <div class="arch-node intel" style="left:980px;top:700px" data-group="decision" data-title="Risk / Bottleneck Engine" data-detail="นำ resolved state และ evidence ไปตรวจ late risk, shortage, supplier ETA, overload, bottleneck, aging และ data-quality risk ด้วยกฎที่ audit ได้"><div class="ey">Deterministic Risk</div><b>Risk / Bottleneck</b><small>Detect · Explain · Prioritize</small></div>
+          <div class="arch-node intel" style="left:1180px;top:600px" data-group="decision" data-title="Executive Dashboard" data-detail="Decision surface สำหรับผู้บริหารที่ต้อง drill-down กลับถึงหลักฐานได้ ไม่ใช่ KPI ที่ตัดขาดจาก source"><div class="ey">Decision Surface</div><b>Executive Dashboard</b><small>Health · Risk · Drill-down</small></div>
+          <div class="arch-node intel" style="left:1180px;top:700px" data-group="decision" data-title="Scenario Planning" data-detail="what-if ต้อง clone baseline ไปเป็น scenario แล้วคำนวณ material/capacity/due-date ใหม่ ไม่แก้ production baseline โดยตรง"><div class="ey">What-if</div><b>Scenario Planning</b><small>Clone · Compare · Validate</small></div>
+          <div class="arch-node gate" style="left:1180px;top:815px" data-group="gate" data-title="Human Gate / Future Write-back" data-detail="AI และ Control Tower ไม่มี production authority อัตโนมัติ การ write-back ในอนาคตต้อง allowlist, validate, approve, audit และ fail closed"><div class="ey">Governance Boundary</div><b>Human Gate / Write-back</b><small>Approve · Audit · Future only</small></div>
         </div>
       </div>
       <div class="node-detail" id="flowNodeDetail">
@@ -613,7 +613,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     fitShell.appendChild(map);
   }
   function auditMainLayout(){
-    const baseW=1380, baseH=930, gap=6;
+    const baseW=1380, baseH=930, gap=12;
     const list=[...map.querySelectorAll(".arch-node")].map(function(el){
       return {
         el:el,
