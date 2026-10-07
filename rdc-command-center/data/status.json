@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-07T22:04:19+07:00",
+  "generated_at": "2026-10-07T22:34:21+07:00",
   "status": "READY_WITH_WARNINGS",
-  "gateway_version": "1.6-shadow",
+  "gateway_version": "1.7",
   "mode": "FAST_EXECUTION_MODE",
   "agents": 15,
   "local_skills": 18,
@@ -643,54 +643,27 @@
     ]
   },
   "adaptive_runtime": {
-    "status": "READY_SHADOW",
-    "authority_expanded": false,
+    "status": "VALIDATED_12_OF_12",
+    "architecture": "UNIFIED_PC_NB",
+    "heartbeat_minutes": 15,
     "validation": {
-      "status": "PASS",
-      "checks_passed": 8,
-      "checks_total": 8
+      "pc": "PASS_12_OF_12",
+      "notebook": "PASS_12_OF_12"
     },
-    "capability_probe_count": 9,
-    "layers": {
-      "world_state": {
-        "status": "ACTIVE",
-        "mode": "LOCAL_STATE"
-      },
-      "capability_registry": {
-        "status": "ACTIVE",
-        "mode": "LIVE_PROBE"
-      },
-      "confidence_escalation": {
-        "status": "ACTIVE",
-        "mode": "DETERMINISTIC_THRESHOLDS"
-      },
-      "economic_router": {
-        "status": "SHADOW",
-        "mode": "QUALITY_LATENCY_COST_FAILURE"
-      },
-      "event_nervous_system": {
-        "status": "SHADOW",
-        "mode": "NO_EXTERNAL_MUTATION"
-      }
-    },
-    "confidence_policy": [
-      {
-        "min": 0.97,
-        "action": "EXECUTE_WITHIN_POLICY"
-      },
-      {
-        "min": 0.85,
-        "action": "SECOND_AGENT_REVIEW"
-      },
-      {
-        "min": 0.65,
-        "action": "SANDBOX_SIMULATE"
-      },
-      {
-        "min": 0.0,
-        "action": "HUMAN_GATE"
-      }
-    ],
-    "promotion_policy": "SHADOW → EVAL → ACTIVE; no auto-promotion"
+    "authority": "POLICY_GATED",
+    "items": [
+      "dynamic_planner_dag",
+      "capability_registry",
+      "economic_router",
+      "confidence_escalation",
+      "adversarial_red_team_agent",
+      "world_model_digital_state",
+      "temporal_memory",
+      "event_nervous_system",
+      "auto_generated_skill",
+      "automatic_architecture_refactoring",
+      "canary_shadow_execution",
+      "immutable_evidence_ledger"
+    ]
   }
 }

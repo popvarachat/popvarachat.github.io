@@ -278,24 +278,32 @@
   </section>
 
 
+
   <section id="adaptive-runtime" class="section adaptive-runtime-section">
     <div class="section-head">
-      <div><span class="kicker">RDC v1.6 · ADAPTIVE CONTROL LAYER</span><h2>5 Item ลับที่เริ่มทำงานแล้ว</h2></div>
-      <span id="adaptiveBadge" class="badge ghost">READY SHADOW</span>
+      <div><span class="kicker">RDC v1.7 · UNIFIED PC + NB</span><h2>12/12 Advanced Runtime Capabilities</h2></div>
+      <span id="adaptiveBadge" class="badge">12 / 12 VALIDATED</span>
     </div>
-    <p class="section-intro">ชั้นนี้ทำให้ RDC ขยับจาก “route ตามกฎ” ไปสู่ runtime ที่รู้สถานะตัวเอง, เลือก capability ตามหลักฐาน, escalate ตาม confidence, optimize cost/latency และตอบสนองต่อ event โดยยังไม่ขยาย execution authority ข้าม Hard Policy/Human Gate.</p>
-    <div class="adaptive-grid" id="adaptiveGrid">
-      <article data-adaptive="world_state"><span>01 · WORLD STATE</span><h3>Digital State / World Model</h3><p>เก็บสถานะ runtime, git, disk, policy boundary และ lifecycle เพื่อให้ Agent อ่าน state เดียวกันแทนการเดาจาก chat.</p><b>ACTIVE</b></article>
-      <article data-adaptive="capability_registry"><span>02 · CAPABILITY REGISTRY</span><h3>Live Capability Registry</h3><p>probe เครื่องมือที่มีจริง พร้อม availability/version metadata เพื่อให้ Tool/Model Router เลือกจากของที่พร้อมใช้งาน.</p><b>ACTIVE</b></article>
-      <article data-adaptive="confidence_escalation"><span>03 · CONFIDENCE</span><h3>Confidence Escalation</h3><p>≥97% execute ใน policy · 85–96% second review · 65–84% sandbox · &lt;65% Human Gate.</p><b>ACTIVE</b></article>
-      <article data-adaptive="economic_router"><span>04 · ECONOMIC ROUTER</span><h3>Quality × Latency × Cost</h3><p>ให้คะแนน route จากคุณภาพ, latency, cost และ failure probability แล้วเลือกเส้นทางที่ “พอเหมาะ” ไม่ใช่ตัวแพงสุดทุกครั้ง.</p><b>SHADOW</b></article>
-      <article data-adaptive="event_nervous_system"><span>05 · EVENT NERVOUS SYSTEM</span><h3>Event-driven Trigger Layer</h3><p>ตรวจ event เช่น disk ต่ำ, provider หาย, validation fail, worktree delta แล้ว route ไป Recovery/Retry/Human Gate แบบ shadow ก่อน.</p><b>SHADOW</b></article>
+    <p class="section-intro">Architecture เดียวกันทั้ง PC และ Notebook; capability จริงของแต่ละเครื่อง probe แยกกันได้. Hard Policy/Human Gate ยังอยู่เหนือ autonomous layer ทุกตัว.</p>
+    <div class="adaptive-grid ultimate-12">
+      <article><span>01 · PLANNER</span><h3>Dynamic Planner / DAG</h3><p>แตก Goal เป็น task graph, dependency, parallel group และ Human Gate.</p><b>ACTIVE</b></article>
+      <article><span>02 · CAPABILITY</span><h3>Live Capability Registry</h3><p>online, version, latency, success history และ quota/accuracy เมื่อ provider เปิดเผย.</p><b>ACTIVE</b></article>
+      <article><span>03 · ECONOMIC</span><h3>Economic Router</h3><p>Quality × latency × cost × failure probability; ใช้ shadow decision ก่อน promotion.</p><b>ACTIVE · SHADOW</b></article>
+      <article><span>04 · CONFIDENCE</span><h3>Confidence Escalation</h3><p>Execute / second review / sandbox / Human Gate ตาม confidence threshold.</p><b>ACTIVE</b></article>
+      <article><span>05 · ADVERSARIAL</span><h3>Devil / Red Team Agent</h3><p>อ่านอย่างเดียวเพื่อหา secret pattern, risky execution, prompt injection และ unfinished work.</p><b>ACTIVE · READ ONLY</b></article>
+      <article><span>06 · WORLD</span><h3>World Model / Digital State</h3><p>เก็บ host, runtime, git, disk และ policy boundary ให้ Agent ใช้ state เดียวกัน.</p><b>ACTIVE</b></article>
+      <article><span>07 · TEMPORAL</span><h3>Temporal Memory</h3><p>เก็บ snapshot และ diff เพื่อรู้ว่าอะไรเปลี่ยนจากรอบก่อน.</p><b>ACTIVE</b></article>
+      <article><span>08 · EVENTS</span><h3>Event Nervous System</h3><p>ตรวจ disk, capability outage, worktree change แล้ว route event; mutation ยัง policy-gated.</p><b>ACTIVE · SAFE DISPATCH</b></article>
+      <article><span>09 · SKILL FACTORY</span><h3>Auto-generated Skill</h3><p>สร้าง Skill draft เมื่อพบ capability gap แล้วผ่าน Sandbox/Benchmark ก่อน register.</p><b>ACTIVE · DRAFT ONLY</b></article>
+      <article><span>10 · SELF DESIGN</span><h3>Architecture Refactoring</h3><p>อ่าน telemetry แล้วเสนอการรวม/เปลี่ยน route แบบ proposal-only.</p><b>ACTIVE · PROPOSAL</b></article>
+      <article><span>11 · CANARY</span><h3>Canary / Shadow Execution</h3><p>เปรียบเทียบ primary กับ shadow และห้าม auto-promote โดยไม่มี evidence.</p><b>ACTIVE</b></article>
+      <article><span>12 · EVIDENCE</span><h3>Immutable Evidence Ledger</h3><p>Hash-chained ledger เชื่อม plan, route, event, validation และ state snapshots.</p><b>ACTIVE · HASH CHAIN</b></article>
     </div>
     <div class="adaptive-policy">
-      <div><span>Execution authority</span><b>UNCHANGED</b><small>Hard Policy + Human Gate เหมือนเดิม</small></div>
-      <div><span>Runtime tests</span><b id="adaptiveTests">8 / 8 PASS</b><small>world · capability · confidence · economic · event</small></div>
-      <div><span>Capability probes</span><b id="adaptiveCapabilities">9</b><small>public-safe count only</small></div>
-      <div><span>Promotion path</span><b>SHADOW → EVAL → ACTIVE</b><small>ไม่มี auto-promotion</small></div>
+      <div><span>PC</span><b>VALIDATED 12/12</b><small>RDC Runtime v1.7</small></div>
+      <div><span>Notebook</span><b>VALIDATED 12/12</b><small>RDC Runtime v1.7</small></div>
+      <div><span>Heartbeat</span><b>EVERY 15 MIN</b><small>same architecture · local capability probe</small></div>
+      <div><span>Authority</span><b>POLICY GATED</b><small>live money · destructive · credentials · production impact</small></div>
     </div>
   </section>
 
