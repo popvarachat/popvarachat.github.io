@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Agent Arsenal</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261007-layoutfix2">
+<link rel="stylesheet" href="styles.css?v=20261007-lanes3">
 </head>
 <body>
 <div class="shell">
@@ -88,60 +88,60 @@
       </div>
       <div class="workflow-scroll">
         <div class="workflow-surface" aria-label="RDC real workflow topology">
-          <svg class="workflow-links" viewBox="0 0 1120 1060" preserveAspectRatio="none" aria-hidden="true">
+          <svg class="workflow-links" viewBox="0 0 1120 1120" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrAdv" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrPre" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrGate" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
             </defs>
-            <path class="wf-link solid" data-from="human" data-to="rdc" d="M210 82 C245 82 260 82 295 82"/>
-            <path class="wf-link solid" data-from="rdc" data-to="policy" d="M505 82 C540 82 555 82 590 82"/>
-            <path class="wf-link gate" data-from="policy" data-to="human-gate" d="M790 82 C835 82 850 82 890 82"/>
-            <path class="wf-link solid" data-from="rdc" data-to="jev" d="M400 125 C400 145 400 150 400 180"/>
-            <path class="wf-link advisory" data-from="jev" data-to="agent-router" d="M505 222 C540 222 555 215 590 215"/>
-            <path class="wf-link advisory" data-from="jev" data-to="skill-router" d="M505 222 C545 240 555 300 590 320"/>
-            <path class="wf-link advisory" data-from="jev" data-to="model-router" d="M505 222 C545 270 555 405 590 425"/>
-            <path class="wf-link advisory" data-from="jev" data-to="retry-router" d="M505 222 C545 300 555 510 590 530"/>
-            <path class="wf-link advisory" data-from="jev" data-to="tool-broker" d="M505 222 C640 150 735 185 825 205"/>
-            <path class="wf-link solid" data-from="rdc" data-to="agent-force" d="M350 125 C300 175 245 300 220 355"/>
-            <path class="wf-link solid" data-from="rdc" data-to="skill-router" d="M400 125 C480 180 530 270 590 320"/>
-            <path class="wf-link solid" data-from="agent-router" data-to="agent-force" d="M590 215 C480 250 330 310 220 355"/>
-            <path class="wf-link solid" data-from="skill-router" data-to="agent-force" d="M590 320 C470 350 330 380 220 405"/>
-            <path class="wf-link advisory" data-from="arsenal" data-to="skill-router" d="M375 480 C445 450 500 365 590 320"/>
-            <path class="wf-link solid" data-from="agent-force" data-to="execution" d="M220 410 C430 410 650 430 825 430"/>
-            <path class="wf-link advisory" data-from="subagents" data-to="rdc" d="M220 565 C310 540 335 410 350 125"/>
-            <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M760 215 C790 210 800 205 825 205"/>
-            <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M760 320 C800 300 805 240 825 220"/>
-            <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M760 425 C805 380 810 260 825 235"/>
-            <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M675 462 C660 510 640 555 630 605"/>
-            <path class="wf-link advisory" data-from="model-router" data-to="cli-ai-peers" d="M675 462 C690 535 700 620 720 705"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M835 742 C900 650 930 400 930 245"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M835 748 C865 720 900 685 925 655"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M700 646 C790 560 845 335 875 245"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M700 650 C750 650 790 650 825 650"/>
-            <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1045 205 C1100 250 1090 380 1045 420"/>
-            <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M935 245 C935 255 935 260 935 270"/>
-            <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M935 352 C935 362 935 367 935 375"/>
-            <path class="wf-link solid" data-from="execution" data-to="validator" d="M935 545 C935 565 935 580 935 600"/>
-            <path class="wf-link solid" data-from="validator" data-to="done" d="M935 690 C935 745 975 770 985 820"/>
-            <path class="wf-link feedback" data-from="validator" data-to="retry-router" d="M825 645 C785 625 770 565 760 530"/>
-            <path class="wf-link feedback" data-from="retry-router" data-to="telemetry" d="M590 530 C470 620 430 800 400 855"/>
-            <path class="wf-link feedback" data-from="telemetry" data-to="rdc" d="M350 855 C270 700 245 170 315 125"/>
-            <path class="wf-link advisory" data-from="jev" data-to="telemetry" d="M505 222 C520 520 500 810 455 875"/>
-            <path class="wf-link advisory" data-from="validator" data-to="telemetry" d="M825 645 C700 740 560 825 455 875"/>
-            <path class="wf-link advisory" data-from="subagents" data-to="test-engineer" d="M130 631 C130 650 120 660 120 675"/>
-            <path class="wf-link advisory" data-from="subagents" data-to="architecture-reviewer" d="M200 600 C235 625 290 645 330 675"/>
-            <path class="wf-link advisory" data-from="test-engineer" data-to="validator" d="M220 725 C430 720 650 680 825 645"/>
-            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="sandbox" d="M440 725 C600 660 720 500 825 315"/>
-            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="validator" d="M440 735 C600 735 720 690 825 655"/>
-            <path class="wf-link advisory" data-from="rdc" data-to="trace" d="M505 82 C620 230 620 610 620 800"/>
-            <path class="wf-link advisory" data-from="jev" data-to="trace" d="M505 222 C620 390 620 650 620 800"/>
-            <path class="wf-link advisory" data-from="execution" data-to="trace" d="M825 460 C760 600 700 735 625 800"/>
-            <path class="wf-link advisory" data-from="retry-router" data-to="trace" d="M760 530 C720 650 675 750 625 800"/>
-            <path class="wf-link advisory" data-from="validator" data-to="trace" d="M825 645 C760 700 700 760 625 800"/>
-            <path class="wf-link solid" data-from="done" data-to="eval-harness" d="M985 894 C985 910 960 920 945 930"/>
-            <path class="wf-link feedback" data-from="eval-harness" data-to="rdc" d="M825 975 C650 1080 180 1000 315 125"/>
+            <path class="wf-link solid" data-from="human" data-to="rdc" d="M210 82 C235 82 245 82 270 82"/>
+            <path class="wf-link solid" data-from="rdc" data-to="policy" d="M480 82 C505 82 515 82 540 82"/>
+            <path class="wf-link gate" data-from="policy" data-to="human-gate" d="M730 82 C750 82 770 82 790 82"/>
+            <path class="wf-link solid" data-from="rdc" data-to="jev" d="M375 131 C375 145 375 160 375 175"/>
+            <path class="wf-link advisory" data-from="jev" data-to="agent-router" d="M480 215 C500 210 515 206 530 206"/>
+            <path class="wf-link advisory" data-from="jev" data-to="skill-router" d="M480 225 C505 240 515 280 530 301"/>
+            <path class="wf-link advisory" data-from="jev" data-to="model-router" d="M480 230 C510 275 515 365 530 396"/>
+            <path class="wf-link advisory" data-from="jev" data-to="retry-router" d="M480 235 C515 310 515 455 530 491"/>
+            <path class="wf-link advisory" data-from="jev" data-to="tool-broker" d="M480 205 C610 125 735 145 820 205"/>
+            <path class="wf-link solid" data-from="rdc" data-to="agent-force" d="M315 131 C275 185 245 300 220 365"/>
+            <path class="wf-link solid" data-from="rdc" data-to="skill-router" d="M430 131 C470 185 500 255 530 301"/>
+            <path class="wf-link solid" data-from="agent-router" data-to="agent-force" d="M530 206 C440 245 330 305 220 365"/>
+            <path class="wf-link solid" data-from="skill-router" data-to="agent-force" d="M530 301 C430 330 330 365 220 390"/>
+            <path class="wf-link advisory" data-from="arsenal" data-to="skill-router" d="M460 450 C490 420 500 335 530 301"/>
+            <path class="wf-link solid" data-from="agent-force" data-to="execution" d="M220 410 C430 410 650 450 820 470"/>
+            <path class="wf-link advisory" data-from="subagents" data-to="rdc" d="M220 540 C300 520 330 300 330 131"/>
+            <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M710 206 C750 206 780 206 820 206"/>
+            <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M710 301 C765 285 785 235 820 220"/>
+            <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M710 396 C775 355 790 265 820 235"/>
+            <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M620 432 C620 490 610 535 605 585"/>
+            <path class="wf-link advisory" data-from="model-router" data-to="cli-ai-peers" d="M650 432 C690 510 690 650 650 710"/>
+            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M710 750 C780 680 800 380 850 253"/>
+            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M710 760 C760 760 785 680 820 660"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M710 625 C770 570 795 350 850 253"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M710 650 C755 650 780 650 820 650"/>
+            <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1060 210 C1090 260 1090 420 1060 455"/>
+            <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M940 253 C940 262 940 270 940 280"/>
+            <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M940 368 C940 378 940 385 940 395"/>
+            <path class="wf-link solid" data-from="execution" data-to="validator" d="M940 565 C940 580 940 590 940 605"/>
+            <path class="wf-link solid" data-from="validator" data-to="done" d="M940 699 C940 750 940 790 940 825"/>
+            <path class="wf-link feedback" data-from="validator" data-to="retry-router" d="M820 650 C760 610 740 520 710 491"/>
+            <path class="wf-link feedback" data-from="retry-router" data-to="telemetry" d="M530 491 C450 610 390 790 370 880"/>
+            <path class="wf-link feedback" data-from="telemetry" data-to="rdc" d="M330 880 C250 700 245 250 300 131"/>
+            <path class="wf-link advisory" data-from="jev" data-to="telemetry" d="M480 230 C500 500 470 760 420 880"/>
+            <path class="wf-link advisory" data-from="validator" data-to="telemetry" d="M820 660 C700 740 560 835 470 910"/>
+            <path class="wf-link advisory" data-from="subagents" data-to="test-engineer" d="M125 616 C125 640 125 665 125 690"/>
+            <path class="wf-link advisory" data-from="subagents" data-to="architecture-reviewer" d="M200 580 C235 620 300 650 345 690"/>
+            <path class="wf-link advisory" data-from="test-engineer" data-to="validator" d="M220 740 C430 740 650 700 820 660"/>
+            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="sandbox" d="M440 730 C600 650 720 430 820 325"/>
+            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="validator" d="M440 755 C600 755 720 700 820 665"/>
+            <path class="wf-link advisory" data-from="rdc" data-to="trace" d="M480 90 C600 230 605 650 605 850"/>
+            <path class="wf-link advisory" data-from="jev" data-to="trace" d="M480 230 C585 390 605 680 605 850"/>
+            <path class="wf-link advisory" data-from="execution" data-to="trace" d="M820 485 C760 610 710 760 650 850"/>
+            <path class="wf-link advisory" data-from="retry-router" data-to="trace" d="M710 491 C710 620 675 760 640 850"/>
+            <path class="wf-link advisory" data-from="validator" data-to="trace" d="M820 660 C760 720 700 800 650 850"/>
+            <path class="wf-link solid" data-from="done" data-to="eval-harness" d="M940 901 C940 920 940 940 940 960"/>
+            <path class="wf-link feedback" data-from="eval-harness" data-to="rdc" d="M820 1005 C620 1110 180 1040 285 131"/>
           </svg>
 
           <button class="wf-node human" data-node="human" data-title="Human / ChatGPT" data-detail="กำหนดเป้าหมาย ขอบเขต และอนุมัติ Human Gate. ไม่ใช่ executor โดยตรง.">
@@ -379,6 +379,6 @@
     <span id="lastUpdated"></span>
   </footer>
 </div>
-<script src="app.js?v=20261007-layoutfix2"></script>
+<script src="app.js?v=20261007-lanes3"></script>
 </body>
 </html>
