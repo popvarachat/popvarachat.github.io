@@ -498,7 +498,7 @@ function render(){
         <a class="open" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Open App ↗</a>
         ${r.html_url ? `<a class="repo" href="${esc(r.html_url)}" target="_blank" rel="noopener">Repository</a>` : (r.visibility==="local" ? `<span class="repo" aria-label="internal local">🔒 Internal Local</span>` : `<span class="repo" aria-label="restricted access">🔒 Login required</span>`)}
         ${r.name==="network-diagram-public" ? `<a class="arch" href="https://popvarachat.github.io/network-diagram/#map" target="_blank" rel="noopener">Topology</a>` : ``}
-        ${r.name==="production-control-tower-manual" ? `<a class="arch" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Workflow / ERD</a>` : r.name==="erp-architecture-manual" ? `<a class="arch" href="${esc(pageUrl(r))}#domains" target="_blank" rel="noopener">Workflow</a>` : `<button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>`}
+        ${r.name==="production-control-tower-manual" ? `<a class="arch" href="${esc(pageUrl(r))}" target="_blank" rel="noopener">Workflow / ERD</a>` : r.name==="erp-architecture-manual" ? `<a class="arch" href="${esc(pageUrl(r))}#flowmap" target="_blank" rel="noopener">Workflow</a><a class="arch" href="${esc(pageUrl(r))}#reports" target="_blank" rel="noopener">Reports</a>` : `<button class="arch" type="button" data-arch="${esc(r.name)}">Workflow</button>`}
         <button class="unpin" type="button" data-hide="${esc(r.name)}" title="ซ่อนการ์ดนี้จาก Portal">ถอนหมุด</button>
       </div>
     </article>`;
