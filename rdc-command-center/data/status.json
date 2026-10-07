@@ -1,7 +1,7 @@
 {
-  "generated_at": "2026-10-07T13:22:00+07:00",
+  "generated_at": "2026-10-07T13:25:00+07:00",
   "status": "READY_WITH_WARNINGS",
-  "gateway_version": "1.7",
+  "gateway_version": "1.8",
   "mode": "FAST_EXECUTION_MODE",
   "agents": 15,
   "local_skills": 18,
@@ -613,5 +613,33 @@
       "cases": 7,
       "passed": 7
     }
+  },
+  "ai_cli_peers": {
+    "status": "READY",
+    "routing": "RDC_DECIDES",
+    "optional": true,
+    "unavailable_policy": "SKIP_IMMEDIATELY",
+    "peers": [
+      {
+        "id": "codex-corporate",
+        "name": "OpenAI Codex Corporate",
+        "status": "READY",
+        "auth": "ChatGPT Corporate Standard seat",
+        "mode": "CLI",
+        "default_authority": "READ_ONLY"
+      },
+      {
+        "id": "claude-cli",
+        "name": "Claude CLI",
+        "status": "CAPABILITY_DEPENDENT",
+        "mode": "CLI"
+      },
+      {
+        "id": "gemini-cli",
+        "name": "Gemini CLI",
+        "status": "CAPABILITY_DEPENDENT",
+        "mode": "CLI"
+      }
+    ]
   }
 }
