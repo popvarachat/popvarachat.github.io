@@ -350,7 +350,14 @@
       "auth": "CHATGPT_STANDARD_SEAT",
       "default_mode": "READ_ONLY",
       "validation": "PASS",
-      "test_result": "CODEX_CORPORATE_READY"
+      "test_result": "CODEX_CORPORATE_READY",
+      "priority": "PREFERRED_HEAVY_DUTY",
+      "use_aggressively_when_suitable": true,
+      "preferred_before": [
+        "claude-cli",
+        "gemini-cli"
+      ],
+      "still_optional": true
     }
   },
   "eval_harness": {
@@ -398,6 +405,7 @@
   },
   "rules": [
     "API/MCP first",
+    "For heavy reasoning/coding/review on Notebook, prefer Codex Corporate before Claude/Gemini when available; skip immediately if unavailable",
     "For interactive browser work use Playwright CLI/MCP first",
     "TinyFish is secondary browser fallback only when Playwright is unavailable or unsuitable",
     "Then fallback to Windows-MCP and RDC",
@@ -643,27 +651,72 @@
     ]
   },
   "adaptive_runtime": {
-    "status": "VALIDATED_12_OF_12",
-    "architecture": "UNIFIED_PC_NB",
-    "heartbeat_minutes": 15,
+    "version": "1.7",
+    "architecture_manifest": "v2",
+    "status": "PASS",
+    "architecture": "UNIFIED_PC_NOTEBOOK",
     "validation": {
-      "pc": "PASS_12_OF_12",
-      "notebook": "PASS_12_OF_12"
+      "pc": "12/12",
+      "notebook": "12/12"
     },
-    "authority": "POLICY_GATED",
-    "items": [
-      "dynamic_planner_dag",
-      "capability_registry",
-      "economic_router",
-      "confidence_escalation",
-      "adversarial_red_team_agent",
-      "world_model_digital_state",
-      "temporal_memory",
-      "event_nervous_system",
-      "auto_generated_skill",
-      "automatic_architecture_refactoring",
-      "canary_shadow_execution",
-      "immutable_evidence_ledger"
-    ]
+    "heartbeat_minutes": 15,
+    "capability_probe": "PER_HOST",
+    "nodes": {
+      "planner": {
+        "status": "ACTIVE"
+      },
+      "world_model": {
+        "status": "ACTIVE"
+      },
+      "temporal_memory": {
+        "status": "ACTIVE"
+      },
+      "capability_registry": {
+        "status": "ACTIVE"
+      },
+      "economic_router": {
+        "status": "SHADOW"
+      },
+      "confidence": {
+        "status": "ACTIVE"
+      },
+      "red_team": {
+        "status": "READ-ONLY"
+      },
+      "event_nervous": {
+        "status": "ACTIVE"
+      },
+      "skill_factory": {
+        "status": "ACTIVE · DRAFT ONLY"
+      },
+      "architecture_refactor": {
+        "status": "READ-ONLY · PROPOSAL"
+      },
+      "canary": {
+        "status": "SHADOW"
+      },
+      "evidence_ledger": {
+        "status": "ACTIVE · HASH CHAIN"
+      }
+    },
+    "ai_peer_policy": {
+      "preferred_heavy_peer": "codex-corporate",
+      "scope": "Notebook",
+      "priority": "HIGH",
+      "use_cases": [
+        "reasoning",
+        "coding",
+        "review",
+        "repo-work",
+        "architecture-review"
+      ],
+      "availability_policy": "SKIP_IMMEDIATELY_IF_UNAVAILABLE",
+      "authority": "ADVISORY_REASONING_ONLY",
+      "must_pass": [
+        "Hard Policy",
+        "Human Gate when applicable",
+        "Sandbox/Execution policy"
+      ]
+    }
   }
 }

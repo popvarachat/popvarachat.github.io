@@ -4,17 +4,17 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="theme-color" content="#08111f">
-<title>RDC Command Center · Agent Arsenal</title>
+<title>RDC Command Center · Adaptive AI Runtime</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261007-lanes4">
+<link rel="stylesheet" href="styles.css?v=20261007-runtime17b">
 </head>
 <body>
 <div class="shell">
   <header class="hero">
     <div>
       <div class="eyebrow"><span class="pulse"></span> RDC HYBRID SYSTEM-1 / SYSTEM-2 · PUBLIC SAFE</div>
-      <h1>RDC Command Center <small style="font-size:12px;color:#6ce5d5">v1.8-CODEX-CORP</small></h1>
-      <p class="lede">Remote execution ที่ไม่ได้มีแค่ “มือ” แต่มี <b>Orchestrator + Jev Decision Coprocessor + Qwen3 Local Agent + CLI AI Peers (Codex Corporate / Claude / Gemini) + Playwright Browser Executor + Agent + Sub-agent + Skill + Global Arsenal</b> อยู่หลังบ้าน พร้อมกฎ FAST EXECUTION MODE และ Human Gate.</p>
+      <h1>RDC Command Center <small style="font-size:12px;color:#6ce5d5">Adaptive Runtime v1.7</small></h1>
+      <p class="lede">RDC ไม่ใช่แค่ Multi-Agent แล้ว แต่เป็น <b>Adaptive AI Runtime / Control Plane v1.7</b> ที่ compile งานเป็น DAG, รับรู้ World State, จำ temporal change, probe capability สด, route ตาม quality/latency/cost/confidence, ทดสอบแบบ Canary/Shadow และเก็บ Immutable Evidence ก่อน DONE. บน Notebook ใช้ <b>Codex Corporate</b> เป็น preferred heavy-duty CLI peer เมื่อ available.</p>
       <div class="hero-actions">
         <a href="#architecture" class="primary">ดูโครงสร้างระบบ</a>
         <a href="#weekly" class="secondary">ดูอาวุธใหม่สัปดาห์นี้</a>
@@ -74,182 +74,97 @@
 
   <section id="architecture" class="section">
     <div class="section-head">
-      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Workflow จริง v1.8: RDC · Jev · Qwen3 · CLI AI Peers · Playwright · Agent · Sub-Agent · Tool Broker · Sandbox · Trace</h2></div>
+      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Adaptive AI Runtime v1.7 · architecture_manifest v2 · Unified PC + Notebook</h2></div>
       <span id="healthBadge" class="badge"></span>
     </div>
     <div class="workflow-shell">
       <div class="workflow-toolbar">
         <span><i class="legend solid"></i> Execution</span>
-        <span><i class="legend advisory"></i> Advisory / SHADOW</span>
+        <span><i class="legend advisory"></i> Advisory / Read-only</span>
+        <span><i class="legend shadow"></i> Shadow / Canary</span>
         <span><i class="legend feedback"></i> Retry / feedback</span>
         <span><i class="legend preflight"></i> Dry-run / preflight</span>
         <span><i class="legend gate"></i> Human Gate</span>
         <button id="flowToggle" class="flow-toggle" type="button" aria-pressed="true"><span></span> FLOW LIVE</button>
-        <span class="hint">คลิก Node → ดูรายละเอียด + เส้นทางที่เกี่ยวข้อง</span>
+        <span class="hint">คลิกทุก Node → Purpose · Input · Output · Authority · Status · Connected Routes</span>
       </div>
       <div class="workflow-scroll">
-        <div class="workflow-surface" aria-label="RDC real workflow topology">
-          <svg class="workflow-links" viewBox="0 0 1120 1120" preserveAspectRatio="none" aria-hidden="true">
+        <div class="workflow-surface runtime-v17" aria-label="RDC Adaptive AI Runtime v1.7 topology">
+          <div class="wf-zone state-zone"><span>STATE & MEMORY</span></div>
+          <div class="wf-zone routing-zone"><span>ROUTING FABRIC</span></div>
+          <div class="wf-zone execution-zone"><span>EXECUTION & ASSURANCE</span></div>
+          <div class="wf-zone learning-zone"><span>LEARNING & ADAPTATION LOOP</span></div>
+          <svg class="workflow-links" viewBox="0 0 1320 1460" preserveAspectRatio="none" aria-hidden="true">
             <defs>
               <marker id="arr" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrAdv" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrPre" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
               <marker id="arrGate" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
+              <marker id="arrShadow" markerWidth="8" markerHeight="8" refX="7" refY="4" orient="auto"><path d="M0,0 L8,4 L0,8 z"/></marker>
             </defs>
-            <path class="wf-link solid" data-from="human" data-to="rdc" d="M210 82 C235 82 245 82 270 82"/>
-            <path class="wf-link solid" data-from="rdc" data-to="policy" d="M480 82 C505 82 515 82 540 82"/>
-            <path class="wf-link gate" data-from="policy" data-to="human-gate" d="M730 82 C750 82 770 82 790 82"/>
-            <path class="wf-link solid" data-from="rdc" data-to="jev" d="M375 131 C375 145 375 160 375 175"/>
-            <path class="wf-link advisory" data-from="jev" data-to="agent-router" d="M480 215 C500 210 515 206 530 206"/>
-            <path class="wf-link advisory" data-from="jev" data-to="skill-router" d="M480 225 C505 240 515 280 530 301"/>
-            <path class="wf-link advisory" data-from="jev" data-to="model-router" d="M480 230 C510 275 515 365 530 396"/>
-            <path class="wf-link advisory" data-from="jev" data-to="retry-router" d="M480 235 C515 310 515 455 530 491"/>
-            <path class="wf-link advisory" data-from="jev" data-to="tool-broker" d="M480 205 C610 125 720 145 800 205"/>
-            <path class="wf-link solid" data-from="rdc" data-to="agent-force" d="M315 131 C275 185 245 300 220 365"/>
-            <path class="wf-link solid" data-from="rdc" data-to="skill-router" d="M430 131 C470 185 500 255 530 301"/>
-            <path class="wf-link solid" data-from="agent-router" data-to="agent-force" d="M530 206 C440 245 330 305 220 365"/>
-            <path class="wf-link solid" data-from="skill-router" data-to="agent-force" d="M530 301 C430 330 330 365 220 390"/>
-            <path class="wf-link advisory" data-from="arsenal" data-to="skill-router" d="M460 450 C490 420 500 335 530 301"/>
-            <path class="wf-link solid" data-from="agent-force" data-to="execution" d="M220 410 C430 410 650 450 820 470"/>
-            <path class="wf-link advisory" data-from="subagents" data-to="rdc" d="M220 540 C300 520 330 300 330 131"/>
-            <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M710 206 C745 206 770 206 800 206"/>
-            <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M710 301 C755 285 775 235 800 220"/>
-            <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M710 396 C760 355 780 265 800 235"/>
-            <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M620 432 C620 490 610 535 605 585"/>
-            <path class="wf-link advisory" data-from="model-router" data-to="cli-ai-peers" d="M650 432 C690 510 690 650 650 710"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M710 750 C770 680 790 380 830 253"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M710 760 C750 760 775 765 800 765"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M710 625 C760 570 785 350 830 253"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M710 650 C750 680 775 735 800 760"/>
-            <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1060 210 C1090 270 1090 470 1060 500"/>
-            <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M930 253 C930 262 930 270 930 280"/>
-            <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M930 368 C930 378 930 385 930 395"/>
-            <path class="wf-link solid" data-from="execution" data-to="validator" d="M930 703 C930 715 930 725 930 735"/>
-            <path class="wf-link solid" data-from="validator" data-to="done" d="M930 829 C930 842 930 852 930 865"/>
-            <path class="wf-link feedback" data-from="validator" data-to="retry-router" d="M800 770 C740 680 720 530 710 491"/>
-            <path class="wf-link feedback" data-from="retry-router" data-to="telemetry" d="M530 491 C450 610 390 790 370 880"/>
-            <path class="wf-link feedback" data-from="telemetry" data-to="rdc" d="M330 880 C250 700 245 250 300 131"/>
-            <path class="wf-link advisory" data-from="jev" data-to="telemetry" d="M480 230 C500 500 470 760 420 880"/>
-            <path class="wf-link advisory" data-from="validator" data-to="telemetry" d="M800 780 C690 820 550 880 470 915"/>
-            <path class="wf-link advisory" data-from="subagents" data-to="test-engineer" d="M125 616 C125 640 125 665 125 690"/>
-            <path class="wf-link advisory" data-from="subagents" data-to="architecture-reviewer" d="M200 580 C235 620 300 650 345 690"/>
-            <path class="wf-link advisory" data-from="test-engineer" data-to="validator" d="M220 740 C420 740 620 760 800 770"/>
-            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="sandbox" d="M440 730 C600 650 720 430 820 325"/>
-            <path class="wf-link advisory" data-from="architecture-reviewer" data-to="validator" d="M440 755 C590 755 700 765 800 770"/>
-            <path class="wf-link advisory" data-from="rdc" data-to="trace" d="M480 90 C600 230 605 650 605 850"/>
-            <path class="wf-link advisory" data-from="jev" data-to="trace" d="M480 230 C585 390 605 680 605 850"/>
-            <path class="wf-link advisory" data-from="execution" data-to="trace" d="M820 485 C760 610 710 760 650 850"/>
-            <path class="wf-link advisory" data-from="retry-router" data-to="trace" d="M710 491 C710 620 675 760 640 850"/>
-            <path class="wf-link advisory" data-from="validator" data-to="trace" d="M800 780 C745 800 690 825 650 850"/>
-            <path class="wf-link solid" data-from="done" data-to="eval-harness" d="M930 941 C930 952 930 965 930 980"/>
-            <path class="wf-link feedback" data-from="eval-harness" data-to="rdc" d="M820 1005 C620 1110 180 1040 285 131"/>
+            <path class="wf-link solid" data-from="human" data-to="planner" d="M220 91 C240 91 250 91 270 91"/>
+            <path class="wf-link solid" data-from="planner" data-to="policy" d="M490 91 C510 91 520 91 540 91"/>
+            <path class="wf-link gate" data-from="policy" data-to="human-gate" d="M730 91 C850 40 980 55 1080 91"/>
+            <path class="wf-link solid" data-from="policy" data-to="world-model" d="M635 137 C560 150 450 165 375 190"/>
+            <path class="wf-link solid" data-from="policy" data-to="temporal-memory" d="M635 137 C635 155 625 170 625 190"/>
+            <path class="wf-link solid" data-from="world-model" data-to="capability-registry" d="M480 240 C590 240 675 240 770 240"/>
+            <path class="wf-link solid" data-from="temporal-memory" data-to="capability-registry" d="M730 240 C745 240 755 240 770 240"/>
+            <path class="wf-link advisory" data-from="capability-registry" data-to="agent-router" d="M885 290 C790 315 560 335 270 360"/>
+            <path class="wf-link advisory" data-from="capability-registry" data-to="skill-router" d="M885 290 C820 320 670 340 470 360"/>
+            <path class="wf-link advisory" data-from="capability-registry" data-to="model-router" d="M885 290 C860 325 800 345 670 360"/>
+            <path class="wf-link shadow" data-from="capability-registry" data-to="economic-router" d="M885 290 C885 315 875 335 870 360"/>
+            <path class="wf-link advisory" data-from="capability-registry" data-to="skill-factory" d="M820 290 C700 355 560 430 470 500"/>
+            <path class="wf-link advisory" data-from="skill-factory" data-to="skill-router" d="M470 500 C470 455 470 445 470 438"/>
+            <path class="wf-link solid" data-from="agent-router" data-to="confidence" d="M350 438 C570 430 820 410 1040 400"/>
+            <path class="wf-link solid" data-from="skill-router" data-to="confidence" d="M550 438 C700 430 880 415 1040 400"/>
+            <path class="wf-link solid" data-from="model-router" data-to="confidence" d="M750 438 C850 430 950 415 1040 400"/>
+            <path class="wf-link shadow" data-from="economic-router" data-to="confidence" d="M960 438 C990 425 1015 412 1040 400"/>
+            <path class="wf-link gate" data-from="confidence" data-to="human-gate" d="M1150 350 C1190 300 1200 190 1175 137"/>
+            <path class="wf-link solid" data-from="confidence" data-to="sandbox" d="M1150 438 C1150 465 1150 480 1150 500"/>
+            <path class="wf-link gate" data-from="human-gate" data-to="sandbox" d="M1175 137 C1270 240 1270 400 1200 500"/>
+            <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M1150 590 C1150 605 1150 615 1150 630"/>
+            <path class="wf-link solid" data-from="execution" data-to="red-team" d="M1040 720 C1015 720 1000 720 990 720"/>
+            <path class="wf-link advisory" data-from="red-team" data-to="validator" d="M890 770 C890 785 890 800 890 815"/>
+            <path class="wf-link solid" data-from="validator" data-to="evidence-ledger" d="M890 905 C890 920 890 935 890 950"/>
+            <path class="wf-link solid" data-from="evidence-ledger" data-to="done" d="M990 995 C1010 995 1025 995 1050 995"/>
+            <path class="wf-link feedback" data-from="execution" data-to="event-nervous" d="M1040 760 C860 900 570 1030 305 1120"/>
+            <path class="wf-link feedback" data-from="validator" data-to="event-nervous" d="M790 860 C650 940 470 1040 305 1120"/>
+            <path class="wf-link feedback" data-from="evidence-ledger" data-to="event-nervous" d="M790 995 C620 1030 470 1080 305 1120"/>
+            <path class="wf-link feedback" data-from="event-nervous" data-to="world-model" d="M250 1100 C130 760 145 360 270 240"/>
+            <path class="wf-link shadow" data-from="event-nervous" data-to="canary" d="M410 1150 C430 1150 450 1150 470 1150"/>
+            <path class="wf-link shadow" data-from="execution" data-to="canary" d="M1040 780 C850 930 700 1050 565 1100"/>
+            <path class="wf-link shadow" data-from="canary" data-to="architecture-refactor" d="M660 1150 C680 1150 700 1150 720 1150"/>
+            <path class="wf-link feedback" data-from="architecture-refactor" data-to="eval-harness" d="M930 1150 C950 1150 970 1150 990 1150"/>
+            <path class="wf-link feedback" data-from="eval-harness" data-to="planner" d="M1100 1200 C1040 1360 310 1380 380 137"/>
           </svg>
-
-          <button class="wf-node human" data-node="human" data-title="Human / ChatGPT" data-detail="กำหนดเป้าหมาย ขอบเขต และอนุมัติ Human Gate. ไม่ใช่ executor โดยตรง.">
-            <span class="wf-kicker">INTENT</span><b>Human / ChatGPT</b><small>Goal · scope · approval</small>
-          </button>
-
-          <button class="wf-node rdc" data-node="rdc" data-title="RDC Orchestrator" data-detail="ศูนย์บัญชาการหลัก: โหลด context, แตกงาน, เลือก Agent/Skill, batch/parallel, retry, ตรวจผล และหยุดเฉพาะ DONE/Human Gate.">
-            <span class="wf-kicker">CONTROL PLANE</span><b>RDC Orchestrator</b><small>FAST EXECUTION MODE</small>
-          </button>
-
-          <button class="wf-node policy" data-node="policy" data-title="Hard Policy Engine" data-detail="กฎ deterministic อยู่เหนือ Jev/Agent ทุกตัว. Credential, destructive, production impact, live money และ security weakening ต้อง Human Gate.">
-            <span class="wf-kicker">PRECEDENCE</span><b>Hard Policy</b><small>Fail closed · Gate first</small>
-          </button>
-
-          <button class="wf-node human-gate" data-node="human-gate" data-title="Human Gate" data-detail="จุดหยุดสำหรับ privileged/high-impact actions. Jev และ Sub-agent ไม่มีสิทธิ์ bypass.">
-            <span class="wf-kicker danger">STOP / APPROVE</span><b>Human Gate</b><small>Explicit approval</small>
-          </button>
-
-          <button class="wf-node jev" data-node="jev" data-title="Jev Decision Coprocessor" data-detail="System-One sidecar ใต้ Orchestrator. RDC เรียก Jev อัตโนมัติเมื่อมี bounded uncertainty ผ่าน routing / recovery / completion profiles. ตอนนี้ READY_SHADOW และยังไม่มี execution authority.">
-            <span class="wf-kicker">SYSTEM-1</span><b>Jev Coprocessor</b><small id="jevGraphStatus">READY_SHADOW · jev-latest</small>
-          </button>
-
-          <button class="wf-node router agent-router" data-node="agent-router" data-title="Agent Router" data-detail="เลือก Agent ที่แคบที่สุดซึ่งเหมาะกับงาน. Jev ช่วย score ใน SHADOW; Orchestrator ยังเป็นผู้ตัดสินจริง.">
-            <b>Agent Router</b><small>14 roles</small>
-          </button>
-
-          <button class="wf-node router skill-router" data-node="skill-router" data-title="Skill Resolver" data-detail="Local-first: ใช้ 17 Local Skills ก่อน. ถ้าขาด capability จึงค้น Global Arsenal และ lazy-load เฉพาะ pinned + SHA verified skill.">
-            <b>Skill Resolver</b><small>17 local + Lazy Global</small>
-          </button>
-
-          <button class="wf-node router model-router" data-node="model-router" data-title="Model Router" data-detail="เลือก deterministic rule / Jev / Claude / Ollama / deep reasoning ตามความซับซ้อนและ latency. Gemini CLI ยัง disabled ตามสถานะปัจจุบัน.">
-            <b>Model Router</b><small>Rule · Jev · Host · Local AI</small>
-          </button>
-
-          <button class="wf-node router retry-router" data-node="retry-router" data-title="Retry / Recovery Router" data-detail="จำแนก RETRY_SAME, CHANGE_METHOD, CALL_DEBUGGER, ROLLBACK, DEEP_REASONING หรือ HUMAN_GATE. Safe retry ทำอัตโนมัติ.">
-            <b>Retry Router</b><small>Recover · rollback · resume</small>
-          </button>
-
-          <button class="wf-node qwen-local" data-node="qwen-local" data-title="Qwen3 RDC JEV Local Agent" data-detail="Local AI member บน POP-FARM01 ใช้ rdc-jev-qwen3 ผ่าน MCP/CLI สำหรับ planning, research และ review. Proposal-only: ไม่มีสิทธิ์ mutation/host execution โดยตรง และทุก host action ต้องผ่าน QA/Human Gate.">
-            <span class="wf-kicker">LOCAL AI MEMBER</span><b>Qwen3 8B</b><small>rdc-jev-qwen3 · MCP / CLI · proposal-only</small>
-          </button>
-
-          <button class="wf-node cli-ai-peers" data-node="cli-ai-peers" data-title="CLI AI Peer Pool" data-detail="RDC เลือกใช้ AI CLI peers ตามงานและสถานะจริง. OpenAI Codex Corporate ถูก recruit ผ่าน ChatGPT Corporate Standard seat และแยก CODEX_HOME; อยู่ระดับเดียวกับ Claude CLI / Gemini CLI. ทุกตัวเป็น optional capability: ถ้า unavailable ให้ข้ามทันที ไม่ block workflow.">
-            <span class="wf-kicker">AI CLI PEERS</span><b>Codex Corporate</b><small>READY · peer with Claude CLI / Gemini CLI · optional</small>
-          </button>
-
-          <button class="wf-node agent-force" data-node="agent-force" data-title="Agent Force" data-detail="Controller/Execution roles: shell-api-executor, browser-automation-executor, code-builder, data-engineer, github-release, recovery-agent และ ui-fallback ทำ mutation เฉพาะ scope ที่ได้รับอนุญาต.">
-            <span class="wf-kicker">EXECUTORS</span><b>Agent Force</b><small>Shell/API · Playwright Browser · Code · Data · GitHub · Recovery</small>
-          </button>
-
-          <button class="wf-node subagents" data-node="subagents" data-title="Sub-Agent / Reviewer Swarm" data-detail="Advisory/read-only by default: debugger, research-scout, qa-verifier, security-gatekeeper, context-librarian, test-regression-engineer และ architecture-blast-radius-reviewer. ทำงานขนานเพื่อลดภาระ context หลัก.">
-            <span class="wf-kicker">PARALLEL ADVISORY</span><b>Sub-Agent Swarm</b><small>Debug · QA · Test · Architecture · Security · Context</small>
-          </button>
-
-          <button class="wf-node arsenal" data-node="arsenal" data-title="Global Arsenal" data-detail="เก็บ metadata เบา ๆ ไม่ preload. เมื่อต้องใช้จึง fetch exact pinned commit, verify SKILL.md SHA และ cache จำกัด.">
-            <span class="wf-kicker">LAZY LOAD</span><b>Global Arsenal</b><small>Know broadly · load narrowly</small>
-          </button>
-
-          <button class="wf-node tool-broker" data-node="tool-broker" data-title="Tool Capability Broker" data-detail="อ่าน capability สดแล้วเลือก backend-first. งาน Browser ใช้ลำดับ API/MCP → Playwright CLI/MCP → TinyFish → Windows-MCP → RDC โดย Playwright เป็น Primary และ TinyFish เป็น Secondary fallback.">
-            <span class="wf-kicker">LIVE CAPABILITY</span><b>Tool Broker</b><small>API/MCP · Playwright · TinyFish · Windows-MCP · RDC</small>
-          </button>
-
-          <button class="wf-node sandbox" data-node="sandbox" data-title="Sandbox / Dry Run" data-detail="Pre-mutation guard สำหรับ code/config/data: classify command, ใช้ native dry-run/check, syntax/static validation และ release condition ก่อน scoped mutation.">
-            <span class="wf-kicker">PRE-MUTATION</span><b>Sandbox / Dry Run</b><small>Rehearse · validate · release</small>
-          </button>
-
-          <div class="wf-node execution" data-node="execution" role="button" tabindex="0" data-title="Execution Fabric">
-            <span class="wf-kicker">EXECUTION FABRIC</span><b>API · MCP · CLI · OI · Browser</b>
-            <div id="fabricGraph" class="fabric-pills">
-              <span>API</span><span>MCP</span><span>CLI</span><span>OI</span><span>Browser</span>
-            </div>
-            <div id="browserGraph" class="browser-route"><span>BROWSER ROUTE</span><b>API/MCP → Playwright → TinyFish → Windows-MCP → RDC</b></div>
-            <small>Backend first · Playwright primary browser · TinyFish fallback</small>
-          </div>
-
-          <button class="wf-node validator" data-node="validator" data-title="Final Validator" data-detail="ตรวจ source of truth ใหม่หลัง mutation, run tests/health checks และไม่รายงาน DONE จาก intent หรือ partial success. Jev DONE เป็น advisory เท่านั้น.">
-            <span class="wf-kicker">SYSTEM-2 CHECK</span><b>Final Validator</b><small>Evidence before DONE</small>
-          </button>
-
-          <button class="wf-node test-engineer" data-node="test-engineer" data-title="Test / Regression Engineer" data-detail="Sub-Agent read-only ที่ออกแบบ focused test matrix: unit, contract, integration, regression และ negative-path ตาม failure mode แล้วพยายาม falsify ผลลัพธ์ก่อน DONE.">
-            <span class="wf-kicker">READ-ONLY REVIEWER</span><b>Test Engineer</b><small>Regression · Contract · Negative path</small>
-          </button>
-
-          <button class="wf-node architecture-reviewer" data-node="architecture-reviewer" data-title="Architecture / Blast-Radius Reviewer" data-detail="Sub-Agent read-only ที่ตรวจ dependency, coupling, backward compatibility, migration, rollback และ downstream impact ก่อน broad/cross-system mutation.">
-            <span class="wf-kicker">READ-ONLY REVIEWER</span><b>Architecture Reviewer</b><small>Dependency · Blast radius · Rollback</small>
-          </button>
-
-          <button class="wf-node trace" data-node="trace" data-title="Trace / Observability" data-detail="ผูก Trace ID เดียวตั้งแต่ RDC → Jev → Agent/Sub-Agent → Skill → Tool → Retry → Validation เพื่อวัด route, latency, fallback และหลักฐาน โดยไม่ log secret.">
-            <span class="wf-kicker">END-TO-END TRACE</span><b>Trace / Observability</b><small>Trace ID · latency · route · evidence</small>
-          </button>
-
-          <button class="wf-node telemetry" data-node="telemetry" data-title="Jev Shadow Telemetry" data-detail="เก็บ Jev confidence, agreement, latency, token usage และ fallback โดยไม่ log raw state/secret. ใช้ตัดสินว่าจะ promote Jev หรือไม่.">
-            <span class="wf-kicker">JEV OBSERVE</span><b>Jev Shadow Telemetry</b><small>Agreement · confidence · cost</small>
-          </button>
-
-          <button class="wf-node done" data-node="done" data-title="DONE" data-detail="จบเมื่อ objective validation ผ่านและไม่มี blocker/Human Gate ค้างอยู่.">
-            <span class="wf-kicker success">VERIFIED</span><b>DONE</b><small>Observed final state</small>
-          </button>
-
-          <button class="wf-node eval-harness" data-node="eval-harness" data-title="Eval / Benchmark Harness" data-detail="ชุดข้อสอบ 50 เคสสำหรับ Hard Policy, Tool Routing, Sandbox, Reviewer Selection และ Final Validation. ใช้ baseline v1.5 เพื่อจับ regression ก่อนเปลี่ยน architecture.">
-            <span class="wf-kicker">MEASURE → COMPARE</span><b>Eval Harness</b><small>50 cases · frozen v1.5 baseline</small>
-          </button>
+          <button class="wf-node human" data-node="human"><span class="wf-kicker">INTENT</span><b>Human / ChatGPT</b><small>Goal · scope · approval</small></button>
+          <button class="wf-node planner" data-node="planner"><span class="wf-kicker">CONTROL PLANE</span><b>Dynamic Planner / DAG</b><small>ACTIVE · dependency · parallel · gates</small></button>
+          <button class="wf-node policy" data-node="policy"><span class="wf-kicker">PRECEDENCE</span><b>Hard Policy</b><small>POLICY-GATED · fail closed</small></button>
+          <button class="wf-node human-gate" data-node="human-gate"><span class="wf-kicker danger">STOP / APPROVE</span><b>Human Gate</b><small>ON DEMAND · explicit approval</small></button>
+          <button class="wf-node world-model" data-node="world-model"><span class="wf-kicker">DIGITAL STATE</span><b>World Model</b><small>ACTIVE · host · runtime · git · disk · policy</small></button>
+          <button class="wf-node temporal-memory" data-node="temporal-memory"><span class="wf-kicker">TIME-AWARE MEMORY</span><b>Temporal Memory</b><small>ACTIVE · snapshot · diff · change history</small></button>
+          <button class="wf-node capability-registry" data-node="capability-registry"><span class="wf-kicker">LIVE CAPABILITY</span><b>Capability Registry</b><small>ACTIVE · per-host probe · heartbeat 15m</small></button>
+          <button class="wf-node agent-router" data-node="agent-router"><span class="wf-kicker">WORK OWNER</span><b>Agent Router</b><small>ACTIVE · narrowest capable role</small></button>
+          <button class="wf-node skill-router" data-node="skill-router"><span class="wf-kicker">PLAYBOOK</span><b>Skill Router</b><small>ACTIVE · local first · verified lazy load</small></button>
+          <button class="wf-node model-router" data-node="model-router"><span class="wf-kicker">REASONING</span><b>Model Router</b><small>ACTIVE · Codex Corporate preferred heavy peer · fallback aware</small></button>
+          <button class="wf-node economic-router" data-node="economic-router"><span class="wf-kicker">QUALITY × COST</span><b>Economic Router</b><small>SHADOW · latency · cost · failure probability</small></button>
+          <button class="wf-node confidence" data-node="confidence"><span class="wf-kicker">ESCALATION</span><b>Confidence Gate</b><small>ACTIVE · execute · review · sandbox · Human Gate</small></button>
+          <button class="wf-node skill-factory" data-node="skill-factory"><span class="wf-kicker">SKILL FACTORY</span><b>Auto-generated Skill</b><small>ACTIVE · DRAFT ONLY · benchmark before register</small></button>
+          <button class="wf-node sandbox" data-node="sandbox"><span class="wf-kicker">PRE-MUTATION</span><b>Sandbox / Dry Run</b><small>POLICY-GATED · rehearse · validate</small></button>
+          <div class="wf-node execution" data-node="execution" role="button" tabindex="0"><span class="wf-kicker">EXECUTION FABRIC</span><b>Execution</b><div id="fabricGraph" class="fabric-pills"><span>API</span><span>MCP</span><span>CLI</span><span>OI</span><span>Browser</span></div><div id="browserGraph" class="browser-route"><span>BROWSER ROUTE</span><b>API/MCP → Playwright → TinyFish → Windows-MCP → RDC</b></div><small>ACTIVE · backend first · capability-aware</small></div>
+          <button class="wf-node red-team" data-node="red-team"><span class="wf-kicker">ADVERSARIAL REVIEW</span><b>Devil / Red Team</b><small>READ-ONLY · falsify · injection · risky execution</small></button>
+          <button class="wf-node validator" data-node="validator"><span class="wf-kicker">SYSTEM-2 CHECK</span><b>Final Validator</b><small>ACTIVE · authoritative reread · evidence</small></button>
+          <button class="wf-node evidence-ledger" data-node="evidence-ledger"><span class="wf-kicker">AUDIT / PROVENANCE</span><b>Evidence Ledger</b><small>ACTIVE · HASH CHAIN · plan · route · state · validation</small></button>
+          <button class="wf-node done" data-node="done"><span class="wf-kicker success">VERIFIED</span><b>DONE</b><small>Observed final state</small></button>
+          <button class="wf-node event-nervous" data-node="event-nervous"><span class="wf-kicker">EVENT BUS</span><b>Event Nervous System</b><small>ACTIVE · SAFE DISPATCH · outage · disk · worktree</small></button>
+          <button class="wf-node canary" data-node="canary"><span class="wf-kicker">COMPARE</span><b>Canary / Shadow</b><small>SHADOW · primary vs candidate · no auto-promote</small></button>
+          <button class="wf-node architecture-refactor" data-node="architecture-refactor"><span class="wf-kicker">SELF-DESIGN</span><b>Architecture Refactor</b><small>READ-ONLY · PROPOSAL · telemetry-driven</small></button>
+          <button class="wf-node eval-harness" data-node="eval-harness"><span class="wf-kicker">REGRESSION GATE</span><b>Eval Harness</b><small>ACTIVE · evidence before architecture change</small></button>
         </div>
       </div>
       <div class="workflow-inspector" id="workflowInspector">
-        <div><span class="kicker">NODE INSPECTOR</span><h3 id="wfInspectTitle">RDC Real Workflow</h3></div>
-        <p id="wfInspectText">เส้นทั้งหมดเคลื่อนที่ตามทิศทางจริง: น้ำเงิน = execution, ฟ้าเส้นประ = advisory/SHADOW, ส้ม = retry/feedback, แดง = Human Gate. คลิก Node เพื่อเปิดรายละเอียดเชิงลึก.</p>
+        <div><span class="kicker">NODE INSPECTOR</span><h3 id="wfInspectTitle">RDC Adaptive AI Runtime v1.7</h3></div>
+        <p id="wfInspectText">น้ำเงิน = execution/control, ฟ้า = advisory/read-only, ม่วง = shadow/canary, ส้ม = feedback/learning, แดง = Human Gate. ทุก Node เปิด Purpose / Input / Output / Authority / Status / Routes ได้.</p>
       </div>
     </div>
 
@@ -270,13 +185,12 @@
     </aside>
 
     <div class="architecture-grid">
-      <article><h3>FAST EXECUTION MODE</h3><div id="rules" class="rule-list"></div></article>
-      <article><h3>Jev Decision Coprocessor</h3><p>System-One layer สำหรับ bounded routing: Agent · Skill · Retry · Model · advisory DONE โดย hard policy และ Human Gate อยู่เหนือ Jev เสมอ.</p><div id="jevState" class="provider-list"></div></article>
-      <article><h3>Lazy Arsenal</h3><p>RDC รู้ว่ามี Skill อะไรในโลก แต่ไม่ preload ทั้งหมดเข้าความจำ. โหลดเฉพาะตัวที่ต้องใช้, pin commit, verify SHA และ cache จำกัด.</p><div class="mini-flow"><span>Local</span><b>→</b><span>Metadata</span><b>→</b><span>Fetch 1</span><b>→</b><span>Verify</span></div></article>
-      <article><h3>RDC v1.5 Reinforcement</h3><p>ชั้นเสริมที่ทำให้ระบบเลือกเครื่องมือจริง, ซ้อมก่อน mutation, review regression/blast-radius และตามรอยงานข้าม Agent ได้.</p><div id="reinforcementState" class="provider-list"></div></article>
+      <article><h3>Adaptive Control Plane</h3><p>Dynamic Planner / DAG Compiler ถือ ownership ของ task graph และรับ feedback จาก Eval กลับเข้าสู่ planner โดย Hard Policy อยู่เหนือ autonomous layer ทั้งหมด.</p><div class="mini-flow"><span>Intent</span><b>→</b><span>DAG</span><b>→</b><span>Policy</span></div></article>
+      <article><h3>State + Memory</h3><p>World Model และ Temporal Memory ทำให้ทุก Router ใช้ digital state และ change history เดียวกัน; Capability Registry probe PC/NB แยกกันทุก 15 นาที.</p><div class="mini-flow"><span>World State</span><b>+</b><span>Temporal Diff</span><b>→</b><span>Capabilities</span></div></article>
+      <article><h3>Adaptive Routing</h3><p>Agent + Skill + Model + Economic Router รวมกับ Confidence Escalation. บน Notebook: Codex Corporate เป็น preferred heavy-duty CLI peer เมื่อพร้อมใช้งาน.</p><div class="mini-flow"><span>Agent</span><b>+</b><span>Skill</span><b>+</b><span>Model</span><b>+</b><span>Economic</span></div></article>
+      <article><h3>Evidence-first Learning</h3><p>Sandbox → Execution → Devil/Red Team → Final Validator → Evidence Ledger. Event Nervous System ส่ง feedback ไป Canary → Refactor Proposal → Eval โดยไม่มี auto-promote.</p><div class="mini-flow"><span>Validate</span><b>→</b><span>Ledger</span><b>→</b><span>Learn</span></div></article>
     </div>
   </section>
-
 
 
   <section id="adaptive-runtime" class="section adaptive-runtime-section">
@@ -410,6 +324,6 @@
     <span id="lastUpdated"></span>
   </footer>
 </div>
-<script src="app.js?v=20261007-lanes4"></script>
+<script src="app.js?v=20261007-runtime17c"></script>
 </body>
 </html>

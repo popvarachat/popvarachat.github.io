@@ -3,50 +3,50 @@ const esc=s=>String(s??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&
 const fmt=n=>new Intl.NumberFormat("en",{notation:"compact",maximumFractionDigits:1}).format(n||0);
 
 const NODE_DETAILS={
-  "human":{kicker:"INTENT / GOVERNANCE",purpose:"รับเป้าหมาย ขอบเขต ข้อจำกัด และการอนุมัติจากคน ก่อนเข้าสู่ control plane.",authority:"อนุมัติ Human Gate และกำหนด preference/intent ที่ระบบไม่ควรเดาเอง.",inputs:["Goal","Scope","Constraints","Approval"],outputs:["Intent","Decision boundary"],related:"#guardrails"},
-  "rdc":{kicker:"CONTROL PLANE",purpose:"Orchestrator หลัก แตกงาน จัด dependency เลือก Agent/Skill/Tool ทำ parallelize/retry และถือ ownership ของ final outcome.",authority:"มี execution control ภายใต้ Hard Policy; ไม่ข้าม Human Gate.",inputs:["Intent","Canonical context","Policy"],outputs:["Plan","Routes","Verified result"],related:"#architecture"},
-  "policy":{kicker:"DETERMINISTIC PRECEDENCE",purpose:"ตรวจ hard gates ก่อน model routing เช่น credential/IAM, destructive action, production impact, live money และ security weakening.",authority:"สูงกว่า Jev, Agent และ Sub-Agent ทุกตัว; fail closed.",inputs:["Risk flags","Action scope"],outputs:["ALLOW","HUMAN_GATE"],related:"#guardrails"},
-  "human-gate":{kicker:"STOP / APPROVE",purpose:"จุดหยุดสำหรับการกระทำที่ต้องการ explicit approval จากคน.",authority:"อนุมัติหรือปฏิเสธ privileged/high-impact action.",inputs:["Gated action","Risk evidence"],outputs:["APPROVE","REJECT","RE-SCOPE"],related:"#guardrails"},
-  "jev":{kicker:"SYSTEM-ONE COPROCESSOR",purpose:"Decision sidecar สำหรับ bounded uncertainty ผ่าน routing / recovery / completion profiles โดยตอบ choice/yes-no/score แบบมี confidence.",authority:"SHADOW เท่านั้นในตอนนี้; ไม่มี execution authority และ override policy ไม่ได้.",inputs:["Minimal redacted state","Decision schema"],outputs:["Choice","Confidence","Probabilities"],related:"#jev-arsenal"},
-  "agent-router":{kicker:"WORK OWNER ROUTING",purpose:"เลือก Agent/Sub-Agent ที่แคบที่สุดและเหมาะกับ next step.",authority:"เสนอ work owner; RDC เป็นผู้ตัดสินจริงใน SHADOW mode.",inputs:["Task state","Available roles"],outputs:["Selected role","Confidence"],related:"#agents"},
-  "skill-router":{kicker:"PLAYBOOK RESOLUTION",purpose:"เลือก Local Skill ก่อน และใช้ Global Arsenal เมื่อเกิด capability gap จริง.",authority:"เลือกวิธีทำงาน ไม่อนุมัติการข้าม policy.",inputs:["Task type","Local skills","Capability gap"],outputs:["Skill","Global lookup"],related:"#skills"},
-  "model-router":{kicker:"REASONING ROUTE",purpose:"เลือก local rule, Jev, Claude, Ollama หรือ deep reasoning ตามความซับซ้อน latency และต้นทุน.",authority:"Routing advisory; governed actions ยังอยู่ใต้ policy.",inputs:["Complexity","Latency","Privacy"],outputs:["Reasoning route"],related:"#architecture"},
-  "cli-ai-peers":{kicker:"AI CLI PEER POOL",purpose:"กลุ่ม AI CLI เสริมที่ RDC route ตามงานและ availability ได้แก่ OpenAI Codex Corporate, Claude CLI และ Gemini CLI.",authority:"Advisory/reasoning/coding/review peer; ไม่มี execution authority โดยตรง. ทุก provider เป็น optional และ unavailable แล้วต้อง skip ไม่ block.",inputs:["Task type","Provider availability","Privacy/cost/latency"],outputs:["Reasoning","Code proposal","Review"],related:"#architecture"},
-  "qwen-local":{kicker:"LOCAL AI MEMBER",purpose:"Qwen3 8B ที่ปรับเป็น rdc-jev-qwen3 ทำหน้าที่ planner/researcher/reviewer ผ่าน MCP/CLI.",authority:"Proposal-only; ไม่มี host execution authority. Host mutation ต้องผ่าน QA และ Human Gate ตาม policy.",inputs:["Task packet","Local context","Decision/review request"],outputs:["Plan","Review","Structured recommendation"],related:"#architecture"},
-  "retry-router":{kicker:"RECOVERY CONTROL",purpose:"ตัดสิน RETRY_SAME, CHANGE_METHOD, CALL_DEBUGGER, ROLLBACK, DEEP_REASONING หรือ HUMAN_GATE หลัง failure.",authority:"Safe/idempotent retry อัตโนมัติได้; high-impact retry ต้อง gate.",inputs:["Failure evidence","Idempotency","Checkpoint"],outputs:["Recovery action"],related:"#architecture"},
-  "agent-force":{kicker:"EXECUTION ROLES",purpose:"กลุ่ม Agent ที่ลงมือทำ scoped work เช่น shell/API, Playwright browser automation, code, data, GitHub, recovery และ UI fallback.",authority:"Scoped write ตามงานที่ RDC มอบหมาย; ห้ามขยาย scope เอง.",inputs:["Task packet","Skill","Tool route"],outputs:["Mutation","Artifacts","Evidence"],related:"#agents"},
-  "subagents":{kicker:"PARALLEL ADVISORY",purpose:"Reviewer/Scout/Debugger/QA/Security/Context ทำงานขนานเพื่อลด context load และเพิ่ม independent review.",authority:"Read-only/advisory by default.",inputs:["Narrow review question"],outputs:["Finding","Recommendation","Evidence"],related:"#agents"},
-  "arsenal":{kicker:"LAZY CAPABILITY",purpose:"Global skill metadata ที่รู้จักกว้างแต่ไม่ preload; fetch เฉพาะ pinned commit และ verify SHA ตอนต้องใช้.",authority:"ไม่มี execution authority จนถูกเลือกและผ่าน validation.",inputs:["Capability gap"],outputs:["Verified skill candidate"],related:"#arsenal"},
-  "execution":{kicker:"EXECUTION FABRIC",purpose:"พื้นผิวลงมือจริงแบบ backend-first. งาน Browser ใช้ API/MCP ก่อน แล้ว Playwright CLI/MCP เป็น Primary; TinyFish เป็น Secondary fallback; จากนั้น Windows-MCP และ RDC.",authority:"ทำตาม scope ของ RDC และ policy; Router เลือก browser engine อัตโนมัติจาก intent.",inputs:["Action","Credentials via secure store","Tool args","Browser intent"],outputs:["Observed external/local state"],related:"#architecture"},
-  "validator":{kicker:"SYSTEM-TWO CHECK",purpose:"ตรวจ source of truth ใหม่หลัง mutation, tests/health checks และหลักฐานสุดท้ายก่อนรายงาน DONE.",authority:"ถือ final-validation authority; Jev DONE เป็น advisory เท่านั้น.",inputs:["Requested outcome","Observed state","Tests"],outputs:["PASS","RETRY","BLOCKED"],related:"#guardrails"},
-  "tool-broker":{kicker:"LIVE CAPABILITY BROKER",purpose:"อ่านสถานะเครื่องมือจริงแล้วจัด route ที่แคบและคุ้มที่สุด. งาน Browser ใช้ API/MCP → Playwright CLI/MCP → TinyFish → Windows-MCP → RDC.",authority:"เลือก/เสนอ execution surface; Playwright เป็น Primary Browser Executor และ TinyFish เป็น Secondary fallback; ไม่อนุมัติ governed action.",inputs:["Task need","Live capabilities","Privacy/latency constraints","Session availability"],outputs:["Preferred route","Fallback order"],related:"#architecture"},
-  "sandbox":{kicker:"PRE-MUTATION GUARD",purpose:"จำแนก mutation, ใช้ dry-run/check และ syntax/static validation ก่อนปล่อยงานให้ executor.",authority:"หยุดที่ HUMAN_GATE เมื่อพบ governed/destructive/live-money action; ไม่แทน Final Validator.",inputs:["Planned action","Target artifacts","Rollback context"],outputs:["READ_ONLY_SAFE","DRY_RUN_REQUIRED","HUMAN_GATE"],related:"#guardrails"},
-  "test-engineer":{kicker:"READ-ONLY TEST REVIEWER",purpose:"ออกแบบ test matrix ตาม failure mode และพยายาม falsify ผลลัพธ์ด้วย unit/contract/integration/regression/negative-path checks ที่เกี่ยวข้อง.",authority:"Advisory/read-only; ไม่แก้ source code.",inputs:["Change scope","Expected behavior","Evidence"],outputs:["Test matrix","Regression findings"],related:"#agents"},
-  "architecture-reviewer":{kicker:"READ-ONLY ARCHITECTURE REVIEWER",purpose:"ตรวจ dependency, coupling, backward compatibility, migration sequencing, rollback และ downstream blast radius.",authority:"Advisory/read-only; broad mutation ยังอยู่กับ RDC + Human Gate.",inputs:["Change graph","Interfaces","Consumers"],outputs:["Blast-radius map","Safe sequencing","Rollback concerns"],related:"#agents"},
-  "trace":{kicker:"END-TO-END OBSERVABILITY",purpose:"ใช้ Trace ID เดียวเชื่อม RDC, Jev, Agent/Sub-Agent, Skill, execution, retry และ final validation พร้อม latency/fallback evidence.",authority:"Observe only; telemetry failure ไม่ควรหยุดงานที่ปลอดภัย.",inputs:["Trace ID","Component events","Latency/status"],outputs:["Trace summary","Bottleneck/fallback evidence"],related:"#architecture"},
-  "telemetry":{kicker:"JEV SHADOW LEARNING",purpose:"เก็บ confidence, agreement, latency, usage และ fallback เพื่อปรับจูน Jev โดยไม่เก็บ raw secret state.",authority:"Observe only; ไม่สั่ง execution.",inputs:["Typed decisions","Baseline"],outputs:["Tuning metrics","Promotion evidence"],related:"#jev-arsenal"},
-  "eval-harness":{kicker:"MEASURE → COMPARE → CHANGE",purpose:"รัน benchmark 50 เคสเพื่อจับ regression ของ Hard Policy, Tool Routing, Sandbox, Reviewer Selection และ Final Validation ก่อนเปลี่ยน architecture.",authority:"Regression gate สำหรับ architecture change; ไม่เพิ่ม runtime execution authority.",inputs:["Frozen baseline","Current routing/policy/runtime"],outputs:["Score","Category deltas","Regression signal"],related:"#eval-harness"},
-  "done":{kicker:"VERIFIED TERMINAL STATE",purpose:"สถานะจบเมื่อ outcome ถูกสังเกตจริง validation ผ่าน ไม่มี blocker และ external effect ถูกตรวจเมื่อเกี่ยวข้อง.",authority:"เกิดจาก Final Validator ไม่ใช่จาก model claim.",inputs:["Validated evidence"],outputs:["DONE"],related:"#architecture"}
+  "human":{kicker:"INTENT / GOVERNANCE",purpose:"รับเป้าหมาย ขอบเขต ข้อจำกัด และ approval boundary จากผู้ใช้.",authority:"กำหนด intent และอนุมัติ Human Gate.",inputs:["Goal","Scope","Constraints"],outputs:["Intent","Approval boundary"],related:"#guardrails"},
+  "planner":{kicker:"DYNAMIC CONTROL PLANE",purpose:"Compile เป้าหมายเป็น DAG ที่มี dependency, parallel groups, checkpoints และ Human Gates.",authority:"ถือ orchestration ownership แต่ override Hard Policy ไม่ได้.",inputs:["Human intent","World state","Policy"],outputs:["Task DAG","Execution envelope","Gate points"],related:"#adaptive-runtime"},
+  "policy":{kicker:"DETERMINISTIC PRECEDENCE",purpose:"บังคับ safety boundary ก่อน autonomous execution.",authority:"สูงสุดเหนือ Agent/Model/Router; fail closed.",inputs:["Action scope","Risk flags"],outputs:["ALLOW","POLICY_GATED","HUMAN_GATE"],related:"#guardrails"},
+  "human-gate":{kicker:"EXPLICIT APPROVAL",purpose:"หยุดงานที่กระทบ live money, destructive, credentials/IAM หรือ production.",authority:"มนุษย์อนุมัติ/ปฏิเสธ/re-scope.",inputs:["Gated action","Evidence","Rollback"],outputs:["APPROVE","REJECT","RE-SCOPE"],related:"#guardrails"},
+  "world-model":{kicker:"WORLD MODEL / DIGITAL STATE",purpose:"สร้าง canonical digital state ของ host, runtime, git, disk, policy และ operational state.",authority:"Read/state layer; ไม่ทำ mutation.",inputs:["Host probe","Runtime probe","Repository state"],outputs:["Canonical world state"],related:"#adaptive-runtime"},
+  "temporal-memory":{kicker:"TEMPORAL MEMORY",purpose:"เก็บ snapshot + diff เพื่อรู้ว่าอะไรเปลี่ยนจากรอบก่อนและ context ใด stale.",authority:"Memory/read layer.",inputs:["Current state","Prior snapshots"],outputs:["Diff","Change history","Freshness"],related:"#adaptive-runtime"},
+  "capability-registry":{kicker:"LIVE CAPABILITY REGISTRY",purpose:"Probe capability จริงแยกตาม PC/NB รวม availability, version, latency และ success history.",authority:"Read/routing input; ไม่มี execution authority.",inputs:["Heartbeat","Provider probes","Host probes"],outputs:["Live capability map"],related:"#adaptive-runtime"},
+  "agent-router":{kicker:"AGENT ROUTING",purpose:"เลือก role ที่แคบที่สุดที่ทำงานได้.",authority:"Routing only.",inputs:["Task DAG","Capabilities"],outputs:["Selected Agent"],related:"#agents"},
+  "skill-router":{kicker:"SKILL ROUTING",purpose:"เลือก Local Skill ก่อนและ verified lazy capability เมื่อจำเป็น.",authority:"Routing only.",inputs:["Task type","Skill registry"],outputs:["Selected Skill"],related:"#skills"},
+  "model-router":{kicker:"MODEL ROUTING",purpose:"เลือก reasoning route ที่พอเพียง โดยบน Notebook ให้ Codex Corporate เป็น preferred heavy-duty CLI peer สำหรับ coding/review/reasoning เมื่อ available; Claude/Gemini เป็น peers/fallback ตาม capability.",authority:"Reasoning route only; ไม่มีสิทธิ์ bypass Hard Policy/Human Gate.",inputs:["Complexity","Privacy","Provider capability","Task type"],outputs:["Selected model/peer","Fallback chain"],related:"#adaptive-runtime"},
+  "economic-router":{kicker:"ECONOMIC ROUTER",purpose:"เปรียบเทียบ quality × latency × cost × failure probability ก่อนเสนอ route. สำหรับงานหนักบน Notebook ให้ Codex Corporate ได้ priority boost เมื่อ authenticated/available.",authority:"SHADOW จน evidence เพียงพอ; ห้าม auto-promote.",inputs:["Candidate routes","Latency","Cost","Failure history","Provider availability"],outputs:["Economic recommendation","Preferred peer"],related:"#adaptive-runtime"},
+  "confidence":{kicker:"CONFIDENCE ESCALATION",purpose:"เลือก Execute, second review, sandbox หรือ Human Gate ตาม confidence และ risk.",authority:"Escalation control ภายใต้ Hard Policy.",inputs:["Router outputs","Confidence","Risk"],outputs:["Execution path","Escalation"],related:"#adaptive-runtime"},
+  "skill-factory":{kicker:"AUTO-GENERATED SKILL",purpose:"สร้าง Skill draft เมื่อ capability gap เกิดซ้ำ แล้วส่งเข้า Sandbox/Benchmark ก่อน register.",authority:"DRAFT ONLY; ไม่มี auto-register ที่ไม่ผ่าน validation.",inputs:["Capability gap","Successful traces"],outputs:["Skill draft","Tests"],related:"#adaptive-runtime"},
+  "sandbox":{kicker:"PRE-MUTATION GUARD",purpose:"Dry-run, syntax/static validation และ rehearsal ก่อน material mutation.",authority:"POLICY-GATED; หยุดที่ Human Gate เมื่อจำเป็น.",inputs:["Planned action","Rollback context"],outputs:["SAFE_TO_EXECUTE","BLOCK","HUMAN_GATE"],related:"#guardrails"},
+  "execution":{kicker:"EXECUTION FABRIC",purpose:"ลงมือผ่าน API/MCP/CLI/OI/Browser ด้วย backend-first และ capability-aware routing.",authority:"Scoped mutation ตาม DAG + Policy เท่านั้น.",inputs:["Approved action","Tool args","Capability route"],outputs:["Observed effect","Execution evidence"],related:"#architecture"},
+  "red-team":{kicker:"ADVERSARIAL / DEVIL REVIEW",purpose:"พยายาม falsify ผลลัพธ์ ตรวจ prompt injection, secret pattern, risky execution และ unfinished work.",authority:"READ-ONLY; ไม่มีสิทธิ์แก้ source/host.",inputs:["Plan","Execution result","Evidence"],outputs:["Adversarial findings","Block recommendation"],related:"#adaptive-runtime"},
+  "validator":{kicker:"SYSTEM-TWO FINAL CHECK",purpose:"Authoritative reread + tests/health checks ก่อนรับผลสำเร็จ.",authority:"Final validation authority.",inputs:["Requested outcome","Observed state","Red-team findings"],outputs:["PASS","RETRY","BLOCKED"],related:"#guardrails"},
+  "evidence-ledger":{kicker:"IMMUTABLE EVIDENCE LEDGER",purpose:"Hash-chain plan, route, event, state snapshot, execution และ validation เพื่อ audit ย้อนกลับได้.",authority:"Append-only evidence; ไม่ตัดสิน policy.",inputs:["Plan hash","Route","Events","Validation","Snapshots"],outputs:["Evidence chain","Audit proof"],related:"#adaptive-runtime"},
+  "done":{kicker:"VERIFIED TERMINAL STATE",purpose:"จบเมื่อ Final Validator ผ่านและ Evidence Ledger บันทึกหลักฐานครบ.",authority:"เกิดจาก validated evidence ไม่ใช่ model claim.",inputs:["PASS","Ledger evidence"],outputs:["DONE"],related:"#architecture"},
+  "event-nervous":{kicker:"EVENT-DRIVEN NERVOUS SYSTEM",purpose:"รับ heartbeat/outage/disk/worktree/telemetry events แล้ว dispatch แบบ safe.",authority:"SAFE DISPATCH; mutation ยังคง policy-gated.",inputs:["Runtime events","Telemetry","Heartbeat"],outputs:["Event routes","Triggers"],related:"#adaptive-runtime"},
+  "canary":{kicker:"CANARY / SHADOW EXECUTION",purpose:"เปรียบเทียบ primary กับ candidate route/runtime โดยไม่ promote อัตโนมัติ.",authority:"SHADOW; no auto-promote.",inputs:["Primary result","Candidate result","Telemetry"],outputs:["Comparison evidence"],related:"#adaptive-runtime"},
+  "architecture-refactor":{kicker:"ARCHITECTURE REFACTOR PROPOSAL",purpose:"อ่าน telemetry และเสนอการรวม/แยก/เปลี่ยน route เพื่อเพิ่มประสิทธิภาพ.",authority:"READ-ONLY / PROPOSAL ONLY.",inputs:["Telemetry","Canary evidence","Failure patterns"],outputs:["Refactor proposal","Rollback plan"],related:"#adaptive-runtime"},
+  "eval-harness":{kicker:"REGRESSION / PROMOTION GATE",purpose:"วัด architecture candidate เทียบ baseline ก่อนอนุญาตการเปลี่ยน runtime.",authority:"Evidence gate; ไม่ auto-promote.",inputs:["Candidate architecture","Frozen baseline","Canary evidence"],outputs:["Score","Regression signal","Promotion evidence"],related:"#eval-harness"}
 };
 
 (async()=>{
   const [s,w,a]=await Promise.all([loadJSON("data/status.json"),loadJSON("data/weekly.json"),loadJSON("data/arsenal.json")]);
+  const rt=s.adaptive_runtime||{};
   const dc=s.decision_coprocessor||{};
   const ix=s.intelligence_extensions||{};
   const ev=s.eval_harness||{};
   const metrics=[
+    [rt.version||s.gateway_version||"1.7","Runtime"],
+    [rt.validation?.pc||"12/12","PC Validation"],
+    [rt.validation?.notebook||"12/12","NB Validation"],
+    [rt.heartbeat_minutes?rt.heartbeat_minutes+"m":"15m","Heartbeat"],
     [s.agents,"Agents / Roles"],
-    [s.local_skills,"Local Skills"],
-    [dc.product||"—","Decision Coprocessor"],
-    [s.global_catalog,"Global Metadata"],
-    ["0","External Preload"],
-    [s.gateway_version||"v1.5","Gateway"]
+    [s.local_skills,"Local Skills"]
   ];
   document.getElementById("metrics").innerHTML=metrics.map(x=>`<div class="metric"><b>${esc(x[0])}</b><span>${esc(x[1])}</span></div>`).join("");
-  const hb=document.getElementById("healthBadge");hb.textContent=s.status;hb.classList.toggle("warn",s.status!=="READY");
-  document.getElementById("rules").innerHTML=s.rules.map((x,i)=>`<div class="rule"><i>${String(i+1).padStart(2,"0")}</i><span>${esc(x)}</span></div>`).join("");
-  document.getElementById("humanGates").innerHTML=s.human_gates.map((x,i)=>`<div class="rule"><i>G${i+1}</i><span>${esc(x)}</span></div>`).join("");
-  document.getElementById("jevState").innerHTML=[
+  const hb=document.getElementById("healthBadge");hb.textContent="RUNTIME "+(rt.version||"1.7")+" · PC "+(rt.validation?.pc||"12/12")+" · NB "+(rt.validation?.notebook||"12/12");hb.classList.toggle("warn",String(rt.status||"PASS")!=="PASS");
+  (document.getElementById("rules")||{set innerHTML(v){}}).innerHTML=s.rules.map((x,i)=>`<div class="rule"><i>${String(i+1).padStart(2,"0")}</i><span>${esc(x)}</span></div>`).join("");
+  (document.getElementById("humanGates")||{set innerHTML(v){}}).innerHTML=s.human_gates.map((x,i)=>`<div class="rule"><i>G${i+1}</i><span>${esc(x)}</span></div>`).join("");
+  (document.getElementById("jevState")||{set innerHTML(v){}}).innerHTML=[
     ["Status",dc.status||"UNKNOWN"],
     ["Mode",dc.mode||"—"],
     ["Model",dc.model||"—"],
@@ -129,30 +129,23 @@ const NODE_DETAILS={
   const backdrop=document.getElementById("nodeDrawerBackdrop");
   const nodeName=id=>allNodes.find(n=>n.dataset.node===id)?.querySelector("b")?.textContent||id;
   const liveStatus=id=>{
-    if(id==="rdc") return s.mode||"FAST EXECUTION MODE";
-    if(id==="policy") return "ACTIVE · PRECEDENCE";
+    const states=rt.nodes||{};
+    const key=id.replaceAll("-","_");
+    if(states[key]) return states[key].status||states[key];
+    if(id==="planner") return "ACTIVE · DAG COMPILER";
+    if(id==="policy") return "POLICY-GATED";
     if(id==="human-gate") return "ON DEMAND";
-    if(id==="jev") return dc.status||"UNKNOWN";
-    if(id==="agent-router") return `${s.agents||0} ROLES`;
-    if(id==="skill-router") return `${s.local_skills||0} LOCAL SKILLS`;
-    if(id==="arsenal") return `${s.global_catalog||0} METADATA`;
-    if(id==="tool-broker") return `${ix.tool_broker?.status||"UNKNOWN"} · ${ix.tool_broker?.capability_count||0} CAPABILITIES`;
-    if(id==="sandbox") return ix.sandbox?.status||"UNKNOWN";
-    if(id==="test-engineer") return ix.test_regression_engineer?.status||"UNKNOWN";
-    if(id==="architecture-reviewer") return ix.architecture_blast_radius_reviewer?.status||"UNKNOWN";
-    if(id==="trace") return `${ix.observability?.status||"UNKNOWN"} · ${ix.observability?.traces||0} TRACES`;
-    if(id==="execution") return "PLAYWRIGHT PRIMARY · TINYFISH FALLBACK · "+Object.values(fabric).map(x=>`${x.name}:${x.status}`).join(" · ");
-    if(id==="validator") return "AUTHORITATIVE";
-    if(id==="telemetry") return "JEV SHADOW OBSERVE";
+    if(id==="world-model"||id==="temporal-memory"||id==="capability-registry") return "ACTIVE";
+    if(id==="economic-router"||id==="canary") return "SHADOW";
+    if(id==="red-team"||id==="architecture-refactor") return "READ-ONLY";
+    if(id==="skill-factory") return "ACTIVE · DRAFT ONLY";
+    if(id==="sandbox") return "POLICY-GATED";
+    if(id==="execution") return "ACTIVE · CAPABILITY-AWARE";
+    if(id==="validator") return "ACTIVE · AUTHORITATIVE";
+    if(id==="evidence-ledger") return "ACTIVE · HASH CHAIN";
+    if(id==="event-nervous") return "ACTIVE · SAFE DISPATCH";
+    if(id==="eval-harness") return "ACTIVE · NO AUTO-PROMOTE";
     if(id==="done") return "VERIFIED ONLY";
-    if(id==="eval-harness") return `${ev.status||"UNKNOWN"} · ${ev.cases||0} CASES · ${ev.latest_score==null?"—":Math.round(Number(ev.latest_score)*100)+"%"}`;
-    if(id==="subagents") return "READ / REVIEW DEFAULT";
-    if(id==="agent-force") return "SCOPED EXECUTION";
-    if(id==="retry-router") return "SAFE RETRY ENABLED";
-    if(id==="model-router") return "BOUNDED ROUTING";
-    if(id==="qwen-local") return "LOCAL READY · MCP/CLI · PROPOSAL ONLY";
-    if(id==="cli-ai-peers") return "CODEX CORPORATE READY · OPTIONAL · RDC-ROUTED";
-    if(id==="human") return "MANUAL / CHAT";
     return "ACTIVE";
   };
   const clearRouteFocus=()=>{
@@ -310,7 +303,22 @@ const NODE_DETAILS={
 (()=> {
   const LOCAL_LIVE="http://127.0.0.1:8876/live.json";
   const REMOTE_LIVE="https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/rdc-live/rdc-live.json";
-  const NODE={"orchestrator":"rdc","rdc":"rdc","jev":"jev","agent-router":"agent-router","skill-router":"skill-router","model-router":"model-router","qwen-local":"qwen-local","qwen3":"qwen-local","rdc-jev-qwen3":"qwen-local","cli-ai-peers":"cli-ai-peers","codex-corporate":"cli-ai-peers","openai-codex-corporate":"cli-ai-peers","claude-cli":"cli-ai-peers","gemini-cli":"cli-ai-peers","retry-router":"retry-router","tool-broker":"tool-broker","sandbox":"sandbox","execution":"execution","executor":"execution","shell-api-executor":"agent-force","code-builder":"agent-force","data-engineer":"agent-force","github-release":"agent-force","recovery-agent":"agent-force","browser-automation-executor":"agent-force","playwright":"execution","playwright-cli":"execution","playwright-mcp":"execution","tinyfish":"execution","windows-mcp":"execution","ui-fallback":"agent-force","debugger":"subagents","research-scout":"subagents","qa-verifier":"subagents","security-gatekeeper":"subagents","context-librarian":"subagents","test-regression-engineer":"test-engineer","test-engineer":"test-engineer","architecture-blast-radius-reviewer":"architecture-reviewer","architecture-reviewer":"architecture-reviewer","validator":"validator","final-validator":"validator","telemetry":"telemetry","trace":"trace"};
+  const NODE={
+    "orchestrator":"planner","rdc":"planner","planner":"planner","dynamic-planner":"planner","dag":"planner",
+    "policy":"policy","hard-policy":"policy","human-gate":"human-gate",
+    "world-model":"world-model","world-state":"world-model","digital-state":"world-model",
+    "temporal-memory":"temporal-memory","memory":"temporal-memory",
+    "capability-registry":"capability-registry","tool-broker":"capability-registry","heartbeat":"capability-registry",
+    "agent-router":"agent-router","skill-router":"skill-router","model-router":"model-router","economic-router":"economic-router",
+    "confidence":"confidence","confidence-escalation":"confidence",
+    "skill-factory":"skill-factory","auto-generated-skill":"skill-factory",
+    "sandbox":"sandbox","execution":"execution","executor":"execution","playwright":"execution","tinyfish":"execution","windows-mcp":"execution",
+    "red-team":"red-team","devil":"red-team","devil-red-team":"red-team",
+    "validator":"validator","final-validator":"validator",
+    "evidence-ledger":"evidence-ledger","ledger":"evidence-ledger",
+    "event-nervous":"event-nervous","event-nervous-system":"event-nervous","telemetry":"event-nervous",
+    "canary":"canary","shadow":"canary","architecture-refactor":"architecture-refactor","eval-harness":"eval-harness","done":"done"
+  };
   let source="—",timer=null,localOK=null,lastLocalTry=0,lastRemote=0,lastData=null;
   const fetchTimed=async(url,ms)=>{const ac=new AbortController(),t=setTimeout(()=>ac.abort(),ms);try{const r=await fetch(url+(url.includes("?")?"&":"?")+"ts="+Date.now(),{cache:"no-store",signal:ac.signal});if(!r.ok)throw new Error(String(r.status));return await r.json()}finally{clearTimeout(t)}};
   const label=x=>String(x||"").replaceAll("_"," ");
