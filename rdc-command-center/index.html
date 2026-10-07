@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Agent Arsenal</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261007-codexcorp1">
+<link rel="stylesheet" href="styles.css?v=20261007-layoutfix2">
 </head>
 <body>
 <div class="shell">
@@ -114,12 +114,12 @@
             <path class="wf-link solid" data-from="agent-router" data-to="tool-broker" d="M760 215 C790 210 800 205 825 205"/>
             <path class="wf-link solid" data-from="skill-router" data-to="tool-broker" d="M760 320 C800 300 805 240 825 220"/>
             <path class="wf-link solid" data-from="model-router" data-to="tool-broker" d="M760 425 C805 380 810 260 825 235"/>
-            <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M675 462 C675 500 675 540 675 590"/>
-            <path class="wf-link advisory" data-from="model-router" data-to="cli-ai-peers" d="M675 462 C675 520 780 560 805 610"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M895 655 C930 560 930 340 930 245"/>
-            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M895 660 C905 650 915 645 925 642"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M760 632 C820 560 850 330 875 245"/>
-            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M760 642 C790 642 800 642 825 642"/>
+            <path class="wf-link advisory" data-from="model-router" data-to="qwen-local" d="M675 462 C660 510 640 555 630 605"/>
+            <path class="wf-link advisory" data-from="model-router" data-to="cli-ai-peers" d="M675 462 C690 535 700 620 720 705"/>
+            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="tool-broker" d="M835 742 C900 650 930 400 930 245"/>
+            <path class="wf-link advisory" data-from="cli-ai-peers" data-to="validator" d="M835 748 C865 720 900 685 925 655"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="tool-broker" d="M700 646 C790 560 845 335 875 245"/>
+            <path class="wf-link advisory" data-from="qwen-local" data-to="validator" d="M700 650 C750 650 790 650 825 650"/>
             <path class="wf-link solid" data-from="tool-broker" data-to="execution" d="M1045 205 C1100 250 1090 380 1045 420"/>
             <path class="wf-link preflight" data-from="tool-broker" data-to="sandbox" d="M935 245 C935 255 935 260 935 270"/>
             <path class="wf-link preflight" data-from="sandbox" data-to="execution" d="M935 352 C935 362 935 367 935 375"/>
@@ -379,6 +379,6 @@
     <span id="lastUpdated"></span>
   </footer>
 </div>
-<script src="app.js?v=20261007-codexcorp1"></script>
+<script src="app.js?v=20261007-layoutfix2"></script>
 </body>
 </html>
