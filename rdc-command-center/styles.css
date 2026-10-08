@@ -108,3 +108,4 @@ footer{display:flex;justify-content:space-between;gap:20px;flex-wrap:wrap;color:
 .workflow-shell,.workflow-scroll{max-width:100%;min-width:0}
 html,body{overflow-x:hidden}
 @media(max-width:800px){.workflow-scroll{padding:8px}.workflow-surface.runtime-v17{top:8px}}
+.si-health-bars{width:100%;height:100%;display:flex;align-items:flex-end;justify-content:center;gap:8px;padding:18px 14px 12px}.si-health-col{height:100%;min-width:20px;display:flex;align-items:flex-end;gap:2px;position:relative}.si-health-col small{position:absolute;bottom:-10px;left:0;right:0;text-align:center;font-size:7px;color:var(--muted)}.si-health-bar{width:5px;min-height:3px;border-radius:4px 4px 1px 1px}.si-health-bar.success{background:var(--green)}.si-health-bar.retry{background:var(--amber)}.si-health-bar.gate{background:var(--red)}
