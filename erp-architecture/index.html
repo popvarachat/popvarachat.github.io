@@ -527,35 +527,44 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
   <h2>User Pain · Operational Friction</h2>
   <p class="section-lead">สรุปจากหลักฐานการใช้งานจริงข้ามฝ่าย เพื่อให้เห็นว่า ERP ไม่ได้มีแค่ flow ที่ “ควรเป็น” แต่มีจุดติดขัดที่เกิดซ้ำจริง จุดนี้ใช้เพื่อจัดลำดับการแก้ระบบและออกแบบ exception control ไม่ใช่ใช้แทน Technical RCA</p>
 
-  <div class="report-grid">
+  
+  <div class="report-summary" style="margin:18px 0 22px">
+    <div class="report-kpi"><b>CONFIRMED</b><span>Cost chain: Item Cost → Cost Components → Production Cost / WIP</span></div>
+    <div class="report-kpi"><b>CONFIRMED</b><span>Cutting lifecycle exposes 60 → 70 → 99 → 9D timestamps</span></div>
+    <div class="report-kpi"><b>CONFIRMED</b><span>QC HOLD evidence: Lot Status + Held Qty + Pass/Fail + WO/Lot trace</span></div>
+    <div class="report-kpi"><b>CONFIRMED</b><span>Invoice exception: saved query “Invoice Last Status 550” + near-delivery-date filter</span></div>
+  </div>
+  <div class="report-private-note" style="margin-bottom:18px"><b>Live Targeted Scan:</b> รอบล่าสุดตรวจเฉพาะ pain points ที่ user เจอจริงแบบ READ-ONLY ไม่สแกนทั้ง ERP ซ้ำ และไม่ Save/Post/Submit/Repost/Update status ใด ๆ</div>
+
+<div class="report-grid">
     <div class="report-query-card">
       <h4>Costing / X3-X4 / WIP</h4>
       <div class="rq-label">User Pain</div><p>X3/X4 หรือ Cost 07 ไม่มา ต้อง recalc / rerun และบางครั้งกระทบ GL</p>
       <div class="rq-label">Flow Link</div><p><code>WO</code><code>Product Cost</code><code>WIP</code><code>GL</code></p>
-      <div class="rq-label">Control Needed</div><p>Missing cost component detector · pre-completion check · version/runtime consistency</p>
+      <div class="rq-label">Live ERP Evidence</div><p><code>P4105 / V4105B</code> Item + Branch/Plant + Cost Level/UOM · <code>P30026 / V30026A</code> Cost Method + Cost Type + Simulated/Frozen Cost</p><div class="rq-label">Control Needed</div><p>Missing Cost 07 / X3-X4 detector ก่อน WIP/GL · pre-completion check · version/runtime consistency</p>
     </div>
     <div class="report-query-card">
       <h4>Run 99 / Rerun / Repost Dependency</h4>
       <div class="rq-label">User Pain</div><p>งานต้องพึ่ง specialist intervention ซ้ำ ๆ เพื่อให้ status หรือข้อมูลเดินต่อ</p>
       <div class="rq-label">Risk</div><p>Exception path กลายเป็น normal process และตรวจสอบย้อนหลังยาก</p>
-      <div class="rq-label">Control Needed</div><p>Recovery log · failed prerequisite · before/after state · repeat count</p>
+      <div class="rq-label">Live ERP Evidence</div><p><code>R5931122 ZPTK0003</code> Repost Time Entry · custom transfer/recovery paths exist. “Run 99” ยังต้อง map exact object/version; ห้ามเดาหรือ automate</p><div class="rq-label">Control Needed</div><p>Recovery log · failed prerequisite · before/after state · repeat count</p>
     </div>
     <div class="report-query-card">
       <h4>Physical Work ≠ ERP State</h4>
       <div class="rq-label">User Pain</div><p>ของส่งแล้ว/ผลิตจบแล้ว แต่ ERP ยังอยู่สถานะกลาง ทำให้ Billing/Invoice ไปต่อไม่ได้</p>
       <div class="rq-label">Flow Link</div><p><code>Production</code><code>Transfer</code><code>Delivery</code><code>AR</code></p>
-      <div class="rq-label">Control Needed</div><p>Physical-vs-system mismatch alert · state aging · owner / next action</p>
+      <div class="rq-label">Live ERP Evidence</div><p><code>P5511026 / V5511026</code> มี WO/Cutting/Operation/Complete/Delivery dates และ <code>P594801C / V594801C</code> มี Cutting 60/70/99/9D</p><div class="rq-label">Control Needed</div><p>Physical-vs-system mismatch alert · state aging · owner / next action</p>
     </div>
     <div class="report-query-card">
       <h4>Store Transfer / TS Backlog</h4>
       <div class="rq-label">User Pain</div><p>ต้องตาม Transfer ผ่าน LINE/Excel, ของเคลื่อนจริงแต่ระบบยังไม่พร้อม, TS ยังไม่เกิด</p>
-      <div class="rq-label">Control Needed</div><p>Transfer queue · physical time · ERP time · TS status · aging · blocker</p>
+      <div class="rq-label">Live ERP Evidence</div><p><code>P4113 / V4111C</code> Document/Doc Type/G-L Date/Branch/Transaction Date/Batch และมี custom <code>P594113</code> Store→P01 pending-transfer process</p><div class="rq-label">Control Needed</div><p>Transfer queue · physical time · ERP time · TS status · aging · blocker</p>
     </div>
     <div class="report-query-card">
       <h4>QC HOLD Release Queue</h4>
       <div class="rq-label">User Pain</div><p>มีคำขอปลด HOLD ราย Item จำนวนมากผ่าน chat และต้องรอผู้มีสิทธิ์</p>
       <div class="rq-label">Flow Link</div><p><code>Quality State</code><code>Material</code><code>Transfer</code></p>
-      <div class="rq-label">Control Needed</div><p>Hold reason · age · authority · downstream impact · release timestamp</p>
+      <div class="rq-label">Live ERP Evidence</div><p><code>P4108 / V4108A</code> Status/Held Qty/Available Qty/WO/Lot · <code>P553711Y / V553711Y</code> Pass-Fail/Result/Defect/Root Cause</p><div class="rq-label">Control Needed</div><p>Hold reason · age · authority · downstream impact · release timestamp</p>
     </div>
     <div class="report-query-card">
       <h4>Item / BOM / PO / Receipt Mismatch</h4>
@@ -566,7 +575,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
       <h4>Invoice / Billing Blocked</h4>
       <div class="rq-label">User Pain</div><p>ลูกค้ามีกำหนดวางบิล แต่ upstream WO/Transfer/Status/Run 99 ยังไม่ครบ</p>
       <div class="rq-label">Derived State</div><p><b>Invoice Ready</b> = Delivery + WO Closure + Transfer/TS + SO Status + Tax/Customer rules + No Financial Hold</p>
-      <div class="rq-label">Dashboard</div><p>Deadline · blocker · owner · aging · next action</p>
+      <div class="rq-label">Live ERP Evidence</div><p><code>P4210 / V4211A</code> มี saved query “Invoice Last Status 550” และ “Del Date LT 1 D”; <code>P42040 / V4211H</code> แสดง Last/Next Status และ Update-to-Status</p><div class="rq-label">Dashboard</div><p>Deadline · blocker · owner · aging · next action</p>
     </div>
     <div class="report-query-card">
       <h4>Accounting Integrity / Reconciliation</h4>
