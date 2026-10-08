@@ -330,3 +330,29 @@ const NODE_DETAILS={
   const poll=async()=>{let d=null;const now=Date.now(),retryLocal=localOK!==false||now-lastLocalTry>=10000;if(retryLocal){lastLocalTry=now;try{d=await fetchTimed(LOCAL_LIVE,900);localOK=true;source="LOCAL"}catch(e){localOK=false}}if(!d){const due=now-lastRemote>=30000||!lastData;if(due){try{d=await fetchTimed(REMOTE_LIVE,5000);lastRemote=Date.now();source="REMOTE"}catch(e){}}else d=lastData}if(d)render(d);else{const b=document.getElementById("liveMonitorBadge");if(b){b.textContent="OFFLINE / NO TRACE";b.classList.add("warn")}}clearTimeout(timer);timer=setTimeout(poll,localOK?1500:5000)};
   if(document.getElementById("live-monitor"))poll();
 })();
+
+;(()=> {
+  const BASE_W=1320, BASE_H=1460;
+  const fit=()=>{
+    const wrap=document.querySelector(".workflow-scroll");
+    const surface=document.querySelector(".workflow-surface.runtime-v17");
+    if(!wrap||!surface) return;
+    const styles=getComputedStyle(wrap);
+    const padX=(parseFloat(styles.paddingLeft)||0)+(parseFloat(styles.paddingRight)||0);
+    const padY=(parseFloat(styles.paddingTop)||0)+(parseFloat(styles.paddingBottom)||0);
+    const available=Math.max(280,wrap.clientWidth-padX);
+    const scale=Math.min(1,available/BASE_W);
+    const renderedW=BASE_W*scale;
+    const renderedH=BASE_H*scale;
+    surface.style.left=Math.max(0,(wrap.clientWidth-renderedW)/2)+"px";
+    surface.style.transform="scale("+scale+")";
+    wrap.style.height=(renderedH+padY)+"px";
+    wrap.dataset.workflowScale=scale.toFixed(4);
+  };
+  let raf=0;
+  const queue=()=>{cancelAnimationFrame(raf);raf=requestAnimationFrame(fit)};
+  window.addEventListener("resize",queue,{passive:true});
+  if(document.readyState==="loading")document.addEventListener("DOMContentLoaded",fit,{once:true});else fit();
+  const target=document.querySelector(".workflow-shell");
+  if(target&&"ResizeObserver" in window)new ResizeObserver(queue).observe(target);
+})();
