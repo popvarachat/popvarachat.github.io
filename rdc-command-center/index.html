@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Adaptive AI Runtime</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261008-fleetdata1">
+<link rel="stylesheet" href="styles.css?v=20261008-resourcefabric1">
 </head>
 <body>
 <div class="shell">
@@ -32,6 +32,7 @@
   <section class="metrics" id="metrics"></section>
 
   <nav class="tabs" aria-label="sections">
+    <a href="#resource-fabric">HW Fabric</a>
     <a href="#live-monitor">Live Monitor</a>
     <a href="#architecture">Architecture</a>
     <a href="#adaptive-runtime">Adaptive Runtime</a>
@@ -44,6 +45,111 @@
     <a href="#weekly">Weekly Radar</a>
     <a href="#guardrails">Guardrails</a>
   </nav>
+
+
+  <section id="resource-fabric" class="section resource-fabric-section">
+    <div class="section-head">
+      <div>
+        <span class="kicker">CROSS-HOST RESOURCE FABRIC · PC + NOTEBOOK</span>
+        <h2>Hardware Pooling · Failover · Shared Workload State</h2>
+      </div>
+      <span class="badge">DUAL HOST · ACTIVE ROUTING</span>
+    </div>
+    <p class="section-intro">
+      RDC ไม่ได้ทำให้ RAM ของ PC และ Notebook กลายเป็น address space ก้อนเดียวกัน แต่ใช้ <b>task-level resource pooling</b>:
+      งานที่ต้องใช้ RAM/CPU มากสามารถ route ไป host ที่เหมาะกว่า แล้วส่งผลลัพธ์/สถานะกลับเข้าระบบเดียวกัน.
+      การย้ายหน่วยความจำของ process แบบ live migration ยัง <b>ไม่ใช่ capability ปัจจุบัน</b>.
+    </p>
+
+    <div class="rf-topline">
+      <article class="rf-pool-card">
+        <span>AGGREGATE PHYSICAL RAM</span>
+        <b>79.3 GB</b>
+        <small>PC 63.7 GB + Notebook 15.6 GB · capacity view only, not shared address space</small>
+      </article>
+      <article class="rf-pool-card">
+        <span>PC FREE RAM SNAPSHOT</span>
+        <b>47.4 GB</b>
+        <small>POP-FARM01 · preferred heavy-memory execution host</small>
+      </article>
+      <article class="rf-pool-card">
+        <span>NB FREE RAM SNAPSHOT</span>
+        <b>4.3 GB</b>
+        <small>PTKCMT-R-NB02 · interactive / orchestration host</small>
+      </article>
+      <article class="rf-pool-card">
+        <span>RESOURCE POLICY</span>
+        <b>ROUTE · DON'T MIRROR</b>
+        <small>Use remote execution and shared state instead of copying live process memory</small>
+      </article>
+    </div>
+
+    <div class="rf-layout">
+      <article class="rf-host-card pc">
+        <div class="rf-card-head"><span class="chip">HEAVY HOST</span><span class="chip read">ONLINE SNAPSHOT</span></div>
+        <h3>PC · POP-FARM01</h3>
+        <div class="rf-meter"><i style="--used:25.6%"></i></div>
+        <div class="rf-host-stats"><span><b>63.7 GB</b>Total RAM</span><span><b>47.4 GB</b>Free RAM</span><span><b>Qwen3</b>Local AI optional</span></div>
+        <p>เหมาะกับงาน RAM-heavy, local model, container/build, batch analysis และงานที่ไม่จำเป็นต้องอยู่หน้าเครื่องผู้ใช้.</p>
+      </article>
+
+      <article class="rf-controller">
+        <span class="kicker">WHO CONTROLS THE FABRIC?</span>
+        <h3>RDC Resource Control Chain</h3>
+        <div class="rf-control-flow">
+          <div><b>Capability Registry</b><small>ตรวจ host online/offline + capability + heartbeat</small></div>
+          <i>→</i><div><b>Dynamic Planner / DAG</b><small>แตกงานและระบุ dependency / placement</small></div>
+          <i>→</i><div><b>Economic Router</b><small>เลือก host/model/tool ตาม quality · latency · cost · capacity</small></div>
+          <i>→</i><div><b>Event Nervous System</b><small>รับเหตุ shutdown / restart / outage แล้ว trigger re-plan</small></div>
+        </div>
+        <div class="rf-support-agents">
+          <span><b>Temporal Memory</b> เก็บ last-known state</span>
+          <span><b>Evidence Ledger</b> เก็บจุดยืนยันก่อน handoff</span>
+          <span><b>Final Validator</b> ตรวจผลหลัง route/failover</span>
+        </div>
+      </article>
+
+      <article class="rf-host-card nb">
+        <div class="rf-card-head"><span class="chip">INTERACTIVE HOST</span><span class="chip read">ONLINE SNAPSHOT</span></div>
+        <h3>Notebook · PTKCMT-R-NB02</h3>
+        <div class="rf-meter"><i style="--used:72.4%"></i></div>
+        <div class="rf-host-stats"><span><b>15.6 GB</b>Total RAM</span><span><b>4.3 GB</b>Free RAM</span><span><b>RDC / Playwright</b>Interactive</span></div>
+        <p>เหมาะกับ orchestration, browser/JDE interaction, user-facing work และส่งงานหนักไป PC เมื่อ capability/policy อนุญาต.</p>
+      </article>
+    </div>
+
+    <div class="rf-failover">
+      <div class="section-head rf-minihead">
+        <div><span class="kicker">SHUTDOWN / RESTART BEHAVIOR</span><h3>เมื่อเครื่องใดเครื่องหนึ่งหายไป RDC ทำอย่างไร</h3></div>
+        <span class="hint">No silent failover for host-specific capabilities</span>
+      </div>
+      <div class="rf-fail-grid">
+        <article><span class="rf-step">01</span><b>Detect</b><p>Capability Registry / heartbeat ทำเครื่องหมาย host เป็น unavailable.</p></article>
+        <article><span class="rf-step">02</span><b>Drain New Work</b><p>งานใหม่ที่ portable จะไม่ถูกส่งเข้า host ที่ offline.</p></article>
+        <article><span class="rf-step">03</span><b>Re-plan</b><p>Planner + Router เลือก peer/fallback. งานที่ผูก capability เฉพาะเครื่องจะ WAIT หรือใช้ fallback ตาม policy.</p></article>
+        <article><span class="rf-step">04</span><b>Resume Safely</b><p>งานเดิม resume ได้จาก last verified checkpoint/evidence เท่าที่มี; ยังไม่ใช่ live RAM migration.</p></article>
+        <article><span class="rf-step">05</span><b>Rejoin</b><p>หลัง restart ต้อง probe capability/health ใหม่ก่อน host กลับเข้ารับงาน.</p></article>
+      </div>
+    </div>
+
+    <div class="rf-share-roadmap">
+      <div class="section-head rf-minihead">
+        <div><span class="kicker">WHAT CAN BE SHARED NEXT?</span><h3>Shared Resource Roadmap</h3></div>
+        <span class="hint">Share state and workload, not unsafe credentials</span>
+      </div>
+      <div class="rf-share-grid">
+        <article><span class="chip read">ACTIVE</span><h4>CPU / RAM Workload Placement</h4><p>ส่งงานไปประมวลผลบน host ที่มี capacity มากกว่า แล้วคืน artifact/result.</p></article>
+        <article><span class="chip read">ACTIVE</span><h4>Telemetry + Evidence</h4><p>PC/NB ใช้ schema เดียวกันเพื่อ improvement stats และ traceability.</p></article>
+        <article><span class="chip read">ACTIVE</span><h4>Git / Project State</h4><p>ใช้ repo และ checkpoint เป็น working state ที่ตรวจย้อนกลับได้.</p></article>
+        <article><span class="chip write">NEXT</span><h4>Shared Artifact / Data Cache</h4><p>ลดการดาวน์โหลด/ประมวลผลซ้ำระหว่างเครื่องด้วย cache ที่มี version/hash.</p></article>
+        <article><span class="chip write">NEXT</span><h4>Docker / Build Cache</h4><p>แชร์ image/build artifact เพื่อให้ PC รับงาน build หนักและ NB reuse ผลได้.</p></article>
+        <article><span class="chip write">NEXT</span><h4>Model / Embedding Cache</h4><p>เก็บ model artifact หรือ embedding แบบ shared store โดยไม่แชร์ process memory ตรง ๆ.</p></article>
+        <article><span class="chip write">NEXT</span><h4>Job Queue + Checkpoint State</h4><p>ทำให้ failover/resume ข้ามเครื่องแม่นขึ้นโดยมี durable task queue และ checkpoint.</p></article>
+        <article><span class="chip">FUTURE</span><h4>GPU / Accelerator Pool</h4><p>หากเพิ่ม GPU host ในอนาคต Capability Registry จะสามารถ route งาน accelerator-aware ได้.</p></article>
+        <article><span class="chip">GUARDED</span><h4>Browser / Credential Context</h4><p>ไม่แชร์ credential หรือ authenticated session ข้ามเครื่องโดย default; ต้องอยู่ใต้ Human Gate/secure store.</p></article>
+      </div>
+    </div>
+  </section>
 
   <section id="live-monitor" class="section live-monitor-section">
     <div class="section-head">
