@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Adaptive AI Runtime</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261008-resourcefabric1">
+<link rel="stylesheet" href="styles.css?v=20261008-storypages1">
 </head>
 <body>
 <div class="shell">
@@ -31,23 +31,101 @@
 
   <section class="metrics" id="metrics"></section>
 
-  <nav class="tabs" aria-label="sections">
-    <a href="#resource-fabric">HW Fabric</a>
-    <a href="#live-monitor">Live Monitor</a>
-    <a href="#architecture">Architecture</a>
-    <a href="#adaptive-runtime">Adaptive Runtime</a>
-    <a href="#self-improvement">Self Improve</a>
-    <a href="#eval-harness">Eval Harness</a>
-    <a href="#jev-arsenal">Jev Arsenal</a>
-    <a href="#agents">Agents</a>
-    <a href="#skills">Skills</a>
-    <a href="#arsenal">Global Arsenal</a>
-    <a href="#weekly">Weekly Radar</a>
-    <a href="#guardrails">Guardrails</a>
-  </nav>
+  <nav class="story-nav" aria-label="RDC story pages">
+  <button data-story-target="summary" class="active"><span>01</span> Executive Summary</button>
+  <button data-story-target="runtime"><span>02</span> Runtime & L5</button>
+  <button data-story-target="resources"><span>03</span> Resource Fabric</button>
+  <button data-story-target="architecture"><span>04</span> Architecture</button>
+  <button data-story-target="performance"><span>05</span> Performance</button>
+  <button data-story-target="governance"><span>06</span> Governance</button>
+</nav>
 
 
-  <section id="resource-fabric" class="section resource-fabric-section">
+  <section id="executive-summary" class="section executive-summary-section" data-story-page="summary">
+    <div class="summary-hero">
+      <div>
+        <span class="kicker">PAGE 01 · EXECUTIVE SUMMARY REPORT</span>
+        <h2>RDC Adaptive Autonomous Runtime · Executive View</h2>
+        <p>ดูภาพรวมก่อนตัดสินใจ: ระบบพร้อมแค่ไหน · ทำงานสำเร็จไหม · ใช้ทรัพยากรเครื่องไหน · autonomy มากขึ้นหรือไม่ · จุดไหนยังต้องรอ baseline</p>
+      </div>
+      <div class="summary-stamp">
+        <span>RUNTIME</span><b>v1.7</b><small>PC 12/12 · NB 12/12</small>
+      </div>
+    </div>
+
+    <div class="summary-status-strip">
+      <article><span>RUNTIME READINESS</span><b>100%</b><small>PC + NB validation</small></article>
+      <article><span>PRODUCTION SAMPLES</span><b id="sumSamples">—</b><small>Fleet telemetry</small></article>
+      <article><span>SUCCESS RATE</span><b id="sumSuccess">—</b><small>Completed production tasks</small></article>
+      <article><span>AUTOMATION RATE</span><b id="sumAutomation">—</b><small>No Human Gate required</small></article>
+      <article><span>RESOURCE FABRIC</span><b>2 HOSTS</b><small>PC + Notebook</small></article>
+    </div>
+
+    <div class="summary-chart-grid">
+      <article class="summary-chart-card hero-chart">
+        <div class="summary-card-head"><div><span class="kicker">SYSTEM HEALTH</span><h3>Executive Health Ring</h3></div><span class="chip read" id="sumHealthState">COLLECTING</span></div>
+        <div class="health-ring-wrap">
+          <div class="health-ring" id="sumHealthRing" style="--score:0"><div><b id="sumHealthScore">—</b><span>measured</span></div></div>
+          <div class="health-ring-legend">
+            <div><i class="good"></i><span>Success</span><b id="sumLegendSuccess">—</b></div>
+            <div><i class="blue"></i><span>First-pass</span><b id="sumLegendFirst">—</b></div>
+            <div><i class="amber"></i><span>Retry</span><b id="sumLegendRetry">—</b></div>
+            <div><i class="red"></i><span>Human Gate</span><b id="sumLegendGate">—</b></div>
+          </div>
+        </div>
+      </article>
+
+      <article class="summary-chart-card">
+        <div class="summary-card-head"><div><span class="kicker">HOST CAPACITY</span><h3>Physical RAM Capacity</h3></div><span class="chip">79.3 GB</span></div>
+        <div class="host-capacity-chart">
+          <div class="host-bar-row"><span>PC</span><div><i style="--w:80.3%"></i></div><b>63.7 GB</b></div>
+          <div class="host-bar-row"><span>NB</span><div><i style="--w:19.7%"></i></div><b>15.6 GB</b></div>
+        </div>
+        <div class="capacity-donut-row">
+          <div class="capacity-donut pc" title="PC free RAM 47.4 GB"><span><b>74%</b><small>PC free</small></span></div>
+          <div class="capacity-donut nb" title="Notebook free RAM 4.3 GB"><span><b>28%</b><small>NB free</small></span></div>
+        </div>
+      </article>
+
+      <article class="summary-chart-card">
+        <div class="summary-card-head"><div><span class="kicker">AUTONOMY</span><h3>Automation vs Human Gate</h3></div><span class="chip" id="sumAutoChip">WAITING</span></div>
+        <div class="stacked-meter"><i class="auto" id="sumAutoBar" style="--w:0%"></i><i class="gate" id="sumGateBar" style="--w:0%"></i></div>
+        <div class="metric-pair"><div><span>Autonomous</span><b id="sumAutoPct">—</b></div><div><span>Human Gate</span><b id="sumGatePct">—</b></div></div>
+        <p class="chart-note">ยิ่ง autonomous สูงโดย safety/evidence ยังครบ ยิ่งเข้าใกล้ Self-Improving Runtime ที่ใช้งานจริงได้.</p>
+      </article>
+
+      <article class="summary-chart-card">
+        <div class="summary-card-head"><div><span class="kicker">L5 READINESS</span><h3>Self-Improvement Loop Readiness</h3></div><span class="chip write">BASELINE BUILDING</span></div>
+        <div class="l5-matrix">
+          <div class="done"><b>Observe</b><span>Telemetry</span></div>
+          <div class="done"><b>Measure</b><span>KPI schema</span></div>
+          <div class="active"><b>Compare</b><span>Fleet baseline</span></div>
+          <div class="active"><b>Diagnose</b><span>Patterns</span></div>
+          <div class="shadow"><b>Experiment</b><span>Canary / Shadow</span></div>
+          <div class="shadow"><b>Learn</b><span>Promote / Rollback</span></div>
+        </div>
+      </article>
+
+      <article class="summary-chart-card wide">
+        <div class="summary-card-head"><div><span class="kicker">FLEET PERFORMANCE</span><h3>Latest Production Samples</h3></div><span class="chip read">REAL TELEMETRY ONLY</span></div>
+        <div id="sumTimelineChart" class="summary-timeline-chart"><div class="summary-empty">Awaiting production traces…</div></div>
+      </article>
+
+      <article class="summary-chart-card wide summary-attention">
+        <div class="summary-card-head"><div><span class="kicker">MANAGEMENT ATTENTION</span><h3>สิ่งที่ควรรู้ก่อนลงรายละเอียด</h3></div><span class="chip">EXECUTIVE NOTES</span></div>
+        <div class="attention-grid">
+          <div><span>01</span><b>Telemetry ยังอยู่ช่วงสร้าง baseline</b><p>อย่าอ่าน 1 sample เป็น performance ระยะยาว.</p></div>
+          <div><span>02</span><b>PC คือ Heavy Memory Host</b><p>Notebook ควรส่งงาน RAM-heavy ไป PC เมื่อ capability พร้อม.</p></div>
+          <div><span>03</span><b>L5 core มีโครงแล้ว แต่ยังต้องสะสม evidence</b><p>Canary / Eval / Refactor ต้องอาศัย sample จริงมากขึ้นก่อน auto-promotion.</p></div>
+          <div><span>04</span><b>Public Web เป็น snapshot</b><p>Local telemetry เก็บถี่ แต่ GitHub publish แบบ batch เพื่อลด cost.</p></div>
+        </div>
+      </article>
+    </div>
+  </section>
+
+
+
+  <section id="resource-fabric" class="section resource-fabric-section" data-story-page="resources">
     <div class="section-head">
       <div>
         <span class="kicker">CROSS-HOST RESOURCE FABRIC · PC + NOTEBOOK</span>
@@ -151,7 +229,7 @@
     </div>
   </section>
 
-  <section id="live-monitor" class="section live-monitor-section">
+  <section id="live-monitor" class="section live-monitor-section" data-story-page="runtime">
     <div class="section-head">
       <div><span class="kicker">LIVE EXECUTION MONITOR</span><h2>ตอนนี้ใครกำลังทำอะไร อยู่ขั้นตอนไหน</h2></div>
       <div class="live-head-actions"><span id="liveMonitorBadge" class="badge ghost">CONNECTING</span><a class="secondary local-live-link" href="http://127.0.0.1:8876/view" target="_blank" rel="noopener">Local Live 1s ↗</a></div>
@@ -179,7 +257,7 @@
     </div>
   </section>
 
-  <section id="architecture" class="section">
+  <section id="architecture" class="section" data-story-page="architecture">
     <div class="section-head">
       <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Adaptive AI Runtime v1.7 · architecture_manifest v2 · Unified PC + Notebook</h2></div>
       <span id="healthBadge" class="badge"></span>
@@ -300,7 +378,7 @@
   </section>
 
 
-  <section id="adaptive-runtime" class="section adaptive-runtime-section">
+  <section id="adaptive-runtime" class="section adaptive-runtime-section" data-story-page="runtime">
     <div class="section-head">
       <div><span class="kicker">RDC v1.7 · UNIFIED PC + NB</span><h2>12/12 Advanced Runtime Capabilities</h2></div>
       <span id="adaptiveBadge" class="badge">12 / 12 VALIDATED</span>
@@ -329,7 +407,7 @@
   </section>
 
 
-  <section id="self-improvement" class="section self-improvement-section">
+  <section id="self-improvement" class="section self-improvement-section" data-story-page="performance">
     <div class="section-head">
       <div><span class="kicker">SELF-IMPROVING CONTROL LOOP</span><h2>Operational Performance · Learning · Improvement</h2></div>
       <span id="siCollectionBadge" class="badge ghost">COLLECTION STARTED</span>
@@ -395,7 +473,7 @@
     </div>
   </section>
 
-  <section id="eval-harness" class="section">
+  <section id="eval-harness" class="section" data-story-page="performance">
     <div class="section-head">
       <div><span class="kicker">MEASURE → COMPARE → CHANGE</span><h2>RDC Eval / Benchmark Harness</h2></div>
       <span id="evalFreezeBadge" class="badge ghost">FROZEN BASELINE</span>
@@ -423,7 +501,7 @@
     </div>
   </section>
 
-  <section id="jev-arsenal" class="section">
+  <section id="jev-arsenal" class="section" data-story-page="governance">
     <div class="section-head">
       <div><span class="kicker">SYSTEM-ONE ARMORY</span><h2>Jev Decision Arsenal</h2></div>
       <span class="badge ghost">SHADOW · BATCHED DECISIONS</span>
@@ -449,17 +527,17 @@
     </div>
   </section>
 
-  <section id="agents" class="section">
+  <section id="agents" class="section" data-story-page="architecture">
     <div class="section-head"><div><span class="kicker">AGENT FORCE</span><h2>หน่วยรบ 14 บทบาท</h2></div><span class="hint">Sub-agents = read-only/advisory by default</span></div>
     <div id="agentsGrid" class="card-grid"></div>
   </section>
 
-  <section id="skills" class="section">
+  <section id="skills" class="section" data-story-page="architecture">
     <div class="section-head"><div><span class="kicker">LOCAL SKILL PLAYBOOK</span><h2>Skill พร้อมใช้ทันที</h2></div><span class="hint">Trigger → Input → Steps → Tools → Validation → Output → Stop</span></div>
     <div id="skillsGrid" class="skill-grid"></div>
   </section>
 
-  <section id="arsenal" class="section">
+  <section id="arsenal" class="section" data-story-page="architecture">
     <div class="section-head"><div><span class="kicker">GLOBAL ARSENAL</span><h2>รู้จักของแรงทั่วโลก แต่ไม่แบกจนช้า</h2></div><span class="badge ghost">LAZY LOAD</span></div>
     <div class="arsenal-banner">
       <div><b id="catalogCount">–</b><span>Global skills indexed</span></div>
@@ -470,7 +548,7 @@
     <div id="arsenalGrid" class="card-grid arsenal-grid"></div>
   </section>
 
-  <section id="weekly" class="section">
+  <section id="weekly" class="section" data-story-page="performance">
     <div class="section-head"><div><span class="kicker">WEEKLY CAPABILITY RADAR</span><h2>สัปดาห์นี้ติดอาวุธอะไรเพิ่ม</h2></div><span id="weekStamp" class="hint"></span></div>
     <div class="weekly-layout">
       <div>
@@ -484,7 +562,7 @@
     </div>
   </section>
 
-  <section id="guardrails" class="section">
+  <section id="guardrails" class="section" data-story-page="governance">
     <div class="section-head"><div><span class="kicker">CONTROL SYSTEM</span><h2>แรงได้ แต่ไม่ถอด Safety</h2></div></div>
     <div class="guard-grid">
       <article><h3>Human Gate</h3><div id="humanGates" class="rule-list"></div></article>
@@ -493,6 +571,13 @@
     </div>
   </section>
 
+
+  <div class="story-pager" id="storyPager">
+    <button id="storyPrev">← Previous</button>
+    <div><span id="storyPageNo">01 / 06</span><b id="storyPageTitle">Executive Summary</b></div>
+    <button id="storyNext">Next →</button>
+  </div>
+
   <footer>
     <span>RDC Command Center · popvarachat.github.io</span>
     <span id="lastUpdated"></span>
@@ -500,5 +585,6 @@
 </div>
 <script src="app.js?v=20261008-workflowfit1"></script>
 <script src="self-improvement.js?v=20261008-fleetdata1"></script>
+<script src="story-pages.js?v=20261008-storypages1"></script>
 </body>
 </html>
