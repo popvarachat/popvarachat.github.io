@@ -584,6 +584,51 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     </div>
   </div>
 
+  <div class="report-library-head" style="margin-top:28px">
+    <div><h3>Root Cause Confidence Matrix</h3><p>เปอร์เซ็นต์เป็น evidence-weighted engineering confidence ไม่ใช่สถิติความน่าจะเป็น โดยแยกความมั่นใจใน “สาเหตุ” ออกจากความมั่นใจใน “แนวทางแก้”</p></div>
+    <div class="flow-status">CASE RCA → 95%+</div>
+  </div>
+  <div class="report-matrix-wrap">
+    <table class="report-matrix">
+      <thead><tr><th>User Pain</th><th>Most likely Root Cause</th><th>RC Confidence</th><th>Recommended Fix</th><th>Fix Confidence</th></tr></thead>
+      <tbody>
+        <tr><td>X3/X4 / Cost 07 missing</td><td>Branch-specific cost context missing/mismatch, cost component not generated in sequence, or version/options mismatch before financial completion</td><td><b>78%</b></td><td>Pre-Cost Validation: Item+Branch+Cost Method 07 + required X3/X4 + governed version before WO/WIP/GL</td><td><b>90%</b></td></tr>
+        <tr><td>Recalc / Rerun makes data appear</td><td>Required derived state is populated late; recovery process repairs/synchronizes after normal path</td><td><b>82%</b></td><td>Log failed prerequisite; repair trigger/sequence upstream; treat rerun as exception not normal work</td><td><b>92%</b></td></tr>
+        <tr><td>Run 99 / 550→575</td><td>Missing predecessor or custom state synchronization across WO/Cutting/Transfer/Sales; causes differ by case</td><td><b>74%</b></td><td>State Resolver before Run99: WO Operation + Cutting + 99 + 9D + SO Last/Next + QC</td><td><b>91%</b></td></tr>
+        <tr><td>Physical done, ERP state lag</td><td>Physical event and ERP status transition are not synchronized at the same point</td><td><b>88%</b></td><td>PHYSICAL_DONE_SYSTEM_NOT_DONE exception with aging, missing predecessor, owner, next action</td><td><b>94%</b></td></tr>
+        <tr><td>Transfer / TS backlog</td><td>Physical movement exists but ERP document / branch / location / lot / transfer chain is incomplete or delayed</td><td><b>85%</b></td><td>Transfer Reconciliation: Physical Move ↔ P4111 ↔ Branch/Location/Lot ↔ Cutting 9D ↔ TS</td><td><b>93%</b></td></tr>
+        <tr><td>QC HOLD chased in LINE</td><td>Quality evidence exists but prerequisites/ownership are not surfaced in a shared exception queue</td><td><b>92%</b></td><td>QC Hold Queue: Lot Status + Pass/Fail + Root Cause + Result Status + Available Qty + Authority</td><td><b>95%</b></td></tr>
+        <tr><td>Item/BOM/PO/Receipt mismatch</td><td>Material readiness is judged from stock/physical state without full data/master/document readiness</td><td><b>80%</b></td><td>Material Readiness Gate including Item/BOM match, receipt, lot/QC, branch/location and document completeness</td><td><b>92%</b></td></tr>
+        <tr><td>Invoice blocked after delivery</td><td>Upstream WO/Cutting/Transfer/SO state is not ready although delivery evidence exists</td><td><b>93%</b></td><td>Invoice Readiness Resolver: Delivery + WO/Cutting close + 9D/TS + SO Last/Next + QC/material + Tax rule</td><td><b>96%</b></td></tr>
+        <tr><td>Trial Balance / GL mismatch / Repost</td><td>Subledger/posting/reversal or cost→GL chain is incomplete/late; not a presentation-only problem</td><td><b>72%</b></td><td>Reconciliation: debit=credit, reverse pair, subledger→GL, WIP→GL, negative-cost exception, batch lineage</td><td><b>90%</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="report-private-note" style="margin-top:12px"><b>Confidence rule:</b> 90–100 = Very High · 80–89 = High · 70–79 = Medium-High. Exact case-level RCA requires one affected SO/WO/Item/Lot plus authoritative metadata where needed.</div>
+
+  <div class="report-library-head" style="margin-top:28px">
+    <div><h3>RCA Resolution Workflow</h3><p>เปลี่ยนจาก “User แจ้งปัญหา → คนช่วยแก้เฉพาะหน้า” เป็น “Evidence → Root Cause → Upstream Fix → Verify → Prevent Recurrence”</p></div>
+    <div class="flow-status">NO BLIND RERUN</div>
+  </div>
+  <div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:14px 0 18px">
+    <div class="report-stage"><div class="n">01 · Detect</div><h3>User Pain / Exception</h3><p>รับเคสจาก LINE/ผู้ใช้ พร้อม SO/WO/Cutting/Item/Lot/Branch/Date</p></div>
+    <div class="report-stage"><div class="n">02 · Snapshot</div><h3>Read-only State</h3><p>อ่าน Cost · WO · Cutting · QC · Inventory · Sales · Finance โดยไม่เปลี่ยนข้อมูล</p></div>
+    <div class="report-stage risk"><div class="n">03 · Classify</div><h3>Blocker Class</h3><p>COST · STATUS · TRANSFER · QC · MATERIAL · BILLING · GL</p></div>
+    <div class="report-stage"><div class="n">04 · Validate</div><h3>Prerequisite Check</h3><p>Master/data? transaction? version/options? batch/process? lineage?</p></div>
+    <div class="report-stage"><div class="n">05 · Fix Upstream</div><h3>Correct Source Cause</h3><p>แก้ที่ master / predecessor / governed config / controlled recovery ไม่แก้ปลายเหตุ</p></div>
+    <div class="report-stage"><div class="n">06 · Verify</div><h3>Source State Correct?</h3><p>ตรวจ state ต้นทางใหม่ด้วยหลักฐานเดิมและ timestamp</p></div>
+    <div class="report-stage output"><div class="n">07 · Downstream</div><h3>End-to-End Validation</h3><p>WIP · 99 · 9D · SO Last/Next · Invoice · GL ต้องสอดคล้อง</p></div>
+    <div class="report-stage output"><div class="n">08 · Prevent</div><h3>Close with Control</h3><p>Root Cause + Owner + Evidence + Pre-check/Queue/Alert/Reconciliation</p></div>
+  </div>
+  <div class="report-query-wrap"><div class="report-query-grid">
+    <div class="report-query-card"><h4>A · X3/X4 / Cost 07</h4><p><code>Item+Branch</code> → <code>Cost Method 07</code> → <code>Cost Component</code> → <code>Production Cost</code> → <code>WIP</code> → <code>GL</code></p><div class="rq-label">Fail-fast</div><p>Cost07 missing → Costing owner · X3/X4 absent → version/calculation RCA · Cost correct but GL wrong → posting/reconciliation</p></div>
+    <div class="report-query-card"><h4>B · Run 99 / Status Lag</h4><p><code>WO Operation</code> → <code>Cutting</code> → <code>99 Close</code> → <code>9D Transfer</code> → <code>SO Last/Next</code> → <code>Invoice Ready</code></p><div class="rq-label">Fail-fast</div><p>Production / QC / Store predecessor missing → route owner; only all-ready-but-stuck becomes Run99 technical RCA</p></div>
+    <div class="report-query-card"><h4>C · Transfer / TS</h4><p><code>Physical Move</code> → <code>Transfer Document</code> → <code>P4111</code> → <code>Branch/Location/Lot</code> → <code>9D</code> → <code>TS</code></p><div class="rq-label">Fail-fast</div><p>No ERP document → transaction missing · wrong branch/location/lot → data correction · ledger complete but TS missing → sync defect</p></div>
+    <div class="report-query-card"><h4>D · QC HOLD</h4><p><code>Lot Status</code> → <code>Test Result</code> → <code>Pass/Fail</code> → <code>Disposition</code> → <code>Release Authority</code> → <code>Available Qty</code></p><div class="rq-label">Fail-fast</div><p>Evidence incomplete = remain HOLD · evidence complete = owner queue · released but still blocked = inventory/status sync RCA</p></div>
+    <div class="report-query-card"><h4>E · Invoice Readiness</h4><p><code>Actual Ship/Delivery</code> → <code>WO/Cutting Close</code> → <code>9D/TS</code> → <code>SO Last/Next</code> → <code>Tax/Customer Rule</code> → <code>Invoice/GL</code></p><div class="rq-label">Fail-fast</div><p>Operational predecessor missing → cross-functional owner · all ready but invoice blocked → AR/Tax/Customer billing rule</p></div>
+  </div></div>
+  <div class="report-private-note" style="margin-top:14px"><b>Closure rule:</b> “Rerun/Repost/Run99 แล้วหาย” ยังไม่ถือว่าปิด RCA. ต้องรู้ failed prerequisite, แก้ source state, verify downstream และมี recurrence-prevention control ก่อนจึงปิดเคส.</div>
+
   <div class="report-private-note"><b>Interpretation:</b> LINE escalation is strong evidence of recurring operational friction, but technical root cause must still be certified from ERP metadata/logs/transactions. Public view intentionally removes personal names, order numbers and internal chat details.</div>
 </section>
 
