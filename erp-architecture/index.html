@@ -306,7 +306,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     <div class="topbar-inner">
       <div class="brand"><span class="brand-mark">ERP</span><span>Practika ERP Architecture</span></div>
       <nav class="nav">
-        <a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
+        <a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#finance">Finance</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
         <a href="#deep">Deep Dive</a><a href="#control">Controls</a><a href="#integration">Integration</a><a href="#cert">Certification</a>
       </nav>
     </div>
@@ -585,6 +585,100 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <tr><td>Promise / OTD Governance</td><td>PROVISIONAL</td><td>Promise policy not certified</td><td>Approved promise date + grain policy</td></tr>
             <tr><td>Data Quality / Integration Health</td><td>STRONG baseline</td><td>Rules must remain visible beside KPI</td><td>DQ ownership + alert threshold</td></tr>
             <tr><td>ERP UBE / Batch Reports</td><td>ADMIN CERTIFICATION REQUIRED</td><td>Unknown report-only vs update/process behavior</td><td>Version + options + selection + update Y/N</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+
+  <section id="finance" class="section">
+    <div class="section-head"><h2>Finance & Accounting Deep Dive</h2><p>ผล Admin discovery รอบล่าสุดเชื่อม Production → Financial impact แล้วในระดับ Menu / Application / Report architecture โดยยังคง READ-ONLY และไม่รัน posting/payment UBE ใด ๆ</p></div>
+    <div class="report-shell">
+      <div class="report-head">
+        <div><div class="report-kicker">Admin Evidence · 2026-10-08</div><h2>GL · AR · AP · Fixed Assets · Tax · Cost Accounting</h2><p>จากเดิมที่ฝั่งบัญชียังเป็น access gap ตอนนี้ General Ledger, Accounts Receivable และ Accounts Payable มีหลักฐานโครงสร้างจริงแล้ว ส่วน Fixed Assets ได้ first-pass และ Thai Tax / Manufacturing Accounting ยังมี gap เฉพาะจุดที่ต้อง certify ต่อ</p></div>
+        <div class="flow-status">OVERALL ERP · ~86%</div>
+      </div>
+
+      <div class="report-summary">
+        <div class="report-kpi"><b>53 / 45</b><span>GL/Accounting · Applications / Reports confirmed from Admin menu evidence</span></div>
+        <div class="report-kpi"><b>14 / 25</b><span>Accounts Receivable · Applications / Reports confirmed</span></div>
+        <div class="report-kpi"><b>78 / 85</b><span>Accounts Payable · Applications / Reports confirmed</span></div>
+        <div class="report-kpi"><b>1 / 5</b><span>Fixed Assets · Applications / Reports confirmed in first-pass path</span></div>
+      </div>
+
+      <div class="report-library-head">
+        <div><h3>Accounting Decision & Query Map</h3><p>เริ่มจากคำถามธุรกิจ แล้วเลือก Grain และ Query Keys ให้ชัด ก่อนดู Report/Inquiry ที่เกี่ยวข้อง</p></div>
+        <div class="flow-status">BUSINESS QUESTION → KEY → RESULT</div>
+      </div>
+
+      <div class="report-query-wrap">
+        <div class="report-query-grid">
+          <div class="report-query-card">
+            <h4>General Ledger / Trial Balance</h4>
+            <div class="rq-label">Typical Entry Points</div><p>Journal Entry · General Journal Review · Account Ledger Inquiry · Trial Balance / Ledger Comparison · GL / Trial Balance reports</p>
+            <div class="rq-label">Recommended Grain</div><p>Company / Business Unit / Account / Period / Ledger</p>
+            <div class="rq-label">Minimum Query Keys</div><p><code>Company</code><code>Business Unit</code><code>Object Account</code><code>Subsidiary</code><code>G/L Date</code><code>Ledger Type</code></p>
+            <div class="rq-label">Decision Use</div><p>Balance validation · unposted journal · period review · account drill-down</p>
+          </div>
+
+          <div class="report-query-card">
+            <h4>Accounts Receivable / Aging</h4>
+            <div class="rq-label">Typical Entry Points</div><p>Customer Ledger Inquiry · Customer Balance · Open A/R · Aging · Invoice / Receipt trend</p>
+            <div class="rq-label">Recommended Grain</div><p>Customer / Invoice / Project / Due Date</p>
+            <div class="rq-label">Minimum Query Keys</div><p><code>Customer</code><code>Invoice</code><code>Project/SO</code><code>Due Date</code><code>Open/Paid</code><code>Currency</code></p>
+            <div class="rq-label">Decision Use</div><p>Overdue exposure · collection priority · customer balance · project receivable risk</p>
+          </div>
+
+          <div class="report-query-card">
+            <h4>Accounts Payable / Supplier Liability</h4>
+            <div class="rq-label">Typical Entry Points</div><p>Supplier Ledger Inquiry · Supplier Payment Inquiry · Open A/P · Payment Register · Supplier Analysis</p>
+            <div class="rq-label">Recommended Grain</div><p>Supplier / Voucher / Payment / PO reference</p>
+            <div class="rq-label">Minimum Query Keys</div><p><code>Supplier</code><code>Voucher</code><code>Document Type</code><code>PO</code><code>Due Date</code><code>Pay Status</code><code>Batch</code></p>
+            <div class="rq-label">Decision Use</div><p>Open liability · due/overdue payment · duplicate-payment risk · supplier cash requirement</p>
+          </div>
+
+          <div class="report-query-card">
+            <h4>Payment / Bank / Withholding Tax</h4>
+            <div class="rq-label">Observed Flow</div><p>Manual Payment · Automatic Payment · Payment Group · Bank Transfer · Withholding / VAT process</p>
+            <div class="rq-label">Recommended Grain</div><p>Payment Group / Supplier / Bank / Tax Document</p>
+            <div class="rq-label">Minimum Query Keys</div><p><code>Payment Group</code><code>Supplier</code><code>Bank</code><code>Payment Date</code><code>Tax State</code></p>
+            <div class="rq-label">Control</div><p>High-impact workflow — inquiry/read evidence only; posting / transfer / tax update remains Human Gate</p>
+          </div>
+
+          <div class="report-query-card">
+            <h4>Fixed Assets</h4>
+            <div class="rq-label">Confirmed First-pass</div><p>Unposted Entries · Post GL to Fixed Assets · Error Report · FA Transaction Ledger · Identify New Entries</p>
+            <div class="rq-label">Recommended Grain</div><p>Asset / GL Entry / Batch / Date</p>
+            <div class="rq-label">Minimum Query Keys</div><p><code>Asset</code><code>Company</code><code>Batch</code><code>G/L Date</code><code>Posted State</code></p>
+            <div class="rq-label">Gap</div><p>Asset master / depreciation / disposal still requires further evidence</p>
+          </div>
+
+          <div class="report-query-card">
+            <h4>Manufacturing Accounting / Cost</h4>
+            <div class="rq-label">Target Cross-domain Join</div><p>WO / Cutting → Material Issue → Time Entry → Completion → WIP / FG → GL impact</p>
+            <div class="rq-label">Recommended Grain</div><p>WO / Cutting / Operation / Cost Component</p>
+            <div class="rq-label">Required Keys</div><p><code>WO</code><code>Cutting</code><code>Operation</code><code>Item</code><code>Cost Type</code><code>G/L Account</code></p>
+            <div class="rq-label">Current State</div><p><b>GAP / VERIFY:</b> dedicated Manufacturing Accounting root is visible but did not expose child evidence; do not infer standard objects</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-private-note"><b>Evidence boundary:</b> Public page shows business flow, report families, grain and query keys. Detailed object/version mappings, posting UBE versions, custom payment/tax process details and technical evidence remain in the Private ERP Source of Truth.</div>
+
+      <div class="report-library-head">
+        <div><h3>Current Evidence State</h3><p>แยก “สำรวจเมนูครบ” ออกจาก “technical certification ครบ” เพื่อไม่ให้เปอร์เซ็นต์หลอกตา</p></div>
+      </div>
+      <div class="report-matrix-wrap">
+        <table class="report-matrix">
+          <thead><tr><th>Domain</th><th>Discovery</th><th>What is confirmed</th><th>Remaining gap</th></tr></thead>
+          <tbody>
+            <tr><td>GL / Accounting</td><td>STRONG</td><td>Menu · Inquiry · Report families · Cash/GL setup</td><td>BV/Table + selected Processing Options</td></tr>
+            <tr><td>Accounts Receivable</td><td>STRONG</td><td>Invoice · Customer Ledger · Aging · Statement · Trend</td><td>Field-level query certification + write behavior</td></tr>
+            <tr><td>Accounts Payable</td><td>STRONG</td><td>Voucher · Supplier Ledger · Payment · AP Reports · Tax · Bank flow</td><td>UBE Update Y/N + selected Processing Options</td></tr>
+            <tr><td>Fixed Assets</td><td>PARTIAL</td><td>Posting-to-FA first-pass path</td><td>Master · depreciation · transfer/disposal</td></tr>
+            <tr><td>Thai Tax</td><td>PARTIAL</td><td>Tax/VAT/withholding functions evidenced via AP/AR</td><td>Dedicated Thai Tax root mapping</td></tr>
+            <tr><td>Manufacturing Accounting</td><td>GAP</td><td>Root exists</td><td>Cost/WIP/variance source and workflow</td></tr>
           </tbody>
         </table>
       </div>
