@@ -82,7 +82,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 .flow-viewport{overflow:auto;background:
  radial-gradient(circle at 48% 32%,rgba(84,157,255,.10),transparent 28%),
  radial-gradient(circle at 73% 60%,rgba(98,213,232,.07),transparent 26%),#07111f}
-.arch-map{position:relative;width:1380px;height:930px;margin:0 auto;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:30px 30px}
+.arch-map{position:relative;width:1380px;height:1120px;margin:0 auto;background-image:linear-gradient(rgba(255,255,255,.018) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.018) 1px,transparent 1px);background-size:30px 30px}
 .arch-map svg{position:absolute;inset:0;width:100%;height:100%;z-index:1;pointer-events:none}
 .zone-label{position:absolute;z-index:2;font-size:9px;font-weight:950;letter-spacing:.15em;text-transform:uppercase;color:#6f88a7}
 .zone-line{position:absolute;z-index:1;border:1px dashed rgba(117,151,191,.18);border-radius:22px;background:rgba(12,27,47,.22);pointer-events:none}
@@ -99,6 +99,12 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 .arch-node.data .ey{color:#8fbaff}.arch-node.data{border-color:#345078}
 .arch-node.intel .ey{color:#b99cff}.arch-node.intel{border-color:#4c4474}
 .arch-node.gate .ey{color:#ff96a1}.arch-node.gate{border-color:#74434a}
+.arch-node.finance{width:160px;min-height:92px;border-color:#7a5b2f;background:linear-gradient(180deg,#241d16,#161b27)}
+.arch-node.finance .ey{color:#ffd17a}.arch-node.finance b{font-size:11px}
+.edge.finance{stroke:#f2b65f;stroke-dasharray:6 5;marker-end:url(#arrowFinance);opacity:.72}
+.flow-legend .lg-finance{border-top-style:dashed;border-color:#f2b65f}
+.zone-finance{left:20px;top:915px;width:1335px;height:185px;border-color:rgba(242,182,95,.22);background:rgba(55,39,19,.16)}
+.z-finance{left:38px;top:928px;color:#b99765}
 .arch-node.hub{border-color:#4ac5c0;background:linear-gradient(180deg,#10313b,#0d202b);box-shadow:0 0 0 1px rgba(74,197,192,.08),0 18px 42px rgba(0,0,0,.26)}
 .arch-node.hub .ey{color:#75e4dd}
 .arch-node .mini-state{display:inline-flex;margin-top:7px;padding:3px 6px;border-radius:999px;border:1px solid rgba(255,255,255,.11);font-size:7px;font-weight:900;color:#9fb1c8}
@@ -333,12 +339,12 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     <div class="section-head"><h2>Architecture Flow Map</h2><p>มองระบบแบบเดียวกับแผนผัง Control Plane: เห็นทั้ง <b>Business Flow</b>, <b>Data Flow</b>, <b>Decision Flow</b> และ <b>Human Gate</b> ในภาพเดียว แล้วค่อยคลิกแต่ละ Node เพื่ออ่านความหมาย</p></div>
     <div class="flow-shell">
       <div class="flow-head">
-        <div><div class="flow-kicker">Interactive System Map · Public-safe</div><h2>Practika ERP · Workflow / Data / Decision Flow</h2><p>เส้นทึบ = การไหลของงาน · เส้นประสีน้ำเงิน = ข้อมูล/หลักฐาน · เส้นประสีเหลือง = การตัดสินใจ · เส้นแดง = ขอบเขต Human Gate</p></div>
+        <div><div class="flow-kicker">Interactive System Map · Public-safe</div><h2>Practika ERP · Workflow / Data / Decision / Finance Flow</h2><p>เส้นทึบ = การไหลของงาน · เส้นประสีน้ำเงิน = ข้อมูล/หลักฐาน · เส้นประสีเหลือง = การตัดสินใจ · เส้นแดง = ขอบเขต Human Gate</p></div>
         <div class="flow-status">READ-ONLY · OBSERVE-FIRST</div>
       </div>
       <div class="flow-toolbar">
         <div class="flow-legend">
-          <span><i></i> Business Flow</span><span><i class="lg-data"></i> Data / Evidence</span><span><i class="lg-decision"></i> Decision</span><span><i class="lg-gate"></i> Human Gate</span>
+          <span><i></i> Business Flow</span><span><i class="lg-data"></i> Data / Evidence</span><span><i class="lg-decision"></i> Decision</span><span><i class="lg-finance"></i> Finance</span><span><i class="lg-gate"></i> Human Gate</span>
         </div>
         <div id="layoutAuditStatus" class="flow-status" style="padding:6px 9px;font-size:8px">LAYOUT CHECK…</div>
         <div class="flow-filters">
@@ -346,6 +352,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
           <button class="flow-filter" data-flow-filter="business">BUSINESS</button>
           <button class="flow-filter" data-flow-filter="data">DATA</button>
           <button class="flow-filter" data-flow-filter="decision">DECISION</button>
+          <button class="flow-filter" data-flow-filter="finance">FINANCE</button>
           <button class="flow-filter" data-flow-filter="gate">GOVERNANCE</button>
         </div>
       </div>
@@ -356,14 +363,16 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
           <div class="zone-line zone-decision"></div><div class="zone-label z-decision">Decision / State Resolution</div>
           <div class="zone-line zone-data"></div><div class="zone-label z-data">ERP / Data Evidence</div>
           <div class="zone-line zone-intel"></div><div class="zone-label z-intel">Intelligence / Governance</div>
+          <div class="zone-line zone-finance"></div><div class="zone-label z-finance">Finance / Accounting · Order-to-Cash · Procure-to-Pay · Cost-to-GL</div>
 
-          <svg viewBox="0 0 1380 930" aria-hidden="true">
+          <svg viewBox="0 0 1380 1120" aria-hidden="true">
             <defs>
               <marker id="arrowBusiness" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#62d5e8"/></marker>
               <marker id="arrowData" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#65a8ff"/></marker>
               <marker id="arrowDecision" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#ffbf69"/></marker>
               <marker id="arrowGate" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#ff7a86"/></marker>
               <marker id="arrowFeedback" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#7ed8ad"/></marker>
+              <marker id="arrowFinance" markerWidth="9" markerHeight="9" refX="7" refY="3.5" orient="auto"><path d="M0,0 L0,7 L8,3.5 z" fill="#f2b65f"/></marker>
             </defs>
 
             <!-- Business flow -->
@@ -418,6 +427,24 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <!-- Feedback / learning -->
             <path class="edge feedback" d="M1180 856 C1005 910 648 915 204 864"/>
             <text class="edge-label" x="690" y="904">Evidence / audit feedback</text>
+
+            <!-- Finance / Accounting flows -->
+            <path class="edge finance" d="M309 162 C309 520 104 650 104 952"/>
+            <path class="edge finance" d="M1176 579 C1176 760 104 790 104 952"/>
+            <path class="edge finance" d="M674 507 C674 700 294 760 294 952"/>
+            <path class="edge finance" d="M921 507 C921 700 294 790 294 952"/>
+            <path class="edge finance" d="M1176 162 C1176 650 484 770 484 952"/>
+            <path class="edge finance" d="M1176 439 C1176 720 674 800 674 952"/>
+
+            <!-- Finance convergence bus -->
+            <path class="edge finance" d="M104 1044 L104 1068 L1244 1068 L1244 1044"/>
+            <path class="edge finance" d="M294 1044 L294 1068"/>
+            <path class="edge finance" d="M484 1044 L484 1068"/>
+            <path class="edge finance" d="M674 1044 L674 1068"/>
+            <path class="edge finance" d="M864 1044 L864 1068"/>
+            <path class="edge finance" d="M1054 1044 L1054 1068"/>
+            <path class="edge finance" d="M1244 952 C1244 925 1244 900 1262 887"/>
+            <text class="edge-label" x="1010" y="1090" style="fill:#d9b474">Financial posting / reconciliation / reporting evidence</text>
           </svg>
 
           <!-- Business nodes -->
@@ -458,6 +485,15 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
           <div class="arch-node intel" style="left:1180px;top:600px" data-group="decision" data-title="Executive Dashboard" data-detail="Decision surface สำหรับผู้บริหารที่ต้อง drill-down กลับถึงหลักฐานได้ ไม่ใช่ KPI ที่ตัดขาดจาก source"><div class="ey">Decision Surface</div><b>Executive Dashboard</b><small>Health · Risk · Drill-down</small></div>
           <div class="arch-node intel" style="left:1180px;top:700px" data-group="decision" data-title="Scenario Planning" data-detail="what-if ต้อง clone baseline ไปเป็น scenario แล้วคำนวณ material/capacity/due-date ใหม่ ไม่แก้ production baseline โดยตรง"><div class="ey">What-if</div><b>Scenario Planning</b><small>Clone · Compare · Validate</small></div>
           <div class="arch-node gate" style="left:1180px;top:815px" data-group="gate" data-title="Human Gate / Future Write-back" data-detail="AI และ Control Tower ไม่มี production authority อัตโนมัติ การ write-back ในอนาคตต้อง allowlist, validate, approve, audit และ fail closed"><div class="ey">Governance Boundary</div><b>Human Gate / Write-back</b><small>Approve · Audit · Future only</small></div>
+
+          <!-- Finance / Accounting lane -->
+          <div class="arch-node finance" style="left:24px;top:952px" data-group="finance" data-title="Revenue / Accounts Receivable" data-detail="Order-to-Cash ฝั่งลูกค้า: เชื่อม Sales Order/Delivery ไปสู่ invoice, customer ledger, aging, receipt และ receivable exposure"><div class="ey">Order-to-Cash</div><b>Revenue / Accounts Receivable</b><small>Invoice · Aging · Receipt</small></div>
+          <div class="arch-node finance" style="left:214px;top:952px" data-group="finance" data-title="Supplier / Accounts Payable" data-detail="Procure-to-Pay ฝั่งผู้ขาย: เชื่อม PO/Receipt ไปสู่ voucher, supplier ledger, due payment และ liability"><div class="ey">Procure-to-Pay</div><b>Supplier / Accounts Payable</b><small>Voucher · Liability · Payment</small></div>
+          <div class="arch-node finance" style="left:404px;top:952px" data-group="finance" data-title="Production Cost / WIP" data-detail="สะท้อนต้นทุนการผลิตจาก Work Order, Work Center, Cost Type และ variance เพื่อเชื่อม operational execution กับ accounting impact"><div class="ey">Cost Accounting</div><b>Production Cost / WIP</b><small>WO · Cost Type · Variance</small></div>
+          <div class="arch-node finance" style="left:594px;top:952px" data-group="finance" data-title="Inventory / FG Valuation" data-detail="เชื่อม material receipt, inventory movement และ finished goods ไปสู่ valuation/accounting impact โดยต้องรักษา item/branch/document lineage"><div class="ey">Inventory Accounting</div><b>Inventory / FG Valuation</b><small>Item · Movement · Value</small></div>
+          <div class="arch-node finance" style="left:784px;top:952px" data-group="finance" data-title="Fixed Assets" data-detail="สินทรัพย์ถาวรเชื่อมรายการ GL ที่เกี่ยวข้องเข้าสู่ asset ledger/posting path; current discovery เป็น first-pass และยังต้อง certify depreciation/disposal เพิ่ม"><div class="ey">Asset Accounting</div><b>Fixed Assets</b><small>Asset · GL · Posting</small></div>
+          <div class="arch-node finance" style="left:974px;top:952px" data-group="finance" data-title="Tax / Payment" data-detail="VAT, withholding tax, manual/automatic payment และ bank transfer เป็น high-impact finance process ที่ต้องแยก inquiry/read evidence ออกจาก execution authority"><div class="ey">Tax & Treasury</div><b>Tax / Payment</b><small>VAT · WHT · Bank</small></div>
+          <div class="arch-node finance hub" style="left:1164px;top:952px" data-group="finance" data-title="General Ledger / Financial Reporting" data-detail="จุดรวมผลกระทบทางบัญชี: journal, posting, trial balance, account ledger และ financial reporting โดยทุกตัวเลขควร drill กลับถึง source transaction ได้"><div class="ey">Financial Backbone</div><b>General Ledger / Financial Reporting</b><small>Journal · GL · TB · Drill-down</small></div>
         </div>
       </div>
       <div class="node-detail" id="flowNodeDetail">
@@ -557,7 +593,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 
           <div class="report-query-card"><h4>Work Center Load / Capacity</h4><div class="rq-label">ERP Entry Points</div><p>Review Order Hours · Shop Floor Workbench · Work Day Calendar</p><div class="rq-label">Grain</div><p>Work Center / BU / Date or Shift / Operation</p><div class="rq-label">Minimum Query Keys</div><p><code>Work Center/BU</code><code>Date Range</code><code>Shift/Calendar</code></p><div class="rq-label">Extra Keys Needed for Finite Capacity</div><p>Resource Units · Standard Setup/Run/Labor/Machine Time · Availability Factor</p></div>
 
-          <div class="report-query-card"><h4>Productivity · Actual vs Standard</h4><div class="rq-label">ERP Entry Points</div><p>Review Order Hours · Time Entry</p><div class="rq-label">Grain</div><p>WO / Cutting / Operation</p><div class="rq-label">Minimum Query Keys</div><p><code>WO</code><code>Cutting</code><code>Operation Seq.</code><code>Date Range</code></p><div class="rq-label">Measures</div><p>Actual Machine · Labor · Setup; Standard values still require Admin certification</p></div>
+          <div class="report-query-card"><h4>Productivity · Actual vs Standard</h4><div class="rq-label">ERP Entry Points</div><p>Review Order Hours · Time Entry</p><div class="rq-label">Grain</div><p>WO / Cutting / Operation</p><div class="rq-label">Minimum Query Keys</div><p><code>WO</code><code>Cutting</code><code>Operation Seq.</code><code>Date Range</code></p><div class="rq-label">Measures</div><p>Actual Machine · Labor · Setup; planned/standard-time source is now confirmed in Routing, with physical lineage still under technical certification</p></div>
 
           <div class="report-query-card"><h4>Supplier / PO ETA Risk</h4><div class="rq-label">ERP Entry Points</div><p>PO/PR · PO Receive · Supplier Master · Supplier Price Catalog · Supplier/Item Routing · Receipt Inquiry</p><div class="rq-label">Grain</div><p>Supplier / PO / PO Line / Item</p><div class="rq-label">Minimum Query Keys</div><p><code>Supplier</code><code>PO No.</code><code>Item</code></p><div class="rq-label">Useful Filters</div><p>Open Qty · ETA · Overdue · Due 3D/7D · No ETA</p></div>
 
@@ -579,8 +615,8 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <tr><td>WIP / Aging / Current Stage</td><td>STRONG baseline</td><td>Stale events can mislead current state</td><td>Event freshness + stage rule version</td></tr>
             <tr><td>Material Readiness / Shortage</td><td>PROVISIONAL</td><td>Current baseline is gross/non-allocated</td><td>Allocation / ATP policy</td></tr>
             <tr><td>Routing / Stage Bottleneck</td><td>STRONG design</td><td>Need certified routing/master context</td><td>Routing BV/table + stage rules</td></tr>
-            <tr><td>Work Center Load / Capacity</td><td>BLOCKED for finite capacity</td><td>No certified standards/resource units yet</td><td>Standard time + resource master</td></tr>
-            <tr><td>Productivity / Actual vs Standard</td><td>BLOCKED</td><td>Actual exists; certified standard missing</td><td>Standard setup/run/labor/machine source</td></tr>
+            <tr><td>Work Center Load / Capacity</td><td>STRONG source evidence</td><td>Work Center, Resource Units and Capacity path confirmed; utilization/shift governance remains</td><td>Physical BV/table + utilization policy</td></tr>
+            <tr><td>Productivity / Actual vs Standard</td><td>STRONG source evidence</td><td>Routing exposes planned/standard time fields; physical lineage still partial</td><td>BV/table + standard-time governance</td></tr>
             <tr><td>Supplier / PO ETA Risk</td><td>STRONG baseline</td><td>ETA quality / missing promised date</td><td>Supplier ETA ownership and freshness</td></tr>
             <tr><td>Promise / OTD Governance</td><td>PROVISIONAL</td><td>Promise policy not certified</td><td>Approved promise date + grain policy</td></tr>
             <tr><td>Data Quality / Integration Health</td><td>STRONG baseline</td><td>Rules must remain visible beside KPI</td><td>DQ ownership + alert threshold</td></tr>
@@ -872,7 +908,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     fitShell.appendChild(map);
   }
   function auditMainLayout(){
-    const baseW=1380, baseH=930, gap=12;
+    const baseW=1380, baseH=1120, gap=12;
     const list=[...map.querySelectorAll(".arch-node")].map(function(el){
       return {
         el:el,
@@ -911,7 +947,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
   }
 
   function fitMainMap(){
-    const baseW=1380, baseH=930;
+    const baseW=1380, baseH=1120;
     const available=Math.max(280,fitShell.clientWidth);
     const scale=Math.min(1,available/baseW);
     const visualW=baseW*scale;
@@ -1136,6 +1172,55 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
       N("Recalculate Promise","ประเมิน due-date exposure",["Projected completion","Promise impact","Risk delta"]),
       N("Hard Gate","ตรวจข้อห้ามก่อนพร้อม review",["Material","Routing precedence","Capacity","Quality hold","Frozen orders"]),
       N("Human Review","พร้อมเสนอ ไม่ได้ publish เอง",["READY_FOR_REVIEW","Approve/reject","Audit"])
+    ]),
+
+    "Revenue / Accounts Receivable":R("Order-to-Cash financial view ตั้งแต่ demand/invoice ไปจน customer balance, aging และ receipt","sequence",[
+      N("Invoice Context","เชื่อม customer/project/order ไปสู่ receivable document",["Customer / project","Invoice / document","Company / currency"]),
+      N("Customer Ledger","ติดตาม open/paid state และยอดคงค้าง",["Customer ledger","Open amount","Document status"]),
+      N("Aging / Due","จัดกลุ่ม exposure ตาม due date โดยไม่ซ่อน missing date",["Due date","Aging bucket","Open amount"]),
+      N("Receipt / Settlement","เชื่อมการรับชำระกลับ invoice",["Receipt reference","Payment date","Applied / unapplied context"]),
+      N("AR Decision Surface","สรุป overdue/customer exposure พร้อม drill-down",["Customer","Invoice","Due date","Currency"])
+    ]),
+    "Supplier / Accounts Payable":R("Procure-to-Pay view จาก PO/receipt ไป voucher, liability และ payment","sequence",[
+      N("PO / Receipt Reference","รักษาความเชื่อมโยง procurement evidence",["Supplier","PO / receipt","Item / service context"]),
+      N("Voucher","สร้าง/อ้างอิง liability document",["Voucher / document","Company","G/L date"]),
+      N("Supplier Ledger","ติดตาม open liability และ due state",["Supplier","Due date","Pay status"]),
+      N("Payment","แยก manual/automatic payment และ payment group",["Payment number","Payment group","Bank context"]),
+      N("AP Decision Surface","มอง due/overdue/duplicate risk โดยไม่ execute payment",["Open AP","Due exposure","Exception"])
+    ]),
+    "Production Cost / WIP":R("เชื่อม production execution เข้ากับ cost accounting ใน grain WO / Cost Type / Work Center","branch",[
+      N("Work Order Context","ต้นทุนต้อง trace กลับงานผลิตได้",["Order number / type","Item","Quantity"]),
+      N("Cost Components","แยก material/labor/machine/overhead ตาม source ที่รับรอง",["Cost type","Cost component","Rate / basis"]),
+      N("Work Center Cost","ผูกต้นทุนกับ work center/rate",["Work center","Rate context","Effective period"]),
+      N("Actual / Comparison","Production Cost Inquiry แสดง amount comparison",["Column 1 amount","Column 2 amount","Variance amount"]),
+      N("Business View Evidence","Production Cost Inquiry มี live BV evidence",["V3102A","Physical table composition pending developer certification"])
+    ]),
+    "Inventory / FG Valuation":R("เชื่อม inventory movement และ Finished Goods เข้ากับ accounting impact โดยรักษา item/document lineage","sequence",[
+      N("Inventory Position","item/branch/location context",["Item","Branch","Location"]),
+      N("Movement Evidence","receipt/issue/completion/move ต้องมี document trace",["Document","Transaction date","Quantity"]),
+      N("Finished Goods","completion/availability ไม่เท่ากับ financial posting โดยอัตโนมัติ",["FG context","Quantity","Status"]),
+      N("Valuation Context","แยก operational quantity ออกจาก monetary valuation",["Cost method/source","Amount","Ledger context"]),
+      N("GL Link","ผลกระทบการเงินต้อง trace กลับ inventory source",["Account","Document","Batch / posting context"])
+    ]),
+    "Fixed Assets":R("Asset-accounting path ที่พบ first-pass จาก GL ไป Fixed Asset ledger","sequence",[
+      N("Unposted Asset Entry","ตรวจ transaction ก่อน post",["Asset / GL entry","Company","Batch"]),
+      N("Posting Path","post GL entries to fixed assets เป็น high-impact process",["Posting UBE","Do not run during discovery","Error evidence"]),
+      N("Asset Ledger","เก็บ transaction history ของสินทรัพย์",["Asset reference","Transaction date","Amount"]),
+      N("Remaining Gap","master/depreciation/disposal ยังต้อง evidence เพิ่ม",["Asset master","Depreciation","Transfer / disposal"])
+    ],"PARTIAL"),
+    "Tax / Payment":R("Tax/Treasury processes มี authority สูง จึงแยก read evidence ออกจาก execution อย่างชัดเจน","branch",[
+      N("Withholding Tax","dedicated Thai Tax task view ยืนยัน process branch",["Withholding Tax Process","Tax record/revision","Form/report evidence"]),
+      N("VAT","dedicated VAT process branch + AP/AR evidence",["VAT Process","Tax period","Tax file / journal"]),
+      N("Manual Payment","payment with/without voucher match",["Supplier","Payment number","Document relation"]),
+      N("Automatic Payment","payment group/cash requirement flow",["Payment group","Cash requirement","Review before post"]),
+      N("Bank Transfer","high-impact transfer path ต้อง Human Gate",["Bank context","Transfer file/process","No discovery execution"])
+    ]),
+    "General Ledger / Financial Reporting":R("Financial backbone ที่รวม journal/posting และสร้าง trial balance / account reporting โดยต้อง trace กลับ source","branch",[
+      N("Journal / Batch","รายการจาก subledger และ manual journal",["Document / batch","Company","G/L date"]),
+      N("Posting Boundary","posting เป็น write process แยกจาก inquiry/report",["Posted / unposted","Posting authority","Fail closed"]),
+      N("Account Ledger","drill รายการบัญชีตาม company/BU/account/subledger",["Business Unit","Object Account","Subsidiary","Subledger"]),
+      N("Trial Balance","สรุป ledger balance ตาม period/version",["Company","Period","Ledger Type","Currency"]),
+      N("Executive Finance View","รวม AR/AP/cost/inventory/assets/tax แบบ evidence-backed",["Balance / exposure","Exception / variance","Drill-down to source"])
     ]),
     "Human Gate / Future Write-back":R("ขอบเขตสุดท้ายก่อน action ที่มีผลต่อ ERP จริง — Future phase only","sequence",[
       N("Proposed Action","รับข้อเสนอจาก rule/AI/scenario",["Action type","Target entity","Reason/evidence"]),
