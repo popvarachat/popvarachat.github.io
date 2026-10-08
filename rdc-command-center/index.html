@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Adaptive AI Runtime</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261007-selfimprove1">
+<link rel="stylesheet" href="styles.css?v=20261008-kpigauges1">
 </head>
 <body>
 <div class="shell">
@@ -230,6 +230,19 @@
     </div>
     <p class="section-intro">ระบบนี้ไม่ hardcode KPI. ทุกค่าต้องย้อนกลับถึง source, formula, time window และ Trace ได้. ถ้ายังไม่มีข้อมูลจริงจะแสดง <b>NO DATA / COLLECTION STARTED</b> แทนการสร้างตัวเลขสมมุติ.</p>
 
+    <div id="siReadiness" class="si-readiness">
+      <article><span>RUNTIME READINESS</span><b id="rdRuntime">12/12</b><small>Validated capabilities</small></article>
+      <article><span>TELEMETRY</span><b id="rdTelemetry">COLLECTING</b><small>Local collectors / batch public snapshot</small></article>
+      <article><span>PRODUCTION SAMPLES</span><b id="rdSamples">0</b><small>Non-test completed traces</small></article>
+      <article><span>BASELINE</span><b id="rdBaseline">NOT READY</b><small>Required before L5 score</small></article>
+    </div>
+
+    <div class="si-gauge-head">
+      <div><span class="kicker">EXECUTIVE PERFORMANCE GAUGES</span><h3>6 มิติหลักของ Self-Improving Runtime</h3></div>
+      <div class="si-host-toggle" aria-label="Host scope"><button class="active" data-host="ALL">ALL HOSTS</button><button data-host="PC">PC</button><button data-host="NB">NOTEBOOK</button></div>
+    </div>
+    <div id="siGauges" class="si-gauge-grid"></div>
+
     <div class="si-loop">
       <span>Observe</span><b>→</b><span>Measure</span><b>→</b><span>Compare</span><b>→</b><span>Diagnose</span><b>→</b><span>Recommend</span><b>→</b><span>Shadow / Canary</span><b>→</b><span>Evaluate</span><b>→</b><span>Promote / Rollback</span><b>→</b><span>Learn</span>
     </div>
@@ -380,6 +393,6 @@
   </footer>
 </div>
 <script src="app.js?v=20261007-selfimprove1"></script>
-<script src="self-improvement.js?v=20261007-selfimprove1"></script>
+<script src="self-improvement.js?v=20261008-kpigauges1"></script>
 </body>
 </html>
