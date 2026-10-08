@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#08111f">
 <title>RDC Command Center · Adaptive AI Runtime</title>
 <meta name="description" content="Public-safe architecture, agent roster, skill arsenal and weekly capability radar for RDC.">
-<link rel="stylesheet" href="styles.css?v=20261008-storypages1">
+<link rel="stylesheet" href="styles.css?v=20261008-drilldown1">
 </head>
 <body>
 <div class="shell">
@@ -54,15 +54,15 @@
     </div>
 
     <div class="summary-status-strip">
-      <article><span>RUNTIME READINESS</span><b>100%</b><small>PC + NB validation</small></article>
-      <article><span>PRODUCTION SAMPLES</span><b id="sumSamples">—</b><small>Fleet telemetry</small></article>
-      <article><span>SUCCESS RATE</span><b id="sumSuccess">—</b><small>Completed production tasks</small></article>
-      <article><span>AUTOMATION RATE</span><b id="sumAutomation">—</b><small>No Human Gate required</small></article>
-      <article><span>RESOURCE FABRIC</span><b>2 HOSTS</b><small>PC + Notebook</small></article>
+      <article class="summary-drill" data-drill="readiness" tabindex="0"><span>RUNTIME READINESS</span><b>100%</b><small>PC + NB validation</small></article>
+      <article class="summary-drill" data-drill="samples" tabindex="0"><span>PRODUCTION SAMPLES</span><b id="sumSamples">—</b><small>Fleet telemetry</small></article>
+      <article class="summary-drill" data-drill="health" tabindex="0"><span>SUCCESS RATE</span><b id="sumSuccess">—</b><small>Completed production tasks</small></article>
+      <article class="summary-drill" data-drill="autonomy" tabindex="0"><span>AUTOMATION RATE</span><b id="sumAutomation">—</b><small>No Human Gate required</small></article>
+      <article class="summary-drill" data-drill="resources" tabindex="0"><span>RESOURCE FABRIC</span><b>2 HOSTS</b><small>PC + Notebook</small></article>
     </div>
 
     <div class="summary-chart-grid">
-      <article class="summary-chart-card hero-chart">
+      <article class="summary-chart-card hero-chart summary-drill" data-drill="health" tabindex="0">
         <div class="summary-card-head"><div><span class="kicker">SYSTEM HEALTH</span><h3>Executive Health Ring</h3></div><span class="chip read" id="sumHealthState">COLLECTING</span></div>
         <div class="health-ring-wrap">
           <div class="health-ring" id="sumHealthRing" style="--score:0"><div><b id="sumHealthScore">—</b><span>measured</span></div></div>
@@ -75,7 +75,7 @@
         </div>
       </article>
 
-      <article class="summary-chart-card">
+      <article class="summary-chart-card summary-drill" data-drill="resources" tabindex="0">
         <div class="summary-card-head"><div><span class="kicker">HOST CAPACITY</span><h3>Physical RAM Capacity</h3></div><span class="chip">79.3 GB</span></div>
         <div class="host-capacity-chart">
           <div class="host-bar-row"><span>PC</span><div><i style="--w:80.3%"></i></div><b>63.7 GB</b></div>
@@ -87,14 +87,14 @@
         </div>
       </article>
 
-      <article class="summary-chart-card">
+      <article class="summary-chart-card summary-drill" data-drill="autonomy" tabindex="0">
         <div class="summary-card-head"><div><span class="kicker">AUTONOMY</span><h3>Automation vs Human Gate</h3></div><span class="chip" id="sumAutoChip">WAITING</span></div>
         <div class="stacked-meter"><i class="auto" id="sumAutoBar" style="--w:0%"></i><i class="gate" id="sumGateBar" style="--w:0%"></i></div>
         <div class="metric-pair"><div><span>Autonomous</span><b id="sumAutoPct">—</b></div><div><span>Human Gate</span><b id="sumGatePct">—</b></div></div>
         <p class="chart-note">ยิ่ง autonomous สูงโดย safety/evidence ยังครบ ยิ่งเข้าใกล้ Self-Improving Runtime ที่ใช้งานจริงได้.</p>
       </article>
 
-      <article class="summary-chart-card">
+      <article class="summary-chart-card summary-drill" data-drill="l5" tabindex="0">
         <div class="summary-card-head"><div><span class="kicker">L5 READINESS</span><h3>Self-Improvement Loop Readiness</h3></div><span class="chip write">BASELINE BUILDING</span></div>
         <div class="l5-matrix">
           <div class="done"><b>Observe</b><span>Telemetry</span></div>
@@ -106,12 +106,12 @@
         </div>
       </article>
 
-      <article class="summary-chart-card wide">
+      <article class="summary-chart-card wide summary-drill" data-drill="samples" tabindex="0">
         <div class="summary-card-head"><div><span class="kicker">FLEET PERFORMANCE</span><h3>Latest Production Samples</h3></div><span class="chip read">REAL TELEMETRY ONLY</span></div>
         <div id="sumTimelineChart" class="summary-timeline-chart"><div class="summary-empty">Awaiting production traces…</div></div>
       </article>
 
-      <article class="summary-chart-card wide summary-attention">
+      <article class="summary-chart-card wide summary-attention summary-drill" data-drill="attention" tabindex="0">
         <div class="summary-card-head"><div><span class="kicker">MANAGEMENT ATTENTION</span><h3>สิ่งที่ควรรู้ก่อนลงรายละเอียด</h3></div><span class="chip">EXECUTIVE NOTES</span></div>
         <div class="attention-grid">
           <div><span>01</span><b>Telemetry ยังอยู่ช่วงสร้าง baseline</b><p>อย่าอ่าน 1 sample เป็น performance ระยะยาว.</p></div>
@@ -415,9 +415,9 @@
     <p class="section-intro">ระบบนี้ไม่ hardcode KPI. ทุกค่าต้องย้อนกลับถึง source, formula, time window และ Trace ได้. ถ้ายังไม่มีข้อมูลจริงจะแสดง <b>NO DATA / COLLECTION STARTED</b> แทนการสร้างตัวเลขสมมุติ.</p>
 
     <div id="siReadiness" class="si-readiness">
-      <article><span>RUNTIME READINESS</span><b id="rdRuntime">12/12</b><small>Validated capabilities</small></article>
+      <article class="summary-drill" data-drill="readiness" tabindex="0"><span>RUNTIME READINESS</span><b id="rdRuntime">12/12</b><small>Validated capabilities</small></article>
       <article><span>TELEMETRY</span><b id="rdTelemetry">COLLECTING</b><small>Local collectors / batch public snapshot</small></article>
-      <article><span>PRODUCTION SAMPLES</span><b id="rdSamples">0</b><small>Non-test completed traces</small></article>
+      <article class="summary-drill" data-drill="samples" tabindex="0"><span>PRODUCTION SAMPLES</span><b id="rdSamples">0</b><small>Non-test completed traces</small></article>
       <article><span>BASELINE</span><b id="rdBaseline">NOT READY</b><small>Required before L5 score</small></article>
     </div>
 
@@ -572,6 +572,56 @@
   </section>
 
 
+
+  <div class="exec-drill-backdrop" id="execDrillBackdrop" hidden></div>
+  <aside class="exec-drill" id="execDrill" aria-hidden="true" aria-label="Executive drilldown">
+    <div class="exec-drill-head">
+      <div><span class="kicker" id="drillKicker">EXECUTIVE DRILLDOWN</span><h2 id="drillTitle">Detail</h2></div>
+      <button id="execDrillClose" aria-label="Close">×</button>
+    </div>
+    <div class="exec-drill-current">
+      <div><span>CURRENT</span><b id="drillCurrent">—</b></div>
+      <div><span>STATUS</span><b id="drillStatus">—</b></div>
+      <div><span>WINDOW</span><b id="drillWindow">Fleet snapshot</b></div>
+    </div>
+
+    <div class="drill-tabs" role="tablist">
+      <button class="active" data-drill-tab="operation">การทำงาน</button>
+      <button data-drill-tab="analysis">วิเคราะห์</button>
+      <button data-drill-tab="plans">Plan A/B/C</button>
+      <button data-drill-tab="internal">Item ลับ</button>
+      <button data-drill-tab="prevention">ป้องกัน</button>
+      <button data-drill-tab="statistics">สถิติ</button>
+    </div>
+
+    <div class="drill-pane active" data-drill-pane="operation"><h3>การทำงานจริง</h3><div id="drillOperation"></div></div>
+    <div class="drill-pane" data-drill-pane="analysis"><h3>วิเคราะห์ประสิทธิภาพ</h3><div id="drillAnalysis"></div></div>
+    <div class="drill-pane" data-drill-pane="plans">
+      <h3>Improvement Options</h3>
+      <div class="plan-grid">
+        <article class="plan-a"><span>PLAN A · OPTIMIZE</span><b id="drillPlanA"></b><small>ปรับของเดิมก่อน ความเสี่ยงต่ำ</small></article>
+        <article class="plan-b"><span>PLAN B · ADAPT</span><b id="drillPlanB"></b><small>เปลี่ยน route / resource / workflow</small></article>
+        <article class="plan-c"><span>PLAN C · CONTAIN</span><b id="drillPlanC"></b><small>fallback / rollback / Human Gate</small></article>
+      </div>
+    </div>
+    <div class="drill-pane" data-drill-pane="internal">
+      <h3>Item ลับ / Internal Detail</h3>
+      <div class="public-safe-note">Public-safe view: ไม่เผยแพร่ token, credential, private path, raw internal evidence หรือข้อมูลที่ไม่ควรขึ้น GitHub Pages.</div>
+      <div id="drillInternal"></div>
+    </div>
+    <div class="drill-pane" data-drill-pane="prevention"><h3>แนวทางป้องกัน / Guardrail</h3><div id="drillPrevention"></div></div>
+    <div class="drill-pane" data-drill-pane="statistics">
+      <h3>สถิติและหลักฐาน</h3>
+      <div id="drillStatistics"></div>
+      <div class="drill-evidence-line"><span>Record policy</span><b>Telemetry → Aggregate → Evidence → Batch Public Snapshot</b></div>
+    </div>
+
+    <div class="exec-drill-actions">
+      <button id="drillDeepLink">เปิดหน้ารายละเอียด →</button>
+      <button id="drillCloseBottom">ปิด</button>
+    </div>
+  </aside>
+
   <div class="story-pager" id="storyPager">
     <button id="storyPrev">← Previous</button>
     <div><span id="storyPageNo">01 / 06</span><b id="storyPageTitle">Executive Summary</b></div>
@@ -585,6 +635,6 @@
 </div>
 <script src="app.js?v=20261008-workflowfit1"></script>
 <script src="self-improvement.js?v=20261008-fleetdata1"></script>
-<script src="story-pages.js?v=20261008-storypages1"></script>
+<script src="story-pages.js?v=20261008-drilldown1"></script>
 </body>
 </html>
