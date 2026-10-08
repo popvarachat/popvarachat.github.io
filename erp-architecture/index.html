@@ -312,7 +312,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     <div class="topbar-inner">
       <div class="brand"><span class="brand-mark">ERP</span><span>Practika ERP Architecture</span></div>
       <nav class="nav">
-        <a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#finance">Finance</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
+        <a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#pain">Pain Points</a><a href="#finance">Finance</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
         <a href="#deep">Deep Dive</a><a href="#control">Controls</a><a href="#integration">Integration</a><a href="#cert">Certification</a>
       </nav>
     </div>
@@ -521,7 +521,64 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
   </section>
 
 
-  <section id="reports" class="section">
+  
+<section id="pain" class="section">
+  <div class="section-kicker">USER EVIDENCE LAYER</div>
+  <h2>User Pain · Operational Friction</h2>
+  <p class="section-lead">สรุปจากหลักฐานการใช้งานจริงข้ามฝ่าย เพื่อให้เห็นว่า ERP ไม่ได้มีแค่ flow ที่ “ควรเป็น” แต่มีจุดติดขัดที่เกิดซ้ำจริง จุดนี้ใช้เพื่อจัดลำดับการแก้ระบบและออกแบบ exception control ไม่ใช่ใช้แทน Technical RCA</p>
+
+  <div class="report-grid">
+    <div class="report-query-card">
+      <h4>Costing / X3-X4 / WIP</h4>
+      <div class="rq-label">User Pain</div><p>X3/X4 หรือ Cost 07 ไม่มา ต้อง recalc / rerun และบางครั้งกระทบ GL</p>
+      <div class="rq-label">Flow Link</div><p><code>WO</code><code>Product Cost</code><code>WIP</code><code>GL</code></p>
+      <div class="rq-label">Control Needed</div><p>Missing cost component detector · pre-completion check · version/runtime consistency</p>
+    </div>
+    <div class="report-query-card">
+      <h4>Run 99 / Rerun / Repost Dependency</h4>
+      <div class="rq-label">User Pain</div><p>งานต้องพึ่ง specialist intervention ซ้ำ ๆ เพื่อให้ status หรือข้อมูลเดินต่อ</p>
+      <div class="rq-label">Risk</div><p>Exception path กลายเป็น normal process และตรวจสอบย้อนหลังยาก</p>
+      <div class="rq-label">Control Needed</div><p>Recovery log · failed prerequisite · before/after state · repeat count</p>
+    </div>
+    <div class="report-query-card">
+      <h4>Physical Work ≠ ERP State</h4>
+      <div class="rq-label">User Pain</div><p>ของส่งแล้ว/ผลิตจบแล้ว แต่ ERP ยังอยู่สถานะกลาง ทำให้ Billing/Invoice ไปต่อไม่ได้</p>
+      <div class="rq-label">Flow Link</div><p><code>Production</code><code>Transfer</code><code>Delivery</code><code>AR</code></p>
+      <div class="rq-label">Control Needed</div><p>Physical-vs-system mismatch alert · state aging · owner / next action</p>
+    </div>
+    <div class="report-query-card">
+      <h4>Store Transfer / TS Backlog</h4>
+      <div class="rq-label">User Pain</div><p>ต้องตาม Transfer ผ่าน LINE/Excel, ของเคลื่อนจริงแต่ระบบยังไม่พร้อม, TS ยังไม่เกิด</p>
+      <div class="rq-label">Control Needed</div><p>Transfer queue · physical time · ERP time · TS status · aging · blocker</p>
+    </div>
+    <div class="report-query-card">
+      <h4>QC HOLD Release Queue</h4>
+      <div class="rq-label">User Pain</div><p>มีคำขอปลด HOLD ราย Item จำนวนมากผ่าน chat และต้องรอผู้มีสิทธิ์</p>
+      <div class="rq-label">Flow Link</div><p><code>Quality State</code><code>Material</code><code>Transfer</code></p>
+      <div class="rq-label">Control Needed</div><p>Hold reason · age · authority · downstream impact · release timestamp</p>
+    </div>
+    <div class="report-query-card">
+      <h4>Item / BOM / PO / Receipt Mismatch</h4>
+      <div class="rq-label">User Pain</div><p>Item ไม่ตรงสูตร, PO line type ผิด, ของเข้าจริงแต่ไม่มียอด, ต้องแก้/ย้อนเอกสาร</p>
+      <div class="rq-label">Control Needed</div><p>Material readiness ต้องรวม data readiness ไม่ใช่ดู stock qty อย่างเดียว</p>
+    </div>
+    <div class="report-query-card">
+      <h4>Invoice / Billing Blocked</h4>
+      <div class="rq-label">User Pain</div><p>ลูกค้ามีกำหนดวางบิล แต่ upstream WO/Transfer/Status/Run 99 ยังไม่ครบ</p>
+      <div class="rq-label">Derived State</div><p><b>Invoice Ready</b> = Delivery + WO Closure + Transfer/TS + SO Status + Tax/Customer rules + No Financial Hold</p>
+      <div class="rq-label">Dashboard</div><p>Deadline · blocker · owner · aging · next action</p>
+    </div>
+    <div class="report-query-card">
+      <h4>Accounting Integrity / Reconciliation</h4>
+      <div class="rq-label">User Pain</div><p>Trial Balance Diff, reverse/post ไม่ครบสองฝั่ง, negative cost, ต้อง Repost</p>
+      <div class="rq-label">Control Needed</div><p>Debit=Credit · subledger-to-GL · reverse pair · WIP-to-GL · negative-cost exception</p>
+    </div>
+  </div>
+
+  <div class="report-private-note"><b>Interpretation:</b> LINE escalation is strong evidence of recurring operational friction, but technical root cause must still be certified from ERP metadata/logs/transactions. Public view intentionally removes personal names, order numbers and internal chat details.</div>
+</section>
+
+<section id="reports" class="section">
     <div class="section-head"><h2>Report Architecture · UBE · Decision Surfaces</h2><p>Report ที่ดีไม่ใช่เพียง “หน้าจอหรือไฟล์ออกมาได้” แต่ต้องรู้ว่าอ่านจากไหน คำนวณอย่างไร refresh เมื่อไร มีสิทธิ์เปลี่ยนข้อมูลหรือไม่ และผู้บริหารใช้ตัดสินใจอะไรต่อ</p></div>
     <div class="report-shell">
       <div class="report-head">
@@ -1188,7 +1245,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
       N("Payment","แยก manual/automatic payment และ payment group",["Payment number","Payment group","Bank context"]),
       N("AP Decision Surface","มอง due/overdue/duplicate risk โดยไม่ execute payment",["Open AP","Due exposure","Exception"])
     ]),
-    "Production Cost / WIP":R("เชื่อม production execution เข้ากับ cost accounting ใน grain WO / Cost Type / Work Center","branch",[
+    "Production Cost / WIP":R("เชื่อม production execution เข้ากับ cost accounting ใน grain WO / Cost Type / Work Center · USER PAIN: X3/X4 / Cost 07 missing, rerun dependency, GL impact","branch",[
       N("Work Order Context","ต้นทุนต้อง trace กลับงานผลิตได้",["Order number / type","Item","Quantity"]),
       N("Cost Components","แยก material/labor/machine/overhead ตาม source ที่รับรอง",["Cost type","Cost component","Rate / basis"]),
       N("Work Center Cost","ผูกต้นทุนกับ work center/rate",["Work center","Rate context","Effective period"]),
@@ -1208,7 +1265,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
       N("Asset Ledger","เก็บ transaction history ของสินทรัพย์",["Asset reference","Transaction date","Amount"]),
       N("Remaining Gap","master/depreciation/disposal ยังต้อง evidence เพิ่ม",["Asset master","Depreciation","Transfer / disposal"])
     ],"PARTIAL"),
-    "Tax / Payment":R("Tax/Treasury processes มี authority สูง จึงแยก read evidence ออกจาก execution อย่างชัดเจน","branch",[
+    "Tax / Payment":R("Tax/Treasury processes มี authority สูง จึงแยก read evidence ออกจาก execution อย่างชัดเจน · USER PAIN: billing deadline can be blocked by upstream ERP state","branch",[
       N("Withholding Tax","dedicated Thai Tax task view ยืนยัน process branch",["Withholding Tax Process","Tax record/revision","Form/report evidence"]),
       N("VAT","dedicated VAT process branch + AP/AR evidence",["VAT Process","Tax period","Tax file / journal"]),
       N("Manual Payment","payment with/without voucher match",["Supplier","Payment number","Document relation"]),
