@@ -597,7 +597,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
     <div class="report-shell">
       <div class="report-head">
         <div><div class="report-kicker">Admin Evidence · 2026-10-08</div><h2>GL · AR · AP · Fixed Assets · Tax · Cost Accounting</h2><p>จากเดิมที่ฝั่งบัญชียังเป็น access gap ตอนนี้ General Ledger, Accounts Receivable และ Accounts Payable มีหลักฐานโครงสร้างจริงแล้ว ส่วน Fixed Assets ได้ first-pass และ Thai Tax / Manufacturing Accounting ยังมี gap เฉพาะจุดที่ต้อง certify ต่อ</p></div>
-        <div class="flow-status">OVERALL ERP · ~86%</div>
+        <div class="flow-status">OVERALL ERP · ~91%</div>
       </div>
 
       <div class="report-summary">
@@ -659,7 +659,17 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <div class="rq-label">Target Cross-domain Join</div><p>WO / Cutting → Material Issue → Time Entry → Completion → WIP / FG → GL impact</p>
             <div class="rq-label">Recommended Grain</div><p>WO / Cutting / Operation / Cost Component</p>
             <div class="rq-label">Required Keys</div><p><code>WO</code><code>Cutting</code><code>Operation</code><code>Item</code><code>Cost Type</code><code>G/L Account</code></p>
-            <div class="rq-label">Current State</div><p><b>GAP / VERIFY:</b> dedicated Manufacturing Accounting root is visible but did not expose child evidence; do not infer standard objects</p>
+            <div class="rq-label">Current State</div><p><b>CONFIRMED SOURCE:</b> Product Costing + Work Center/Resource + Routing/Standard Time + Production Cost Inquiry are now evidenced. Physical BV/Table lineage and selected UBE metadata still require technical certification.</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="report-query-card">
+            <h4>Resource & Capacity Planning</h4>
+            <div class="rq-label">Confirmed Architecture</div><p>Work Center master · Resource Units · Work Center Load · Capacity Requirements · Routing · Standard Time</p>
+            <div class="rq-label">Recommended Grain</div><p>Work Center / Operation / Period / Resource</p>
+            <div class="rq-label">Required Keys</div><p><code>Branch/Plant</code><code>Work Center</code><code>Operation Seq.</code><code>Period</code><code>Resource Units</code><code>Capacity UOM</code></p>
+            <div class="rq-label">Current State</div><p><b>CONFIRMED:</b> architecture source identified. Remaining work is physical BV/Table lineage and policy-level utilization/shift governance.</p>
           </div>
         </div>
       </div>
@@ -678,7 +688,7 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
             <tr><td>Accounts Payable</td><td>STRONG</td><td>Voucher · Supplier Ledger · Payment · AP Reports · Tax · Bank flow</td><td>UBE Update Y/N + selected Processing Options</td></tr>
             <tr><td>Fixed Assets</td><td>PARTIAL</td><td>Posting-to-FA first-pass path</td><td>Master · depreciation · transfer/disposal</td></tr>
             <tr><td>Thai Tax</td><td>PARTIAL</td><td>Tax/VAT/withholding functions evidenced via AP/AR</td><td>Dedicated Thai Tax root mapping</td></tr>
-            <tr><td>Manufacturing Accounting</td><td>GAP</td><td>Root exists</td><td>Cost/WIP/variance source and workflow</td></tr>
+            <tr><td>Manufacturing Accounting</td><td>STRONG</td><td>Product Costing source, Work Center/Resource/Rate, Routing/Standard Time, Production Cost Inquiry</td><td>Physical BV/Table lineage + selected Processing Options/Data Selection</td></tr>
           </tbody>
         </table>
       </div>
