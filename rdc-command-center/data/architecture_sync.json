@@ -1,0 +1,54 @@
+{
+  "schema": "rdc.architecture.public.v1",
+  "architecture_id": "rdc-adaptive-control-plane",
+  "runtime_version": "1.7",
+  "decision_gate_version": "v1",
+  "source_of_truth": "private:popvarachat/rdc-runtime-source-of-truth",
+  "source_commit": "4d9a66d7e040c63fbe88ce14ef41c9b8d5e158d3",
+  "generated_at": "2026-10-09T22:10:00+07:00",
+  "last_verified": "2026-10-09",
+  "sync_policy": "manual_checkpoint_no_background_no_github_actions",
+  "deploy_state": "PROPOSED_REVIEW_NOT_LIVE",
+  "architecture_contract": {
+    "stages": [
+      "intent",
+      "authoritative_context",
+      "capability_discovery",
+      "alternative_generation",
+      "evidence_probing",
+      "decision_ranking",
+      "human_gate",
+      "execution",
+      "independent_validation",
+      "learning_event",
+      "safe_promotion"
+    ],
+    "execution_preference": "API/MCP/CLI; Playwright for browser/UI",
+    "controls": [
+      "SHADOW_JEV",
+      "READ_ONLY_RED_TEAM",
+      "DRAFT_SKILL_FACTORY",
+      "PROPOSAL_ARCH_REFACTOR",
+      "SHADOW_CANARY",
+      "HUMAN_GATE"
+    ]
+  },
+  "verification": {
+    "pc_core_checks": "12/12",
+    "notebook_core_checks": "12/12",
+    "decision_gate": "v1 plan entrypoint only",
+    "cross_host_failover": "NOT_VERIFIED",
+    "live_decision_enforcement": "NOT_VERIFIED",
+    "production_kpis": "INSUFFICIENT_DATA"
+  },
+  "self_improvement": {
+    "mode": "observe_propose_test_compare_approve_promote",
+    "automatic_promotion": false,
+    "baseline_required": true,
+    "rollback_required": true
+  },
+  "security": {
+    "sanitized_public": true,
+    "contains_credentials": false
+  }
+}
