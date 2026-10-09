@@ -2,9 +2,9 @@
   "schema": "rdc.architecture.public.v1",
   "architecture_id": "rdc-adaptive-control-plane",
   "runtime_version": "1.7",
-  "decision_gate_version": "v1",
+  "decision_gate_version": "v2",
   "source_of_truth": "private:popvarachat/rdc-runtime-source-of-truth",
-  "source_commit": "4d9a66d7e040c63fbe88ce14ef41c9b8d5e158d3",
+  "source_commit": "8779049",
   "generated_at": "2026-10-09T22:10:00+07:00",
   "last_verified": "2026-10-09",
   "sync_policy": "manual_checkpoint_no_background_no_github_actions",
@@ -36,13 +36,13 @@
   "verification": {
     "pc_core_checks": "12/12",
     "notebook_core_checks": "12/12",
-    "decision_gate": "v1 plan entrypoint only",
+    "decision_gate": "v2 implemented on PC+NB; plan entrypoint only; scored verified evidence; no autonomous authorization",
     "cross_host_failover": "NOT_VERIFIED",
     "live_decision_enforcement": "NOT_VERIFIED",
     "production_kpis": "INSUFFICIENT_DATA"
   },
   "self_improvement": {
-    "mode": "observe_propose_test_compare_approve_promote",
+    "mode": "observe -> rank verified evidence -> test -> compare to baseline -> human approval -> promote",
     "automatic_promotion": false,
     "baseline_required": true,
     "rollback_required": true
