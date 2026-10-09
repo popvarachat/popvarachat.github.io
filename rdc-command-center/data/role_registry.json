@@ -1,0 +1,553 @@
+{
+  "schema": "rdc.role_registry.v1",
+  "version": "2026-10-09",
+  "canonical_repository": "popvarachat/rdc-runtime-source-of-truth",
+  "projection": "public_sanitized",
+  "status_note": "Role assignments are architecture contracts. Status is not a live health claim; verify capability before execution.",
+  "learning_policy": {
+    "cycle": [
+      "observe",
+      "analyze",
+      "propose",
+      "test_shadow",
+      "measure_before_after",
+      "review_human_gate",
+      "promote_version",
+      "rollback_if_needed"
+    ],
+    "automatic_promotion": false,
+    "task_outcome_measurement": "INCOMPLETE"
+  },
+  "roles": [
+    {
+      "id": "human-gate",
+      "name": "Human Gate",
+      "group": "Governance",
+      "title": "Final Risk Authority",
+      "responsibility": "Approve sensitive, destructive, paid, production and trading changes",
+      "status": "APPROVAL_REQUIRED",
+      "authority": "HUMAN_APPROVAL",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "chatgpt",
+      "name": "ChatGPT",
+      "group": "Governance",
+      "title": "Strategic Intelligence",
+      "responsibility": "Interpret intent, alternatives, strategy and evidence summaries",
+      "status": "ASSISTIVE",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "orchestrator",
+      "name": "RDC Orchestrator",
+      "group": "Governance",
+      "title": "Control Plane",
+      "responsibility": "Route agents, coordinate DAG, permissions, checkpoints and validation",
+      "status": "PARTIAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "dag",
+      "name": "Dynamic DAG Planner",
+      "group": "Governance",
+      "title": "Planning Director",
+      "responsibility": "Task dependencies, parallel execution groups and gates",
+      "status": "SMOKE_TESTED",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "decision-gate",
+      "name": "Decision Intelligence Gate v2",
+      "group": "Governance",
+      "title": "Decision Controller",
+      "responsibility": "Compare alternatives using verified input; fail closed without evidence",
+      "status": "PLAN_ONLY",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "jev",
+      "name": "JEV",
+      "group": "Governance",
+      "title": "Independent Decision Advisor",
+      "responsibility": "Challenge route selection without controlling execution",
+      "status": "SHADOW",
+      "authority": "RESTRICTED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "economic-router",
+      "name": "Economic Router",
+      "group": "Governance",
+      "title": "Cost and Quality Optimizer",
+      "responsibility": "Evaluate model/tool cost, quality, quota and latency",
+      "status": "SHADOW",
+      "authority": "RESTRICTED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "confidence",
+      "name": "Confidence Escalation",
+      "group": "Governance",
+      "title": "Risk Controller",
+      "responsibility": "Escalate uncertain tasks to review, sandbox or human approval",
+      "status": "SMOKE_TESTED",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "world-model",
+      "name": "World Model",
+      "group": "Governance",
+      "title": "State Intelligence",
+      "responsibility": "Track system world and resource constraints",
+      "status": "SMOKE_TESTED",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "temporal-memory",
+      "name": "Temporal Memory",
+      "group": "Governance",
+      "title": "Historian",
+      "responsibility": "Record changes and compare with previous state",
+      "status": "SMOKE_TESTED",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "codex-corporate",
+      "name": "Codex Corporate CLI",
+      "group": "Intelligence",
+      "title": "Principal Software Engineer",
+      "responsibility": "Code, review, refactor and integration testing",
+      "status": "VERIFY_LIVE",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "gemini-cli",
+      "name": "Gemini CLI",
+      "group": "Intelligence",
+      "title": "Research Engineer",
+      "responsibility": "Technical analysis and second opinions",
+      "status": "VERIFY_LIVE",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "claude-cli",
+      "name": "Claude Code CLI",
+      "group": "Intelligence",
+      "title": "Review Specialist",
+      "responsibility": "Architecture and independent code critique",
+      "status": "OPTIONAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "ollama",
+      "name": "Ollama",
+      "group": "Intelligence",
+      "title": "Local Inference Server",
+      "responsibility": "Serve local models and constrained workloads",
+      "status": "HOST_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "qwen3",
+      "name": "Qwen3-8B",
+      "group": "Intelligence",
+      "title": "Local Reasoning Worker",
+      "responsibility": "Local summarization, classification and low-risk analysis",
+      "status": "PC_OPTIONAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "subagents",
+      "name": "Specialized Sub-Agents",
+      "group": "Intelligence",
+      "title": "Task Specialists",
+      "responsibility": "Research, coding, analysis, execution and QA by assigned scope",
+      "status": "PARTIAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "mcp",
+      "name": "MCP Connectors",
+      "group": "Execution",
+      "title": "Integration Fabric",
+      "responsibility": "Authorized structured access to connected services",
+      "status": "CAPABILITY_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "api",
+      "name": "API Gateway",
+      "group": "Execution",
+      "title": "Backend Integration",
+      "responsibility": "Prefer direct authorized APIs for stable machine interfaces",
+      "status": "CAPABILITY_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "cli",
+      "name": "CLI / PowerShell",
+      "group": "Execution",
+      "title": "System Executor",
+      "responsibility": "Execute scoped scripts, tests and system commands",
+      "status": "AVAILABLE",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "playwright",
+      "name": "Playwright CLI/MCP",
+      "group": "Execution",
+      "title": "Primary Browser Executor",
+      "responsibility": "DOM-aware UI automation and E2E validation",
+      "status": "PRIMARY_UI",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "tinyfish",
+      "name": "TinyFish",
+      "group": "Execution",
+      "title": "Browser Fallback",
+      "responsibility": "Browser workflows if primary executor fails and authorized",
+      "status": "FALLBACK",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "windows-mcp",
+      "name": "Windows MCP",
+      "group": "Execution",
+      "title": "Desktop UI Executor",
+      "responsibility": "Windows app workflows when APIs and CLI do not suffice",
+      "status": "FALLBACK",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "rdc-remote",
+      "name": "Remote Desktop Commander",
+      "group": "Execution",
+      "title": "Cross-device Gateway",
+      "responsibility": "Read and execute scoped tasks on authorized PC/NB",
+      "status": "ONLINE_LAST_CHECK",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "event-system",
+      "name": "Event Nervous System",
+      "group": "Execution",
+      "title": "Event Dispatcher",
+      "responsibility": "Route meaningful triggers to appropriate workflows",
+      "status": "SMOKE_TESTED",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "pc",
+      "name": "PC Compute Node",
+      "group": "Infrastructure",
+      "title": "Heavy Compute Host",
+      "responsibility": "Run memory-intensive tasks and optional local inference",
+      "status": "ONLINE_LAST_CHECK",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "notebook",
+      "name": "Notebook Operations Node",
+      "group": "Infrastructure",
+      "title": "Operations Host",
+      "responsibility": "Control automation and delegate suitable heavy work",
+      "status": "ONLINE_LAST_CHECK",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "docker",
+      "name": "Docker",
+      "group": "Infrastructure",
+      "title": "Container Platform",
+      "responsibility": "Isolated reproducible services",
+      "status": "CAPABILITY_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "ubuntu",
+      "name": "WSL2 Ubuntu / Linux",
+      "group": "Infrastructure",
+      "title": "Linux Runtime",
+      "responsibility": "Linux-native scripts, tools and development",
+      "status": "HOST_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "github-private",
+      "name": "GitHub Private",
+      "group": "Infrastructure",
+      "title": "Engineering Source of Truth",
+      "responsibility": "Canonical runtime code, architecture, policies and tests",
+      "status": "CANONICAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "github-public",
+      "name": "GitHub Pages",
+      "group": "Infrastructure",
+      "title": "Dashboard Publisher",
+      "responsibility": "Sanitized architecture and executive view",
+      "status": "SNAPSHOT_ONLY",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "cloudflare",
+      "name": "Cloudflare",
+      "group": "Infrastructure",
+      "title": "Edge Infrastructure",
+      "responsibility": "Workers, Pages and approved edge service integrations",
+      "status": "ON_DEMAND",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "google-drive",
+      "name": "Google Drive",
+      "group": "Infrastructure",
+      "title": "Shared Archive",
+      "responsibility": "Versioned documents, archives and approved file backups",
+      "status": "CONNECTED_SCOPE",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "sqlite",
+      "name": "SQLite Learning Store",
+      "group": "Infrastructure",
+      "title": "Local Operational Store",
+      "responsibility": "Task traces, audits and lessons without simultaneous Drive writes",
+      "status": "PARTIAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "jde",
+      "name": "Oracle JDE ERP",
+      "group": "Business",
+      "title": "ERP Data Source",
+      "responsibility": "Authorized enterprise manufacturing and report data",
+      "status": "PERMISSION_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "production",
+      "name": "Production Control Tower",
+      "group": "Business",
+      "title": "Planning Intelligence",
+      "responsibility": "Capacity, scheduling and manufacturing bottleneck analysis",
+      "status": "PROJECT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "network-twin",
+      "name": "Network Digital Twin",
+      "group": "Business",
+      "title": "Infrastructure Intelligence",
+      "responsibility": "Read-only network state and risk representation",
+      "status": "PROJECT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "mt5",
+      "name": "MetaTrader 5",
+      "group": "Business",
+      "title": "Trading Data/Execution Interface",
+      "responsibility": "Market/account data; trading writes require explicit approval",
+      "status": "HUMAN_GATE",
+      "authority": "HUMAN_APPROVAL",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "tradingview",
+      "name": "TradingView",
+      "group": "Business",
+      "title": "Market Analytics",
+      "responsibility": "Chart, indicator and signal evidence",
+      "status": "QUOTA_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "line-oa",
+      "name": "LINE OA",
+      "group": "Business",
+      "title": "Messaging Gateway",
+      "responsibility": "Webhook ingestion and authorized notifications",
+      "status": "INTEGRATION_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "apps-script",
+      "name": "Google Apps Script",
+      "group": "Business",
+      "title": "Workflow Bridge",
+      "responsibility": "Google Workspace processing and webhook integrations",
+      "status": "PROJECT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "google-workspace",
+      "name": "Gmail / Calendar",
+      "group": "Business",
+      "title": "Business Coordination",
+      "responsibility": "Authorized communication and schedules",
+      "status": "CONNECTOR_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "figma",
+      "name": "Figma",
+      "group": "Business",
+      "title": "Design Tool",
+      "responsibility": "Editable UX and design handoff",
+      "status": "CONNECTOR_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "work-management",
+      "name": "Notion / Airtable / monday.com",
+      "group": "Business",
+      "title": "Task Platforms",
+      "responsibility": "Connected knowledge and operational task state",
+      "status": "CONNECTOR_DEPENDENT",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "qa",
+      "name": "Independent QA",
+      "group": "Quality & Learning",
+      "title": "Quality Director",
+      "responsibility": "Read-back from authoritative system; avoid self-asserted success",
+      "status": "PARTIAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "ledger",
+      "name": "Immutable Evidence Ledger",
+      "group": "Quality & Learning",
+      "title": "Evidence Officer",
+      "responsibility": "Chain-of-hash integrity of attributable runtime records",
+      "status": "SMOKE_TESTED",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "learning",
+      "name": "Learning Store",
+      "group": "Quality & Learning",
+      "title": "Institutional Memory",
+      "responsibility": "Capture outcomes, lessons and improvement candidates",
+      "status": "PARTIAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "redteam",
+      "name": "Devil / Red Team",
+      "group": "Quality & Learning",
+      "title": "Risk Reviewer",
+      "responsibility": "Critique plans, assumptions and failure modes",
+      "status": "READ_ONLY",
+      "authority": "RESTRICTED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "canary",
+      "name": "Shadow / Canary",
+      "group": "Quality & Learning",
+      "title": "Experiment Manager",
+      "responsibility": "Limited tests before safe promotion",
+      "status": "SHADOW",
+      "authority": "RESTRICTED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "skill-factory",
+      "name": "Skill Factory",
+      "group": "Quality & Learning",
+      "title": "Capability Development",
+      "responsibility": "Propose and validate reusable skills",
+      "status": "DRAFT_ONLY",
+      "authority": "RESTRICTED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "skills",
+      "name": "/skill Registry",
+      "group": "Quality & Learning",
+      "title": "Reusable Capability Catalog",
+      "responsibility": "Define prerequisites, API, validation, permissions and rollback",
+      "status": "PARTIAL",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "refactor",
+      "name": "Architecture Refactor Agent",
+      "group": "Quality & Learning",
+      "title": "Systems Improvement Architect",
+      "responsibility": "Propose deduplication and architecture changes",
+      "status": "PROPOSAL_ONLY",
+      "authority": "RESTRICTED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "observability",
+      "name": "Performance Observatory",
+      "group": "Quality & Learning",
+      "title": "KPI Analyst",
+      "responsibility": "Measure real outcomes, P95, cost and resource burden",
+      "status": "INSUFFICIENT_DATA",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    },
+    {
+      "id": "drift",
+      "name": "Architecture Drift Watch",
+      "group": "Quality & Learning",
+      "title": "Configuration Monitor",
+      "responsibility": "Compare canonical/private vs sanitized/public snapshots",
+      "status": "DAILY_WATCH",
+      "authority": "POLICY_GATED",
+      "telemetry": "NOT_YET_FULLY_MEASURED"
+    }
+  ]
+}
