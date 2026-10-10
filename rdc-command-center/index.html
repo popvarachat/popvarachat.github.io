@@ -259,10 +259,24 @@
   </section>
 
   <section id="architecture" class="section" data-story-page="architecture">
+    <div id="rdcArchitecture2026" style="max-width:100%;min-width:0;box-sizing:border-box;padding:16px;margin:0 0 16px;border:1px solid #476b79;border-radius:16px;background:#102337;overflow:hidden">
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;flex-wrap:wrap;gap:8px"><div><div style="font-size:11px;color:#77e4d1;letter-spacing:.08em">CURRENT ARCHITECTURE · 10 OCT 2026</div><h2 style="margin:5px 0 4px;line-height:1.3;font-size:clamp(18px,2.4vw,27px)">RDC L5 Integration · 53 Nodes · Dual Cloud · PC + NB</h2><div style="font-size:12px;color:#b3c6d8">Architecture target ≠ 53 live executors · Cross-host auto failover ยังไม่ผ่านรับรอง</div></div><a href="l5-readiness.html" style="font-size:12px;color:#77e4d1">หลักฐานและอุปสรรคสู่ L5 →</a></div>
+      <style>#rdcArchitecture2026 .l5grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin-top:13px}#rdcArchitecture2026 .l5card{min-width:0;border:1px solid #3c5b70;border-radius:12px;padding:11px;background:#0b1a2b}#rdcArchitecture2026 .l5card h3{margin:0 0 5px;font-size:14px;color:#c8fff3}#rdcArchitecture2026 .l5card p{margin:0;font-size:12px;color:#cedee9;overflow-wrap:anywhere;line-height:1.65}#rdcArchitecture2026 .l5state{font-size:11px;color:#f6ca85;margin-top:6px}#rdcArchitecture2026 .l5arrow{text-align:center;color:#70cfcc;padding:7px;font-size:13px}@media(max-width:780px){#rdcArchitecture2026 .l5grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:480px){#rdcArchitecture2026 .l5grid{grid-template-columns:minmax(0,1fr)}}</style>
+      <div class="l5grid">
+        <div class="l5card"><h3>01 · Governance (10)</h3><p>Human Gate · ChatGPT · Orchestrator · DAG · Decision Gate · JEV Shadow · Economic Router · Confidence · World Model · Temporal Memory</p><div class="l5state">Planner และ Policy บางส่วน; ไม่ใช่ Self-driving ทั้งระบบ</div></div>
+        <div class="l5card"><h3>02 · Intelligence (6)</h3><p>CLI_Codex Corporate · Gemini CLI · Claude CLI · Ollama · Qwen3 PC · Sub-Agents</p><div class="l5state">Live AI + QA ผ่าน Corporate / Qwen3</div></div>
+        <div class="l5card"><h3>03 · Execution (8)</h3><p>MCP · API · CLI · Playwright · TinyFish · Windows MCP · RDC Remote · Event System</p><div class="l5state">API/CLI-first; Browser fallback; Status ตามหลักฐาน</div></div>
+        <div class="l5card"><h3>04 · Infrastructure (9)</h3><p>PC · Notebook · Docker · WSL · GitHub Private · GitHub Pages · Cloudflare · Google Drive · SQLite</p><div class="l5state">เพิ่ม OneDrive บริษัทเป็น Cloud Data Plane (ยังไม่เพิ่ม Node ในทะเบียน 53)</div></div>
+        <div class="l5card"><h3>05 · Business (10)</h3><p>Oracle JDE · Production Tower · Network Twin · MT5 · TradingView · LINE OA · Apps Script · Google Workspace · Figma · Work Management</p><div class="l5state">MT5 ไม่ Auto-trade; LINE รับเข้าเท่านั้น</div></div>
+        <div class="l5card"><h3>06 · Quality & Learning (10)</h3><p>Independent QA · Ledger · Learning · Red Team · Canary · Skill Factory · Skills · Refactor · Observatory · Drift Watch</p><div class="l5state">53-node Mock ครบ แต่ Live Assurance ยังไม่ครบ</div></div>
+      </div>
+      <div class="l5arrow">Human Gate → Planner / Direct-first Router → NB Corporate (1 Job) | PC Qwen3 (1 Heavy Job) → QA + Checkpoint → Learning</div>
+      <div style="border:1px solid #42657a;border-radius:10px;padding:10px;font-size:12px;line-height:1.65">☁ <b>Dual Cloud:</b> OneDrive บริษัทใช้ข้อมูล Practika · Google Drive ส่วนตัวใช้ข้อมูลส่วนตัว/จำลอง · GitHub Private สำหรับ Source of Truth · <b>Cross-device automatic queue / failover:</b> ยังไม่รับรอง</div>
+    </div>
     <div id="rdcRoleRegistry" aria-label="RDC Master Role Registry"></div>
     <div id="rdcArchitectureSync" role="status" aria-live="polite" style="padding:10px 14px;margin:10px 0 15px;border:1px solid #52657a;border-radius:10px;font-size:12px;overflow-wrap:anywhere">กำลังตรวจสอบ Version ของ Architecture…</div>
     <div class="section-head">
-      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Adaptive AI Runtime v1.7 · architecture_manifest v2 · Unified PC + Notebook</h2></div>
+      <div><span class="kicker">REAL EXECUTION TOPOLOGY</span><h2>Legacy topology · Runtime v1.7 reference (historical manifest)</h2></div>
       <span id="healthBadge" class="badge"></span>
     </div>
     <div class="workflow-shell">
@@ -277,7 +291,7 @@
         <span class="hint">คลิกทุก Node → Purpose · Input · Output · Authority · Status · Connected Routes</span>
       </div>
       <div class="workflow-scroll">
-        <div class="workflow-surface runtime-v17" aria-label="RDC Adaptive AI Runtime v1.7 topology">
+        <div class="workflow-surface runtime-v17" aria-label="Legacy RDC Adaptive AI Runtime v1.7 topology — historical reference">
           <div class="wf-zone state-zone"><span>STATE & MEMORY</span></div>
           <div class="wf-zone routing-zone"><span>ROUTING FABRIC</span></div>
           <div class="wf-zone execution-zone"><span>EXECUTION & ASSURANCE</span></div>
@@ -639,7 +653,7 @@
 <script src="app.js?v=20261008-workflowfit1"></script>
 <script src="self-improvement.js?v=20261008-fleetdata1"></script>
 <script src="story-pages.js?v=20261008-drilldown1"></script>
-<script src="architecture-sync.js?v=1"></script>
+<script src="architecture-sync.js?v=20261010-l5v2"></script>
 <script src="role-registry.js?v=20261009-masterroles1"></script>
 </body>
 </html>
