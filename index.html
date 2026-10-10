@@ -188,6 +188,7 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "line-digital-twin-manual": {title:"LINE Digital Twin · Executive Overview",description:"Public-safe workflow · Silent Inbound → Private Evidence → Historical Recovery → Issue Intelligence → Human Gate. ข้อมูลจริงอยู่ในระบบภายในเท่านั้น"},
   "erp-architecture-manual": {
     title:"Practika ERP Architecture · Executive Deep Dive",
     description:"Source-of-Truth architecture map · Business Domains → ERP Application → Logic/Data → Controls/Integration พร้อม Progressive Deep Dive แบบไม่ต่อ Flow เป็นรถไฟ"
@@ -251,6 +252,7 @@ const overrides = {
 };
 
 const architectures = {
+  "line-digital-twin-manual": {note:"Public-safe architecture only. Never expose LINE messages, room metadata, protected evidence or credentials on GitHub Pages.",flow:[["Silent Inbound","LINE Webhook · no outgoing message"],["Private Store","D1/R2/Drive access-controlled"],["Historical Recovery","Provenance / per-room date coverage"],["Intelligence","Evidence-led issue review"],["Human Gate","Approval and audit"]],meta:["LINE Silent","Internal Data Only","Public Executive View"]},
   "rdc-command-center-manual": {
     note:"RDC ใช้ Orchestrator คุม Agent/Skill โดยเลือก API → MCP → CLI ก่อน UI, fan-out งานอิสระแบบขนาน, โหลด Global Skill แบบ lazy และหยุดเฉพาะ Human Gate หรือ DONE ที่มีหลักฐาน.",
     flow:[["Intent","Human / ChatGPT goal + scope"],["Orchestrator","Context → route Agent/Skill → parallel plan"],["Jev Decision Layer","Bounded Agent / Skill / Retry / Model routing · SHADOW first"],["Backend","API → MCP → CLI · batch + retry"],["Agent Swarm","Build · Debug · Data · Research · QA · Security"],["Lazy Arsenal","Global metadata → pinned fetch → SHA verify on demand"],["Validation","Independent QA + source-of-truth re-read"],["Boundary","DONE or Human Gate"]],
@@ -318,6 +320,7 @@ const architectures = {
   }
 };
 const manualApps = [
+  {name:"line-digital-twin-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/line-digital-twin/",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/line-digital-twin",updated_at:"2026-10-10T14:00:00+07:00",topics:["LINE Digital Twin"],language:"HTML",description:"Public-safe LINE Digital Twin Executive Overview"},
   {
     name:"erp-architecture-manual",
     visibility:"public",
@@ -434,11 +437,10 @@ const manualApps = [
   {
     name:"car-digital-twin-dashboard-manual",
     visibility:"public",
-    pinned:true,
     homepage:"https://popvarachat.github.io/practika-flood-map-public/car-digital-twin-dashboard/",
     html_url:"https://github.com/popvarachat/practika-flood-map-public/tree/main/car-digital-twin-dashboard",
-    updated_at:"2026-10-10T14:10:00+07:00",
-    topics:["Digital Twin","CAR","NC Flow"],
+    updated_at:"2026-10-01T03:25:00Z",
+    topics:["Digital Twin"],
     language:"HTML",
     description:"Executive CAR analytics พร้อม drill-down ถึงข้อมูลแต่ละ CAR และ revision timeline"
   },
