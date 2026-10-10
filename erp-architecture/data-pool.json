@@ -1,0 +1,204 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": null,
+  "source_mode": "NOT_CONNECTED",
+  "data_classification": "PUBLIC_SAFE_METADATA_ONLY",
+  "notice_th": "ยังไม่ได้เชื่อม ERP หรืออัปโหลดข้อมูล Report ที่ผ่านการรับรอง ค่า KPI ทั้งหมดจะแสดงว่าไม่มีข้อมูล ไม่ใช้ค่าจำลอง",
+  "controls": {
+    "read_only": true,
+    "no_erp_writeback": true,
+    "exclude_sensitive_records": true,
+    "exclude_internal_object_versions": true
+  },
+  "report_catalog": [
+    {
+      "id": "production",
+      "title": "สุขภาพการผลิต",
+      "question": "งานเปิด งานค้าง และงานเสี่ยงมีเท่าไร",
+      "grain": "SO line / WO / Cutting",
+      "sources": [
+        "WO Monitor",
+        "Cutting Inquiry",
+        "Sales Order Inquiry"
+      ],
+      "status": "SOURCE_MAPPING_CONFIRMED"
+    },
+    {
+      "id": "delivery",
+      "title": "ความเสี่ยงส่งมอบ",
+      "question": "งานใดเสี่ยงส่งไม่ทัน และเพราะอะไร",
+      "grain": "SO line / WO / Cutting",
+      "sources": [
+        "SO Inquiry",
+        "WO Monitor"
+      ],
+      "status": "POLICY_PENDING"
+    },
+    {
+      "id": "wip",
+      "title": "WIP และงานค้าง",
+      "question": "งานติดอยู่ในขั้นตอนใดนานเกินไป",
+      "grain": "WO / Cutting / Operation",
+      "sources": [
+        "WO Monitor",
+        "Review Order Hours"
+      ],
+      "status": "SOURCE_MAPPING_CONFIRMED"
+    },
+    {
+      "id": "material",
+      "title": "ความพร้อมวัตถุดิบ",
+      "question": "รายการใดขาดของหรือรอ PO",
+      "grain": "WO / Component / Branch",
+      "sources": [
+        "Parts List",
+        "Item Ledger",
+        "PO"
+      ],
+      "status": "ALLOCATION_NOT_CERTIFIED"
+    },
+    {
+      "id": "capacity",
+      "title": "ภาระกำลังการผลิต",
+      "question": "Work Center ใดโหลดสูง",
+      "grain": "Work Center / Shift",
+      "sources": [
+        "Work Center",
+        "Resource Units",
+        "Routing"
+      ],
+      "status": "FINITE_CAPACITY_PENDING"
+    },
+    {
+      "id": "productivity",
+      "title": "ประสิทธิภาพการผลิต",
+      "question": "เวลาจริงต่างจากมาตรฐานเท่าใด",
+      "grain": "WO / Operation",
+      "sources": [
+        "Order Hours",
+        "Routing"
+      ],
+      "status": "STANDARD_TIME_JOIN_PENDING"
+    },
+    {
+      "id": "supplier",
+      "title": "ความเสี่ยง PO และ Supplier",
+      "question": "PO รายการใดใกล้กำหนดหรือช้า",
+      "grain": "PO line / Item",
+      "sources": [
+        "PO",
+        "Receipt Inquiry"
+      ],
+      "status": "SOURCE_MAPPING_CONFIRMED"
+    },
+    {
+      "id": "quality",
+      "title": "QC HOLD และคุณภาพ",
+      "question": "Lot ใด HOLD และติดขัดต่อการผลิต",
+      "grain": "Lot / Test",
+      "sources": [
+        "Test Result",
+        "Lot Master"
+      ],
+      "status": "SOURCE_MAPPING_CONFIRMED"
+    },
+    {
+      "id": "invoice",
+      "title": "ความพร้อมออก Invoice",
+      "question": "ส่งของแล้วแต่ยังออกบิลไม่ได้เพราะอะไร",
+      "grain": "SO line / Invoice",
+      "sources": [
+        "Sales Order Inquiry",
+        "Cutting",
+        "Transfer"
+      ],
+      "status": "RULE_PENDING"
+    },
+    {
+      "id": "finance",
+      "title": "บัญชีและต้นทุน",
+      "question": "WIP/GL/Cost มีข้อยกเว้นอะไร",
+      "grain": "WO / Journal / Period",
+      "sources": [
+        "Production Cost Inquiry",
+        "GL Inquiry"
+      ],
+      "status": "RECONCILIATION_PENDING"
+    },
+    {
+      "id": "data_quality",
+      "title": "คุณภาพข้อมูล",
+      "question": "ข้อมูลใหม่แค่ไหนและมีส่วนที่ไม่ครบตรงไหน",
+      "grain": "Source Batch / Rule",
+      "sources": [
+        "Source Batch",
+        "DQ Rules"
+      ],
+      "status": "POOL_READY"
+    }
+  ],
+  "datasets": {},
+  "metric_definitions": [
+    {
+      "id": "open_jobs",
+      "label": "งานเปิด",
+      "unit": "งาน",
+      "dataset": "production",
+      "field": "open_jobs"
+    },
+    {
+      "id": "overdue_jobs",
+      "label": "งานค้างกำหนด",
+      "unit": "งาน",
+      "dataset": "delivery",
+      "field": "overdue_jobs"
+    },
+    {
+      "id": "quality_holds",
+      "label": "QC HOLD",
+      "unit": "Lot",
+      "dataset": "quality",
+      "field": "hold_lots"
+    },
+    {
+      "id": "material_short",
+      "label": "รายการวัสดุขาด",
+      "unit": "รายการ",
+      "dataset": "material",
+      "field": "short_lines"
+    },
+    {
+      "id": "capacity_overload",
+      "label": "Work Center โหลดเกิน",
+      "unit": "จุด",
+      "dataset": "capacity",
+      "field": "overloaded_centers"
+    },
+    {
+      "id": "invoice_blocked",
+      "label": "ออกบิลติดขัด",
+      "unit": "รายการ",
+      "dataset": "invoice",
+      "field": "blocked_invoices"
+    }
+  ],
+  "dataset_contract": {
+    "each_dataset": {
+      "status": "CERTIFIED | PROVISIONAL | NOT_CONNECTED",
+      "source_report": "text",
+      "extracted_at": "ISO8601",
+      "as_of": "ISO8601",
+      "grain": "text",
+      "row_count": "integer",
+      "metrics": "object",
+      "records": "array",
+      "quality": "object"
+    },
+    "rules": [
+      "ห้ามนับค่าที่ไม่ผ่าน validation",
+      "ห้ามรวมข้อมูลคนละ grain โดยไม่มี semantic rule",
+      "ห้ามนำ Private ERP records ลง public GitHub Pages",
+      "ไม่ถือว่า 0 คือไม่มีข้อมูล หากยังไม่เชื่อม ERP"
+    ]
+  }
+}
