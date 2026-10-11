@@ -39,3 +39,9 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Three replays of a synthetic event ID recorded only one processing entry in a persisted JSON ledger: PASS for demonstration-level deduplication, NOT production-grade concurrency/idempotency.
 - NB ping to PC PASS; SMB TCP/445 retry FAIL (intermittent across checks). Direct SMB path is NOT accepted as available. Do not weaken firewall or deploy pilot data to public networks to force pass.
 - Coverage remains 6/8 fundamental pilot areas = 75%, with dedup a supplemental validation; Production readiness not assessed as 75%.
+
+## Process-boundary persistence check — 2026-10-11
+- Orchestrator-mediated notebook-to-PC JSON write/readback: PASS for one additional synthetic job (RDC-L5-RECOVER-20261011-B).
+- Resume state transition with persisted JSON: PASS; still simulated, not a real crashed agent.
+- Separate PowerShell process wrote `waiting_restart` checkpoint (PID 2584); a newly launched PowerShell process (PID 20796) loaded and completed it: PASS for persistence across process boundaries. No crash or system restart was induced.
+- Completion remains 6/8 basic categories = 75%. Neither direct SMB nor Synology ChatPlus passed; do not claim 100% or unattended production recovery.
