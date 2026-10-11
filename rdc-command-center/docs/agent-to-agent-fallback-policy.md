@@ -33,3 +33,9 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Synthetic interruption state transition (`queued` → `interrupted` → `completed`) and checkpoint re-read: PASS. It does not represent an actual process kill or link outage.
 - Direct SMB from NB and Synology ChatPlus remain NOT VERIFIED.
 - Main pilot progress is 6/8 original basic test categories = 75%; do not treat this as production readiness or 100% completion. Pending direct SMB and Synology functional validation; additional production qualification also remains.
+
+## Continuation validation — 2026-10-11
+- Both Desktop Commander devices Online; previous PC checkpoint persisted with `complete` status and source SHA-256.
+- Three replays of a synthetic event ID recorded only one processing entry in a persisted JSON ledger: PASS for demonstration-level deduplication, NOT production-grade concurrency/idempotency.
+- NB ping to PC PASS; SMB TCP/445 retry FAIL (intermittent across checks). Direct SMB path is NOT accepted as available. Do not weaken firewall or deploy pilot data to public networks to force pass.
+- Coverage remains 6/8 fundamental pilot areas = 75%, with dedup a supplemental validation; Production readiness not assessed as 75%.
