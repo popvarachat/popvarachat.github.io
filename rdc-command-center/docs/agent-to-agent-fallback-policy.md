@@ -74,3 +74,11 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Separate, temporary `worker-pilot.py` ran a 20-second polling window. An independent process enqueued `AUTO-WORKER-TEST`, and the worker logged `AUTO_ACK AUTO-WORKER-TEST` without an orchestrator call to acknowledge: PASS.
 - The worker deliberately exited after the test (`WORKER_EXIT_TEST_COMPLETE`). NOT a Windows service, not installed at startup, not an unattended production solution. SQLite queue is local to PC; external NB jobs still require orchestrator-mediated delivery.
 - Keep original 75% (6/8) Synology+SMB pilot accounting: real Synology ChatPlus missing, direct SMB remains unverified. The local queue worker tests strengthen alternative architecture but do not close those gates.
+
+## Execution policy — Batch Auto-Continue (approved 2026-10-11)
+- Once the user authorizes RDC to complete the scoped work, execute the whole safe task DAG without asking for "continue" after each step. Report blockers, human approval gates, and validated results only.
+- API/MCP/CLI first. Dispatch independent NB/PC tasks in parallel with at most one heavy task per device; execute dependent stages in order.
+- Persist job IDs, checkpoints, outputs, error codes, timing, version and SHA-256 evidence. On recoverable errors retry with a bounded backoff and independent fallback; never weaken firewall or access controls to force a PASS.
+- Automatic continuation is within the active authorized workflow, not a promise that ChatGPT remains running after the chat ends. An unattended worker must be installed, configured and tested separately before calling it persistent.
+- Human Gate only for explicit authorization, privileged OS actions, credentials or irreversible production changes. Avoid asking the user to relay PC/NB diagnostics.
+- Close tasks only after objective end-to-end QA, status in GitHub and remaining-blocker disclosure. No percentage inflation; base 75% (6/8) refers to original Synology/SMB pilot, not RDC L5 production readiness.
