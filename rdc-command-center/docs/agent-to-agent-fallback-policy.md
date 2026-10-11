@@ -109,3 +109,10 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Negative case `SIM-OFFLINE-STILL-DOWN`: offline remains after simulated remediation → `open_escalated` (not falsely closed): PASS.
 - Persistent SQLite audit: 14 records across 2 cases; SHA-256 traces persisted as JSON in `agent-simulation/`. No external notifications and no production network changes.
 - **Scope**: workflow logic integration of mocked agents is proven in one-shot execution. Real ChatPlus, real remediation and autonomous continuous agent collaboration NOT yet certified. Do not describe mock message delivery as actual IT delivery.
+
+## Executive Local Web visual storytelling upgrade — 2026-10-11
+- Updated `executive-summary.html` on both POP-FARM01 (`C:\RDC-JEV-Agent-Workbench\local-web\rdc-command-center\`) and Notebook (`C:\Users\varachat.num\Documents\RDC-Workflow-Local\`).
+- Added 6 self-contained SVG explanatory illustrations: orchestration hero, sandbox data flow, incident lifecycle/verification, ICMP false-positive lesson, private data hub vs cloud chat, and statistical evidence.
+- Redesigned hero and editorial content sections with consistent dark teal styling, alternating visual/text layouts, responsive CSS, quick navigation and progressive story. Kept existing embedded interactive `workflow-l5.html`, original KPI table, statistics, and executive decision. Images have semantic labels, and SVG assets are embedded so local/offline access does not depend on external image hosting.
+- Verified HTTP 200 on both PC and NB for `/executive-summary.html` and `/workflow-l5.html`; page content checks confirmed 6 SVGs plus workflow, statistics and executive decision.
+- Backup `executive-summary.before-visual-upgrade.html` retained on both hosts. This release is a local visual/storytelling update; it does NOT change production network or qualify Incident Automation.
