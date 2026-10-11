@@ -45,3 +45,9 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Resume state transition with persisted JSON: PASS; still simulated, not a real crashed agent.
 - Separate PowerShell process wrote `waiting_restart` checkpoint (PID 2584); a newly launched PowerShell process (PID 20796) loaded and completed it: PASS for persistence across process boundaries. No crash or system restart was induced.
 - Completion remains 6/8 basic categories = 75%. Neither direct SMB nor Synology ChatPlus passed; do not claim 100% or unattended production recovery.
+
+## Actual child-process failure test — 2026-10-11
+- On PC wrote `D:\RDC-L5-NAS-Pilot\recovery\real-crash-checkpoint.json` (pending), then deliberately invoked PowerShell `[Environment]::FailFast` in isolated test child process PID 24988. Process finished with nonzero exit code 2148734499; RDC remote agent remained connected.
+- New PowerShell process PID 16664 read persisted checkpoint and transitioned to recovered, attempt 2: PASS.
+- This demonstrates crash persistence and manual resume by orchestrator command, not automatic crash monitoring or self-healing service.
+- NB direct SMB 445 retried and failed; Synology ChatPlus unavailable. Original pilot coverage remains 6/8 (75%).
