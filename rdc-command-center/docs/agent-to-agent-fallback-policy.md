@@ -67,3 +67,10 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Two-way exchange requires the orchestrator to be active; **not** independent unattended device-to-device transport or proof of a continuous service. Use authorized MCP only; secure credentials and sensitive evidence must not go to public repository.
 - Revised deployment recommendation: use MCP-mediated transfer as pilot primary; treat SMB as optional/diagnostic and do not weaken Windows security to force SMB working.
 - Important scope accounting: original Synology/SMB pilot remains 6/8 = 75%. A separate MCP transport proof-of-concept passes both directional tests; neither proves Synology ChatPlus integration or a production-ready autonomous self-healing agent.
+
+## Autonomous local queue worker demonstration — 2026-10-11
+- PC staging folder `D:\RDC-L5-NAS-Pilot\service\queue.db` uses SQLite with unique job IDs, job states and attempt counters.
+- Script `service-pilot.py` demonstrates queued→retry (attempt 1)→acked (attempt 2) and insert-or-ignore duplicate protection: PASS, one record for one job ID.
+- Separate, temporary `worker-pilot.py` ran a 20-second polling window. An independent process enqueued `AUTO-WORKER-TEST`, and the worker logged `AUTO_ACK AUTO-WORKER-TEST` without an orchestrator call to acknowledge: PASS.
+- The worker deliberately exited after the test (`WORKER_EXIT_TEST_COMPLETE`). NOT a Windows service, not installed at startup, not an unattended production solution. SQLite queue is local to PC; external NB jobs still require orchestrator-mediated delivery.
+- Keep original 75% (6/8) Synology+SMB pilot accounting: real Synology ChatPlus missing, direct SMB remains unverified. The local queue worker tests strengthen alternative architecture but do not close those gates.
