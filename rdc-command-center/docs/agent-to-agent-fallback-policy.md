@@ -27,3 +27,9 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 2. Test interrupted transfer, duplicate event, tampered payload, controlled access permissions.
 3. Assess authenticated and encrypted cross-device messaging transport; do not use browser-based insecure directory serving.
 4. Approve production adoption only after reliability, permissions and rollback verification.
+
+## Reliability extension — 2026-10-11
+- Five sequential orchestrator-mediated small payload transfers with PC readback: PASS 5/5. Elapsed wall-time milliseconds: 6128, 5626, 5793, 5902, 6095; arithmetic mean 5909 ms. This includes tool-call overhead and is not network throughput.
+- Synthetic interruption state transition (`queued` → `interrupted` → `completed`) and checkpoint re-read: PASS. It does not represent an actual process kill or link outage.
+- Direct SMB from NB and Synology ChatPlus remain NOT VERIFIED.
+- Main pilot progress is 6/8 original basic test categories = 75%; do not treat this as production readiness or 100% completion. Pending direct SMB and Synology functional validation; additional production qualification also remains.
