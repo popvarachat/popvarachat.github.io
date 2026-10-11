@@ -102,3 +102,10 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Persisted authenticated-agent evidence at `D:\RDC-L5-NAS-Pilot\incident\agent-confirmation.json` and reconciled open incident `RDC-PILOT-NB-PTKCMT-R-NB02` to `closed_false_positive`, with `FALSE_POSITIVE_CONFIRMED` audit row. No production remediation claimed.
 - Stopped old ICMP-only incident task logic and replaced existing `RDC-L5-Pilot-IncidentMonitor` scheduled task action with `incident\safe-monitor.py`; task observed Running, fresh heartbeat available. A failed ICMP probe is now `unconfirmed` rather than opening/closing an incident. This prevents known false-positive auto closure but is NOT full multi-signal automated classification.
 - Existing PC Queue Worker still separate. ChatPlus notification remains unavailable; no real IT notification delivered, no external router/switch remediation. To complete 5-stage production flow, onboard authenticated health feeds, authorized IT notification endpoint, safe runbooks with approvals/rollback, and end-to-end validation.
+
+## Complete Mock-Agent Incident Workflow — 2026-10-11
+- Implemented isolated PC test `D:\RDC-L5-NAS-Pilot\agent-simulation.py` with simulated ScannerAgent, BaselineAgent, IncidentAgent, NotificationAgent, RemediationAgent, and VerificationAgent.
+- Case `SIM-OFFLINE-RECOVER`: offline detection → baseline difference → open incident → simulated IT delivery → simulated runbook → verified online → `closed_verified`: PASS.
+- Negative case `SIM-OFFLINE-STILL-DOWN`: offline remains after simulated remediation → `open_escalated` (not falsely closed): PASS.
+- Persistent SQLite audit: 14 records across 2 cases; SHA-256 traces persisted as JSON in `agent-simulation/`. No external notifications and no production network changes.
+- **Scope**: workflow logic integration of mocked agents is proven in one-shot execution. Real ChatPlus, real remediation and autonomous continuous agent collaboration NOT yet certified. Do not describe mock message delivery as actual IT delivery.
