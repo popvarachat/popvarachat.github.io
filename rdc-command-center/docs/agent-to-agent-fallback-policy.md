@@ -59,3 +59,11 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Windows SMB server share is configured; direct cross-device SMB is not certified. Do not regard sporadic TCP success as SMB success.
 - Do not ask human to relay diagnostics; use authorized PC/NB MCP access directly. No firewall weakening or guest share changes.
 - Remaining deliverables: direct SMB access and actual Synology DSM/ChatPlus environment. Original score remains 6/8 = 75%, not production readiness.
+
+## Alternative transport decision — 2026-10-11
+- SMB intermittent: not suited as a required execution dependency in present pilot; cause remains unconfirmed.
+- Executed NB → orchestrator (Remote Desktop Commander MCP) → PC JSON payload, with source/destination readback: PASS, 8.522 seconds end-to-end.
+- Executed PC → orchestrator → NB acknowledgment JSON, with readback: PASS, 7.748 seconds.
+- Two-way exchange requires the orchestrator to be active; **not** independent unattended device-to-device transport or proof of a continuous service. Use authorized MCP only; secure credentials and sensitive evidence must not go to public repository.
+- Revised deployment recommendation: use MCP-mediated transfer as pilot primary; treat SMB as optional/diagnostic and do not weaken Windows security to force SMB working.
+- Important scope accounting: original Synology/SMB pilot remains 6/8 = 75%. A separate MCP transport proof-of-concept passes both directional tests; neither proves Synology ChatPlus integration or a production-ready autonomous self-healing agent.
