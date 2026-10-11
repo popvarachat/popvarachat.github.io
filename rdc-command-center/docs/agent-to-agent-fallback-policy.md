@@ -82,3 +82,10 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - Automatic continuation is within the active authorized workflow, not a promise that ChatGPT remains running after the chat ends. An unattended worker must be installed, configured and tested separately before calling it persistent.
 - Human Gate only for explicit authorization, privileged OS actions, credentials or irreversible production changes. Avoid asking the user to relay PC/NB diagnostics.
 - Close tasks only after objective end-to-end QA, status in GitHub and remaining-blocker disclosure. No percentage inflation; base 75% (6/8) refers to original Synology/SMB pilot, not RDC L5 production readiness.
+
+## Batch policy applied / persistent pilot worker — 2026-10-11
+- Policy updated to batch / auto-continue under approved scope. GitHub commit `19749a9`.
+- PC `POP-FARM01` registered Windows Scheduled Task `RDC-L5-Pilot-Worker`, AtLogOn trigger, worker script `D:\RDC-L5-NAS-Pilot\service\persistent-worker.py`, local SQLite queue and heartbeat. Task was observed Running; heartbeat status alive, PID 15848. Logon trigger is not equivalent to tested reboot auto-start.
+- End-to-end staged run: Notebook wrote small synthetic JSON -> orchestrator transferred to PC -> PC enqueued id `PILOT-AUTO-ENDTOEND-001` -> independent worker changed queue status to `acked` in one attempt, without orchestration per-step command: PASS. Orchestrator is still required for cross-device transfer; only PC queue consumption is autonomous.
+- Safety limitation: worker ACK means validated JSON consumption in a *pilot*, not a real external action being executed. Worker processes only IDs prefixed `PILOT-`/`AUTO-`; no production queue/actions. Full retry backoff, access control, restart and rollback need qualification.
+- Original combined Synology+SMB pilot remains 75% 6/8; do not claim actual Synology or SMB completion.
