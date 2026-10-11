@@ -51,3 +51,11 @@ Request user intervention only for OS elevation, authorization, secrets, physica
 - New PowerShell process PID 16664 read persisted checkpoint and transitioned to recovered, attempt 2: PASS.
 - This demonstrates crash persistence and manual resume by orchestrator command, not automatic crash monitoring or self-healing service.
 - NB direct SMB 445 retried and failed; Synology ChatPlus unavailable. Original pilot coverage remains 6/8 (75%).
+
+## Final connectivity diagnostic (2026-10-11)
+- Devices remain online through Remote Desktop Commander MCP.
+- NB -> PC ping works; TCP 445 test is intermittent, including both PASS and FAIL during same diagnostic round.
+- Hostname POP-FARM01 resolution via DNS failed on NB. Connecting directly by IP also failed with Windows `net view` error 53 and `net use` error 67.
+- Windows SMB server share is configured; direct cross-device SMB is not certified. Do not regard sporadic TCP success as SMB success.
+- Do not ask human to relay diagnostics; use authorized PC/NB MCP access directly. No firewall weakening or guest share changes.
+- Remaining deliverables: direct SMB access and actual Synology DSM/ChatPlus environment. Original score remains 6/8 = 75%, not production readiness.
