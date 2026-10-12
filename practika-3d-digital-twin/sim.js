@@ -34,13 +34,13 @@ const colors={wood:0xe3ae66,metal:0x849bb5,upholstery:0x9278c6,assembly:0xe6b759
 const renderer=new THREE.WebGLRenderer({canvas:$('world'),antialias:true,powerPreference:'high-performance'});
 renderer.setPixelRatio(Math.min(devicePixelRatio||1,1.65));
 renderer.setSize(innerWidth,innerHeight,false);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;
-renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.25;
+renderer.outputEncoding=THREE.sRGBEncoding;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=.85;
 const scene=new THREE.Scene();scene.background=new THREE.Color(0xeaf3f9);scene.fog=new THREE.Fog(0xeaf3f9,280,530);
-scene.add(new THREE.HemisphereLight(0xffffff,0xc0d2db,1.18));
-const sun=new THREE.DirectionalLight(0xfff9ed,2.15);sun.position.set(-70,160,95);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-160;sun.shadow.camera.right=160;sun.shadow.camera.top=140;sun.shadow.camera.bottom=-140;sun.shadow.camera.near=1;sun.shadow.camera.far=360;sun.shadow.bias=-.0002;scene.add(sun);
-const fill=new THREE.DirectionalLight(0xc3e3fb,.55);fill.position.set(65,55,-100);scene.add(fill);
+scene.add(new THREE.HemisphereLight(0xffffff,0xc0d2db,.74));
+const sun=new THREE.DirectionalLight(0xfff9ed,1.35);sun.position.set(-70,160,95);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-160;sun.shadow.camera.right=160;sun.shadow.camera.top=140;sun.shadow.camera.bottom=-140;sun.shadow.camera.near=1;sun.shadow.camera.far=360;sun.shadow.bias=-.0002;scene.add(sun);
+const fill=new THREE.DirectionalLight(0xc3e3fb,.38);fill.position.set(65,55,-100);scene.add(fill);
 const camera=new THREE.PerspectiveCamera(37,innerWidth/innerHeight,.1,850);
-const focus=new THREE.Vector3(0,1,4);let dist=310,azimuth=.72,elevation=.75,autoRotate=false,tour=false,following=null,paused=false,speed=1,scenario='normal',time=0,frame=0;
+const focus=new THREE.Vector3(9,1,4);let dist=345,azimuth=.72,elevation=.75,autoRotate=false,tour=false,following=null,paused=false,speed=1,scenario='normal',time=0,frame=0;
 const meshes=[],machines=[],agentList=[],movingVehicles=[],decorAnimations=[];
 const mat=(color,roughness=.77,metalness=.06)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
 const mWhite=mat(0xffffff),mCloud=mat(0xf5f8fb),mDark=mat(0x2e4966),mRoad=mat(0xd4e0e9),mGlass=new THREE.MeshStandardMaterial({color:0xc9e4f6,transparent:true,opacity:.29,metalness:.1,roughness:.16,depthWrite:false});
@@ -61,8 +61,8 @@ for(let x=-122;x<=123;x+=8){box(3.7,.065,.13,0xffffff,x,.19,-26,scene,false);box
 const titleSprites=[];
 function zone(s){
  const color=C[s.type]; const g=new THREE.Group();g.position.set(s.x,0,s.z);scene.add(g);s.group=g;
- const pad=box(s.w,.5,s.d,0xffffff,0,.20,0,g);assign({kind:'station',id:s.id},pad);
- box(s.w-.8,.12,s.d-.8,new THREE.MeshStandardMaterial({color,transparent:true,opacity:.12}),0,.54,0,g,false);
+ const pad=box(s.w,.5,s.d,({office:0xe0eefb,production:0xf8e6d2,logistics:0xd9efe8,digital:0xe9e1fa})[s.type],0,.20,0,g);assign({kind:'station',id:s.id},pad);
+ box(s.w-.8,.12,s.d-.8,new THREE.MeshStandardMaterial({color,transparent:true,opacity:.19}),0,.54,0,g,false);
  for(const zz of [-s.d/2+.2,s.d/2-.2])box(s.w,.25,.4,color,0,.70,zz,g);
  for(const xx of [-s.w/2+.2,s.w/2-.2])box(.4,.25,s.d,color,xx,.70,0,g);
  const h=s.type==='office'?8:s.type==='digital'?11:7.2;
@@ -79,7 +79,7 @@ function zone(s){
  }
  const sign=label(s.name,color,.82);sign.position.set(0,h+7,0);g.add(sign);assign({kind:'station',id:s.id},sign);titleSprites.push(sign);
  if(s.type==='office'){for(let i=0;i<2;i++)desk(g,-s.w/4+i*s.w/2,-2.3,color);}
- else if(s.id==='wood'){machine(g,-12,-5,'saw','Cutting CNC',0xe0a469);machine(g,1,-5,'edge','Edge Banding',0xe0a469);machine(g,12,-5,'drill','Drilling',0xe0a469);materialStack(g,-12,8,0xd4a76f);}
+ else if(s.id==='wood'){machine(g,-12,-5,'saw','Cutting CNC',0xe0a469);machine(g,1,-5,'edge','Edge Banding',0xe0a469);machine(g,12,-5,'drill','Drilling',0xe0a469);crate(g,-12,8,1.2);}
  else if(s.id==='metal'){machine(g,-10,-4,'steel','Metal Cutting',0x8a9aac);machine(g,5,-4,'weld','Welding',0x8a9aac);machine(g,10,8,'drill','Drilling',0x8a9aac);}
  else if(s.id==='upholstery'){machine(g,-10,-4,'sew','Sewing & Fabric',0xa391ca);chair(g,3,1,0xa58ac9);chair(g,12,7,0x7094bf);box(7,.35,4,0xe8d3e8,-8,1.7,8,g)}
  else if(s.id==='assembly'){for(let i=0;i<3;i++){desk(g,-11+i*10,-4,0xdba24c);chair(g,-8+i*10,6,0x7b9ba7)}}
@@ -160,24 +160,24 @@ movingVehicles.push({obj:van,path:['dispatch','customer','dispatch'],offset:0,ve
 // Floor transport dots for path visibility, not diagram lines
 function floorRoute(a,b,color){const p=stationById[a],q=stationById[b];const path=new THREE.CatmullRomCurve3([new THREE.Vector3(p.x,.68,p.z),new THREE.Vector3((p.x+q.x)/2,.68,(p.z+q.z)/2+2.4),new THREE.Vector3(q.x,.68,q.z)]);const positions=path.getPoints(30);for(let j=1;j<30;j+=3){const v=positions[j];const mesh=cyl(.38,.07,color,v.x,.6,v.z,scene,9);mesh.material.transparent=true;mesh.material.opacity=.38}}
 [['sales','design'],['design','planning'],['planning','purchase'],['purchase','store'],['supplier','receiving'],['receiving','store'],['store','wood'],['store','metal'],['store','upholstery'],['wood','assembly'],['metal','assembly'],['upholstery','assembly'],['assembly','mockup'],['mockup','qc'],['qc','warehouse'],['warehouse','dispatch'],['dispatch','customer']].forEach(([a,b])=>floorRoute(a,b,a==='store'?0xf0a560:0x7baad7));
-function pathPos(a,b,t,seed){const p=stationById[a],q=stationById[b];const mid=new THREE.Vector3((p.x+q.x)/2,0,(p.z+q.z)/2+Math.sin(seed*3)*3);const start=new THREE.Vector3(p.x+Math.sin(seed)*2,0,p.z+Math.cos(seed)*2);const end=new THREE.Vector3(q.x+Math.sin(seed+2)*2,0,q.z+Math.cos(seed+1)*2);const curve=new THREE.QuadraticBezierCurve3(start,mid,end);return {pos:curve.getPoint(t),tangent:curve.getTangent(Math.min(.999,t))}}
+function pathPos(a,b,t,seed){const p=stationById[a],q=stationById[b];if(!p||!q){console.error("BAD_ROUTE",a,b,t,seed);return {pos:new THREE.Vector3(0,0,0),tangent:new THREE.Vector3(1,0,0)}}const mid=new THREE.Vector3((p.x+q.x)/2,0,(p.z+q.z)/2+Math.sin(seed*3)*3);const start=new THREE.Vector3(p.x+Math.sin(seed)*2,0,p.z+Math.cos(seed)*2);const end=new THREE.Vector3(q.x+Math.sin(seed+2)*2,0,q.z+Math.cos(seed+1)*2);const curve=new THREE.QuadraticBezierCurve3(start,mid,end);return {pos:curve.getPoint(t),tangent:curve.getTangent(Math.min(.999,t))}}
 function moveAgents(dt){
  for(let i=0;i<agentList.length;i++){const a=agentList[i];if(!a.from){a.from=a.route[a.index%a.route.length];a.to=a.route[(a.index+1)%a.route.length];}
- const p=stationById[a.from],q=stationById[a.to],length=Math.max(10,Math.hypot(p.x-q.x,p.z-q.z));let slow=(scenario==='supplier'&&a.from==='supplier')||((scenario==='shortage')&&a.from==='store')?0.12:1;
+ const p=stationById[a.from],q=stationById[a.to],length=Math.max(10,Math.hypot(p.x-q.x,p.z-q.z));let slow=(scenario==='supplier'&&a.from==='supplier')||((scenario==='shortage')&&a.from==='store')||(scenario==='machine'&&a.from==='wood')||(scenario==='qc'&&a.from==='qc')?0.12:1;
  a.progress+=dt*a.speed*slow/length;
  if(a.progress>=1){a.progress=0;a.index=(a.index+1)%a.route.length;a.from=a.route[a.index];a.to=a.route[(a.index+1)%a.route.length];if(i<12)recordEvent(a.role+' ส่งต่องานถึง '+stationById[a.from].name);}
  const pt=pathPos(a.from,a.to,a.progress,i);a.model.position.set(pt.pos.x,.62+Math.abs(Math.sin(time*8+i))*.07,pt.pos.z);a.model.rotation.y=Math.atan2(pt.tangent.x,pt.tangent.z);
  a.walkPhase+=dt*11*slow;const v=Math.sin(a.walkPhase)*.35*slow;const limbs=a.model.userData.limbs;limbs[0].rotation.x=v;limbs[1].rotation.x=-v;limbs[2].rotation.x=-v*.8;limbs[3].rotation.x=v*.8;
  }
 }
-function moveTruck(v,t){const elapsed=(t+v.offset)*v.velocity/90;const idx=Math.floor(elapsed)%v.path.length;const frac=elapsed-Math.floor(elapsed);const r=pathPos(v.path[idx],v.path[(idx+1)%v.path.length],frac,v.offset);v.obj.position.set(r.pos.x,.9,r.pos.z);v.obj.rotation.y=Math.atan2(r.tangent.x,r.tangent.z)-Math.PI/2}
+function moveTruck(v,t){const elapsed=(t+v.offset)*v.velocity/90;const idx=((Math.floor(elapsed)%v.path.length)+v.path.length)%v.path.length;const frac=elapsed-Math.floor(elapsed);const r=pathPos(v.path[idx],v.path[(idx+1)%v.path.length],frac,v.offset);v.obj.position.set(r.pos.x,.9,r.pos.z);v.obj.rotation.y=Math.atan2(r.tangent.x,r.tangent.z)-Math.PI/2}
 let toastTimer;
 function notify(msg){$('toast').textContent=msg;$('toast').classList.add('visible');clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').classList.remove('visible'),2600)}
 const alerts={normal:['Agent ทำงานตามกระบวนการครบ 3 สาย ก่อนเข้า Assembly, QC และส่งมอบ',0],shortage:['Store ไม่มีวัตถุดิบเพียงพอ — Work Order รอเบิก / จัดซื้อเร่ง PO',4],machine:['เครื่องตัดไม้หยุดทำงาน — Wood Line ค้างและวางแผนใหม่',3],qc:['QC พบ NG — ส่งคืน Assembly เพื่อแก้ไข แล้วตรวจซ้ำ',2],supplier:['รถ Supplier มาส่งช้า — Store และ Production มีความเสี่ยงเลื่อน',3],rush:['งาน Customize ด่วน — Planning เพิ่มลำดับความสำคัญ พร้อมติดตามคิว',1]};
 const events=[];
 function recordEvent(s){events.unshift({s,t:formatClock(time)});if(events.length>20)events.pop();if(frame%55<8){$('eventText').textContent=s;$('eventTime').textContent=formatClock(time)}}
 function formatClock(t){let seconds=Math.floor(t+9*3600)%(24*3600);return [Math.floor(seconds/3600),Math.floor(seconds/60)%60,seconds%60].map(v=>String(v).padStart(2,'0')).join(':')}
-let selected={kind:'station',id:'assembly'};
+let workTime=0,pausedWorkFor=0,qcReworked=false;let selected={kind:'station',id:'assembly'};
 function inspect(ent){
  selected=ent;let name='',desc='',state='● ACTIVE',id='',route='',l1='',v1='',l2='',v2='',l3='',v3='',l4='',v4='',progress=70,icon='▣',warn=false;
  if(ent.kind==='station'){const s=stationById[ent.id];if(!s)return;name=s.name;desc=s.desc;id=s.en;icon=s.icon;route=s.type==='production'?'Store → '+s.name+' → Assembly → QC':'CRM → Planning → Production → QC → Warehouse → Installation';
@@ -195,7 +195,7 @@ $('world').addEventListener('pointerdown',e=>{down={x:e.clientX,y:e.clientY,drag
 $('world').addEventListener('pointermove',e=>{if(!dragging)return;const dx=e.clientX-down.x,dy=e.clientY-down.y;if(Math.abs(dx)+Math.abs(dy)>2)down.drag=true;azimuth-=dx*.005;elevation=Math.max(.24,Math.min(1.43,elevation+dy*.004));down.x=e.clientX;down.y=e.clientY;autoRotate=false;tour=false;following=null});
 $('world').addEventListener('pointerup',e=>{dragging=false;if(down.drag)return;const rect=$('world').getBoundingClientRect();pointer.x=e.clientX/rect.width*2-1;pointer.y=-(e.clientY/rect.height*2-1);raycaster.setFromCamera(pointer,camera);const hit=raycaster.intersectObjects(meshes,false);if(hit.length){const ent=hit[0].object.userData.entity;if(ent){inspect(ent);focusObject(ent)}}});
 $('world').addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(48,Math.min(465,dist+e.deltaY*.18));following=null},{passive:false});
-function resetCamera(){following=null;autoRotate=false;tour=false;focus.set(0,1,4);dist=310;azimuth=.72;elevation=.75;}
+function resetCamera(){following=null;autoRotate=false;tour=false;focus.set(9,1,4);dist=345;azimuth=.72;elevation=.75;}
 $('homeBtn').onclick=resetCamera;$('overviewBtn').onclick=resetCamera;
 $('rotateBtn').onclick=()=>{following=null;autoRotate=!autoRotate;tour=false;notify(autoRotate?'เริ่มหมุนมุมมอง 360°':'หยุดหมุนมุมมอง')};
 $('tourBtn').onclick=()=>{following=null;autoRotate=false;tour=!tour;notify(tour?'กำลังชมอาคารและสายการผลิต':'หยุดโหมดชมโรงงาน')};
@@ -203,18 +203,18 @@ $('followBtn').onclick=()=>{if(selected.kind==='agent'){following=selected.id;di
 $('closeDetail').onclick=()=>$('inspector').style.display='none';
 $('playBtn').onclick=()=>{paused=!paused;$('playBtn').textContent=paused?'▶':'Ⅱ';$('playBtn').setAttribute('aria-label',paused?'Play':'Pause');notify(paused?'พัก Simulation':'เดิน Simulation ต่อ')};
 document.querySelectorAll('.speed').forEach(el=>el.onclick=()=>{speed=Number(el.dataset.speed);document.querySelectorAll('.speed').forEach(x=>x.classList.toggle('current',x===el));notify('ความเร็วจำลอง '+speed+'×')});
-$('resetBtn').onclick=()=>{time=0;paused=false;speed=1;scenario='normal';$('scenario').value='normal';$('playBtn').textContent='Ⅱ';document.querySelectorAll('.speed').forEach(x=>x.classList.toggle('current',x.dataset.speed==='1'));agentList.forEach((a,i)=>{a.index=i%a.route.length;a.progress=0;a.from=null;a.to=null});events.length=0;resetCamera();updateScenario();notify('เริ่มระบบจำลองใหม่แล้ว')};
-$('scenario').onchange=e=>{scenario=e.target.value;updateScenario();recordEvent('เปลี่ยนสถานการณ์จำลอง: '+$('scenario').selectedOptions[0].text);notify('ใช้สถานการณ์ '+$('scenario').selectedOptions[0].text)};
+$('resetBtn').onclick=()=>{time=0;workTime=0;pausedWorkFor=0;qcReworked=false;paused=false;speed=1;scenario='normal';$('scenario').value='normal';$('playBtn').textContent='Ⅱ';document.querySelectorAll('.speed').forEach(x=>x.classList.toggle('current',x.dataset.speed==='1'));agentList.forEach((a,i)=>{a.index=i%a.route.length;a.progress=0;a.from=null;a.to=null});events.length=0;resetCamera();updateScenario();notify('เริ่มระบบจำลองใหม่แล้ว')};
+$('scenario').onchange=e=>{scenario=e.target.value;if(scenario!=='normal'){workTime=18*({shortage:3,machine:4,qc:5,supplier:3,rush:1}[scenario]||0);pausedWorkFor=0;qcReworked=false;}updateScenario();recordEvent('เปลี่ยนสถานการณ์จำลอง: '+$('scenario').selectedOptions[0].text);notify('ใช้สถานการณ์ '+$('scenario').selectedOptions[0].text)};
 function updateScenario(){const [note,num]=alerts[scenario];$('scenarioNote').textContent=note;$('kAlerts').textContent=num;$('alertDesc').textContent=num?note.slice(0,30)+'…':'ทำงานปกติ';$('kAlerts').style.color=num?'#bf703a':'';inspect(selected)}
 document.querySelectorAll('[data-view]').forEach(el=>el.onclick=()=>{document.querySelectorAll('[data-view]').forEach(x=>x.classList.toggle('active',x===el));following=null;const v=el.dataset.view;if(v==='all')resetCamera();if(v==='office'){focus.set(-43,1,-42);dist=165}if(v==='factory'){focus.set(0,1,9);dist=155}if(v==='delivery'){focus.set(35,1,43);dist=155}notify('มุมมอง '+el.textContent)});
 $('search').addEventListener('keydown',e=>{if(e.key!=='Enter')return;const q=e.target.value.trim().toLowerCase();if(!q)return;const s=stations.find(x=>x.id.includes(q)||x.en.toLowerCase().includes(q)||x.name.toLowerCase().includes(q));const a=agentList.find(x=>x.id.toLowerCase().includes(q)||x.role.toLowerCase().includes(q));if(s){inspect({kind:'station',id:s.id});focusObject({kind:'station',id:s.id})}else if(a){inspect({kind:'agent',id:a.id});focusObject({kind:'agent',id:a.id})}else if(q.includes('wo-')||q.includes('104')){notify('WO-2569-104: กำลังดำเนินการตามเส้นทางที่แสดงด้านล่าง')}else notify('ไม่พบในข้อมูลจำลอง: '+q)});
-function updateStages(){const idx=Math.min(7,Math.floor((time/18)%8));$('stages').innerHTML=journey.map((name,i)=>'<div class="stage '+(i<idx?'done':i===idx?'active':'')+'"><div class="stage-bubble">'+(i<idx?'✓':stageIcon[i])+'</div><span>'+name+'</span></div>').join('');$('jobBadge').textContent='WO-2569-104 · CUSTOM FURNITURE SET · '+(idx+1)+'/8'}
-function updateKpis(){const workload=14+Math.floor(Math.sin(time/25)*3);$('kActive').textContent=workload;$('kAgents').textContent=paused?'0':agentList.length;$('kMachines').innerHTML=(scenario==='machine'?'7':'8')+'<span>/12</span>';$('simClock').textContent=formatClock(time);updateStages()}
+function updateStages(){const idx=Math.min(7,Math.floor((workTime/18)%8));$('stages').innerHTML=journey.map((name,i)=>'<div class="stage '+(i<idx?'done':i===idx?'active':'')+'"><div class="stage-bubble">'+(i<idx?'✓':stageIcon[i])+'</div><span>'+name+'</span></div>').join('');$('jobBadge').textContent='WO-2569-104 · CUSTOM FURNITURE SET · '+(idx+1)+'/8'}
+function updateKpis(){const workload=14+Math.floor(Math.sin(time/25)*3);$('kActive').textContent=workload;$('kAgents').textContent=paused?'0':agentList.length;$('kMachines').innerHTML=(scenario==='machine'?'6':'7')+'<span>/7</span>';$('simClock').textContent=formatClock(time);updateStages()}
 function updateCamera(dt){if(following){const a=agentById[following];if(a)focus.lerp(a.model.position,.07)}if(autoRotate)azimuth+=dt*.11;if(tour){azimuth+=dt*.07;focus.x=Math.sin(time*.025)*42;focus.z=Math.cos(time*.023)*17;dist=245+Math.sin(time*.1)*25}const desired=new THREE.Vector3(focus.x+Math.sin(azimuth)*Math.cos(elevation)*dist,focus.y+Math.sin(elevation)*dist,focus.z+Math.cos(azimuth)*Math.cos(elevation)*dist);camera.position.lerp(desired,.085);camera.lookAt(focus)}
 function animateMachinery(dt){for(const m of machines){if(scenario==='machine'&&m.id==='Cutting CNC')continue;m.mesh.rotation.y+=dt*2.6;m.mesh.rotation.z+=dt*.6}for(const d of decorAnimations){if(d.kind==='beacon')d.mesh.rotation.y+=dt*.4}}
 function onResize(){camera.aspect=innerWidth/innerHeight;camera.updateProjectionMatrix();renderer.setSize(innerWidth,innerHeight,false)}addEventListener('resize',onResize);
 inspect({kind:'station',id:'assembly'});updateScenario();updateStages();recordEvent('ลูกค้าออกใบสั่งผลิตชุดโต๊ะ เก้าอี้ และ Partition Customize');$('loading').style.display='none';
 let last=performance.now(),lastKpi=-1,elapsedReal=0;
-function loop(now){requestAnimationFrame(loop);const dt=Math.min(.05,(now-last)/1000);last=now;frame++;if(!paused){const tick=dt*speed;time+=tick;elapsedReal+=dt;moveAgents(tick);for(const v of movingVehicles)moveTruck(v,time);animateMachinery(tick);if(Math.floor(time/3)!==lastKpi){lastKpi=Math.floor(time/3);updateKpis();if(selected.kind==='agent')inspect(selected);if(events.length&&frame%2)$('eventText').textContent=events[0].s;$('eventTime').textContent=formatClock(time)}}updateCamera(dt);renderer.render(scene,camera)}
+function loop(now){requestAnimationFrame(loop);const dt=Math.max(0,Math.min(.05,(now-last)/1000));last=now;frame++;if(!paused){const tick=dt*speed;time+=tick;elapsedReal+=dt;const stage=Math.floor((workTime/18)%8);const blocked=((scenario==='shortage'||scenario==='supplier')&&stage===3)||(scenario==='machine'&&stage===4);if(!blocked)workTime+=tick;else pausedWorkFor+=tick;if(blocked&&pausedWorkFor>18){workTime+=18;pausedWorkFor=0;recordEvent('RDC จำลองการแก้ไขคอขวดและปรับแผน')}if(scenario==='qc'&&Math.floor(workTime/18)===6&&!qcReworked){qcReworked=true;workTime=18*5;recordEvent('QC พบ NG ส่งคืนงานประกอบเพื่อแก้ไขและตรวจซ้ำ')}moveAgents(tick);for(const v of movingVehicles)moveTruck(v,time);animateMachinery(tick);if(Math.floor(time/3)!==lastKpi){lastKpi=Math.floor(time/3);updateKpis();if(selected.kind==='agent')inspect(selected);if(events.length&&frame%2)$('eventText').textContent=events[0].s;$('eventTime').textContent=formatClock(time)}}updateCamera(dt);renderer.render(scene,camera)}
 requestAnimationFrame(loop);
 })();
