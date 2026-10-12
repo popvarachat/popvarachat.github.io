@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<meta name="theme-color" content="#eef4f9"/>
+<title>Practika • Living Enterprise — 3D Digital Twin</title>
+<meta name="description" content="Interactive 3D operational simulation of Practika: customer, CRM, ERP, purchasing, production, QC, warehouse, delivery and AI agents."/>
+<link rel="stylesheet" href="./style.css?v=3"/>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script defer src="./sim.js?v=3"></script>
+</head>
+<body>
+<canvas id="world" aria-label="Practika 3D simulated factory campus"></canvas>
+<div id="loading"><div class="spinner"></div><b>กำลังสร้างโลกจำลอง Practika</b><small>Loading 3D World, Machines & Agents</small></div>
+<header class="topbar glass">
+  <div class="brand"><div class="brandmark">P<span>✦</span></div><div><strong>PRACTIKA<span class="brand-dot">.</span></strong><small>LIVING ENTERPRISE / DIGITAL TWIN</small></div></div>
+  <div class="top-divider"></div>
+  <div class="search-wrap"><span>⌕</span><input id="search" placeholder="ค้นหาแผนก / งาน / Agent เช่น WO-2569-104" aria-label="ค้นหา"/></div>
+  <div class="top-actions">
+    <div class="livechip"><i></i> SYNTHETIC DEMO <span>●</span> READ-ONLY</div>
+    <div class="timebox"><b id="simClock">09:00:00</b><small>SIMULATION TIME</small></div>
+    <button class="iconbtn" id="resetBtn" title="เริ่มต้นจำลองใหม่">↻</button>
+    <div class="profile">RDC <span>EXECUTIVE VIEW</span></div>
+  </div>
+</header>
+<div class="page-title">
+ <div class="eyebrow"><span class="dot"></span> OPERATIONAL WORLD SIMULATION <em>/</em> PRACTIKA CAMPUS</div>
+ <h1>องค์กรที่<span>เคลื่อนไหวได้จริง</span></h1>
+ <p>จากความต้องการลูกค้า สู่การผลิตเฟอร์นิเจอร์ และส่งมอบหน้างาน — ทุกงานมีเส้นทาง ทุก Agent มีภารกิจ</p>
+</div>
+<div class="kpis" id="kpis">
+  <div class="kpi glass"><div class="kpi-label"><span>◈</span> งานระหว่างดำเนินการ</div><strong id="kActive">12</strong><small><i class="mini up">↗</i> Orders & WIP</small></div>
+  <div class="kpi glass"><div class="kpi-label"><span>◷</span> Agent กำลังทำงาน</div><strong id="kAgents">0</strong><small>Office + Factory + Logistics</small></div>
+  <div class="kpi glass"><div class="kpi-label"><span>▥</span> เครื่องจักรที่ทำงาน</div><strong id="kMachines">8<span>/12</span></strong><small>Wood · Steel · Upholstery</small></div>
+  <div class="kpi glass"><div class="kpi-label"><span>◇</span> การแจ้งเตือน</div><strong id="kAlerts">0</strong><small id="alertDesc">ทำงานปกติ</small></div>
+</div>
+<aside class="inspector glass" id="inspector">
+ <div class="section-head"><span>◈ &nbsp; LIVE ENTITY INSPECTOR</span><button class="minimal" id="closeDetail" title="ซ่อนรายละเอียด">×</button></div>
+ <div class="eyebrow small-space">SELECTED OBJECT</div>
+ <div class="entity-icon" id="entityIcon">▣</div>
+ <h2 id="entityName">Practika Enterprise</h2>
+ <p class="sub" id="entityDesc">เลือกรายการในฉาก 3D เพื่อดูรายละเอียด หรือคลิกติดตาม Agent ที่กำลังเดินงาน</p>
+ <div class="status-row"><span class="pill success" id="entityState">● SYSTEM READY</span><span class="id" id="entityId">CAMPUS / DEMO</span></div>
+ <div class="mini-progress"><div id="detailProgress" style="width:72%"></div></div>
+ <div class="stats-2">
+  <div><small id="label1">จำนวนแผนก</small><b id="value1">18</b></div><div><small id="label2">ภารกิจที่กำลังวิ่ง</small><b id="value2">24</b></div>
+  <div><small id="label3">โหมดข้อมูล</small><b id="value3">SIMULATED</b></div><div><small id="label4">สิทธิ์</small><b id="value4">READ-ONLY</b></div>
+ </div>
+ <div class="subhead">เส้นทางการทำงาน</div>
+ <div class="entity-route" id="entityRoute">CRM → Design → Planning → Production → QC → Delivery</div>
+ <div class="inspector-actions"><button class="primary" id="followBtn">⌖ &nbsp; ติดตามวัตถุ</button><button class="secondary" id="overviewBtn">⌂ &nbsp; ภาพรวม</button></div>
+ <div class="source-note">◉ ข้อมูลจำลองเพื่อออกแบบระบบ • ยังไม่เชื่อม ERP/CRM จริง</div>
+</aside>
+<div class="scene-controls glass">
+ <span class="control-label">SIMULATION</span>
+ <button id="playBtn" class="play" aria-label="Pause">Ⅱ</button>
+ <button class="speed current" data-speed="1">1×</button><button class="speed" data-speed="3">3×</button><button class="speed" data-speed="8">8×</button>
+ <span class="vr"></span>
+ <button class="ctl" id="homeBtn">⌂ <span>ภาพรวม</span></button>
+ <button class="ctl" id="rotateBtn">⟳ <span>หมุน 360°</span></button>
+ <button class="ctl" id="tourBtn">▷ <span>ชมโรงงาน</span></button>
+ <span class="vr"></span>
+ <button class="ctl active" data-view="all">ทั้งองค์กร</button>
+ <button class="ctl" data-view="office">Office</button>
+ <button class="ctl" data-view="factory">Factory</button>
+ <button class="ctl" data-view="delivery">Logistics</button>
+</div>
+<div class="scenario glass">
+ <span class="eyebrow">SCENARIO CONTROL</span>
+ <div class="sc-title">จำลองเหตุการณ์ <span>◉ LIVE</span></div>
+ <select id="scenario" aria-label="เลือกสถานการณ์">
+ <option value="normal">● ปฏิบัติงานปกติ</option>
+ <option value="shortage">⚠ วัตถุดิบขาดสโตร์</option>
+ <option value="machine">⚠ เครื่องตัดไม้ขัดข้อง</option>
+ <option value="qc">⚠ QC ไม่ผ่าน / Rework</option>
+ <option value="supplier">⚠ Supplier มาส่งช้า</option>
+ <option value="rush">✦ งานลูกค้าด่วน</option>
+ </select>
+ <div class="scenario-note" id="scenarioNote">Agent ทำงานตามลำดับ CRM → ERP → 5 สายการผลิต → QC → ส่งมอบ</div>
+</div>
+<div class="bottom-stack">
+ <div class="journey glass">
+  <div class="journey-top"><strong>◈ &nbsp; CUSTOMER ORDER JOURNEY</strong><span id="jobBadge">WO-2569-104 · CUSTOM FURNITURE SET</span></div>
+  <div class="stages" id="stages"></div>
+ </div>
+ <div class="activity glass">
+   <div class="activity-title"><i></i> LIVE ACTIVITY</div>
+   <div class="activity-text" id="eventText">ระบบกำลังเตรียมภารกิจให้ Agent</div>
+   <span id="eventTime">09:00:00</span>
+ </div>
+</div>
+<div class="hint">ลากเพื่อหมุนมุมมอง · เลื่อนเมาส์เพื่อซูม · คลิก Agent/อาคาร/เครื่องจักรเพื่อดูข้อมูล</div>
+<div class="map-key glass"><span><i style="background:#4285f4"></i> Office</span><span><i style="background:#f5a35c"></i> Production</span><span><i style="background:#30ac97"></i> Logistics</span><span><i style="background:#946de8"></i> Digital / AI</span></div>
+<div class="toast" id="toast"></div>
+<noscript>ต้องเปิดใช้ JavaScript เพื่อชม 3D Simulation</noscript>
+</body></html>
