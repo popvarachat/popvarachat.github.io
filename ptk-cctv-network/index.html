@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#06101f">
+<meta name="description" content="PTK CCTV Network Digital Twin | Interactive public-safe, evidence-based 3-tier workflow with expandable anonymized device candidates.">
+<title>PTK CCTV Network • Interactive Workflow</title>
+<style>
+:root{--bg:#06111f;--card:#0c2036;--text:#e4f2ff;--muted:#9ab5d0;--blue:#5aaff8;--teal:#40dcb9;--yellow:#f3c572;--purple:#b7a0ff;--pink:#eb88b8;--edge:#24415e}
+*{box-sizing:border-box}html,body{margin:0;width:100%;height:100%;background:var(--bg);color:var(--text);font-family:Inter,"Noto Sans Thai",Tahoma,"Segoe UI",Arial,sans-serif;overflow:hidden}
+button,a{font:inherit}button{cursor:pointer;color:inherit}button:focus-visible,a:focus-visible{outline:2px solid #6df3dc;outline-offset:3px}
+.page{height:100dvh;min-height:560px;display:flex;flex-direction:column;background:radial-gradient(ellipse at 49% 43%,#1c3651 0%,#0a192c 44%,#06111f 95%);}
+header{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 26px 15px;background:#071729f2;border-bottom:1px solid #274363;position:relative;z-index:10;flex-wrap:wrap}
+.eyebrow{font-size:10px;font-weight:900;letter-spacing:2px;color:#56e4ca}
+h1{font-size:clamp(20px,2.5vw,31px);margin:4px 0 5px;letter-spacing:-.7px}
+header p{color:#9fbad0;font-size:12px;margin:0;line-height:1.5}
+.actions{display:flex;gap:7px;flex-wrap:wrap;align-items:center}
+.button{border:1px solid #365677;background:#10263e;border-radius:10px;padding:9px 12px;font-size:12px;font-weight:800;white-space:nowrap;text-decoration:none}
+.button:hover{background:#1a3a58;border-color:#5a9cbe}
+.button.primary{background:#0c4c4b;color:#c5fff1;border-color:#38d4bb}
+.button:disabled{opacity:.35;cursor:not-allowed}
+.stats{display:flex;align-items:center;gap:17px;padding:10px 26px;background:#08172a;border-bottom:1px solid #244260;overflow:auto;position:relative;z-index:9}
+.stat{border-right:1px solid #314b68;padding-right:17px;font-size:11px;color:#9db8d1;white-space:nowrap}
+.stat strong{color:#e6f5ff;font-size:16px;margin-right:6px}
+.stat.warn strong{color:#f6c777}
+.legend{margin-left:auto;display:flex;gap:13px;white-space:nowrap;color:#9eb4c8;font-size:10px}
+.legend i{display:inline-block;width:18px;vertical-align:middle;border-top:2px solid #48d7be;margin-right:4px}
+.legend .pending{border-color:#edbb6e;border-top-style:dashed}.legend .recommend{border-color:#b59dff;border-top-style:dotted}
+.viewport{position:relative;flex:1;overflow:hidden;touch-action:none;min-height:0}
+.backgrid{position:absolute;inset:0;background-image:linear-gradient(#1d3b5130 1px,transparent 1px),linear-gradient(90deg,#1d3b5130 1px,transparent 1px);background-size:38px 38px;mask-image:radial-gradient(ellipse,#000,transparent 90%);pointer-events:none}
+.stage{position:absolute;top:0;left:0;width:1480px;height:880px;transform-origin:top left;user-select:none}
+.lines{position:absolute;inset:0;width:1480px;height:880px;overflow:visible;pointer-events:none}
+.lines path{fill:none;stroke:#48c0af;stroke-width:2;opacity:.65;vector-effect:non-scaling-stroke}
+.lines .tentative{stroke:#dfb56e;stroke-dasharray:7 10}
+.lines .relation{stroke:#57a3ed;stroke-dasharray:5 8}
+.lines .proposal{stroke:#be95ff;stroke-dasharray:3 10}
+.deck{position:absolute;inset:0;display:none}.deck.active{display:block}
+.group{position:absolute;border-radius:19px;border:1px solid var(--edge-color);background:linear-gradient(155deg,var(--tint),#0c2136 65%,#09192b);box-shadow:0 13px 38px #0006,inset 0 1px #ffffff17;padding:20px 22px;overflow:hidden}
+.group::after{content:"";position:absolute;inset:6px;border-radius:13px;border:1px dashed #ffffff0e;pointer-events:none}
+.kicker{color:var(--accent);font-size:10px;letter-spacing:1.5px;font-weight:900}
+.group h2{font-size:20px;line-height:1.25;margin:8px 0 7px}
+.group p{font-size:12px;color:#b1c9dc;line-height:1.6;margin:8px 0}
+.group .stamp{display:inline-flex;border:1px solid var(--accent);border-radius:7px;padding:4px 7px;color:var(--accent);font-size:10px;font-weight:800}
+.group .childlist{display:flex;gap:6px;flex-wrap:wrap;margin-top:16px}
+.group .mini{color:#cbe6f9;border:1px solid #355777;background:#0d2842;border-radius:8px;padding:8px;font-size:11px;font-weight:700}
+.group button.more{padding:8px 11px;border-radius:8px;border:1px solid var(--accent);color:var(--accent);background:#0d2b40;font-size:11px;font-weight:850;margin-top:9px}
+.group button:hover{filter:brightness(1.22)}
+.glabel{position:absolute;padding:6px 10px;border:1px solid #3e5573;background:#091b31;border-radius:7px;color:#a4bad0;font-size:10px}
+.flow-title{position:absolute;top:38px;left:54px;right:54px;font-size:12px;color:#7c9db9;letter-spacing:.4px}
+.flow-title b{font-size:19px;color:#e7f3ff;margin-right:10px}
+.tierheader{position:absolute;top:33px;left:56px;right:56px;display:flex;align-items:center;justify-content:space-between;gap:14px;z-index:3}
+.tierheader h2{font-size:25px;margin:4px 0 5px}.tierheader p{font-size:12px;color:#adc6dc;margin:0}
+.tierheader .bread{font-size:11px;font-weight:900;letter-spacing:1.4px;color:#6ce1cb}
+.tierbtn{background:#113250;border:1px solid #426a91;border-radius:9px;color:#d9edff;font-size:12px;font-weight:800;padding:9px 12px}
+.tierbtn:hover{background:#1d4c6c}
+.bigcenter{position:absolute;left:609px;top:342px;width:264px;height:182px;background:radial-gradient(ellipse at center,#19526a,#092b45);border:2px solid #53d9c1;border-radius:25px;padding:25px 21px;text-align:center;box-shadow:0 0 40px #2fcdb72d}
+.bigcenter .mini-label{color:#69e4ce;letter-spacing:1.5px;font-size:10px;font-weight:900}
+.bigcenter strong{display:block;font-size:24px;margin:10px 0}
+.bigcenter p{font-size:11px;line-height:1.55;color:#b4cde0;margin:0}
+.device{position:absolute;width:254px;height:136px;background:linear-gradient(145deg,#133756,#0a1d33);border:1px solid #497bb2;border-radius:16px;color:#edf7ff;padding:17px 20px;text-align:left;box-shadow:0 14px 26px #0006}
+.device:hover,.device:focus-visible{border-color:#69e8da;box-shadow:0 0 30px #3dcab944}
+.device .top{color:#80c6ff;font-size:10px;letter-spacing:1.1px;font-weight:900}
+.device strong{display:block;font-size:25px;margin:7px 0 5px}
+.device small{font-size:11px;color:#a9c7dc}.device .down{position:absolute;bottom:14px;right:16px;color:#55e7ce;font-size:12px;font-weight:850}
+.device .tinybadge{position:absolute;top:14px;right:14px;color:#f4c879;border:1px solid #a48351;border-radius:6px;padding:3px 6px;font-size:9px;font-weight:800}
+.svc{position:absolute;width:232px;height:130px;border-radius:17px;border:1px solid var(--col);background:linear-gradient(145deg,var(--glow),#0b1b30);color:#ecf7ff;padding:16px 19px;text-align:left}
+.svc:hover{border-color:#cdfdf0;box-shadow:0 0 29px #2ab3af36}
+.svc .name{font-size:12px;font-weight:900;color:var(--col)}
+.svc strong{font-size:21px;display:block;margin:8px 0 7px}
+.svc small{color:#b2cee3;font-size:11px}.svc .expand{position:absolute;right:17px;bottom:15px;color:#80ebd5;font-size:16px}
+.notebar{position:absolute;left:53px;right:53px;bottom:22px;padding:13px 18px;border:1px solid #5a5c67;border-radius:11px;background:#08192d;color:#aec7db;font-size:11px;line-height:1.45;text-align:center}
+.recommendation{position:absolute;left:470px;top:665px;width:535px;background:linear-gradient(135deg,#221f47,#10213e);border:1px solid #765ab0;padding:19px 21px;border-radius:15px}
+.recommendation .title{font-size:11px;color:#c1a7ff;letter-spacing:1.3px;font-weight:900}.recommendation p{font-size:12px;color:#c6cde6;line-height:1.7;margin:8px 0}
+.drawer{position:absolute;z-index:20;right:13px;top:12px;bottom:12px;width:min(420px,calc(100vw - 26px));border-radius:16px;border:1px solid #4d7da4;background:linear-gradient(155deg,#102e49,#07192c);box-shadow:-15px 0 65px #000b;padding:19px 23px;display:none;overflow:auto}
+.drawer.show{display:block}.drawer .topbar{display:flex;justify-content:space-between;align-items:center;gap:9px}
+.drawer h2{font-size:22px;margin:19px 0 11px}.drawer h3{font-size:13px;margin:19px 0 9px;color:#65e1c7}
+.drawer p,.drawer li{font-size:12px;line-height:1.8;color:#bbd0e1}.drawer ul{padding-left:19px}
+.drawer .notice{margin:12px 0;padding:11px 12px;background:#49361d50;border-left:3px solid #e7b464;border-radius:7px;color:#f0cc94;font-size:12px;line-height:1.65}
+.drawer .listrow{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-bottom:1px solid #29465f;font-size:12px;color:#afcce1}
+.drawer .listrow b{color:#e9f7ff;text-align:right}
+.drawer .close{background:#173858;border-radius:7px;border:1px solid #5e82a0;padding:7px 10px;font-size:12px}
+.drawer .next{display:block;width:100%;text-align:left;margin:9px 0;padding:12px;background:#102b45;border:1px solid #38638b;border-radius:9px;font-size:12px}
+.drawer .next:hover{border-color:#57c9e5;background:#1b3d5b}
+.zoom{position:absolute;left:18px;bottom:16px;display:flex;gap:6px;align-items:center;background:#07192be9;border:1px solid #335474;border-radius:11px;padding:5px;z-index:5}
+.zoom button{padding:7px 11px;background:#142a42;border:1px solid #385371;border-radius:8px;font-size:12px;color:#d4edff}
+.zoom button:hover{background:#244560}.zoom span{font-size:11px;color:#a8c5da;min-width:42px;text-align:center}
+footer{padding:8px 26px;border-top:1px solid #24405c;color:#799bbb;font-size:11px;background:#061323;display:flex;justify-content:space-between;gap:15px}
+@media(max-width:900px){header{padding:12px 14px}h1{font-size:23px}footer{padding:8px 12px;flex-wrap:wrap}.stats{padding:8px 12px}.legend{display:none}}
+</style>
+</head>
+<body>
+<div class="page">
+<header><div><div class="eyebrow">PRACTIKA • PUBLIC-SAFE NETWORK DIGITAL TWIN</div><h1>CCTV Network — PTK Workflow</h1><p>Interactive 3-Tier Network Evidence Map • ปกปิด IP, Subnet, Port Numbers และข้อมูลอุปกรณ์ภายในจากหน้า Public</p></div>
+<div class="actions">
+<button class="button" id="goOverview">ภาพรวม</button>
+<button class="button primary" id="goCandidates">＋ แตก 8 Device Nodes</button>
+<button class="button" id="goRecommendations">＋ แนวทางตรวจสอบ</button>
+<a class="button" href="../network-diagram/">← Network Main</a>
+</div></header>
+<div class="stats">
+<div class="stat"><strong>3</strong>ระดับที่เจาะดูได้</div>
+<div class="stat"><strong>8</strong>Candidate Nodes (anonymized)</div>
+<div class="stat warn"><strong>PENDING</strong>Physical Mapping</div>
+<div class="stat"><strong>READ-ONLY</strong>Workflow</div>
+<div class="legend"><span><i></i>Logical Evidence</span><span><i class="pending"></i>Unverified Link</span><span><i class="recommend"></i>Proposal</span></div>
+</div>
+<main class="viewport" id="viewport" aria-label="Interactive CCTV Network Workflow">
+<div class="backgrid"></div><div class="stage" id="stage">
+<div class="deck active" id="tier1" role="group" aria-label="Tier 1 CCTV network">
+<svg class="lines" viewBox="0 0 1480 880" aria-hidden="true">
+<path class="tentative" d="M400 301 C497 240 548 248 621 280"/><path class="relation" d="M946 276 C1021 261 1053 300 1081 317"/>
+<path class="tentative" d="M397 612 C480 558 1034 538 1103 591"/><path class="proposal" d="M778 492 C778 571 794 583 775 589"/>
+<path class="tentative" d="M1008 453 C1088 486 1072 531 1102 571"/>
+</svg>
+<div class="flow-title"><b>Tier 1 • CCTV Network Scope</b>แบ่งพื้นที่ตามบทบาทของระบบ • เส้นประหมายถึงความสัมพันธ์ที่ยังไม่ยืนยันทางกายภาพ</div>
+<section class="group" style="left:58px;top:119px;width:343px;height:276px;--accent:var(--teal);--edge-color:#258c79;--tint:#124237">
+<div class="kicker">01 / CCTV LOCATION EVIDENCE</div><h2>Physical Camera Areas</h2><p>มีหลักฐานแบบงานกล้องในบริเวณอาคาร แต่ไม่เท่ากับจำนวนกล้องที่ติดตั้งหรือความสัมพันธ์กับ Port จริง</p><span class="stamp">DESIGN EVIDENCE</span>
+<div class="childlist"><span class="mini">Site Zone A</span><span class="mini">Site Zone B</span><span class="mini">Site Zone C</span><span class="mini">Site Zone D</span></div>
+<button class="more" data-view="drawings">＋ ดูขอบเขต</button>
+</section>
+<section class="group" style="left:518px;top:117px;width:430px;height:370px;--accent:var(--blue);--edge-color:#3c78b4;--tint:#153d67">
+<div class="kicker">02 / NETWORK SCAN EVIDENCE</div><h2>Video Device Fingerprints</h2><p>8 รายการจาก Network Snapshot จัดเป็นกลุ่มอุปกรณ์วิดีโอที่อาจเป็นกล้องหรือเครื่องบันทึก แต่ยังไม่ยืนยันประเภท</p>
+<span class="stamp">8 CANDIDATES</span>
+<div class="childlist" style="display:grid;grid-template-columns:repeat(4,1fr);gap:9px">
+<button class="mini" data-candidate="0">C-01 ＋</button><button class="mini" data-candidate="1">C-02 ＋</button><button class="mini" data-candidate="2">C-03 ＋</button><button class="mini" data-candidate="3">C-04 ＋</button>
+<button class="mini" data-candidate="4">C-05 ＋</button><button class="mini" data-candidate="5">C-06 ＋</button><button class="mini" data-candidate="6">C-07 ＋</button><button class="mini" data-candidate="7">C-08 ＋</button></div>
+<p>ชื่อและ IP ของ Candidate ถูกปกปิดเฉพาะหน้าเว็บสาธารณะ</p>
+<button class="more" data-action="tier2">＋ แตกเป็น Node ของแต่ละเครื่อง</button>
+</section>
+<section class="group" style="left:1072px;top:199px;width:343px;height:263px;--accent:var(--blue);--edge-color:#4d81b6;--tint:#143550">
+<div class="kicker">03 / NETWORK CORE</div><h2>Backbone & Routing</h2><p>Switch / Core / Uplink เป็นขอบเขตที่ต้องตรวจต่อ ไม่แสดง Physical Link ที่ไม่มีหลักฐานจาก LLDP/FDB</p><span class="stamp">PATH PENDING</span>
+<button class="more" data-view="core">＋ Uplink & Evidence</button>
+</section>
+<section class="group" style="left:77px;top:479px;width:322px;height:220px;--accent:var(--yellow);--edge-color:#9b7944;--tint:#45361b">
+<div class="kicker">04 / ACCESS EDGE</div><h2>PoE / Access Switch</h2><p>ยังไม่ได้พิสูจน์ Camera → Switch Port และ PoE Budget ของอุปกรณ์ที่เกี่ยวข้อง</p><button class="more" data-view="poe">＋ ตรวจ PoE / Port</button>
+</section>
+<section class="group" style="left:564px;top:565px;width:396px;height:210px;--accent:var(--purple);--edge-color:#7560b0;--tint:#332550">
+<div class="kicker">05 / NETWORK SECURITY</div><h2>Segmentation / Policy</h2><p>CCTV VLAN, ACL, Firewall และ Remote Access ต้องตรวจ Config แบบ Read-only ก่อนแสดงว่าใช้งานจริง</p><button class="more" data-view="security">＋ ตรวจ Security</button>
+</section>
+<section class="group" style="left:1060px;top:537px;width:355px;height:208px;--accent:var(--pink);--edge-color:#9b5f86;--tint:#45223b">
+<div class="kicker">06 / VIDEO RECORDING</div><h2>NVR / Storage</h2><p>ยังไม่ยืนยัน NVR Channel, Video Retention หรือการเชื่อมต่อกับกล้องใดจาก Fingerprints อย่างเดียว</p><button class="more" data-view="record">＋ NVR & Monitoring</button>
+</section>
+<div class="notebar">Public-safe Architecture View • ไม่ใช่แผนผังสาย CCTV ที่ยืนยันแล้ว • รายละเอียดจริงอยู่ใน Private Network Digital Twin</div>
+</div>
+<div class="deck" id="tier2" role="group" aria-label="Tier 2 eight anonymized device nodes">
+<div class="tierheader"><div><div class="bread">PTK CCTV / TIER 2 / DEVICE CANDIDATES</div><h2>8 Video Device Nodes</h2><p>กดแต่ละเครื่องเพื่อขยายถึงชั้น Service Nodes • ปกปิด IP จริงเฉพาะหน้า Public</p></div><button class="tierbtn" data-action="overview">← กลับ Tier 1</button></div>
+<svg class="lines" viewBox="0 0 1480 880" id="deviceLines" aria-hidden="true"></svg>
+<div class="bigcenter"><span class="mini-label">NETWORK OBSERVATION</span><strong>Video Candidates</strong><p>8 anonymized records<br>Logical grouping — not wiring</p></div>
+<div id="devices"></div>
+<div class="notebar">ทุก Node เป็น Candidate ไม่ใช่กล้องที่ยืนยันแล้ว • เส้นเชื่อมสื่อถึงการจัดกลุ่มข้อมูล ไม่ได้ยืนยันตำแหน่งสาย LAN หรือสวิตช์</div>
+</div>
+<div class="deck" id="tier3" role="group" aria-label="Tier 3 device service nodes">
+<div class="tierheader"><div><div class="bread">PTK CCTV / TIER 3 / INDIVIDUAL DEVICE</div><h2 id="selectedDevice">Candidate C-01</h2><p>Network Service Categories ที่บันทึกไว้ • ปกปิดหมายเลขพอร์ตจริงในเวอร์ชันสาธารณะ</p></div><div style="display:flex;gap:9px"><button class="tierbtn" data-action="tier2">← กลับ 8 Nodes</button><button class="tierbtn" data-action="overview">ภาพรวม</button></div></div>
+<svg class="lines" viewBox="0 0 1480 880" id="serviceLines" aria-hidden="true"></svg>
+<div class="bigcenter" id="deviceHub"><span class="mini-label">ANONYMIZED CANDIDATE</span><strong id="hubName">C-01</strong><p>Role: Camera / Recorder?<br>Status: Unverified</p></div>
+<div id="services"></div>
+<div class="recommendation"><div class="title">NEXT EVIDENCE GATE</div><p>ยืนยัน Device Identity → MAC / Switch Port → Building / Location → NVR Channel ด้วยข้อมูล Management แบบ Read-only ที่ได้รับอนุมัติ</p></div>
+<div class="notebar">Service response ไม่รับรองว่ามีวิดีโอ Live Stream • ไม่มีการเปิดเผย IP, MAC, พอร์ตจริง, VLAN หรือ Camera-to-NVR Mapping บน GitHub Pages</div>
+</div>
+</div>
+<div class="zoom"><button id="zoomOut" aria-label="Zoom out">−</button><span id="zoomPct">100%</span><button id="zoomIn" aria-label="Zoom in">＋</button><button id="fit">Fit</button></div>
+<aside class="drawer" id="drawer" aria-live="polite"><div class="topbar"><span class="eyebrow" id="detailEyebrow">PTK / CCTV NETWORK</span><button class="close" id="close">✕ ปิด</button></div><div id="detailBody"></div></aside>
+</main>
+<footer><span>SOURCE: Practika Network Digital Twin · Public-safe architecture excerpt · 14 Oct 2026</span><span>NO PRIVATE IP / HOSTNAME / PORT LIST EXPOSED</span></footer>
+</div>
+<script>
+(()=>{'use strict';
+const positions=[{x:66,y:170},{x:66,y:340},{x:66,y:510},{x:355,y:652},{x:1160,y:170},{x:1160,y:340},{x:1160,y:510},{x:865,y:652}];
+const proto=[{name:'Web Interface',family:'HTTP / UI',note:'Network web endpoint category',col:'#69c8ff',glow:'#123957',x:120,y:200},
+{name:'Encrypted UI',family:'TLS / Secure',note:'Protected web endpoint category',col:'#8aa3ff',glow:'#202950',x:1115,y:200},
+{name:'Video Transport',family:'Stream / RTSP',note:'Video-oriented service category',col:'#55e2c6',glow:'#17463a',x:135,y:460},
+{name:'Device Service',family:'Control API',note:'Vendor-specific services',col:'#f4be72',glow:'#47351d',x:1103,y:460},
+{name:'Alternate Web',family:'Auxiliary UI',note:'Additional web service category',col:'#c4a4ff',glow:'#36234d',x:624,y:616}];
+const $=id=>document.getElementById(id);
+const escapeHTML=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+let layer=1,selected=0,scale=1,ox=0,oy=0,drag=null;
+function bcurve(x1,y1,x2,y2){const cx=(x1+x2)/2;return 'M'+x1+' '+y1+' C'+cx+' '+y1+' '+cx+' '+y2+' '+x2+' '+y2}
+function draw(){
+ $('devices').innerHTML=positions.map((p,i)=>'<button class="device" style="left:'+p.x+'px;top:'+p.y+'px" data-candidate="'+i+'"><span class="top">ANONYMIZED NODE '+String(i+1).padStart(2,'0')+'</span><span class="tinybadge">UNVERIFIED</span><strong>C-'+String(i+1).padStart(2,'0')+'</strong><small>Video device candidate • identity pending</small><span class="down">＋ Service Nodes</span></button>').join('');
+ $('deviceLines').innerHTML=positions.map(p=>'<path d="'+bcurve(740,430,p.x+126,p.y+69)+'"/>').join('');
+ $('services').innerHTML=proto.map((p,i)=>'<button class="svc" data-service="'+i+'" style="left:'+p.x+'px;top:'+p.y+'px;--col:'+p.col+';--glow:'+p.glow+'"><span class="name">OBSERVED SERVICE GROUP '+(i+1)+'</span><strong>'+escapeHTML(p.family)+'</strong><small>'+escapeHTML(p.name)+'</small><span class="expand">＋</span></button>').join('');
+ $('serviceLines').innerHTML=proto.map(p=>'<path d="'+bcurve(740,430,p.x+116,p.y+65)+'"/>').join('');
+}
+function changeTier(t,i){
+ if(Number.isInteger(i)&&i>=0&&i<8){selected=i;$('selectedDevice').textContent='Candidate C-'+String(i+1).padStart(2,'0');$('hubName').textContent='C-'+String(i+1).padStart(2,'0')}
+ layer=t;for(let n=1;n<=3;n++)$('tier'+n).classList.toggle('active',n===layer);
+ $('drawer').classList.remove('show');fit();
+}
+function drawer(title,content,eyebrow='NETWORK / EVIDENCE'){
+ $('detailEyebrow').textContent=eyebrow;
+ $('detailBody').innerHTML='<h2>'+escapeHTML(title)+'</h2>'+content;
+ $('drawer').classList.add('show');
+}
+const note='<div class="notice">Public-safe Preview: รายละเอียดที่ระบุตำแหน่งระบบจริงได้ถูกปกปิด หากต้องการเลข IP / MAC / Port / Hostname / VLAN จริง โปรดเปิด Private Network Digital Twin ภายใน PTK</div>';
+function deviceDetail(i){selected=i;const label='C-'+String(i+1).padStart(2,'0');drawer('Video Candidate '+label,'<p>กลุ่มอุปกรณ์ที่พบจาก Network Discovery (ข้อมูลจำแนกประเภทและความสัมพันธ์กับกล้องยังไม่สมบูรณ์)</p><div class="listrow"><span>Candidate ID</span><b>'+label+'</b></div><div class="listrow"><span>Device role</span><b>Camera / NVR? — Unverified</b></div><div class="listrow"><span>Network services</span><b>5 categories (masked)</b></div><div class="listrow"><span>Physical switch mapping</span><b>Pending evidence</b></div>'+note+'<h3>What should be checked next?</h3><ul><li>Authorized device identity / inventory</li><li>Switch FDB & interface / PoE</li><li>Location drawings & physical confirmation</li><li>NVR channel / recording mapping</li></ul><button class="next" data-action="services">＋ แตกถึง Service Nodes</button>');}
+const details={
+ drawings:['CCTV Location Evidence','หลักฐานแบบระบบ CCTV เป็นข้อมูลตำแหน่งเชิงออกแบบ ไม่ได้ยืนยันตำแหน่งกล้องปัจจุบัน','เทียบ As-built กับ Inventory และสำรวจที่ติดตั้งจริงก่อนเชื่อมกับ Network Port'],
+ core:['Network Core / Uplink','ต้องแยก Logical Network Discovery ออกจาก Physical Uplink','ใช้ LLDP/CDP, MAC/FDB และ interface counters แบบ read-only ก่อนระบุปลายทางหรือเส้นทางสาย'],
+ poe:['PoE & Access Switch','ยังไม่มีหลักฐาน Camera-to-Port ที่ยืนยันแล้ว','อ่าน PoE utilization, switch interface/FDB, error counters และผังสายก่อนวิเคราะห์กำลังไฟและความเสี่ยง'],
+ security:['CCTV Security & Segmentation','ยังไม่ยืนยัน CCTV VLAN ID, ACL หรือ Firewall Policy ที่ใช้จริง','ตรวจ VLAN membership, management access, ACL, firewall routes และ remote access policy ก่อนเสนอ hardening'],
+ record:['NVR & Monitoring','บริการ Video-oriented ไม่ยืนยันว่า IP นั้นเป็น NVR หรือบันทึกได้','ตรวจ NVR inventory, channel count, bitrate, retention, alert และ recording gap จากระบบที่ได้รับอนุญาต']
+};
+function viewDetail(k){const v=details[k];if(!v)return;drawer(v[0],'<p>'+escapeHTML(v[1])+'</p><h3>Recommended Validation</h3><p>'+escapeHTML(v[2])+'</p>'+note);}
+function recommendations(){
+ drawer('Evidence Upgrade Roadmap','<p>ตรวจตามลำดับเพื่อยกระดับ CCTV Logical Inventory ไปเป็น Physical Digital Twin โดยไม่เดาสายหรือพอร์ต</p>'+['Device Identity & MAC/Serial','Switch Port ↔ FDB / LLDP','Camera Location & Site Drawing','CCTV VLAN / Routing & ACL','NVR Channel, Retention & Health','Proof, Confidence & Audit Trail'].map((v,i)=>'<button class="next" data-reco="'+i+'">'+(i+1)+'. '+escapeHTML(v)+' ＋</button>').join('')+note,'NETWORK / RECOMMENDATIONS');
+}
+document.addEventListener('click',e=>{
+ const b=e.target.closest('[data-action]');if(b){
+ const act=b.dataset.action;if(act==='overview'){changeTier(1);return}
+ if(act==='tier2'){changeTier(2);return}
+ if(act==='services'){changeTier(3,selected);return}}
+ const c=e.target.closest('[data-candidate]');if(c){const i=Number(c.dataset.candidate);changeTier(3,i);return}
+ const s=e.target.closest('[data-service]');if(s){const z=proto[Number(s.dataset.service)];drawer('C-'+String(selected+1).padStart(2,'0')+' / '+z.family,'<p>ระบบตรวจพบกลุ่มบริการที่เข้ากับรูปแบบ '+escapeHTML(z.name)+' ใน Network Snapshot</p><div class="listrow"><span>Service category</span><b>'+escapeHTML(z.family)+'</b></div><div class="listrow"><span>Device identity</span><b>Unverified</b></div><p>การตอบสนองทางเครือข่ายไม่เท่ากับยืนยันการเปิดภาพกล้องได้จริง</p>'+note);return}
+ const d=e.target.closest('[data-view]');if(d){viewDetail(d.dataset.view);return}
+ const rec=e.target.closest('[data-reco]');if(rec){drawer('Roadmap Step '+(Number(rec.dataset.reco)+1),'<p>ใช้หลักฐานจากระบบจริงแบบ Read-only และมี Owner, Evidence Date, Confidence และ Validation Status ก่อนยกระดับความสัมพันธ์เป็น Confirmed</p>'+note)}
+});
+$('goCandidates').onclick=()=>changeTier(2);
+$('goOverview').onclick=()=>changeTier(1);
+$('goRecommendations').onclick=recommendations;
+$('close').onclick=()=>$('drawer').classList.remove('show');
+document.addEventListener('keydown',e=>{if(e.key==='Escape')$('drawer').classList.remove('show');if(e.key==='Backspace'&&!e.target.closest('input,textarea')){if(layer>1)changeTier(layer-1)}});
+const vp=$('viewport'),st=$('stage');
+function transform(){st.style.transform='translate('+ox+'px,'+oy+'px) scale('+scale+')';$('zoomPct').textContent=Math.round(scale*100)+'%'}
+function fit(){scale=Math.min(1.35,Math.max(.29,Math.min((vp.clientWidth-26)/1480,(vp.clientHeight-26)/880)));ox=(vp.clientWidth-1480*scale)/2;oy=(vp.clientHeight-880*scale)/2;transform()}
+function zoom(f,x=vp.clientWidth/2,y=vp.clientHeight/2){const prior=scale;scale=Math.max(.28,Math.min(2.4,scale*f));ox=x-(x-ox)*scale/prior;oy=y-(y-oy)*scale/prior;transform()}
+$('zoomIn').onclick=()=>zoom(1.2);$('zoomOut').onclick=()=>zoom(1/1.2);$('fit').onclick=fit;
+vp.addEventListener('wheel',e=>{if(e.target.closest('.drawer'))return;e.preventDefault();const r=vp.getBoundingClientRect();zoom(e.deltaY<0?1.11:1/1.11,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+vp.addEventListener('pointerdown',e=>{if(e.target.closest('button,a,.drawer'))return;drag={x:e.clientX,y:e.clientY,ox,oy};vp.setPointerCapture(e.pointerId)});
+vp.addEventListener('pointermove',e=>{if(!drag)return;ox=drag.ox+e.clientX-drag.x;oy=drag.oy+e.clientY-drag.y;transform()});
+vp.addEventListener('pointerup',()=>drag=null);vp.addEventListener('pointercancel',()=>drag=null);
+window.addEventListener('resize',fit);draw();fit();
+const params=new URLSearchParams(location.search);if(params.has('candidate')){const i=Number(params.get('candidate'));if(Number.isInteger(i)&&i>=1&&i<=8)changeTier(3,i-1);}
+})();
+</script>
+</body>
+</html>
