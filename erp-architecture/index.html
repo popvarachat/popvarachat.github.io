@@ -304,6 +304,12 @@ h1{font-size:clamp(38px,6vw,76px);line-height:.98;letter-spacing:-.05em;margin:1
 .report-private-note{margin:0 18px 18px;border:1px solid #4d435f;background:rgba(185,156,255,.06);border-radius:13px;padding:11px 12px;color:#b8aacd;font-size:9px;line-height:1.55}
 @media(max-width:760px){.report-query-grid{grid-template-columns:1fr}}
 
+
+/* REA Deep Dive 14-Oct-2026 checkpoint; public-safe certification boundaries */
+.rea-brief{padding:15px 17px;background:linear-gradient(115deg,#163c47,#173344);border:1px solid #3c7881;border-left:5px solid #76dec6;border-radius:12px;margin:15px 0 23px;color:#ddf4f2}
+.rea-brief .rea-line{font-size:13px;color:#afdfdf;letter-spacing:.3px}.rea-brief b{color:#f7fff9}.rea-brief a{display:inline-block;margin-top:10px;color:#8aebcf;font-weight:800}
+.rea-brief small{display:block;margin-top:4px;color:#bbd6d9}.rea-inline{padding:12px 15px;border-left:4px solid #7edbc7;background:#0e3544;border-radius:9px;margin:12px 0;font-size:14px}
+.rea-inline a{color:#a1ffe6;font-weight:800}
 </style>
 
 <style id="storySwitchLocalStyle">
@@ -802,7 +808,7 @@ body.learning-simple .story-switch button{font-size:9px!important}
     <div class="topbar-inner">
       <div class="brand"><span class="brand-mark">ERP</span><span>Practika ERP Architecture</span></div>
       <nav class="nav">
-        <a href="scan-audit.html" style="color:#9be9ed;font-weight:800">ERP Scan Audit</a><a href="executive-dashboard.html" style="color:#f6d492;font-weight:800">▣ Executive Dashboard</a><a href="mindmap.html" style="color:#77f3c4;font-weight:800">◈ Mind Map</a><a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#pain">Pain Points</a><a href="#finance">Finance</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
+        <a href="rea.html" style="color:#8af2d1;font-weight:800">◉ REA Deep Dive</a><a href="scan-audit.html" style="color:#9be9ed;font-weight:800">ERP Scan Audit</a><a href="executive-dashboard.html" style="color:#f6d492;font-weight:800">▣ Executive Dashboard</a><a href="mindmap.html" style="color:#77f3c4;font-weight:800">◈ Mind Map</a><a href="#flowmap">Flow Map</a><a href="#reports">Reports</a><a href="#pain">Pain Points</a><a href="#finance">Finance</a><a href="#story">Story</a><a href="#domains">Domains</a><a href="#state">State</a>
         <a href="#deep">Deep Dive</a><a href="#control">Controls</a><a href="#integration">Integration</a><a href="#cert">Certification</a>
       </nav>
     </div>
@@ -835,7 +841,7 @@ body.learning-simple .story-switch button{font-size:9px!important}
   <button data-jump="story">Story</button><button data-jump="domains">Domains</button><button data-jump="state">State</button><button data-jump="deep">Deep Dive</button><button data-jump="control">Controls</button><button data-jump="integration">Integration</button><button data-jump="cert">Certification</button>
 </div>
 
-<section id="executive" class="section story-visible">
+<div class="rea-brief" role="note"><div class="rea-line">REA / RDA · VERIFIED DISCOVERY UPDATE · 14 ต.ค. 2569</div><b>สำรวจ JDE ได้ 856 รายการเมนู · 174 P/R Objects · 19 Business View ที่มีหลักฐาน</b><small>9/9 Evidence QA และ 23/23 Synthetic Support Tests ผ่าน · แต่ Gate A–F ยังไม่รับรองครบ (0/37) และ Dashboard ยังไม่มี Live ERP Feed</small><a href="rea.html">เปิด REA Interactive Workflow + RCA + แผนนำเสนอสำหรับผู้บริหาร →</a></div><section id="executive" class="section story-visible">
 <div class="learn-path">
           <div class="step" data-story-target="flow"><b>1 · เข้าใจงานจริง</b><span>Business Flow</span></div>
           <div class="step" data-story-target="pain"><b>2 · เห็นปัญหา</b><span>User Pain & RCA</span></div>
@@ -1498,7 +1504,7 @@ document.addEventListener('click',function(e){
 <div class="report-private-note"><b>Interpretation:</b> LINE escalation is strong evidence of recurring operational friction, but technical root cause must still be certified from ERP metadata/logs/transactions. Public view intentionally removes personal names, order numbers and internal chat details.</div>
 </section>
 
-<section id="reports" class="section">
+<section id="reports" class="section"><div class="rea-inline">รายชื่อ Report ในหน้านี้เป็น Catalog สำหรับช่วยตัดสินใจ ไม่ได้แปลว่ารันได้ปลอดภัยทั้งหมด · <a href="rea.html#casework">เปิด REA Support/Report RCA</a> เพื่อตรวจ Version, Data Grain และความเสี่ยงก่อนใช้งาน</div>
 <div class="learn-intro" data-learn-intro="reports">
       <div class="ey">LEARN THIS SCREEN</div><h3>หน้านี้ใช้เลือก Report อย่างไร</h3><p>เลือก Report จาก Business Question ไม่ต้องเริ่มจากจำชื่อ Object</p>
       <div class="learn-q"><div><b>เริ่มจากอะไร</b><span>เริ่มจาก Workflow Map ด้านบน แล้วคลิก node เพื่อกรอง Report</span></div><div><b>อย่ากังวลเรื่องอะไร</b><span>ยังไม่ต้องจำ Object / UBE / Table ทุกตัว ให้เข้าใจ Business State ก่อน</span></div><div><b>เรียนจบหน้านี้ควรตอบได้</b><span>เกิดอะไรขึ้น → ดูจากไหน → ใครต้อง Action → ปิดงานเมื่อไร</span></div></div>
