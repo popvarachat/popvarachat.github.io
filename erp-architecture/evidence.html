@@ -1,0 +1,136 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Practika JD Edwards REA Evidence Explorer: complete observed task/object/report/BV/gate catalogs with field-level source provenance to private GitHub evidence.">
+<title>REA Evidence Explorer — Practika ERP</title>
+<style>
+:root{color-scheme:dark;--bg:#071620;--nav:#0b2230;--card:#102d3a;--border:#315469;--dim:#a3c0ce;--text:#ebf9fa;--mint:#7aefcf;--amber:#e3bf7e;--blue:#82d8fa;--red:#f3a29e;font:14px/1.6 system-ui,"Noto Sans Thai",Tahoma,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:radial-gradient(circle at 75% 0,#174359 0,transparent 35%),var(--bg)}
+a{color:#94e4ef}button,input,select{font:inherit;color:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible,select:focus-visible{outline:3px solid var(--amber);outline-offset:2px}
+.container{width:min(1600px,95%);margin:auto}.top{background:#081c27f2;position:sticky;top:0;z-index:7;border-bottom:1px solid var(--border);backdrop-filter:blur(11px)}
+.top .container{min-height:62px;display:flex;align-items:center;gap:18px;justify-content:space-between}.brand{text-decoration:none;color:white;font-weight:850;font-size:15px;white-space:nowrap}.brand span{color:var(--mint)}
+.nav{display:flex;align-items:center;gap:12px;flex-wrap:wrap}.nav a{color:#bcdae6;font-size:12px;text-decoration:none}.nav a:hover{color:white}
+.hero{padding:38px 0 14px}.ey{font-size:11px;color:var(--mint);font-weight:850;letter-spacing:1.6px}.hero h1{font-size:clamp(28px,4.4vw,51px);line-height:1.16;letter-spacing:-1px;margin:9px 0}.hero h1 em{font-style:normal;color:var(--mint)}.hero p{max-width:980px;color:#b9d5e0;font-size:15px;margin:0 0 13px}.warning{border-left:4px solid var(--amber);background:#342d21;color:#f1e3c6;padding:12px 16px;border-radius:0 9px 9px 0;margin:14px 0;font-size:13px}
+.metrics{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:19px 0 29px}.metric{background:var(--card);border:1px solid var(--border);border-radius:12px;padding:13px 14px}.metric strong{font-size:clamp(22px,2.2vw,32px);line-height:1.2;color:var(--mint);display:block}.metric small{font-size:11px;color:#bad0da}.card{border:1px solid var(--border);background:var(--card);border-radius:14px;padding:17px}.section-title{font-size:21px;margin:7px 0 15px}.toolbar{display:flex;align-items:center;gap:10px;flex-wrap:wrap}.input{padding:11px 13px;border:1px solid #43718a;background:#071e2b;border-radius:9px;min-width:220px;flex:1}.select{padding:10px;border:1px solid #43718a;background:#071e2b;border-radius:9px;max-width:100%}.tabs{display:flex;gap:6px;flex-wrap:wrap;margin-top:20px;margin-bottom:14px}.tab{padding:8px 11px;border:1px solid #416779;background:#0d2b39;color:#cbdce4;border-radius:9px;font-size:12px}.tab[aria-selected=true]{background:#20606a;border-color:var(--mint);color:white;font-weight:850}.tab small{color:#b1cfd4}
+.workspace{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(350px,.85fr);gap:15px;align-items:start}
+.result-pane,.detail-pane{min-width:0}.meta{display:flex;gap:10px;flex-wrap:wrap;align-items:center;justify-content:space-between;color:#a7cbd7;font-size:12px;margin:9px 0 13px}
+.items{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.entry{background:#0a2230;border:1px solid #31546a;border-radius:10px;text-align:left;padding:12px;display:flex;flex-direction:column;gap:4px;min-height:100px}.entry:hover,.entry[aria-pressed=true]{background:#164353;border-color:#7edbd8}
+.entry-title{font-weight:800;line-height:1.35;overflow-wrap:anywhere}.entry-sub{font-size:11px;color:#b7cfdb;overflow-wrap:anywhere}.entry-tiny{font-size:10px;color:var(--mint);text-transform:uppercase;letter-spacing:.5px}.pager{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin-top:16px}.pager button{background:#16394c;border:1px solid #426e81;border-radius:8px;padding:8px 14px}.pager button:disabled{opacity:.4;cursor:not-allowed}
+.detail-pane{position:sticky;top:78px;max-height:calc(100vh - 92px);overflow-y:auto;scrollbar-width:thin}.detail-pane h3{font-size:18px;margin:6px 0 7px;overflow-wrap:anywhere}.detail-pane p{font-size:13px;color:#bad5dc;margin:5px 0 14px}
+.rows{display:grid;gap:0}.field{border-top:1px solid #294f63;padding:10px 0;min-width:0}.field dt{font-size:11px;color:#93b9ca;font-weight:850;letter-spacing:.3px;overflow-wrap:anywhere}.field dd{font-size:12px;margin:3px 0 0;color:#e9f5f9;overflow-wrap:anywhere;white-space:pre-wrap}
+.actions{display:flex;gap:9px;flex-wrap:wrap}.action{display:inline-flex;align-items:center;justify-content:center;border:1px solid #4a8493;border-radius:8px;background:#165061;text-decoration:none;color:white;padding:7px 12px;font-size:12px}.action.secondary{background:#123242}.action:hover{background:#246779}
+.group{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:25px 0}.section-card{background:#102d3d;border:1px solid var(--border);border-radius:13px;padding:17px}.section-card h3{margin:6px 0;font-size:16px}.section-card p{font-size:12px;color:#afcdda}.section-card b{font-size:23px;color:#dff6ee}
+.evidence-chain{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin:14px 0}.tier{border:1px solid #3c6b79;background:#0b2c3a;padding:13px;border-radius:12px}.tier strong{display:block;margin:4px 0}.tier span{color:#b9d4dd;font-size:12px}.file-note{color:#9fc7d2;font-size:12px}.footer{margin-top:45px;border-top:1px solid #29495b;padding:28px 0 40px;font-size:12px;color:#8cacbd}.count-badge{display:inline-block;border:1px solid #735d3d;background:#33281a;color:#f1cd89;font-size:11px;font-weight:750;padding:4px 8px;border-radius:100px}
+#loadstate{font-size:13px;color:#b1d4de} .empty{color:#dcbb8c;padding:20px;border:1px dashed #647785;border-radius:9px;margin:12px 0}
+@media(max-width:1200px){.metrics{grid-template-columns:repeat(3,1fr)}.items{grid-template-columns:1fr}}
+@media(max-width:840px){.workspace{grid-template-columns:1fr}.detail-pane{position:relative;top:auto;max-height:none;overflow:visible}.items{grid-template-columns:repeat(2,minmax(0,1fr))}.group{grid-template-columns:1fr}.evidence-chain{grid-template-columns:1fr}}
+@media(max-width:550px){.top .container{flex-direction:column;align-items:flex-start;padding:12px 0}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.items{grid-template-columns:1fr}.tab{font-size:11px}.hero{padding-top:26px}}
+</style></head><body>
+<header class="top"><div class="container"><a class="brand" href="./"><span>ERP</span> / Practika Architecture</a><nav class="nav"><a href="./">Overview</a><a href="rea.html">REA Interactive</a><a href="scan-audit.html">Scan Audit</a><a href="executive-dashboard.html">Dashboard</a><a href="#vault">Private Vault</a></nav></div></header>
+<main class="container"><section class="hero"><div class="ey">REA EVIDENCE EXPLORER · 14 OCT 2026 · FULL OBSERVATION CATALOG</div><h1>เจาะลึก <em>ทุกหลักฐาน</em><br>จาก JDE สู่ Business Decision</h1><p>รวมทุกชุดหลักฐานที่มีอยู่ในโครงการ ณ วันที่สำรวจจริง พร้อมค้นหา ชื่อเมนู Object / Version, Report / UBE, Business View, กฎและช่องว่างด้านการรับรอง, RCA และลิงก์เปิดต้นฉบับ Private GitHub</p><span class="count-badge">OBSERVED / HISTORICAL / UNVERIFIED แยกสถานะชัดเจน</span><div id="loadstate" role="status">กำลังโหลด Dataset…</div></section>
+<div class="warning"><b>ขอบเขตการเปิดเผย:</b> เว็บ GitHub Pages นี้เป็น Public และแสดง Metadata เชิงเทคนิคตามที่เจ้าของโครงการอนุมัติ แต่ไฟล์ดิบ ข้อมูลบุคคล ธุรกรรมจริง และข้อมูลเข้าถึงระบบจะยังอยู่ใน Private GitHub · <b>การค้นพบ ≠ การรับรอง ERP 100%</b></div>
+<div class="metrics" id="metrics" aria-label="จำนวนหลักฐาน"><div class="metric"><strong>…</strong><small>กำลังโหลด</small></div></div>
+<section class="card" id="catalog"><div class="ey">FULL EVIDENCE / LIVE + HISTORICAL</div><h2 class="section-title">Evidence Catalog — ค้นหาจากหลักฐานจริง</h2><p class="file-note">เลือกประเภทหลักฐาน แล้วค้นได้ด้วยชื่อเมนู รหัส P/R, Version, คำถาม Report, Business View หรือชื่อผู้รับผิดชอบ กดรายการเพื่อเปิดฟิลด์ทั้งหมดและแหล่งต้นฉบับ</p>
+<div class="tabs" id="tabs" role="tablist" aria-label="เลือกประเภทหลักฐาน"></div>
+<div class="toolbar"><input class="input" id="search" type="search" placeholder="เช่น P594801C, Run99, X3/X4, Time Entry, QC HOLD, Processing Options..." aria-label="ค้นหาหลักฐาน"><select id="mode" class="select" aria-label="แสดงประเภท"><option value="all">ทุกประเภท</option></select><select id="pagesize" class="select" aria-label="จำนวนรายการต่อหน้า"><option value="20">20 / หน้า</option><option value="40" selected>40 / หน้า</option><option value="80">80 / หน้า</option></select></div>
+<div class="workspace" style="margin-top:16px"><section class="result-pane"><div class="meta"><span id="found">กำลังโหลด</span><span id="where">Source: Private REA</span></div><div id="entries" class="items"></div><div class="pager"><button type="button" id="prev">← ก่อนหน้า</button><span id="page-number" aria-live="polite">1 / 1</span><button type="button" id="next">หน้าถัดไป →</button></div></section><aside class="card detail-pane" id="detail"><div class="ey">EVIDENCE DRILLDOWN</div><h3>เลือกหลักฐานทางซ้าย</h3><p>การแสดงรายละเอียดอ้างอิงจาก Dataset พร้อม Source Provenance และสถานะการรับรอง ไม่เติมข้อสรุปที่ไม่ได้ตรวจพบจริง</p></aside></div></section>
+<section id="trace" style="margin-top:26px"><div class="ey">CAUSAL / CROSS-FUNCTIONAL ANALYSIS</div><h2 class="section-title">หลักฐานต้องประกอบกันหลาย Layer จึงจะตอบ Root Cause ได้</h2><div class="evidence-chain"><div class="tier"><div class="ey">BUSINESS EVIDENCE</div><strong>เหตุการณ์ / คน / งาน</strong><span>SO, WO, Cutting, QC, Transfer, Invoice · ต้องระบุ Grain และ Expected/Actual</span></div><div class="tier"><div class="ey">TECHNICAL EVIDENCE</div><strong>P/Form/Version → BV/Table</strong><span>Data Selection, Status Transition, Custom Rule, UBE Update Effects · ยังไม่รับรองครบ</span></div><div class="tier"><div class="ey">DECISION + CONTROL</div><strong>Root Cause → Fix → Prevention</strong><span>Case Pair จริง, Audit/Owner, Human Gate และ Data Quality ก่อน Dashboard</span></div></div></section>
+<section id="vault" style="margin-top:24px"><div class="ey">PROVENANCE / IMMUTABLE EVIDENCE</div><h2 class="section-title">Private Evidence Vault — เปิดต้นฉบับครบชุด</h2><div class="group"><div class="section-card"><div class="ey">SOURCE FILES</div><b id="vault-total">…</b><h3>หลักฐานดิบและเอกสาร</h3><p>แต่ละไฟล์มี SHA-256, ขนาด, หมวดหลักฐาน และลิงก์เปิดใน GitHub ที่ต้องมีสิทธิ์</p><a class="action" href="https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/28_rea_full_evidence_vault_20261014.md" target="_blank" rel="noopener noreferrer">Private Vault Index ↗</a></div><div class="section-card"><div class="ey">READABLE JSON DATA</div><b id="data-total">…</b><h3>Metadata ทั้งหมดบนเว็บ</h3><p>อ่านหรือดาวน์โหลดไฟล์ JSON ได้โดยตรง เพื่อใช้กับเครื่องมือวิเคราะห์อื่น แต่ไม่ใช่ Raw ERP Production Dataset</p><a class="action" href="./evidence-data.json" target="_blank" rel="noopener noreferrer">เปิด Evidence Data JSON ↗</a></div><div class="section-card"><div class="ey">SAFE RELEASE / STATUS</div><b>0 / 37</b><h3>Gate ยังคงรอรับรอง</h3><p>เอกสารละเอียดไม่เท่ากับ Approved Source / Case RCA / KPI. ต้องมีหลักฐานและผู้รับรองจึงปิด Gate</p><a class="action" href="https://github.com/popvarachat/practika-erp-architecture/issues/1" target="_blank" rel="noopener noreferrer">GitHub REA Closure ↗</a></div></div></section>
+<section style="margin-top:25px"><div class="ey">PRESENTATION / CONTINUOUS LEARNING</div><h2 class="section-title">ใช้หลักฐานที่พบไปสร้างการเรียนรู้อย่างไร</h2><div class="group"><article class="section-card"><h3>1 · Executive Evidence Review</h3><p>ดูภาพรวม 856 Menus / 174 P-R Object และสิ่งที่ยังไม่รับรอง 37 รายการ โดยแยกความเสี่ยงในการดำเนินงานกับความเสี่ยงข้อมูล</p><a href="rea.html#present">เปิดแผนนำเสนอ 8 ตอน</a></article><article class="section-card"><h3>2 · Report Clinic / Key User</h3><p>เริ่มจากคำถามธุรกิจ ระบุ Grain, P/R Version, Input Filters, Meaning และเจ้าของ Report ก่อนตัดสินใจว่าใช้ตัวใด</p><a href="rea.html#casework">เปิด RCA Support Workbench</a></article><article class="section-card"><h3>3 · Developer Forensic Lab</h3><p>คลิก Object/Version → Data Source/BV → ดูแหล่งข้อมูลจริง → เทียบ Failed และ Success พร้อมอนุมัติ Update Y/N</p><a href="scan-audit.html">เปิด Scan Audit</a></article></div></section></main>
+<footer class="footer"><div class="container">Practika ERP REA Evidence Explorer · Public metadata with private provenance · READ-ONLY · No write-back / UBE Run · Live ERP Data Pool NOT_CONNECTED · หน้านี้ไม่ใช่คำยืนยัน REA 100%</div></footer>
+<script>
+(()=>{'use strict';
+const $=s=>document.getElementById(s);
+const escape=v=>String(v===null||v===undefined?'':v).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const groups=[
+{key:'menu',label:'เมนู / Task',short:'Menu',source:'MENU24'},
+{key:'objects',label:'P/R Object + Version',short:'Object',source:'XW24'},
+{key:'reports',label:'Report / UBE',short:'Report',source:'REP24'},
+{key:'business_views',label:'Business Views',short:'BV',source:'BV24'},
+{key:'gates',label:'Certification A–F',short:'Gate',source:'GATE'},
+{key:'rca_cases',label:'RCA Case Acceptance',short:'RCA',source:'CASE'},
+{key:'pain_prior',label:'RCA Evidence เดิม',short:'Prior',source:'PAIN8'},
+{key:'pain_user',label:'User Pain Evidence',short:'Pain',source:'USRP'},
+{key:'ube_name_resolved',label:'13 UBE ที่แกะได้',short:'UBE13',source:'UBE13'},
+{key:'application_registry',label:'Application Registry',short:'App',source:'APP67'},
+{key:'report_registry',label:'Report Registry',short:'Rpt',source:'RPT63'},
+{key:'private_file_index',label:'Private Vault Files',short:'Files',source:'VAULT'}
+];
+let pack=null,active='menu',query='',filter='all',page=0,pageSize=40,selection=null;
+function dataset(){return pack?.datasets?.[active]||[]}
+const readable=v=>Array.isArray(v)?v.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join('; '):(typeof v==='object'&&v!==null?JSON.stringify(v,null,2):String(v??''));
+const isEmpty=v=>v===null||v===undefined||v==='';
+function heading(o,i){
+if(active==='menu')return o.label||o.title||'Task '+(i+1);
+if(active==='objects')return (o.object||'Unknown')+' · '+(o.form||o.version||o.kind||'');
+if(active==='reports')return (o.object||'R?')+' · '+(o.user_visible_names||'UBE');
+if(active==='business_views')return (o.object||'P?')+' → '+(o.business_view||'Unknown');
+if(active==='gates')return (o.gate||'?')+' · '+(o.object_or_policy||'Certification');
+if(active==='rca_cases')return o.case_type||'RCA Case';
+if(active==='pain_prior'||active==='pain_user')return (o.pain_area||'Support Evidence')+' · '+(o.application||o.object||o.object_or_surface||'');
+if(active==='ube_name_resolved')return (o.object||'R?')+' · '+(o.menu_labels||'');
+if(active==='private_file_index')return o.title||o.path;
+return o.application_name||o.object||o.report_name||o.application||o.name||Object.values(o)[0]||'Evidence';
+}
+function sub(o){
+const vals=active==='menu'?[o.kind,o.title,o.root]:active==='objects'?[o.kind,o.version,o.root_task_views]:active==='reports'?[o.version_menu_visible,o.likely_domain_TRIAGE_ONLY,o.risk_class]:active==='business_views'?[o.evidence_state,o.most_recent_observed_date]:active==='gates'?[o.responsible_function,o.certification_state]:active==='private_file_index'?[o.category,o.classification]:[o.evidence_state,o.certification_status,o.approval_owner];
+return vals.filter(Boolean).join(' · ').slice(0,300);
+}
+function searchText(o){return Object.values(o).map(readable).join(' ').toLowerCase()}
+function filtered(){
+const q=query.trim().toLowerCase();
+return dataset().map((row,i)=>({row,i})).filter(({row})=>(!q||searchText(row).includes(q))&&(filter==='all'||String(row.kind||row.gate||row.certification_state||row.category||'')===filter));
+}
+function sourceRow(){return pack?.datasets?.evidence_sources?.find(s=>s.id===groups.find(g=>g.key===active)?.source)}
+function sourceUrl(row){return row.private_url||(sourceRow()?.private_url)||'https://github.com/popvarachat/practika-erp-architecture'}
+function renderTabs(){
+$('tabs').innerHTML=groups.map(g=>'<button type="button" role="tab" class="tab" data-key="'+escape(g.key)+'" aria-selected="'+(active===g.key)+'">'+escape(g.label)+' <small>'+((pack?.datasets?.[g.key]||[]).length)+'</small></button>').join('');
+for(const btn of $('tabs').querySelectorAll('button'))btn.addEventListener('click',()=>{active=btn.dataset.key;page=0;selection=null;renderTabs();renderTypes();renderItems()});
+}
+function renderTypes(){
+const d=dataset(),vals=[...new Set(d.map(x=>x.kind||x.gate||x.certification_state||x.category||'').filter(Boolean))].sort();
+filter='all';$('mode').innerHTML='<option value="all">ทุกประเภท</option>'+vals.map(v=>'<option value="'+escape(v)+'">'+escape(v)+'</option>').join('');
+$('where').textContent=(sourceRow()?.name||'Private Source')+' · dated evidence and source file linked';
+}
+function showDetail(obj,i){
+selection=i;const els=$('entries').querySelectorAll('.entry');for(const e of els)e.setAttribute('aria-pressed',String(Number(e.dataset.index)===i));
+const fields=Object.entries(obj).filter(([k,v])=>!isEmpty(v)),src=sourceRow();
+let link=sourceUrl(obj);
+const attrs=fields.map(([k,v])=>'<div class="field"><dt>'+escape(k.replace(/_/g,' '))+'</dt><dd>'+escape(readable(v))+'</dd></div>').join('');
+const hash=obj.sha256||src?.sha256||'';
+$('detail').innerHTML='<div class="ey">EVIDENCE DRILLDOWN · '+escape(groups.find(g=>g.key===active)?.label)+'</div><h3>'+escape(heading(obj,i))+'</h3><p>'+escape(sub(obj))+'</p><div class="actions"><a class="action" href="'+escape(link)+'" target="_blank" rel="noopener noreferrer">เปิดหลักฐาน Private ↗</a><button type="button" id="copyrow" class="action secondary">Copy JSON</button></div>'+
+'<div class="rows" style="margin-top:12px">'+attrs+'</div>'+
+'<div class="field"><dt>Source / Provenance</dt><dd>'+escape(src?.name||'Private Manifest')+' · '+escape(src?.provenance||'PRIVATE_SOURCE')+'</dd></div>'+
+'<div class="field"><dt>Evidence SHA-256</dt><dd>'+escape(hash||'ดูใน Private Vault')+'</dd></div>'+
+'<div class="field"><dt>การรับรอง</dt><dd>'+escape(src?.meaning||'File index only; source remains private')+'</dd></div>';
+$('copyrow').addEventListener('click',async()=>{try{await navigator.clipboard.writeText(JSON.stringify(obj,null,2));$('copyrow').textContent='คัดลอกแล้ว ✓'}catch(e){$('copyrow').textContent='Clipboard ไม่พร้อม'}});
+}
+function renderItems(){
+let x=filtered(),totalPages=Math.max(1,Math.ceil(x.length/pageSize));page=Math.max(0,Math.min(page,totalPages-1));
+const start=page*pageSize,rows=x.slice(start,start+pageSize);
+$('found').textContent='พบ '+x.length.toLocaleString('en-US')+' รายการ · แสดง '+(x.length?start+1:0)+'–'+(start+rows.length);
+$('page-number').textContent=(page+1)+' / '+totalPages;
+$('prev').disabled=page===0;$('next').disabled=page>=totalPages-1;
+$('entries').innerHTML=rows.length?rows.map(({row,i})=>'<button type="button" class="entry" data-index="'+i+'" aria-pressed="'+(selection===i)+'"><span class="entry-tiny">'+escape(active.toUpperCase())+' · #'+String(i+1).padStart(3,'0')+'</span><span class="entry-title">'+escape(heading(row,i))+'</span><span class="entry-sub">'+escape(sub(row))+'</span></button>').join(''):'<div class="empty">ไม่พบหลักฐานที่ตรงเงื่อนไข ลองเปลี่ยนคำค้นหรือประเภท</div>';
+for(const btn of $('entries').querySelectorAll('button'))btn.addEventListener('click',()=>{const id=Number(btn.dataset.index);showDetail(dataset()[id],id);if(window.innerWidth<840){$('detail').scrollIntoView({behavior:'smooth',block:'start'})}});
+if(selection!==null&&x.some(r=>r.i===selection))showDetail(dataset()[selection],selection);
+else if(rows.length)showDetail(rows[0].row,rows[0].i);
+else {$('detail').innerHTML='<div class="ey">EVIDENCE DRILLDOWN</div><h3>ไม่มีผลลัพธ์</h3>';}
+}
+$('search').addEventListener('input',e=>{query=e.target.value;page=0;selection=null;renderItems()});
+$('mode').addEventListener('change',e=>{filter=e.target.value;page=0;selection=null;renderItems()});
+$('pagesize').addEventListener('change',e=>{pageSize=Number(e.target.value);page=0;renderItems()});
+$('prev').addEventListener('click',()=>{page--;renderItems();$('catalog').scrollIntoView({behavior:'smooth',block:'start'})});
+$('next').addEventListener('click',()=>{page++;renderItems();$('catalog').scrollIntoView({behavior:'smooth',block:'start'})});
+fetch('./evidence-data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
+if(d.schema_version!=='2.0.0'||d.program_certification!=='NOT_CERTIFIED'||!Array.isArray(d.datasets.menu)||d.datasets.menu.length!==856)throw Error('Unexpected schema/source integrity');
+pack=d;
+const metrics=[['Task / Menu',d.counts.task_entries],['Object-Version',d.counts.object_version_rows],['Report / UBE',d.counts.UBE_lookup_rows],['BV Provenance',d.counts.BV_provenance_rows],['Gate Approved',d.counts.certified_gate_rows+' / '+d.counts.gate_acceptance_rows],['Private Files',d.counts.private_evidence_artifact_files]];
+$('metrics').innerHTML=metrics.map(([name,v])=>'<article class="metric"><strong>'+escape(typeof v==='number'?v.toLocaleString('en-US'):v)+'</strong><small>'+escape(name)+'</small></article>').join('');
+$('loadstate').textContent='Loaded evidence snapshot '+d.generated_from_private_repo_snapshot+' · Source: Private GitHub · Public metadata only';
+$('vault-total').textContent=d.counts.private_evidence_artifact_files;
+$('data-total').textContent=Object.values(d.datasets).reduce((n,a)=>n+a.length,0).toLocaleString('en-US')+' rows';
+renderTabs();renderTypes();renderItems();
+}).catch(e=>{$('loadstate').textContent='โหลดหลักฐานไม่สำเร็จ: '+e.message;$('entries').innerHTML='<div class="empty">ไม่พบหลักฐานที่ตรวจสอบได้ ไม่แสดงข้อมูลจำลอง</div>';});
+})();
+</script>
+</body></html>
