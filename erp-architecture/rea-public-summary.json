@@ -1,0 +1,325 @@
+{
+  "schema_version": "1.0.0",
+  "as_of": "2026-10-14",
+  "source": "Privately reviewed ERP REA evidence; public-safe metadata only",
+  "source_of_truth": "https://github.com/popvarachat/practika-erp-architecture",
+  "classification": "PUBLIC_SAFE_AGGREGATED_METADATA",
+  "release_status": "PARTIAL_DISCOVERY_TECHNICAL_CERTIFICATION_OPEN",
+  "not_100_percent_certified": true,
+  "architecture_discovery_estimate": "~92% (historical estimate, not certification)",
+  "metrics": [
+    {
+      "id": "menus",
+      "label": "เมนู / Task Entries",
+      "value": 856,
+      "footnote": "5 Task Views + selected depth-2 paths"
+    },
+    {
+      "id": "objects",
+      "label": "P/R Objects ไม่ซ้ำ",
+      "value": 174,
+      "footnote": "นับจากเมนูที่ตรวจ ไม่ใช่ทุกโปรแกรมในระบบ"
+    },
+    {
+      "id": "forms",
+      "label": "Object / Form / Version",
+      "value": 268,
+      "footnote": "ชุดที่พบใน Task metadata"
+    },
+    {
+      "id": "ube",
+      "label": "UBE Lookup Entries",
+      "value": 103,
+      "footnote": "จับคู่ชื่อและ Version; ไม่รับรองว่ารันปลอดภัย"
+    },
+    {
+      "id": "bv",
+      "label": "Application ที่พบ BV",
+      "value": 19,
+      "footnote": "8 live ใหม่ + 11 หลักฐานก่อนหน้า"
+    },
+    {
+      "id": "test",
+      "label": "Evidence QA / Synthetic Tests",
+      "value": "9/9 · 23/23",
+      "footnote": "ไม่ใช่ผลทดสอบ ERP transaction จริง"
+    }
+  ],
+  "certification": {
+    "total": 37,
+    "certified": 0,
+    "paired_cases_total": 5,
+    "paired_cases_verified": 0,
+    "physical_table_maps_certified": 0,
+    "data_pool": "NOT_CONNECTED",
+    "gates": [
+      {
+        "id": "A",
+        "name": "UBE Metadata",
+        "owner": "ERP Admin / Functional",
+        "count": 9,
+        "certified": 0,
+        "evidence": "Processing Options · Data Selection · Sequencing · Version",
+        "risk": "Unknown report side effects",
+        "scope": "Meta export; ห้าม Run UBE เพื่อสำรวจ"
+      },
+      {
+        "id": "B",
+        "name": "Business View → Physical Table",
+        "owner": "JDE Developer / Data Steward",
+        "count": 9,
+        "certified": 0,
+        "evidence": "BV joins · keys · grain · effective dates",
+        "risk": "Cannot certify true source lineage",
+        "scope": "19 BV names known; 0 physical joins certified"
+      },
+      {
+        "id": "C",
+        "name": "UBE Update / Rerun Effects",
+        "owner": "Developer / ERP Security",
+        "count": 12,
+        "certified": 0,
+        "evidence": "Update Y/N · posting · rerun · mutation scope",
+        "risk": "Running a ‘report’ may update data",
+        "scope": "Conservative Do-not-run until certified"
+      },
+      {
+        "id": "D",
+        "name": "Status Transition Governance",
+        "owner": "Planning · QC · Functional",
+        "count": 5,
+        "certified": 0,
+        "evidence": "From → To · prerequisite · authority · reversibility",
+        "risk": "Cannot prove WO/Cutting/HOLD/Invoice state engine",
+        "scope": "Compare historical success/failure pairs"
+      },
+      {
+        "id": "E",
+        "name": "Customer Promise / OTD",
+        "owner": "Management / Commercial",
+        "count": 1,
+        "certified": 0,
+        "evidence": "Authoritative date · partial shipment · installation · cutoff",
+        "risk": "KPI definitions not approved",
+        "scope": "Management Human Gate"
+      },
+      {
+        "id": "F",
+        "name": "Read-only Integration",
+        "owner": "IT Security / ERP Admin",
+        "count": 1,
+        "certified": 0,
+        "evidence": "Approved AIS/DB/Export · RBAC · audit · DQ",
+        "risk": "Live data feed not approved",
+        "scope": "Architecture/Security Human Gate"
+      }
+    ]
+  },
+  "process": [
+    {
+      "id": "demand",
+      "label": "ลูกค้า & คำมั่นสัญญา",
+      "tier": "business",
+      "domain": "Demand / Sales",
+      "question": "ลูกค้าคาดหวังอะไร? วันที่ไหนคือวันที่ตกลงจริง?",
+      "trace": "SO / SO line → เงื่อนไขส่งมอบ",
+      "gate": "E",
+      "state": "PARTIAL"
+    },
+    {
+      "id": "design",
+      "label": "สินค้า & วัตถุดิบ",
+      "tier": "business",
+      "domain": "Engineering / Purchasing",
+      "question": "แบบสินค้า BOM วัตถุดิบ และ Rev ถูกต้องหรือไม่?",
+      "trace": "Item → BOM → PO → Receipt → Lot",
+      "gate": "B",
+      "state": "PARTIAL"
+    },
+    {
+      "id": "production",
+      "label": "ผลิต & คัตติ้ง",
+      "tier": "operations",
+      "domain": "Planning / Manufacturing",
+      "question": "WO จริงอยู่ขั้นใด? กำลังการผลิตและสถานะสัมพันธ์หรือไม่?",
+      "trace": "Routing → Capacity → WO → Cutting → Operation",
+      "gate": "D",
+      "state": "PARTIAL"
+    },
+    {
+      "id": "quality",
+      "label": "QC & การโอน",
+      "tier": "operations",
+      "domain": "QC / Warehouse",
+      "question": "งานผ่าน QC แล้วหรือยัง? Hold / Lot / TS ค้างที่ใคร?",
+      "trace": "Inspection → Disposition → Lot → Transfer",
+      "gate": "D",
+      "state": "PARTIAL"
+    },
+    {
+      "id": "finance",
+      "label": "ส่งมอบ & การเงิน",
+      "tier": "outcome",
+      "domain": "Delivery / AR / GL",
+      "question": "ส่งมอบแล้วทำไมออกบิลไม่ได้? WIP/GL ตรงไหม?",
+      "trace": "Delivery → Invoice → AR/AP → GL",
+      "gate": "A/C",
+      "state": "PARTIAL"
+    },
+    {
+      "id": "support",
+      "label": "Support & Root Cause",
+      "tier": "outcome",
+      "domain": "Helpdesk / RCA",
+      "question": "Error เกิดตรงไหน? สาเหตุจริงคืออะไร ไม่ใช่แค่กด Run ซ้ำ?",
+      "trace": "Symptom → Object/Version → Data → Rule → Evidence → Prevention",
+      "gate": "A–D",
+      "state": "PENDING_REAL_CASE"
+    }
+  ],
+  "cases": [
+    {
+      "id": "cost",
+      "label": "Cost 07 / X3-X4",
+      "chain": "Cost Master → Components → Production Cost → WIP → GL",
+      "question": "ต้นทางไม่มี Cost, Version ไม่ตรง หรือยังไม่ Post?",
+      "state": "PAIR_EVIDENCE_PENDING",
+      "owner": "Costing + Accounting",
+      "takeaway": "Run/Recalc ไม่ใช่ RCA"
+    },
+    {
+      "id": "run99",
+      "label": "WO / Cutting / Run99",
+      "chain": "Operation → Cutting → QC → Transfer → SO Status",
+      "question": "สถานะล้าหลังเพราะกฎใดและสิทธิ์ใคร?",
+      "state": "PAIR_EVIDENCE_PENDING",
+      "owner": "Planning + Production",
+      "takeaway": "ห้ามสั่ง Run99 เพื่อตรวจสอบ"
+    },
+    {
+      "id": "ts",
+      "label": "Inventory / TS",
+      "chain": "Physical Move → Item Ledger → Lot/Branch → TS",
+      "question": "สินค้าเคลื่อนแล้ว แต่เอกสารหรือ Ledger ยังค้างหรือไม่?",
+      "state": "PAIR_EVIDENCE_PENDING",
+      "owner": "Store + Inventory",
+      "takeaway": "เวลาและ Key ต้องตรงกัน"
+    },
+    {
+      "id": "qc",
+      "label": "QC HOLD",
+      "chain": "Test → Nonconformance → Disposition → Lot → Availability",
+      "question": "ใครอนุมัติ Release และทำไมยังไม่พร้อม?",
+      "state": "PAIR_EVIDENCE_PENDING",
+      "owner": "QC",
+      "takeaway": "ไม่ปล่อย HOLD อัตโนมัติ"
+    },
+    {
+      "id": "invoice",
+      "label": "Invoice Readiness",
+      "chain": "Delivery → WO Closure → Transfer → SO → AR/GL",
+      "question": "ส่งมอบจริงแล้ว ขาดเงื่อนไขใดในการออกบิล?",
+      "state": "PAIR_EVIDENCE_PENDING",
+      "owner": "Sales + Finance",
+      "takeaway": "แยกส่งของ / ติดตั้ง / ออกบิล"
+    }
+  ],
+  "phases": [
+    {
+      "name": "01 · Discover",
+      "status": "DONE_SCOPE_ONLY",
+      "owner": "RDA Agent + Key User",
+      "deliverable": "แผนที่เมนู, Object, Report, Workflow ตาม Role; Metadata coverage"
+    },
+    {
+      "name": "02 · Certify",
+      "status": "BLOCKED",
+      "owner": "ERP Admin / Developer",
+      "deliverable": "UBE Options, BV→Table, Update Y/N, Status Matrix ลงนาม"
+    },
+    {
+      "name": "03 · Validate RCA",
+      "status": "PENDING_CASES",
+      "owner": "Support + Process Owner",
+      "deliverable": "5 คู่ Failed/Success จริง และ Preventive Controls"
+    },
+    {
+      "name": "04 · Govern Data",
+      "status": "HUMAN_GATE",
+      "owner": "Management + IT Security",
+      "deliverable": "Promise/OTD Policy, Read-only Source, DQ/Public Release"
+    },
+    {
+      "name": "05 · Operate",
+      "status": "NOT_STARTED",
+      "owner": "IT + Business Owners",
+      "deliverable": "Data Pool ที่ผ่านรับรอง, Support Playbook, Monitoring และ Training"
+    }
+  ],
+  "presentation": [
+    {
+      "title": "ผู้บริหาร: เรารู้ ERP จริงแค่ไหน",
+      "audience": "executive",
+      "point": "แยกความก้าวหน้า Discovery กับ Certification",
+      "visual": "856 tasks · 174 objects · 37 gates"
+    },
+    {
+      "title": "คนใช้งาน: จากคลิกตามความเคยชินสู่เข้าใจเหตุผล",
+      "audience": "everyone",
+      "point": "แต่ละคลิกเปลี่ยนสถานะและกระทบฝ่ายอื่นอย่างไร",
+      "visual": "Demand → Production → Quality → Finance"
+    },
+    {
+      "title": "คนเรียก Report: ถามให้ถูกก่อนเลือกชื่อรายงาน",
+      "audience": "everyone",
+      "point": "Business question → Grain → Object/Version → Inputs → Decision",
+      "visual": "103 UBE lookup entries; not 103 certified reports"
+    },
+    {
+      "title": "Dev: หน้าจอไม่ใช่ฐานข้อมูล",
+      "audience": "technical",
+      "point": "P/Form/Version → BV → Physical Table → Rule → UBE",
+      "visual": "19 known BV names · 0 certified physical mappings"
+    },
+    {
+      "title": "Support: ย้อนรอย Error ให้เจอสาเหตุ",
+      "audience": "technical",
+      "point": "Failure case vs success case; observe prerequisites; assign owner",
+      "visual": "5 RCA families need real paired evidence"
+    },
+    {
+      "title": "ความเสี่ยง: อย่าใช้ Report เป็นคำสั่งที่ไม่รู้ผลข้างเคียง",
+      "audience": "executive",
+      "point": "UBE update / repost / freeze / post effects need certification",
+      "visual": "Gates A & C"
+    },
+    {
+      "title": "Gate E/F: สิ่งที่ระบบตัดสินแทนผู้บริหารไม่ได้",
+      "audience": "executive",
+      "point": "Promise policy และสิทธิ์เชื่อมข้อมูลต้องอนุมัติ",
+      "visual": "37 open acceptance items"
+    },
+    {
+      "title": "Roadmap: จากหลักฐานสู่ Dashboard ใช้งานจริง",
+      "audience": "executive",
+      "point": "Sign-off → Read-only source → DQ → private aggregate → dashboard",
+      "visual": "Data Pool NOT_CONNECTED"
+    }
+  ],
+  "privacy": {
+    "safe_to_publish": [
+      "Aggregate discovery counts",
+      "High-level workflow and department roles",
+      "Gate counts/status and test scope",
+      "Presentation roadmap"
+    ],
+    "never_publish": [
+      "JDE credentials/session/cookies",
+      "Raw ERP SO/WO/GL/financial records",
+      "Per-record customer/supplier/employee details",
+      "Sensitive versions / internal processing options",
+      "Raw internal scans/screenshots"
+    ],
+    "no_live_erp_feed": true
+  }
+}
