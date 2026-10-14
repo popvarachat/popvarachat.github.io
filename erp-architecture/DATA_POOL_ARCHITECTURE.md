@@ -55,3 +55,6 @@ For each report family key, e.g. `production`:
 
 ## Architecture rule
 Report/Inquiry is source evidence. The Data Pool is the governed semantic layer. Dashboard is the decision surface. HTML is not a data store.
+
+## REA readiness reference — 14 October 2026
+The new [Interactive REA Deep Dive](rea.html) explains why discovery != technical certification and how certified reports/Data Pool are planned. Aggregate `rea-public-summary.json` exposes catalog/certification status **only**; it does not provide ERP KPIs or a live feed. The snapshot shows 856 menus, 174 P/R objects, 268 form/version combinations, 103 UBE lookup rows, 19 BV names, signed Gate A–F 0/37, actual paired RCA 0/5, and physical mapping certification 0. These are discovery and evidence-process metrics. Source of Truth remains the private ERP repository.
