@@ -25,7 +25,7 @@ a{color:#94e4ef}button,input,select{font:inherit;color:inherit}button{cursor:poi
 @media(max-width:840px){.workspace{grid-template-columns:1fr}.detail-pane{position:relative;top:auto;max-height:none;overflow:visible}.items{grid-template-columns:repeat(2,minmax(0,1fr))}.group{grid-template-columns:1fr}.evidence-chain{grid-template-columns:1fr}}
 @media(max-width:550px){.top .container{flex-direction:column;align-items:flex-start;padding:12px 0}.metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.items{grid-template-columns:1fr}.tab{font-size:11px}.hero{padding-top:26px}}
 </style></head><body>
-<header class="top"><div class="container"><a class="brand" href="./"><span>ERP</span> / Practika Architecture</a><nav class="nav"><a href="./">Overview</a><a href="rea.html">REA Interactive</a><a href="scan-audit.html">Scan Audit</a><a href="executive-dashboard.html">Dashboard</a><a href="#vault">Private Vault</a></nav></div></header>
+<header class="top"><div class="container"><a class="brand" href="./"><span>ERP</span> / Practika Architecture</a><nav class="nav"><a href="./">Overview</a><a href="rea.html">REA Interactive</a><a href="workflow.html">REA Workflow</a><a href="scan-audit.html">Scan Audit</a><a href="executive-dashboard.html">Dashboard</a><a href="#vault">Private Vault</a></nav></div></header>
 <main class="container"><section class="hero"><div class="ey">REA EVIDENCE EXPLORER · 14 OCT 2026 · FULL OBSERVATION CATALOG</div><h1>เจาะลึก <em>ทุกหลักฐาน</em><br>จาก JDE สู่ Business Decision</h1><p>รวมทุกชุดหลักฐานที่มีอยู่ในโครงการ ณ วันที่สำรวจจริง พร้อมค้นหา ชื่อเมนู Object / Version, Report / UBE, Business View, กฎและช่องว่างด้านการรับรอง, RCA และลิงก์เปิดต้นฉบับ Private GitHub</p><span class="count-badge">OBSERVED / HISTORICAL / UNVERIFIED แยกสถานะชัดเจน</span><div id="loadstate" role="status">กำลังโหลด Dataset…</div></section>
 <div class="warning"><b>ขอบเขตการเปิดเผย:</b> เว็บ GitHub Pages นี้เป็น Public และแสดง Metadata เชิงเทคนิคตามที่เจ้าของโครงการอนุมัติ แต่ไฟล์ดิบ ข้อมูลบุคคล ธุรกรรมจริง และข้อมูลเข้าถึงระบบจะยังอยู่ใน Private GitHub · <b>การค้นพบ ≠ การรับรอง ERP 100%</b></div>
 <div class="metrics" id="metrics" aria-label="จำนวนหลักฐาน"><div class="metric"><strong>…</strong><small>กำลังโหลด</small></div></div>
@@ -56,6 +56,12 @@ const groups=[
 {key:'private_file_index',label:'Private Vault Files',short:'Files',source:'VAULT'}
 ];
 let pack=null,active='menu',query='',filter='all',page=0,pageSize=40,selection=null;
+const params=new URLSearchParams(location.search);
+const requestedTab=params.get('tab')||'';
+const requestedQuery=params.get('q')||'';
+if(groups.some(g=>g.key===requestedTab))active=requestedTab;
+if(requestedQuery){query=requestedQuery.slice(0,120);$('search').value=query;}
+
 function dataset(){return pack?.datasets?.[active]||[]}
 const readable=v=>Array.isArray(v)?v.map(x=>typeof x==='object'?JSON.stringify(x):String(x)).join('; '):(typeof v==='object'&&v!==null?JSON.stringify(v,null,2):String(v??''));
 const isEmpty=v=>v===null||v===undefined||v==='';

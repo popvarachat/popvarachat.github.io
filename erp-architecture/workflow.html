@@ -1,0 +1,199 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="Practika ERP REA interactive systems workflow. View authentic JDE screen names, P/Form/Version, report/UBE references, evidence provenance and certification gates.">
+<title>REA Workflow Architecture | Practika ERP</title>
+<style>
+:root{color-scheme:dark;--bg:#051321;--bg2:#081b31;--card:#0e233c;--line:#24475e;--fg:#eaf6ff;--muted:#9eb9d1;--cyan:#45ccff;--aqua:#49efd4;--gold:#f8c46f;--pink:#f58ead;--violet:#b2a2ff;--green:#6bf5ae;font:14px/1.5 system-ui,"Noto Sans Thai","Segoe UI",Tahoma,sans-serif}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-width:315px;background:radial-gradient(ellipse at 50% -15%,#11395f,transparent 50%),var(--bg);color:var(--fg)}
+a{color:#8edbff}button,input,select{font:inherit;color:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid #fbd391;outline-offset:3px}
+header{position:sticky;z-index:25;top:0;background:#071628ef;backdrop-filter:blur(16px);border-bottom:1px solid #2d4b6c}
+.header-inner{width:min(1920px,97%);margin:auto;display:flex;align-items:center;justify-content:space-between;gap:18px;min-height:57px}
+.logo{font-size:13px;font-weight:850;letter-spacing:.4px;color:#f1f9ff;text-decoration:none;white-space:nowrap}.logo b{color:var(--aqua)}
+nav{display:flex;gap:13px;align-items:center;flex-wrap:wrap}nav a{text-decoration:none;font-size:12px;color:#a8c5df}nav a:hover{color:white}.max{width:min(1920px,97%);margin:auto}
+.hero{padding:26px 0 14px;display:flex;gap:20px;align-items:center;justify-content:space-between}
+.ey{color:var(--aqua);text-transform:uppercase;letter-spacing:1.55px;font-size:11px;font-weight:850}
+h1{font-size:clamp(28px,3.2vw,44px);line-height:1.15;margin:7px 0 10px;letter-spacing:-.6px}
+h1 em{font-style:normal;color:var(--cyan)}.subtitle{color:#b6cedd;max-width:990px;font-size:13px;margin:0}.context{border:1px solid #625777;background:#1a213d;border-radius:12px;padding:11px 13px;font-size:12px;max-width:320px;color:#c6d2e5}
+.context b{display:block;color:#e5cbff;font-size:13px}.pill{display:inline-block;border:1px solid #6d516b;border-radius:99px;padding:3px 8px;font-size:10px;color:#f3b9ca;white-space:nowrap}
+.controls{display:flex;align-items:center;gap:9px;flex-wrap:wrap;margin:12px 0}.controls .filler{flex:1}.control{background:#102a46;border:1px solid #335a7c;padding:7px 12px;border-radius:9px;font-size:12px;min-height:35px}
+.control:hover{border-color:var(--cyan);background:#174061}.control[aria-pressed=true]{color:#001b2f;background:#83e7ea;border-color:#83e7ea;font-weight:800}.search{width:230px;max-width:100%;background:#0b2036;border:1px solid #355a7a;border-radius:9px;padding:8px 10px;font-size:12px}
+.legend{display:flex;align-items:center;gap:11px;flex-wrap:wrap;color:#b6c6d9;font-size:11px}.legend i{display:inline-block;height:7px;width:20px;margin-right:4px;vertical-align:middle;border-radius:5px}
+.canvas-shell{position:relative;border:1px solid #294f72;border-radius:16px;background:radial-gradient(circle at 50% 34%,#092948 0%,#041426 74%);box-shadow:0 25px 75px #0006,inset 0 0 0 1px #153653;overflow:hidden}
+.canvas-top{position:absolute;top:12px;left:16px;z-index:9;background:#071a30d9;padding:5px 11px;border-radius:8px;border:1px solid #214761;font-size:11px;color:#9ed5f3;pointer-events:none}
+.viewport{position:relative;height:min(76vh,795px);min-height:620px;overflow:hidden;touch-action:none;cursor:grab}
+.viewport:active{cursor:grabbing}.world{position:absolute;top:0;left:0;transform-origin:0 0;width:1920px;height:1050px;user-select:none}
+.graph-group{position:absolute;border:1px solid #276486;border-radius:15px;background:linear-gradient(160deg,#0b2c4e88,#091a3388);box-shadow:inset 0 0 26px #154e8a18;pointer-events:none}
+.graph-group .group-title{color:#83d9f7;letter-spacing:1.3px;text-transform:uppercase;font-weight:900;position:absolute;top:8px;left:15px;font-size:12px}
+.graph-group.business{border-color:#256eac}.graph-group.evidence{border-color:#15897f;background:linear-gradient(135deg,#0a3a4080,#062b3f66)}
+.graph-group.evidence .group-title{color:var(--aqua)}.graph-group.release{border-color:#6c62b8;background:#1d15428a}
+.graph-group.release .group-title{color:#c4baff}.graph-group.analysis{border-color:#b88b4180}
+.graph-group.analysis .group-title{color:#fbd08a}.graph-group.governance{border-color:#335077}
+.links-svg{position:absolute;top:0;left:0;width:1920px;height:1050px;overflow:visible;pointer-events:none}
+.node{position:absolute;z-index:2;border:1.5px solid #3682bb;border-radius:12px;color:#eef9ff;background:linear-gradient(144deg,#102b4c,#0a1d37);text-align:left;padding:12px 13px;display:flex;flex-direction:column;gap:5px;box-shadow:0 0 20px #0aa5ff18,inset 0 0 16px #1667ae0d;cursor:pointer;transition:background .15s,border-color .15s;overflow:hidden}
+.node:hover,.node[aria-pressed=true]{border-color:#81e6fd;background:linear-gradient(145deg,#174b6b,#102c4c);box-shadow:0 0 24px #0ecbf746}
+.node[data-kind="business"]{border-color:#2bc9f2;background:linear-gradient(160deg,#0d3f5c,#08223d)}
+.node[data-kind="analysis"]{border-color:#cf9941}.node[data-kind="human"]{border-color:#e477a0;background:linear-gradient(130deg,#321c38,#102238)}
+.node[data-kind="evidence"]{border-color:#26c5ac;background:linear-gradient(140deg,#063d48,#0c273b)}
+.node[data-kind="release"]{border-color:#7469ca;background:linear-gradient(140deg,#18264f,#0b2340)}
+.node[data-kind="outcome"]{border-color:#6f8ef2}
+.node .head{display:flex;align-items:center;gap:7px;min-width:0}
+.node .nodeicon{display:grid;place-items:center;flex:none;width:25px;height:25px;background:#165173;border:1px solid #2b95c9;border-radius:7px;color:#9deffd;font-weight:850;font-size:18px}
+.node[data-kind="human"] .nodeicon{border-color:#b5789e;color:#f8b7d3;background:#482a45}
+.node[data-kind="evidence"] .nodeicon{border-color:#2cbfac;background:#0c5758;color:#9cf9db}
+.node[data-kind="release"] .nodeicon{border-color:#766fd7;background:#283775;color:#d1cbff}
+.node .nodetitle{font-weight:850;font-size:15px;line-height:1.2;overflow-wrap:anywhere}
+.node .nodethai{font-size:12px;color:#b9d6ef;line-height:1.3}.node .refarea{margin-top:auto;border-top:1px solid #24506e;padding-top:7px;font-size:11px;display:flex;flex-direction:column;gap:3px;min-height:26px}
+.node .refline{color:#8bdcff;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.node .refline.report{color:#b0efdf}.node .refline.unknown{color:#c0a9c8}.node .state{position:absolute;right:9px;top:10px;font-size:10px;font-weight:800;color:#ffd3a6;letter-spacing:.3px}
+.node mark{background:#d8ba67;color:#181d21;border-radius:3px}.node .code{color:#b6fbe5;font-weight:850}
+.canvas-footer{border-top:1px solid #294d6a;padding:8px 15px;display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap;font-size:11px;color:#adc8dc;background:#081c32}
+.progress-label{font-size:12px;color:#b1d5e5;margin-left:auto}
+.drawer-wrap{position:fixed;inset:0;z-index:80;pointer-events:none;visibility:hidden}
+.drawer-wrap.open{visibility:visible;pointer-events:auto}.scrim{position:absolute;inset:0;background:#0009}
+.drawer{position:absolute;right:0;top:0;height:100%;width:min(490px,100%);overflow-y:auto;background:#071e32;border-left:1px solid #39849f;padding:28px 24px;box-shadow:-18px 0 60px #0008}
+.drawer .close{float:right;padding:6px 10px;border-radius:8px;border:1px solid #467388;background:#173955}
+.drawer h2{font-size:23px;margin:8px 0}.drawer h3{color:#b4f6ed;font-size:14px}.drawer p{color:#bad3e0;line-height:1.67}.refcard{border:1px solid #2e5972;border-left:3px solid #49cdeb;border-radius:10px;background:#0d2f43;padding:12px;margin:9px 0}
+.refcard[data-type="UBE"]{border-left-color:#68e8be}.refcard .rtitle{font-weight:850;color:#f0fdff}.refcard .rmeta{font-size:11px;color:#a8c8d9;margin-top:4px}.badge{border:1px solid #566882;color:#c6d6e4;border-radius:99px;font-size:10px;padding:2px 7px;display:inline-block;margin-top:6px}.badge.warning{border-color:#9b7850;color:#f0c88f}
+.action{display:inline-flex;gap:4px;padding:8px 12px;border:1px solid #318cac;background:#174f66;color:#e6fbff;text-decoration:none;border-radius:9px;margin-top:7px;font-size:12px;font-weight:850}
+.reference{margin-top:25px}.reference h2{font-size:clamp(20px,2.5vw,27px);margin:9px 0}.ref-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px;margin:16px 0}
+.refblock{border:1px solid #2a6685;border-radius:12px;background:linear-gradient(140deg,#102d49,#0a243b);padding:15px;min-width:0}
+.refblock .label{font-size:15px;font-weight:850}.refblock .detail{color:#b2c8d9;font-size:12px;margin:3px 0 12px}
+.refblock .code-row{font-size:11px;border-top:1px solid #31556e;padding:8px 0;display:block}
+.refblock .code-row b{color:#a4f6df}.refblock .code-row span{display:block;color:#d3e8f2;margin-top:3px;overflow-wrap:anywhere}.refblock .code-row em{font-style:normal;color:#99acbf;font-size:10px}
+.refblock button{border:1px solid #4398a2;background:#133b51;border-radius:8px;padding:7px 10px;font-weight:800;font-size:11px;width:100%;margin-top:4px}
+.caution{border-left:3px solid var(--gold);padding:12px 16px;margin:20px 0;border-radius:0 10px 10px 0;background:#312c23;color:#f0dcbd;font-size:12px}
+.footer{border-top:1px solid #25445e;margin-top:35px;padding:25px 0;color:#9ebad0;font-size:12px}
+@media(max-width:1100px){.hero{align-items:start;flex-direction:column}.context{max-width:none;width:100%}.ref-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:680px){.header-inner{align-items:start;flex-direction:column;padding:12px 0}.ref-grid{grid-template-columns:1fr 1fr}.viewport{min-height:510px;height:68vh}.hero{padding-top:20px}.controls .search{flex:1;width:150px}.legend{font-size:10px}.canvas-top{font-size:10px}}
+@media(max-width:420px){.ref-grid{grid-template-columns:1fr}.control{padding:7px 9px}.drawer{padding:17px 15px}.refblock{padding:12px}}
+body.embed header,body.embed .hero,body.embed .reference,body.embed .footer{display:none!important}
+body.embed .controls{margin:7px 0}body.embed .viewport{height:min(80vh,680px);min-height:515px}
+body.embed .max{width:99%}body.embed .canvas-shell{margin-top:5px!important}
+</style></head>
+<body>
+<header><div class="header-inner"><a href="./" class="logo"><b>ERP</b> · PRACTIKA ARCHITECTURE</a><nav aria-label="ERP navigation"><a href="./">หน้าหลัก</a><a href="rea.html">REA Deep Dive</a><a href="evidence.html">Evidence Explorer</a><a href="scan-audit.html">Scan Audit</a><a href="executive-dashboard.html">Dashboard</a></nav></div></header>
+<main class="max">
+<div class="hero"><div><div class="ey">ERP REA · LIVE INTERACTIVE ARCHITECTURE</div><h1>ERP REA <em>Workflow & Evidence</em></h1><p class="subtitle">จาก Business Goal → JDE Discovery → งานจริงของฝ่าย Sales / Engineering / Production / QC / Finance → RCA → Evidence Vault → Web Release พร้อมอ้างอิงหน้าจอและชื่อ Report ที่ Scan พบจริงภายใต้แต่ละ Node</p></div>
+<aside class="context"><b>WEB DONE ≠ ERP CERTIFIED</b>เว็บไซต์และหลักฐานเผยแพร่แล้ว · Technical Sign-off <span class="pill">0/37</span> · Real RCA Pair <span class="pill">0/5</span> · Data Pool NOT_CONNECTED</aside></div>
+<div class="controls"><button class="control" id="zoomout" type="button" aria-label="ย่อ Workflow">− ย่อ</button><button class="control" id="zoomin" type="button" aria-label="ขยาย Workflow">+ ขยาย</button><button class="control" id="fit" type="button">⤢ แสดงทั้งหมด</button><button class="control" id="reset" type="button">1:1</button><button class="control" id="focusbiz" type="button">◎ Business Flow</button><button class="control" id="fullscreen" type="button">⛶ เต็มจอ</button><div class="filler"></div><input class="search" type="search" id="search" placeholder="ค้น Node / P4210 / R594801C..." aria-label="ค้น Node และ Object"><span class="progress-label" id="zoomval">กำลังโหลด…</span></div>
+<div class="legend" role="note"><span><i style="background:var(--cyan)"></i>Discovery / Business</span><span><i style="background:var(--aqua)"></i>Evidence</span><span><i style="background:var(--gold)"></i>RCA / Risk</span><span><i style="background:var(--pink)"></i>Human Gate</span><span><i style="background:var(--violet)"></i>Release / Training</span><span>เส้นประ = ความสัมพันธ์เชิงหลักฐานหรือข้อกำหนด</span></div>
+<section class="canvas-shell" id="canvas-shell" aria-label="Interactive JDE workflow diagram" style="margin-top:13px">
+<div class="canvas-top">คลิก Node เพื่อเจาะลึก · ลากเพื่อเลื่อนผัง · เลื่อนล้อเมาส์เพื่อซูม</div>
+<div class="viewport" id="viewport" tabindex="0"><div class="world" id="world"><svg class="links-svg" id="links-svg" viewBox="0 0 1920 1050" aria-hidden="true"></svg><div id="groups"></div><div id="nodes"></div></div></div>
+<div class="canvas-footer"><span id="status">กำลังโหลด Workflow และ JDE Metadata…</span><span>READ-ONLY Evidence · User-facing technical references · ไม่รัน UBE</span></div>
+</section>
+<section class="reference" id="screens"><div class="ey">SCREEN & REPORT REFERENCE · UNDER THE FLOW</div><h2>หน้าจอ ERP และ Report ที่สัมพันธ์กับแต่ละขั้นตอน</h2><p class="subtitle">แสดงชื่อจริงจาก JDE Task Registry พร้อม Object / Form / Version และคำแนะนำสถานะหลักฐาน กดดูเพื่อไฮไลต์ Node หรือเปิดต้นฉบับใน Evidence Explorer</p><div id="ref-grid" class="ref-grid"></div><div class="caution"><b>ข้อควรระวัง:</b> Reference ด้านล่างเป็นหลักฐานว่ามีชื่อ Task / Form / Version ใน JDE ไม่ใช่การรับรองว่ารายงานปลอดภัยต่อการ Run หรือผลลัพธ์/Processing Options ถูกต้องทุกเวอร์ชัน · Gate A–F ยังต้องลงนามรับรอง</div></section>
+</main>
+<aside class="drawer-wrap" id="drawer-wrap" aria-label="รายละเอียด Node"><div class="scrim" id="scrim"></div><section class="drawer" role="dialog" aria-modal="true" aria-labelledby="drawer-title"><button class="close" id="close-detail" type="button">✕ ปิด</button><div class="ey" id="drawer-type">EVIDENCE DRILLDOWN</div><h2 id="drawer-title">รายละเอียด Workflow Node</h2><p id="drawer-desc"></p><div id="drawer-refs"></div><div id="drawer-gates"></div><a id="drawer-link" href="evidence.html" class="action" target="_blank" rel="noopener noreferrer">เปิด Evidence Explorer →</a></section></aside>
+<footer class="footer"><div class="max">Practika ERP REA · Workflow-themed Technical Evidence Map · Snapshot: 14 Oct 2026 · 856 Task Entries / 268 Object/Form/Version / 103 UBE Entries / 19 BV Names · No production write</div></footer>
+<script>
+(()=>{'use strict';
+if(new URLSearchParams(location.search).has('embed'))document.body.classList.add('embed');
+const el=id=>document.getElementById(id);
+const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;','\'':'&#39;'}[c]));
+const pretty=r=>r?((r.object||'')+' · '+(r.name||'')+(r.version&&r.version!=='VERSION_NOT_SHOWN'&&r.version!=='UNVERIFIED'?' ['+r.version+']':'')):'';
+let data,scale=1,offsetX=0,offsetY=0,drag=null,selected=null;
+const viewport=el('viewport'),world=el('world'),drawer=el('drawer-wrap');
+let lastFocus=null;
+const styles={business:'#42d5fd',obs:'#58aef1',evidence:'#38dfbf',control:'#6aa9e9',analysis:'#f3ba62',approval:'#f295ba',gate:'#edab75',release:'#b09bff',feedback:'#d2a968'};
+function getNode(id){return data.nodes.find(n=>n.id===id)}
+function connector(a,b,kind){
+ const A=getNode(a),B=getNode(b);if(!A||!B)return '';
+ const ac={x:A.x+A.w/2,y:A.y+A.h/2},bc={x:B.x+B.w/2,y:B.y+B.h/2};
+ const dx=bc.x-ac.x,dy=bc.y-ac.y;
+ const vertical=Math.abs(dy)>Math.abs(dx)*1.35;
+ let x1=vertical?ac.x:(dx>0?A.x+A.w:A.x),y1=vertical?(dy>0?A.y+A.h:A.y):ac.y;
+ let x2=vertical?bc.x:(dx>0?B.x:B.x+B.w),y2=vertical?(dy>0?B.y:B.y+B.h):bc.y;
+ const dist=Math.max(40,Math.min(140,(vertical?Math.abs(y2-y1):Math.abs(x2-x1))*.38));
+ const d=kind==='feedback'
+   ?'M '+x1+' '+y1+' C '+(x1-200)+' 1080, 90 1065, '+x2+' '+y2
+   :vertical?'M '+x1+' '+y1+' C '+x1+' '+(y1+(dy>0?dist:-dist))+' '+x2+' '+(y2-(dy>0?dist:-dist))+' '+x2+' '+y2
+   :'M '+x1+' '+y1+' C '+(x1+(dx>0?dist:-dist))+' '+y1+' '+(x2-(dx>0?dist:-dist))+' '+y2+' '+x2+' '+y2;
+ const color=styles[kind]||styles.obs,dash=['obs','evidence','approval','gate','feedback'].includes(kind);
+ return '<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+(kind==='business'?2.7:1.65)+'" opacity="'+(kind==='business'?'.92':'.55')+'" '+(dash?'stroke-dasharray="7 7"':'')+' marker-end="url(#arrow-'+kind+')" />';
+}
+function render(){
+ const names=Object.entries(styles).map(([kind,color])=>'<marker id="arrow-'+kind+'" markerWidth="10" markerHeight="8" refX="9" refY="4" orient="auto"><path d="M0,0 L9,4 L0,8 Z" fill="'+color+'"/></marker>').join('');
+ el('links-svg').innerHTML='<defs>'+names+'</defs>'+data.edges.map(e=>connector(e.a,e.b,e.kind)).join('');
+ el('groups').innerHTML=data.groups.map(g=>'<div class="graph-group '+escape(g.kind)+'" style="left:'+g.x+'px;top:'+g.y+'px;width:'+g.w+'px;height:'+g.h+'px"><div class="group-title">'+escape(g.label)+'</div></div>').join('');
+ el('nodes').innerHTML=data.nodes.map(n=>{
+   const refs=[...(n.screens||[]).slice(0,2).map(r=>'<span class="refline">หน้าจอ: <span class="code">'+escape(r.object)+'</span> · '+escape(r.name)+'</span>'),
+   ...(n.reports||[]).slice(0,1).map(r=>'<span class="refline report">Report: <span class="code">'+escape(r.object)+'</span> · '+escape(r.name)+'</span>')];
+   if(!refs.length)refs.push('<span class="refline unknown">'+(n.kind==='human'?'Policy / Human Approval':'Evidence / Governance · ไม่ใช่ JDE Screen')+'</span>');
+   return '<button type="button" class="node" data-id="'+escape(n.id)+'" data-kind="'+escape(n.kind)+'" style="left:'+n.x+'px;top:'+n.y+'px;width:'+n.w+'px;height:'+n.h+'px" aria-pressed="false"><div class="head"><span class="nodeicon">'+escape(n.icon||'▣')+'</span><span class="nodetitle">'+escape(n.title)+'</span></div><div class="nodethai">'+escape(n.thai)+'</div><div class="refarea">'+refs.join('')+'</div></button>';
+ }).join('');
+ for(const b of el('nodes').querySelectorAll('.node'))b.addEventListener('click',()=>show(b.dataset.id));
+ el('status').textContent=data.nodes.length+' Nodes · '+data.edges.length+' Connections · '+data.observed_task_entries+' JDE Tasks · '+data.required_gate_items+' Gate Evidence ที่ยังต้องรับรอง';
+ renderRefs();
+}
+function renderRefs(){
+ const ids=['sales','engineering','production','quality','finance'];
+ el('ref-grid').innerHTML=ids.map(id=>{
+   const n=getNode(id);
+   const refs=[...(n.screens||[]),...(n.reports||[])];
+   return '<article class="refblock"><div class="ey">'+escape(n.title)+'</div><div class="label">'+escape(n.thai)+'</div><div class="detail">'+escape(n.gate.join(', ')+' Certification')+'</div>'+
+   refs.map(r=>'<span class="code-row"><b>'+escape(r.type==='UBE'?'REPORT ':'หน้าจอ ')+escape(r.object)+'</b> · '+escape(r.version&&r.version!=='VERSION_NOT_SHOWN'?r.version:'Version ไม่แสดง')+'<span>'+escape(r.name)+'</span><em>'+escape(r.confidence.replaceAll('_',' '))+'</em></span>').join('')+
+   '<button type="button" data-jump="'+escape(id)+'">ดู Node และหลักฐาน →</button></article>';
+ }).join('');
+ for(const b of el('ref-grid').querySelectorAll('button'))b.addEventListener('click',()=>{const id=b.dataset.jump;focusNode(id);show(id)});
+}
+function show(id){
+ const n=getNode(id);if(!n)return;
+ selected=id;lastFocus=document.activeElement;
+ for(const btn of el('nodes').querySelectorAll('.node'))btn.setAttribute('aria-pressed',String(btn.dataset.id===id));
+ el('drawer-type').textContent=n.kind.toUpperCase()+' · '+n.state;
+ el('drawer-title').textContent=n.title+' — '+n.thai;
+ el('drawer-desc').textContent=n.detail;
+ const refs=[...(n.screens||[]),...(n.reports||[])];
+ el('drawer-refs').innerHTML=refs.length?'<h3>JDE Screen / Report Reference</h3>'+refs.map(r=>'<article class="refcard" data-type="'+escape(r.type)+'"><div class="rtitle">'+escape(r.type==='UBE'?'REPORT / UBE ':'SCREEN / APP ')+escape(r.object)+' · '+escape(r.name)+'</div><div class="rmeta">Form: '+escape(r.form)+' · Version: '+escape(r.version)+'</div><div class="rmeta">Source: '+escape(r.source)+'</div><span class="badge '+(r.type==='UBE'?'warning':'')+'">'+escape(r.confidence)+'</span>'+(r.risk?'<div class="rmeta">Risk class: '+escape(r.risk)+'</div>':'')+'</article>').join(''):'<p>Node นี้เป็นขั้นตอนควบคุม/กระบวนการสนับสนุน ไม่ใช่ JDE Application หรือ UBE</p>';
+ el('drawer-gates').innerHTML='<h3>Certification Gate / Decision</h3><p>'+escape((n.gate||[]).length?n.gate.join(', ')+' · ยังต้องรับรองตามทะเบียน REA':'Read-only evidence / Governance')+'</p>';
+ el('drawer-link').href=refs.length?'evidence.html?tab='+(refs[0].type==='UBE'?'reports':'objects')+'&q='+encodeURIComponent(refs[0].object):'evidence.html';
+ drawer.classList.add('open');el('close-detail').focus();
+}
+function hide(){drawer.classList.remove('open');const btn=el('nodes').querySelector('[data-id="'+selected+'"]');if(btn)btn.setAttribute('aria-pressed','false');lastFocus?.focus?.()}
+el('close-detail').addEventListener('click',hide);el('scrim').addEventListener('click',hide);
+document.addEventListener('keydown',ev=>{if(ev.key==='Escape')hide()});
+function apply(){world.style.transform='translate('+offsetX+'px,'+offsetY+'px) scale('+scale+')';el('zoomval').textContent=Math.round(scale*100)+'%'}
+function fit(){
+ const b=viewport.getBoundingClientRect();
+ scale=Math.min((b.width-25)/data.width,(b.height-45)/data.height,1);
+ offsetX=(b.width-data.width*scale)/2;offsetY=(b.height-data.height*scale)/2;apply();
+}
+function zoom(factor,cx,cy){
+ const b=viewport.getBoundingClientRect(),x=(cx??(b.width/2)),y=(cy??(b.height/2));
+ const prev=scale;scale=Math.max(.35,Math.min(1.85,scale*factor));
+ offsetX=x-(x-offsetX)*(scale/prev);offsetY=y-(y-offsetY)*(scale/prev);apply();
+}
+function focusNode(id){
+ const n=getNode(id);if(!n)return;const b=viewport.getBoundingClientRect();
+ scale=Math.max(.55,Math.min(1.12,b.width/840));
+ offsetX=b.width/2-(n.x+n.w/2)*scale;offsetY=b.height/2-(n.y+n.h/2)*scale;apply();
+}
+el('zoomin').addEventListener('click',()=>zoom(1.23));el('zoomout').addEventListener('click',()=>zoom(1/1.23));
+el('fit').addEventListener('click',fit);el('reset').addEventListener('click',()=>{scale=1;offsetX=-130;offsetY=-160;apply()});
+el('focusbiz').addEventListener('click',()=>focusNode('production'));
+el('fullscreen').addEventListener('click',async()=>{if(!document.fullscreenElement){await el('canvas-shell').requestFullscreen?.()}else await document.exitFullscreen?.();setTimeout(fit,150)});
+viewport.addEventListener('wheel',e=>{if(!data)return;e.preventDefault();const b=viewport.getBoundingClientRect();zoom(e.deltaY<0?1.1:.9,e.clientX-b.left,e.clientY-b.top)},{passive:false});
+viewport.addEventListener('pointerdown',e=>{
+ if(e.target.closest('.node'))return;
+ drag={pointer:e.pointerId,x:e.clientX,y:e.clientY,ox:offsetX,oy:offsetY};
+ viewport.setPointerCapture(e.pointerId);
+});
+viewport.addEventListener('pointermove',e=>{if(!drag||drag.pointer!==e.pointerId)return;offsetX=drag.ox+e.clientX-drag.x;offsetY=drag.oy+e.clientY-drag.y;apply()});
+for(const t of ['pointerup','pointercancel','lostpointercapture'])viewport.addEventListener(t,()=>drag=null);
+let searchTimer;el('search').addEventListener('input',e=>{clearTimeout(searchTimer);searchTimer=setTimeout(()=>{
+ const q=e.target.value.trim().toLowerCase();
+ let chosen=null;
+ for(const n of data.nodes){const raw=[n.title,n.thai,n.detail,...n.screens.map(x=>x.object+' '+x.name),...n.reports.map(x=>x.object+' '+x.name)].join(' ').toLowerCase();const hit=!q||raw.includes(q);
+ const btn=el('nodes').querySelector('[data-id="'+n.id+'"]');if(btn)btn.style.opacity=hit?'1':'.20';if(hit&&q&&!chosen)chosen=n.id;}
+ if(chosen)focusNode(chosen);
+ },160)});
+window.addEventListener('resize',()=>{if(data&&window.innerWidth>700)fit()});
+fetch('./workflow-map-data.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('HTTP '+r.status);return r.json()}).then(d=>{
+ if(d.schema_version!=='REA_WORKFLOW_20261014_V1'||d.nodes.length!==22)throw Error('Workflow data validation failed');
+ data=d;render();fit();if(window.innerWidth<700)focusNode('production');
+}).catch(e=>{el('status').textContent='โหลดข้อมูล Workflow ไม่สำเร็จ: '+e.message});
+})();
+</script>
+</body></html>

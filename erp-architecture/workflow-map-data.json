@@ -1,0 +1,914 @@
+{
+  "schema_version": "REA_WORKFLOW_20261014_V1",
+  "source": "Private ERP REA JDE Crosswalk and Support Lookup",
+  "observed_task_entries": 856,
+  "certified_gate_items": 0,
+  "required_gate_items": 37,
+  "observed_date": "2026-10-14",
+  "status": "WEB_DEPLOYED_ERP_TECHNICAL_CERTIFICATION_OPEN",
+  "width": 1920,
+  "height": 1050,
+  "groups": [
+    {
+      "id": "top",
+      "label": "GOVERNANCE / SYSTEM CONTROL",
+      "x": 24,
+      "y": 18,
+      "w": 1880,
+      "h": 153,
+      "kind": "governance"
+    },
+    {
+      "id": "discover",
+      "label": "DISCOVERY / ERP TASK METADATA",
+      "x": 22,
+      "y": 229,
+      "w": 331,
+      "h": 598,
+      "kind": "discovery"
+    },
+    {
+      "id": "process",
+      "label": "BUSINESS PROCESS / END-TO-END JDE",
+      "x": 410,
+      "y": 228,
+      "w": 1170,
+      "h": 352,
+      "kind": "business"
+    },
+    {
+      "id": "insight",
+      "label": "SUPPORT · GOVERNANCE · DASHBOARD",
+      "x": 1585,
+      "y": 231,
+      "w": 311,
+      "h": 600,
+      "kind": "analysis"
+    },
+    {
+      "id": "evidence",
+      "label": "EVIDENCE & DATA LAYER",
+      "x": 413,
+      "y": 612,
+      "w": 1163,
+      "h": 208,
+      "kind": "evidence"
+    },
+    {
+      "id": "release",
+      "label": "WEB RELEASE · TRAINING · VALIDATION",
+      "x": 412,
+      "y": 853,
+      "w": 1208,
+      "h": 181,
+      "kind": "release"
+    }
+  ],
+  "nodes": [
+    {
+      "id": "intent",
+      "x": 40,
+      "y": 40,
+      "w": 290,
+      "h": 112,
+      "title": "Intent / Scope",
+      "thai": "โจทย์ที่ต้องการคำตอบ",
+      "kind": "governance",
+      "detail": "กำหนด Business Question, ขอบเขตข้อมูล และผู้มีอำนาจตัดสินใจ ไม่ใช่หน้าจอ ERP",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "E",
+        "F"
+      ],
+      "state": "DISCOVERY",
+      "icon": "◎"
+    },
+    {
+      "id": "orchestrator",
+      "x": 480,
+      "y": 40,
+      "w": 295,
+      "h": 112,
+      "title": "RDC / REA Orchestrator",
+      "thai": "สำรวจแบบ Reverse Engineering",
+      "kind": "governance",
+      "detail": "ใช้ GitHub Private + Playwright Read-only เพื่อสร้าง Evidence และเรียนรู้ระบบอย่างเป็นขั้นตอน",
+      "screens": [],
+      "reports": [],
+      "gate": [],
+      "state": "DISCOVERY",
+      "icon": "✧"
+    },
+    {
+      "id": "policy",
+      "x": 1060,
+      "y": 40,
+      "w": 295,
+      "h": 112,
+      "title": "Hard Policy",
+      "thai": "Observe-first / ไม่รันมั่ว",
+      "kind": "governance",
+      "detail": "อนุญาตเฉพาะการอ่านหลักฐาน ไม่ Submit UBE/Save/Post/Release ระหว่างการค้นหา",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "A",
+        "C"
+      ],
+      "state": "DISCOVERY",
+      "icon": "◇"
+    },
+    {
+      "id": "human",
+      "x": 1590,
+      "y": 40,
+      "w": 300,
+      "h": 112,
+      "title": "Human Gate",
+      "thai": "ต้องให้เจ้าของงานตัดสินใจ",
+      "kind": "human",
+      "detail": "อนุมัติ Promise/OTD และสถาปัตยกรรมการเชื่อมข้อมูลตามสิทธิ์และ Security Review",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "E",
+        "F"
+      ],
+      "state": "HUMAN_GATE",
+      "icon": "⚑"
+    },
+    {
+      "id": "discovery",
+      "x": 42,
+      "y": 275,
+      "w": 292,
+      "h": 112,
+      "title": "JDE Discovery",
+      "thai": "เมนู / Task 856 รายการ",
+      "kind": "discovery",
+      "detail": "รายการ Task จาก Scan 5 Task Views ไม่ใช่ผลการรับรองว่าทุกหน้าจอปลอดภัย",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P986110B",
+          "name": "Submitted Job Search",
+          "form": "W986110BA",
+          "version": "ZJDE0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [],
+      "gate": [],
+      "state": "DISCOVERY",
+      "icon": "⌕"
+    },
+    {
+      "id": "crosswalk",
+      "x": 42,
+      "y": 414,
+      "w": 292,
+      "h": 112,
+      "title": "Object Crosswalk",
+      "thai": "P/R Object · Form · Version",
+      "kind": "discovery",
+      "detail": "268 Observations; 174 รหัส P/R Object ไม่ซ้ำ ตรวจแยกราย Version ที่หน้า Evidence Explorer",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P4210",
+          "name": "Enter Sales Order (SO)",
+          "form": "W4210E",
+          "version": "PTK0065",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [],
+      "gate": [],
+      "state": "DISCOVERY",
+      "icon": "⌘"
+    },
+    {
+      "id": "reportmap",
+      "x": 42,
+      "y": 553,
+      "w": 292,
+      "h": 112,
+      "title": "Report / UBE Lookup",
+      "thai": "103 ชุด Report / Version",
+      "kind": "discovery",
+      "detail": "ชื่อรายงาน คำถามธุรกิจ Version/Filter ที่ต้องเตรียม และความเสี่ยง Update Y/N ซึ่งยังไม่รับรอง",
+      "screens": [],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R5541084",
+          "name": "Print Transfer Finish Goods by Sales Order",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "A",
+        "C"
+      ],
+      "state": "DISCOVERY",
+      "icon": "≡"
+    },
+    {
+      "id": "bvmap",
+      "x": 42,
+      "y": 692,
+      "w": 292,
+      "h": 112,
+      "title": "Business View Provenance",
+      "thai": "19 BV names · 0 physical maps",
+      "kind": "discovery",
+      "detail": "ชื่อ BV ที่ Runtime พบจริง แยก 8 ใหม่ + 11 เก่า แต่ Physical Table/Join ยังไม่รับรอง",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P31022",
+          "name": "Product Cost Inquiry",
+          "form": "W31022A",
+          "version": "ZJDE0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [],
+      "gate": [
+        "B"
+      ],
+      "state": "DISCOVERY",
+      "icon": "▤"
+    },
+    {
+      "id": "sales",
+      "x": 435,
+      "y": 307,
+      "w": 207,
+      "h": 248,
+      "title": "Demand / Sales",
+      "thai": "รับความต้องการ / SO",
+      "kind": "business",
+      "detail": "จากความต้องการของลูกค้า → SO Line → วันสัญญา → เงื่อนไขส่งมอบ; เจ้าของ Promise ต้องลงนาม",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P4210",
+          "name": "Enter Sales Order (SO)",
+          "form": "W4210E",
+          "version": "PTK0065",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R4401P",
+          "name": "Print Order Detail",
+          "form": "NOT_APPLICABLE",
+          "version": "ZJDE0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "E"
+      ],
+      "state": "DISCOVERY",
+      "icon": "◈"
+    },
+    {
+      "id": "engineering",
+      "x": 664,
+      "y": 307,
+      "w": 207,
+      "h": 248,
+      "title": "Engineering / Supply",
+      "thai": "Item · BOM · PO",
+      "kind": "business",
+      "detail": "สินค้า/แบบ/BOM/Routing และการเตรียมวัสดุ เชื่อมกับการซื้อและการรับของ",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P4310",
+          "name": "PR - Stock - Local - XP-S",
+          "form": "W4310I",
+          "version": "PTK0002",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        },
+        {
+          "type": "APP",
+          "object": "P43214",
+          "name": "Receive - Inquiry",
+          "form": "W43214A",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R553111A1",
+          "name": "Print Raw Material Estimation Report By SO",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "B"
+      ],
+      "state": "DISCOVERY",
+      "icon": "⚙"
+    },
+    {
+      "id": "production",
+      "x": 893,
+      "y": 307,
+      "w": 207,
+      "h": 248,
+      "title": "Production / Cutting",
+      "thai": "WO / Cutting 40 / Run99",
+      "kind": "business",
+      "detail": "ตารางรับ Cutting, WO Monitor, Hours/Operation และกฎสถานะ 40→99→9D ไม่อนุมานว่ารันงานซ้ำได้",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P594801C",
+          "name": "วางแผนลงตารางรับ Cutting (Cutting Status 40)",
+          "form": "W594801CA",
+          "version": "PTK0002",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        },
+        {
+          "type": "APP",
+          "object": "P5511026",
+          "name": "WO Monitor",
+          "form": "W5511026A",
+          "version": "ZPTK0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R594801C",
+          "name": "Print Cutting Document - WOOD",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "A",
+        "C",
+        "D"
+      ],
+      "state": "DISCOVERY",
+      "icon": "▥"
+    },
+    {
+      "id": "quality",
+      "x": 1122,
+      "y": 307,
+      "w": 207,
+      "h": 248,
+      "title": "QC / Warehouse",
+      "thai": "Inspection · HOLD · TS",
+      "kind": "business",
+      "detail": "ตรวจคุณภาพ / Lot HOLD → อำนาจปล่อยงาน → เคลื่อนย้าย/Transfer; แยก Physical กับ ERP Ledger",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P3711",
+          "name": "Test Result (incoming Inspection)",
+          "form": "W3711A",
+          "version": "PTK001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        },
+        {
+          "type": "APP",
+          "object": "P4111",
+          "name": "Item Ledger Inquiry",
+          "form": "W4111A",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R5541092",
+          "name": "Print Transfer Finish Goods by Period with TS Order",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "B",
+        "D"
+      ],
+      "state": "DISCOVERY",
+      "icon": "⬡"
+    },
+    {
+      "id": "finance",
+      "x": 1351,
+      "y": 307,
+      "w": 207,
+      "h": 248,
+      "title": "Delivery / Finance",
+      "thai": "Invoice · WIP · GL",
+      "kind": "business",
+      "detail": "ส่งมอบ/พร้อมออกบิล และต้นทุนผลิต WIP/GL ต้องตรงตาม Period/Version และหลักฐาน Post",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P31022",
+          "name": "Product Cost Inquiry",
+          "form": "W31022A",
+          "version": "ZJDE0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        },
+        {
+          "type": "APP",
+          "object": "P4105",
+          "name": "Review Cost revision",
+          "form": "W4105B",
+          "version": "ZJDE0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R31802A",
+          "name": "Run Manufacturing Accounting-Proof",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "A",
+        "C",
+        "E"
+      ],
+      "state": "DISCOVERY",
+      "icon": "▦"
+    },
+    {
+      "id": "rca",
+      "x": 1603,
+      "y": 281,
+      "w": 274,
+      "h": 133,
+      "title": "RCA Support Workbench",
+      "thai": "5 กลุ่มสืบหา Root Cause",
+      "kind": "analysis",
+      "detail": "Cost07/X3-X4, Cutting/Run99, Inventory/TS, QC HOLD และ Invoice Readiness; ต้องมีคู่เคสจริง Failed/Success",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P5511026",
+          "name": "WO Monitor",
+          "form": "W5511026A",
+          "version": "ZPTK0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R553112A",
+          "name": "Work Order Hours Report",
+          "form": "NOT_APPLICABLE",
+          "version": "ZPTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [
+        "D"
+      ],
+      "state": "PENDING_REAL_CASE",
+      "icon": "⌕"
+    },
+    {
+      "id": "certification",
+      "x": 1603,
+      "y": 467,
+      "w": 274,
+      "h": 158,
+      "title": "Certification Gates A–F",
+      "thai": "0/37 signed · 0/5 RCA",
+      "kind": "human",
+      "detail": "A: UBE options; B: BV/Table; C: update effects; D: status; E: promise; F: read-only integration",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P986110B",
+          "name": "Submitted Job Search",
+          "form": "W986110BA",
+          "version": "ZJDE0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [],
+      "gate": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "state": "NOT_CERTIFIED",
+      "icon": "☑"
+    },
+    {
+      "id": "dashboard",
+      "x": 1603,
+      "y": 682,
+      "w": 274,
+      "h": 128,
+      "title": "Executive Dashboard",
+      "thai": "Data Pool NOT_CONNECTED",
+      "kind": "outcome",
+      "detail": "ข้อมูลผลผลิต/ต้นทุน/OTD ที่รับรองเท่านั้นจึงขึ้น Dashboard; ตอนนี้ไม่มี Live ERP Feed",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "E",
+        "F"
+      ],
+      "state": "NOT_CONNECTED",
+      "icon": "▥"
+    },
+    {
+      "id": "dq",
+      "x": 447,
+      "y": 666,
+      "w": 332,
+      "h": 130,
+      "title": "Data Quality & Ownership",
+      "thai": "Grain · Key · Owner · Approval",
+      "kind": "evidence",
+      "detail": "ตรวจ Grain/Join/Version, Freshness, Status และความถูกต้องก่อนนำมาคำนวณ KPI",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P4111",
+          "name": "Item Ledger Inquiry",
+          "form": "W4111A",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [],
+      "gate": [
+        "B",
+        "F"
+      ],
+      "state": "DISCOVERY",
+      "icon": "◎"
+    },
+    {
+      "id": "vault",
+      "x": 838,
+      "y": 666,
+      "w": 332,
+      "h": 130,
+      "title": "Private Evidence Vault",
+      "thai": "60 Source Files · SHA-256",
+      "kind": "evidence",
+      "detail": "Private GitHub Source of Truth พร้อม Provenance, SHA-256 และเอกสารต้นฉบับควบคุมสิทธิ์",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "F"
+      ],
+      "state": "PRIVATE_SOURCE",
+      "icon": "▤"
+    },
+    {
+      "id": "explorer",
+      "x": 1229,
+      "y": 666,
+      "w": 330,
+      "h": 130,
+      "title": "Evidence Explorer Web",
+      "thai": "856 Tasks · Search / Drilldown",
+      "kind": "evidence",
+      "detail": "Web Public สำหรับ Metadata และลิงก์อ่านหลักฐาน Private ตามสิทธิ์ ไม่ใช่ JDE Live API",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P594801C",
+          "name": "วางแผนลงตารางรับ Cutting (Cutting Status 40)",
+          "form": "W594801CA",
+          "version": "PTK0002",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R5541084",
+          "name": "Print Transfer Finish Goods by Sales Order",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0001",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [],
+      "state": "PUBLIC_METADATA",
+      "icon": "◉"
+    },
+    {
+      "id": "training",
+      "x": 446,
+      "y": 890,
+      "w": 348,
+      "h": 112,
+      "title": "Training & Enablement",
+      "thai": "Key User · Dev/Support",
+      "kind": "release",
+      "detail": "Workshop เรียนรู้ SO→WO→QC→GL, Report Clinic และ RCA Incident Simulation",
+      "screens": [
+        {
+          "type": "APP",
+          "object": "P4210",
+          "name": "Enter Sales Order (SO)",
+          "form": "W4210E",
+          "version": "PTK0065",
+          "confidence": "LIVE_MENU_20261014",
+          "source": "data/rea_live_object_version_crosswalk_20261014.csv",
+          "launch_mode": ""
+        }
+      ],
+      "reports": [
+        {
+          "type": "UBE",
+          "object": "R553111A1",
+          "name": "Print Raw Material Estimation Report By WO",
+          "form": "NOT_APPLICABLE",
+          "version": "PTK0002",
+          "confidence": "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION",
+          "source": "data/rea_report_support_lookup_20261014.csv",
+          "risk": "UNVERIFIED_UPDATE_EFFECT_NEVER_EXECUTE_IN_DISCOVERY"
+        }
+      ],
+      "gate": [],
+      "state": "DISCOVERY",
+      "icon": "▣"
+    },
+    {
+      "id": "validation",
+      "x": 848,
+      "y": 890,
+      "w": 348,
+      "h": 112,
+      "title": "Final Validation",
+      "thai": "37/37 Static · 22/22 Browser QA",
+      "kind": "release",
+      "detail": "QA นี้รับรองการเผยแพร่เว็บไซต์/Metadata ไม่ใช่การรับรอง Business Rule หรือ JDE Technical Gates",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "state": "WEB_QA_PASS",
+      "icon": "✓"
+    },
+    {
+      "id": "outcome",
+      "x": 1250,
+      "y": 890,
+      "w": 348,
+      "h": 112,
+      "title": "DONE / Next Phase",
+      "thai": "Web Live · ERP Certification Open",
+      "kind": "release",
+      "detail": "Web/Evidence Published เสร็จ; Human/Technical Gates, Real RCA และ Data Pool ยังต้องปิด",
+      "screens": [],
+      "reports": [],
+      "gate": [
+        "A",
+        "B",
+        "C",
+        "D",
+        "E",
+        "F"
+      ],
+      "state": "WEB_DONE_ERP_OPEN",
+      "icon": "★"
+    }
+  ],
+  "edges": [
+    {
+      "a": "intent",
+      "b": "orchestrator",
+      "kind": "control"
+    },
+    {
+      "a": "orchestrator",
+      "b": "policy",
+      "kind": "control"
+    },
+    {
+      "a": "policy",
+      "b": "human",
+      "kind": "approval"
+    },
+    {
+      "a": "orchestrator",
+      "b": "discovery",
+      "kind": "control"
+    },
+    {
+      "a": "discovery",
+      "b": "crosswalk",
+      "kind": "obs"
+    },
+    {
+      "a": "crosswalk",
+      "b": "reportmap",
+      "kind": "obs"
+    },
+    {
+      "a": "reportmap",
+      "b": "bvmap",
+      "kind": "obs"
+    },
+    {
+      "a": "crosswalk",
+      "b": "sales",
+      "kind": "obs"
+    },
+    {
+      "a": "bvmap",
+      "b": "engineering",
+      "kind": "obs"
+    },
+    {
+      "a": "sales",
+      "b": "engineering",
+      "kind": "business"
+    },
+    {
+      "a": "engineering",
+      "b": "production",
+      "kind": "business"
+    },
+    {
+      "a": "production",
+      "b": "quality",
+      "kind": "business"
+    },
+    {
+      "a": "quality",
+      "b": "finance",
+      "kind": "business"
+    },
+    {
+      "a": "production",
+      "b": "rca",
+      "kind": "analysis"
+    },
+    {
+      "a": "finance",
+      "b": "rca",
+      "kind": "analysis"
+    },
+    {
+      "a": "rca",
+      "b": "certification",
+      "kind": "gate"
+    },
+    {
+      "a": "human",
+      "b": "certification",
+      "kind": "approval"
+    },
+    {
+      "a": "sales",
+      "b": "dq",
+      "kind": "evidence"
+    },
+    {
+      "a": "production",
+      "b": "dq",
+      "kind": "evidence"
+    },
+    {
+      "a": "dq",
+      "b": "vault",
+      "kind": "evidence"
+    },
+    {
+      "a": "vault",
+      "b": "explorer",
+      "kind": "evidence"
+    },
+    {
+      "a": "explorer",
+      "b": "dashboard",
+      "kind": "evidence"
+    },
+    {
+      "a": "certification",
+      "b": "dashboard",
+      "kind": "gate"
+    },
+    {
+      "a": "explorer",
+      "b": "training",
+      "kind": "release"
+    },
+    {
+      "a": "training",
+      "b": "validation",
+      "kind": "release"
+    },
+    {
+      "a": "validation",
+      "b": "outcome",
+      "kind": "release"
+    },
+    {
+      "a": "certification",
+      "b": "outcome",
+      "kind": "gate"
+    },
+    {
+      "a": "outcome",
+      "b": "intent",
+      "kind": "feedback"
+    }
+  ],
+  "evidence_base_url": "https://popvarachat.github.io/erp-architecture/evidence.html",
+  "private_repo": "https://github.com/popvarachat/practika-erp-architecture",
+  "legend": {
+    "LIVE_MENU_20261014": "พบจาก JDE Task เมนูวันที่ 14 ต.ค.",
+    "LIVE_MENU_LABEL_UNCERTIFIED_EXECUTION": "พบชื่อ/Version แต่ยังไม่รับรองการรัน",
+    "BV_OBSERVED_2026-10-08": "หลักฐาน BV จาก 8 ต.ค.",
+    "BV_OBSERVED_2026-10-14": "หลักฐาน BV จาก 14 ต.ค.",
+    "NOT_CONFIRMED": "ยังไม่พบหลักฐานโดยตรง"
+  }
+}
