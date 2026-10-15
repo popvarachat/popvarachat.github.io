@@ -243,3 +243,9 @@
 .meta-learning-item span{color:#bdd1ce;display:block;font-size:11px;line-height:1.5;margin-top:7px}
 .meta-learning-item small{color:#9bd3bb;display:block;font-size:10px;line-height:1.5;margin-top:7px}
 @media(max-width:950px){.league-learning-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.meta-learnings{grid-template-columns:1fr}}
+
+/* Never conflate short TF historical QA with qualified HFT or live trading. */
+.shorttf-pilot-panel{border-color:#5b7189;margin-bottom:14px}
+.shorttf-pilot-panel .table-scroll{margin-top:10px}
+.shorttf-loss{font-weight:800;color:#f2a5a5}
+.shorttf-pilot-panel td,.shorttf-pilot-panel th{font-size:10px;white-space:nowrap}

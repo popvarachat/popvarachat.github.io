@@ -219,6 +219,7 @@ async function loadRemote(){
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
   renderMetaLearning(d.learning_intelligence||null);
+  renderShortTfFeasibility(d.short_tf_feasibility||null);
   t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
   if(rows){
@@ -263,6 +264,7 @@ async function loadRemote(){
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
     renderMetaLearning(previous.learning_intelligence||null);
+    renderShortTfFeasibility(previous.short_tf_feasibility||null);
     t("family-run-status","STALE · FEED INTERRUPTED");
     t("family-data-source","Last cached checkpoint · data "+Math.round(minutes)+"m old");
   }else{
@@ -586,7 +588,10 @@ function renderResearchLeague(l,d){
  const parameters=next?.params;
  const desc=parameters?"Fast "+parameters.fast+" · Slow "+parameters.slow+" · Period "+
        parameters.period+" · Threshold "+leagueNum(parameters.threshold,2):"EA Adapter required or not yet planned";
- t("league-next-params",desc+(next&&next.status==="NEEDS_EA_ADAPTER"?" · ยังไม่มี EA ทดสอบ":""));
+ const search=next?.parameter_search;
+ t("league-next-params",desc+(search?
+   " · EFFECTIVE: "+search.effective_fields.join(",")+" · "+search.design:
+   "")+(next&&next.status==="NEEDS_EA_ADAPTER"?" · ยังไม่มี EA ทดสอบ":""));
  t("league-completed-count",String(l.matches_completed));
  t("league-qualified-count",l.judge_qualified+" qualified · "+l.promotions+" promotions");
  const last=l.latest_match||{};
@@ -719,4 +724,32 @@ function renderMetaLearning(m){
   t("meta-coverage",(m.unique_entry_configurations||0)+" ชุด Entry ที่ต่างกัน · "+
     (m.potential_redundant_trials||0)+" การทดลองอาจไม่ให้ Entry ใหม่ · "+
     "คำแนะนำจากหลักฐานเท่านั้น (SHADOW)");
+}
+
+/* Short-TF pilot is NEVER a confirmed League win or institutional HFT certification. */
+function renderShortTfFeasibility(e){
+ const root=$("shorttf-results");if(!root)return;
+ root.replaceChildren();
+ if(!e||e.schema!=="rdc.short_tf.feasibility.public.v1"){
+  const tr=document.createElement("tr");const td=document.createElement("td");
+  td.colSpan=8;td.textContent="Short-TF pilot evidence unavailable from PC";
+  tr.appendChild(td);root.appendChild(tr);return;
+ }
+ for(const record of e.cases||[]){
+  const tr=document.createElement("tr");
+  const cells=[record.tf,record.model_id,""+record.entry_fast+" / "+record.entry_slow+" / "+record.entry_signal,
+   record.trades??"—",record.pf??"—",
+   record.equity_dd_pct===null?"—":Number(record.equity_dd_pct).toFixed(2),
+   record.net_thb===null?"—":Number(record.net_thb).toFixed(2),
+   record.outcome==="RESEARCH_NOT_PROFITABLE"?"NOT PROFITABLE · QA":"HISTORICAL ONLY"];
+  cells.forEach((item,i)=>{
+   const td=document.createElement("td");td.textContent=String(item);
+   if(i===7)td.className=record.outcome==="RESEARCH_NOT_PROFITABLE"?"shorttf-loss":"";
+   tr.appendChild(td);
+  });
+  root.appendChild(tr);
+ }
+ t("shorttf-summary",(e.cases?.length||0)+
+    " TF ผ่าน Native PC Tester QA · มกราคม 2025 เพียง 3 วัน · Real Tick mode requested · "+
+    "ไม่ใช่ HFT ระดับสถาบัน / ยังไม่รับรอง Tick completeness, Slippage หรือ Live latency");
 }
