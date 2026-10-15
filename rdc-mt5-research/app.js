@@ -200,7 +200,7 @@ async function fetchResearchTelemetry(){
    // Raw direct is fresh enough; avoid unnecessary anonymous GitHub API calls.
    // Pages release is NOT live telemetry. For stale Raw, check API before using it.
    if((isPC && source.name.startsWith("PC Local")) ||
-      (source.name.startsWith("GitHub Raw")&&Date.now()-timestamp<10*60000) ||
+      (source.name.startsWith("GitHub Raw")&&Date.now()-timestamp<5*60000) ||
       (source.name.startsWith("GitHub API")&&Date.now()-timestamp<10*60000))return candidate;
   }catch(e){errors.push(source.name+": "+String(e.message||e));}
  }
