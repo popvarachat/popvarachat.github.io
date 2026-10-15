@@ -218,6 +218,7 @@ async function loadRemote(){
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
+  renderMetaLearning(d.learning_intelligence||null);
   t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
   if(rows){
@@ -261,6 +262,7 @@ async function loadRemote(){
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
+    renderMetaLearning(previous.learning_intelligence||null);
     t("family-run-status","STALE · FEED INTERRUPTED");
     t("family-data-source","Last cached checkpoint · data "+Math.round(minutes)+"m old");
   }else{
@@ -692,3 +694,29 @@ function openModelInspector(fid){
 document.getElementById("model-inspect-close")?.addEventListener("click",()=>{
  document.getElementById("model-inspect-panel").hidden=true;
 });
+
+/* Research Meta-Learner: descriptive evidence, strictly SHADOW read-only. */
+function renderMetaLearning(m){
+  if(!m || m.schema!=="rdc.research.meta_learning.shadow.v1"){
+    t("meta-coverage","PC Meta-Learner ยังไม่เผยแพร่ข้อมูล — Research Loop เดิมยังทำงาน");
+    return;
+  }
+  t("meta-exp-count",String(m.experiment_count||0));
+  t("meta-fit-weak",String(m.risk_diagnostics?.fit_weak??"—"));
+  t("meta-high-dd",String(m.risk_diagnostics?.high_dd??"—"));
+  t("meta-generalization",String(m.risk_diagnostics?.good_val_weak_fit??"—"));
+  const root=$("meta-learnings");
+  if(root){
+    root.replaceChildren();
+    (m.top_findings||[]).forEach(x=>{
+      const card=div("meta-learning-item");
+      child(card,"strong","",x.title||x.code);
+      child(card,"span","",x.detail||"");
+      child(card,"small","","NEXT RESEARCH QUESTION · "+(x.next||""));
+      root.appendChild(card);
+    });
+  }
+  t("meta-coverage",(m.unique_entry_configurations||0)+" ชุด Entry ที่ต่างกัน · "+
+    (m.potential_redundant_trials||0)+" การทดลองอาจไม่ให้ Entry ใหม่ · "+
+    "คำแนะนำจากหลักฐานเท่านั้น (SHADOW)");
+}

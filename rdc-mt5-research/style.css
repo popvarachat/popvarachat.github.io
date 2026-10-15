@@ -230,3 +230,16 @@
 .model-inspect-trades td,.model-inspect-trades th{padding:7px 9px}
 @media(max-width:930px){.model-inspect-grid{grid-template-columns:1fr}.model-inspect-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:500px){.model-inspect-inputs{grid-template-columns:repeat(2,minmax(0,1fr))}.model-inspect-head{flex-wrap:wrap}}
+
+/* Evidence-based Research Meta-Learner / shadow, not an executing agent. */
+.league-intelligence{margin:0 0 15px;border-color:#386f69}
+.league-learning-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-bottom:12px}
+.league-learning-grid>div{border:1px solid #375764;border-radius:9px;background:#132c38;padding:12px}
+.league-learning-grid small{display:block;font-size:9px;color:#a6c9ca;font-weight:800;letter-spacing:.4px}
+.league-learning-grid strong{display:block;font-size:23px;color:#f2d59e;margin-top:5px}
+.meta-learnings{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px}
+.meta-learning-item{border-radius:10px;border:1px solid #385d63;background:#112c35;padding:12px}
+.meta-learning-item strong{color:#e0eecb;display:block;font-size:12px}
+.meta-learning-item span{color:#bdd1ce;display:block;font-size:11px;line-height:1.5;margin-top:7px}
+.meta-learning-item small{color:#9bd3bb;display:block;font-size:10px;line-height:1.5;margin-top:7px}
+@media(max-width:950px){.league-learning-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.meta-learnings{grid-template-columns:1fr}}
