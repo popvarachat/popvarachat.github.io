@@ -219,8 +219,8 @@ $('qualityBtn').addEventListener('click',()=>{qualityHigh=!qualityHigh;renderer.
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.id);toast.id=setTimeout(()=>$('toast').style.display='none',2600)}
 function tick(){requestAnimationFrame(tick);if(animating){clock+=.015;if(autoOrbit){azimuth+=.00065;updateCamera()}moveActors.forEach((p,i)=>{p.position.x=p.userData.baseX+Math.sin(clock*.56+i*2)*.38;p.position.z=p.userData.baseZ+Math.cos(clock*.49+i*2)*.3;p.rotation.y=Math.sin(clock*.56+i*2)})}if(animating)engineV2?.tick();renderer.render(scene,camera)}
 engineV2=installV2({THREE,$,renderer,camera,dyn,box,cyl,group,floor,room,label,M,setMode,getMode:()=>mode,getSim:()=>({desks,aisle,people}),setScenario:(v)=>{$('deskRange').value=v.desks;$('aisleRange').value=v.aisle;$('peopleRange').value=v.people;updateSim();setMode('simulation')},cameraPose:(a,e,d)=>{autoOrbit=false;azimuth=a;elevation=e;distance=d;updateCamera()},resetOrbit:()=>{autoOrbit=true;azimuth=.56;elevation=.52;distance=31;updateCamera()},getActors:()=>moveActors,getDeskLayout:deskLayout,disposeTree});
-addEventListener('popstate',()=>{const m=location.hash.slice(1);if(m in titles&&m!==mode)setMode(m,false)});
-addEventListener('hashchange',()=>{const m=location.hash.slice(1);if(m in titles&&m!==mode)setMode(m,false)});
+addEventListener('popstate',()=>{const m=location.hash.slice(1)||'overview';if(m in titles&&m!==mode)setMode(m,false)});
+addEventListener('hashchange',()=>{const m=location.hash.slice(1)||'overview';if(m in titles&&m!==mode)setMode(m,false)});
 updateSim();setMode(location.hash.slice(1) in titles?location.hash.slice(1):'overview',false);resize();$('loading').style.display='none';window.__practikaV2Ready=true;
 if(new URLSearchParams(location.search).has('qa')){
  window.__practikaQA=()=>({mode,requestedDesks:desks,placedDesks:deskLayout(desks,aisle).spots.length,
