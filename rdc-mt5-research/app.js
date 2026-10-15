@@ -25,7 +25,7 @@ function nav(name){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>{nav(b.dataset.tab);history.replaceState(null,"","#"+b.dataset.tab);}));
-const validTabs=new Set(["overview","workflow","analytics","evidence","control"]);
+const validTabs=new Set(["overview","workflow","analytics","evidence","control","league"]);
 function openTabFromHash(){const tab=location.hash.slice(1);if(validTabs.has(tab))nav(tab);}
 window.addEventListener("hashchange",openTabFromHash);
 openTabFromHash();
