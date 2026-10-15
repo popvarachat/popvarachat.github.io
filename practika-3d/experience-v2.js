@@ -78,7 +78,7 @@ export function install(c) {
     let beam=box(g,2.6,.1,.24,x,6.38,z,accent);beam.rotation.y=a}
    cyl(g,12.4,12.4,.13,0,6.45,0,metal,16);cyl(g,11.7,11.7,.09,0,6.57,0,glass,16);
   }else{
-   for(let i=0;i<9;i++){const x=-8+i*2;box(g,.08,.1,17.7,x,3.47,0,metal);box(g,1.1,.04,.24,x,3.29,0,light)}
+   for(let i=0;i<9;i++){const x=-8+i*2;box(g,.08,.1,17.7,x,5.55,0,metal);box(g,1.1,.04,.24,x,5.37,0,light)}
    for(let i=0;i<7;i++){const z=-8+i*2.6;box(g,.06,3.2,.08,8.7,1.6,z,metal);
     if(i<6){const pane=box(g,.03,2.7,2.53,8.7,1.55,z+1.3,glass);pane.castShadow=false}}
    box(g,17.4,.12,.12,0,.03,8.8,accent);box(g,.12,.09,17.4,-8.8,.025,0,accent);
@@ -86,7 +86,7 @@ export function install(c) {
   return g;
  }
  function rebuildStudio(){
-  if(state.model){dyn.remove(state.model);state.model.traverse(o=>o.geometry?.dispose())}
+  if(state.model){dyn.remove(state.model);state.model.traverse(o=>{o.geometry?.dispose();if(o.material&&!Object.values(M).includes(o.material)&&![metal,charcoal,accent,stone,glass,light].includes(o.material))o.material.dispose()})}
   state.selection=[];state.pieces=[];
   const g=new THREE.Group();dyn.add(g);state.model=g;
   const body=new THREE.Group();body.position.y=.47;g.add(body);
@@ -198,12 +198,14 @@ export function install(c) {
   $('v2AgentCount').textContent=reached;
  }
  function afterScene(mode){
+  if(state.flow){state.flow.routes.traverse(o=>o.material?.dispose());state.flow.heat.traverse(o=>o.material?.dispose())}
   state.mode=mode;state.model=null;state.flow=null;state.agents=[];state.pieces=[];state.selection=[];
-  if(mode==='studio'){architecture(mode);rebuildStudio()}
+  if(mode==='studio'){rebuildStudio();cameraPose(.52,.40,11.8)}
   else if(mode==='factory'){architecture(mode);factory()}
   else{architecture(mode);if(mode==='simulation')flowScene()}
   let count=0;dyn.traverse(n=>{if(n.isMesh)count++});$('v2Count').textContent=count.toLocaleString();
   $('v2AgentCount').textContent=mode==='simulation'?(state.metrics?.reached||0):'0';
+  if(mode!=='simulation'){$('v2Route').textContent='—';$('v2Reach').textContent='—';$('v2Density').textContent='—';$('v2Travel').textContent='—'}
   $('v2Status').textContent=mode==='studio'?'PARAMETRIC PRODUCT / EXPLODED PARTS':mode==='simulation'?'AGENT PATHFINDING / HEATMAP':mode==='factory'?'DESIGN → MATERIAL → CUT → ASSEMBLY → QC':'ARCHITECTURE / FURNITURE / EXPERIENCE';
  }
  function tick(){if(state.tour){state.tourTime+=.01;cameraPose(.7+state.tourTime*.16,.45+Math.sin(state.tourTime*.37)*.13,25+Math.sin(state.tourTime*.21)*3)}
