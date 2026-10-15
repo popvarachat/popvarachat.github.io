@@ -494,7 +494,7 @@ function chartMatrix(){
  const hs=QMR_CHARTS.patterns;
  return '<div class="matrix-scroller"><table class="chart-matrix"><thead><tr><th>โครงการ / ลูกค้า</th>'+hs.map(p=>'<th title="'+chartEsc(p.detail)+'">'+chartEsc(p.n)+'</th>').join("")+'</tr></thead><tbody>'+
  cases.map(c=>'<tr><th><button type="button" data-chart-case="'+c.n+'">'+chartEsc(projectShort(c))+'</button></th>'+
- hs.map(p=>'<td><span class="matrix-cell '+(p.list.includes(c.n)?"yes":"no")+'" style="'+(p.list.includes(c.n)?"--signal:"+p.color:"")+'" title="'+chartEsc(p.n)+' · '+chartEsc(projectTitle(c))">'+(p.list.includes(c.n)?"●":"—")+'</span></td>').join("")+'</tr>').join("")+
+ hs.map(p=>'<td><span class="matrix-cell '+(p.list.includes(c.n)?"yes":"no")+'" style="'+(p.list.includes(c.n)?"--signal:"+p.color:"")+'" title="'+chartEsc(p.n)+' · '+chartEsc(projectTitle(c))+'">'+(p.list.includes(c.n)?"●":"—")+'</span></td>').join("")+'</tr>').join("")+
  '</tbody></table></div><p class="chart-foot">จุดสีคือความเชื่อมโยงของรูปแบบการควบคุมที่ควรสอบกลับ ไม่ใช่หลักฐานว่าเกิดความผิดพลาดแบบเดียวกันซ้ำจริง</p>';
 }
 function renderAnalytics(){
