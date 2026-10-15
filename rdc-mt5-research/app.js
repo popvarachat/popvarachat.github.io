@@ -39,9 +39,9 @@ function renderKpis(d){
  t("rag-status",(o.rag_qa_passed||0)+"/"+(o.rag_qa_total||0)+" QA");
  t("gate-label",d.research_gate);
  t("loop-status",d.process.auto_loop_enabled?"RUNNING":"OFF");
- t("health-status",d.process.state==="RUNNING"?"TESTING":"RESEARCH HOLD");
- t("process-state",d.process.state==="RUNNING"?"TESTER RUNNING":"RESEARCH HOLD");
- const l=document.querySelector(".light");l.classList.toggle("running",d.process.state==="RUNNING");
+ t("health-status",d.process.state==="RUNNING"?"TESTING":d.process.state==="ACTIVE_RESEARCH"?"RESEARCH LOOP ACTIVE":"RESEARCH HOLD");
+ t("process-state",d.process.state==="RUNNING"?"TESTER RUNNING":d.process.state==="ACTIVE_RESEARCH"?"RESEARCH LOOP ACTIVE":"RESEARCH HOLD");
+ const l=document.querySelector(".light");l.classList.toggle("running",["RUNNING","ACTIVE_RESEARCH"].includes(d.process.state));
  t("data-asof",d.dataset_asof||"—");
  const stamp=new Date(d.generated_at);const local=!/github\.io$/i.test(location.hostname) && ["localhost","127.0.0.1"].includes(location.hostname);
  t("snapshot-time",stamp.toLocaleString("th-TH",{year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit",timeZone:"Asia/Bangkok"}));
@@ -152,3 +152,56 @@ async function load(force){
  finally{inFlight=false;}
 }
 load();setInterval(()=>load(false),15000);
+
+async function loadRemote(){
+ try{
+  const local=location.hostname==="127.0.0.1"||location.hostname==="localhost";
+  let d;
+  if(local){
+   const r=await fetch("./data/live.json?r="+Date.now(),{cache:"no-store"});
+   if(!r.ok)throw new Error("live not initialized");d=await r.json();
+  }else{
+   const url="https://api.github.com/repos/popvarachat/popvarachat.github.io/contents/rdc-mt5-research/data/live.json?t="+Date.now();
+   const r=await fetch(url,{headers:{"Accept":"application/vnd.github+json"},cache:"no-store"});
+   if(!r.ok)throw new Error("public checkpoint absent");
+   const content=await r.json();
+   d=JSON.parse(decodeURIComponent(Array.from(atob(content.content.replace(/\s/g,"")),c=>"%"+c.charCodeAt(0).toString(16).padStart(2,"0")).join("")));
+  }
+  if(d.schema!=="rdc.research.public.live.v1")throw new Error("Unknown schema");
+  const ago=(Date.now()-Date.parse(d.generated_at))/60000;
+  t("remote-checkpoint-chip",ago<25?"PC CHECKPOINT":"STALE CHECKPOINT");
+  const rows=document.getElementById("remote-history");
+  if(rows){
+   rows.replaceChildren();
+   const trials=(d.recent_experiments||[]).slice(-20).reverse();
+   if(!trials.length){const tr=document.createElement("tr");const td=document.createElement("td");td.colSpan=9;td.textContent="ยังไม่มี Challenger ที่รันทดสอบ";tr.appendChild(td);rows.appendChild(tr);}
+   trials.forEach(x=>{
+    const tr=document.createElement("tr");
+    const vals=[x.index,x.family,(x.params||[]).join(","),fmt(x.fit_pf,3),fmt(x.validation_pf,3),
+      fmt(x.validation_dd)+"%",fmt(x.validation_recovery,3),fmt(x.validation_net),x.status||"UNKNOWN"];
+    vals.forEach(v=>{const td=document.createElement("td");td.textContent=String(v||"—");tr.appendChild(td)});
+    rows.appendChild(tr);
+   });
+  }
+  const thinking=document.getElementById("remote-thinking");
+  if(thinking){thinking.replaceChildren();(d.thinking_history||[]).slice(-8).reverse().forEach(x=>{
+    const el=document.createElement("div");el.className="health";
+    const a=document.createElement("span");a.textContent="Cycle "+(x.cycle||"—")+" · "+(x.family||"RESEARCH");
+    const b=document.createElement("strong");b.textContent=x.status||"PROPOSED";
+    el.append(a,b);thinking.appendChild(el);
+  });}
+  t("remote-runner",ago<25?d.runner_status:"PC OFFLINE / STALE");
+  t("remote-cycles",String(d.cycle??"—"));
+  t("remote-trials",String(d.candidate_trials??"—"));
+  t("remote-champion",d.champion||"—");
+  const c=d.challenger||{};
+  t("remote-challenger",c.status?("Trial "+c.candidate+" · "+c.status):"NOT YET TESTED");
+  t("remote-heartbeat",d.last_heartbeat?new Date(d.last_heartbeat).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"—");
+  t("remote-last-test",d.last_test?new Date(d.last_test).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"—");
+ }catch(e){
+  t("remote-runner","CHECKPOINT UNAVAILABLE");
+  t("remote-checkpoint-chip","NOT VERIFIED");
+  console.warn("Remote checkpoint not available",e.message);
+ }
+}
+loadRemote();setInterval(loadRemote,120000);

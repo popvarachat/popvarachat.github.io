@@ -12,6 +12,7 @@
 <button data-tab="workflow">⬡ <span>Agent Workflow</span></button>
 <button data-tab="analytics">▥ <span>Walk-Forward Analytics</span></button>
 <button data-tab="evidence">≡ <span>Process &amp; Evidence</span></button>
+<button data-tab="control">⌘ <span>Remote Control</span></button>
 </nav>
 <div class="side-bottom"><div class="host-lock"><b>▣ MT5 / PC-ONLY</b><small>Execution Guard Enabled</small></div><p>READ-ONLY MONITOR<br>Zero live orders from Web</p><a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">Private Source of Truth ↗</a></div>
 </aside>
@@ -63,5 +64,36 @@
 <div class="health"><span>MT5 Compute</span><b>PC ONLY</b></div><div class="health"><span>Raw Ticks</span><b>PC PRIVATE</b></div><div class="health"><span>Web Access</span><b>READ-ONLY</b></div><div class="health"><span>Public Publication</span><b>AGGREGATES</b></div><div class="health"><span>Live Orders</span><b class="bad">BLOCKED</b></div>
 <h3 class="subheading">Research Limitations</h3><div id="limitations" class="limitations"></div>
 <a class="source-link" href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">View Private Research Framework ↗</a></article></div></section>
+<section class="page" id="page-control">
+<div class="heading"><div><div class="eyebrow">AUTHENTICATED REMOTE COMMANDS / RESEARCH CONTINUITY</div><h1>RDC <span>Remote Control</span></h1>
+<p>สั่งให้ RDC บน PC เปลี่ยนโจทย์, เพิ่มสมมติฐาน, ขอทดสอบหรือพักงานวิจัย ผ่าน GitHub Private ที่ต้องล็อกอิน · ไม่มีคำสั่ง Live Trade</p></div></div>
+<div class="research-alert"><b>SECURE COMMAND CHANNEL · GITHUB PRIVATE ISSUES</b><span>คำสั่งจะได้รับการตรวจสอบสิทธิ์เจ้าของ Repository ก่อนที่ PC จะนำไปทำงาน · คำสั่ง MT5 ทุกคำสั่งบังคับผ่าน POP-FARM01 เท่านั้น</span></div>
+<div class="columns"><article class="panel"><div class="panel-top"><div><small>RESEARCH CONTROL</small><h2>New Remote Command</h2></div><span class="chip">AUTHENTICATED</span></div>
+<p class="annotation">กดเลือกประเภทงานจาก GitHub Issue Form ที่ปลอดภัย; ระบบบน PC ตรวจคำสั่งประมาณทุก 5 นาทีขณะ PC เปิด</p>
+<div class="remote-actions">
+<a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/issues/new?template=rdc-research-command.yml" target="_blank" rel="noopener noreferrer">✧ &nbsp; เปลี่ยน Research Topic / Model</a>
+<a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/issues/new?template=rdc-research-command.yml" target="_blank" rel="noopener noreferrer">＋ &nbsp; เพิ่มสมมติฐานให้ทดลอง</a>
+<a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/issues/new?template=rdc-research-command.yml" target="_blank" rel="noopener noreferrer">▣ &nbsp; สั่ง Offline Backtest 1 รอบ</a>
+<a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/issues/new?template=rdc-research-command.yml" target="_blank" rel="noopener noreferrer">⌛ &nbsp; Pause / Resume Research</a>
+<a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/issues?q=label%3Ardc-research-command" target="_blank" rel="noopener noreferrer">≡ &nbsp; ดูประวัติคำสั่ง / คำตอบของ RDC</a>
+</div><div class="feedback">Champion Model ไม่ใช่เงื่อนไขจบ Loop · ทุก Model ผ่านแล้วจะถูกเก็บไว้ แล้วต่อ Hypothesis / Challenger รอบใหม่ภายใต้ Budget และ QA</div>
+</article>
+<article class="panel"><div class="panel-top"><div><small>REMOTE CHECKPOINT TELEMETRY</small><h2>Research Loop Monitor</h2></div><span id="remote-checkpoint-chip" class="chip">AWAITING PC</span></div>
+<div class="health"><span>PC Runner</span><strong id="remote-runner">WAITING</strong></div>
+<div class="health"><span>Loop Cycles</span><strong id="remote-cycles">—</strong></div>
+<div class="health"><span>Challenger Trials</span><strong id="remote-trials">—</strong></div>
+<div class="health"><span>Champion (reference)</span><strong id="remote-champion">—</strong></div>
+<div class="health"><span>Latest challenger</span><strong id="remote-challenger">—</strong></div>
+<div class="health"><span>Last PC heartbeat</span><strong id="remote-heartbeat">—</strong></div>
+<div class="health"><span>Last MT5 experiment</span><strong id="remote-last-test">—</strong></div>
+<p class="annotation">สถานะจาก GitHub API แบบ Checkpoint ไม่ใช่การเชื่อม MT5 แบบ Live; อาจล่าช้าหลายนาที และเมื่อ PC ปิดจะหยุดอัปเดตจนกลับมาออนไลน์</p>
+</article></div>
+<article class="panel gap-top">
+<div class="panel-top"><div><small>CONTINUOUS MODEL CHALLENGERS</small><h2>Latest Research Iterations · PF / DD / Recovery</h2></div><span class="annotation">PC MT5 · Exploratory Research</span></div>
+<div class="table-scroll"><table><thead><tr><th>TRIAL</th><th>FAMILY</th><th>PARAMS</th><th>FIT PF</th><th>VAL PF</th><th>VAL DD</th><th>VAL RECOVERY</th><th>VAL NET THB</th><th>STATUS</th></tr></thead><tbody id="remote-history"><tr><td colspan="9">กำลังรอ PC Research Checkpoint</td></tr></tbody></table></div>
+</article>
+<article class="panel gap-top">
+<div class="panel-top"><div><small>MODEL THINKING / NEXT ITERATION</small><h2>Hypothesis Activity</h2></div><span class="annotation">Only sanitized metadata; private ideas stay on PC / GitHub Private</span></div>
+<div id="remote-thinking" class="phase-list"></div></article></section>
 <footer>RDC GOLDmicro Research · MT5 PC-ONLY · Research HOLD <span id="footer-time">Evidence snapshot</span></footer>
 </div></main></div><script src="./app.js" defer></script></body></html>

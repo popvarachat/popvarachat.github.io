@@ -1,6 +1,6 @@
 {
   "schema": "rdc.mt5.research.dashboard.v1",
-  "generated_at": "2026-10-15T00:17:18.021847+00:00",
+  "generated_at": "2026-10-15T00:35:02.798478+00:00",
   "dataset_asof": "2026-10-14",
   "data_class": "AGGREGATED_PUBLIC_ONLY",
   "engine": {
@@ -20,12 +20,124 @@
     "actual_connection_status": "NOT_PROBED_BY_EXPORTER"
   },
   "process": {
-    "state": "RESEARCH_HOLD",
+    "state": "ACTIVE_RESEARCH",
     "active": null,
-    "events": [],
+    "events": [
+      {
+        "ts": "2026-10-15T00:22:39.349118+00:00",
+        "run_id": "qa_pc_guard",
+        "phase": "policy",
+        "type": "PC_EXECUTOR_QA",
+        "status": "COMPLETE",
+        "message": "6 of 6 safety tests PASS; live/cloud/wrong host rejected",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:22:39.350389+00:00",
+        "run_id": "qa_web",
+        "phase": "web",
+        "type": "PLAYWRIGHT_QA",
+        "status": "COMPLETE",
+        "message": "4 tabs, 69 observations, 3 model filters, workflow interactions, zero JS errors",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:22:39.351057+00:00",
+        "run_id": "human_pages",
+        "phase": "github_pages",
+        "type": "PUBLIC_RELEASE_GATE",
+        "status": "BLOCKED",
+        "message": "Public Pages publish requires Human Gate workflow_dispatch; main branch checkpoint committed",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:28:40.925996+00:00",
+        "run_id": "issue-11",
+        "phase": "remote_command",
+        "type": "REQUEST_REPORT",
+        "status": "COMPLETE",
+        "message": "Issue #11 received; action=REQUEST_REPORT",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:28:59.218675+00:00",
+        "run_id": "cycle-1",
+        "phase": "think",
+        "type": "PROPOSED",
+        "status": "COMPLETE",
+        "message": "Cycle 1, EXIT; new hypothesis awaiting evidence",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:28:59.319456+00:00",
+        "run_id": "466744e73fe8",
+        "phase": "loop-fit",
+        "type": "TESTER_START",
+        "status": "RUNNING",
+        "message": "MT5 PC-only MACD_H1_MomentumTrail_Lab_v3.ex5 iteration 1/1 model=2",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:29:17.999972+00:00",
+        "run_id": "466744e73fe8",
+        "phase": "loop-fit",
+        "type": "TESTER_EXIT",
+        "status": "COMPLETE",
+        "message": "exit=0; fresh_evidence=True; iteration 1/1",
+        "duration_seconds": 18.7
+      },
+      {
+        "ts": "2026-10-15T00:29:18.178972+00:00",
+        "run_id": "643633d5e556",
+        "phase": "loop-val",
+        "type": "TESTER_START",
+        "status": "RUNNING",
+        "message": "MT5 PC-only MACD_H1_MomentumTrail_Lab_v3.ex5 iteration 1/1 model=2",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:29:24.352300+00:00",
+        "run_id": "643633d5e556",
+        "phase": "loop-val",
+        "type": "TESTER_EXIT",
+        "status": "COMPLETE",
+        "message": "exit=0; fresh_evidence=True; iteration 1/1",
+        "duration_seconds": 6.2
+      },
+      {
+        "ts": "2026-10-15T00:29:24.380405+00:00",
+        "run_id": "candidate-1",
+        "phase": "mt5",
+        "type": "CHALLENGER_EVALUATED",
+        "status": "COMPLETE",
+        "message": "Candidate 1 CHALLENGER_REVIEW validation PF 1.310",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:29:26.249989+00:00",
+        "run_id": "cycle-1",
+        "phase": "web",
+        "type": "STATUS_CHECKPOINT",
+        "status": "COMPLETE",
+        "message": "PC research cycle 1 public aggregate updated",
+        "duration_seconds": null
+      },
+      {
+        "ts": "2026-10-15T00:32:27.223749+00:00",
+        "run_id": "cycle-3",
+        "phase": "web",
+        "type": "STATUS_CHECKPOINT",
+        "status": "COMPLETE",
+        "message": "PC research cycle 3 public aggregate updated",
+        "duration_seconds": null
+      }
+    ],
     "mode": "HISTORICAL_RESEARCH_SNAPSHOT",
-    "auto_loop_enabled": false,
-    "explanation": "GitHub Pages is a periodic snapshot; local PC monitor can update while a manually approved tester batch is running."
+    "auto_loop_enabled": true,
+    "last_pc_tick": "2026-10-15T00:35:02.189447+00:00",
+    "loop_cycle": 4,
+    "experiment_trials": 1,
+    "explanation": "PC scheduled research checks every 5min when powered; static GitHub Pages requires checkpoint update. MT5 trials execute separately and are not continuously running."
   },
   "research_gate": "FAIL",
   "evidence_integrity_checks": {
