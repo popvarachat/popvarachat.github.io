@@ -6,6 +6,8 @@
 <meta name="theme-color" content="#0a111e">
 <meta name="description" content="PRACTIKA 3D Experience — interactive architectural concept prototype with source-traceable REA map.">
 <title>PRACTIKA 3D · Industrial Customized Furniture Experience</title>
+<link rel="stylesheet" href="./experience-v2.css">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 viewBox=%270 0 64 64%27%3E%3Crect width=%2764%27 height=%2764%27 rx=%2712%27 fill=%27%230b1724%27/%3E%3Cpath d=%27M32 7L57 32 32 57 7 32Z%27 fill=%27none%27 stroke=%27%23d3ae79%27 stroke-width=%274%27/%3E%3C/svg%3E">
 <style>
 :root{color-scheme:dark;--bg:#07101a;--panel:#111e2a;--panel2:#172635;--line:#2b3d49;--fg:#edf5f5;--mute:#a4b5bb;--gold:#e6b879;--mint:#83dec3;--warn:#ffd18c}*{box-sizing:border-box}
 html,body{margin:0;min-height:100%;font-family:Inter,"Segoe UI",Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
@@ -78,6 +80,7 @@ main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 358px;positio
 <noscript><div class="noscript">การแสดงผลต้องเปิด JavaScript หากไม่สามารถใช้ WebGL ได้ โปรดเปิด <a href="https://www.practika.com/">เว็บไซต์ต้นฉบับ</a></div></noscript>
 <script type="module">
 import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+import {install as installV2} from './experience-v2.js';
 const $=id=>document.getElementById(id);
 const SOURCE={
  overview:['Homepage','https://www.practika.com/'],
@@ -91,7 +94,9 @@ const SOURCE={
  product:['Products','https://www.practika.com/PRODUCTS/PRODUCTS'],
  projects:['Project References','https://www.practika.com/PROJECT_Und_REFERENCES/PROJECT_Und_REFERENCES'],
  service:['Services & Warranty','https://www.practika.com/Our_Und_Service_Und__Amp__Und_Warranty/Our_Und_Service_Und__Amp__Und_Warranty'],
- simulation:['Workplace spatial concept','https://www.practika.com/Workplace/Workplace']
+ simulation:['Workplace spatial concept','https://www.practika.com/Workplace/Workplace'],
+ studio:['Furniture design / configurable prototype','https://www.practika.com/PRODUCTS/PRODUCTS'],
+ factory:['Manufacturing lifecycle / conceptual','https://www.practika.com/Our_Und_Service_Und__Amp__Und_Warranty/Our_Und_Service_Und__Amp__Und_Warranty']
 };
 const titles={
  overview:['Discover a new','<em>dimension.</em>','เริ่มต้นสำรวจโลกของ Practika ผ่านสถาปัตยกรรม 3D Interactive'],
@@ -105,10 +110,13 @@ const titles={
  product:['Every detail','<em>matters.</em>','หมุนมุมมองผลิตภัณฑ์ 3D และสำรวจโครงสร้างเฟอร์นิเจอร์'],
  projects:['Built for','<em>real places.</em>','เปิดแกลเลอรีผลงานโครงการในรูปแบบ 3D'],
  service:['From idea','<em>to aftercare.</em>','เรียนรู้ลำดับออกแบบ ผลิต ติดตั้ง และบริการหลังการขาย'],
- simulation:['Test the','<em>possibilities.</em>','ปรับจำนวนโต๊ะ ระยะทางเดิน และผู้ใช้งานเพื่อศึกษาผลกระทบของผัง']
+ simulation:['Test the','<em>possibilities.</em>','ปรับจำนวนโต๊ะ ระยะทางเดิน และผู้ใช้งานเพื่อศึกษาผลกระทบของผัง'],
+ studio:['Explore the','<em>engineering.</em>','แยกชิ้นส่วนเฟอร์นิเจอร์ ปรับขนาดและวัสดุ ทดลองคลิกตรวจองค์ประกอบ'],
+ factory:['Inside the','<em>making process.</em>','สำรวจ Design → Materials → Cutting → Assembly → QC → Installation เชิงแนวคิด']
 };
 const zoneData=[['workplace','⌘','WORKPLACE','สำนักงาน'],['retail','▤','RETAIL','ร้านค้า'],['education','▧','EDUCATION','สถานศึกษา'],['health','✚','HEALTH','สถานพยาบาล'],['residential','⌂','RESIDENTIAL','ที่อยู่อาศัย'],['hospitality','✦','HOSPITALITY','โรงแรม']];
 let mode='overview', animating=true, qualityHigh=true, desks=8,aisle=1.4,people=8,clock=0,autoOrbit=true,moveActors=[];
+let engineV2=null;
 const root=$('three'), scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x101d29,.026);
 const camera=new THREE.PerspectiveCamera(36,1,.1,180);camera.position.set(21,19,26);const target=new THREE.Vector3(0,1,0);
 const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
@@ -134,8 +142,33 @@ function plant(g,x,z){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);cyl
 function room(g,size=16){box(g,size,.18,size,0,-.09,0,M.woodLight);box(g,.17,3.4,size,-size/2,1.7,0,M.white);box(g,size,3.4,.17,0,1.7,-size/2,M.white);box(g,size,.18,.2,0,3.4,-size/2,M.gold);for(let j=-2;j<=2;j++){box(g,.06,2.7,.06,j*size/7,1.6,-size/2+.15,M.metal);box(g,size/8,2.4,.05,j*size/7,1.6,-size/2+.11,M.glass)}}
 function figure(g,x,z,i=0){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);cyl(p,.16,.18,.75,0,1.09,0,i%2?M.blue:M.fabric);const head=new THREE.Mesh(new THREE.SphereGeometry(.2,12,9),M.woodLight);head.position.y=1.66;p.add(head);for(let dx of [-.12,.12])cyl(p,.065,.065,.6,dx,.38,0,M.metal);p.userData={i,baseX:x,baseZ:z};moveActors.push(p);return p}
 function podium(g,title,x,z){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);cyl(p,1.5,1.9,.38,0,.18,0,M.metal);cyl(p,1.39,1.39,.1,0,.42,0,M.woodLight);label(p,title,0,2.8,0,.25);return p}
-function clear(){for(const a of [...dyn.children]){dyn.remove(a);a.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material&&o.material.map&&o.material.map.isCanvasTexture)o.material.map.dispose()})}moveActors=[]}
-function workstation(rows=2,cols=4,sp=2.8,pace=1.4){floor(27);const r=group();room(r,18);const stride=Math.max(2.35,2.15+pace*.44);for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const x=(j-(cols-1)/2)*stride,z=(i-(rows-1)/2)*(2.15+pace);desk(r,x,z,i%2?Math.PI:0,Math.min(2.25,stride-.25))}for(let i=0;i<Math.min(people,18);i++){const ang=i*2.399,rad=2.6+(i%5)*.85;figure(r,Math.sin(ang)*rad,Math.cos(ang)*rad,i)}plant(r,-7.7,6.9);plant(r,7.7,-6.9);label(r,'WORKPLACE · INTERACTIVE',0,4.3,-8.1,.3);return r}
+function disposeTree(root){
+ const shared=new Set([...Object.values(M),...(engineV2?.sharedMaterials||[])]);
+ const geometries=new Set(),materials=new Set(),textures=new Set();
+ root.traverse(o=>{
+  if(o.geometry)geometries.add(o.geometry);
+  if(o.material)for(const m of (Array.isArray(o.material)?o.material:[o.material])){
+   if(!m||shared.has(m))continue;materials.add(m);
+   for(const key in m){const val=m[key];if(val&&val.isTexture)textures.add(val)}
+  }
+ });
+ textures.forEach(t=>t.dispose());materials.forEach(m=>m.dispose());geometries.forEach(g=>g.dispose());
+}
+function clear(){for(const a of [...dyn.children]){dyn.remove(a);disposeTree(a)}moveActors=[]}
+function deskLayout(count,pace){
+ const cols=Math.min(4,count),rows=Math.ceil(count/cols),stride=Math.max(2.35,2.15+pace*.44),depth=2.15+pace;
+ const spots=Array.from({length:count},(_,k)=>{const col=k%cols,row=Math.floor(k/cols);return {x:(col-(cols-1)/2)*stride,z:(row-(rows-1)/2)*depth,rot:row%2?Math.PI:0,width:Math.min(2.25,stride-.25)}});
+ const spanX=(cols-1)*stride+4.5,spanZ=(rows-1)*depth+4.9;
+ return {spots,roomSize:Math.max(18,Math.ceil(Math.max(spanX,spanZ)))};
+}
+function workstation(rows=2,cols=4,sp=2.8,pace=1.4,total=rows*cols){
+ const layout=deskLayout(total,pace),half=layout.roomSize/2;floor(Math.max(27,layout.roomSize+3));
+ const r=group();room(r,layout.roomSize);
+ layout.spots.forEach(pos=>desk(r,pos.x,pos.z,pos.rot,pos.width));
+ for(let i=0;i<Math.min(people,18);i++){const ang=i*2.399,rad=2.6+(i%5)*.85;figure(r,Math.sin(ang)*rad,Math.cos(ang)*rad,i)}
+ plant(r,-half+1.1,half-1.1);plant(r,half-1.1,-half+1.1);
+ label(r,'WORKPLACE · INTERACTIVE',0,4.3,-half+.2,.3);return r
+}
 function setLobby(){floor(32);const g=group();cyl(g,9.8,10.6,.5,0,-.1,0,M.metal,8);cyl(g,9.2,9.2,.18,0,.23,0,M.woodLight,8);for(let i=0;i<6;i++){const a=i*Math.PI/3;const x=Math.sin(a)*6.8,z=Math.cos(a)*6.8;let p=new THREE.Group();p.position.set(x,.2,z);p.rotation.y=-a;g.add(p);box(p,3.2,.08,3.2,0,.12,0,M.black);if(i%3===0){desk(p,0,0);chair(p,-.85,1.3)}else if(i%3===1){sofa(p,0,0)}else{shelf(p,0,0)}label(p,zoneData[i][2],0,2.9,0,.22)}counter(g,0,0);label(g,'PRACTIKA',0,3.8,0,.31);for(let a=0;a<6;a++)plant(g,Math.sin(a)*10.5,Math.cos(a)*10.5)}
 function setMaterials(){floor(29);const g=group();const types=[['WOODWORK',M.wood],['UPHOLSTERY',M.fabric],['METAL WORK',M.metal],['SPECIAL TECHNIQUE',M.gold]];for(let i=0;i<4;i++){const x=(i%2?1:-1)*4.8,z=(i<2?-1:1)*4.4;podium(g,types[i][0],x,z);const p=new THREE.Group();p.position.set(x,1.13,z);p.rotation.y=i*.9;g.add(p);if(i===0){box(p,1.8,.15,.9,0,1,0,M.woodLight);for(let j of [-.65,.65])box(p,.12,1.8,.9,j,.35,0,M.wood)}else if(i===1)sofa(p,0,0);else if(i===2){for(let h=0;h<4;h++)box(p,1.2-h*.1,.13,1.2-h*.1,0,h*.4+.55,0,M.metal)}else{box(p,1.5,1.3,1.2,0,1.2,0,M.glass);box(p,1.65,.12,1.32,0,1.93,0,M.gold)}}}
 function setRetail(){floor(28);const g=group();room(g,17);for(let i=0;i<3;i++){shelf(g,-4+i*4.2,-3.7);counter(g,-4+i*4.1,3.5)}figure(g,-2,3,0);figure(g,2,4,1);plant(g,7,-6);label(g,'RETAIL · BRAND EXPERIENCE',0,4.4,-8,.29)}
@@ -151,17 +184,32 @@ let azimuth=.55,elevation=.52,distance=31,drag=false,oldX=0,oldY=0;
 function updateCamera(){camera.position.set(Math.sin(azimuth)*Math.cos(elevation)*distance,Math.sin(elevation)*distance,Math.cos(azimuth)*Math.cos(elevation)*distance);camera.lookAt(target)}
 renderer.domElement.addEventListener('pointerdown',e=>{drag=true;oldX=e.clientX;oldY=e.clientY;autoOrbit=false;renderer.domElement.setPointerCapture(e.pointerId)});
 renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;azimuth-=(e.clientX-oldX)*.006;elevation=Math.max(.16,Math.min(1.24,elevation+(e.clientY-oldY)*.004));oldX=e.clientX;oldY=e.clientY;updateCamera()});
-renderer.domElement.addEventListener('pointerup',()=>drag=false);renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(11,Math.min(54,distance+e.deltaY*.022));updateCamera()},{passive:false});
+renderer.domElement.addEventListener('pointerup',()=>drag=false);
+renderer.domElement.addEventListener('pointercancel',()=>drag=false);
+renderer.domElement.addEventListener('lostpointercapture',()=>drag=false);
+renderer.domElement.tabIndex=0;renderer.domElement.setAttribute('role','application');
+renderer.domElement.setAttribute('aria-label','Interactive 3D view: arrow keys rotate, plus and minus zoom');
+renderer.domElement.style.touchAction='none';
+renderer.domElement.addEventListener('keydown',e=>{
+ if(!['ArrowLeft','ArrowRight','ArrowUp','ArrowDown','+','=','-','_'].includes(e.key))return;
+ e.preventDefault();autoOrbit=false;
+ if(e.key==='ArrowLeft')azimuth-=.13;else if(e.key==='ArrowRight')azimuth+=.13;
+ else if(e.key==='ArrowUp')elevation=Math.min(1.4,elevation+.08);
+ else if(e.key==='ArrowDown')elevation=Math.max(.14,elevation-.08);
+ else if(e.key==='+'||e.key==='=')distance=Math.max(8,distance-2);
+ else distance=Math.min(54,distance+2);
+ updateCamera();
+});renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(11,Math.min(54,distance+e.deltaY*.022));updateCamera()},{passive:false});
 function updateSim(){desks=+$('deskRange').value;aisle=+$('aisleRange').value;people=+$('peopleRange').value;
 $('deskVal').value=desks;$('aisleVal').value=aisle.toFixed(1)+' m';$('peopleVal').value=people;
 const utilization=Math.min(100,Math.round((desks*4.6+people*1.4)/180*100));const traffic=Math.round(people/Math.max(1,desks)*100);
 $('utilStat').textContent=utilization+'%';$('clearStat').textContent=aisle.toFixed(1)+' m';$('trafficStat').textContent=traffic<100?'LOW':traffic<210?'MED':'HIGH';$('utilBar').style.width=utilization+'%';
 $('simWarning').textContent=aisle<1.1?'ระยะทางเดินที่เลือกแคบในแบบจำลอง — ต้องตรวจแบบจริงและข้อกำหนดที่เกี่ยวข้องก่อนใช้งาน':'ค่าจำลองเพื่อการศึกษาเท่านั้น ไม่ใช้ยืนยันความจุอาคาร มาตรฐานความปลอดภัยหรือระยะอพยพ';return {utilization,traffic}}
-function drawScene(){clear();moveActors=[];if(mode==='overview')setLobby();else if(mode==='materials')setMaterials();else if(mode==='retail')setRetail();else if(mode==='education')setEducation();else if(mode==='health')setHealth();else if(mode==='residential')setResidential();else if(mode==='hospitality')setHospitality();else if(mode==='product')setProducts();else if(mode==='projects')setProjects();else if(mode==='service')setService();else workstation(Math.ceil(desks/4),Math.min(desks,4),3.05,aisle);distance=mode==='overview'?32:mode==='simulation'?34:29;azimuth=.56;elevation=.52;updateCamera()}
+function drawScene(){clear();moveActors=[];if(mode==='overview')setLobby();else if(mode==='materials')setMaterials();else if(mode==='retail')setRetail();else if(mode==='education')setEducation();else if(mode==='health')setHealth();else if(mode==='residential')setResidential();else if(mode==='hospitality')setHospitality();else if(mode==='product')setProducts();else if(mode==='projects')setProjects();else if(mode==='service')setService();else if(mode==='studio'||mode==='factory')floor(27);else workstation(Math.ceil(desks/4),Math.min(desks,4),3.05,aisle,desks);distance=mode==='overview'?32:mode==='simulation'?34:29;azimuth=.56;elevation=.52;updateCamera();engineV2?.afterScene(mode)}
 const sceneButtons=[['overview','OVERVIEW'],['workplace','WORKPLACE'],['retail','RETAIL'],['education','EDUCATION'],['health','HEALTH'],['residential','RESIDENTIAL'],['hospitality','HOSPITALITY']];
 $('sceneButtons').innerHTML=sceneButtons.map(x=>'<button class="scene-btn" data-scene="'+x[0]+'">'+x[1]+'</button>').join('');
 $('zoneCards').innerHTML=zoneData.map(x=>'<button class="zone-card" data-zone="'+x[0]+'"><span class="symbol">'+x[1]+'</span><span class="name">'+x[2]+'</span><span class="subtitle">'+x[3]+'</span></button>').join('');
-function setMode(m){mode=m;const t=titles[m]||titles.overview;$('heroTitle').innerHTML=t[0]+'<br>'+t[1];$('heroDesc').textContent=t[2];$('sideTitle').textContent=m==='overview'?'Explore Practika':(SOURCE[m]?.[0]||'Explore Practika');$('sideDesc').textContent=t[2];const s=SOURCE[m]||SOURCE.overview;$('sourceName').textContent=s[0];$('sourceLink').href=s[1];$('traceDesc').textContent='REA เชื่อมหมวด '+s[0]+' กลับสู่เว็บต้นฉบับ เพื่อใช้เทียบข้อมูลและตรวจสอบก่อนพัฒนาต่อ';document.querySelectorAll('[data-mode],[data-scene],[data-zone]').forEach(b=>b.classList.toggle('active',(b.dataset.mode||b.dataset.scene||b.dataset.zone)===m));$('scenarioLabel').textContent=m==='simulation'?'SCENARIO ACTIVE':'ILLUSTRATIVE MODEL';drawScene();history.replaceState(null,'','#'+m)}
+function setMode(m,recordHistory=true){mode=m;const t=titles[m]||titles.overview;$('heroTitle').innerHTML=t[0]+'<br>'+t[1];$('heroDesc').textContent=t[2];$('sideTitle').textContent=m==='overview'?'Explore Practika':(SOURCE[m]?.[0]||'Explore Practika');$('sideDesc').textContent=t[2];const s=SOURCE[m]||SOURCE.overview;$('sourceName').textContent=s[0];$('sourceLink').href=s[1];$('traceDesc').textContent='REA เชื่อมหมวด '+s[0]+' กลับสู่เว็บต้นฉบับ เพื่อใช้เทียบข้อมูลและตรวจสอบก่อนพัฒนาต่อ';document.querySelectorAll('[data-mode],[data-scene],[data-zone]').forEach(b=>b.classList.toggle('active',(b.dataset.mode||b.dataset.scene||b.dataset.zone)===m));$('scenarioLabel').textContent=m==='simulation'?'SCENARIO ACTIVE':'ILLUSTRATIVE MODEL';drawScene();if(recordHistory&&location.hash!=='#'+m)history.pushState(null,'','#'+m)}
 document.querySelectorAll('[data-mode],[data-scene],[data-zone]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode||b.dataset.scene||b.dataset.zone)));
 for(const id of ['deskRange','aisleRange','peopleRange'])$(id).addEventListener('input',()=>{updateSim();if(mode==='simulation')drawScene()});
 $('runSim').addEventListener('click',()=>{setMode('simulation');const metrics=updateSim();toast('อัปเดตการจำลอง · การใช้พื้นที่ '+metrics.utilization+'% · '+people+' ผู้ใช้งาน')});
@@ -169,8 +217,24 @@ $('pauseBtn').addEventListener('click',()=>{animating=!animating;$('pauseBtn').t
 $('resetBtn').addEventListener('click',()=>{autoOrbit=true;azimuth=.56;elevation=.52;distance=31;updateCamera();toast('รีเซ็ตมุมกล้องแล้ว')});
 $('qualityBtn').addEventListener('click',()=>{qualityHigh=!qualityHigh;renderer.setPixelRatio(qualityHigh?Math.min(devicePixelRatio,1.7):1);resize();toast(qualityHigh?'High quality':'Performance mode')});
 function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.id);toast.id=setTimeout(()=>$('toast').style.display='none',2600)}
-function tick(){requestAnimationFrame(tick);if(animating){clock+=.015;if(autoOrbit){azimuth+=.00065;updateCamera()}moveActors.forEach((p,i)=>{p.position.x=p.userData.baseX+Math.sin(clock*.56+i*2)*.38;p.position.z=p.userData.baseZ+Math.cos(clock*.49+i*2)*.3;p.rotation.y=Math.sin(clock*.56+i*2)})}renderer.render(scene,camera)}
-updateSim();setMode(location.hash.slice(1) in titles?location.hash.slice(1):'overview');resize();$('loading').style.display='none';tick();
+function tick(){requestAnimationFrame(tick);if(animating){clock+=.015;if(autoOrbit){azimuth+=.00065;updateCamera()}moveActors.forEach((p,i)=>{p.position.x=p.userData.baseX+Math.sin(clock*.56+i*2)*.38;p.position.z=p.userData.baseZ+Math.cos(clock*.49+i*2)*.3;p.rotation.y=Math.sin(clock*.56+i*2)})}if(animating)engineV2?.tick();renderer.render(scene,camera)}
+engineV2=installV2({THREE,$,renderer,camera,dyn,box,cyl,group,floor,room,label,M,setMode,getMode:()=>mode,getSim:()=>({desks,aisle,people}),setScenario:(v)=>{$('deskRange').value=v.desks;$('aisleRange').value=v.aisle;$('peopleRange').value=v.people;updateSim();setMode('simulation')},cameraPose:(a,e,d)=>{autoOrbit=false;azimuth=a;elevation=e;distance=d;updateCamera()},resetOrbit:()=>{autoOrbit=true;azimuth=.56;elevation=.52;distance=31;updateCamera()},getActors:()=>moveActors,getDeskLayout:deskLayout,disposeTree});
+addEventListener('popstate',()=>{const m=location.hash.slice(1)||'overview';if(m in titles&&m!==mode)setMode(m,false)});
+addEventListener('hashchange',()=>{const m=location.hash.slice(1)||'overview';if(m in titles&&m!==mode)setMode(m,false)});
+updateSim();setMode(location.hash.slice(1) in titles?location.hash.slice(1):'overview',false);resize();$('loading').style.display='none';window.__practikaV2Ready=true;
+if(new URLSearchParams(location.search).has('qa')){
+ window.__practikaQA=()=>({mode,requestedDesks:desks,placedDesks:deskLayout(desks,aisle).spots.length,
+ roomSize:deskLayout(desks,aisle).roomSize,geometries:renderer.info.memory.geometries,
+ textures:renderer.info.memory.textures,drawCalls:renderer.info.render.calls});
+}
+tick();
+</script>
+<script>
+setTimeout(function(){
+ if(window.__practikaV2Ready)return;
+ const loading=document.getElementById('loading');
+ if(loading){loading.innerHTML='<strong>ไม่สามารถเริ่ม 3D ได้ในขณะนี้</strong><span>ตรวจสอบ WebGL หรือการเชื่อมต่อเครือข่าย แล้วลองโหลดหน้านี้อีกครั้ง</span><a href="https://www.practika.com/" rel="noopener" style="color:#eac38a">เปิดเว็บ PRACTIKA ต้นฉบับ</a>';loading.style.zIndex='12';}
+},14000);
 </script>
 </body>
 </html>
