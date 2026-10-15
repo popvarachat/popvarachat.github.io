@@ -470,7 +470,7 @@ function chartLevel(){
  return '<div class="chart-columns" role="img" aria-label="ระดับหลักฐาน L2 สอง L1 หก L0 สี่ HOLD สอง">'+v.map(x=>
  '<div class="chart-col"><strong>'+x.count+'</strong><div class="chart-col-track"><div class="chart-col-bar" style="height:'+chartPercent(x.count,max)+'%;background:'+x.color+'"></div></div><span title="'+chartEsc(x.n)+'">'+chartEsc(x.n)+'</span></div>'
  ).join("")+'</div>'+
- '<div class="chart-col-notes">ปรับ WI แล้ว 2 เรื่อง ยังต้องตรวจผลจากงานจริง · <b>Effective Verified: 0/14</b></div>';
+ '<div class="chart-col-notes">กราฟแสดงขั้นความก้าวหน้า L0–L4 และรายการรอตรวจ CAR · <b>ยืนยันผลป้องกันซ้ำครบ 0/14</b></div>';
 }
 function chartFunnel(){
  const steps=[
@@ -494,7 +494,7 @@ function chartMatrix(){
  const hs=QMR_CHARTS.patterns;
  return '<div class="matrix-scroller"><table class="chart-matrix"><thead><tr><th>โครงการ / ลูกค้า</th>'+hs.map(p=>'<th title="'+chartEsc(p.detail)+'">'+chartEsc(p.n)+'</th>').join("")+'</tr></thead><tbody>'+
  cases.map(c=>'<tr><th><button type="button" data-chart-case="'+c.n+'">'+chartEsc(projectShort(c))+'</button></th>'+
- hs.map(p=>'<td><span class="matrix-cell '+(p.list.includes(c.n)?"yes":"no")+'" style="'+(p.list.includes(c.n)?"--signal:"+p.color:"")+'" title="'+chartEsc(p.n)+' · เคส #'+c.n+'">'+(p.list.includes(c.n)?"●":"—")+'</span></td>').join("")+'</tr>').join("")+
+ hs.map(p=>'<td><span class="matrix-cell '+(p.list.includes(c.n)?"yes":"no")+'" style="'+(p.list.includes(c.n)?"--signal:"+p.color:"")+'" title="'+chartEsc(p.n)+' · '+chartEsc(projectTitle(c))">'+(p.list.includes(c.n)?"●":"—")+'</span></td>').join("")+'</tr>').join("")+
  '</tbody></table></div><p class="chart-foot">จุดสีคือความเชื่อมโยงของรูปแบบการควบคุมที่ควรสอบกลับ ไม่ใช่หลักฐานว่าเกิดความผิดพลาดแบบเดียวกันซ้ำจริง</p>';
 }
 function renderAnalytics(){
@@ -510,7 +510,7 @@ function renderAnalytics(){
  tile("Cross-case Control Matrix","Heatmap: ความเชื่อมโยงของปัญหาเชิงระบบ ไม่ใช่การเกิดซ้ำที่ยืนยันแล้ว",chartMatrix(),true)+
  '</div>'+
  '<div class="chart-recurrence"><div class="recurrence-evidence"><div class="recurrence-caption">หลักฐานเกิดซ้ำหลังปิด CAR</div><strong>ยังไม่สามารถยืนยันได้</strong><p>ต้องพิสูจน์ว่าเหตุการณ์ใหม่เกิด <b>หลังวันใช้มาตรการ</b> และเป็น Failure Mode ที่มาตรการนั้นควรป้องกันได้ จึงจะสรุป CAR Effectiveness ไม่ผ่าน</p></div>'+
- '<div class="recurrence-evidence secondary"><div class="recurrence-caption">โครงการที่มีมากกว่า 1 ประเด็น</div><strong>#09 และ #10</strong><p>SC Tower มีทั้งปัญหาโครงสร้างรับน้ำหนักและงานผิว เป็นหลาย Defect ในโครงการเดียวกัน ไม่ใช่ข้อพิสูจน์ว่า Defect แบบเดียวเกิดซ้ำ</p><button type="button" data-chart-case="9">ดู #09</button> <button type="button" data-chart-case="10">ดู #10</button></div></div>'+
+ '<div class="recurrence-evidence secondary"><div class="recurrence-caption">โครงการที่มีมากกว่า 1 ประเด็น</div><strong>SC Tower · งาน Top และงานผิว</strong><p>SC Tower มีทั้งปัญหาโครงสร้างรับน้ำหนักและงานผิว เป็นหลาย Defect ในโครงการเดียวกัน ไม่ใช่ข้อพิสูจน์ว่า Defect แบบเดียวเกิดซ้ำ</p><button type="button" data-chart-case="9">Top หินแอ่น</button> <button type="button" data-chart-case="10">งานผิวโต๊ะ</button></div></div>'+
  '<div class="chart-caption">ที่มา: Register 14 เรื่อง + QMR CAR Audit + Controlled Document Lineage (ตรวจถึง 15 ต.ค. 2569) · กราฟวิเคราะห์โดยจัดประเภทตามความเสี่ยงและจุดควบคุม · ไม่ใช่ทะเบียนการเกิดซ้ำอย่างเป็นทางการ</div>';
  target.innerHTML=inner;
  target.querySelectorAll("[data-chart-case]").forEach(el=>el.addEventListener("click",()=>openCase(Number(el.dataset.chartCase))));
@@ -528,7 +528,7 @@ return cases.filter(c=>c.level===group).map(c=>{
 const met=summaryMeta[c.level],isClosed=c.state==="form_closed";
 const closeDesc=isClosed?"CAR ปิดฟอร์มแล้ว แต่ยังไม่ผ่าน Effectiveness":c.state==="partial_scd_extended"?"ปิดบางฝ่าย — SCD ค้าง":c.state==="identity_unresolved"?"CAR ยังไม่ยืนยันเหตุการณ์":"ยังไม่พบปิด CAR ครบ";
 return '<article class="qmr-card" style="--status:'+met.color+'">'+
-'<div class="qmr-card-header"><div class="qmr-card-title">#'+String(c.n).padStart(2,"0")+' · '+escapeHtml(projectTitle(c))+'<small>'+escapeHtml(c.event)+' · '+escapeHtml(c.car)+'</small></div><span class="qmr-tag">'+escapeHtml(c.level)+'</span></div>'+
+'<div class="qmr-card-header"><div class="qmr-card-title">'+escapeHtml(projectTitle(c))+'<small>'+escapeHtml(c.event)+' · '+escapeHtml(c.car)+' · ลำดับทะเบียน '+String(c.n).padStart(2,"0")+'</small></div><span class="qmr-tag" title="'+escapeHtml(c.level)+'">'+escapeHtml(levelShort(c.level))+'</span></div>'+
 '<div class="qmr-field evidence"><b>✓ สิ่งที่มีหลักฐานแล้ว</b><p>'+escapeHtml(c.evidence)+'</p></div>'+
 '<div class="qmr-field"><b>↻ สิ่งที่ควรทบทวน / ต้องเปลี่ยนระบบ</b><p>'+escapeHtml(c.form)+'</p></div>'+
 '<div class="qmr-field"><b>◎ ต้องพิสูจน์อย่างไร ก่อน QMR รับรอง</b><p>'+escapeHtml(c.test)+'</p></div>'+
@@ -543,10 +543,10 @@ const groups=["L2","L1","L0","HOLD"];
 const kpiCounts=Object.fromEntries(groups.map(k=>[k,cases.filter(c=>c.level===k).length]));
 const markup='<div class="summary-inner">'+
 '<header class="summary-hero"><div><span class="sum-eyebrow">QUALITY MANAGEMENT REVIEW · OCT 2026</span><h2>วิเคราะห์แนวทางการปิด CAR เชื่อมกระบวนการ และ WI Form</h2><p>คำถาม QMR: ถ้างานชนิดเดียวกันเกิดอีกในวันพรุ่งนี้ แม้เปลี่ยนพนักงานหรือเปลี่ยนทีม Supplier ระบบ WI, FORM, Spec, Checkpoint หรือ Approval Gate จะบังคับไม่ให้ผิดซ้ำได้อย่างไร? KYT / ประชุม / เน้นย้ำ ไม่ใช่ข้อยืนยันว่าป้องกันได้</p></div><div class="qmr-seal"><b>0 / 14</b><span>ยังไม่มีเคสที่หลักฐานครบถึง<br>Effectiveness Verified</span></div></header>'+
-'<div class="sum-kpis"><div class="sum-kpi verified"><span class="big" style="color:#78e6c5">'+kpiCounts.L2+'</span><span class="label">ได้แล้วเฉพาะระดับ WI</span><span class="desc">Leo Inter Design และ Klass Langsuan — รอตรวจผลใช้งานจริง</span></div>'+
-'<div class="sum-kpi review"><span class="big" style="color:#ffc28c">'+kpiCounts.L1+'</span><span class="label">ทบทวนมาตรการถาวร</span><span class="desc">มี RCA หรือแผนแล้ว แต่ยังขาด Control ที่ยืนยันได้</span></div>'+
-'<div class="sum-kpi missing"><span class="big" style="color:#ff9fa7">'+kpiCounts.L0+'</span><span class="label">ยังไม่มีหลักฐานระบบครบ</span><span class="desc">ต้องสร้าง/ยืนยัน Gate ที่บังคับปฏิบัติ</span></div>'+
-'<div class="sum-kpi hold"><span class="big" style="color:#b6cddd">'+kpiCounts.HOLD+'</span><span class="label">จับคู่ CAR ยังไม่ได้</span><span class="desc">ศาลตลิ่งชันและ Kokuyo — รอตรวจเลข CAR</span></div></div>'+
+'<div class="sum-kpis"><div class="sum-kpi verified"><span class="big" style="color:#78e6c5">'+kpiCounts.L2+'</span><span class="label">ปรับ WI แล้ว รอตรวจผลจริง</span><span class="desc">Leo Inter Design และ Klass Langsuan — รอตรวจผลใช้งานจริง</span></div>'+
+'<div class="sum-kpi review"><span class="big" style="color:#ffc28c">'+kpiCounts.L1+'</span><span class="label">มีแผน รอพิสูจน์มาตรการ</span><span class="desc">มี RCA หรือแผนแล้ว แต่ยังขาด Control ที่ยืนยันได้</span></div>'+
+'<div class="sum-kpi missing"><span class="big" style="color:#ff9fa7">'+kpiCounts.L0+'</span><span class="label">หลักฐานป้องกันซ้ำยังไม่ครบ</span><span class="desc">ต้องสร้าง/ยืนยัน Gate ที่บังคับปฏิบัติ</span></div>'+
+'<div class="sum-kpi hold"><span class="big" style="color:#b6cddd">'+kpiCounts.HOLD+'</span><span class="label">รอตรวจ CAR ให้ตรงเหตุการณ์</span><span class="desc">ศาลตลิ่งชันและ Kokuyo — รอตรวจเลข CAR</span></div></div>'+
 '<div class="summary-note"><span style="font-size:21px">⚠</span><p><b>อ่านผลอย่างระมัดระวัง:</b> การปิดตามฟอร์มพบ 6 เคส โดย Leo Inter Design และ Klass Langsuan ตรวจยืนยันการปรับ WI ที่ตรงสาเหตุได้จากเอกสารควบคุม การไม่พบหลักฐานครบไม่ได้พิสูจน์ว่ามาตรการล้มเหลว เพียงแต่ <b>ยังไม่อาจรับรอง Effective</b> และยังไม่มีการเปลี่ยนสถานะ CAR จริงในระบบ ISO</p></div>'+
 '<div class="level-simple-guide"><b>ความหมายของระดับการปิด CAR</b><div class="level-guide-grid">'+
  ['L0','L1','L2','L3','L4','HOLD'].map(code=>'<div class="level-guide-item"><strong>'+escapeHtml(levelShort(code))+'</strong><span>'+escapeHtml(levelLong(code))+'</span><small>'+code+'</small></div>').join('')+
