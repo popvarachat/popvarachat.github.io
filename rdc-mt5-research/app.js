@@ -218,7 +218,7 @@ function renderFamilyResearch(f,d,ageMins){
  t("family-current",String(f.family_number).padStart(2,"0")+" / "+f.family_total+" · "+f.current_name);
  const stages={QUEUE_READY:"เตรียมทดลองระบบถัดไป",FIT_RUNNING:"กำลัง Backtest: Fit (2019–2024)",
  VAL_RUNNING:"กำลัง Backtest: Validation (2025)",CANDIDATE_EVALUATED:"เสร็จ 1 Challenger · ประเมินคะแนนแล้ว",
- WAITING_DAILY_MT5_BUDGET:"รอรอบทดสอบ / โควตาประจำวัน",FAILED:"เกิดข้อผิดพลาด — ดู Evidence"};
+ WAITING_DAILY_MT5_BUDGET:"รอรอบทดสอบถัดไป (ไม่มีโควตารายวัน)",FAILED:"เกิดข้อผิดพลาด — ดู Evidence"};
  t("family-current-stage",stages[f.current_step]||f.current_step||"กำลังตรวจสถานะ");
  t("family-trial-caption","Parameter Set "+f.trial_number+" / "+f.trials_per_family+" · "+(f.current_step||"QUEUE"));
  t("family-trial-percent",fmt(f.trial_progress_pct,0)+"%");
