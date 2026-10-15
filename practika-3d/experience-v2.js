@@ -14,6 +14,7 @@ export function install(c) {
  const aside=document.querySelector('.sidebar');
  function makeUI(){
    tab.insertAdjacentHTML('beforeend','<button data-mode="studio">DESIGN STUDIO</button><button data-mode="factory">PROCESS TWIN</button>');
+   tab.querySelectorAll('button[data-mode="studio"],button[data-mode="factory"]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode)));
    stage.insertAdjacentHTML('beforeend',[
    '<div class="v2-scene"><b>ENGINEERING EXPERIENCE / LEVEL 02</b><span id="v2Status">INTERACTIVE ARCHITECTURE</span></div>',
    '<div class="v2-diagnostics"><span>OBJECTS <b id="v2Count">0</b></span><span>AGENTS <b id="v2AgentCount">0</b></span></div>',
