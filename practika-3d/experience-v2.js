@@ -55,7 +55,7 @@ export function install(c) {
    document.querySelectorAll('[data-type]').forEach(b=>b.addEventListener('click',()=>{state.kind=b.dataset.type;goStudio()}));
    $('v2Width').addEventListener('input',()=>{state.size=+$('v2Width').value;goStudio()});
    document.querySelectorAll('[data-finish]').forEach(b=>b.addEventListener('click',()=>{state.finish=b.dataset.finish;goStudio()}));
-   $('v2Explode').addEventListener('click',()=>{state.exploded=!state.exploded;explode();$('v2Explode').classList.toggle('active',state.exploded)});
+   $('v2Explode').addEventListener('click',()=>{state.exploded=!state.exploded;explode();$('v2Explode').classList.toggle('active',state.exploded);$('v2Explode').setAttribute('aria-pressed',String(state.exploded))});
    $('v2ResetDesign').addEventListener('click',()=>{state.kind='desk';state.finish='oak';state.size=2.2;state.exploded=false;$('v2Width').value='2.2';goStudio()});
    for(const [name,values] of Object.entries({A:{desks:8,aisle:1.8,people:8},B:{desks:16,aisle:1.1,people:16},C:{desks:24,aisle:0.8,people:30}}))
       document.querySelector('[data-scenario="'+name+'"]').addEventListener('click',()=>{setScenario(values);document.querySelectorAll('[data-scenario]').forEach(x=>x.classList.toggle('active',x.dataset.scenario===name));note('Scenario '+name+' · A* routes recalculated')});
@@ -91,7 +91,15 @@ export function install(c) {
   }
   return g;
  }
+ function resetInspector(){
+   $('v2ObjectName').textContent='Select a 3D component';
+   $('v2ObjectDesc').textContent='เลือกชิ้นส่วนในฉากหรือจากปุ่มรายการ เพื่อดูคำอธิบาย';
+   $('v2ObjectPart').textContent='—';
+   $('v2PartButtons').replaceChildren();
+   $('v2Evidence').href=$('sourceLink').href;
+ }
  function rebuildStudio(){
+  resetInspector();
   if(state.model){dyn.remove(state.model);disposeTree(state.model)}
   state.selection=[];state.pieces=[];
   const g=new THREE.Group();dyn.add(g);state.model=g;
@@ -219,6 +227,7 @@ export function install(c) {
  function afterScene(mode){
   // Old scene GPU resources are centrally disposed by the owning shell before calling afterScene().
   state.mode=mode;state.model=null;state.flow=null;state.agents=[];state.pieces=[];state.selection=[];
+  resetInspector();
   const preset={A:{desks:8,aisle:1.8,people:8},B:{desks:16,aisle:1.1,people:16},C:{desks:24,aisle:.8,people:30}};
   const simNow=getSim();document.querySelectorAll('[data-scenario]').forEach(btn=>{const v=preset[btn.dataset.scenario];btn.classList.toggle('active',v.desks===simNow.desks&&v.people===simNow.people&&Math.abs(v.aisle-simNow.aisle)<.051)});
   if(mode==='studio'){rebuildStudio();cameraPose(.52,.40,11.8)}
