@@ -563,6 +563,18 @@ function renderResearchLeague(l,d){
  t("league-champion-sub",champ?"Native MT5 2025 Validation · Round "+champ.round+" / Trial "+champ.trial+" · "+
    champ.trades+" closed trades · ยังไม่ใช่ Production Champion":"กำลังรอ Challenger ที่ผ่านเกณฑ์ Judge");
  const next=l.next_fixture;
+ const universe=l.experiment_universe||{};
+ t("league-macd-protocols",universe.certified_macd_protocol_combinations||"—");
+ t("league-other-protocols",(universe.certified_multifamily_protocol_combinations_per_family||"—")+" × 9");
+ const degrees=universe.supported_dimensions?.adaptive_degrees;
+ t("league-adaptive-levels",degrees?"D"+degrees.ready.join(" / D")+" READY":"—");
+ t("league-backlog-count",(universe.ready_adapter_families||"—")+" EA READY · "+(universe.unavailable_adapter_families||"—")+" PENDING");
+ const dimensions=next?.dimensions;
+ t("league-dimension-status",dimensions?"MULTIDIMENSIONAL ACTIVE · ROUND "+next.round:"CERTIFIED MATRIX ARMS IN ROUND 4");
+ t("league-next-dimension",dimensions?
+    dimensions.protocol_id+" · FIT "+dimensions.fit_from+"–"+dimensions.fit_to+
+    " · VAL "+dimensions.val_from+"–"+dimensions.val_to+" · "+dimensions.validation_type:
+    "จบ Round 3 แล้ว Promoter เริ่มหมุนมิติ Timeframe, Rolling Window, Regime, Exit, ไม้ซ้อน และ Lot เฉพาะ EA ที่รองรับจริง");
  t("league-next-family",next?next.family+" · R"+next.round+" / T"+next.trial:"Await next fixture");
  const parameters=next?.params;
  const desc=parameters?"Fast "+parameters.fast+" · Slow "+parameters.slow+" · Period "+

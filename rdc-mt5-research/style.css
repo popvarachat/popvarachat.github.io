@@ -195,3 +195,14 @@
 .league-match .flags{display:block;width:100%;color:#bfad91;font-size:10px}
 @media(max-width:850px){.league-featured{grid-template-columns:1fr}.league-agent-grid{grid-template-columns:repeat(2,1fr)}.league-score-grid{grid-template-columns:repeat(2,1fr)}}
 @media(max-width:600px){.league-overview-banner{flex-wrap:wrap}.league-agent-grid{grid-template-columns:1fr}.league-match .match-decision{margin-left:0}}
+
+/* Multi-dimensional Experiment Universe: supported vs pending capability boundaries */
+.league-universe-panel{margin-bottom:14px;border-color:#56738b}
+.league-dim-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:10px 0 14px}
+.league-dim-grid>div{border:1px solid #355565;background:#122d3b;border-radius:11px;min-height:94px;padding:12px}
+.league-dim-grid small{display:block;color:#93b4c0;font-size:9px;font-weight:800;letter-spacing:.4px}
+.league-dim-grid strong{display:block;margin:6px 0;color:#8cf6c5;font-weight:900;font-size:22px}
+.league-dim-grid span{display:block;color:#adc4ca;font-size:10px;line-height:1.4}
+.league-next-dimension{border:1px solid #365a68;border-radius:9px;padding:12px;color:#c6e4dc;background:#102b38;font-size:11px}
+@media(max-width:1000px){.league-dim-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:530px){.league-dim-grid{grid-template-columns:1fr 1fr}.league-dim-grid strong{font-size:18px}}
