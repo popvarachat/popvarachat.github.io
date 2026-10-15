@@ -218,6 +218,7 @@ async function loadRemote(){
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
+  renderQwenCrossReview(d.qwen_cross_review||null);
   renderMetaLearning(d.learning_intelligence||null);
   renderShortTfFeasibility(d.short_tf_feasibility||null);
   t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
@@ -263,6 +264,7 @@ async function loadRemote(){
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
+    renderQwenCrossReview(previous.qwen_cross_review||null);
     renderMetaLearning(previous.learning_intelligence||null);
     renderShortTfFeasibility(previous.short_tf_feasibility||null);
     t("family-run-status","STALE · FEED INTERRUPTED");
@@ -752,4 +754,23 @@ function renderShortTfFeasibility(e){
  t("shorttf-summary",(e.cases?.length||0)+
     " TF ผ่าน Native PC Tester QA · มกราคม 2025 เพียง 3 วัน · Real Tick mode requested · "+
     "ไม่ใช่ HFT ระดับสถาบัน / ยังไม่รับรอง Tick completeness, Slippage หรือ Live latency");
+}
+
+/* Qwen3 vs signed-in ChatGPT: display only verified PRIVATE GitHub cross-review
+ * aggregates, not untrusted hypothesis text, not live trading authorization. */
+function renderQwenCrossReview(review){
+ if(!review || review.schema!=="rdc.qwen.review.status.v1"){
+  t("qwen-review-note","ไม่มีผล Independent Reviewer ล่าสุดจาก PC · Qwen3 ยังคง SHADOW");
+  return;
+ }
+ t("qwen-review-posted",String(review.posted_total??0));
+ t("qwen-review-total",String(review.completed_reviews??0));
+ t("qwen-review-plausible",String(review.verdicts?.REVIEWED_PLAUSIBLE??0));
+ t("qwen-review-pending",String(review.verdicts?.INSUFFICIENT_EVIDENCE??0));
+ const msg=review.auto_permissions_granted?
+  "REVIEW POLICY ALERT: ตรวจสิทธิ์ก่อนใช้จริง":
+  "Qwen3: SHADOW ONLY · Codex ChatGPT: independent review on Notebook · "+
+  "Rejected "+String(review.verdicts?.REJECTED??0)+" · "+
+  "สอดคล้องกัน ≠ พิสูจน์ว่าถูกต้อง · ต้องผ่าน MT5 และ Human Gate ก่อน";
+ t("qwen-review-note",msg);
 }
