@@ -218,6 +218,8 @@ async function loadRemote(){
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
+  renderDiscoveryManager(d.discovery_manager||null);
+  renderExternalResearch(d.external_discovery||null);
   renderQwenCrossReview(d.qwen_cross_review||null);
   renderMetaLearning(d.learning_intelligence||null);
   renderShortTfFeasibility(d.short_tf_feasibility||null);
@@ -264,6 +266,8 @@ async function loadRemote(){
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
+    renderDiscoveryManager(previous.discovery_manager||null);
+    renderExternalResearch(previous.external_discovery||null);
     renderQwenCrossReview(previous.qwen_cross_review||null);
     renderMetaLearning(previous.learning_intelligence||null);
     renderShortTfFeasibility(previous.short_tf_feasibility||null);
@@ -773,4 +777,63 @@ function renderQwenCrossReview(review){
   "Rejected "+String(review.verdicts?.REJECTED??0)+" · "+
   "สอดคล้องกัน ≠ พิสูจน์ว่าถูกต้อง · ต้องผ่าน MT5 และ Human Gate ก่อน";
  t("qwen-review-note",msg);
+}
+
+/* Discovery Agent Manager publishes aggregate counts only; proposals remain PC-private. */
+function renderDiscoveryManager(m){
+ if(!m || m.schema!=="rdc.discovery_manager.queue.v1"){
+  t("discovery-status","รอ Discovery Manager checkpoint จาก PC · คิว MT5 เดิมยังทำงานอิสระ");return;
+ }
+ t("discovery-total",String(m.total_discovered??0));
+ t("discovery-ready",String(m.ready_for_promoter_revalidation??0));
+ t("discovery-blocked",String(m.blocked_or_review??0));
+ t("discovery-linked",String(m.completed_with_native_evidence??0));
+ const node=$("discovery-categories");if(node){node.replaceChildren();
+  const names={"CERTIFIED_FIXTURE":"EA-ready fixtures · await Promoter check",
+   "HYPOTHESIS_TO_CERTIFY":"Failure-driven hypotheses",
+   "EA_ADAPTER_BACKLOG":"EA adapters to build",
+   "CAPABILITY_BACKLOG":"New adaptive capabilities",
+   "SHORT_TF_STRESS_BACKLOG":"M1–M30 cost & tick QA",
+   "PLANNING_BLOCKER":"Planner blockers",
+   "EXTERNAL_AI_QUANT_RESEARCH":"Public AI / Quant / GitHub / arXiv"};
+  for(const [kind,n] of Object.entries(m.pending_by_kind||{})){
+   const el=document.createElement("div");el.className="discovery-category";
+   const title=document.createElement("span");title.textContent=names[kind]||kind;
+   const count=document.createElement("strong");count.textContent=String(n);
+   el.append(title,count);node.appendChild(el);
+  }
+ }
+ const ts=m.generated_utc?new Date(m.generated_utc).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"—";
+ t("discovery-status","อัปเดตจาก PC "+ts+
+   " · "+String(m.pending_total||0)+" cases pending · "+
+   "ผลจริงต้องผ่าน MT5 FIT/VAL & Native SHA ก่อน · ไม่แทรกเคสที่ยังไม่รับรอง");
+}
+
+/* Browser read-only citation radar, safe public source URLs only, no remote execution. */
+function renderExternalResearch(q){
+ const root=$("discovery-external-examples");
+ if(!root)return;
+ root.replaceChildren();
+ if(!q||q.schema!=="rdc.external.discovery.v1"){
+  t("discovery-external-count","รอผลค้นหา Public Sources จาก PC");return;
+ }
+ t("discovery-external-count",String(q.total_external_cases||0)+
+  " เคสอ้างอิง · GitHub + arXiv · "+(q.status||"UNKNOWN")+" (QA REQUIRED)");
+ const sources=(q.cases_sample||[]).slice(0,6);
+ for(const s of sources){
+  const url=String(s.source_url||"");
+  let ok=false;
+  try{const v=new URL(url);ok=v.protocol==="https:"&&
+    ["github.com","arxiv.org","export.arxiv.org"].includes(v.hostname)&&
+    !v.username&&!v.password;}catch(err){}
+  const box=document.createElement("div");box.className="discovery-public-item";
+  const head=document.createElement(ok?"a":"span");
+  if(ok){head.href=url;head.target="_blank";head.rel="noopener noreferrer";}
+  head.textContent=String(s.source_title||"Public research")+
+    (ok?" ↗":"");
+  const meta=document.createElement("small");
+  meta.textContent=String(s.source||"PUBLIC")+" · "+
+    String(s.objective||"RESEARCH")+" · LICENSE: "+String(s.license_id||"UNKNOWN");
+  box.append(head,meta);root.append(box);
+ }
 }

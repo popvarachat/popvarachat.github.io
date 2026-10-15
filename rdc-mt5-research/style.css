@@ -249,3 +249,25 @@
 .shorttf-pilot-panel .table-scroll{margin-top:10px}
 .shorttf-loss{font-weight:800;color:#f2a5a5}
 .shorttf-pilot-panel td,.shorttf-pilot-panel th{font-size:10px;white-space:nowrap}
+
+/* Continuous Discovery Manager: distinct from live MT5 execution. */
+.discovery-manager-panel{border-color:#426c79;margin:0 0 15px}
+.discovery-categories{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:7px;margin:5px 0 13px}
+.discovery-category{display:flex;align-items:center;justify-content:space-between;gap:10px;
+ border:1px solid #355561;background:#102c36;border-radius:8px;padding:9px 11px;min-width:0}
+.discovery-category span{font-size:11px;color:#c7dfdb;line-height:1.3;overflow-wrap:anywhere}
+.discovery-category strong{font-size:15px;color:#a3efd4;font-weight:900}
+@media(max-width:950px){.discovery-categories{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:540px){.discovery-categories{grid-template-columns:1fr}}
+
+.discovery-external-top{display:flex;align-items:center;justify-content:space-between;
+ gap:12px;margin:13px 0 8px;color:#c5efe0;font-size:12px}
+.discovery-external-top span{font-size:10px;color:#acd0cc}
+.discovery-public-links{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:6px}
+.discovery-public-item{background:#102e38;border:1px solid #315966;border-radius:7px;
+ padding:9px 11px;min-width:0;display:flex;flex-direction:column;gap:5px}
+.discovery-public-item a,.discovery-public-item>span{color:#d4f2eb;font-size:11px;
+ line-height:1.35;text-decoration:none;overflow-wrap:anywhere}
+.discovery-public-item a:hover{text-decoration:underline}
+.discovery-public-item small{color:#9abcb8;font-size:9px}
+@media(max-width:670px){.discovery-public-links{grid-template-columns:1fr}}
