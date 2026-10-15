@@ -221,7 +221,13 @@ function tick(){requestAnimationFrame(tick);if(animating){clock+=.015;if(autoOrb
 engineV2=installV2({THREE,$,renderer,camera,dyn,box,cyl,group,floor,room,label,M,setMode,getMode:()=>mode,getSim:()=>({desks,aisle,people}),setScenario:(v)=>{$('deskRange').value=v.desks;$('aisleRange').value=v.aisle;$('peopleRange').value=v.people;updateSim();setMode('simulation')},cameraPose:(a,e,d)=>{autoOrbit=false;azimuth=a;elevation=e;distance=d;updateCamera()},resetOrbit:()=>{autoOrbit=true;azimuth=.56;elevation=.52;distance=31;updateCamera()},getActors:()=>moveActors,getDeskLayout:deskLayout,disposeTree});
 addEventListener('popstate',()=>{const m=location.hash.slice(1);if(m in titles&&m!==mode)setMode(m,false)});
 addEventListener('hashchange',()=>{const m=location.hash.slice(1);if(m in titles&&m!==mode)setMode(m,false)});
-updateSim();setMode(location.hash.slice(1) in titles?location.hash.slice(1):'overview',false);resize();$('loading').style.display='none';window.__practikaV2Ready=true;tick();
+updateSim();setMode(location.hash.slice(1) in titles?location.hash.slice(1):'overview',false);resize();$('loading').style.display='none';window.__practikaV2Ready=true;
+if(new URLSearchParams(location.search).has('qa')){
+ window.__practikaQA=()=>({mode,requestedDesks:desks,placedDesks:deskLayout(desks,aisle).spots.length,
+ roomSize:deskLayout(desks,aisle).roomSize,geometries:renderer.info.memory.geometries,
+ textures:renderer.info.memory.textures,drawCalls:renderer.info.render.calls});
+}
+tick();
 </script>
 <script>
 setTimeout(function(){
