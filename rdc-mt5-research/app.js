@@ -24,7 +24,11 @@ function nav(name){
  document.querySelectorAll(".page").forEach(n=>n.classList.toggle("active",n.id==="page-"+name));
  window.scrollTo({top:0,behavior:"smooth"});
 }
-document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>nav(b.dataset.tab)));
+document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>{nav(b.dataset.tab);history.replaceState(null,"","#"+b.dataset.tab);}));
+const validTabs=new Set(["overview","workflow","analytics","evidence","control"]);
+function openTabFromHash(){const tab=location.hash.slice(1);if(validTabs.has(tab))nav(tab);}
+window.addEventListener("hashchange",openTabFromHash);
+openTabFromHash();
 $("refresh-button").addEventListener("click",()=>load(true));
 $("strategy-filter").addEventListener("change",()=>renderBlocks());
 document.querySelectorAll("[data-node]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".node").forEach(c=>c.classList.toggle("active",b===c));const k=NODE[b.dataset.node];t("node-title",k[0]);t("node-badge","RESEARCH NODE");t("node-description",k[1]);t("node-proof",k[2]);}));
