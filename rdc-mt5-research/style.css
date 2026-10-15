@@ -108,3 +108,8 @@
 .family-active{min-height:194px}
 @media(max-width:1250px){.loop-live-operations{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:650px){.loop-live-operations{grid-template-columns:1fr 1fr;gap:6px}.loop-live-primary,.loop-live-cell{padding:9px;min-height:85px}.loop-live-operations strong{font-size:12px}.loop-live-operations small{font-size:8px}}
+
+.loop-feed-detail{display:flex;justify-content:space-between;align-items:center;gap:10px;margin:-3px 0 10px;color:#95c4bd;font-size:11px}
+.loop-feed-detail button{font-size:11px;border:1px solid #427a76;border-radius:8px;padding:7px 12px;background:#13483f;color:#c6ffee;cursor:pointer}
+.loop-feed-detail button:hover{background:#206f59}
+@media(max-width:650px){.loop-feed-detail{flex-wrap:wrap}}

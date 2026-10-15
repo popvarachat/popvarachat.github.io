@@ -29,7 +29,7 @@ const validTabs=new Set(["overview","workflow","analytics","evidence","control"]
 function openTabFromHash(){const tab=location.hash.slice(1);if(validTabs.has(tab))nav(tab);}
 window.addEventListener("hashchange",openTabFromHash);
 openTabFromHash();
-$("refresh-button").addEventListener("click",()=>load(true));
+$("refresh-button").addEventListener("click",()=>{load(true);loadRemote();});
 $("strategy-filter").addEventListener("change",()=>renderBlocks());
 document.querySelectorAll("[data-node]").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".node").forEach(c=>c.classList.toggle("active",b===c));const k=NODE[b.dataset.node];t("node-title",k[0]);t("node-badge","RESEARCH NODE");t("node-description",k[1]);t("node-proof",k[2]);}));
 function renderKpis(d){
@@ -157,21 +157,49 @@ async function load(force){
 }
 load();setInterval(()=>load(false),15000);
 
+// Public dashboard resilient telemetry: raw JSON first (no low anonymous GitHub API quota).
+// Fall back to published GitHub Pages snapshot and finally GitHub Contents API.
+let latestDataFeedSource="LOADING";
+const RDC_PUBLIC_RESEARCH_PATH="popvarachat/popvarachat.github.io/main/rdc-mt5-research/data/live.json";
+async function fetchResearchTelemetry(){
+ const nonce="?t="+Math.floor(Date.now()/60000);
+ const endpoints=[
+  {name:"GitHub Raw · current repository data",url:"https://raw.githubusercontent.com/"+RDC_PUBLIC_RESEARCH_PATH+nonce},
+  {name:"GitHub Pages · released checkpoint",url:"./data/live.json"+nonce},
+  {name:"GitHub API · fallback",url:"https://api.github.com/repos/popvarachat/popvarachat.github.io/contents/rdc-mt5-research/data/live.json"+nonce}
+ ];
+ // On POP-FARM01 localhost, prefer its own most-recent PC checkpoint.
+ if(["localhost","127.0.0.1"].includes(location.hostname)){
+  endpoints.unshift({name:"PC Local · current research evidence",url:"./data/live.json"+nonce});
+ }
+ const failures=[];
+ for(const endpoint of endpoints){
+  try{
+   const ctl=new AbortController();
+   const timeout=setTimeout(()=>ctl.abort(),8500);
+   let response;
+   try{
+    response=await fetch(endpoint.url,{cache:"no-store",signal:ctl.signal});
+   }finally{clearTimeout(timeout);}
+   if(!response.ok)throw Error("HTTP "+response.status);
+   const payload=await response.json();
+   let d=payload;
+   if(payload.encoding==="base64" && typeof payload.content==="string"){
+    const bytes=atob(payload.content.replace(/\s/g,""));
+    d=JSON.parse(new TextDecoder().decode(Uint8Array.from(bytes,c=>c.charCodeAt(0))));
+   }
+   if(d?.schema!=="rdc.research.public.live.v1" || d.indicator_research?.schema!=="rdc.indicator.family.loop.v1")throw Error("MISSING_INDICATOR_EVIDENCE");
+   return {data:d,source:endpoint.name};
+  }catch(e){failures.push(endpoint.name+": "+String(e.message||e));}
+ }
+ throw Error(failures.join(" | "));
+}
 async function loadRemote(){
  try{
-  const local=location.hostname==="127.0.0.1"||location.hostname==="localhost";
-  let d;
-  if(local){
-   const r=await fetch("./data/live.json?r="+Date.now(),{cache:"no-store"});
-   if(!r.ok)throw new Error("live not initialized");d=await r.json();
-  }else{
-   const url="https://api.github.com/repos/popvarachat/popvarachat.github.io/contents/rdc-mt5-research/data/live.json?t="+Date.now();
-   const r=await fetch(url,{headers:{"Accept":"application/vnd.github+json"},cache:"no-store"});
-   if(!r.ok)throw new Error("public checkpoint absent");
-   const content=await r.json();
-   d=JSON.parse(decodeURIComponent(Array.from(atob(content.content.replace(/\s/g,"")),c=>"%"+c.charCodeAt(0).toString(16).padStart(2,"0")).join("")));
-  }
-  if(d.schema!=="rdc.research.public.live.v1")throw new Error("Unknown schema");
+  const {data:d,source}=await fetchResearchTelemetry();
+  latestDataFeedSource=source;
+  try{localStorage.setItem("rdc_research_last_good_v1",JSON.stringify(d));}catch(e){} 
+  t("family-data-source","Source: "+source+" · "+new Date(d.generated_at).toLocaleTimeString("th-TH",{timeZone:"Asia/Bangkok"}));
   const ago=(Date.now()-Date.parse(d.generated_at))/60000;
   t("remote-checkpoint-chip",ago<25?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
@@ -204,12 +232,27 @@ async function loadRemote(){
   t("remote-heartbeat",d.last_heartbeat?new Date(d.last_heartbeat).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"—");
   t("remote-last-test",d.last_test?new Date(d.last_test).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"—");
  }catch(e){
+  let previous=null;
+  try{previous=JSON.parse(localStorage.getItem("rdc_research_last_good_v1")||"null");}catch(ignore){}
+  if(previous?.schema==="rdc.research.public.live.v1" && previous.indicator_research){
+    const minutes=(Date.now()-Date.parse(previous.generated_at))/60000;
+    latestLoopStatus={f:previous.indicator_research,d:previous};
+    renderFamilyResearch(previous.indicator_research,previous,minutes);
+    refreshLiveMonitor();
+    t("family-run-status","STALE · FEED INTERRUPTED");
+    t("family-data-source","Last cached checkpoint · data "+Math.round(minutes)+"m old");
+  }else{
+    t("family-run-status","DATA FEED ERROR · RETRYING");
+    t("family-current","ข้อมูลชั่วคราวไม่พร้อม");
+    t("family-current-stage","อ่าน Progress ไม่ได้ · ระบบ PC อาจยังทำงานอยู่");
+    t("family-data-source","เครือข่าย / GitHub ชั่วคราวผิดพลาด");
+  }
   t("remote-runner","CHECKPOINT UNAVAILABLE");
-  t("remote-checkpoint-chip","NOT VERIFIED");
-  console.warn("Remote checkpoint not available",e.message);
+  t("remote-checkpoint-chip","FEED ERROR · RETRYING");
+  console.warn("Research telemetry degraded; all 3 public endpoints failed",e.message);
  }
 }
-loadRemote();setInterval(loadRemote,120000);
+loadRemote();setInterval(loadRemote,60000);
 
 function renderFamilyResearch(f,d,ageMins){
  if(f.schema!=="rdc.indicator.family.loop.v1")return;
@@ -329,3 +372,7 @@ function refreshLiveMonitor(){
  t("loop-data-delay","Checkpoint "+Math.floor(dataAge)+" นาทีที่ผ่านมา · อัปเดต PC ทุก ~15 นาที");
 }
 setInterval(refreshLiveMonitor,20000);
+
+
+const retryFeedButton=document.getElementById("retry-live-feed");
+if(retryFeedButton)retryFeedButton.addEventListener("click",()=>loadRemote());
