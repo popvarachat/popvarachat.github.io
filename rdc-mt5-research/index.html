@@ -17,7 +17,21 @@
 <div class="side-bottom"><div class="host-lock"><b>▣ MT5 / PC-ONLY</b><small>Execution Guard Enabled</small></div><p>READ-ONLY MONITOR<br>Zero live orders from Web</p><a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">Private Source of Truth ↗</a></div>
 </aside>
 <main class="main"><header class="topbar"><div class="breadcrumbs">RDC <em>/</em> RESEARCH LAB <em>/</em> <b>GOLDmicro</b></div><div class="header-right"><a class="top-command" href="#control" aria-label="ไปยังหน้าสั่งงาน RDC">⌘ สั่งงาน RDC</a><span id="mode-pill" class="chip">LOADING</span><i class="light"></i><span id="process-state">RESEARCH HOLD</span></div></header>
-<div class="content"><div id="load-error" class="alert" hidden>โหลด Snapshot ไม่สำเร็จ โปรดตรวจสอบ Local Server หรือไฟล์ data/snapshot.json</div>
+<div class="content"><section id="research-market-tape" class="research-market-tape" aria-label="Research activity ticker based on verified PC evidence">
+  <div class="market-tape-header">
+    <div class="market-tape-label"><span id="market-tape-dot" class="market-tape-dot"></span><div><strong>RDC RESEARCH LIVE BOARD</strong><small id="market-tape-mode">กำลังตรวจหลักฐานจาก PC...</small></div></div>
+    <div class="market-tape-timestamp"><span id="market-tape-verified">กำลังรับ Checkpoint</span><span class="market-tape-readonly">PC MT5 ONLY · RESEARCH</span></div>
+  </div>
+  <div class="market-tape-track-wrap"><div id="market-tape-track" class="market-tape-track" aria-label="Research activity summary">
+    <div class="market-tape-runner"><span class="market-tape-item"><b>WAITING FOR PC EVIDENCE</b><small>NO TRADING DATA IS SIMULATED</small></span></div>
+  </div></div>
+  <div class="market-tape-second"><span class="market-tape-event-label">RECENT PC EVENTS</span>
+    <div class="market-tape-event-mask"><div id="market-event-track" class="market-event-track">
+      <div class="market-event-runner"><span class="market-event-item">รอเหตุการณ์ที่บันทึกจาก MT5 บน PC</span></div>
+    </div></div>
+  </div>
+  <div class="market-tape-footer"><span id="market-tape-source">Source: waiting</span><span id="market-tape-count">Refresh from PC checkpoint ≈ 15 min · Browser checks every 1 min</span></div>
+</section><div id="load-error" class="alert" hidden>โหลด Snapshot ไม่สำเร็จ โปรดตรวจสอบ Local Server หรือไฟล์ data/snapshot.json</div>
 <section class="page active" id="page-overview">
 <div class="heading"><div><div class="eyebrow">RESEARCH CONTROL TOWER / SYSTEM INTELLIGENCE</div><h1>GOLDmicro <span>Research Intelligence</span></h1><p>ผล Backtest จาก MT5 บน PC เท่านั้น · วิเคราะห์ความแข็งแกร่งผ่าน Walk-Forward และหลักฐาน QA</p></div><div class="asof"><small>DATA THROUGH</small><b id="data-asof">—</b><span id="snapshot-time">loading</span></div></div>
 <section id="evergreen-research" class="infinity-research" aria-label="RDC Continuous Indicator Research">
@@ -176,4 +190,4 @@
 var pages=document.querySelectorAll(".page");for(var i=0;i<pages.length;i++)pages[i].classList.toggle("active",pages[i].id==="page-"+h);
 var tabs=document.querySelectorAll("#nav button");for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle("active",tabs[j].getAttribute("data-tab")===h);
 })();
-</script><script src="./app.js?v=20261015-heartbeat-refresh-v4" defer></script></body></html>
+</script><script src="./app.js?v=20261015-market-tape-v1" defer></script></body></html>

@@ -216,6 +216,7 @@ async function loadRemote(){
   t("family-data-source","Source: "+source+" · ข้อมูลจาก PC "+feedAgeMin+" นาทีที่แล้ว · "+new Date(d.generated_at).toLocaleTimeString("th-TH",{timeZone:"Asia/Bangkok"}));
   const ago=(Date.now()-Date.parse(d.generated_at))/60000;
   syncHeaderWithLatestEvidence(d);
+  renderResearchMarketTape(d,source);
   t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
   if(rows){
@@ -255,6 +256,7 @@ async function loadRemote(){
     renderFamilyResearch(previous.indicator_research,previous,minutes);
     refreshLiveMonitor();
     syncHeaderWithLatestEvidence(previous);
+    renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     t("family-run-status","STALE · FEED INTERRUPTED");
     t("family-data-source","Last cached checkpoint · data "+Math.round(minutes)+"m old");
   }else{
@@ -262,6 +264,7 @@ async function loadRemote(){
     if(statusLight)statusLight.classList.remove("running");
     t("process-state","FEED UNAVAILABLE · PC UNVERIFIED");
     t("family-run-status","DATA FEED ERROR · RETRYING");
+    markMarketTapeUnavailable();
     t("family-current","ข้อมูลชั่วคราวไม่พร้อม");
     t("family-current-stage","อ่าน Progress ไม่ได้ · ระบบ PC อาจยังทำงานอยู่");
     t("family-data-source","เครือข่าย / GitHub ชั่วคราวผิดพลาด");
@@ -413,3 +416,114 @@ function refreshTelemetryOnReturn(){
 document.addEventListener("visibilitychange",refreshTelemetryOnReturn);
 window.addEventListener("focus",refreshTelemetryOnReturn);
 window.addEventListener("pageshow",refreshTelemetryOnReturn);
+
+
+// RDC "market exchange" board: purely visual motion of ALREADY RECORDED PC events.
+// Honest security invariant: animated ticker is never evidence of a running MT5 process.
+let researchMarketTapeEvidence=null;
+let researchMarketTapeSource="CHECKING";
+const eventTypeNames={
+ TESTER_START:"MT5 TEST START",TESTER_EXIT:"MT5 TEST FINISH",
+ FIT_START:"FIT START",FIT_COMPLETE:"FIT COMPLETE",VAL_START:"VAL START",VAL_COMPLETE:"VAL COMPLETE",
+ NEW_FAMILY_BEST:"NEW BEST",FIRST_QUALIFIED_BEST:"FIRST QUALIFIED",
+ FAMILY_CYCLE_COMPLETE:"INDICATOR COMPLETED",TESTED_NO_IMPROVEMENT:"NO IMPROVEMENT",
+ NEW_HYPOTHESIS:"AI HYPOTHESIS",PROPOSED:"AI RESEARCH IDEA",
+ EA_ADAPTER_REQUIRED:"EA ADAPTER PENDING",CYCLE_RESTART:"NEW RESEARCH ROUND",
+ CHALLENGER_EVALUATED:"CHALLENGER REVIEW",STATUS_CHECKPOINT:"PC CHECKPOINT"
+};
+function thaiTapeClock(value){
+ const timestamp=Date.parse(value||"");
+ return Number.isFinite(timestamp)?new Date(timestamp).toLocaleTimeString("th-TH",{hour:"2-digit",minute:"2-digit",timeZone:"Asia/Bangkok"}):"—";
+}
+function tapeFreshness(data){
+ const age=deltaMinute(data?.last_heartbeat);
+ const feedAge=deltaMinute(data?.generated_at);
+ if(data?.runner_status==="PAUSED")return {kind:"paused",age,feedAge};
+ if(!Number.isFinite(age)||!Number.isFinite(feedAge)||age>35||feedAge>35)return {kind:"stale",age,feedAge};
+ return {kind:"verified",age,feedAge};
+}
+function marketTapeItem(label,value,state=""){
+ const item=div("market-tape-item "+state);
+ child(item,"small","",label);
+ child(item,"b","",String(value));
+ return item;
+}
+function setTapeLoop(id,records,copy){
+ const root=$(id);if(!root)return;
+ root.replaceChildren();
+ for(let i=0;i<2;i++){
+  const group=div(id==="market-tape-track"?"market-tape-runner":"market-event-runner");
+  if(i===1)group.setAttribute("aria-hidden","true");
+  records.forEach(record=>group.appendChild(copy(record)));
+  root.appendChild(group);
+ }
+}
+function markMarketTapeUnavailable(){
+ const root=$("research-market-tape");
+ if(!root)return;
+ root.classList.remove("verified","paused");root.classList.add("stale");
+ t("market-tape-mode","DATA FEED ERROR · ไม่ยืนยันสถานะ PC");
+ t("market-tape-verified","Last verification unavailable");
+ t("market-tape-source","Retrying verified PC checkpoint");
+}
+function renderResearchMarketTape(data,source){
+ if(!data?.indicator_research)return markMarketTapeUnavailable();
+ researchMarketTapeEvidence=data;
+ researchMarketTapeSource=source;
+ const f=data.indicator_research;
+ const best=f.best_global;
+ const trials=(f.recent_trials||[]),lastTrial=trials.length?trials[trials.length-1]:null;
+ const events=(data.research_events||[]).filter(x=>x&&x.ts&&eventTypeNames[x.type]).slice(-22).reverse();
+ const latestStart=events.find(e=>e.type==="TESTER_START"),latestEnd=events.find(e=>e.type==="TESTER_EXIT");
+ const inProgress=latestStart&&(!latestEnd||Date.parse(latestStart.ts)>Date.parse(latestEnd.ts))&&deltaMinute(latestStart.ts)<3;
+ const mt5Label=inProgress?"TESTER START SEEN":"STANDBY / NEXT TICK";
+ const family=f.current_id||"—",round=f.round||"—";
+ const totals=f.total_experiments??0;
+ const bestLabel=best?best.family_id+" PF "+fmt(best.pf,3):"AWAIT QUALIFIED MODEL";
+ const items=[
+  ["PC","POP-FARM01 · MT5 ONLY","up"],
+  ["RESEARCH ROUND","#"+round,"up"],
+  ["CURRENT INDICATOR",family+" "+(f.family_number||0)+"/"+(f.family_total||26),"up"],
+  ["PASS CHECKED",fmt(f.system_progress_pct||0,1)+"% · "+(f.pass_checked_count||0)+"/"+f.family_total,""],
+  ["NATIVE EXPERIMENTS",String(totals),"up"],
+  ["QUALIFIED FAMILIES",String(f.systems_with_qualified_best||0),"up"],
+  ["NATIVE MT5 TESTER",mt5Label,inProgress?"up":"warning"],
+  ["RECENT CHALLENGER",lastTrial?lastTrial.family_id+" PF "+fmt(lastTrial.pf,3):"WAITING",""],
+  ["BEST HISTORICAL",bestLabel,best?"up":"warning"],
+  ["BEST DD",best?fmt(best.dd,2)+"%":"N/A",""],
+  ["BEST RECOVERY",best?fmt(best.recovery,2):"N/A",""],
+  ["AUTO RESEARCH","NO DAILY QUOTA","up"],
+  ["LIVE TRADING","HOLD","warning"]
+ ];
+ setTapeLoop("market-tape-track",items,x=>marketTapeItem(x[0],x[1],x[2]));
+ const tapeEvents=[];
+ for(const e of events){
+   const desc=[thaiTapeClock(e.ts),e.family||"RDC",eventTypeNames[e.type]].join(" · ");
+   tapeEvents.push({text:desc,style:e.status==="FAILED"?"error":e.status==="BLOCKED"?"warning":e.type==="NEW_FAMILY_BEST"?"up":""});
+ }
+ if(!tapeEvents.length){
+  for(const t of (f.recent_trials||[]).slice(-10).reverse()){
+   tapeEvents.push({text:thaiTapeClock(t.ts)+" · "+t.family_id+" Trial "+t.trial+" · PF "+fmt(t.pf,3)+" · DD "+fmt(t.dd,1)+"%"+(t.improvement?" · NEW BEST":""),style:t.improvement?"up":""});
+  }
+ }
+ if(!tapeEvents.length)tapeEvents.push({text:"Waiting for timestamped PC tester events · display is not realtime MT5 feed",style:"warning"});
+ setTapeLoop("market-event-track",tapeEvents,item=>child(div("market-event-item "+item.style),"span","",item.text).parentNode);
+ t("market-tape-count",events.length+" recorded PC events · PC tests every 5-minute scheduler tick");
+ refreshResearchMarketTapeStatus();
+}
+function refreshResearchMarketTapeStatus(){
+ const d=researchMarketTapeEvidence;
+ if(!d)return;
+ const root=$("research-market-tape");
+ if(!root)return;
+ const f=tapeFreshness(d);
+ root.classList.remove("verified","paused","stale");
+ root.classList.add(f.kind);
+ const mins=Number.isFinite(f.age)?Math.floor(f.age):"∞";
+ const verified=f.kind==="verified";
+ t("market-tape-mode",verified?"PC CONTROLLER VERIFIED · MT5 tester may be between jobs":
+    f.kind==="paused"?"RESEARCH PAUSED BY OWNER":"CHECKPOINT STALE · PC NOT VERIFIED");
+ t("market-tape-verified",verified?"HEARTBEAT "+mins+"m ago":f.kind==="paused"?"OWNER PAUSED":"LAST HEARTBEAT "+mins+"m ago");
+ t("market-tape-source",researchMarketTapeSource+" · Evidence "+thaiTapeClock(d.generated_at)+" ICT · "+Math.floor(f.feedAge)+"m old");
+}
+setInterval(refreshResearchMarketTapeStatus,15000);
