@@ -3,7 +3,7 @@
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#08121d">
 <title>RDC · GOLDmicro Research Control Tower</title>
 <meta name="description" content="MT5 PC-only Strategy Tester observability · PF DD Recovery · Walk-Forward · Agent Workflow">
-<link rel="stylesheet" href="./style.css?v=20261015-family-v1"></head><body>
+<link rel="stylesheet" href="./style.css?v=20261015-liveprogress-v1"></head><body>
 <div class="shell">
 <aside class="side"><div class="brand"><div class="logo">R<span>D</span>C</div><div><strong>RESEARCH OS</strong><small>GOLDmicro Control Tower</small></div></div>
 <div class="nav-label">INTELLIGENCE</div>
@@ -30,14 +30,30 @@
     </div>
     <div class="infinity-status" id="family-run-status">WAITING FOR PC EVIDENCE</div>
   </div>
+  <div class="loop-live-operations" aria-label="24-hour research run monitor">
+    <div class="loop-live-primary">
+      <span class="live-led" id="loop-status-light"></span>
+      <div><small>PC LOOP / HEARTBEAT</small><strong id="loop-online-status">กำลังตรวจ PC...</strong><span id="loop-heartbeat-age">ไม่ทราบเวลาส่งสถานะล่าสุด</span></div>
+    </div>
+    <div class="loop-live-cell">
+      <small>สถานะ MT5 TESTER</small><strong id="loop-test-status">ตรวจหลักฐาน...</strong><span id="loop-test-updated">รอข้อมูลการทดสอบ</span>
+    </div>
+    <div class="loop-live-cell">
+      <small>ROUND PROGRESS / จุดตรวจ</small><strong id="loop-pass-percent">—</strong><span id="loop-pass-detail">ผ่านกี่ระบบ / ทดสอบจริงกี่ระบบ</span>
+    </div>
+    <div class="loop-live-cell">
+      <small>ล่าสุดจาก PC</small><strong id="loop-pc-heartbeat">—</strong><span id="loop-data-delay">Public GitHub Checkpoint ทุกประมาณ 15 นาที</span>
+    </div>
+  </div>
+  <div class="loop-mode-note">∞ <b>24-HOUR RESEARCH SCHEDULE</b> · PC ตรวจงานทุก 5 นาที · ไม่มีเพดานทดสอบต่อวัน · หยุดคำนวณชั่วคราวเมื่อ PC ปิด/ออฟไลน์ · รอบนี้ครบแล้วเริ่มรอบใหม่ ไม่ใช่จบโครงการ</div>
   <div class="discovery-grid">
     <div class="family-active">
-      <div class="family-label">CURRENTLY RESEARCHING · กำลังทดลองระบบ</div>
+      <div class="family-label">CURRENT FAMILY · ระบบที่กำลังวิจัย</div>
       <div class="family-big" id="family-current">รอข้อมูลจาก PC</div>
       <div class="family-small" id="family-current-stage">กำลังโหลด Research Progress</div>
-      <div class="family-progress-label"><span id="family-trial-caption">Experiment Progress</span><strong id="family-trial-percent">—</strong></div>
+      <div class="family-progress-label"><span id="family-trial-caption">Current family native MT5 tests</span><strong id="family-trial-percent">—</strong></div>
       <div class="family-progress-rail"><div id="family-trial-bar"></div></div>
-      <div class="family-progress-label"><span id="family-round-caption">Research Round</span><strong id="family-round-percent">—</strong></div>
+      <div class="family-progress-label"><span id="family-round-caption">Round pass checkpoints (not overall completion)</span><strong id="family-round-percent">—</strong></div>
       <div class="family-progress-rail secondary"><div id="family-round-bar"></div></div>
     </div>
     <div class="family-stats">
@@ -159,4 +175,4 @@
 var pages=document.querySelectorAll(".page");for(var i=0;i<pages.length;i++)pages[i].classList.toggle("active",pages[i].id==="page-"+h);
 var tabs=document.querySelectorAll("#nav button");for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle("active",tabs[j].getAttribute("data-tab")===h);
 })();
-</script><script src="./app.js?v=20261015-family-v1" defer></script></body></html>
+</script><script src="./app.js?v=20261015-liveprogress-v1" defer></script></body></html>

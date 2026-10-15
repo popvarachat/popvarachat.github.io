@@ -87,3 +87,24 @@
 .family-caveat{font-size:10px;color:#82a6a4;line-height:1.65;margin:13px 0 0}
 @media(max-width:1100px){.discovery-grid{grid-template-columns:1fr}.family-track{grid-template-columns:repeat(auto-fit,minmax(105px,1fr))}.infinity-head{flex-wrap:wrap}.infinity-status{margin-left:auto}}
 @media(max-width:650px){.infinity-research{padding:12px}.family-stats>div{min-height:73px}.family-stats strong{font-size:21px}.family-track{grid-template-columns:repeat(3,minmax(0,1fr))}.family-trial-row{grid-template-columns:65px 1fr 65px;font-size:10px}.family-trial-row span:nth-child(4),.family-trial-row span:nth-child(5){display:none}}
+
+/* Show meaningful run-state and loop progress immediately above the fold */
+.loop-live-operations{display:grid;grid-template-columns:1.13fr 1fr 1fr 1fr;gap:9px;margin-bottom:10px}
+.loop-live-primary,.loop-live-cell{background:#092532;border:1px solid #37616a;border-radius:11px;padding:12px 13px;min-width:0;min-height:85px}
+.loop-live-primary{display:flex;align-items:center;gap:12px;background:#10382f;border-color:#51af8c}
+.loop-live-primary>div,.loop-live-cell{display:flex;flex-direction:column;justify-content:center}
+.loop-live-operations small{font-weight:850;font-size:9px;letter-spacing:1.25px;color:#9abac3}
+.loop-live-operations strong{display:block;color:#eafff4;font-size:15px;font-weight:850;margin:3px 0;line-height:1.3}
+.loop-live-operations span:not(.live-led){color:#8ab2b4;font-size:10px;line-height:1.4}
+.live-led{display:inline-block;flex:0 0 13px;width:13px;height:13px;border-radius:50%;background:#778697;box-shadow:0 0 0 5px #6f79801e}
+.live-led.healthy{background:#42e3a7;box-shadow:0 0 0 5px #42e3a72b,0 0 16px #29da879e}
+.live-led.stale{background:#e5b258;box-shadow:0 0 0 5px #e5b25822}
+.live-led.error{background:#f08188;box-shadow:0 0 0 5px #d9475529}
+.loop-mode-note{border:1px solid #295261;background:#0e2633;color:#add3d2;border-radius:9px;padding:10px 13px;margin-bottom:12px;font-size:11px}
+.loop-mode-note b{color:#8cf4cc}
+.family-progress-rail{height:15px!important}
+.family-progress-label{font-size:12px!important}
+.family-progress-label strong{font-size:13px!important;color:#93fbd4!important}
+.family-active{min-height:194px}
+@media(max-width:1250px){.loop-live-operations{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:650px){.loop-live-operations{grid-template-columns:1fr 1fr;gap:6px}.loop-live-primary,.loop-live-cell{padding:9px;min-height:85px}.loop-live-operations strong{font-size:12px}.loop-live-operations small{font-size:8px}}

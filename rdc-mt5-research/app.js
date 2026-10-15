@@ -194,7 +194,7 @@ async function loadRemote(){
     const b=document.createElement("strong");b.textContent=x.status||"PROPOSED";
     el.append(a,b);thinking.appendChild(el);
   });}
-  if(d.indicator_research)renderFamilyResearch(d.indicator_research,d,ago);
+  if(d.indicator_research){renderFamilyResearch(d.indicator_research,d,ago);latestLoopStatus={f:d.indicator_research,d};refreshLiveMonitor();}
   t("remote-runner",ago<25?d.runner_status:"PC OFFLINE / STALE");
   t("remote-cycles",String(d.cycle??"—"));
   t("remote-trials",String(d.candidate_trials??"—"));
@@ -222,7 +222,7 @@ function renderFamilyResearch(f,d,ageMins){
  t("family-current-stage",stages[f.current_step]||f.current_step||"กำลังตรวจสถานะ");
  t("family-trial-caption","Parameter Set "+f.trial_number+" / "+f.trials_per_family+" · "+(f.current_step||"QUEUE"));
  t("family-trial-percent",fmt(f.trial_progress_pct,0)+"%");
- t("family-round-caption","Research Pass "+f.round+" · ระบบที่ "+f.family_number+"/"+f.family_total);
+ t("family-round-caption","รอบ "+f.round+" · ตรวจผ่าน "+(f.pass_checked_count??Math.max(0,f.family_number-1))+"/"+f.family_total+" ระบบ (ไม่ใช่ % ที่วิจัยเสร็จทั้งหมด)");
  t("family-round-percent",fmt(f.system_progress_pct,1)+"%");
  $("family-trial-bar").style.width=Math.max(0,Math.min(100,f.trial_progress_pct||0))+"%";
  $("family-round-bar").style.width=Math.max(0,Math.min(100,f.system_progress_pct||0))+"%";
@@ -287,3 +287,45 @@ function renderFamilyResearch(f,d,ageMins){
  });
  t("family-best-updated",f.total_experiments+" Native MT5 experiments · "+f.systems_tested_ever+" systems tested");
 }
+
+
+let latestLoopStatus=null;
+function deltaMinute(dateString){
+ if(!dateString)return Infinity;
+ const d=Date.parse(dateString);
+ return Number.isFinite(d)?Math.max(0,(Date.now()-d)/60000):Infinity;
+}
+function shortThaiClock(value){
+ if(!value)return "ไม่ระบุ";
+ const d=new Date(value);
+ return Number.isNaN(d.getTime())?"ไม่ระบุ":d.toLocaleString("th-TH",{timeZone:"Asia/Bangkok",hour:"2-digit",minute:"2-digit",day:"numeric",month:"short"});
+}
+function refreshLiveMonitor(){
+ if(!latestLoopStatus)return;
+ const {f,d}=latestLoopStatus;
+ const heartbeatAge=deltaMinute(d.last_heartbeat);
+ const dataAge=deltaMinute(d.generated_at);
+ const pending=!!(d.runner_status==="PAUSED");
+ const fresh=heartbeatAge<=22 && dataAge<=22;
+ const led=$("loop-status-light");
+ led.classList.remove("healthy","stale","error");
+ const heartbeatText=Number.isFinite(heartbeatAge)?("Heartbeat "+Math.floor(heartbeatAge)+" นาทีที่แล้ว"):"ไม่มี Heartbeat";
+ if(pending){
+   led.classList.add("stale");t("loop-online-status","PAUSED BY OWNER");t("loop-heartbeat-age",heartbeatText);
+ }else if(fresh){
+   led.classList.add("healthy");t("loop-online-status","PC LOOP ACTIVE");t("loop-heartbeat-age",heartbeatText);
+ }else{
+   led.classList.add("error");t("loop-online-status","ไม่ยืนยันว่า PC ยังทำงาน");t("loop-heartbeat-age","Heartbeat ล่าสุด "+heartbeatText+" · Checkpoint อาจล่าช้า");
+ }
+ const step=f.current_step||"QUEUE_READY";
+ const testing=(f.state==="TESTING_MT5_PC" || step==="FIT_RUNNING" || step==="VAL_RUNNING");
+ t("loop-test-status",!fresh?"ยังยืนยันสถานะ MT5 ไม่ได้":testing?"ทดสอบอยู่ ณ Checkpoint":"รอทดสอบรอบถัดไป");
+ const last=d.last_test?"ผล MT5 ล่าสุด "+shortThaiClock(d.last_test):"รอผล MT5";
+ t("loop-test-updated",last+(testing?" · ต้องรอ Checkpoint ใหม่":""));
+ const checked=(f.pass_checked_count??Math.max(0,f.family_number-1));
+ t("loop-pass-percent",fmt(f.system_progress_pct||0,1)+"% · "+checked+"/"+f.family_total);
+ t("loop-pass-detail","ทดสอบครบ "+(f.pass_tested_count??0)+" · รอสร้าง EA "+(f.pass_pending_adapter_count??0));
+ t("loop-pc-heartbeat",shortThaiClock(d.last_heartbeat));
+ t("loop-data-delay","Checkpoint "+Math.floor(dataAge)+" นาทีที่ผ่านมา · อัปเดต PC ทุก ~15 นาที");
+}
+setInterval(refreshLiveMonitor,20000);
