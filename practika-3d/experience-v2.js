@@ -2,8 +2,8 @@
  * This geometry is illustrative. Movement is grid A*; not a validated evacuation model.
  */
 export function install(c) {
- const {THREE, $, renderer, camera, dyn, box, cyl, group, floor, room, label, M, setMode, getMode, getSim, setScenario, cameraPose, resetOrbit, getActors}=c;
- const state={kind:'desk',finish:'oak',size:2.2,exploded:false,routes:true,heatmap:true,mode:'overview',selection:[],pieces:[],model:null,flow:null,agents:[],tour:false,tourTime:0,metrics:null};
+ const {THREE, $, renderer, camera, dyn, box, cyl, group, floor, room, label, M, setMode, getMode, getSim, setScenario, cameraPose, resetOrbit, getActors,getDeskLayout,disposeTree}=c;
+ const state={kind:'desk',finish:'oak',size:2.2,exploded:false,routes:true,heatmap:true,mode:'overview',selection:[],pieces:[],model:null,flow:null,agents:[],tour:false,tourTime:0,metrics:null,lastTick:0};
  const finishes={oak:'#c8a47a',walnut:'#655142',ash:'#ded0b3',graphite:'#505d65',ivory:'#e2daca',sage:'#779e95',navy:'#4d6a83'};
  const cm=(color,roughness=.75,metalness=0)=>new THREE.MeshStandardMaterial({color,roughness,metalness});
  const metal=cm('#738b95',.28,.77),charcoal=cm('#263744',.38,.4),accent=cm('#d6af79',.35,.5),stone=cm('#273943',.8);
@@ -44,6 +44,7 @@ export function install(c) {
    '<section class="section v2-section" id="v2Inspector">',
    '<div class="section-title"><span class="eyebrow">04 / OBJECT INSPECTOR</span><span class="pill">REA TRACE</span></div>',
    '<h2 class="v2-h2" id="v2ObjectName">Select a 3D component</h2><p id="v2ObjectDesc">คลิกโมเดลเพื่อศึกษาวัสดุ องค์ประกอบ และสถานะการยืนยันข้อมูล</p>',
+   '<div class="v2-choice" id="v2PartButtons" aria-label="Accessible 3D component selection"></div>',
    '<div class="v2-inspector-table"><div><span>Element</span><strong id="v2ObjectPart">—</strong></div><div><span>Fidelity status</span><strong>CONCEPT / UNVERIFIED CAD</strong></div><div><span>Source</span><strong>Practika category</strong></div></div>',
    '<a href="https://www.practika.com/" class="pane-link" id="v2Evidence" target="_blank" rel="noopener">↗ OPEN ORIGINAL SOURCE</a>',
    '</section>'
@@ -61,6 +62,7 @@ export function install(c) {
    $('v2Routes').addEventListener('click',()=>{state.routes=!state.routes;$('v2Routes').classList.toggle('active',state.routes);$('v2Routes').textContent=state.routes?'ROUTES ON':'ROUTES OFF';if(state.flow)state.flow.routes.visible=state.routes});
    $('v2Heat').addEventListener('click',()=>{state.heatmap=!state.heatmap;$('v2Heat').classList.toggle('active',state.heatmap);$('v2Heat').textContent=state.heatmap?'HEATMAP ON':'HEATMAP OFF';if(state.flow)state.flow.heat.visible=state.heatmap});
    renderer.domElement.addEventListener('click',clickObject);
+   renderer.domElement.addEventListener('pointerdown',e=>{renderer.domElement.dataset.pointerStart=e.clientX+','+e.clientY});
  }
  function note(t){$('v2Toast').textContent=t;$('v2Toast').hidden=false;clearTimeout(note.timer);note.timer=setTimeout(()=>$('v2Toast').hidden=true,2500)}
  function changeView(view){state.tour=false;$('v2Tour').textContent='▶ TOUR';document.querySelectorAll('[data-camera]').forEach(b=>b.classList.toggle('active',b.dataset.camera===view));
@@ -70,13 +72,16 @@ export function install(c) {
  function part(root,name,description){let p=new THREE.Group();root.add(p);p.userData.data={name,part:name,description};state.selection.push(p);state.pieces.push(p);return p}
  function inspect(d){$('v2ObjectName').textContent=d.name;$('v2ObjectPart').textContent=d.part||d.name;$('v2ObjectDesc').textContent=d.description;$('v2Evidence').href=$('sourceLink').href}
  const ray=new THREE.Raycaster(),coords=new THREE.Vector2();
- function clickObject(e){if(!state.selection.length)return;const r=renderer.domElement.getBoundingClientRect();coords.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(coords,camera);const hits=ray.intersectObjects(state.selection,true);for(const hit of hits){let o=hit.object;while(o&&!o.userData.data)o=o.parent;if(o?.userData.data){inspect(o.userData.data);note('Inspecting: '+o.userData.data.name);break}}}
+ function clickObject(e){if(!state.selection.length)return;
+ const start=(renderer.domElement.dataset.pointerStart||'').split(',').map(Number);if(start.length===2&&Math.hypot(e.clientX-start[0],e.clientY-start[1])>7)return;const r=renderer.domElement.getBoundingClientRect();coords.set(((e.clientX-r.left)/r.width)*2-1,-((e.clientY-r.top)/r.height)*2+1);ray.setFromCamera(coords,camera);const hits=ray.intersectObjects(state.selection,true);for(const hit of hits){let o=hit.object;while(o&&!o.userData.data)o=o.parent;if(o?.userData.data){inspect(o.userData.data);note('Inspecting: '+o.userData.data.name);break}}}
  function architecture(mode){
   const g=group();
   if(mode==='overview'){
    for(let i=0;i<16;i++){let a=i*Math.PI*2/16,x=Math.sin(a)*12.5,z=Math.cos(a)*12.5;box(g,.12,6.4,.22,x,3.15,z,metal).rotation.y=a;
     let beam=box(g,2.6,.1,.24,x,6.38,z,accent);beam.rotation.y=a}
-   cyl(g,12.4,12.4,.13,0,6.45,0,metal,16);cyl(g,11.7,11.7,.09,0,6.57,0,glass,16);
+   for(const [rad,tube,y,material] of [[12.4,.13,6.45,metal],[11.7,.07,6.57,accent]]){
+    const ring=new THREE.Mesh(new THREE.TorusGeometry(rad,tube,8,64),material);ring.rotation.x=Math.PI/2;ring.position.y=y;g.add(ring)
+   }
   }else{
    for(let i=0;i<9;i++){const x=-8+i*2;box(g,.08,.1,17.7,x,5.55,0,metal);box(g,1.1,.04,.24,x,5.37,0,light)}
    for(let i=0;i<7;i++){const z=-8+i*2.6;box(g,.06,3.2,.08,8.7,1.6,z,metal);
@@ -86,7 +91,7 @@ export function install(c) {
   return g;
  }
  function rebuildStudio(){
-  if(state.model){dyn.remove(state.model);state.model.traverse(o=>{o.geometry?.dispose();if(o.material&&!Object.values(M).includes(o.material)&&![metal,charcoal,accent,stone,glass,light].includes(o.material))o.material.dispose()})}
+  if(state.model){dyn.remove(state.model);disposeTree(state.model)}
   state.selection=[];state.pieces=[];
   const g=new THREE.Group();dyn.add(g);state.model=g;
   const body=new THREE.Group();body.position.y=.47;g.add(body);
@@ -122,9 +127,16 @@ export function install(c) {
    for(let i=0;i<4;i++){box(storage,w*.34,.58,.55,(i%2?1:-1)*w*.25,.56+Math.floor(i/2)*.79,0,i%2?M.blue:M.fabric)}
   }
   label(g,state.kind.toUpperCase()+' / CUSTOM MATERIAL',0,4.18,0,.28);
-  $('v2WidthValue').textContent=state.size.toFixed(1)+' m';$('v2FinishValue').textContent=state.finish.toUpperCase();
+  $('v2Width').disabled=state.kind==='chair';
+  $('v2WidthValue').textContent=state.kind==='chair'?'fixed model':state.size.toFixed(1)+' m';
+  $('v2FinishValue').textContent=state.finish.toUpperCase();
+  const picker=$('v2PartButtons');picker.replaceChildren();
+  for(const item of state.selection){
+   const button=document.createElement('button');button.type='button';button.textContent=item.userData.data.name;button.addEventListener('click',()=>inspect(item.userData.data));picker.append(button);
+  }
   document.querySelectorAll('[data-type]').forEach(b=>b.classList.toggle('active',b.dataset.type===state.kind));
   document.querySelectorAll('[data-finish]').forEach(b=>b.classList.toggle('active',b.dataset.finish===state.finish));
+  $('v2Explode').classList.toggle('active',state.exploded);$('v2Explode').setAttribute('aria-pressed',String(state.exploded));
   explode();
  }
  function explode(){state.pieces.forEach((p,i)=>{if(!p.userData.base)p.userData.base=p.position.clone();p.position.copy(p.userData.base);if(state.exploded){p.position.y+=i*.32;p.position.x+=(i%2?1:-1)*.28;p.position.z+=(i%3-1)*.24}})}
@@ -145,7 +157,7 @@ export function install(c) {
  function astar(occupied,size,start,goal){
   const key=(x,y)=>y*size+x,open=new Map([[key(...start),{g:0,f:0}]]),from=new Map(),scores=new Map([[key(...start),0]]),closed=new Set();
   const steps=[[1,0],[-1,0],[0,1],[0,-1],[1,1],[-1,-1],[1,-1],[-1,1]],dest=key(...goal);
-  for(let count=0;open.size&&count<2000;count++){
+  for(let count=0;open.size&&count<size*size;count++){
    let k,f=Infinity;for(const [n,data] of open){if(data.f<f){k=n;f=data.f}}
    if(k===dest){const route=[];while(k!==undefined){route.push([k%size,Math.floor(k/size)]);k=from.get(k)}return route.reverse()}
    const current=open.get(k);open.delete(k);closed.add(k);
@@ -159,30 +171,36 @@ export function install(c) {
   }return [];
  }
  function flowScene(){
-  const sim=getSim(),N=31,step=.54,center=(N-1)/2,rows=Math.ceil(sim.desks/4),cols=Math.min(4,sim.desks);
-  const dx=Math.max(2.35,2.15+sim.aisle*.44),dz=2.15+sim.aisle,occ=new Set();
+  const sim=getSim(),layout=getDeskLayout(sim.desks,sim.aisle),step=.66,N=Math.max(45,2*Math.ceil((layout.roomSize+2)/(2*step))+1),center=(N-1)/2,occ=new Set();
+  // Occupancy is derived from EXACT visible desk placements, chair direction, and illustrative avatar clearance.
   for(let j=0;j<N;j++)for(let i=0;i<N;i++){
-   let x=(i-center)*step,z=(j-center)*step;
-   for(let row=0;row<rows;row++)for(let col=0;col<cols;col++){
-    const mx=(col-(cols-1)/2)*dx,mz=(row-(rows-1)/2)*dz;
-    if(Math.abs(x-mx)<1.21&&Math.abs(z-mz)<.8)occ.add(j*N+i);
+   const x=(i-center)*step,z=(j-center)*step;
+   for(const spot of layout.spots){
+    const relX=x-spot.x,relZ=z-spot.z,chairZ=spot.z+(spot.rot? -1:1)*1.09;
+    const tabletop=Math.abs(relX)<spot.width/2+.24&&Math.abs(relZ)<.475+.24;
+    const seat=Math.abs(relX)<.31+.24&&Math.abs(z-chairZ)<.285+.24;
+    if(tabletop||seat){occ.add(j*N+i);break}
    }
   }
   const world=([x,y])=>new THREE.Vector3((x-center)*step,.17,(y-center)*step);
   const flows=group(),routes=new THREE.Group(),heat=new THREE.Group(),avatars=new THREE.Group();
   flows.add(routes,heat,avatars);state.flow={routes,heat,avatars};
-  const visits=new Map(),lengths=[],agents=Math.min(sim.people,40);
+  const visits=new Map(),lengths=[],agents=Math.min(sim.people,40),routeCache=new Map();
   state.agents=[];let reached=0;
   for(let i=0;i<agents;i++){
-   const lane=i%4,start=i%2?[2,25-lane]:[N-3,25-lane],end=i%2?[N-3,5+lane]:[2,5+lane];
-   let path=astar(occ,N,start,end);if(path.length<2)continue;
+   const lane=i%4,entry=Math.max(3,Math.floor((layout.roomSize/2-1.2)/step));
+   const left=Math.floor(center-entry),right=Math.ceil(center+entry),start=i%2?[left,Math.floor(center+3+lane)]:[right,Math.floor(center+3+lane)],
+   end=i%2?[right,Math.floor(center-3-lane)]:[left,Math.floor(center-3-lane)];
+   const key=start.join(',')+':'+end.join(',');
+   let path=routeCache.get(key);if(!path){path=astar(occ,N,start,end);routeCache.set(key,path)}
+   if(path.length<2)continue;
    reached++;const coords=path.map(world);
    let len=0;for(let j=1;j<coords.length;j++)len+=coords[j].distanceTo(coords[j-1]);lengths.push(len);
    for(const [x,y] of path){const k=y*N+x;visits.set(k,(visits.get(k)||0)+1)}
    if(i<12){const poly=new THREE.Line(new THREE.BufferGeometry().setFromPoints(coords.map(v=>v.clone().add(new THREE.Vector3(0,.06,0)))),new THREE.LineBasicMaterial({color:i%2?'#78d5c1':'#e7bd88',transparent:true,opacity:.67}));routes.add(poly)}
    const a=new THREE.Group();a.position.copy(coords[0]);cyl(a,.15,.17,.63,0,.97,0,i%2?M.blue:M.fabric);cyl(a,.15,.15,.28,0,1.47,0,M.woodLight);
    for(const x of [-.1,.1])cyl(a,.05,.05,.49,x,.37,0,metal);
-   avatars.add(a);state.agents.push({mesh:a,points:coords,step:i*.67});
+   avatars.add(a);state.agents.push({mesh:a,points:coords,meters:(i*.55)%Math.max(len,1),length:len});
   }
   let max=Math.max(1,...visits.values());for(const [k,count] of visits){let x=k%N,y=Math.floor(k/N),p=count/max;
    const m=new THREE.MeshBasicMaterial({color:new THREE.Color().setHSL(.35*(1-p),.88,.56),transparent:true,opacity:.14+p*.36,depthWrite:false,side:THREE.DoubleSide});
@@ -190,16 +208,18 @@ export function install(c) {
   }
   routes.visible=state.routes;heat.visible=state.heatmap;getActors().forEach(a=>a.visible=false);
   let avg=lengths.length?lengths.reduce((s,v)=>s+v,0)/lengths.length:0;
-  state.metrics={avg,reached,agents,people:sim.people,density:sim.people/180,seconds:avg/1.2};
+  state.metrics={avg,reached,agents,people:sim.people,density:sim.people/(layout.roomSize*layout.roomSize),seconds:avg/1.2,room:layout.roomSize};
   $('v2Route').textContent=avg?avg.toFixed(1)+' m':'BLOCKED';
   $('v2Reach').textContent=reached+'/'+agents;
-  $('v2Density').textContent=(sim.people/180).toFixed(2)+' p/m²';
+  $('v2Density').textContent=(sim.people/(layout.roomSize*layout.roomSize)).toFixed(2)+' p/m²';
   $('v2Travel').textContent=avg?(avg/1.2).toFixed(1)+' s':'—';
   $('v2AgentCount').textContent=reached;
  }
  function afterScene(mode){
-  if(state.flow){state.flow.routes.traverse(o=>o.material?.dispose());state.flow.heat.traverse(o=>o.material?.dispose())}
+  // Old scene GPU resources are centrally disposed by the owning shell before calling afterScene().
   state.mode=mode;state.model=null;state.flow=null;state.agents=[];state.pieces=[];state.selection=[];
+  const preset={A:{desks:8,aisle:1.8,people:8},B:{desks:16,aisle:1.1,people:16},C:{desks:24,aisle:.8,people:30}};
+  const simNow=getSim();document.querySelectorAll('[data-scenario]').forEach(btn=>{const v=preset[btn.dataset.scenario];btn.classList.toggle('active',v.desks===simNow.desks&&v.people===simNow.people&&Math.abs(v.aisle-simNow.aisle)<.051)});
   if(mode==='studio'){rebuildStudio();cameraPose(.52,.40,11.8)}
   else if(mode==='factory'){architecture(mode);factory()}
   else{architecture(mode);if(mode==='simulation')flowScene()}
@@ -208,11 +228,19 @@ export function install(c) {
   if(mode!=='simulation'){$('v2Route').textContent='—';$('v2Reach').textContent='—';$('v2Density').textContent='—';$('v2Travel').textContent='—'}
   $('v2Status').textContent=mode==='studio'?'PARAMETRIC PRODUCT / EXPLODED PARTS':mode==='simulation'?'AGENT PATHFINDING / HEATMAP':mode==='factory'?'DESIGN → MATERIAL → CUT → ASSEMBLY → QC':'ARCHITECTURE / FURNITURE / EXPERIENCE';
  }
- function tick(){if(state.tour){state.tourTime+=.01;cameraPose(.7+state.tourTime*.16,.45+Math.sin(state.tourTime*.37)*.13,25+Math.sin(state.tourTime*.21)*3)}
-  for(const a of state.agents){const last=a.points.length-1;if(!last)continue;a.step=(a.step+.026)%last;let j=Math.floor(a.step),t=a.step-j;
-   const v=a.points[j].clone().lerp(a.points[j+1],t);a.mesh.position.x=v.x;a.mesh.position.z=v.z;
-   const delta=a.points[j+1].clone().sub(a.points[j]);a.mesh.rotation.y=Math.atan2(delta.x,delta.z)}
+ function tick(){
+  const now=performance.now(),dt=state.lastTick?Math.max(0,Math.min(.1,(now-state.lastTick)/1000)):0;state.lastTick=now;
+  if(state.tour){state.tourTime+=dt;cameraPose(.7+state.tourTime*.16,.45+Math.sin(state.tourTime*.37)*.13,25+Math.sin(state.tourTime*.21)*3)}
+  // Distance is in meters. This is a looping route REPLAY at 1.2 m/s, NOT collision-aware crowd physics.
+  for(const a of state.agents){
+   if(a.points.length<2||!a.length)continue;a.meters=(a.meters+dt*1.2)%(a.length+1.2);
+   let remaining=Math.min(a.length,a.meters),j=0;
+   for(;j<a.points.length-1;j++){const segment=a.points[j].distanceTo(a.points[j+1]);if(remaining<=segment)break;remaining-=segment}
+   j=Math.min(j,a.points.length-2);const p=a.points[j],q=a.points[j+1],seg=p.distanceTo(q);
+   const v=p.clone().lerp(q,seg>0?Math.min(1,remaining/seg):0);
+   a.mesh.position.set(v.x,a.mesh.position.y,v.z);a.mesh.rotation.y=Math.atan2(q.x-p.x,q.z-p.z);
+  }
  }
  makeUI();
- return {afterScene,tick,getMetrics:()=>state.metrics};
+ return {afterScene,tick,getMetrics:()=>state.metrics,sharedMaterials:[metal,charcoal,accent,stone,glass,light]};
 }
