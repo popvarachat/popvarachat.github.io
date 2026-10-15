@@ -217,6 +217,7 @@ async function loadRemote(){
   const ago=(Date.now()-Date.parse(d.generated_at))/60000;
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
+  renderResearchLeague(d.research_league||null,d);
   t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
   if(rows){
@@ -257,6 +258,7 @@ async function loadRemote(){
     refreshLiveMonitor();
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
+    renderResearchLeague(previous.research_league||null,previous);
     t("family-run-status","STALE · FEED INTERRUPTED");
     t("family-data-source","Last cached checkpoint · data "+Math.round(minutes)+"m old");
   }else{
@@ -527,3 +529,86 @@ function refreshResearchMarketTapeStatus(){
  t("market-tape-source",researchMarketTapeSource+" · Evidence "+thaiTapeClock(d.generated_at)+" ICT · "+Math.floor(f.feedAge)+"m old");
 }
 setInterval(refreshResearchMarketTapeStatus,15000);
+
+
+const leagueRoles={
+ PROMOTER:"Tournament Orchestration / Next Challenger",
+ RESEARCH_PLANNER:"Family & Parameter Hypotheses",
+ PC_MT5_EXECUTOR:"MT5 Strategy Tester · POP-FARM01",
+ JUDGE:"Risk-adjusted PF / DD / Recovery Gate",
+ RED_TEAM:"Historical Leakage / Overfit / Low Sample",
+ SCOREKEEPER:"Immutable Evidence & Hall of Fame"
+};
+function leagueNum(x,digits=2){
+ return x===null||x===undefined?"—":Number(x).toLocaleString("en-US",{minimumFractionDigits:digits,maximumFractionDigits:digits});
+}
+function renderResearchLeague(l,d){
+ const summary=$("league-overview-summary");
+ const label=$("league-tournament-status");
+ if(!l||l.schema!=="rdc.research.league.public.v1"){
+  if(summary)summary.textContent="Promoter ยังไม่ส่งรายงาน League จาก PC — Loop Indicator ยังคงทำงานตามเดิม";
+  if(label)label.textContent="LEAGUE EVIDENCE NOT YET PUBLISHED";
+  return;
+ }
+ const age=deltaMinute(d.last_heartbeat);
+ const fresh=age<=35&&deltaMinute(d.generated_at)<=35;
+ if(label)label.textContent=fresh?"PROMOTER ACTIVE · EVIDENCE VERIFIED":"PROMOTER DATA STALE · VERIFY PC";
+ const champ=l.champion;
+ const name=champ?champ.family:"NO QUALIFIED CHAMPION";
+ t("league-champion-name",name);
+ t("league-champion-pf",champ?leagueNum(champ.pf,3):"—");
+ t("league-champion-dd",champ?leagueNum(champ.dd,2)+"%":"—");
+ t("league-champion-rf",champ?leagueNum(champ.recovery,2):"—");
+ t("league-champion-score",champ?leagueNum(champ.score,4):"—");
+ t("league-champion-sub",champ?"Native MT5 2025 Validation · Round "+champ.round+" / Trial "+champ.trial+" · "+
+   champ.trades+" closed trades · ยังไม่ใช่ Production Champion":"กำลังรอ Challenger ที่ผ่านเกณฑ์ Judge");
+ const next=l.next_fixture;
+ t("league-next-family",next?next.family+" · R"+next.round+" / T"+next.trial:"Await next fixture");
+ const parameters=next?.params;
+ const desc=parameters?"Fast "+parameters.fast+" · Slow "+parameters.slow+" · Period "+
+       parameters.period+" · Threshold "+leagueNum(parameters.threshold,2):"EA Adapter required or not yet planned";
+ t("league-next-params",desc+(next&&next.status==="NEEDS_EA_ADAPTER"?" · ยังไม่มี EA ทดสอบ":""));
+ t("league-completed-count",String(l.matches_completed));
+ t("league-qualified-count",l.judge_qualified+" qualified · "+l.promotions+" promotions");
+ const last=l.latest_match||{};
+ if(summary)summary.textContent="Round "+(d.indicator_research?.round||"—")+" · "+
+      l.matches_completed+" MATCHES · Champion "+(name||"—")+" · Judge "+
+      (last.status||"READY").replaceAll("_"," ");
+ const grid=$("league-agent-grid");if(grid){
+  grid.replaceChildren();
+  Object.entries(leagueRoles).forEach(([id,role])=>{
+   const agent=(l.agent_roles||{})[id]||{status:"READY"};
+   const card=div("league-agent");
+   child(card,"strong","",id.replaceAll("_"," "));
+   child(card,"span","",role);
+   child(card,"small","",agent.status||"UNKNOWN");
+   grid.appendChild(card);
+  });
+ }
+ const table=$("league-standings");if(table){
+  table.replaceChildren();
+  const rows=Object.entries(l.family_hall_of_fame||{}).sort((a,b)=>(b[1].score||0)-(a[1].score||0));
+  if(!rows.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=8;td.textContent="ยังไม่มีระบบที่ผ่าน Judge";tr.appendChild(td);table.appendChild(tr);}
+  rows.forEach(([family,best],i)=>{
+   const tr=document.createElement("tr");
+   const values=[i+1,family,leagueNum(best.score,4),leagueNum(best.pf,3),leagueNum(best.dd,2)+"%",
+     leagueNum(best.recovery,2),best.trades||"—",best.round||"—"];
+   values.forEach(value=>{const cell=document.createElement("td");cell.textContent=String(value);tr.appendChild(cell)});
+   table.appendChild(tr);
+  });
+ }
+ const tape=$("league-match-tape");if(tape){
+  tape.replaceChildren();
+  const list=(l.matches||[]).slice(-14).reverse();
+  if(!list.length)child(tape,"div","empty-family","ยังไม่มีการแข่งขันที่มีหลักฐาน MT5");
+  list.forEach(m=>{
+   const promoted=m.status==="NEW_RESEARCH_LEAGUE_CHAMPION"||m.status==="NEW_FAMILY_CHAMPION";
+   const wrapper=div("league-match "+(promoted?"promoted":m.status==="REJECTED"?"rejected":""));
+   child(wrapper,"b","",m.family+" · R"+m.round+"/T"+m.trial);
+   child(wrapper,"span","","PF "+leagueNum(m.pf,3)+" · DD "+leagueNum(m.dd,2)+"% · RF "+leagueNum(m.recovery,2));
+   child(wrapper,"span","match-decision",m.status?.replaceAll("_"," ")||"UNKNOWN");
+   if((m.flags||[]).length)child(wrapper,"span","flags","Red Team: "+m.flags.join(" · "));
+   tape.appendChild(wrapper);
+  });
+ }
+}

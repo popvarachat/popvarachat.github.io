@@ -155,3 +155,43 @@
 @keyframes marketHeartbeatPulse{0%,100%{opacity:.7;transform:scale(.9)}50%{opacity:1;transform:scale(1.13)}}
 @media(prefers-reduced-motion:reduce){.market-tape-track,.market-event-track,.market-tape-dot{animation:none!important}}
 @media(max-width:640px){.market-tape-header{flex-wrap:wrap}.market-tape-timestamp{width:100%;justify-content:space-between}.market-tape-readonly{font-size:8px}.market-tape-item{min-width:115px;padding:0 10px}.market-tape-item b{font-size:12px}.market-tape-footer{flex-wrap:wrap}.market-tape-event-label{font-size:8px}}
+
+/* AI Research League: Promoter / Tournament / Evidence, not fictional simulated profits */
+#nav .league-nav{border-color:#51635e;color:#ebdbb2;background:#2c2e36}
+#nav .league-nav.active,#nav .league-nav:hover{background:#5b4627;color:#fff0c2;border-color:#cb9f53}
+.league-overview-banner{border:1px solid #ad8549;background:linear-gradient(105deg,#342c24,#233239);border-radius:12px;padding:13px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:14px}
+.league-overview-title{color:#e9d6a6;font-size:13px;font-weight:900}
+.league-overview-title span{font-size:11px;font-weight:600;color:#d2c49d}
+.league-overview-sub{color:#aebec0;font-size:11px;margin-top:4px}
+.league-overview-banner a{color:#13231e;text-decoration:none;background:#edc56e;padding:10px 12px;border-radius:9px;font-weight:900;font-size:12px;white-space:nowrap}
+.league-policy-bar{border:1px solid #987d4a;background:#282b32;color:#e6d4a6;border-radius:9px;padding:14px 17px;margin:0 0 16px;font-size:12px}
+.league-featured{display:grid;grid-template-columns:1.4fr 1fr;gap:12px}
+.league-champion,.league-up-next{border-radius:13px;background:#122d35;border:1px solid #8d7148;padding:20px}
+.league-champion{background:linear-gradient(120deg,#213d36,#182d3a 70%)}
+.league-eyebrow{font-size:10px;letter-spacing:1px;font-weight:900;color:#d6bd77}
+.league-featured h2{color:#f1e6c6;font-size:24px;margin:10px 0;letter-spacing:-.3px}
+.league-featured p{color:#b9c3c5;font-size:11px;margin:6px 0}
+.league-score-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin-top:16px}
+.league-score-grid>div{border:1px solid #456455;padding:9px;border-radius:9px;background:#102d30}
+.league-score-grid small{display:block;color:#97b9b6;font-size:9px;font-weight:800}
+.league-score-grid strong{display:block;color:#ccf7cf;font-size:20px;margin-top:3px}
+.league-up-next small{display:inline-block;color:#a6c7c6;font-size:9px;min-width:160px;margin-top:8px}
+.league-up-next strong{color:#e7f5c0;font-size:16px}
+.league-divider{border-bottom:1px solid #435d59;margin-top:15px}
+.league-agents-panel{margin-top:15px}
+.league-agent-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.league-agent{border:1px solid #3f5765;border-radius:10px;padding:13px;background:#132939;min-height:99px}
+.league-agent strong{display:block;color:#e3f8ea;font-size:12px;letter-spacing:.5px}
+.league-agent span{display:block;color:#acd0c5;font-size:11px;margin-top:6px}
+.league-agent small{display:block;color:#91a3b9;font-size:9px;margin-top:6px}
+.league-match-tape{display:grid;gap:8px}
+.league-match{display:flex;align-items:center;gap:12px;flex-wrap:wrap;padding:11px 13px;border:1px solid #385563;background:#132939;border-radius:9px;font-size:11px}
+.league-match b{min-width:120px;color:#e5efea}
+.league-match span{color:#b4c7c9}
+.league-match .match-decision{margin-left:auto;font-weight:900}
+.league-match.promoted{border-color:#54b584;background:#173c35}
+.league-match.promoted .match-decision{color:#8eedb7}
+.league-match.rejected .match-decision{color:#edb19a}
+.league-match .flags{display:block;width:100%;color:#bfad91;font-size:10px}
+@media(max-width:850px){.league-featured{grid-template-columns:1fr}.league-agent-grid{grid-template-columns:repeat(2,1fr)}.league-score-grid{grid-template-columns:repeat(2,1fr)}}
+@media(max-width:600px){.league-overview-banner{flex-wrap:wrap}.league-agent-grid{grid-template-columns:1fr}.league-match .match-decision{margin-left:0}}
