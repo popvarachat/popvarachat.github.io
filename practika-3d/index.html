@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="theme-color" content="#0a111e">
+<meta name="description" content="PRACTIKA 3D Experience — interactive architectural concept prototype with source-traceable REA map.">
+<title>PRACTIKA 3D · Industrial Customized Furniture Experience</title>
+<style>
+:root{color-scheme:dark;--bg:#07101a;--panel:#111e2a;--panel2:#172635;--line:#2b3d49;--fg:#edf5f5;--mute:#a4b5bb;--gold:#e6b879;--mint:#83dec3;--warn:#ffd18c}*{box-sizing:border-box}
+html,body{margin:0;min-height:100%;font-family:Inter,"Segoe UI",Tahoma,system-ui,sans-serif;background:var(--bg);color:var(--fg)}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,a:focus-visible,input:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+a{color:inherit}.shell{height:100vh;min-height:690px;display:grid;grid-template-rows:66px minmax(0,1fr) 40px;overflow:hidden}
+header{display:flex;align-items:center;padding:0 26px;gap:20px;border-bottom:1px solid #253743;background:#08121ddd;z-index:6}
+.brand{display:flex;align-items:center;gap:12px;text-decoration:none;white-space:nowrap}.brand b{font-size:20px;letter-spacing:.17em}.brand small{display:block;color:var(--gold);font-size:8px;letter-spacing:.24em}
+.brandmark{width:30px;height:30px;border:2px solid var(--gold);transform:rotate(45deg);border-radius:4px;display:grid;place-items:center}.brandmark i{width:13px;height:13px;border:2px solid var(--gold);display:block}
+.topnav{display:flex;align-items:center;gap:8px;margin-left:24px;flex:1;overflow:auto hidden;scrollbar-width:none}.topnav button{color:#b8c7cc;background:transparent;border:0;white-space:nowrap;padding:11px 14px;border-radius:25px;font-size:12px}.topnav button:hover,.topnav button.active{color:#fff;background:#203241}
+.header-cta{border:1px solid #947954;background:#ba9365;color:#08121a;padding:10px 16px;border-radius:6px;font-weight:750;font-size:12px;white-space:nowrap}
+main{min-height:0;display:grid;grid-template-columns:minmax(0,1fr) 358px;position:relative}
+.stage{position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 38%,#1d3141 0%,#0b1724 53%,#070f17 100%)}
+#three{position:absolute;inset:0}#three canvas{display:block;width:100%;height:100%}.stage:after{content:"";position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(8,16,25,.08),transparent 62%,rgba(8,16,25,.63))}
+.eyebrow{color:var(--gold);font-size:11px;letter-spacing:.24em;font-weight:750;text-transform:uppercase}
+.stage-title{position:absolute;top:36px;left:38px;z-index:2;pointer-events:none;max-width:630px}.stage-title h1{font-size:clamp(31px,4.5vw,62px);margin:10px 0 8px;letter-spacing:-.044em;font-weight:720;line-height:1.07}.stage-title h1 em{font-style:normal;color:var(--gold)}.stage-title p{color:#b5c7d0;font-size:13px;line-height:1.75;max-width:520px;margin:12px 0}
+.stage-left{position:absolute;left:30px;bottom:33px;z-index:3;display:flex;gap:7px;flex-wrap:wrap;max-width:60%}.scene-btn{background:#142332cb;border:1px solid #40525b;color:#d7e4e6;padding:9px 12px;border-radius:6px;font-size:11px;backdrop-filter:blur(10px)}.scene-btn.active,.scene-btn:hover{border-color:var(--gold);background:#543f31b5;color:#fff}
+.stage-tools{position:absolute;right:22px;bottom:24px;z-index:4;display:flex;gap:6px;align-items:center}.tool{width:37px;height:37px;color:#d4e1e2;border:1px solid #53606a;border-radius:8px;background:#0b1924b9;font-size:17px}.tool:hover{background:#283e4e}.axis{color:#a9bbc4;font-size:11px;margin-right:10px}.loading{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;flex-direction:column;gap:8px;background:#0d1b28;z-index:5;color:var(--mute);font-size:13px}.spinner{width:36px;height:36px;border-radius:50%;border:2px solid #475868;border-top-color:var(--gold);animation:spin 1s linear infinite}@keyframes spin{to{transform:rotate(360deg)}}
+.sidebar{z-index:2;background:#0d1924;border-left:1px solid #2d414c;padding:0;overflow:auto;min-height:0;scrollbar-width:thin;scrollbar-color:#435968 transparent}.sidebar .section{padding:24px;border-bottom:1px solid #2b3e48}.sidebar h2{font-size:24px;margin:8px 0 8px;letter-spacing:-.025em}.sidebar p{font-size:12px;color:var(--mute);line-height:1.8;margin:8px 0}.section-title{display:flex;justify-content:space-between;align-items:center;gap:8px}.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--mint);box-shadow:0 0 10px var(--mint);margin-right:5px}.count{color:var(--mint);font-size:11px}
+.cardgrid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:14px}.zone-card{border:1px solid #334650;border-radius:9px;background:#152431;text-align:left;padding:13px 11px;min-height:91px;color:#dae8e7;transition:.2s}.zone-card:hover,.zone-card.active{border-color:#d9b47e;transform:translateY(-1px);background:#293239}.zone-card .symbol{display:block;font-size:23px;margin-bottom:10px}.zone-card .name{display:block;font-size:11px;font-weight:700}.zone-card .subtitle{display:block;font-size:10px;color:#9daeb5;margin-top:5px}.statrow{display:grid;grid-template-columns:repeat(3,1fr);gap:7px;margin-top:16px}.stat{background:#172733;border:1px solid #2e4651;border-radius:7px;padding:11px 7px;text-align:center}.stat b{display:block;color:#e8bf82;font-size:19px}.stat span{display:block;color:#9fb2b9;font-size:9px;margin-top:5px}
+.pane-link{color:#f6c98f;text-decoration:underline;text-decoration-color:#806948;text-underline-offset:3px;font-size:11px}.pill{border:1px solid #435863;color:#9fe0c9;padding:4px 9px;border-radius:20px;font-size:10px;white-space:nowrap}
+.label{display:flex;align-items:center;justify-content:space-between;color:#bfd0d3;font-size:11px;margin:16px 0 7px}.label output{color:var(--gold);font-weight:700}input[type=range]{width:100%;accent-color:#c8a472}.bar{height:7px;border-radius:6px;background:#273946;overflow:hidden;margin-top:9px}.bar i{display:block;height:100%;width:35%;background:linear-gradient(90deg,#eab66e,#9bdfa9);border-radius:6px;transition:.3s}
+.safety{font-size:10px;color:#d1b995;line-height:1.7;padding:12px;background:#342c25;border:1px solid #66523a;border-radius:8px;margin-top:13px}
+.sim-btn{width:100%;border:1px solid #d2ab79;background:linear-gradient(135deg,#cba574,#a6794d);color:#091520;font-weight:700;padding:12px;border-radius:7px;margin-top:14px}.sim-btn:hover{filter:brightness(1.1)}.scene-select{width:100%;border:1px solid #3f5660;background:#162734;border-radius:7px;padding:10px;color:#e2ecec;font-size:12px;margin-top:10px}.source-row{display:flex;justify-content:space-between;gap:8px;align-items:center;background:#172734;padding:9px;border:1px solid #2d4653;border-radius:7px;margin-top:9px;font-size:11px}.source-row small{color:#aac4cb}
+.footer{display:flex;align-items:center;justify-content:space-between;padding:0 24px;background:#08121b;border-top:1px solid #253944;color:#91a5ad;font-size:10px;gap:12px}.footer a{color:#bfccd1}.footer strong{color:#d9bb91;font-weight:600}
+.help{position:absolute;left:36px;top:225px;z-index:2;background:#15283798;border:1px solid #3a56645c;padding:10px 12px;color:#bfd1d7;border-radius:6px;font-size:10px}
+#toast{position:absolute;left:50%;transform:translateX(-50%);top:22px;background:#1d3540f0;border:1px solid #a5a378;padding:12px 18px;border-radius:8px;z-index:8;display:none;font-size:12px}.noscript{padding:30px;background:#20333d}
+@media(max-width:1120px){.topnav{margin-left:3px}.topnav button{padding:10px}.header-cta{display:none}main{grid-template-columns:minmax(0,1fr) 320px}.stage-title{left:23px;top:24px}.help{left:23px;top:187px}}
+@media(max-width:760px){.shell{height:auto;min-height:100vh;display:block;overflow:visible}header{height:60px;padding:0 15px}.topnav{max-width:65vw}.brand b{font-size:15px}.brand small{font-size:7px}main{display:flex;flex-direction:column}.stage{height:68vh;min-height:480px}.stage-title{top:20px;left:18px;right:10px}.stage-title h1{font-size:31px}.stage-title p{font-size:11px;max-width:290px}.help{top:auto;bottom:92px;left:15px}.stage-left{left:15px;bottom:14px;max-width:75%;gap:4px}.scene-btn{padding:7px 8px;font-size:10px}.stage-tools{right:12px;bottom:14px}.axis{display:none}.sidebar{overflow:visible}.sidebar .section{padding:20px}.footer{height:auto;min-height:52px;padding:12px;flex-wrap:wrap}}
+</style>
+</head>
+<body>
+<div class="shell">
+<header>
+<a href="https://www.practika.com/" class="brand" title="เว็บไซต์ PRACTIKA ต้นฉบับ"><span class="brandmark"><i></i></span><span><b>PRACTIKA</b><small>INDUSTRIAL CUSTOMIZED FURNITURE</small></span></a>
+<nav class="topnav" aria-label="หัวข้อเว็บไซต์">
+<button class="active" data-mode="overview">3D HOME</button><button data-mode="materials">MATERIALS</button><button data-mode="workplace">OUR BUSINESS</button><button data-mode="product">PRODUCTS</button><button data-mode="projects">PROJECTS</button><button data-mode="service">SERVICES</button><button data-mode="simulation">SIMULATION</button>
+</nav>
+<a class="header-cta" href="https://www.practika.com/" target="_blank" rel="noopener">VIEW ORIGINAL ↗</a>
+</header>
+<main>
+<section class="stage" aria-label="Interactive 3D showroom">
+<div id="three"><div class="loading" id="loading"><span class="spinner"></span>กำลังเตรียม 3D Digital Experience…</div></div>
+<div class="stage-title"><div class="eyebrow" id="eyebrow">● PRACTIKA DIGITAL EXPERIENCE / PROTOTYPE 01</div><h1 id="heroTitle">Design beyond<br><em>the ordinary.</em></h1><p id="heroDesc">สำรวจโลกของ Industrial Customized Furniture ผ่าน 3D Showroom, Interactive Product และการจำลองการใช้พื้นที่</p></div>
+<div class="help">↖ ลากเพื่อหมุน • Scroll เพื่อซูม • เลือกโซนเพื่อสำรวจ</div>
+<div id="toast" role="status"></div>
+<div class="stage-left" id="sceneButtons"></div>
+<div class="stage-tools"><span class="axis" id="renderStatus">● REAL-TIME WEBGL</span><button class="tool" id="pauseBtn" title="หยุดหรือเล่นภาพเคลื่อนไหว">Ⅱ</button><button class="tool" id="resetBtn" title="คืนค่ามุมกล้อง">⟲</button><button class="tool" id="qualityBtn" title="สลับคุณภาพ">◈</button></div>
+</section>
+<aside class="sidebar" aria-label="แผงข้อมูลและการควบคุม">
+<div class="section"><div class="section-title"><span class="eyebrow">INTERACTIVE CONTROL CENTER</span><span class="pill"><span class="dot"></span> 3D LIVE</span></div><h2 id="sideTitle">Explore Practika</h2><p id="sideDesc">เลือกกลุ่มธุรกิจเพื่อทดลองชมการจัดพื้นที่ในโลก 3 มิติ</p>
+<div class="cardgrid" id="zoneCards"></div></div>
+<div class="section" id="simPanel"><div class="section-title"><span class="eyebrow">SPATIAL SIMULATION</span><span class="count" id="scenarioLabel">SCENARIO A</span></div>
+<p>เปลี่ยนสมมติฐานแล้วดูเลย์เอาต์สำนักงานและการสัญจรในพื้นที่แบบ Real-time (ค่าจำลองเพื่อการสาธิต)</p>
+<div class="label"><label for="deskRange">จำนวนโต๊ะทำงาน</label><output id="deskVal">8</output></div><input id="deskRange" type="range" min="4" max="24" value="8" step="2">
+<div class="label"><label for="aisleRange">ระยะทางเดิน (เมตร)</label><output id="aisleVal">1.4 m</output></div><input id="aisleRange" type="range" min=".7" max="2.5" value="1.4" step=".1">
+<div class="label"><label for="peopleRange">จำนวนผู้ใช้งาน</label><output id="peopleVal">8</output></div><input id="peopleRange" type="range" min="2" max="40" value="8" step="2">
+<div class="statrow"><div class="stat"><b id="utilStat">—</b><span>พื้นที่โดยประมาณ</span></div><div class="stat"><b id="clearStat">—</b><span>ความกว้างทางเดิน</span></div><div class="stat"><b id="trafficStat">—</b><span>ระดับการใช้งาน</span></div></div><div class="bar"><i id="utilBar"></i></div>
+<button class="sim-btn" id="runSim">▶ RUN SPACE SIMULATION</button>
+<div class="safety" id="simWarning">ข้อมูลและโมเดล 3D ใช้เพื่อสาธิตเท่านั้น ไม่ใช่แบบก่อสร้างหรือการรับรองระยะทางหนีไฟ</div>
+</div>
+<div class="section"><div class="section-title"><span class="eyebrow">REA · SOURCE TRACE</span><span class="pill">EVIDENCE LINKED</span></div>
+<p id="traceDesc">แต่ละหมวดเชื่อมกลับไปยังหน้าเว็บไซต์ Practika เดิม เพื่อย้อนรอยโครงสร้างและเนื้อหาจริง</p>
+<div class="source-row"><span>ต้นฉบับ <small id="sourceName">Homepage</small></span><a class="pane-link" id="sourceLink" href="https://www.practika.com/" target="_blank" rel="noopener">OPEN ↗</a></div>
+<div class="source-row"><span>สถานะโมเดล <small>Procedural 3D</small></span><span class="pill">CONCEPT</span></div>
+<p style="font-size:10px;margin-top:12px">3D Geometry ออกแบบเพื่อการนำเสนอ ไม่ได้สแกนขนาดผลิตภัณฑ์จริงหรือแทนที่ข้อมูลทางการของ Practika</p></div>
+</aside>
+</main>
+<footer class="footer"><span>© PRACTIKA 3D Experience · Independent concept prototype · <strong>Not the production corporate website</strong></span><span>REA: Original navigation → 3D scene → Simulation → Source evidence</span><a href="https://www.practika.com/" target="_blank" rel="noopener">www.practika.com ↗</a></footer>
+</div>
+<noscript><div class="noscript">การแสดงผลต้องเปิด JavaScript หากไม่สามารถใช้ WebGL ได้ โปรดเปิด <a href="https://www.practika.com/">เว็บไซต์ต้นฉบับ</a></div></noscript>
+<script type="module">
+import * as THREE from 'https://cdn.jsdelivr.net/npm/three@0.169.0/build/three.module.js';
+const $=id=>document.getElementById(id);
+const SOURCE={
+ overview:['Homepage','https://www.practika.com/'],
+ materials:['Industrial Customized Furniture','https://www.practika.com/'],
+ workplace:['Workplace','https://www.practika.com/Our_Und_Business/Our_Und_Business'],
+ retail:['Retail','https://www.practika.com/RETAILS/RETAILS'],
+ education:['Education','https://www.practika.com/Our_Und_Business/Our_Und_Business'],
+ health:['Health','https://www.practika.com/Our_Und_Business/Our_Und_Business'],
+ residential:['Residential','https://www.practika.com/Residential/Residential'],
+ hospitality:['Hospitality','https://www.practika.com/Our_Und_Business/Our_Und_Business'],
+ product:['Products','https://www.practika.com/PRODUCTS/PRODUCTS'],
+ projects:['Project References','https://www.practika.com/PROJECT_Und_REFERENCES/PROJECT_Und_REFERENCES'],
+ service:['Services & Warranty','https://www.practika.com/'],
+ simulation:['Workplace spatial concept','https://www.practika.com/Our_Und_Business/Our_Und_Business']
+};
+const titles={
+ overview:['Discover a new','<em>dimension.</em>','เริ่มต้นสำรวจโลกของ Practika ผ่านสถาปัตยกรรม 3D Interactive'],
+ materials:['Crafted with','<em>precision.</em>','เรียนรู้โครงสร้างและวัสดุ: ไม้ เหล็ก ผ้า หนัง และเทคนิคพิเศษ'],
+ workplace:['Spaces that','<em>work.</em>','จำลองเฟอร์นิเจอร์สำนักงานและพื้นที่การทำงาน'],
+ retail:['Build your','<em>brand.</em>','พื้นที่ร้านค้าที่เล่าเรื่องราวอัตลักษณ์ของแบรนด์'],
+ education:['Learn in','<em>3 dimensions.</em>','จำลองห้องเรียน โต๊ะเรียน และพื้นที่การเรียนรู้'],
+ health:['Designed for','<em>wellbeing.</em>','แนวคิดพื้นที่บริการสุขภาพพร้อมเฟอร์นิเจอร์ที่ปรับใช้ได้'],
+ residential:['Live','<em>beautifully.</em>','สำรวจโมดูลเฟอร์นิเจอร์สำหรับพื้นที่พักอาศัย'],
+ hospitality:['Experience','<em>comfort.</em>','พื้นที่ต้อนรับและพักผ่อนในงาน Hospitality'],
+ product:['Every detail','<em>matters.</em>','หมุนมุมมองผลิตภัณฑ์ 3D และสำรวจโครงสร้างเฟอร์นิเจอร์'],
+ projects:['Built for','<em>real places.</em>','เปิดแกลเลอรีผลงานโครงการในรูปแบบ 3D'],
+ service:['From idea','<em>to aftercare.</em>','เรียนรู้ลำดับออกแบบ ผลิต ติดตั้ง และบริการหลังการขาย'],
+ simulation:['Test the','<em>possibilities.</em>','ปรับจำนวนโต๊ะ ระยะทางเดิน และผู้ใช้งานเพื่อศึกษาผลกระทบของผัง']
+};
+const zoneData=[['workplace','⌘','WORKPLACE','สำนักงาน'],['retail','▤','RETAIL','ร้านค้า'],['education','▧','EDUCATION','สถานศึกษา'],['health','✚','HEALTH','สถานพยาบาล'],['residential','⌂','RESIDENTIAL','ที่อยู่อาศัย'],['hospitality','✦','HOSPITALITY','โรงแรม']];
+let mode='overview', animating=true, qualityHigh=true, desks=8,aisle=1.4,people=8,clock=0,autoOrbit=true,moveActors=[];
+const root=$('three'), scene=new THREE.Scene();scene.fog=new THREE.FogExp2(0x101d29,.026);
+const camera=new THREE.PerspectiveCamera(36,1,.1,180);camera.position.set(21,19,26);const target=new THREE.Vector3(0,1,0);
+const renderer=new THREE.WebGLRenderer({antialias:true,alpha:true,powerPreference:'high-performance'});
+renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.setSize(root.clientWidth,root.clientHeight);renderer.shadowMap.enabled=true;renderer.shadowMap.type=THREE.PCFSoftShadowMap;renderer.toneMapping=THREE.ACESFilmicToneMapping;renderer.toneMappingExposure=1.55;root.prepend(renderer.domElement);
+scene.add(new THREE.HemisphereLight(0xc8e8ff,0x15252a,2));
+const sun=new THREE.DirectionalLight(0xffecd0,3.2);sun.position.set(-5,20,9);sun.castShadow=true;sun.shadow.mapSize.set(2048,2048);sun.shadow.camera.left=-35;sun.shadow.camera.right=35;sun.shadow.camera.top=35;sun.shadow.camera.bottom=-35;scene.add(sun);
+const rim=new THREE.PointLight(0x79c9df,90,40);rim.position.set(5,9,-8);scene.add(rim);
+const dyn=new THREE.Group();scene.add(dyn);
+const colors={wood:0xb48b64,woodLight:0xc7a37c,metal:0x69777a,blue:0x29495c,fabric:0xb0a598,light:0xd8c7ad,green:0x7ba294,gold:0xd3a36d,glass:0x87b6c4};
+function mat(color,roughness=.7,metalness=0){return new THREE.MeshStandardMaterial({color,roughness,metalness})}
+const M={floor:mat(0x172936),wood:mat(colors.wood),woodLight:mat(colors.woodLight),metal:mat(colors.metal,.32,.8),black:mat(0x26353c,.55,.2),fabric:mat(colors.fabric,.96),blue:mat(colors.blue,.65),glass:new THREE.MeshPhysicalMaterial({color:colors.glass,roughness:.13,metalness:.1,transparent:true,opacity:.42,side:THREE.DoubleSide}),white:mat(0xc8d3d1),plant:mat(0x4d8469),gold:mat(colors.gold,.38,.4),light:mat(0xd7ba92)};
+function box(parent,w,h,d,x,y,z,m){const o=new THREE.Mesh(new THREE.BoxGeometry(w,h,d),m);o.position.set(x,y,z);o.castShadow=true;o.receiveShadow=true;parent.add(o);return o}
+function cyl(parent,r1,r2,h,x,y,z,m,segments=14){const o=new THREE.Mesh(new THREE.CylinderGeometry(r1,r2,h,segments),m);o.position.set(x,y,z);o.castShadow=true;parent.add(o);return o}
+function group(x=0,y=0,z=0){const g=new THREE.Group();g.position.set(x,y,z);dyn.add(g);return g}
+function label(g,t,x,y,z,s=.22){let c=document.createElement('canvas');c.width=768;c.height=128;let ctx=c.getContext('2d');ctx.fillStyle='#233948';ctx.fillRect(0,0,768,128);ctx.strokeStyle='#b7a07d';ctx.lineWidth=4;ctx.strokeRect(3,3,762,122);ctx.fillStyle='#f3ede1';ctx.font='bold 57px sans-serif';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(t.toUpperCase(),384,66);const sprite=new THREE.Sprite(new THREE.SpriteMaterial({map:new THREE.CanvasTexture(c),transparent:true}));sprite.position.set(x,y,z);sprite.scale.set(768*s/128,s,1);g.add(sprite);return sprite}
+function floor(size=27){const g=group();box(g,size,.25,size,0,-.18,0,M.floor);const grid=new THREE.GridHelper(size,Math.round(size),0x38525a,0x293c49);grid.position.y=-.045;g.add(grid);for(let i=0;i<4;i++){box(g,size,.2,.18,0,.03,(i%2?1:-1)*size/2,M.metal);box(g,.18,.2,size,(i%2?1:-1)*size/2,.03,0,M.metal)}return g}
+function desk(g,x,z,rot=0,wide=2.25){let p=new THREE.Group();p.position.set(x,0,z);p.rotation.y=rot;g.add(p);box(p,wide,.14,.95,0,.84,0,M.woodLight);for(let a of [-1,1])for(let b of [-1,1])box(p,.07,.82,.08,a*(wide/2-.11),.4,b*.35,M.metal);box(p,.57,.035,.31,0,.93,-.03,M.black);box(p,.56,.32,.035,0,1.13,-.2,M.glass);box(p,.3,.03,.2,0,.87,.33,M.white);chair(p,.1,1.09,Math.PI);return p}
+function chair(g,x=0,z=0,rot=0){let p=new THREE.Group();p.position.set(x,0,z);p.rotation.y=rot;g.add(p);cyl(p,.055,.07,.45,0,.39,0,M.metal);box(p,.62,.12,.57,0,.65,0,M.fabric);box(p,.62,.7,.12,0,1.02,-.23,M.blue);cyl(p,.35,.26,.08,0,.14,0,M.metal);return p}
+function sofa(g,x,z,rot=0){let p=new THREE.Group();p.position.set(x,0,z);p.rotation.y=rot;g.add(p);box(p,3,.3,1.14,0,.42,0,M.fabric);box(p,3,.82,.25,0,.92,-.46,M.fabric);for(let i of [-1,1]){box(p,.3,.54,1.15,i*1.35,.72,0,M.blue);box(p,.09,.25,.09,i*1.18,.17,.42,M.metal)}return p}
+function counter(g,x,z){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);box(p,3.8,1.13,.85,0,.57,0,M.wood);box(p,4,.1,1.05,0,1.18,0,M.woodLight);box(p,3,.72,.035,0,.65,.45,M.blue);return p}
+function shelf(g,x,z){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);for(let x of [-1.2,1.2])box(p,.12,3,.6,x,1.5,0,M.metal);for(let y of [.22,1.1,2,2.9])box(p,2.55,.13,.62,0,y,0,M.woodLight);for(let i=0;i<3;i++)box(p,.45,.6,.4,-.7+i*.65,1.54,.08,i%2?M.gold:M.fabric);return p}
+function plant(g,x,z){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);cyl(p,.33,.24,.56,0,.3,0,M.wood);cyl(p,.08,.08,1.24,0,1.07,0,M.metal);for(let j=0;j<5;j++){const leaf=new THREE.Mesh(new THREE.SphereGeometry(.38,9,8),M.plant);leaf.position.set(Math.sin(j*2.4)*.33,1.55+Math.cos(j)*.22,Math.cos(j*2.4)*.32);p.add(leaf)}}
+function room(g,size=16){box(g,size,.18,size,0,-.09,0,M.woodLight);box(g,.17,3.4,size,-size/2,1.7,0,M.white);box(g,size,3.4,.17,0,1.7,-size/2,M.white);box(g,size,.18,.2,0,3.4,-size/2,M.gold);for(let j=-2;j<=2;j++){box(g,.06,2.7,.06,j*size/7,1.6,-size/2+.15,M.metal);box(g,size/8,2.4,.05,j*size/7,1.6,-size/2+.11,M.glass)}}
+function figure(g,x,z,i=0){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);cyl(p,.16,.18,.75,0,1.09,0,i%2?M.blue:M.fabric);const head=new THREE.Mesh(new THREE.SphereGeometry(.2,12,9),M.woodLight);head.position.y=1.66;p.add(head);for(let dx of [-.12,.12])cyl(p,.065,.065,.6,dx,.38,0,M.metal);p.userData={i,baseX:x,baseZ:z};moveActors.push(p);return p}
+function podium(g,title,x,z){let p=new THREE.Group();p.position.set(x,0,z);g.add(p);cyl(p,1.5,1.9,.38,0,.18,0,M.metal);cyl(p,1.39,1.39,.1,0,.42,0,M.woodLight);label(p,title,0,2.8,0,.25);return p}
+function clear(){for(const a of [...dyn.children]){dyn.remove(a);a.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material&&o.material.map&&o.material.map.isCanvasTexture)o.material.map.dispose()})}moveActors=[]}
+function workstation(rows=2,cols=4,sp=2.8,pace=1.4){floor(27);const r=group();room(r,18);const stride=Math.max(2.35,2.15+pace*.44);for(let i=0;i<rows;i++)for(let j=0;j<cols;j++){const x=(j-(cols-1)/2)*stride,z=(i-(rows-1)/2)*(2.15+pace);desk(r,x,z,i%2?Math.PI:0,Math.min(2.25,stride-.25))}for(let i=0;i<Math.min(people,18);i++){const ang=i*2.399,rad=2.6+(i%5)*.85;figure(r,Math.sin(ang)*rad,Math.cos(ang)*rad,i)}plant(r,-7.7,6.9);plant(r,7.7,-6.9);label(r,'WORKPLACE · INTERACTIVE',0,4.3,-8.1,.3);return r}
+function setLobby(){floor(32);const g=group();cyl(g,9.8,10.6,.5,0,-.1,0,M.metal,8);cyl(g,9.2,9.2,.18,0,.23,0,M.woodLight,8);for(let i=0;i<6;i++){const a=i*Math.PI/3;const x=Math.sin(a)*6.8,z=Math.cos(a)*6.8;let p=new THREE.Group();p.position.set(x,.2,z);p.rotation.y=-a;g.add(p);box(p,3.2,.08,3.2,0,.12,0,M.black);if(i%3===0){desk(p,0,0);chair(p,-.85,1.3)}else if(i%3===1){sofa(p,0,0)}else{shelf(p,0,0)}label(p,zoneData[i][2],0,2.9,0,.22)}counter(g,0,0);label(g,'PRACTIKA',0,3.8,0,.31);for(let a=0;a<6;a++)plant(g,Math.sin(a)*10.5,Math.cos(a)*10.5)}
+function setMaterials(){floor(29);const g=group();const types=[['WOODWORK',M.wood],['UPHOLSTERY',M.fabric],['METAL WORK',M.metal],['SPECIAL TECHNIQUE',M.gold]];for(let i=0;i<4;i++){const x=(i%2?1:-1)*4.8,z=(i<2?-1:1)*4.4;podium(g,types[i][0],x,z);const p=new THREE.Group();p.position.set(x,1.13,z);p.rotation.y=i*.9;g.add(p);if(i===0){box(p,1.8,.15,.9,0,1,0,M.woodLight);for(let j of [-.65,.65])box(p,.12,1.8,.9,j,.35,0,M.wood)}else if(i===1)sofa(p,0,0);else if(i===2){for(let h=0;h<4;h++)box(p,1.2-h*.1,.13,1.2-h*.1,0,h*.4+.55,0,M.metal)}else{box(p,1.5,1.3,1.2,0,1.2,0,M.glass);box(p,1.65,.12,1.32,0,1.93,0,M.gold)}}}
+function setRetail(){floor(28);const g=group();room(g,17);for(let i=0;i<3;i++){shelf(g,-4+i*4.2,-3.7);counter(g,-4+i*4.1,3.5)}figure(g,-2,3,0);figure(g,2,4,1);plant(g,7,-6);label(g,'RETAIL · BRAND EXPERIENCE',0,4.4,-8,.29)}
+function setEducation(){floor(27);const g=group();room(g,17);for(let row=0;row<3;row++)for(let col=0;col<4;col++){const p=new THREE.Group();p.position.set((col-1.5)*3,0,(row-1)*3.25);g.add(p);box(p,1.7,.13,.9,0,.8,0,M.woodLight);for(let xx of [-.7,.7])box(p,.07,.75,.08,xx,.38,0,M.metal);chair(p,0,1.2,Math.PI)}box(g,9,2.4,.12,0,1.8,-8,M.blue);label(g,'EDUCATION · CLASSROOM',0,4.35,-8,.25)}
+function setHealth(){floor(27);const g=group();room(g,17);counter(g,0,-4);for(let i=0;i<6;i++){const x=(i%3-1)*3.9,z=Math.floor(i/3)*4+1;chair(g,x,z);box(g,1.3,.7,.8,x-.1,1.35,z-.7,M.white)}for(let i=0;i<3;i++){plant(g,-7+i*7,6.7)}label(g,'HEALTH · SERVICE AREA',0,4.35,-8,.27)}
+function setResidential(){floor(27);const g=group();room(g,16);sofa(g,0,1);box(g,2,.12,1,0,.47,3,M.woodLight);box(g,2.7,.35,1.7,5.4,.42,-3.2,M.fabric);shelf(g,-5,-5);plant(g,6,6);label(g,'RESIDENTIAL · MODULAR LIVING',0,4.35,-7.5,.27)}
+function setHospitality(){floor(27);const g=group();room(g,18);counter(g,0,-5.4);sofa(g,-4.8,1.4,Math.PI/2);sofa(g,4.8,1.4,-Math.PI/2);for(let i=0;i<3;i++){box(g,1.4,.09,1.4,(i-1)*2.8,.51,4,M.woodLight);chair(g,(i-1)*2.8,5.3,Math.PI);plant(g,-7,7);plant(g,7,7)}label(g,'HOSPITALITY · WELCOME',0,4.5,-8.5,.25)}
+function setProducts(){floor(26);const g=group();podium(g,'DESK & TABLE',-5,0);podium(g,'SEATING',5,0);desk(g,-5,0);chair(g,4.5,0);chair(g,5.4,.3,1.2);sofa(g,0,5);plant(g,-8,6);plant(g,8,6)}
+function setProjects(){floor(28);const g=group();for(let i=0;i<6;i++){const a=i*Math.PI/3;const x=7*Math.sin(a),z=7*Math.cos(a);podium(g,zoneData[i][2],x,z);if(i%3===0)desk(g,x,z);else if(i%3===1)sofa(g,x,z);else shelf(g,x,z)}}
+function setService(){floor(28);const g=group();const seq=[['DESIGN',M.gold],['ENGINEERING',M.blue],['PRODUCTION',M.metal],['INSTALLATION',M.fabric],['AFTER SALES',M.wood]];for(let i=0;i<5;i++){const x=(i-2)*4.4;const p=new THREE.Group();p.position.x=x;g.add(p);cyl(p,1.6,1.8,.45,0,.17,0,seq[i][1]);box(p,1.45,.45,1.45,0,.7,0,M.woodLight);box(p,.85,1,.85,0,1.4,0,seq[i][1]);label(p,seq[i][0],0,3,0,.16);if(i<4)box(g,2,.09,.15,x+2.2,.58,0,M.gold)}label(g,'ONE STOP SERVICES',0,5.3,-5.5,.32)}
+function resize(){const w=root.clientWidth,h=root.clientHeight;if(!w||!h)return;camera.aspect=w/h;camera.updateProjectionMatrix();renderer.setSize(w,h,false)}addEventListener('resize',resize);
+let azimuth=.55,elevation=.52,distance=31,drag=false,oldX=0,oldY=0;
+function updateCamera(){camera.position.set(Math.sin(azimuth)*Math.cos(elevation)*distance,Math.sin(elevation)*distance,Math.cos(azimuth)*Math.cos(elevation)*distance);camera.lookAt(target)}
+renderer.domElement.addEventListener('pointerdown',e=>{drag=true;oldX=e.clientX;oldY=e.clientY;autoOrbit=false;renderer.domElement.setPointerCapture(e.pointerId)});
+renderer.domElement.addEventListener('pointermove',e=>{if(!drag)return;azimuth-=(e.clientX-oldX)*.006;elevation=Math.max(.16,Math.min(1.24,elevation+(e.clientY-oldY)*.004));oldX=e.clientX;oldY=e.clientY;updateCamera()});
+renderer.domElement.addEventListener('pointerup',()=>drag=false);renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();distance=Math.max(11,Math.min(54,distance+e.deltaY*.022));updateCamera()},{passive:false});
+function updateSim(){desks=+$('deskRange').value;aisle=+$('aisleRange').value;people=+$('peopleRange').value;
+$('deskVal').value=desks;$('aisleVal').value=aisle.toFixed(1)+' m';$('peopleVal').value=people;
+const utilization=Math.min(100,Math.round((desks*4.6+people*1.4)/180*100));const traffic=Math.round(people/Math.max(1,desks)*100);
+$('utilStat').textContent=utilization+'%';$('clearStat').textContent=aisle.toFixed(1)+' m';$('trafficStat').textContent=traffic<100?'LOW':traffic<210?'MED':'HIGH';$('utilBar').style.width=utilization+'%';
+$('simWarning').textContent=aisle<1.1?'ระยะทางเดินที่เลือกแคบในแบบจำลอง — ต้องตรวจแบบจริงและข้อกำหนดที่เกี่ยวข้องก่อนใช้งาน':'ค่าจำลองเพื่อการศึกษาเท่านั้น ไม่ใช้ยืนยันความจุอาคาร มาตรฐานความปลอดภัยหรือระยะอพยพ';return {utilization,traffic}}
+function drawScene(){clear();moveActors=[];if(mode==='overview')setLobby();else if(mode==='materials')setMaterials();else if(mode==='retail')setRetail();else if(mode==='education')setEducation();else if(mode==='health')setHealth();else if(mode==='residential')setResidential();else if(mode==='hospitality')setHospitality();else if(mode==='product')setProducts();else if(mode==='projects')setProjects();else if(mode==='service')setService();else workstation(Math.ceil(desks/4),Math.min(desks,4),3.05,aisle);distance=mode==='overview'?32:mode==='simulation'?34:29;azimuth=.56;elevation=.52;updateCamera()}
+const sceneButtons=[['overview','OVERVIEW'],['workplace','WORKPLACE'],['retail','RETAIL'],['education','EDUCATION'],['health','HEALTH'],['residential','RESIDENTIAL'],['hospitality','HOSPITALITY']];
+$('sceneButtons').innerHTML=sceneButtons.map(x=>'<button class="scene-btn" data-scene="'+x[0]+'">'+x[1]+'</button>').join('');
+$('zoneCards').innerHTML=zoneData.map(x=>'<button class="zone-card" data-zone="'+x[0]+'"><span class="symbol">'+x[1]+'</span><span class="name">'+x[2]+'</span><span class="subtitle">'+x[3]+'</span></button>').join('');
+function setMode(m){mode=m;const t=titles[m]||titles.overview;$('heroTitle').innerHTML=t[0]+'<br>'+t[1];$('heroDesc').textContent=t[2];$('sideTitle').textContent=m==='overview'?'Explore Practika':(SOURCE[m]?.[0]||'Explore Practika');$('sideDesc').textContent=t[2];const s=SOURCE[m]||SOURCE.overview;$('sourceName').textContent=s[0];$('sourceLink').href=s[1];$('traceDesc').textContent='REA เชื่อมหมวด '+s[0]+' กลับสู่เว็บต้นฉบับ เพื่อใช้เทียบข้อมูลและตรวจสอบก่อนพัฒนาต่อ';document.querySelectorAll('[data-mode],[data-scene],[data-zone]').forEach(b=>b.classList.toggle('active',(b.dataset.mode||b.dataset.scene||b.dataset.zone)===m));$('scenarioLabel').textContent=m==='simulation'?'SCENARIO ACTIVE':'ILLUSTRATIVE MODEL';drawScene();history.replaceState(null,'','#'+m)}
+document.querySelectorAll('[data-mode],[data-scene],[data-zone]').forEach(b=>b.addEventListener('click',()=>setMode(b.dataset.mode||b.dataset.scene||b.dataset.zone)));
+for(const id of ['deskRange','aisleRange','peopleRange'])$(id).addEventListener('input',()=>{updateSim();if(mode==='simulation')drawScene()});
+$('runSim').addEventListener('click',()=>{setMode('simulation');const metrics=updateSim();toast('อัปเดตการจำลอง · การใช้พื้นที่ '+metrics.utilization+'% · '+people+' ผู้ใช้งาน')});
+$('pauseBtn').addEventListener('click',()=>{animating=!animating;$('pauseBtn').textContent=animating?'Ⅱ':'▶';toast(animating?'เปิดการเคลื่อนไหว':'หยุดการเคลื่อนไหว')});
+$('resetBtn').addEventListener('click',()=>{autoOrbit=true;azimuth=.56;elevation=.52;distance=31;updateCamera();toast('รีเซ็ตมุมกล้องแล้ว')});
+$('qualityBtn').addEventListener('click',()=>{qualityHigh=!qualityHigh;renderer.setPixelRatio(qualityHigh?Math.min(devicePixelRatio,1.7):1);resize();toast(qualityHigh?'High quality':'Performance mode')});
+function toast(t){$('toast').textContent=t;$('toast').style.display='block';clearTimeout(toast.id);toast.id=setTimeout(()=>$('toast').style.display='none',2600)}
+function tick(){requestAnimationFrame(tick);if(animating){clock+=.015;if(autoOrbit){azimuth+=.00065;updateCamera()}moveActors.forEach((p,i)=>{p.position.x=p.userData.baseX+Math.sin(clock*.56+i*2)*.38;p.position.z=p.userData.baseZ+Math.cos(clock*.49+i*2)*.3;p.rotation.y=Math.sin(clock*.56+i*2)})}renderer.render(scene,camera)}
+updateSim();setMode(location.hash.slice(1) in titles?location.hash.slice(1):'overview');resize();$('loading').style.display='none';tick();
+</script>
+</body>
+</html>
