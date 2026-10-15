@@ -1,0 +1,1032 @@
+{
+  "schema": "rdc.mt5.research.dashboard.v1",
+  "generated_at": "2026-10-15T00:17:18.021847+00:00",
+  "dataset_asof": "2026-10-14",
+  "data_class": "AGGREGATED_PUBLIC_ONLY",
+  "engine": {
+    "role": "MT5_STRATEGY_TESTER_PC_ONLY",
+    "target_host": "PC",
+    "symbol": "GOLDmicro",
+    "timeframe": "H1",
+    "macd": [
+      12,
+      20,
+      20
+    ],
+    "starting_capital_thb": 10000,
+    "initial_lot": 0.1,
+    "live_trading": "HOLD",
+    "execution_authority": "NONE_FROM_WEB",
+    "actual_connection_status": "NOT_PROBED_BY_EXPORTER"
+  },
+  "process": {
+    "state": "RESEARCH_HOLD",
+    "active": null,
+    "events": [],
+    "mode": "HISTORICAL_RESEARCH_SNAPSHOT",
+    "auto_loop_enabled": false,
+    "explanation": "GitHub Pages is a periodic snapshot; local PC monitor can update while a manually approved tester batch is running."
+  },
+  "research_gate": "FAIL",
+  "evidence_integrity_checks": {
+    "passed": 18,
+    "total": 18
+  },
+  "phases": [
+    {
+      "id": "p1",
+      "name": "Data QA + Backtest 2015–2026",
+      "status": "DONE_WITH_GAPS",
+      "detail": "69,622 H1; older tick/FX gaps"
+    },
+    {
+      "id": "p2",
+      "name": "MFE/MAE · Exit Opportunity",
+      "status": "COMPLETE_PROXY",
+      "detail": "88 matched trades per model, H1 proxy"
+    },
+    {
+      "id": "p3",
+      "name": "Regime Detection",
+      "status": "FAILED_GATE",
+      "detail": "Rule vs cluster agreement 40.7%"
+    },
+    {
+      "id": "p4",
+      "name": "Adaptive Supervisor",
+      "status": "TESTED_NOT_PROMOTED",
+      "detail": "Gate overfilters some years"
+    },
+    {
+      "id": "p5",
+      "name": "Rolling Walk-Forward",
+      "status": "FAILED_GATE",
+      "detail": "23/23 blocks, 9 positive"
+    },
+    {
+      "id": "p6",
+      "name": "Local LLM + RAG",
+      "status": "QA_PARTIAL",
+      "detail": "2/3 numeric QA pass"
+    }
+  ],
+  "overview": {
+    "h1_bars": 69622,
+    "wf_blocks_completed": 23,
+    "wf_blocks_total": 23,
+    "wf_positive_blocks": 9,
+    "wf_active_blocks": 15,
+    "no_trade_blocks": 8,
+    "oos_trades": 321,
+    "regime_agreement": 0.4066,
+    "rag_qa_passed": 2,
+    "rag_qa_total": 3
+  },
+  "strategies": {
+    "ADAPTIVE_POLICY": {
+      "net": 3719.05,
+      "pf": 1.57,
+      "trades": 321,
+      "positive_blocks": 9,
+      "no_trade_blocks": 8,
+      "dd_max_block": 7.6,
+      "completed": 23
+    },
+    "STATIC_V3": {
+      "net": 4922.81,
+      "pf": 1.509,
+      "trades": 610,
+      "positive_blocks": 14,
+      "no_trade_blocks": 0,
+      "dd_max_block": 8.55,
+      "completed": 23
+    },
+    "ORIGINAL_BASE": {
+      "net": 5261.15,
+      "pf": 1.49,
+      "trades": 610,
+      "positive_blocks": 11,
+      "no_trade_blocks": 0,
+      "dd_max_block": 8.51,
+      "completed": 23
+    }
+  },
+  "quarterly_blocks": [
+    {
+      "q": "2021-01",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": -120.94,
+      "pf": 0.6,
+      "dd": 2.07,
+      "recovery": -0.58,
+      "trades": 27,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-01",
+      "strategy": "STATIC_V3",
+      "profit": -120.94,
+      "pf": 0.6,
+      "dd": 2.07,
+      "recovery": -0.58,
+      "trades": 27,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-01",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -91.8,
+      "pf": 0.78,
+      "dd": 2.46,
+      "recovery": -0.37,
+      "trades": 27,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-04",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2021-04",
+      "strategy": "STATIC_V3",
+      "profit": -157.85,
+      "pf": 0.5,
+      "dd": 2.28,
+      "recovery": -0.69,
+      "trades": 30,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-04",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -13.41,
+      "pf": 0.95,
+      "dd": 2.19,
+      "recovery": -0.06,
+      "trades": 30,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-07",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2021-07",
+      "strategy": "STATIC_V3",
+      "profit": 24.02,
+      "pf": 1.07,
+      "dd": 1.28,
+      "recovery": 0.19,
+      "trades": 33,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-07",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -87.14,
+      "pf": 0.79,
+      "dd": 2.57,
+      "recovery": -0.34,
+      "trades": 33,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-10",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2021-10",
+      "strategy": "STATIC_V3",
+      "profit": 139.65,
+      "pf": 2.03,
+      "dd": 0.92,
+      "recovery": 1.51,
+      "trades": 25,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2021-10",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 32.64,
+      "pf": 1.22,
+      "dd": 0.9,
+      "recovery": 0.36,
+      "trades": 25,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-01",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 105.51,
+      "pf": 2.02,
+      "dd": 0.79,
+      "recovery": 1.31,
+      "trades": 13,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-01",
+      "strategy": "STATIC_V3",
+      "profit": -26.14,
+      "pf": 0.91,
+      "dd": 1.64,
+      "recovery": -0.16,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-01",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -54.16,
+      "pf": 0.85,
+      "dd": 2.28,
+      "recovery": -0.24,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-04",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 78.76,
+      "pf": 1.49,
+      "dd": 1.71,
+      "recovery": 0.45,
+      "trades": 16,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-04",
+      "strategy": "STATIC_V3",
+      "profit": 123.31,
+      "pf": 1.53,
+      "dd": 1.28,
+      "recovery": 0.94,
+      "trades": 28,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-04",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -38.56,
+      "pf": 0.89,
+      "dd": 2.01,
+      "recovery": -0.19,
+      "trades": 28,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-07",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": -132.74,
+      "pf": 0.36,
+      "dd": 1.84,
+      "recovery": -0.72,
+      "trades": 13,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-07",
+      "strategy": "STATIC_V3",
+      "profit": -129.29,
+      "pf": 0.69,
+      "dd": 2.53,
+      "recovery": -0.51,
+      "trades": 29,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-07",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -135.8,
+      "pf": 0.63,
+      "dd": 2.41,
+      "recovery": -0.56,
+      "trades": 29,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-10",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2022-10",
+      "strategy": "STATIC_V3",
+      "profit": 81.48,
+      "pf": 1.37,
+      "dd": 1.29,
+      "recovery": 0.62,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2022-10",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 25.29,
+      "pf": 1.13,
+      "dd": 1.25,
+      "recovery": 0.2,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-01",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 96.0,
+      "pf": 2.01,
+      "dd": 0.95,
+      "recovery": 0.99,
+      "trades": 13,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-01",
+      "strategy": "STATIC_V3",
+      "profit": 49.55,
+      "pf": 1.19,
+      "dd": 1.28,
+      "recovery": 0.38,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-01",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -44.45,
+      "pf": 0.86,
+      "dd": 1.7,
+      "recovery": -0.26,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-04",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": -246.39,
+      "pf": 0.27,
+      "dd": 2.89,
+      "recovery": -0.85,
+      "trades": 21,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-04",
+      "strategy": "STATIC_V3",
+      "profit": -173.79,
+      "pf": 0.58,
+      "dd": 2.51,
+      "recovery": -0.69,
+      "trades": 30,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-04",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -262.77,
+      "pf": 0.39,
+      "dd": 2.99,
+      "recovery": -0.88,
+      "trades": 30,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-07",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2023-07",
+      "strategy": "STATIC_V3",
+      "profit": -51.03,
+      "pf": 0.79,
+      "dd": 1.15,
+      "recovery": -0.44,
+      "trades": 22,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-07",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -72.03,
+      "pf": 0.71,
+      "dd": 1.44,
+      "recovery": -0.5,
+      "trades": 22,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-10",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2023-10",
+      "strategy": "STATIC_V3",
+      "profit": 395.37,
+      "pf": 4.14,
+      "dd": 1.37,
+      "recovery": 2.78,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2023-10",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 358.92,
+      "pf": 5.65,
+      "dd": 2.82,
+      "recovery": 1.22,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-01",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2024-01",
+      "strategy": "STATIC_V3",
+      "profit": -14.81,
+      "pf": 0.94,
+      "dd": 1.31,
+      "recovery": -0.11,
+      "trades": 23,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-01",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -108.74,
+      "pf": 0.6,
+      "dd": 2.14,
+      "recovery": -0.5,
+      "trades": 23,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-04",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": -110.45,
+      "pf": 0.73,
+      "dd": 3.04,
+      "recovery": -0.36,
+      "trades": 20,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-04",
+      "strategy": "STATIC_V3",
+      "profit": 26.03,
+      "pf": 1.05,
+      "dd": 2.12,
+      "recovery": 0.12,
+      "trades": 33,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-04",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 273.6,
+      "pf": 1.52,
+      "dd": 3.24,
+      "recovery": 0.83,
+      "trades": 33,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-07",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 311.31,
+      "pf": 2.46,
+      "dd": 1.25,
+      "recovery": 2.41,
+      "trades": 26,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-07",
+      "strategy": "STATIC_V3",
+      "profit": 311.31,
+      "pf": 2.46,
+      "dd": 1.25,
+      "recovery": 2.41,
+      "trades": 26,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-07",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 453.08,
+      "pf": 3.02,
+      "dd": 1.61,
+      "recovery": 2.71,
+      "trades": 26,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-10",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 107.04,
+      "pf": 1.2,
+      "dd": 3.36,
+      "recovery": 0.32,
+      "trades": 28,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-10",
+      "strategy": "STATIC_V3",
+      "profit": 107.04,
+      "pf": 1.2,
+      "dd": 3.36,
+      "recovery": 0.32,
+      "trades": 28,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2024-10",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 175.33,
+      "pf": 1.31,
+      "dd": 2.81,
+      "recovery": 0.62,
+      "trades": 28,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-01",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": -203.1,
+      "pf": 0.67,
+      "dd": 4.69,
+      "recovery": -0.43,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-01",
+      "strategy": "STATIC_V3",
+      "profit": -203.1,
+      "pf": 0.67,
+      "dd": 4.69,
+      "recovery": -0.43,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-01",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -221.95,
+      "pf": 0.61,
+      "dd": 4.24,
+      "recovery": -0.51,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-04",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 0.0,
+      "pf": null,
+      "dd": 0.0,
+      "recovery": null,
+      "trades": 0,
+      "gate": "-1",
+      "state": "NO_TRADE"
+    },
+    {
+      "q": "2025-04",
+      "strategy": "STATIC_V3",
+      "profit": 482.91,
+      "pf": 2.03,
+      "dd": 3.13,
+      "recovery": 1.46,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-04",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 449.38,
+      "pf": 1.76,
+      "dd": 4.41,
+      "recovery": 0.95,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-07",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": -65.09,
+      "pf": 0.89,
+      "dd": 4.66,
+      "recovery": -0.14,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-07",
+      "strategy": "STATIC_V3",
+      "profit": -65.09,
+      "pf": 0.89,
+      "dd": 4.66,
+      "recovery": -0.14,
+      "trades": 24,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-07",
+      "strategy": "ORIGINAL_BASE",
+      "profit": -67.42,
+      "pf": 0.89,
+      "dd": 5.86,
+      "recovery": -0.11,
+      "trades": 24,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-10",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 59.81,
+      "pf": 1.09,
+      "dd": 7.6,
+      "recovery": 0.07,
+      "trades": 14,
+      "gate": "2",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-10",
+      "strategy": "STATIC_V3",
+      "profit": 284.85,
+      "pf": 1.32,
+      "dd": 8.55,
+      "recovery": 0.32,
+      "trades": 26,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2025-10",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 343.4,
+      "pf": 1.4,
+      "dd": 8.51,
+      "recovery": 0.38,
+      "trades": 26,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-01",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 2174.63,
+      "pf": 6.04,
+      "dd": 5.21,
+      "recovery": 3.85,
+      "trades": 21,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-01",
+      "strategy": "STATIC_V3",
+      "profit": 2174.63,
+      "pf": 6.04,
+      "dd": 5.21,
+      "recovery": 3.85,
+      "trades": 21,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-01",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 2996.07,
+      "pf": 6.18,
+      "dd": 8.35,
+      "recovery": 2.78,
+      "trades": 21,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-04",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 972.67,
+      "pf": 1.82,
+      "dd": 6.44,
+      "recovery": 1.47,
+      "trades": 33,
+      "gate": "1",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-04",
+      "strategy": "STATIC_V3",
+      "profit": 972.67,
+      "pf": 1.82,
+      "dd": 6.44,
+      "recovery": 1.47,
+      "trades": 33,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-04",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 750.43,
+      "pf": 1.54,
+      "dd": 6.2,
+      "recovery": 1.17,
+      "trades": 33,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-07",
+      "strategy": "ADAPTIVE_POLICY",
+      "profit": 692.03,
+      "pf": 2.08,
+      "dd": 3.4,
+      "recovery": 2.01,
+      "trades": 28,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-07",
+      "strategy": "STATIC_V3",
+      "profit": 692.03,
+      "pf": 2.08,
+      "dd": 3.4,
+      "recovery": 2.01,
+      "trades": 28,
+      "gate": "0",
+      "state": "MT5_REAL_TICKS"
+    },
+    {
+      "q": "2026-07",
+      "strategy": "ORIGINAL_BASE",
+      "profit": 601.24,
+      "pf": 1.63,
+      "dd": 5.37,
+      "recovery": 1.02,
+      "trades": 28,
+      "gate": "BASE",
+      "state": "MT5_REAL_TICKS"
+    }
+  ],
+  "annual": [
+    {
+      "year": 2019,
+      "strategy": "BASE",
+      "profit": 52.39,
+      "pf": 1.07,
+      "dd": 2.21,
+      "recovery": 0.23,
+      "trades": 110
+    },
+    {
+      "year": 2019,
+      "strategy": "V3_LOCK",
+      "profit": 137.88,
+      "pf": 1.19,
+      "dd": 1.7,
+      "recovery": 0.79,
+      "trades": 110
+    },
+    {
+      "year": 2020,
+      "strategy": "BASE",
+      "profit": 75.13,
+      "pf": 1.05,
+      "dd": 5.29,
+      "recovery": 0.14,
+      "trades": 108
+    },
+    {
+      "year": 2020,
+      "strategy": "V3_LOCK",
+      "profit": -31.57,
+      "pf": 0.98,
+      "dd": 5.66,
+      "recovery": -0.05,
+      "trades": 108
+    },
+    {
+      "year": 2021,
+      "strategy": "BASE",
+      "profit": -166.96,
+      "pf": 0.87,
+      "dd": 3.88,
+      "recovery": -0.43,
+      "trades": 115
+    },
+    {
+      "year": 2021,
+      "strategy": "V3_LOCK",
+      "profit": -117.33,
+      "pf": 0.89,
+      "dd": 4.31,
+      "recovery": -0.27,
+      "trades": 115
+    },
+    {
+      "year": 2022,
+      "strategy": "BASE",
+      "profit": -186.75,
+      "pf": 0.85,
+      "dd": 3.85,
+      "recovery": -0.48,
+      "trades": 105
+    },
+    {
+      "year": 2022,
+      "strategy": "V3_LOCK",
+      "profit": 84.68,
+      "pf": 1.07,
+      "dd": 2.96,
+      "recovery": 0.28,
+      "trades": 105
+    },
+    {
+      "year": 2023,
+      "strategy": "BASE",
+      "profit": -12.42,
+      "pf": 0.99,
+      "dd": 4.86,
+      "recovery": -0.03,
+      "trades": 100
+    },
+    {
+      "year": 2023,
+      "strategy": "V3_LOCK",
+      "profit": 290.04,
+      "pf": 1.29,
+      "dd": 4.14,
+      "recovery": 0.69,
+      "trades": 100
+    },
+    {
+      "year": 2024,
+      "strategy": "BASE",
+      "profit": 819.35,
+      "pf": 1.52,
+      "dd": 3.45,
+      "recovery": 2.35,
+      "trades": 110
+    },
+    {
+      "year": 2024,
+      "strategy": "V3_LOCK",
+      "profit": 450.27,
+      "pf": 1.3,
+      "dd": 3.54,
+      "recovery": 1.23,
+      "trades": 110
+    },
+    {
+      "year": 2025,
+      "strategy": "BASE",
+      "profit": 537.43,
+      "pf": 1.21,
+      "dd": 8.39,
+      "recovery": 0.59,
+      "trades": 98
+    },
+    {
+      "year": 2025,
+      "strategy": "V3_LOCK",
+      "profit": 604.4,
+      "pf": 1.24,
+      "dd": 8.33,
+      "recovery": 0.67,
+      "trades": 98
+    },
+    {
+      "year": 2026,
+      "strategy": "BASE",
+      "profit": 4123.8,
+      "pf": 2.24,
+      "dd": 8.38,
+      "recovery": 3.81,
+      "trades": 88
+    },
+    {
+      "year": 2026,
+      "strategy": "V3_LOCK",
+      "profit": 3701.49,
+      "pf": 2.43,
+      "dd": 5.77,
+      "recovery": 5.87,
+      "trades": 88
+    }
+  ],
+  "limitations": [
+    "No aggregated equity Recovery Factor across reset-account quarterly blocks.",
+    "Original MACD parameters had prior exposure to the 2026 test window.",
+    "2021 historical tick coverage incomplete in sampled months.",
+    "Regime classifier and research gate did not pass.",
+    "No actual online status is claimed unless an active, trusted PC runner reports it."
+  ],
+  "sources": {
+    "local_evidence": "RDC_GOLD_Research_2015_2026",
+    "github_methodology": "popvarachat/rdc-runtime-source-of-truth/projects/rdc-research-loop"
+  }
+}

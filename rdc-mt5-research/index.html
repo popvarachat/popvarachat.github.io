@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="color-scheme" content="dark"><meta name="theme-color" content="#08121d">
+<title>RDC · GOLDmicro Research Control Tower</title>
+<meta name="description" content="MT5 PC-only Strategy Tester observability · PF DD Recovery · Walk-Forward · Agent Workflow">
+<link rel="stylesheet" href="./style.css"></head><body>
+<div class="shell">
+<aside class="side"><div class="brand"><div class="logo">R<span>D</span>C</div><div><strong>RESEARCH OS</strong><small>GOLDmicro Control Tower</small></div></div>
+<div class="nav-label">INTELLIGENCE</div>
+<nav id="nav">
+<button class="active" data-tab="overview">◈ <span>Executive Overview</span></button>
+<button data-tab="workflow">⬡ <span>Agent Workflow</span></button>
+<button data-tab="analytics">▥ <span>Walk-Forward Analytics</span></button>
+<button data-tab="evidence">≡ <span>Process &amp; Evidence</span></button>
+</nav>
+<div class="side-bottom"><div class="host-lock"><b>▣ MT5 / PC-ONLY</b><small>Execution Guard Enabled</small></div><p>READ-ONLY MONITOR<br>Zero live orders from Web</p><a href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">Private Source of Truth ↗</a></div>
+</aside>
+<main class="main"><header class="topbar"><div class="breadcrumbs">RDC <em>/</em> RESEARCH LAB <em>/</em> <b>GOLDmicro</b></div><div class="header-right"><span id="mode-pill" class="chip">LOADING</span><i class="light"></i><span id="process-state">RESEARCH HOLD</span></div></header>
+<div class="content"><div id="load-error" class="alert" hidden>โหลด Snapshot ไม่สำเร็จ โปรดตรวจสอบ Local Server หรือไฟล์ data/snapshot.json</div>
+<section class="page active" id="page-overview">
+<div class="heading"><div><div class="eyebrow">RESEARCH CONTROL TOWER / SYSTEM INTELLIGENCE</div><h1>GOLDmicro <span>Research Intelligence</span></h1><p>ผล Backtest จาก MT5 บน PC เท่านั้น · วิเคราะห์ความแข็งแกร่งผ่าน Walk-Forward และหลักฐาน QA</p></div><div class="asof"><small>DATA THROUGH</small><b id="data-asof">—</b><span id="snapshot-time">loading</span></div></div>
+<div class="research-alert"><b>! &nbsp; RESEARCH GATE: <span id="gate-label">—</span> · LIVE TRADING HOLD</b><span>Backtest ไม่ใช่ผลกำไรในอนาคต / Web ไม่มีสิทธิ์ส่ง Order / Public Web เป็น Snapshot ไม่ใช่ Real-time PC</span></div>
+<div class="kpis">
+<div class="kpi"><small>FORWARD BLOCKS</small><b id="kpi-blocks">—</b><span>Rolling 24M → 3M</span></div>
+<div class="kpi"><small>AGGREGATE PF</small><b id="kpi-pf">—</b><span>Adaptive v4</span></div>
+<div class="kpi"><small>MAX BLOCK DD</small><b id="kpi-dd">—</b><span>Not cumulative equity</span></div>
+<div class="kpi"><small>POSITIVE BLOCKS</small><b id="kpi-wins">—</b><span>Goal ≥ 65%</span></div>
+<div class="kpi"><small>EVIDENCE QA</small><b id="kpi-qa">—</b><span>Integrity tests</span></div>
+<div class="kpi"><small>REGIME AGREEMENT</small><b id="kpi-regime">—</b><span>Rule vs clusters</span></div>
+</div>
+<div class="columns"><article class="panel"><div class="panel-top"><div><small>STRATEGY COMPARISON</small><h2>Quarterly Forward Performance</h2></div><span class="annotation">23 identical blocks</span></div>
+<div class="strategy-table"><div class="strategy-head"><span>MODEL</span><span>NET THB*</span><span>PF</span><span>DD MAX</span><span>TRADES</span></div><div id="strategy-rows"></div></div><p class="annotation">* รวมผล MT5 Backtest ที่รีเซ็ตทุน 10,000 บาททุกไตรมาส</p></article>
+<article class="panel"><div class="panel-top"><div><small>SAFETY &amp; RUNTIME</small><h2>Engine Status</h2></div><span class="dot"></span></div>
+<div class="health"><span>Compute authority</span><strong>MT5 / PC ONLY</strong></div><div class="health"><span>Symbol · TF</span><strong>GOLDmicro · H1</strong></div><div class="health"><span>MACD</span><strong>(12, 20, 20)</strong></div><div class="health"><span>Real orders</span><strong class="bad">DISABLED</strong></div><div class="health"><span>Autonomous Loop</span><strong id="loop-status">OFF</strong></div><div class="health"><span>Research process</span><strong id="health-status">HOLD</strong></div><div class="meter"><div id="gate-meter"></div></div><p class="annotation">Research progress ≠ Production approval</p>
+</article></div>
+<article class="panel plot-panel"><div class="panel-top"><div><small>OUT-OF-SAMPLE / REAL TICKS</small><h2>Net Profit by Forward Block</h2></div><div class="legend"><span><i class="swatch teal"></i>Adaptive v4</span><span><i class="swatch indigo"></i>Static v3</span><span><i class="swatch slate"></i>Original</span></div></div><div id="profit-chart" class="plot"></div><p class="annotation">คลิกจุดข้อมูลเพื่อเปิด Quarter ในหน้ารายละเอียด · ทุกผลใช้ทุนเริ่ม 10,000 บาท</p></article>
+</section>
+<section class="page" id="page-workflow">
+<div class="heading"><div><div class="eyebrow">DAG · NODE ZOOM · GOVERNANCE</div><h1>Agent <span>Execution Workflow</span></h1><p>จากการคิด Model ไปจนถึงหลักฐานและ Human Gate · คลิก Node เพื่อขยายรายละเอียด</p></div></div>
+<div class="workflow-layout"><article class="panel workflow">
+<div class="tier"><div class="tier-title blue">01 / PLANNER &amp; MODEL THINKING</div><div class="node-grid three">
+<button class="node blue" data-node="question"><i>◇</i><b>Research Question</b><span>KPI · Baseline · Constraints</span></button>
+<button class="node blue" data-node="hypothesis"><i>✧</i><b>Hypothesis Generator</b><span>Alternatives · Evidence</span></button>
+<button class="node red" data-node="critic"><i>!</i><b>Model Critic</b><span>Leakage · Overfitting</span></button></div></div>
+<div class="arrow-caption">↓ Approved Experiment DAG &amp; Bounded Budget</div>
+<div class="tier"><div class="tier-title green">02 / EXCLUSIVE MT5 EXECUTION BOUNDARY</div><div class="engine"><div class="engine-caption">AUTHORIZED PC HOST · STRATEGY TESTER ONLY</div><div class="engine-main"><span class="engine-mark">▣</span><div><h2>MT5 on PC</h2><p>All MACD model calculation &amp; simulation</p><small>Host Guard · EA allowlist · Tester-only lock · No browser execution</small></div><span class="chip">HOST LOCKED</span></div></div>
+<div class="node-grid four"><button class="node green" data-node="dataqa"><i>▤</i><b>Data QA</b><span>Ticks · FX · Bars</span></button><button class="node green" data-node="tester"><i>◫</i><b>Tester Agent</b><span>Variants · Real Ticks</span></button><button class="node green" data-node="risk"><i>⬡</i><b>Risk Agent</b><span>Lot · SL/TP · DD</span></button><button class="node green" data-node="walk"><i>↻</i><b>Walk-Forward</b><span>Freeze · OOS</span></button></div></div>
+<div class="arrow-caption">↓ Signed Report · Statistics · Risk Evidence</div>
+<div class="tier"><div class="tier-title amber">03 / INDEPENDENT EVALUATION</div><div class="node-grid three"><button class="node amber" data-node="qa"><i>✓</i><b>Independent QA</b><span>Reproduce · Audit</span></button><button class="node amber" data-node="gate"><i>◇</i><b>Research Gate</b><span>PASS / FAIL / BLOCKED</span></button><button class="node violet" data-node="human"><i>◎</i><b>Human Gate</b><span>Approve next scope</span></button></div></div>
+<div class="feedback">↺ &nbsp; FAIL / INCONCLUSIVE → Root Cause → New Hypothesis → Controlled Retest</div></article>
+<aside class="workflow-aside"><article class="panel"><small>SELECTED NODE</small><h2 id="node-title">MT5 PC Execution</h2><span id="node-badge" class="chip">PC ONLY</span><p id="node-description" class="node-text">ผลคำนวณ MT5 ทั้งหมดต้องมาจาก PC ที่ได้รับอนุญาต</p><div id="node-proof" class="proof">Engine host verification / Strategy Tester guard</div></article>
+<article class="panel"><small>PHASE PROGRESS</small><div id="phase-list" class="phase-list"></div></article>
+<article class="panel"><small>RESEARCH REASONING</small><h2>Qwen3 + RAG</h2><p class="annotation">ช่วยตั้งสมมติฐานและค้นหลักฐานบน PC แต่ไม่มีสิทธิ์ยิงคำสั่งเทรด</p><div class="health"><span>Factual QA</span><b id="rag-status">—</b></div></article></aside>
+</div></section>
+<section class="page" id="page-analytics">
+<div class="heading"><div><div class="eyebrow">TIME-MATCHED COMPARISON</div><h1>Walk-Forward <span>Analytics</span></h1><p>ตรวจ PF, DD, Recovery และจำนวน Trades ของทุก Experiment ได้ราย Quarter</p></div><label class="filter">MODEL <select id="strategy-filter"><option value="ALL">All 3 models</option><option value="ADAPTIVE_POLICY">Adaptive v4</option><option value="STATIC_V3">Static v3</option><option value="ORIGINAL_BASE">Original</option></select></label></div>
+<article class="panel"><small>MODEL RISK / RETURN</small><div id="metric-bars"></div></article>
+<article class="panel gap-top"><div class="panel-top"><div><small>QUARTERLY EXPLORER</small><h2>Forward Results</h2></div><span class="annotation" id="table-count"></span></div><div class="table-scroll"><table><thead><tr><th>QUARTER</th><th>MODEL</th><th>GATE</th><th>NET THB</th><th>PF</th><th>DD %</th><th>RECOVERY</th><th>TRADES</th></tr></thead><tbody id="block-table"></tbody></table></div></article><p class="annotation">Recovery รวมทั้งพอร์ตไม่คำนวณจากผล Reset-Account Blocks เพราะไม่มี Equity Curve ต่อเนื่อง</p></section>
+<section class="page" id="page-evidence">
+<div class="heading"><div><div class="eyebrow">EVIDENCE FIRST / TIMELINE</div><h1>Process &amp; <span>Audit Ledger</span></h1><p>สถานะงานและเหตุการณ์จาก PC-bound Executor · สถานะเก่าเป็นหลักฐาน ไม่ใช่ Live Process</p></div><button class="refresh" id="refresh-button">↻ Refresh</button></div>
+<div class="columns"><article class="panel"><div class="panel-top"><div><small>EXECUTION EVENTS</small><h2>Experiment Timeline</h2></div><span id="event-count" class="annotation">—</span></div><div id="events" class="events"></div></article>
+<article class="panel"><small>DATA &amp; SECURITY BOUNDARIES</small><h2>Audit / Governance</h2>
+<div class="health"><span>MT5 Compute</span><b>PC ONLY</b></div><div class="health"><span>Raw Ticks</span><b>PC PRIVATE</b></div><div class="health"><span>Web Access</span><b>READ-ONLY</b></div><div class="health"><span>Public Publication</span><b>AGGREGATES</b></div><div class="health"><span>Live Orders</span><b class="bad">BLOCKED</b></div>
+<h3 class="subheading">Research Limitations</h3><div id="limitations" class="limitations"></div>
+<a class="source-link" href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">View Private Research Framework ↗</a></article></div></section>
+<footer>RDC GOLDmicro Research · MT5 PC-ONLY · Research HOLD <span id="footer-time">Evidence snapshot</span></footer>
+</div></main></div><script src="./app.js" defer></script></body></html>
