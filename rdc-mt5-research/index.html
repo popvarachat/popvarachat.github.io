@@ -3,7 +3,7 @@
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#08121d">
 <title>RDC · GOLDmicro Research Control Tower</title>
 <meta name="description" content="MT5 PC-only Strategy Tester observability · PF DD Recovery · Walk-Forward · Agent Workflow">
-<link rel="stylesheet" href="./style.css?v=20261015-entry-v2"></head><body>
+<link rel="stylesheet" href="./style.css?v=20261015-family-v1"></head><body>
 <div class="shell">
 <aside class="side"><div class="brand"><div class="logo">R<span>D</span>C</div><div><strong>RESEARCH OS</strong><small>GOLDmicro Control Tower</small></div></div>
 <div class="nav-label">INTELLIGENCE</div>
@@ -20,6 +20,46 @@
 <div class="content"><div id="load-error" class="alert" hidden>โหลด Snapshot ไม่สำเร็จ โปรดตรวจสอบ Local Server หรือไฟล์ data/snapshot.json</div>
 <section class="page active" id="page-overview">
 <div class="heading"><div><div class="eyebrow">RESEARCH CONTROL TOWER / SYSTEM INTELLIGENCE</div><h1>GOLDmicro <span>Research Intelligence</span></h1><p>ผล Backtest จาก MT5 บน PC เท่านั้น · วิเคราะห์ความแข็งแกร่งผ่าน Walk-Forward และหลักฐาน QA</p></div><div class="asof"><small>DATA THROUGH</small><b id="data-asof">—</b><span id="snapshot-time">loading</span></div></div>
+<section id="evergreen-research" class="infinity-research" aria-label="RDC Continuous Indicator Research">
+  <div class="infinity-head">
+    <div class="infinity-symbol">∞</div>
+    <div class="infinity-heading">
+      <span class="kicker">ALWAYS-ON · CHAMPION ≠ STOP</span>
+      <h2>RDC <span>Indicator Discovery Loop</span></h2>
+      <p>ทดสอบ SMA → EMA → ... → Volatility Regime แล้ววนกลับเพื่อหา Model ที่ดีกว่าเดิม</p>
+    </div>
+    <div class="infinity-status" id="family-run-status">WAITING FOR PC EVIDENCE</div>
+  </div>
+  <div class="discovery-grid">
+    <div class="family-active">
+      <div class="family-label">CURRENTLY RESEARCHING · กำลังทดลองระบบ</div>
+      <div class="family-big" id="family-current">รอข้อมูลจาก PC</div>
+      <div class="family-small" id="family-current-stage">กำลังโหลด Research Progress</div>
+      <div class="family-progress-label"><span id="family-trial-caption">Experiment Progress</span><strong id="family-trial-percent">—</strong></div>
+      <div class="family-progress-rail"><div id="family-trial-bar"></div></div>
+      <div class="family-progress-label"><span id="family-round-caption">Research Round</span><strong id="family-round-percent">—</strong></div>
+      <div class="family-progress-rail secondary"><div id="family-round-bar"></div></div>
+    </div>
+    <div class="family-stats">
+      <div><small>LOOP ROUND</small><strong id="family-round">—</strong></div>
+      <div><small>INDICATOR SYSTEMS</small><strong id="family-system-number">—</strong></div>
+      <div><small>COMPLETED TESTS</small><strong id="family-experiments">—</strong></div>
+      <div><small>QUALIFIED SYSTEMS</small><strong id="family-qualified">—</strong></div>
+    </div>
+  </div>
+  <div class="family-strip-title"><div><strong>Indicator Research Pipeline</strong><span>สีเขียว = ผ่านเกณฑ์วิจัยเบื้องต้น · ป้าย ▲ NEW BEST = ดีขึ้นจาก Best ก่อนหน้า · เทา = ต้องสร้าง EA</span></div><span id="family-registry-status" class="annotation">Registry loading</span></div>
+  <div id="family-track" class="family-track" aria-live="polite"><div class="empty-family">กำลังตรวจสถานะ SMA, EMA และ Indicator ทั้งหมดบน PC</div></div>
+  <div class="family-leaders">
+    <div class="family-leaders-title"><div><strong>🏆 Best Model by Indicator</strong><small>เปรียบเทียบด้วย PF · DD · Recovery · Trades บนข้อมูล Validation เดียวกัน</small></div><span id="family-best-updated" class="annotation">—</span></div>
+    <div id="family-champion-banner" class="champion-banner">ยังไม่มี Model ใหม่ผ่านเกณฑ์ Champion จาก Indicator Loop</div>
+    <div id="family-leaderboard" class="family-leaderboard"><div class="empty-family">รอผล MT5 Strategy Tester ที่ผ่าน QA</div></div>
+  </div>
+  <div class="family-recent">
+    <div class="family-leaders-title"><div><strong>Recent Test Results</strong><small>สีเขียวเฉพาะเมื่อคะแนนการวิจัยสูงขึ้นจาก Best เดิม · ไม่มีการสร้างค่าปลอม</small></div></div>
+    <div id="family-recent-trials" class="family-recent-trials"><div class="empty-family">รอผลทดลองใหม่</div></div>
+  </div>
+  <p class="family-caveat">ผลทุกชุดเป็น MT5 บน PC POP-FARM01 เท่านั้น; 2025 Historical Validation ไม่ใช่ Blind OOS · ปิด PC หรือพบข้อจำกัดข้อมูลจะหยุดคำนวณชั่วคราวและกลับมาทำงานตามรอบ · Live Trading HOLD</p>
+</section>
 <div class="command-hero" aria-label="จุดเริ่มต้นสั่งงาน RDC">
 <div class="command-hero-copy">
 <div class="command-hero-eyebrow">START HERE · REMOTE COMMAND</div>
@@ -119,4 +159,4 @@
 var pages=document.querySelectorAll(".page");for(var i=0;i<pages.length;i++)pages[i].classList.toggle("active",pages[i].id==="page-"+h);
 var tabs=document.querySelectorAll("#nav button");for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle("active",tabs[j].getAttribute("data-tab")===h);
 })();
-</script><script src="./app.js?v=20261015-entry-v2" defer></script></body></html>
+</script><script src="./app.js?v=20261015-family-v1" defer></script></body></html>

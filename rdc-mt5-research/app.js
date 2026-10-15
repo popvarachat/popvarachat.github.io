@@ -194,6 +194,7 @@ async function loadRemote(){
     const b=document.createElement("strong");b.textContent=x.status||"PROPOSED";
     el.append(a,b);thinking.appendChild(el);
   });}
+  if(d.indicator_research)renderFamilyResearch(d.indicator_research,d,ago);
   t("remote-runner",ago<25?d.runner_status:"PC OFFLINE / STALE");
   t("remote-cycles",String(d.cycle??"—"));
   t("remote-trials",String(d.candidate_trials??"—"));
@@ -209,3 +210,80 @@ async function loadRemote(){
  }
 }
 loadRemote();setInterval(loadRemote,120000);
+
+function renderFamilyResearch(f,d,ageMins){
+ if(f.schema!=="rdc.indicator.family.loop.v1")return;
+ const fresh=ageMins<25;
+ t("family-run-status",!fresh?"PC OFFLINE / STALE":d.runner_status==="PAUSED"?"PAUSED":"∞ RESEARCH LOOP ACTIVE");
+ t("family-current",String(f.family_number).padStart(2,"0")+" / "+f.family_total+" · "+f.current_name);
+ const stages={QUEUE_READY:"เตรียมทดลองระบบถัดไป",FIT_RUNNING:"กำลัง Backtest: Fit (2019–2024)",
+ VAL_RUNNING:"กำลัง Backtest: Validation (2025)",CANDIDATE_EVALUATED:"เสร็จ 1 Challenger · ประเมินคะแนนแล้ว",
+ WAITING_DAILY_MT5_BUDGET:"รอรอบทดสอบ / โควตาประจำวัน",FAILED:"เกิดข้อผิดพลาด — ดู Evidence"};
+ t("family-current-stage",stages[f.current_step]||f.current_step||"กำลังตรวจสถานะ");
+ t("family-trial-caption","Parameter Set "+f.trial_number+" / "+f.trials_per_family+" · "+(f.current_step||"QUEUE"));
+ t("family-trial-percent",fmt(f.trial_progress_pct,0)+"%");
+ t("family-round-caption","Research Pass "+f.round+" · ระบบที่ "+f.family_number+"/"+f.family_total);
+ t("family-round-percent",fmt(f.system_progress_pct,1)+"%");
+ $("family-trial-bar").style.width=Math.max(0,Math.min(100,f.trial_progress_pct||0))+"%";
+ $("family-round-bar").style.width=Math.max(0,Math.min(100,f.system_progress_pct||0))+"%";
+ t("family-round",String(f.round));
+ t("family-system-number",f.family_number+"/"+f.family_total);
+ t("family-experiments",String(f.total_experiments));
+ t("family-qualified",String(f.systems_with_qualified_best));
+ const mod=(f.models||[]);
+ const adapters=mod.filter(x=>x.adapter_ready).length;
+ t("family-registry-status",adapters+" testers ready · "+(mod.length-adapters)+" adapters in development");
+ const track=$("family-track");track.replaceChildren();
+ mod.forEach((m,i)=>{
+   const status=m.status==="CURRENT"?"กำลังคิด/ทดสอบ":m.status==="NEEDS_ADAPTER"?"EA อยู่ระหว่างพัฒนา":
+         m.status==="TESTED"?"ทดสอบแล้ว":"รอคิว";
+   const card=div("family-chip "+(m.status==="CURRENT"?"current":m.best?"qualified":m.status==="NEEDS_ADAPTER"?"adapter":""));
+   const hd=div("family-chip-top");
+   child(hd,"strong","",(i+1).toString().padStart(2,"0")+". "+m.name);
+   card.appendChild(hd);
+   const sub=child(card,"span","family-chip-status",status);
+   if(m.best){child(card,"span","up", "PF "+fmt(m.best.pf,3)+" · RF "+fmt(m.best.recovery,2)+(m.best.improvement?" ▲ NEW BEST":""));}
+   else if(m.status==="TESTED"){child(card,"span","family-chip-status","ไม่ผ่านเกณฑ์คัดเลือก");}
+   else if(m.status==="CURRENT"){child(card,"span","family-chip-status", "Trial "+f.trial_number+"/"+f.trials_per_family);}
+   track.appendChild(card);
+ });
+ const banner=$("family-champion-banner");
+ const ch=f.best_global;
+ if(ch){
+  banner.classList.remove("empty");
+  banner.textContent="🏆 BEST VERIFIED HISTORICAL CHALLENGER: "+ch.family_id+" · PF "+fmt(ch.pf,3)+" · DD "+fmt(ch.dd,2)+"% · Recovery "+fmt(ch.recovery,2)+" · n="+ch.trades+
+   " — Research only; ยังไม่ผ่าน Blind Forward";
+ }else{
+  banner.classList.add("empty");
+  banner.textContent="ยังไม่มีระบบที่ผ่าน Research Qualification · ไม่ประกาศ Champion ปลอมจากการทดลองที่ไม่ผ่านเกณฑ์";
+ }
+ const leaderboard=$("family-leaderboard");leaderboard.replaceChildren();
+ const best=mod.filter(m=>m.best).sort((a,b)=>(b.best.score||0)-(a.best.score||0));
+ if(!best.length)child(leaderboard,"div","empty-family","ยังไม่มี Model ที่ผ่านเกณฑ์ PF>1, DD≤15%, Recovery>0, Trades≥20");
+ best.forEach(m=>{
+   const c=div("family-winner "+(m.best.improvement?"new":""));
+   const hd=div("winner-head");child(hd,"strong","",m.name);
+   if(m.best.improvement)child(hd,"span","","▲ IMPROVED");else child(hd,"span","","QUALIFIED");
+   c.appendChild(hd);
+   const metrics=div("winner-metrics");
+   for(const [label,v] of [["PF",fmt(m.best.pf,3)],["DD",fmt(m.best.dd,1)+"%"],["Recovery",fmt(m.best.recovery,2)]])
+   {const wrapper=div("");child(wrapper,"span","",label);child(wrapper,"b","",v);metrics.appendChild(wrapper);}
+   c.appendChild(metrics);
+   child(c,"div","annotation","Profit "+fmt(m.best.net)+" THB · Trades "+m.best.trades+" · R"+m.best.round+"/T"+m.best.trial);
+   leaderboard.appendChild(c);
+ });
+ const trials=$("family-recent-trials");trials.replaceChildren();
+ const recent=(f.recent_trials||[]).slice(-9).reverse();
+ if(!recent.length)child(trials,"div","empty-family","ไม่มีผลทดลองใหม่ที่ยืนยันจาก Native MT5");
+ recent.forEach(z=>{
+   const row=div("family-trial-row "+(z.improvement?"new":""));
+   child(row,"strong","",z.family_id);
+   child(row,"span","",("Round "+z.round+" · Trial "+z.trial));
+   child(row,"span","",fmt(z.pf,3)+" PF");
+   child(row,"span","",fmt(z.dd,1)+"% DD");
+   child(row,"span","",fmt(z.recovery,2)+" RF");
+   child(row,"span",z.improvement?"found":"",z.improvement?"▲ NEW BEST":z.status==="RESEARCH_QUALIFIED"?"QUALIFIED":"NOT QUALIFIED");
+   trials.appendChild(row);
+ });
+ t("family-best-updated",f.total_experiments+" Native MT5 experiments · "+f.systems_tested_ever+" systems tested");
+}
