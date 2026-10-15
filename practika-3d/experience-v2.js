@@ -35,7 +35,7 @@ export function install(c) {
    '</section>',
    '<section class="section v2-section" id="v2Flow">',
    '<div class="section-title"><span class="eyebrow">03 / AGENT-BASED SIMULATION</span><span class="pill">GRID A*</span></div>',
-   '<h2 class="v2-h2">Compare Scenarios</h2><p>ระบบค้นหาเส้นทาง A* หลบโต๊ะบนแผนผังเดียวกัน แสดงตัวแทนคนเดิน Route Overlay และ Heatmap</p>',
+   '<h2 class="v2-h2">Compare Scenarios</h2><p>การสาธิต A* พร้อม Route Overlay และ Heatmap ของจำนวนเส้นทางที่วางแผนไว้ ไม่ใช่การวัดความแออัดจริง</p>',
    '<div class="v2-choice" id="v2ScenarioGroup"><button data-scenario="A" class="active">A · OPEN</button><button data-scenario="B">B · DENSE</button><button data-scenario="C">C · CROWD</button></div>',
    '<div class="v2-statgrid"><div><span>Average route</span><b id="v2Route">—</b></div><div><span>Reachable</span><b id="v2Reach">—</b></div><div><span>People density</span><b id="v2Density">—</b></div><div><span>Travel time*</span><b id="v2Travel">—</b></div></div>',
    '<div class="v2-choice"><button id="v2Routes" class="active">ROUTES ON</button><button id="v2Heat" class="active">HEATMAP ON</button></div>',
@@ -59,9 +59,10 @@ export function install(c) {
    $('v2ResetDesign').addEventListener('click',()=>{state.kind='desk';state.finish='oak';state.size=2.2;state.exploded=false;$('v2Width').value='2.2';goStudio()});
    for(const [name,values] of Object.entries({A:{desks:8,aisle:1.8,people:8},B:{desks:16,aisle:1.1,people:16},C:{desks:24,aisle:0.8,people:30}}))
       document.querySelector('[data-scenario="'+name+'"]').addEventListener('click',()=>{setScenario(values);document.querySelectorAll('[data-scenario]').forEach(x=>x.classList.toggle('active',x.dataset.scenario===name));note('Scenario '+name+' · A* routes recalculated')});
-   $('v2Routes').addEventListener('click',()=>{state.routes=!state.routes;$('v2Routes').classList.toggle('active',state.routes);$('v2Routes').textContent=state.routes?'ROUTES ON':'ROUTES OFF';if(state.flow)state.flow.routes.visible=state.routes});
-   $('v2Heat').addEventListener('click',()=>{state.heatmap=!state.heatmap;$('v2Heat').classList.toggle('active',state.heatmap);$('v2Heat').textContent=state.heatmap?'HEATMAP ON':'HEATMAP OFF';if(state.flow)state.flow.heat.visible=state.heatmap});
+   $('v2Routes').addEventListener('click',()=>{state.routes=!state.routes;$('v2Routes').classList.toggle('active',state.routes);$('v2Routes').setAttribute('aria-pressed',String(state.routes));$('v2Routes').textContent=state.routes?'ROUTES ON':'ROUTES OFF';if(state.flow)state.flow.routes.visible=state.routes});
+   $('v2Heat').addEventListener('click',()=>{state.heatmap=!state.heatmap;$('v2Heat').classList.toggle('active',state.heatmap);$('v2Heat').setAttribute('aria-pressed',String(state.heatmap));$('v2Heat').textContent=state.heatmap?'HEATMAP ON':'HEATMAP OFF';if(state.flow)state.flow.heat.visible=state.heatmap});
    renderer.domElement.addEventListener('click',clickObject);
+   for(const id of ['v2Routes','v2Heat','v2Explode'])$(id).setAttribute('aria-pressed',id==='v2Explode'?'false':'true');
    renderer.domElement.addEventListener('pointerdown',e=>{renderer.domElement.dataset.pointerStart=e.clientX+','+e.clientY});
  }
  function note(t){$('v2Toast').textContent=t;$('v2Toast').hidden=false;clearTimeout(note.timer);note.timer=setTimeout(()=>$('v2Toast').hidden=true,2500)}
