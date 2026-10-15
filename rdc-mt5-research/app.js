@@ -239,6 +239,7 @@ async function loadRemote(){
     const b=document.createElement("strong");b.textContent=x.status||"PROPOSED";
     el.append(a,b);thinking.appendChild(el);
   });}
+  latestModelInspections=d.model_inspections||{};
   if(d.indicator_research){renderFamilyResearch(d.indicator_research,d,ago);latestLoopStatus={f:d.indicator_research,d};refreshLiveMonitor();}
   t("remote-runner",ago<25?d.runner_status:"UNVERIFIED: STALE CHECKPOINT");
   t("remote-cycles",String(d.cycle??"—"));
@@ -254,6 +255,7 @@ async function loadRemote(){
   if(previous?.schema==="rdc.research.public.live.v1" && previous.indicator_research){
     const minutes=(Date.now()-Date.parse(previous.generated_at))/60000;
     latestLoopStatus={f:previous.indicator_research,d:previous};
+    latestModelInspections=previous.model_inspections||{};
     renderFamilyResearch(previous.indicator_research,previous,minutes);
     refreshLiveMonitor();
     syncHeaderWithLatestEvidence(previous);
@@ -337,6 +339,9 @@ function renderFamilyResearch(f,d,ageMins){
    {const wrapper=div("");child(wrapper,"span","",label);child(wrapper,"b","",v);metrics.appendChild(wrapper);}
    c.appendChild(metrics);
    child(c,"div","annotation","Profit "+fmt(m.best.net)+" THB · Trades "+m.best.trades+" · R"+m.best.round+"/T"+m.best.trial);
+   const inspect=child(c,"button","model-open-button","🔍 Parameter / Entry–Exit");
+   inspect.type="button";
+   inspect.addEventListener("click",()=>openModelInspector(m.id||m.family_id||m.best.family_id||m.name.split(" ")[0]));
    leaderboard.appendChild(c);
  });
  const trials=$("family-recent-trials");trials.replaceChildren();
@@ -606,6 +611,10 @@ function renderResearchLeague(l,d){
    const values=[i+1,family,leagueNum(best.score,4),leagueNum(best.pf,3),leagueNum(best.dd,2)+"%",
      leagueNum(best.recovery,2),best.trades||"—",best.round||"—"];
    values.forEach(value=>{const cell=document.createElement("td");cell.textContent=String(value);tr.appendChild(cell)});
+   const action=document.createElement("td"),inspect=document.createElement("button");
+   inspect.type="button";inspect.className="model-open-button";inspect.textContent="🔍 ดู Entry/Exit";
+   inspect.addEventListener("click",()=>{nav("overview");history.replaceState(null,"","#overview");openModelInspector(family);});
+   action.appendChild(inspect);tr.appendChild(action);
    table.appendChild(tr);
   });
  }
@@ -624,3 +633,62 @@ function renderResearchLeague(l,d){
   });
  }
 }
+
+
+let latestModelInspections={};
+function inspectorField(parent,label,value){
+ const el=div("model-inspect-field");
+ child(el,"span","",label);child(el,"strong","",String(value));
+ parent.appendChild(el);
+ return el;
+}
+function openModelInspector(fid){
+ // Normalize family name from displayed registry to sanitized native MT5 record.
+ const raw=String(fid||"").toUpperCase();
+ const keys=Object.keys(latestModelInspections);
+ const key=keys.includes(raw)?raw:keys.find(k=>raw===k||raw.startsWith(k+" ")||raw.startsWith(k+"_"));
+ const panel=$("model-inspect-panel");
+ if(!panel)return;
+ panel.hidden=false;
+ panel.scrollIntoView({block:"start",behavior:"smooth"});
+ if(!key || !latestModelInspections[key]){
+  t("model-inspect-title",String(fid)+" · รายละเอียดยังไม่พร้อม");
+  t("model-inspect-proof","PC ไม่มีรายงาน Config + Deals ที่ยืนยันได้สำหรับรุ่นนี้");
+  $("model-inspect-inputs").replaceChildren();
+  $("model-inspect-rules").replaceChildren();
+  $("model-inspect-trade-rows").replaceChildren();
+  return;
+ }
+ const m=latestModelInspections[key],config=m.tester_config||{},logic=m.logic||{};
+ t("model-inspect-title",key+" · "+(m.run||"")+(config.ea?" · "+config.ea:""));
+ t("model-inspect-proof",m.status==="NATIVE_REPORT_VERIFIED"?
+   "✓ NATIVE MT5 REPORT SHA-256 VERIFIED · "+String(m.report_sha256||"").slice(0,20)+"… · "+
+   (config.timeframe||"H1")+" · "+(config.from||"?")+" → "+(config.to||"?"):
+   "⚠ MT5 report/config not verified · no deal-based conclusions");
+ const inputRoot=$("model-inspect-inputs");
+ inputRoot.replaceChildren();
+ for(const [k,v] of Object.entries(config.inputs||{}))inspectorField(inputRoot,k,v);
+ t("model-inspect-note",logic.note||"No verified strategy source-rule available");
+ const rules=$("model-inspect-rules");rules.replaceChildren();
+ for(const [name,value] of [["BUY ENTRY",logic.long],["SELL ENTRY",logic.short],
+   ["EXIT / REVERSE",logic.exit],["STOP / RISK",logic.risk],
+   ["PYRAMIDING",logic.stacking],["SIGNAL TIMING",logic.signal_timing]]){
+  if(value)inspectorField(rules,name,value);
+ }
+ if((logic.parameters_used||[]).length)inspectorField(rules,"ENTRY INPUTS REALLY USED",logic.parameters_used.join(" · "));
+ const rows=$("model-inspect-trade-rows");rows.replaceChildren();
+ const trades=m.status==="NATIVE_REPORT_VERIFIED"?(m.recent_closed_trades||[]):[];
+ if(!trades.length){const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=8;td.textContent="No SHA-verified closed MT5 deals for this exact Champion run";tr.appendChild(td);rows.appendChild(tr);}
+ const n=x=>typeof x==="number"?x.toFixed(2):String(x||"—");
+ trades.slice().reverse().forEach(z=>{
+  const tr=document.createElement("tr");
+  for(const val of [z.side,z.entry_time,n(z.entry_price),z.exit_time,n(z.exit_price),
+    z.volume,n(z.net_thb),z.exit_reason]){
+   const td=document.createElement("td");td.textContent=String(val);tr.appendChild(td);
+  }
+  rows.appendChild(tr);
+ });
+}
+document.getElementById("model-inspect-close")?.addEventListener("click",()=>{
+ document.getElementById("model-inspect-panel").hidden=true;
+});

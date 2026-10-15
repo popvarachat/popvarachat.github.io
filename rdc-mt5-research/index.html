@@ -3,7 +3,7 @@
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#08121d">
 <title>RDC · GOLDmicro Research Control Tower</title>
 <meta name="description" content="MT5 PC-only Strategy Tester observability · PF DD Recovery · Walk-Forward · Agent Workflow">
-<link rel="stylesheet" href="./style.css?v=196cab19d8135c19"></head><body>
+<link rel="stylesheet" href="./style.css?v=bc69547999a2d5ef"></head><body>
 <div class="shell">
 <aside class="side"><div class="brand"><div class="logo">R<span>D</span>C</div><div><strong>RESEARCH OS</strong><small>GOLDmicro Control Tower</small></div></div>
 <div class="nav-label">INTELLIGENCE</div>
@@ -91,6 +91,25 @@
     <div id="family-champion-banner" class="champion-banner">ยังไม่มี Model ใหม่ผ่านเกณฑ์ Champion จาก Indicator Loop</div>
     <div id="family-leaderboard" class="family-leaderboard"><div class="empty-family">รอผล MT5 Strategy Tester ที่ผ่าน QA</div></div>
   </div>
+  <article id="model-inspect-panel" class="model-inspect-panel" hidden aria-live="polite">
+   <div class="model-inspect-head"><div><small>MODEL DEEP DIVE · POP-FARM01 NATIVE MT5</small>
+     <h2 id="model-inspect-title">Strategy Inspection</h2><span id="model-inspect-proof">รอเปิดรายงาน MT5</span></div>
+     <button id="model-inspect-close" type="button">✕ ปิดรายละเอียด</button></div>
+   <div class="model-inspect-grid">
+    <section><h3>Strategy Parameters · ค่า EA ที่ใช้จริง</h3><div id="model-inspect-inputs" class="model-inspect-inputs"></div>
+      <p class="annotation" id="model-inspect-note">—</p></section>
+    <section><h3>Entry / Exit Decision Rules</h3>
+      <div id="model-inspect-rules" class="model-inspect-rules"></div>
+      <p class="annotation">เป็นกติกาที่ตรวจจากซอร์ส EA ไม่ใช่สัญญาณเข้าไม้ถัดไป</p></section>
+   </div>
+   <div class="model-inspect-trades-head"><h3>Actual Entry → Exit · MT5 Validation Deals</h3>
+   <span>เวลาจาก MT5 Tester / Broker Server · ไม่แปลงเป็นเวลาไทย</span></div>
+   <div class="table-scroll"><table class="model-inspect-trades"><thead>
+    <tr><th>Direction</th><th>Entry Date/Time</th><th>Entry Price</th><th>Exit Date/Time</th><th>Exit Price</th><th>Volume</th><th>Net THB*</th><th>Exit Reason</th></tr></thead>
+    <tbody id="model-inspect-trade-rows"><tr><td colspan="8">เลือก Model จากด้านบน</td></tr></tbody>
+   </table></div>
+   <p class="annotation">* Net THB ของ Deal = Profit + Swap + Commission ตามรายงาน MT5 ที่ยืนยัน SHA-256; ตารางนี้เป็นตัวอย่างไม้ปิดล่าสุด ไม่ใช่ Trades ทั้งหมด และยังไม่ผ่าน Blind Forward</p>
+  </article>
   <div class="family-recent">
     <div class="family-leaders-title"><div><strong>Recent Test Results</strong><small>สีเขียวเฉพาะเมื่อคะแนนการวิจัยสูงขึ้นจาก Best เดิม · ไม่มีการสร้างค่าปลอม</small></div></div>
     <div id="family-recent-trials" class="family-recent-trials"><div class="empty-family">รอผลทดลองใหม่</div></div>
@@ -191,7 +210,7 @@
   </article>
   <article class="panel gap-top">
    <div class="panel-top"><div><small>INDICATOR FAMILY STANDINGS</small><h2>Best Models / League Table</h2></div><span class="chip">2025 HISTORICAL VALIDATION</span></div>
-   <div class="table-scroll"><table><thead><tr><th>RANK</th><th>FAMILY</th><th>JUDGE SCORE</th><th>PF</th><th>DD</th><th>RECOVERY</th><th>TRADES</th><th>ROUND</th></tr></thead><tbody id="league-standings"><tr><td colspan="8">รอหลักฐาน MT5 บน PC</td></tr></tbody></table></div>
+   <div class="table-scroll"><table><thead><tr><th>RANK</th><th>FAMILY</th><th>JUDGE SCORE</th><th>PF</th><th>DD</th><th>RECOVERY</th><th>TRADES</th><th>ROUND</th><th>PARAMETERS / DEALS</th></tr></thead><tbody id="league-standings"><tr><td colspan="8">รอหลักฐาน MT5 บน PC</td></tr></tbody></table></div>
   </article>
   <article class="panel gap-top">
    <div class="panel-top"><div><small>LATEST RESEARCH MATCHES</small><h2>Judge Decisions / Red Team Flags</h2></div><span class="chip">NATIVE MT5 REPORT</span></div>
@@ -246,4 +265,4 @@
 var pages=document.querySelectorAll(".page");for(var i=0;i<pages.length;i++)pages[i].classList.toggle("active",pages[i].id==="page-"+h);
 var tabs=document.querySelectorAll("#nav button");for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle("active",tabs[j].getAttribute("data-tab")===h);
 })();
-</script><script src="./app.js?v=84bae2d792f5ba56" defer></script></body></html>
+</script><script src="./app.js?v=50ae24ac49120631" defer></script></body></html>
