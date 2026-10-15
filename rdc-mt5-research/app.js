@@ -160,6 +160,16 @@ load();setInterval(()=>load(false),15000);
 // Public dashboard resilient telemetry: raw JSON first (no low anonymous GitHub API quota).
 // Fall back to published GitHub Pages snapshot and finally GitHub Contents API.
 let latestDataFeedSource="LOADING";
+function syncHeaderWithLatestEvidence(d){
+ const age=Math.max(0,(Date.now()-Date.parse(d?.last_heartbeat||""))/60000);
+ const fresh=Number.isFinite(age)&&age<=35;
+ const paused=d?.runner_status==="PAUSED";
+ const label=paused?"RESEARCH PAUSED":fresh?"RESEARCH LOOP ACTIVE":"STALE DATA · PC UNVERIFIED";
+ t("process-state",label);
+ t("health-status",label);
+ const light=document.querySelector(".header-right .light");
+ if(light)light.classList.toggle("running",fresh&&!paused);
+}
 const RDC_PUBLIC_RESEARCH_PATH="popvarachat/popvarachat.github.io/main/rdc-mt5-research/data/live.json";
 async function fetchResearchTelemetry(){
  const nonce="?t="+Date.now();
@@ -205,6 +215,7 @@ async function loadRemote(){
   const feedAgeMin=Math.floor(Math.max(0,(Date.now()-Date.parse(d.generated_at))/60000));
   t("family-data-source","Source: "+source+" · ข้อมูลจาก PC "+feedAgeMin+" นาทีที่แล้ว · "+new Date(d.generated_at).toLocaleTimeString("th-TH",{timeZone:"Asia/Bangkok"}));
   const ago=(Date.now()-Date.parse(d.generated_at))/60000;
+  syncHeaderWithLatestEvidence(d);
   t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
   if(rows){
@@ -243,9 +254,13 @@ async function loadRemote(){
     latestLoopStatus={f:previous.indicator_research,d:previous};
     renderFamilyResearch(previous.indicator_research,previous,minutes);
     refreshLiveMonitor();
+    syncHeaderWithLatestEvidence(previous);
     t("family-run-status","STALE · FEED INTERRUPTED");
     t("family-data-source","Last cached checkpoint · data "+Math.round(minutes)+"m old");
   }else{
+    const statusLight=document.querySelector(".header-right .light");
+    if(statusLight)statusLight.classList.remove("running");
+    t("process-state","FEED UNAVAILABLE · PC UNVERIFIED");
     t("family-run-status","DATA FEED ERROR · RETRYING");
     t("family-current","ข้อมูลชั่วคราวไม่พร้อม");
     t("family-current-stage","อ่าน Progress ไม่ได้ · ระบบ PC อาจยังทำงานอยู่");
