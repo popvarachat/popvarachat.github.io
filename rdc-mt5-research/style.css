@@ -6,3 +6,24 @@
 .remote-actions a{border:1px solid #355c67;border-radius:12px;padding:18px 13px;background:#142a3a;color:#c8f7ef;text-decoration:none;font-size:12px;font-weight:700;transition:background .15s}
 .remote-actions a:hover{background:#214053;border-color:#65ceb7}
 @media(max-width:620px){.remote-actions{grid-template-columns:1fr}}
+
+/* Strong visible command entry and consistent deep-link UX */
+#nav .command-nav{color:#d5fff2;border-color:#3d9a84;background:#163f3c;font-weight:800}
+#nav .command-nav:hover,#nav .command-nav.active{background:#236356;border-color:#5ee8bd;color:#fff;box-shadow:0 0 0 1px #399e86}
+.top-command{display:inline-flex;align-items:center;gap:5px;padding:9px 15px;border-radius:10px;background:#1d6055;color:#ebfff5;font-weight:800;text-decoration:none;border:1px solid #5bcc9d;font-size:12px;white-space:nowrap}
+.top-command:hover{background:#2c7e6b}
+.command-hero{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:22px 25px;margin:0 0 18px;border:1px solid #55bda5;background:linear-gradient(110deg,#143a40,#10362c 55%,#102e3a);border-radius:14px;box-shadow:0 8px 22px #071a214d}
+.command-hero-eyebrow{font-size:10px;letter-spacing:1.5px;font-weight:900;color:#74e4bd}
+.command-hero h2{margin:6px 0;font-size:21px;color:#f1fff7;letter-spacing:-.35px}
+.command-hero p{color:#b5d6c9;margin:0;font-size:12px}
+.command-hero-button{display:inline-flex;align-items:center;justify-content:center;gap:12px;text-decoration:none;white-space:nowrap;padding:13px 18px;border-radius:10px;background:#55d8a9;color:#082822;font-size:13px;font-weight:900;border:1px solid #9ce8cb;box-shadow:0 6px 18px #0004}
+.command-hero-button:hover{background:#8df4cf;color:#072722;transform:translateY(-1px)}
+.control-start{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px;margin:0 0 14px}
+.control-start .step{border:1px solid #365966;border-radius:12px;background:#132b3c;padding:15px;display:flex;gap:11px;min-width:0}
+.control-start .step>b{font-size:22px;color:#6be4ba;line-height:1}
+.control-start .step strong{display:block;font-size:12px;color:#f4fffc}
+.control-start .step span{font-size:11px;line-height:1.5;color:#9ec4c6;display:block;margin-top:5px}
+.control-primary{display:flex;gap:17px;align-items:center;flex-wrap:wrap;margin-bottom:20px;padding:14px;border:1px solid #447d73;background:#102c34;border-radius:12px}
+.control-primary>div{max-width:470px;color:#a9c9c9;font-size:12px}
+@media(max-width:1100px){.command-hero{align-items:flex-start;flex-direction:column}.control-start{grid-template-columns:1fr}}
+@media(max-width:760px){.top-command{padding:8px 11px;font-size:11px}.header-right #process-state{display:none}.command-hero{padding:17px}.command-hero-button{white-space:normal}.control-start .step{padding:12px}}
