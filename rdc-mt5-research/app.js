@@ -162,46 +162,50 @@ load();setInterval(()=>load(false),15000);
 let latestDataFeedSource="LOADING";
 const RDC_PUBLIC_RESEARCH_PATH="popvarachat/popvarachat.github.io/main/rdc-mt5-research/data/live.json";
 async function fetchResearchTelemetry(){
- const nonce="?t="+Math.floor(Date.now()/60000);
+ const nonce="?t="+Date.now();
+ const isPC=["localhost","127.0.0.1"].includes(location.hostname);
  const endpoints=[
+  ...(isPC?[{name:"PC Local · direct",url:"./data/live.json"+nonce}]:[]),
   {name:"GitHub Raw · current repository data",url:"https://raw.githubusercontent.com/"+RDC_PUBLIC_RESEARCH_PATH+nonce},
-  {name:"GitHub Pages · released checkpoint",url:"./data/live.json"+nonce},
-  {name:"GitHub API · fallback",url:"https://api.github.com/repos/popvarachat/popvarachat.github.io/contents/rdc-mt5-research/data/live.json"+nonce}
+  {name:"GitHub API · commit checkpoint",url:"https://api.github.com/repos/popvarachat/popvarachat.github.io/contents/rdc-mt5-research/data/live.json"+nonce},
+  {name:"GitHub Pages · released snapshot (may be stale)",url:"./data/live.json"+nonce}
  ];
- // On POP-FARM01 localhost, prefer its own most-recent PC checkpoint.
- if(["localhost","127.0.0.1"].includes(location.hostname)){
-  endpoints.unshift({name:"PC Local · current research evidence",url:"./data/live.json"+nonce});
- }
- const failures=[];
- for(const endpoint of endpoints){
+ let best=null;
+ const errors=[];
+ for(const source of endpoints){
   try{
-   const ctl=new AbortController();
-   const timeout=setTimeout(()=>ctl.abort(),8500);
-   let response;
-   try{
-    response=await fetch(endpoint.url,{cache:"no-store",signal:ctl.signal});
-   }finally{clearTimeout(timeout);}
-   if(!response.ok)throw Error("HTTP "+response.status);
-   const payload=await response.json();
-   let d=payload;
-   if(payload.encoding==="base64" && typeof payload.content==="string"){
-    const bytes=atob(payload.content.replace(/\s/g,""));
-    d=JSON.parse(new TextDecoder().decode(Uint8Array.from(bytes,c=>c.charCodeAt(0))));
+   const ctl=new AbortController(),timer=setTimeout(()=>ctl.abort(),8500);
+   let res;
+   try{res=await fetch(source.url,{cache:"no-store",signal:ctl.signal});}
+   finally{clearTimeout(timer);}
+   if(!res.ok)throw new Error("HTTP "+res.status);
+   let data=await res.json();
+   if(data.encoding==="base64"&&typeof data.content==="string"){
+     data=JSON.parse(new TextDecoder().decode(Uint8Array.from(atob(data.content.replace(/\s/g,"")),c=>c.charCodeAt(0))));
    }
-   if(d?.schema!=="rdc.research.public.live.v1" || d.indicator_research?.schema!=="rdc.indicator.family.loop.v1")throw Error("MISSING_INDICATOR_EVIDENCE");
-   return {data:d,source:endpoint.name};
-  }catch(e){failures.push(endpoint.name+": "+String(e.message||e));}
+   if(data.schema!=="rdc.research.public.live.v1"||data.indicator_research?.schema!=="rdc.indicator.family.loop.v1")throw new Error("RESEARCH_SCHEMA_MISSING");
+   const timestamp=Date.parse(data.generated_at)||0;
+   const candidate={data,source:source.name,timestamp};
+   if(!best||timestamp>best.timestamp)best=candidate;
+   // Raw direct is fresh enough; avoid unnecessary anonymous GitHub API calls.
+   // Pages release is NOT live telemetry. For stale Raw, check API before using it.
+   if((isPC && source.name.startsWith("PC Local")) ||
+      (source.name.startsWith("GitHub Raw")&&Date.now()-timestamp<10*60000) ||
+      (source.name.startsWith("GitHub API")&&Date.now()-timestamp<10*60000))return candidate;
+  }catch(e){errors.push(source.name+": "+String(e.message||e));}
  }
- throw Error(failures.join(" | "));
+ if(best)return best;  // Retain honest STALE label on old snapshot.
+ throw new Error(errors.join(" | "));
 }
 async function loadRemote(){
  try{
   const {data:d,source}=await fetchResearchTelemetry();
   latestDataFeedSource=source;
   try{localStorage.setItem("rdc_research_last_good_v1",JSON.stringify(d));}catch(e){} 
-  t("family-data-source","Source: "+source+" · "+new Date(d.generated_at).toLocaleTimeString("th-TH",{timeZone:"Asia/Bangkok"}));
+  const feedAgeMin=Math.floor(Math.max(0,(Date.now()-Date.parse(d.generated_at))/60000));
+  t("family-data-source","Source: "+source+" · ข้อมูลจาก PC "+feedAgeMin+" นาทีที่แล้ว · "+new Date(d.generated_at).toLocaleTimeString("th-TH",{timeZone:"Asia/Bangkok"}));
   const ago=(Date.now()-Date.parse(d.generated_at))/60000;
-  t("remote-checkpoint-chip",ago<25?"PC CHECKPOINT":"STALE CHECKPOINT");
+  t("remote-checkpoint-chip",ago<35?"PC CHECKPOINT":"STALE CHECKPOINT");
   const rows=document.getElementById("remote-history");
   if(rows){
    rows.replaceChildren();
@@ -223,7 +227,7 @@ async function loadRemote(){
     el.append(a,b);thinking.appendChild(el);
   });}
   if(d.indicator_research){renderFamilyResearch(d.indicator_research,d,ago);latestLoopStatus={f:d.indicator_research,d};refreshLiveMonitor();}
-  t("remote-runner",ago<25?d.runner_status:"PC OFFLINE / STALE");
+  t("remote-runner",ago<25?d.runner_status:"UNVERIFIED: STALE CHECKPOINT");
   t("remote-cycles",String(d.cycle??"—"));
   t("remote-trials",String(d.candidate_trials??"—"));
   t("remote-champion",d.champion||"—");
@@ -256,7 +260,7 @@ loadRemote();setInterval(loadRemote,60000);
 
 function renderFamilyResearch(f,d,ageMins){
  if(f.schema!=="rdc.indicator.family.loop.v1")return;
- const fresh=ageMins<25;
+ const fresh=ageMins<35;
  t("family-run-status",!fresh?"PC OFFLINE / STALE":d.runner_status==="PAUSED"?"PAUSED":"∞ RESEARCH LOOP ACTIVE");
  t("family-current",String(f.family_number).padStart(2,"0")+" / "+f.family_total+" · "+f.current_name);
  const stages={QUEUE_READY:"เตรียมทดลองระบบถัดไป",FIT_RUNNING:"กำลัง Backtest: Fit (2019–2024)",
@@ -349,7 +353,8 @@ function refreshLiveMonitor(){
  const heartbeatAge=deltaMinute(d.last_heartbeat);
  const dataAge=deltaMinute(d.generated_at);
  const pending=!!(d.runner_status==="PAUSED");
- const fresh=heartbeatAge<=22 && dataAge<=22;
+ // 2x15-minute checkpoint window + propagation tolerance; distinguish stale evidence from PC offline.
+ const fresh=heartbeatAge<=35 && dataAge<=35;
  const led=$("loop-status-light");
  led.classList.remove("healthy","stale","error");
  const heartbeatText=Number.isFinite(heartbeatAge)?("Heartbeat "+Math.floor(heartbeatAge)+" นาทีที่แล้ว"):"ไม่มี Heartbeat";
@@ -358,7 +363,8 @@ function refreshLiveMonitor(){
  }else if(fresh){
    led.classList.add("healthy");t("loop-online-status","PC LOOP ACTIVE");t("loop-heartbeat-age",heartbeatText);
  }else{
-   led.classList.add("error");t("loop-online-status","ไม่ยืนยันว่า PC ยังทำงาน");t("loop-heartbeat-age","Heartbeat ล่าสุด "+heartbeatText+" · Checkpoint อาจล่าช้า");
+   led.classList.add("stale");t("loop-online-status","Checkpoint ล่าช้า · กำลังตรวจใหม่");
+   t("loop-heartbeat-age","Heartbeat ล่าสุด "+heartbeatText+" · ยังสรุปไม่ได้ว่า PC ออฟไลน์");
  }
  const step=f.current_step||"QUEUE_READY";
  const testing=(f.state==="TESTING_MT5_PC" || step==="FIT_RUNNING" || step==="VAL_RUNNING");
@@ -369,10 +375,26 @@ function refreshLiveMonitor(){
  t("loop-pass-percent",fmt(f.system_progress_pct||0,1)+"% · "+checked+"/"+f.family_total);
  t("loop-pass-detail","ทดสอบครบ "+(f.pass_tested_count??0)+" · รอสร้าง EA "+(f.pass_pending_adapter_count??0));
  t("loop-pc-heartbeat",shortThaiClock(d.last_heartbeat));
- t("loop-data-delay","Checkpoint "+Math.floor(dataAge)+" นาทีที่ผ่านมา · อัปเดต PC ทุก ~15 นาที");
+ t("loop-data-delay","Checkpoint "+Math.floor(dataAge)+" นาทีที่ผ่านมา · PC ส่งสถานะ ~15 นาที");
 }
 setInterval(refreshLiveMonitor,20000);
 
 
 const retryFeedButton=document.getElementById("retry-live-feed");
 if(retryFeedButton)retryFeedButton.addEventListener("click",()=>loadRemote());
+
+
+// Browser background-tab throttling must not turn a working PC red.
+// Refresh immediately when the operator returns to this tab rather than waiting for a timer.
+let lastForegroundReload=0;
+function refreshTelemetryOnReturn(){
+ if(document.visibilityState!=="visible" || !latestLoopStatus)return;
+ const elapsed=Date.now()-lastForegroundReload;
+ if(elapsed<12000)return;
+ lastForegroundReload=Date.now();
+ t("loop-online-status","กำลังยืนยัน Heartbeat ล่าสุด...");
+ loadRemote();
+}
+document.addEventListener("visibilitychange",refreshTelemetryOnReturn);
+window.addEventListener("focus",refreshTelemetryOnReturn);
+window.addEventListener("pageshow",refreshTelemetryOnReturn);
