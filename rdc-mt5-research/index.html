@@ -3,13 +3,14 @@
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#08121d">
 <title>RDC · GOLDmicro Research Control Tower</title>
 <meta name="description" content="MT5 PC-only Strategy Tester observability · PF DD Recovery · Walk-Forward · Agent Workflow">
-<link rel="stylesheet" href="./style.css?v=b3bdb0c8d6488085"></head><body>
+<link rel="stylesheet" href="./style.css?v=7b3dd11449627584"></head><body>
 <div class="shell">
 <aside class="side"><div class="brand"><div class="logo">R<span>D</span>C</div><div><strong>RESEARCH OS</strong><small>GOLDmicro Control Tower</small></div></div>
 <div class="nav-label">INTELLIGENCE</div>
 <nav id="nav">
 <button class="active" data-tab="overview">◈ <span>Executive Overview</span></button>
 <button data-tab="workflow">⬡ <span>Agent Workflow</span></button>
+<button data-tab="manager" class="manager-nav"><span aria-hidden="true">◈</span> <span>Agent Manager Daily Review</span></button>
 <button data-tab="league" class="league-nav">🏆 <span>AI Research League</span></button>
 <button data-tab="analytics">▥ <span>Walk-Forward Analytics</span></button>
 <button data-tab="evidence">≡ <span>Process &amp; Evidence</span></button>
@@ -168,6 +169,46 @@
 <div class="health"><span>MT5 Compute</span><b>PC ONLY</b></div><div class="health"><span>Raw Ticks</span><b>PC PRIVATE</b></div><div class="health"><span>Web Access</span><b>READ-ONLY</b></div><div class="health"><span>Public Publication</span><b>AGGREGATES</b></div><div class="health"><span>Live Orders</span><b class="bad">BLOCKED</b></div>
 <h3 class="subheading">Research Limitations</h3><div id="limitations" class="limitations"></div>
 <a class="source-link" href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">View Private Research Framework ↗</a></article></div></section>
+<section class="page" id="page-manager">
+ <div class="heading"><div><div class="eyebrow">RDC L5 · MANAGER / SUB-AGENT WORK PERFORMANCE</div>
+ <h1>Agent <span>Manager Daily Review</span></h1>
+ <p>รายงานการสั่งงาน–ผลลัพธ์–คุณภาพงาน–ความผิดพลาดของ Sub-agent จากหลักฐานที่เกิดขึ้นจริงในแต่ละวัน แยกประสิทธิภาพการทำงานออกจากกำไรของกลยุทธ์</p></div>
+ <span class="chip" id="manager-audit-health">LOADING PC EVIDENCE</span></div>
+ <article class="panel">
+  <div class="manager-toolbar">
+   <div class="manager-date-control"><label for="manager-audit-date">เลือกวันที่ประเมิน (ประเทศไทย)</label><select id="manager-audit-date"><option>กำลังอ่าน Ledger...</option></select></div>
+   <div class="manager-date-control"><label for="manager-audit-role">ดูคำสั่งของ Sub-agent</label><select id="manager-audit-role"><option value="ALL">ทุก Sub-agent</option></select></div>
+   <div class="manager-meta" id="manager-audit-asof">Audit จาก Native Evidence เท่านั้น</div>
+  </div>
+  <div class="manager-kpi-grid">
+   <div><small>MT5 FIT+VAL VERIFIED</small><strong id="manager-kpi-native">—</strong><span>คู่ทดสอบสำเร็จพร้อม SHA</span></div>
+   <div><small>TESTER PHASE RELIABILITY</small><strong id="manager-kpi-reliability">—</strong><span>รายงานใหม่จริง / จำนวนพยายาม</span></div>
+   <div><small>PROMOTER DISPATCHES</small><strong id="manager-kpi-plans">—</strong><span>รวมคิวที่ EA ยังไม่พร้อม</span></div>
+   <div><small>RESEARCH QUALIFIED</small><strong id="manager-kpi-quality">—</strong><span>ผลกลยุทธ์ ไม่ใช่ KPI ความขยัน</span></div>
+  </div>
+  <div class="manager-evidence-note" id="manager-daily-verdict">กำลังวิเคราะห์ประสิทธิภาพรายวัน...</div>
+  <p class="annotation"><strong>หมายเหตุ:</strong> Sub-agent บางตัวเป็นบทบาทของโปรแกรม Python บน PC ไม่ใช่ LLM 9 ตัวที่รันเป็นอิสระ ข้อมูลคำสั่งมาจากประเภทเหตุการณ์ใน Ledger ที่ตรวจสอบได้ ไม่ใช่ข้อความสนทนาทุกข้อความ</p>
+ </article>
+ <div class="manager-two-column">
+  <article class="panel"><div class="panel-top"><div><small>EXECUTION + EVIDENCE KPIs</small><h2>Performance by Sub-agent</h2></div><span class="chip">SOURCE VERIFIED</span></div>
+   <div id="manager-roles" class="manager-role-grid"><span class="annotation">กำลังโหลดสถิติ...</span></div>
+  </article>
+  <article class="panel"><div class="panel-top"><div><small>MANAGER QUALITY CONTROL</small><h2>Executive Findings &amp; Action Items</h2></div><span class="chip">EVIDENCE FIRST</span></div>
+   <div id="manager-recommendations" class="manager-recommendations"><span class="annotation">กำลังตรวจสอบข้อเสนอ...</span></div>
+   <p class="annotation">การ Reject กลยุทธ์ที่ PF ต่ำอาจแปลว่า Judge ทำหน้าที่ได้ถูกต้อง ไม่ใช่ว่า Agent ล้มเหลว · ควรแยกชั่วโมงทำงานและราคา Cloud ออกจากคุณภาพงานวิจัย</p>
+  </article>
+ </div>
+ <article class="panel manager-command-panel">
+  <div class="panel-top"><div><small>AUDITABLE DAILY COMMAND / RESULT PAIRS</small><h2>Daily Sub-agent Dispatch &amp; Outcome Timeline</h2></div><span id="manager-audit-count" class="chip">AWAITING DATA</span></div>
+  <p class="annotation">Timeline แสดงรายการล่าสุดที่สุ่มตัวอย่างตามเวลาโดยไม่เลือกแต่ผลสำเร็จ เพื่ออ่านได้ง่าย ส่วน KPI คำนวณจาก Ledger ทั้งวัน · ปิดบังข้อความ Prompt ส่วนตัว, รหัสบัญชี และคำสั่งที่ไม่อยู่ในขอบเขต Research</p>
+  <div class="manager-audit-scroll"><table class="manager-audit-table"><thead><tr><th>เวลา (ไทย)</th><th>Sub-agent</th><th>งานที่สั่ง / Dispatch</th><th>ผลการทำงาน</th><th>หลักฐาน</th></tr></thead>
+   <tbody id="manager-audit-rows"><tr><td colspan="5">Awaiting native data</td></tr></tbody></table></div>
+ </article>
+ <article class="panel manager-boundary"><small>DAILY REPORT COVERAGE &amp; GOVERNANCE</small><h2>คำจำกัดความของข้อมูล</h2>
+  <div id="manager-audit-limitations" class="annotation">จะไม่อนุมานว่ามีผู้ตรวจสอบที่เป็น AI อิสระ หากไม่มีหลักฐานจากระบบ</div>
+  <p class="annotation">ข้อมูลจะอัปเดตตาม PC checkpoint ประมาณทุก 30 นาที ไม่ใช่เรียลไทม์ทุกคำสั่ง; Main MT5 Research Loop ยังรันทุก 5 นาที และ Live Trading = HOLD</p>
+ </article>
+</section>
 <section class="page" id="page-league">
   <div class="heading"><div><div class="eyebrow">RDC L5 · CONTINUOUS RESEARCH TOURNAMENT</div><h1>AI <span>Research League</span></h1>
    <p>Promoter จัดการแข่งขันไม่รู้จบ · MT5 บน PC เท่านั้น · Judge/Red Team ตรวจสอบ · Champion ไม่ใช่เหตุผลให้หยุด</p></div>
@@ -331,4 +372,4 @@
 var pages=document.querySelectorAll(".page");for(var i=0;i<pages.length;i++)pages[i].classList.toggle("active",pages[i].id==="page-"+h);
 var tabs=document.querySelectorAll("#nav button");for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle("active",tabs[j].getAttribute("data-tab")===h);
 })();
-</script><script src="./app.js?v=b054f260e2bd84a7" defer></script></body></html>
+</script><script src="./app.js?v=41c87c93f3e920e1" defer></script></body></html>

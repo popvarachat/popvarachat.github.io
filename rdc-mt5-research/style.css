@@ -299,3 +299,62 @@
  color:#c7eee0;font-size:11px;line-height:1.5;margin:9px 0;padding:10px;min-height:38px}
 @media(max-width:1050px){.wave-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
 @media(max-width:650px){.wave-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.wave-controls select{min-width:180px}}
+
+/* Agent Manager daily evidence-based review; not a simulated nine-LLM organization. */
+.manager-nav{border-left:2px solid #52bca3!important}
+.manager-toolbar{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap;margin:4px 0 18px}
+.manager-date-control{display:flex;flex-direction:column;gap:6px}
+.manager-date-control label{color:#9fc7ca;font-weight:700;font-size:11px}
+.manager-date-control select{border:1px solid #466c78;border-radius:8px;padding:9px 12px;
+ background:#11313e;color:#e1f7ed;font-size:12px;min-width:195px}
+.manager-meta{color:#9bbed0;font-size:11px;margin-left:auto;max-width:320px;line-height:1.5}
+.manager-kpi-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin-bottom:14px}
+.manager-kpi-grid>div{padding:15px;border:1px solid #3c606b;border-radius:11px;
+ background:#0d2a37;display:flex;flex-direction:column;gap:5px}
+.manager-kpi-grid small{font-size:10px;color:#b5d7d2;letter-spacing:.5px}
+.manager-kpi-grid strong{font-size:25px;font-variant-numeric:tabular-nums;color:#e2fbf4;line-height:1.25}
+.manager-kpi-grid span{font-size:10px;color:#90adb7;line-height:1.5}
+.manager-evidence-note{padding:14px 17px;border-left:3px solid #63d6b7;
+ background:#0c2935;color:#d1eae1;line-height:1.7;font-size:12px;border-radius:6px}
+.manager-two-column{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(0,1fr);gap:14px;margin-top:14px}
+.manager-two-column .panel{min-width:0}
+.manager-role-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px;margin-top:12px}
+.manager-role-card{padding:13px;border:1px solid #375b6a;border-radius:10px;
+ background:#0b2935;display:flex;flex-direction:column;gap:7px;min-width:0}
+.manager-role-card>strong{font-size:13px;color:#d6f5ea}
+.manager-role-card>small{font-size:10px;color:#92aeb9}
+.manager-role-counts{font-size:11px;color:#c1dcd8;font-variant-numeric:tabular-nums}
+.manager-role-ratio{font-size:10px;line-height:1.5;color:#a9e7d8}
+.manager-role-track{height:6px;border-radius:10px;overflow:hidden;background:#294552}
+.manager-role-fill{height:100%;background:linear-gradient(90deg,#499b91,#78e1b2);border-radius:10px}
+.manager-role-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.manager-role-metrics span{font-size:10px;color:#b0c8cd;background:#173542;
+ padding:5px 7px;border-radius:5px;overflow-wrap:anywhere}
+.manager-role-card p{margin:0;color:#afcbd0;font-size:10px;line-height:1.6}
+.manager-action{border-left:3px solid #4e9d97;padding:12px 13px;margin:10px 0;
+ background:#102d39;border-radius:6px}
+.manager-severity-high{border-left-color:#f2a06f}
+.manager-action strong{font-size:11px;color:#d4efe7}
+.manager-action p{font-size:11px;line-height:1.6;color:#bbdfd7;margin:6px 0}
+.manager-action small{color:#92afba;font-size:10px;line-height:1.5}
+.manager-command-panel{margin-top:14px}
+.manager-audit-scroll{max-height:500px;overflow:auto;border:1px solid #31505e;
+ border-radius:8px;margin-top:10px}
+.manager-audit-table{width:100%;border-collapse:collapse;font-size:11px}
+.manager-audit-table th{position:sticky;top:0;background:#143540;color:#d4e8e6;
+ text-align:left;z-index:1;white-space:nowrap;padding:10px}
+.manager-audit-table td{border-top:1px solid #264955;padding:9px 10px;
+ color:#b8d0d2;vertical-align:top;line-height:1.5}
+.manager-audit-table td:nth-child(3){color:#d4f8ee;font-weight:650}
+.manager-audit-table td:nth-child(4){min-width:175px}
+.manager-audit-table td:nth-child(5){font-size:9px;color:#829eab;white-space:nowrap}
+.manager-boundary{margin-top:13px}
+@media(max-width:1100px){
+ .manager-two-column{grid-template-columns:1fr}
+ .manager-meta{margin-left:0}
+}
+@media(max-width:700px){
+ .manager-kpi-grid{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .manager-role-grid{grid-template-columns:1fr}
+ .manager-toolbar{align-items:stretch}
+}

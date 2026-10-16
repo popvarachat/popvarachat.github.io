@@ -25,7 +25,7 @@ function nav(name){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>{nav(b.dataset.tab);history.replaceState(null,"","#"+b.dataset.tab);}));
-const validTabs=new Set(["overview","workflow","analytics","evidence","control","league"]);
+const validTabs=new Set(["overview","workflow","analytics","evidence","control","league","manager"]);
 function openTabFromHash(){const tab=location.hash.slice(1);if(validTabs.has(tab))nav(tab);}
 window.addEventListener("hashchange",openTabFromHash);
 openTabFromHash();
@@ -218,6 +218,7 @@ async function loadRemote(){
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
+  renderManagerDailyAudit(d.agent_manager_daily_audit||null);
   renderWaveGraph(d.wave_graph||null);
   renderDiscoveryManager(d.discovery_manager||null);
   renderExternalResearch(d.external_discovery||null);
@@ -267,6 +268,7 @@ async function loadRemote(){
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
+    renderManagerDailyAudit(previous.agent_manager_daily_audit||null);
     renderWaveGraph(previous.wave_graph||null);
     renderDiscoveryManager(previous.discovery_manager||null);
     renderExternalResearch(previous.external_discovery||null);
@@ -1069,3 +1071,143 @@ window.addEventListener("resize",()=>{
  if(document.getElementById("page-league")?.classList.contains("active")&&wavePayload)
   drawWaveGraph();
 });
+
+
+/* AGENT MANAGER DAILY AUDIT:
+ * Nine process roles across PC / NB, not 9 autonomous independent LLMs.
+ * Actual structured dispatch and outcome evidence, without exposing
+ * private natural-language prompts or broker identifiers. */
+let managerAuditPayload=null;
+const managerRoleLabels={
+ promoter:"Promoter / Planner",executor:"Native MT5 Executor",
+ judge:"Judge / Red Team",scorekeeper:"Scorekeeper / Evidence",
+ discovery:"Discovery Manager",external:"External Research Radar",
+ qwen:"Qwen3 Hypothesis",reviewer:"ChatGPT Independent Reviewer",
+ web:"Web / Telemetry Publisher"
+};
+function managerNum(v){return typeof v==="number"?v.toLocaleString("en-US"):"—";}
+function managerAuditTime(ts){
+ try{return new Date(ts).toLocaleTimeString("th-TH",{timeZone:"Asia/Bangkok",hour:"2-digit",minute:"2-digit",second:"2-digit",hour12:false});}
+ catch(e){return "—";}
+}
+function renderManagerDailyAudit(payload){
+ if(!payload||payload.schema!=="rdc.agent_manager.daily_audit.v1"){
+  managerAuditPayload=null;
+  t("manager-audit-health","AWAITING VERIFIED PC AUDIT");
+  t("manager-daily-verdict","ยังไม่ได้รับผลประเมินรายวันจาก PC · ไม่สร้างคะแนนสมมติ");
+  return;
+ }
+ managerAuditPayload=payload;
+ const dates=$("manager-audit-date"),roles=$("manager-audit-role");
+ if(!dates||!roles)return;
+ const previouslyChosen=dates.value;
+ const prevRole=roles.value;
+ dates.replaceChildren();
+ for(const date of payload.dates){
+  const option=document.createElement("option");option.value=date;option.textContent=date+" (ICT)";
+  dates.appendChild(option);
+ }
+ dates.value=payload.dates.includes(previouslyChosen)?previouslyChosen:payload.dates[0];
+ roles.replaceChildren();
+ const all=document.createElement("option");all.value="ALL";all.textContent="ทุก Sub-agent";roles.appendChild(all);
+ const legend=payload.days.find(d=>d.date===dates.value)?.roles||[];
+ for(const item of legend){
+  const opt=document.createElement("option");opt.value=item.role_id;opt.textContent=item.label;
+  roles.appendChild(opt);
+ }
+ roles.value=Object.hasOwn(managerRoleLabels,prevRole)?prevRole:"ALL";
+ showManagerDay();
+}
+function showManagerDay(){
+ const data=managerAuditPayload,selector=$("manager-audit-date"),filter=$("manager-audit-role");
+ if(!data||!selector)return;
+ const day=data.days.find(x=>x.date===selector.value);if(!day)return;
+ const s=day.summary||{},ex=day.roles.find(x=>x.role_id==="executor");
+ const measured=Number(s.native_technical_attempts||0),success=Number(s.native_phase_success||0);
+ const pct=measured?(100*success/measured).toFixed(1)+"%":"N/A";
+ t("manager-audit-health",(day.is_partial_today?"TODAY · IN PROGRESS":"HISTORICAL DAY")+
+   " · "+day.date);
+ t("manager-audit-asof","Checkpoint "+
+   new Date(data.generated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok",
+    year:"numeric",month:"short",day:"numeric",hour:"2-digit",minute:"2-digit"})+
+   " · "+(day.is_partial_today?"ข้อมูลระหว่างวัน":"ครบตาม Ledger ที่มี"));
+ t("manager-kpi-native",managerNum(s.native_completed_experiments));
+ t("manager-kpi-reliability",pct);
+ t("manager-kpi-plans",managerNum(s.promoter_plans));
+ t("manager-kpi-quality",managerNum(s.strategy_qualified)+
+   " / "+managerNum(s.native_completed_experiments));
+ const failed=Number(s.native_phase_fail_or_stale||0),
+       blocked=Number(s.promoter_adapter_blocked||0),
+       rejected=Number(s.strategy_not_qualified||0);
+ const summary="Agent Manager สรุป: "+measured+" native MT5 phase attempts · "+
+   success+" fresh reports · "+failed+" failed/stale attempts · "+
+   blocked+" EA adapter blocks · "+rejected+" strategies not qualified (not execution failures). "+
+   "Recommendations are based on logs, not agent intentions. Trading HOLD.";
+ t("manager-daily-verdict",summary);
+ const cards=$("manager-roles");if(cards){cards.replaceChildren();
+  for(const r of day.roles){
+   const card=document.createElement("article");card.className="manager-role-card";
+   const name=document.createElement("strong");name.textContent=r.label;
+   const platform=document.createElement("small");platform.textContent=r.runtime;
+   const counts=document.createElement("div");counts.className="manager-role-counts";
+   counts.textContent="Recorded "+managerNum(r.commands)+" · Completed/recorded "+
+      managerNum(r.completed)+" · Blocked "+managerNum(r.blocked);
+   const rate=document.createElement("div");rate.className="manager-role-ratio";
+   rate.textContent=r.reliability_pct===null?
+     "NO MEASURABLE ACCURACY SCORE · "+r.reliability_basis:
+     r.reliability_pct.toFixed(1)+"% · "+r.reliability_basis;
+   card.append(name,platform,counts,rate);
+   if(typeof r.reliability_pct==="number"){
+    const track=document.createElement("div");track.className="manager-role-track";
+    const fill=document.createElement("div");fill.className="manager-role-fill";
+    fill.style.width=Math.max(0,Math.min(100,r.reliability_pct))+"%";
+    track.appendChild(fill);card.appendChild(track);
+   }
+   const metrics=document.createElement("div");metrics.className="manager-role-metrics";
+   for(const [key,value] of Object.entries(r.metrics||{}).slice(0,4)){
+    const span=document.createElement("span");
+    span.textContent=key.replaceAll("_"," ")+": "+String(value===null?"—":value);
+    metrics.appendChild(span);
+   }
+   const desc=document.createElement("p");desc.textContent=r.assessment;
+   const origin=document.createElement("small");origin.textContent="EVIDENCE: "+r.basis;
+   card.append(metrics,desc,origin);cards.appendChild(card);
+  }
+ }
+ const recRoot=$("manager-recommendations");if(recRoot){recRoot.replaceChildren();
+  for(const rec of day.top_recommendations||[]){
+   const box=document.createElement("div");
+   box.className="manager-action "+(rec.severity==="HIGH"?"manager-severity-high":"");
+   const head=document.createElement("strong");head.textContent=
+    rec.severity+" · "+(managerRoleLabels[rec.role]||rec.role);
+   const action=document.createElement("p");action.textContent=rec.action;
+   const evidence=document.createElement("small");evidence.textContent="Evidence: "+rec.evidence;
+   box.append(head,action,evidence);recRoot.appendChild(box);
+  }
+ }
+ const role=filter?.value||"ALL";
+ const timeline=(day.dispatch_timeline||[]).filter(row=>role==="ALL"||row.agent===role);
+ const tb=$("manager-audit-rows");if(tb){tb.replaceChildren();
+  for(const entry of timeline){
+   const tr=document.createElement("tr");
+   for(const value of [managerAuditTime(entry.ts),managerRoleLabels[entry.agent]||entry.agent,
+     entry.command,entry.status+" · "+entry.outcome,entry.source]){
+    const td=document.createElement("td");td.textContent=String(value||"—");tr.appendChild(td);
+   }
+   tb.appendChild(tr);
+  }
+  if(!timeline.length){
+   const tr=document.createElement("tr"),td=document.createElement("td");td.colSpan=5;
+   td.textContent="No recorded sampled dispatch for this role on selected date";tr.appendChild(td);tb.appendChild(tr);
+  }
+ }
+ t("manager-audit-count",timeline.length+" visible / "+
+   managerNum(day.total_dispatch_rows_before_sampling)+" ledger-mapped events"+
+   (role==="ALL"?"":" (role filtered)"));
+ t("manager-audit-limitations","Observed scope: "+
+   (data.sources||[]).join(", ")+". Not measured: "+
+   (day.unmeasured||[]).join("; ")+
+   ". All dates use Thailand ICT (+07). Timeline is latest stratified up to 20 entries per role; full-day KPIs use all relevant log records.");
+}
+$("manager-audit-date")?.addEventListener("change",showManagerDay);
+$("manager-audit-role")?.addEventListener("change",showManagerDay);
