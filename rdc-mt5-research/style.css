@@ -358,3 +358,32 @@
  .manager-role-grid{grid-template-columns:1fr}
  .manager-toolbar{align-items:stretch}
 }
+
+/* Parameter Finder for fully evidenced MT5 multi-TF parameter comparisons. */
+.parameter-nav{border-left:2px solid #67c3cb!important}
+.parameter-toolbar{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin:5px 0 14px}
+.parameter-toolbar label,.parameter-triplet label{display:flex;flex-direction:column;
+ color:#a6d0cd;font-size:10px;font-weight:750;gap:7px}
+.parameter-toolbar select,.parameter-triplet input{border:1px solid #456c7a;border-radius:8px;
+ padding:10px 11px;background:#102e3c;color:#e2f5f1;min-width:0;width:100%;font-size:12px}
+.parameter-search-box{padding:12px;border-radius:9px;background:#0b2835;
+ border:1px solid #33596a;margin-bottom:13px}
+.parameter-search-box>strong{color:#c7eee5;font-size:12px}
+.parameter-triplet{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));
+ gap:9px;align-items:end;margin-top:11px}
+.parameter-triplet button{height:37px;border:1px solid #436e7d;color:#dbf2eb;
+ background:#1b424c;border-radius:8px;cursor:pointer}
+.parameter-triplet button:hover{background:#286c69}
+.parameter-results-panel{margin-top:14px}
+.parameter-table-wrap{max-height:690px;overflow:auto}
+.parameter-table{min-width:1050px}
+.parameter-table td:nth-child(2){font-weight:750;white-space:nowrap;color:#d0f3e5}
+.parameter-table td:nth-child(3){font-size:10px;color:#9cb7c0;max-width:225px}
+.param-group-heading td{background:#1d4550!important;color:#d2f0e5!important;
+ font-weight:800!important;font-size:11px!important;position:sticky;top:34px;z-index:1}
+.param-observed-winner td{background:rgba(41,165,119,.12)}
+.parameter-method{font-size:11px;line-height:1.65;color:#93b7bc;margin-top:12px}
+@media(max-width:650px){
+ .parameter-toolbar{grid-template-columns:1fr}
+ .parameter-triplet{grid-template-columns:repeat(2,minmax(0,1fr))}
+}

@@ -25,7 +25,7 @@ function nav(name){
  window.scrollTo({top:0,behavior:"smooth"});
 }
 document.querySelectorAll("#nav button").forEach(b=>b.addEventListener("click",()=>{nav(b.dataset.tab);history.replaceState(null,"","#"+b.dataset.tab);}));
-const validTabs=new Set(["overview","workflow","analytics","evidence","control","league","manager"]);
+const validTabs=new Set(["overview","workflow","analytics","evidence","control","league","manager","parameters"]);
 function openTabFromHash(){const tab=location.hash.slice(1);if(validTabs.has(tab))nav(tab);}
 window.addEventListener("hashchange",openTabFromHash);
 openTabFromHash();
@@ -218,6 +218,7 @@ async function loadRemote(){
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
+  renderParameterFinder(d.parameter_finder||null);
   renderManagerDailyAudit(d.agent_manager_daily_audit||null);
   renderWaveGraph(d.wave_graph||null);
   renderDiscoveryManager(d.discovery_manager||null);
@@ -268,6 +269,7 @@ async function loadRemote(){
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
+    renderParameterFinder(previous.parameter_finder||null);
     renderManagerDailyAudit(previous.agent_manager_daily_audit||null);
     renderWaveGraph(previous.wave_graph||null);
     renderDiscoveryManager(previous.discovery_manager||null);
@@ -1211,3 +1213,165 @@ function showManagerDay(){
 }
 $("manager-audit-date")?.addEventListener("change",showManagerDay);
 $("manager-audit-role")?.addEventListener("change",showManagerDay);
+
+
+/* Native research Parameter Finder. Full historical ledger, not limited to
+ * current winners. No global ranking across different protocols or 3-day pilots. */
+let parameterCatalog=null;
+function paramNumber(value,d=2){
+ return typeof value==="number"&&Number.isFinite(value)?
+   value.toLocaleString("en-US",{maximumFractionDigits:d,minimumFractionDigits:d}):"—";
+}
+function paramSelectFill(el,values,select){
+ if(!el)return;
+ el.replaceChildren();
+ for(const [id,text] of values){
+  const opt=document.createElement("option");opt.value=id;opt.textContent=text;el.appendChild(opt);
+ }
+ if(select&&values.some(x=>x[0]===select))el.value=select;
+}
+function renderParameterFinder(payload){
+ if(!payload||payload.schema!=="rdc.research.parameter_finder.v1"){
+  parameterCatalog=null;
+  t("param-status","AWAITING VERIFIED NATIVE RESULTS");
+  t("param-result-verdict","ยังไม่มีผลอ้างอิงจาก PC · จะไม่สร้างค่า Parameter หรือคะแนนสมมติ");
+  return;
+ }
+ const old=parameterCatalog;
+ parameterCatalog=payload;
+ const families=$("param-family"),tf=$("param-tf");
+ if(!families||!tf)return;
+ const oldFamily=families.value||"MACD",oldTf=tf.value||"M1";
+ paramSelectFill(families,(payload.families||[]).map(x=>[x,x]),oldFamily);
+ paramSelectFill(tf,(payload.timeframes||[]).map(x=>[x,x]),oldTf);
+ if(!old && (payload.families||[]).includes("MACD") && (payload.timeframes||[]).includes("M1")){
+  families.value="MACD";tf.value="M1";
+ }
+ t("param-status",payload.total_native+" NATIVE FIT+VAL / "+payload.total_pilot+" PILOTS");
+ refreshParameterGroups();
+}
+function refreshParameterGroups(){
+ if(!parameterCatalog)return;
+ const family=$("param-family")?.value,tf=$("param-tf")?.value;
+ const rows=parameterCatalog.rows.filter(r=>r.family===family&&r.tf===tf);
+ const groups=[...new Set(rows.map(r=>r.group))].sort();
+ const g=$("param-group"),old=g?.value;
+ paramSelectFill(g,[["ALL","All protocols · rankings separated"],...groups.map(k=>{
+  const item=rows.find(r=>r.group===k);
+  return [k,(item.window_id||"LEGACY")+" · "+(item.protocol_id||"PILOT")+
+     " · Model "+item.test_model];
+ })],old);
+ updateParameterResults();
+}
+function updateParameterResults(){
+ if(!parameterCatalog)return;
+ const cat=parameterCatalog, family=$("param-family")?.value||"MACD";
+ const tf=$("param-tf")?.value||"M1",group=$("param-group")?.value||"ALL";
+ const sorting=$("param-sort")?.value||"pf";
+ const filt={fast:$("param-fast")?.value,slow:$("param-slow")?.value,
+             period:$("param-signal")?.value};
+ let all=cat.rows.filter(r=>r.family===family&&r.tf===tf&&
+   (group==="ALL"||r.group===group));
+ const matching=all.filter(r=>Object.entries(filt).every(([k,v])=>
+    v===""||v===undefined||v===null||Number(r.params[k])===Number(v)));
+ const testedUnique=new Set(matching.map(r=>["fast","slow","period"].map(k=>r.params[k]).join("/")));
+ const groups=[...new Set(matching.map(r=>r.group))].sort();
+ const pilot=matching.filter(r=>r.evidence==="SHA256_NATIVE_MT5_SINGLE_3DAY_PILOT");
+ const official=matching.filter(r=>r.evidence==="NATIVE_MT5_FIT_VAL_HASHED");
+ const selectableGroup=group!=="ALL",gInfo=cat.groups?.[group];
+ const best=selectableGroup&&gInfo?.valid_ranking?
+   matching.find(r=>r.id===gInfo.winner_id):null;
+ t("param-count",String(matching.length));
+ t("param-distinct",String(testedUnique.size));
+ t("param-groups",String(groups.length));
+ t("param-best-flag",best?"GROUP BEST":"NOT PROVEN");
+ t("param-result-count",matching.length+" results · "+
+   official.length+" FIT+VAL / "+pilot.length+" Pilot");
+ const hasNoNative=official.length===0;
+ let msg;
+ if(matching.length===0)msg="ไม่พบผล MT5 ตาม Indicator / TF / Parameter ที่ระบุ · ไม่สามารถเลือก Best ได้";
+ else if(tf==="M1"&&family==="MACD"&&hasNoNative){
+  msg="MACD M1: มีเพียง "+pilot.length+" Pilot (6–9 Jan 2025), ยังไม่มี FIT+VAL สำหรับการเปรียบเทียบพารามิเตอร์ · ไม่มี Best M1 ที่ยืนยันได้. "+
+    "ต้องทดสอบหลายชุดด้วย Rolling Windows และ realistic spread/slippage/tick QA ก่อน";
+ }else if(best){
+  msg="Best OBSERVED within exact certified protocol: "+family+
+    "("+best.params.fast+","+best.params.slow+","+best.params.period+")"+
+    " · VAL PF "+paramNumber(best.val.pf,3)+
+    " · VAL DD "+paramNumber(best.val.dd)+"%"+
+    " · SCORE "+paramNumber(best.score,4)+
+    " · Historical validation reused / NOT independent forward proof";
+ }else if(!selectableGroup){
+  msg="พบ "+matching.length+" ผล · แสดงแยกเป็น "+groups.length+
+    " Protocol Groups ห้ามเลือก Best ข้าม Window, Timeframe, Lot, Exit, Adaptive Mode หรือ Test Model. "+
+    "เลือก COMPARISON PROTOCOL เพื่อหาอันดับเฉพาะกลุ่ม";
+ }else{
+  msg="กลุ่มนี้ยังไม่มี Qualified Winner ที่มีพารามิเตอร์อย่างน้อย 2 ชุดและ FIT+VAL เปรียบเทียบกันได้ · "+
+    "ไม่ประกาศ Best จากผลเดียวหรือผล Pilot";
+ }
+ t("param-result-verdict",msg);
+ const root=$("param-result-rows");if(!root)return;
+ root.replaceChildren();
+ if(!matching.length){
+  const tr=document.createElement("tr"),td=document.createElement("td");
+  td.colSpan=10;td.textContent="NO NATIVE RESULTS FOUND — ไม่สร้างผลจำลอง";tr.appendChild(td);root.appendChild(tr);
+ }
+ const compare=(a,b)=>{
+  const getter=(r)=>r.val?.[sorting];
+  const av=getter(a),bv=getter(b);
+  if(av===null||av===undefined)return 1;
+  if(bv===null||bv===undefined)return -1;
+  const diff=sorting==="dd"?av-bv:bv-av;
+  return diff||String(a.id).localeCompare(String(b.id));
+ };
+ for(const groupKey of groups){
+  const groupRows=matching.filter(r=>r.group===groupKey).sort(compare);
+  const groupInfo=cat.groups?.[groupKey];
+  const heading=document.createElement("tr");heading.className="param-group-heading";
+  const th=document.createElement("td");th.colSpan=10;
+  th.textContent=(groupRows[0].window_id||"LEGACY")+" · "+groupRows[0].protocol_id+
+   " · Test Model "+groupRows[0].test_model+" · "+groupRows.length+
+   " shown · "+(groupInfo?.valid_ranking?"HAS A QUALIFIED COMPARABLE WINNER":
+       "NO CERTIFIED PARAMETER WINNER");
+  heading.appendChild(th);root.appendChild(heading);
+  for(const row of groupRows.slice(0,100)){
+   const tr=document.createElement("tr");
+   const winner=groupInfo?.valid_ranking&&row.id===groupInfo.winner_id;
+   if(winner)tr.className="param-observed-winner";
+   const pp=row.params||{};
+   const run=row.source==="PC_SHORT_TF_REAL_TICKS_PILOT"?"PILOT 3 DAYS":
+       "R"+row.round+" / T"+row.trial;
+   const params=family+"("+pp.fast+","+pp.slow+","+pp.period+")"+
+       (pp.threshold===null?"":" · threshold="+pp.threshold);
+   const context=(row.window_val||"UNKNOWN")+" · "+
+       (row.comparison_scope==="ONE_PILOT_ONLY_NO_FIT_VAL"?"Real ticks pilot":
+        row.window_id||"LEGACY");
+   const quality=row.source==="PC_SHORT_TF_REAL_TICKS_PILOT"?
+       "UNRANKED PILOT · NO FIT+VAL · SHA "+row.hash_val:
+       (row.status==="RESEARCH_QUALIFIED"?"RESEARCH QUALIFIED":"RESEARCH REJECTED")+
+       " · FIT SHA "+row.hash_fit+"… / VAL SHA "+row.hash_val+"…";
+   const values=[run,params,context,paramNumber(row.fit?.pf,3),
+     paramNumber(row.val?.pf,3),paramNumber(row.val?.dd),
+     paramNumber(row.val?.recovery,3),paramNumber(row.val?.net),
+     paramNumber(row.val?.trades,0),quality];
+   for(let i=0;i<values.length;i++){
+    const td=document.createElement("td");td.textContent=String(values[i]);tr.appendChild(td);
+   }
+   root.appendChild(tr);
+  }
+ }
+ t("param-method","Source: PC native FIT+VAL reports (both SHA) plus separately labeled short-TF real-tick pilots. "+
+   "Indicator TF alone does NOT make different test windows/EA exits comparable. "+
+   "A Group Best requires >=2 distinct MACD x,y,z parameter sets in exact same certified protocol "+
+   "and at least one Judge-qualified record; score is historical only, not blind OOS. "+
+   "Results refresh on PC periodic telemetry snapshot; this Web is read-only. No live trading.");
+}
+$("param-family")?.addEventListener("change",refreshParameterGroups);
+$("param-tf")?.addEventListener("change",refreshParameterGroups);
+$("param-group")?.addEventListener("change",updateParameterResults);
+$("param-sort")?.addEventListener("change",updateParameterResults);
+for(const id of ["param-fast","param-slow","param-signal"])
+ $(id)?.addEventListener("input",updateParameterResults);
+$("param-clear")?.addEventListener("click",()=>{
+ for(const id of ["param-fast","param-slow","param-signal"])if($(id))$(id).value="";
+ updateParameterResults();
+});

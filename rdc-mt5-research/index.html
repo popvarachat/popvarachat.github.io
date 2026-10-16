@@ -3,13 +3,14 @@
 <meta name="color-scheme" content="dark"><meta name="theme-color" content="#08121d">
 <title>RDC · GOLDmicro Research Control Tower</title>
 <meta name="description" content="MT5 PC-only Strategy Tester observability · PF DD Recovery · Walk-Forward · Agent Workflow">
-<link rel="stylesheet" href="./style.css?v=7b3dd11449627584"></head><body>
+<link rel="stylesheet" href="./style.css?v=7c21c6990212752f"></head><body>
 <div class="shell">
 <aside class="side"><div class="brand"><div class="logo">R<span>D</span>C</div><div><strong>RESEARCH OS</strong><small>GOLDmicro Control Tower</small></div></div>
 <div class="nav-label">INTELLIGENCE</div>
 <nav id="nav">
 <button class="active" data-tab="overview">◈ <span>Executive Overview</span></button>
 <button data-tab="workflow">⬡ <span>Agent Workflow</span></button>
+<button data-tab="parameters" class="parameter-nav"><span aria-hidden="true">◉</span> <span>Parameter Finder</span></button>
 <button data-tab="manager" class="manager-nav"><span aria-hidden="true">◈</span> <span>Agent Manager Daily Review</span></button>
 <button data-tab="league" class="league-nav">🏆 <span>AI Research League</span></button>
 <button data-tab="analytics">▥ <span>Walk-Forward Analytics</span></button>
@@ -169,6 +170,47 @@
 <div class="health"><span>MT5 Compute</span><b>PC ONLY</b></div><div class="health"><span>Raw Ticks</span><b>PC PRIVATE</b></div><div class="health"><span>Web Access</span><b>READ-ONLY</b></div><div class="health"><span>Public Publication</span><b>AGGREGATES</b></div><div class="health"><span>Live Orders</span><b class="bad">BLOCKED</b></div>
 <h3 class="subheading">Research Limitations</h3><div id="limitations" class="limitations"></div>
 <a class="source-link" href="https://github.com/popvarachat/rdc-runtime-source-of-truth/tree/main/projects/rdc-research-loop" target="_blank" rel="noopener noreferrer">View Private Research Framework ↗</a></article></div></section>
+<section class="page" id="page-parameters">
+ <div class="heading"><div><div class="eyebrow">NATIVE MT5 · PARAMETER SEARCH / EXACT PROTOCOL COMPARISON</div>
+ <h1>Strategy <span>Parameter Finder</span></h1>
+ <p>เลือก Indicator และ Timeframe เพื่อดูพารามิเตอร์ (x,y,z) ที่เคยทดสอบจริง พร้อมผล FIT/VAL, PF, DD, Recovery, Net และจำนวน Trades จาก Native MT5 Ledger</p></div>
+ <span class="chip" id="param-status">READING VERIFIED EXPERIMENTS</span></div>
+ <article class="panel">
+  <div class="parameter-toolbar">
+   <label>INDICATOR<select id="param-family"><option value="MACD">MACD</option></select></label>
+   <label>TIMEFRAME<select id="param-tf"><option value="M1">M1</option></select></label>
+   <label>COMPARISON PROTOCOL<select id="param-group"><option value="ALL">All protocols (no cross-ranking)</option></select></label>
+   <label>SORT WITHIN GROUP<select id="param-sort"><option value="pf">VAL Profit Factor ↓</option><option value="dd">VAL Drawdown ↑</option><option value="recovery">VAL Recovery ↓</option><option value="net">VAL Net Profit ↓</option><option value="trades">Trades ↓</option></select></label>
+  </div>
+  <div class="parameter-search-box">
+   <strong>ค้นหาค่าพารามิเตอร์</strong>
+   <div class="parameter-triplet">
+    <label>Fast (x)<input id="param-fast" type="number" placeholder="Any" min="1" max="300"></label>
+    <label>Slow (y)<input id="param-slow" type="number" placeholder="Any" min="1" max="400"></label>
+    <label>Signal (z)<input id="param-signal" type="number" placeholder="Any" min="1" max="300"></label>
+    <button id="param-clear" class="wave-small-btn" type="button">Clear x,y,z</button>
+   </div>
+  </div>
+  <div class="manager-kpi-grid parameter-kpis">
+   <div><small>TESTED SETS IN FILTER</small><strong id="param-count">—</strong><span>Native FIT+VAL / Pilots distinguished</span></div>
+   <div><small>DISTINCT PARAMETER TRIPLES</small><strong id="param-distinct">—</strong><span>Unique x,y,z settings</span></div>
+   <div><small>COMPARABLE GROUP COUNT</small><strong id="param-groups">—</strong><span>TF and protocol separated</span></div>
+   <div><small>VERIFIED BEST STATUS</small><strong id="param-best-flag">—</strong><span>Requires comparable qualified variants</span></div>
+  </div>
+  <div id="param-result-verdict" class="manager-evidence-note">ยังไม่มีผลการค้นหา</div>
+  <p class="annotation">กลยุทธ์ M1 ที่มีเพียง Pilot 3 วันจะถูกแสดงแต่ <strong>ไม่ประกาศว่ามีพารามิเตอร์ดีที่สุด</strong> และไม่จัดอันดับข้าม TF, Rolling Window, Lot/Exit/Adaptive Mode หรือ Real-Tick Model ที่ต่างกัน</p>
+ </article>
+ <article class="panel parameter-results-panel">
+  <div class="panel-top"><div><small>SHOWN FROM VERIFIED PC EVIDENCE</small><h2>Parameters × FIT / Validation Results</h2></div><span id="param-result-count" class="chip">NO RESULTS YET</span></div>
+  <div class="manager-audit-scroll parameter-table-wrap">
+   <table class="manager-audit-table parameter-table"><thead><tr>
+    <th>Run / Type</th><th>MACD (x,y,z) / Indicator Inputs</th><th>Window / Comparable Context</th>
+    <th>FIT PF</th><th>VAL PF</th><th>VAL DD %</th><th>VAL Recovery</th><th>VAL Net THB</th><th>Trades</th><th>Evidence / Research Gate</th>
+   </tr></thead><tbody id="param-result-rows"><tr><td colspan="10">Awaiting real PC evidence</td></tr></tbody></table>
+  </div>
+  <div class="parameter-method" id="param-method"></div>
+ </article>
+</section>
 <section class="page" id="page-manager">
  <div class="heading"><div><div class="eyebrow">RDC L5 · MANAGER / SUB-AGENT WORK PERFORMANCE</div>
  <h1>Agent <span>Manager Daily Review</span></h1>
@@ -372,4 +414,4 @@
 var pages=document.querySelectorAll(".page");for(var i=0;i<pages.length;i++)pages[i].classList.toggle("active",pages[i].id==="page-"+h);
 var tabs=document.querySelectorAll("#nav button");for(var j=0;j<tabs.length;j++)tabs[j].classList.toggle("active",tabs[j].getAttribute("data-tab")===h);
 })();
-</script><script src="./app.js?v=41c87c93f3e920e1" defer></script></body></html>
+</script><script src="./app.js?v=94e2a8fbce426729" defer></script></body></html>
