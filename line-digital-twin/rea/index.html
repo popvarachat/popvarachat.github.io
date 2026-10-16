@@ -1,0 +1,86 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>REA Intelligence | LINE Digital Twin</title>
+<meta name="description" content="ภาพรวม REA แบบ Aggregate ที่ไม่เปิดเผยข้อมูล LINE จริง">
+<style>
+:root{color-scheme:dark;--bg:#08111f;--panel:#111f31;--panel2:#16273a;--ink:#edf6ff;--muted:#a4bbd3;--border:#30465f;--teal:#4fe6cc;--blue:#82b7ff;--amber:#f7c66b;--rose:#ff929e}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 20% -10%,#173d56 0%,transparent 43%),var(--bg);color:var(--ink);font:15px/1.65 system-ui,-apple-system,'Noto Sans Thai',sans-serif}
+a{color:var(--teal)}main{max-width:1230px;margin:auto;padding:24px clamp(15px,4vw,48px) 70px}
+.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding:15px 0 24px;border-bottom:1px solid var(--border)}
+.brand{font-weight:850;letter-spacing:.075em;font-size:12px;color:var(--teal)}.back{border:1px solid var(--border);border-radius:11px;padding:7px 14px;text-decoration:none}
+.hero{padding:37px 0 25px;display:grid;grid-template-columns:2fr 1fr;gap:22px;align-items:end}
+.eyebrow{color:var(--teal);font-size:11px;font-weight:850;letter-spacing:.13em}h1{font-size:clamp(36px,5.8vw,74px);line-height:1.1;letter-spacing:-.045em;margin:12px 0 16px}h2{font-size:clamp(20px,2.2vw,28px);margin:0 0 10px}p{color:var(--muted);margin:5px 0;line-height:1.8}
+.snapshot{text-align:right;font-size:13px;color:var(--muted)}.snapshot b{color:var(--ink);display:block}
+.badge{font-weight:750;color:var(--teal);border:1px solid #2e796f;border-radius:999px;padding:5px 10px;font-size:11px;display:inline-block}
+.stats{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:20px 0 32px}.stat,.panel{border:1px solid var(--border);border-radius:19px;background:linear-gradient(150deg,var(--panel),#0c192a);padding:19px}
+.stat-label{color:var(--muted);font-size:12px}.stat-num{font-size:clamp(27px,3.5vw,44px);line-height:1.3;font-weight:850;font-variant-numeric:tabular-nums;letter-spacing:-.045em}.stat-foot{font-size:11px;color:var(--muted)}
+section{margin:30px 0}.section-title{display:flex;align-items:baseline;justify-content:space-between;gap:14px;flex-wrap:wrap;margin-bottom:14px}.section-title small{color:var(--muted)}
+.dual{display:grid;grid-template-columns:minmax(0,1.55fr) minmax(260px,1fr);gap:15px}
+.chart-controls{display:flex;gap:8px;flex-wrap:wrap}.tab{background:transparent;border:1px solid var(--border);border-radius:10px;color:var(--ink);padding:7px 11px;cursor:pointer}.tab[aria-pressed=true]{background:#19484a;border-color:var(--teal)}
+.chart{display:block;width:100%;height:auto;max-height:285px;margin:13px 0 0}.axis{fill:#a4bbd3;font-size:11px}.chartgrid{stroke:#2d4961;stroke-width:1;stroke-dasharray:4 6}
+.breakdown{display:grid;gap:14px;margin-top:20px}.part{display:grid;grid-template-columns:minmax(120px,1fr) 90px;gap:14px;align-items:center}.barbg{width:100%;height:8px;background:#26394d;border-radius:10px;overflow:hidden;margin-top:5px}.bar{height:100%;background:var(--teal);border-radius:10px}.small{font-size:12px;color:var(--muted)}
+.roomgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.roomtile{padding:15px;border:1px solid var(--border);border-radius:12px;background:var(--panel2)}.roomtile strong{display:block;font-size:27px}.roomtile span{font-size:11px;color:var(--muted)}
+.wave{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px;margin:14px 0}.node{min-height:120px;padding:13px;border:1px solid var(--border);border-radius:15px;background:var(--panel2);text-align:left;color:var(--ink);cursor:pointer;font:inherit;position:relative}.node::after{content:"›";position:absolute;right:8px;top:7px;color:var(--teal);font-size:23px}.node .seq{color:var(--teal);font-weight:850;font-size:12px}.node strong{display:block;line-height:1.35;margin:6px 0}.node small{color:var(--muted);font-size:11px}.node[aria-pressed=true]{outline:2px solid var(--teal);outline-offset:1px}.node:focus-visible,.tab:focus-visible{outline:3px solid var(--amber)}
+.detail{padding:15px 18px;border-radius:12px;background:#142638;border:1px solid var(--border);min-height:64px}.detail strong{margin-right:12px}
+.gates{display:grid;grid-template-columns:repeat(auto-fit,minmax(235px,1fr));gap:11px}.gate{border:1px solid var(--border);border-radius:14px;padding:15px;background:var(--panel)}.gate strong{display:block;margin-bottom:8px}.gate .mark{font-size:11px;font-weight:750;display:inline-block;margin-bottom:8px}.pass{color:var(--teal)}.partial{color:var(--amber)}.pending{color:var(--rose)}.guarded{color:var(--blue)}
+.notice{border-left:3px solid var(--amber);padding:16px;background:#1a2735;border-radius:5px 13px 13px 5px;color:var(--muted)}.notice strong{color:var(--ink)}
+footer{border-top:1px solid var(--border);padding-top:19px;font-size:12px;color:var(--muted)}
+@media(max-width:950px){.wave{grid-template-columns:repeat(3,minmax(0,1fr))}.roomgrid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:750px){.hero{grid-template-columns:1fr}.snapshot{text-align:left}.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.dual{grid-template-columns:1fr}.wave{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(prefers-reduced-motion:no-preference){.node,.tab{transition:border-color .2s,transform .2s}.node:hover{transform:translateY(-2px);border-color:var(--teal)}}
+</style></head>
+<body><main>
+<header class="top"><span class="brand">PRACTIKA · REA INTELLIGENCE</span><a class="back" href="../">← LINE Digital Twin</a></header>
+<div class="hero"><div><span class="eyebrow">EXECUTIVE EVIDENCE BOARD · PUBLIC-SAFE</span><h1>เห็นงานที่เกิดขึ้น<br>ก่อนตัดสินใจแก้ไข</h1><p>จากข้อมูล LINE ที่รับเข้าระบบ สู่การตรวจความครบถ้วน การเชื่อมกรณีงาน และข้อเสนอ REA ที่ต้องมีหลักฐานรองรับ</p></div><div class="snapshot"><span class="badge">READ-ONLY · NO LINE SEND</span><b id="asof">Snapshot กำลังโหลด…</b><span>ภาพรวมสรุป ณ จุดตรวจสอบ ไม่ใช่ข้อมูล Live</span></div></div>
+<div class="stats" aria-label="Key metrics">
+<div class="stat"><div class="stat-label">LINE Events ที่รับเข้า</div><div class="stat-num" id="events">—</div><div class="stat-foot">D1 Original · Unmodified</div></div>
+<div class="stat"><div class="stat-label">ส่งเข้า Sink สำเร็จ</div><div class="stat-num" id="sent">—</div><div class="stat-foot">ตรวจจุดเดียวกับ Event Snapshot</div></div>
+<div class="stat"><div class="stat-label">ห้องที่พบกิจกรรม</div><div class="stat-num" id="rooms">—</div><div class="stat-foot">จากทะเบียนประวัติ 86 ห้อง</div></div>
+<div class="stat"><div class="stat-label">Case ที่ยืนยันกับ ERP แล้ว</div><div class="stat-num" id="verified">—</div><div class="stat-foot">แยกจาก Candidate ที่ REA คาดการณ์</div></div></div>
+<section class="dual"><div class="panel"><div class="section-title"><h2>คลื่นปริมาณเหตุการณ์</h2><span class="small">รายวัน UTC · 16 ต.ค. ยังไม่ครบวัน</span></div><div class="chart-controls"><button id="vol" class="tab" aria-pressed="true">จำนวน Event</button><button id="cum" class="tab" aria-pressed="false">สะสม</button></div><svg id="wavechart" class="chart" viewBox="0 0 720 275" role="img" aria-label="กราฟจำนวนเหตุการณ์รายวัน"></svg><p class="small" id="chartnote">กราฟอิงจากข้อมูล Aggregate ไม่แสดงชื่อคนหรือชื่อห้อง</p></div>
+<div class="panel"><h2>ประเภทหลักฐานที่รับ</h2><p class="small">ข้อความไม่ใช่ข้อมูลทั้งหมด รูปภาพเป็นสัดส่วนสำคัญของหลักฐานที่ต้องเชื่อมกับ Case</p><div id="media" class="breakdown"></div></div></section>
+<section><div class="section-title"><h2>Coverage ห้อง LINE</h2><small>ไม่พบ Event ใหม่ ≠ พิสูจน์ได้ว่าข้อมูลสูญหาย</small></div><div class="roomgrid">
+<div class="roomtile"><strong id="observed">—</strong><span>พบเหตุการณ์</span></div><div class="roomtile"><strong id="silent">—</strong><span>ชื่อห้องยืนยันแล้วแต่ยังเงียบ</span></div><div class="roomtile"><strong id="notfound">—</strong><span>เคยตอบ HTTP 404</span></div><div class="roomtile"><strong id="unchecked">—</strong><span>รอตรวจชื่อห้อง</span></div></div></section>
+<section><div class="section-title"><h2>Intelligence Workflow</h2><small>เลือก Node เพื่อดูขอบเขตและสถานะจริง</small></div><div id="workflow" class="wave"></div><div class="detail" role="status" aria-live="polite"><strong id="detailname">เลือกขั้นตอน</strong><span id="detailtext">แสดงเหตุผล สถานะ และสิ่งที่ยังต้องตรวจรับรอง</span></div></section>
+<section class="dual"><div class="panel"><h2>REA · Case Discovery</h2><p>REA พบหลักฐานอ้างอิงบางส่วนในข้อความ แต่ยังไม่ถือว่าเป็นกรณีงานที่ยืนยันแล้ว</p><div class="stats" style="grid-template-columns:repeat(2,minmax(0,1fr));margin:14px 0 0"><div class="stat"><div class="stat-label">ข้อความตัวอย่างที่วิเคราะห์</div><div class="stat-num" id="sample">—</div></div><div class="stat"><div class="stat-label">พบรหัสอ้างอิงในข้อความ</div><div class="stat-num" id="refs">—</div></div><div class="stat"><div class="stat-label">รหัส Candidate ที่ไม่ซ้ำ</div><div class="stat-num" id="candidates">—</div></div><div class="stat"><div class="stat-label">รหัสที่ปรากฏข้ามห้อง</div><div class="stat-num" id="crossrooms">—</div></div></div><p class="small">การปรากฏรหัสเดียวกันข้ามห้องไม่ใช่หลักฐานว่ามีการส่งต่องานจริง และยังไม่ใช่ Lead Time ของ Case</p></div>
+<div class="panel"><h2>Release & Quality Gates</h2><div id="gates" class="gates" style="grid-template-columns:1fr"></div></div></section>
+<section><div class="notice"><strong>หลักการเผยแพร่ข้อมูล</strong><p>หน้านี้แสดงเฉพาะตัวเลขรวมที่ผ่านการคัดกรอง ไม่เปิดเผยข้อความ LINE ชื่อบุคคล รหัสห้อง เลข Case ไฟล์หลักฐาน Token หรือ URL ระบบภายใน ข้อมูลดิบและการยืนยันเหตุการณ์ราย Case อยู่ในระบบที่จำกัดสิทธิ์เท่านั้น</p><p>นโยบายบังคับ: LINE Bot ห้ามส่ง ตอบกลับ หรือ Broadcast ทุกประเภท รวมถึงข้อความทดสอบ</p></div></section>
+<footer>Snapshot สาธารณะเพื่อการติดตามโครงการ · ไม่ใช่ระบบรับรองผล REA หรือเครื่องมือประเมินพนักงาน · <a href="snapshot.json">ดาวน์โหลด Aggregate JSON</a></footer>
+</main>
+<script>
+"use strict";
+const $=id=>document.getElementById(id);
+const fmt=n=>new Intl.NumberFormat("th-TH").format(n);
+let model=null;
+function node(tag,klass,txt){const x=document.createElement(tag);if(klass)x.className=klass;x.textContent=txt;return x}
+function showChart(mode){const data=model.daily_utc;const values=mode==="cum"?data.map((_,i)=>data.slice(0,i+1).reduce((s,x)=>s+x.count,0)):data.map(x=>x.count);
+const max=Math.max(...values)*1.13,svg=$("wavechart");svg.replaceChildren();
+const mk=(name,attrs)=>{const el=document.createElementNS("http://www.w3.org/2000/svg",name);for(const [k,v] of Object.entries(attrs))el.setAttribute(k,v);svg.appendChild(el);return el};
+for(let j=0;j<=4;j++){const y=225-j*46;mk("line",{x1:44,y1:y,x2:693,y2:y,class:"chartgrid"});const label=mk("text",{x:37,y:y+4,"text-anchor":"end",class:"axis"});label.textContent=fmt(Math.round(max*j/4))}
+const step=620/(values.length-1),pts=[];
+values.forEach((v,i)=>{const x=53+i*step,y=225-184*v/max;pts.push([x,y]);mk("circle",{cx:x,cy:y,r:5,fill:i===values.length-1?"#f7c66b":"#4fe6cc"});
+let tick=mk("text",{x,y:250,"text-anchor":"middle",class:"axis"});tick.textContent=data[i].day});
+const line=mk("polyline",{points:pts.map(x=>x.join(",")).join(" "),fill:"none",stroke:"#4fe6cc","stroke-width":4,"stroke-linejoin":"round","stroke-linecap":"round"});svg.insertBefore(line,svg.children[4]);
+pts.forEach(([x,y],i)=>{const t=mk("text",{x,y:y-13,"text-anchor":"middle",class:"axis"});t.textContent=fmt(values[i])});
+$("vol").setAttribute("aria-pressed",String(mode==="vol"));$("cum").setAttribute("aria-pressed",String(mode==="cum"));
+$("chartnote").textContent=mode==="cum"?"เส้นแสดงยอดสะสมจากวันแรกของ Snapshot เท่านั้น":"16 ต.ค. เป็นข้อมูลบางส่วนของวัน ไม่ควรเทียบตรงกับวันเต็ม";}
+function statusText(s){return {pass:"ยืนยันขั้นนี้แล้ว",partial:"ยืนยันได้บางส่วน",pending:"ยังรอหลักฐาน",guarded:"มีกฎควบคุม"}[s]||s}
+function render(data){
+model=data;
+const counts=data.counts,rooms=data.rooms,caseInfo=data.case_shadow;
+$("asof").textContent="ตรวจข้อมูลเมื่อ "+new Date(data.snapshot_at_utc).toLocaleString("th-TH",{dateStyle:"medium",timeStyle:"short",timeZone:"Asia/Bangkok"})+" น.";
+$("events").textContent=fmt(counts.events);$("sent").textContent=fmt(counts.sink_sent);$("rooms").textContent=fmt(rooms.observed)+" / "+fmt(rooms.historical);$("verified").textContent=fmt(caseInfo.verified_erp_case_matches);
+$("observed").textContent=fmt(rooms.observed);$("silent").textContent=fmt(rooms.silent_verified);$("notfound").textContent=fmt(rooms.silent_http_404);$("unchecked").textContent=fmt(rooms.silent_not_looked_up);
+$("sample").textContent=fmt(caseInfo.text_scanned);$("refs").textContent=fmt(caseInfo.text_with_explicit_reference);$("candidates").textContent=fmt(caseInfo.distinct_candidate_references);$("crossrooms").textContent=fmt(caseInfo.cross_room_reference_candidates);
+const parts=[["รูปภาพ",counts.image],["ข้อความ",counts.text],["สติกเกอร์",counts.sticker],["ไฟล์",counts.file],["วิดีโอ",counts.video]];
+for(const [label,value] of parts){const r=node("div","part","");const l=node("div","",label),w=node("div","barbg","");const b=node("div","bar","");b.style.width=(100*value/counts.events).toFixed(2)+"%";w.append(b);l.append(w);r.append(l,node("span","small",fmt(value)));$("media").append(r)}
+data.workflow.forEach((x,i)=>{const b=node("button","node","");b.type="button";b.setAttribute("aria-pressed",String(i===0));b.append(node("span","seq",x.phase),node("strong","",x.title),node("small",x.status==="pass"?"ผ่านการตรวจ":statusText(x.status)));
+b.onclick=()=>{for(const y of $("workflow").children)y.setAttribute("aria-pressed",String(y===b));$("detailname").textContent=x.title;$("detailtext").textContent=x.detail+" · "+statusText(x.status)};$("workflow").append(b)});$("workflow").firstElementChild.click();
+data.quality_gates.forEach(x=>{const item=node("div","gate","");item.append(node("span","mark "+x.status,statusText(x.status)),node("strong","",x.title),node("p","small",x.detail));$("gates").append(item)});
+showChart("vol");
+}
+$("vol").addEventListener("click",()=>model&&showChart("vol"));$("cum").addEventListener("click",()=>model&&showChart("cum"));
+fetch("./snapshot.json",{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()}).then(data=>{if(data.schema_version!=="rea_public_aggregate_v1")throw Error("Unknown snapshot schema");render(data)}).catch(()=>{$("asof").textContent="โหลด Snapshot ไม่สำเร็จ";$("chartnote").textContent="กรุณาตรวจไฟล์ snapshot.json ก่อนเชื่อถือตัวเลข"});
+</script></body></html>
