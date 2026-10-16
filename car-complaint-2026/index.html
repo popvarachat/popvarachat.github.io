@@ -337,6 +337,106 @@ html, body, * {
 @media(max-width:1120px){.pmo-layout{grid-template-columns:1fr}.pmo-kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.pmo-detail-list{grid-template-columns:repeat(2,minmax(0,1fr))}}
 @media(max-width:600px){.pmo-header{padding:13px}.pmo-header h3{font-size:16px}.pmo-header-tag{font-size:10px;padding:6px}.pmo-kpi b{font-size:23px}.pmo-kpi{padding:9px}.pmo-panel{padding:10px}.pmo-rank{grid-template-columns:83px minmax(30px,1fr) 42px;gap:5px}.pmo-detail-list{grid-template-columns:1fr}.pmo-stacked-chart{gap:4px}.pmo-stack-height{width:60%;min-width:15px}.pmo-month-bars{gap:2px}}
 
+
+/* Intelligence Workflow v2: readable decisions first, progressive evidence disclosure */
+.intel-view{flex:1;min-height:0;overflow:auto;background:radial-gradient(ellipse at 40% -20%,#1b3a50 0%,#0c1c2a 55%,#081522 100%);scrollbar-color:#4a728c #0b1825}
+.intel-content{max-width:1370px;margin:0 auto;padding:25px 28px 62px}
+.intel-view button{font:inherit}
+.intel-kicker{font-size:10px;color:#79d9e8;font-weight:850;letter-spacing:1.6px;text-transform:uppercase}
+.intel-hero{background:linear-gradient(123deg,#173a4e,#162a3d 60%,#101e2e);border:1px solid #43697d;border-radius:18px;padding:23px 26px;display:grid;grid-template-columns:minmax(0,1fr) auto;gap:18px;align-items:center}
+.intel-hero h2{font-size:clamp(22px,2.4vw,31px);line-height:1.35;color:#f1faff;margin:7px 0}
+.intel-hero p{color:#bad4e2;font-size:14px;line-height:1.8;margin:4px 0}
+.intel-pillrow{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin-top:14px}
+.intel-pill{display:inline-flex;gap:5px;align-items:center;border:1px solid #496a7d;background:#1c3b4e;color:#e3f4fa;border-radius:999px;padding:6px 11px;font-size:11px}
+.intel-pill.emphasis{border-color:#a88453;background:#3a3330;color:#ffdca4}
+.intel-pill.good{border-color:#579580;background:#1d463e;color:#c5f2dc}
+.intel-hero-actions{display:flex;flex-direction:column;gap:9px;min-width:150px}
+.intel-btn{border:1px solid #4c7c8c;background:#23495d;color:#e9fbff;padding:10px 13px;border-radius:9px;font-size:12px;font-weight:700;text-align:center;cursor:pointer}
+.intel-btn.primary{background:#29718a;border-color:#57b5c9}
+.intel-btn:hover{background:#32677b}
+.intel-section-title{display:flex;align-items:baseline;justify-content:space-between;gap:15px;margin:24px 0 11px}
+.intel-section-title h3{font-size:17px;color:#e7f7fc;margin:0}
+.intel-section-title p{color:#89aabd;font-size:11px;line-height:1.5;margin:0}
+.intel-answers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:13px}
+.intel-card{min-width:0;border:1px solid #3e5f73;border-radius:15px;background:linear-gradient(150deg,#193246,#102538);padding:19px;position:relative}
+.intel-card.diagnosis{border-top:3px solid #dd9a91}
+.intel-card.control{border-top:3px solid #5ecddd}
+.intel-card.proof{border-top:3px solid #dfb16b}
+.intel-card .intel-num{color:#84a5bc;font-size:11px;font-weight:900;letter-spacing:1px}
+.intel-card h4{font-size:16px;color:#f0f8fc;margin:7px 0 11px}
+.intel-card p{font-size:14px;line-height:1.75;color:#d0e4f0;margin:0;overflow-wrap:anywhere}
+.intel-card small{font-size:10px;color:#86aabd;line-height:1.5}
+.intel-card details{border-top:1px solid #375568;margin-top:14px;padding-top:10px}
+.intel-card summary{cursor:pointer;color:#90d8e5;font-size:11px;font-weight:800}
+.intel-card details p{color:#b0c8d9;font-size:12px;margin-top:10px}
+.intel-gates{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:9px}
+.intel-gate{border:1px solid #3a586e;border-radius:11px;background:#142b3b;padding:11px;min-height:114px;min-width:0}
+.intel-gate.pass{border-top:3px solid #6bd1b0}
+.intel-gate.review{border-top:3px solid #efba73}
+.intel-gate.blocked{border-top:3px solid #df8596}
+.intel-gate.pending{border-top:3px solid #6c8ea9}
+.intel-gate i{display:block;font-size:10px;color:#7d9eb4;font-style:normal;margin-bottom:9px}
+.intel-gate b{display:block;font-size:12px;color:#e8f7fb;line-height:1.4}
+.intel-gate span{display:block;margin-top:8px;font-size:11px;line-height:1.5;color:#a7c3d2}
+.intel-decision{display:grid;grid-template-columns:minmax(0,1fr) 310px;gap:14px;border:1px solid #557886;background:linear-gradient(108deg,#1b3848,#152c3c);border-radius:15px;margin-top:16px;padding:20px}
+.intel-decision h3{font-size:17px;margin:5px 0 9px;color:#f4faff}
+.intel-decision p{margin:0;font-size:13px;line-height:1.7;color:#d1e7ee}
+.intel-decision-aside{background:#132737;border:1px solid #355b6d;border-radius:11px;padding:13px}
+.intel-decision-aside b{display:block;font-size:11px;color:#76d4e5;margin-bottom:7px}
+.intel-decision-aside span{color:#c4dee9;font-size:12px;line-height:1.6}
+.intel-bottom{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:17px}
+.intel-pocket{border:1px solid #37586b;background:#112a3b;border-radius:12px;padding:17px}
+.intel-pocket h3{margin:0 0 8px;font-size:14px;color:#ecf7fa}
+.intel-pocket p{margin:0;color:#bad2df;font-size:12px;line-height:1.65}
+.intel-pocket button{margin-top:12px}
+.intel-doclist{display:flex;flex-wrap:wrap;gap:7px;margin-top:11px}
+.intel-docpill{background:#1b4355;border:1px solid #4b7b8c;border-radius:7px;color:#dcf7fc;font-size:12px;padding:8px 10px;cursor:pointer}
+.intel-docpill:hover{background:#31627b}
+.intel-mini{margin-top:12px;font-size:10px;color:#8fb1c2;line-height:1.5}
+.intel-clusters{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:15px;margin-top:18px}
+.intel-cluster{background:#132b3c;border:1px solid #3a5d71;border-radius:14px;padding:18px;min-width:0}
+.intel-cluster h3{margin:0 0 5px;font-size:16px;color:#f0fafe}
+.intel-cluster p{font-size:12px;color:#9bbdce;line-height:1.65;margin:0 0 13px}
+.intel-project-link{display:flex;gap:8px;align-items:center;width:100%;background:#19394c;border:1px solid #2c5269;border-radius:9px;text-align:left;color:#d6eff9;padding:11px;margin-top:7px;cursor:pointer}
+.intel-project-link:hover{background:#276079}
+.intel-project-link strong{display:block;font-size:12px;line-height:1.45}
+.intel-project-link small{display:block;color:#9ab9ce;font-size:11px;line-height:1.45;margin-top:3px}
+.intel-project-link .intel-project-body{flex:1;min-width:0}
+.intel-project-link .intel-project-arrow{font-size:20px;color:#7fd3e5}
+.intel-overview-facts{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin-top:14px}
+.intel-overview-fact{background:#1a3445;border:1px solid #3a6077;border-radius:12px;padding:16px}
+.intel-overview-fact b{font-size:28px;color:#e4f7fd;display:block}
+.intel-overview-fact span{font-size:11px;color:#a5c5d6;line-height:1.45}
+.intel-docgrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px;margin-top:16px}
+.intel-docgroup{border:1px solid #385d71;border-radius:13px;padding:16px;background:#122b3e;min-width:0}
+.intel-docgroup h3{font-size:15px;margin:3px 0;color:#e7f8ff}
+.intel-docgroup p{font-size:11px;color:#8eafc2;line-height:1.5;margin:4px 0 12px}
+.intel-docgroup .intel-docpill{display:block;margin:7px 0;width:100%;text-align:left}
+.intel-doc-read{margin-top:15px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.intel-warning{padding:13px 16px;background:#352c2e;border:1px solid #91645c;border-radius:10px;font-size:12px;color:#e9cbbe;line-height:1.65;margin-top:16px}
+.intel-annot{color:#86acbf;font-size:11px;margin-top:11px;line-height:1.5}
+@media(max-width:1200px){.intel-gates{grid-template-columns:repeat(3,minmax(0,1fr))}.intel-decision{grid-template-columns:1fr}.intel-hero{grid-template-columns:1fr}.intel-hero-actions{flex-direction:row;flex-wrap:wrap}}
+@media(max-width:940px){.intel-answers,.intel-docgrid{grid-template-columns:1fr}.intel-clusters{grid-template-columns:1fr}.intel-overview-facts{grid-template-columns:repeat(2,1fr)}.intel-bottom{grid-template-columns:1fr}}
+@media(max-width:680px){.intel-content{padding:13px 11px 35px}.intel-hero{padding:17px}.intel-hero h2{font-size:22px}.intel-gates{grid-template-columns:repeat(2,minmax(0,1fr))}.intel-doc-read{grid-template-columns:1fr}.intel-overview-facts{grid-template-columns:repeat(2,1fr)}.intel-section-title{display:block}.intel-section-title p{margin-top:5px}.intel-card p{font-size:13px}}
+
+
+@media(max-width:680px){
+ .sidebar .brand{padding:10px 12px}
+ .sidebar .brand .eyebrow{font-size:9px;letter-spacing:1px}
+ .sidebar .brand h1{font-size:18px}
+ .sidebar .brand .sub,.sidebar .brand .kpis{display:none}
+ .sidebar .navtools{padding:6px 11px}
+ .sidebar .caseList{height:74px;padding:5px 11px}
+ .topbar{padding:10px 12px;display:block}
+ .topbar strong{font-size:14px}
+ .topbar small{font-size:10px}
+ .topbar .actions{margin-top:8px;gap:5px}
+ .topbar .action{font-size:11px;padding:7px}
+ .legend{display:none}
+ .intel-hero-actions{gap:6px}
+ .intel-btn{font-size:11px;padding:9px}
+ .intel-decision{padding:14px}
+}
 </style>
 <meta name="robots" content="noindex,nofollow"></head><body>
 <div class="shell">
@@ -349,11 +449,12 @@ html, body, * {
  <div class="sidebarFoot">อ่านอย่างเดียว · หลักฐานต้นฉบับอยู่บน Drive Internal Source · QMR เป็น Human Gate</div>
 </aside>
 <main class="main">
- <div class="topbar"><div><strong id="pageTitle">ภาพรวม 14 ข้อร้องเรียน</strong><small id="pageSub">Network Architecture · คลิก Node เพื่อดูหลักฐาน</small></div>
- <div class="actions"><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Twin</button><button class="action" id="overviewBtn">◎ ภาพรวม Workflow</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
- <div class="legend"><span><i class="dot" style="background:#ff6c78"></i>Safety</span><span><i class="dot" style="background:#3ed5ef"></i>Production</span><span><i class="dot" style="background:#b19aff"></i>Engineering</span><span><i class="dot" style="background:#efbd6f"></i>Service</span><span>· L0 แก้เฉพาะหน้า · L1 มีมาตรการเสนอ · L2 พบ WI ที่ประกาศใช้ · HOLD ข้อมูลไม่ตรง</span></div>
+ <div class="topbar"><div><strong id="pageTitle">ภาพรวม 14 ข้อร้องเรียน</strong><small id="pageSub">Intelligence Workflow · อ่านง่าย / คลิกหลักฐานเพื่อเจาะลึก</small></div>
+ <div class="actions"><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
+ <div class="legend"><span><i class="dot" style="background:#ff6c78"></i>Safety</span><span><i class="dot" style="background:#3ed5ef"></i>Production</span><span><i class="dot" style="background:#b19aff"></i>Engineering</span><span><i class="dot" style="background:#efbd6f"></i>Service</span><span>· คลิกชื่อโครงการเพื่อดูสาเหตุ มาตรการ และหลักฐานที่ QMR ต้องตรวจ</span></div>
  <section class="summary-view" id="summaryView" aria-label="QMR Executive Analysis" hidden><div id="summaryContent"></div></section>
- <div class="viewport" id="viewport"><div class="gridbg"></div><div class="stage" id="stage"></div><div class="cornerHint">DRAG · MOVE &nbsp; / &nbsp; SCROLL · ZOOM &nbsp; / &nbsp; CLICK · EXPLORE NODES</div>
+<section class="intel-view" id="intelView" aria-label="Intelligence Workflow" hidden><div id="intelContent"></div></section>
+ <div class="viewport" id="viewport"><div class="gridbg"></div><div class="stage" id="stage"></div><div class="cornerHint">INTELLIGENCE WORKFLOW</div>
  <div class="zoombar"><button id="minus" aria-label="Zoom out">−</button><button id="plus" aria-label="Zoom in">+</button><button id="fit" class="fit">Fit</button></div></div>
  <div class="bottom"><span>Snapshot: 15 ต.ค. 2569 · ไม่ใช่ผลอนุมัติ QMR · ยังไม่มีเคสรับรอง Effectiveness</span><span>เปิดเผยผลวิเคราะห์รายเคสตามอนุมัติ · เอกสารต้นฉบับและข้อมูลส่วนบุคคลยังเก็บภายใน</span></div>
 </main></div>
@@ -742,8 +843,98 @@ function renderList(){const filtered=cases.filter(c=>(filter==="all"||c.type===f
 $("caseList").innerHTML=filtered.map(c=>'<button class="nav-item '+(c.n===selected?"active":"")+'" data-case="'+c.n+'"><span class="num" style="box-shadow:inset 3px 0 '+types[c.type].tone+'">'+String(c.n).padStart(2,"0")+'</span><span><strong>'+escapeHtml(projectTitle(c))+'</strong><small>'+escapeHtml(c.event)+'</small></span><span class="level" title="'+escapeHtml(c.level+' · '+levelLong(c.level))+'">'+escapeHtml(levelShort(c.level))+'</span></button>').join("");
 $("caseList").querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>openCase(Number(b.dataset.case))));
 }
-function render(){renderList();const summary=view==="summary";$("summaryView").hidden=!summary;vp.hidden=summary;$("summaryBtn").classList.toggle("primary",summary);$("overviewBtn").classList.toggle("primary",view==="overview");$("docTwinBtn").classList.toggle("primary",view==="docs");if(summary){renderSummary()}else{if(view==="overview")drawOverview();else if(view==="docs")drawDocumentTwin(find(selected));else drawCase(find(selected));requestAnimationFrame(fit)}$("prevBtn").disabled=!["case","docs"].includes(view)||selected===1;$("nextBtn").disabled=!["case","docs"].includes(view)||selected===14}
+
+/* Intelligence workflow: decision-first explanatory view, no crossed graph links */
+function intelGate(code,title,desc,status){
+ return '<div class="intel-gate '+status+'"><i>'+code+'</i><b>'+escapeHtml(title)+'</b><span>'+escapeHtml(desc)+'</span></div>';
+}
+function intelButtonsDocs(c,only=9){
+ const rec=docCase(c.n);const arr=rec?.docs||[];
+ return arr.slice(0,only).map(d=>'<button type="button" class="intel-docpill" data-intel-doc="'+escapeHtml(d.code)+'" title="ดูเอกสารอ้างอิง '+escapeHtml(d.kind)+'">'+escapeHtml(d.code)+'</button>').join("");
+}
+function intelCase(c){
+ const d=docCase(c.n)||{},identity=c.level==="HOLD",changed=c.level==="L2";
+ const state=c.state==="form_closed"?"ปิดตามฟอร์ม แต่ยังไม่รับรองผล":c.state==="partial_scd_extended"?"บางฝ่ายยังดำเนินการอยู่":c.state==="open_or_extended"?"CAR ยังเปิด / ต่ออายุ":identity?"รอตรวจ CAR ให้ตรง":"ยังต้องตรวจหลักฐานการปิด";
+ const gates=[
+ intelGate("01 / จับคู่เหตุ","CAR ตรงเรื่องร้องเรียน",identity?"รอสอบกลับเลข CAR กับเหตุการณ์":"ระบุเลข CAR ที่เกี่ยวข้องแล้ว",identity?"blocked":"pass"),
+ intelGate("02 / หาสาเหตุ","วิเคราะห์ Root Cause",identity?"รอยืนยันเหตุการณ์":c.level==="L0"?"ต้องเพิ่มหลักฐาน Root Cause":"มีการวิเคราะห์สาเหตุเพื่อทบทวน",identity||c.level==="L0"?"review":"pass"),
+ intelGate("03 / เปลี่ยนระบบ","WI / FORM / Hard Gate",changed?"พบการปรับ WI ตรงสาเหตุ":identity?"รอจับคู่ CAR ก่อน":c.level==="L0"?"หลักฐานระบบควบคุมยังไม่ครบ":"มีแนวทาง แต่ยังต้องพิสูจน์",changed?"pass":"review"),
+ intelGate("04 / ใช้จริง","บันทึกจากงานใหม่","ยังต้องแสดง Record การใช้มาตรการ", "pending"),
+ intelGate("05 / ไม่เกิดซ้ำ","Effectiveness","ยังไม่มีหลักฐานติดตามครบพอรับรอง","pending"),
+ intelGate("06 / QMR","อนุมัติปิดเชิงระบบ","รอผลตรวจที่พิสูจน์ได้จริง","pending")
+ ].join("");
+ const note=identity?"ตรวจเลข CAR ให้ตรงเหตุการณ์ก่อน จึงพิจารณา RCA และมาตรการได้":changed?"WI ที่เกี่ยวข้องได้รับการปรับแล้ว ขั้นต่อไปคือยืนยันว่าใช้งานกับงานจริงและป้องกันปัญหาได้":"ต้องตรวจการบังคับใช้มาตรการให้ชัดก่อนเสนอปิดเชิงระบบ";
+ return '<div class="intel-hero"><div><div class="intel-kicker">CUSTOMER COMPLAINT · INTELLIGENCE REVIEW · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+'</h2><p><strong>ลูกค้าพบอะไร:</strong> '+escapeHtml(c.event)+'</p><div class="intel-pillrow"><span class="intel-pill">'+escapeHtml(c.car)+'</span><span class="intel-pill '+(changed?"good":"emphasis")+'">'+escapeHtml(levelShort(c.level))+'</span><span class="intel-pill">'+escapeHtml(state)+'</span></div></div>'+
+ '<div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="docs">ดู WI / FORM ที่เกี่ยวข้อง →</button><button class="intel-btn" data-intel-open="verify">สิ่งที่ QMR ต้องตรวจ</button></div></div>'+
+ '<div class="intel-section-title"><h3>เข้าใจเรื่องนี้ใน 3 ประเด็น</h3><p>เรียงจากต้นเหตุ → ระบบป้องกัน → หลักฐานที่ต้องขอ</p></div>'+
+ '<div class="intel-answers">'+
+ '<article class="intel-card diagnosis"><div class="intel-num">01 / WHY</div><h4>ปัญหาเกิดจากอะไร</h4><p>'+escapeHtml(c.why)+'</p><details><summary>ดูหลักฐานที่วิเคราะห์ไว้</summary><p>'+escapeHtml(c.evidence)+'</p></details></article>'+
+ '<article class="intel-card control"><div class="intel-num">02 / SYSTEM CHANGE</div><h4>ต้องควบคุมระบบอย่างไร</h4><p>'+escapeHtml(c.system)+'</p><details><summary>กติกา WI / FORM / Gate</summary><p>'+escapeHtml(c.form)+'</p></details></article>'+
+ '<article class="intel-card proof"><div class="intel-num">03 / PROVE</div><h4>ต้องตรวจอะไรจึงมั่นใจ</h4><p>'+escapeHtml(c.test)+'</p><details><summary>ความเห็น QMR และการตัดสิน</summary><p>'+escapeHtml(c.decision)+'</p></details></article>'+
+ '</div>'+
+ '<div class="intel-section-title"><h3>ขั้นตอนการปิด CAR: ผ่านจุดใดแล้ว</h3><p>สีเขียว = มีหลักฐานในระดับนั้น · เหลือง = ต้องทบทวน · เทา = ยังไม่ตรวจยืนยัน</p></div>'+
+ '<div class="intel-gates">'+gates+'</div>'+
+ '<div class="intel-decision"><div><div class="intel-kicker">QMR DECISION INTELLIGENCE</div><h3>ข้อวินิจฉัย: '+escapeHtml(levelLong(c.level))+'</h3><p>'+escapeHtml(note)+'</p></div><div class="intel-decision-aside"><b>ผู้รับผิดชอบที่เกี่ยวข้อง</b><span>'+escapeHtml(c.owner)+'</span><b style="margin-top:12px">สถานะผลลัพธ์</b><span>ยังไม่รับรอง Effectiveness</span></div></div>'+
+ '<div class="intel-bottom"><div class="intel-pocket"><h3>หลักฐานและข้อจำกัดที่พบ</h3><p>'+escapeHtml(c.evidence)+'</p><button class="intel-btn" data-intel-open="evidence">อ่านรายละเอียดจากการตรวจ</button></div>'+
+ '<div class="intel-pocket"><h3>เอกสารที่เชื่อมกับเหตุการณ์</h3><p>QP / WI / FORM เป็นรายการที่ตรวจพบความเกี่ยวข้อง ไม่ได้หมายความว่าทุกฉบับถูกแก้จาก CAR นี้</p><div class="intel-doclist">'+intelButtonsDocs(c,8)+'</div><button class="intel-btn" data-intel-view="docs">ดูเอกสารทั้งหมด →</button></div></div>'+
+ '<p class="intel-annot">Source: ทะเบียนข้อร้องเรียน / QMR Audit / Controlled Document Lineage (Snapshot 15 ต.ค. 2569) · การตัดสิน QMR ยังเป็น Human Gate</p>';
+}
+function intelOverview(){
+ const group=[
+ {key:"safety",label:"ความปลอดภัย / หน้างาน",why:"เสี่ยงบาดเจ็บหรือทรัพย์สินเสียหาย ต้องมี Safety Gate ก่อนทำงาน",color:"#ed9e98"},
+ {key:"production",label:"การผลิต / QC",why:"Defect และการตรวจรับ ต้องมีการทดสอบก่อนปล่อยงาน",color:"#69d9e7"},
+ {key:"service",label:"การบริการ / ประสานงาน",why:"การตอบกลับลูกค้า เจ้าของงาน และการส่งต่องานข้ามหน่วยงาน",color:"#edc486"},
+ {key:"engineering",label:"วิศวกรรม / วัสดุ",why:"การคำนวณ สเปก และการทดสอบก่อนอนุมัติแบบ",color:"#b4a5ee"}
+ ];
+ return '<div class="intel-hero"><div><div class="intel-kicker">INTELLIGENCE OVERVIEW · 14 COMPLAINTS</div><h2>มองทั้งระบบ ไม่ใช่ผัง Node ที่ต้องไล่เส้น</h2><p>เลือกประเภทของปัญหา แล้วคลิกชื่อโครงการเพื่อเห็น <strong>สาเหตุ → มาตรการ → สิ่งที่ QMR ต้องตรวจ</strong> ในหน้าเดียว</p></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="summary">ดู Executive Analytics</button></div></div>'+
+ '<div class="intel-overview-facts"><div class="intel-overview-fact"><b>14</b><span>ข้อร้องเรียนที่นำมาวิเคราะห์</span></div><div class="intel-overview-fact"><b>2</b><span>พบการปรับ WI ที่เกี่ยวข้อง</span></div><div class="intel-overview-fact"><b>2</b><span>ต้องจับคู่ CAR ให้ถูกก่อน</span></div><div class="intel-overview-fact"><b>0</b><span>รับรอง Effectiveness ครบ</span></div></div>'+
+ '<div class="intel-section-title"><h3>คลิกสำรวจปัญหาตามกระบวนการ</h3><p>ชื่อโครงการ / ลูกค้าเป็นตัวนำ พร้อมสถานะหลักฐาน CAR ที่อ่านเข้าใจง่าย</p></div>'+
+ '<div class="intel-clusters">'+group.map(g=>{
+ const related=cases.filter(c=>c.type===g.key);
+ return '<section class="intel-cluster" style="border-top:3px solid '+g.color+'"><div class="intel-kicker">'+related.length+' เหตุการณ์</div><h3>'+escapeHtml(g.label)+'</h3><p>'+escapeHtml(g.why)+'</p>'+
+ related.map(c=>'<button class="intel-project-link" data-intel-case="'+c.n+'"><span class="intel-project-body"><strong>'+escapeHtml(projectTitle(c))+'</strong><small>'+escapeHtml(c.event)+' · '+escapeHtml(levelShort(c.level))+'</small></span><span class="intel-project-arrow">→</span></button>').join("")+'</section>'}).join("")+'</div>'+
+ '<div class="intel-warning">พบรูปแบบการควบคุมที่คล้ายกันหลายเหตุการณ์ แต่ยังพิสูจน์ไม่ได้ว่าเกิดซ้ำ <b>หลัง</b> ปิด CAR แล้ว การตัดสินเรื่อง Effectiveness ต้องตรวจวันใช้มาตรการและงานที่เกิดภายหลัง</div>';
+}
+function intelDocPage(c){
+ const rec=docCase(c.n)||{docs:[],review:"ต้องตรวจเอกสารจาก DCC",interpretation:"ยังไม่มีข้อสรุปการตรวจเอกสาร"};
+ const groups=[
+ {title:"ขั้นตอน / ข้อกำหนด",desc:"QP / SD · ระบุว่าหน่วยงานต้องทำอะไร",k:["QP","SD"]},
+ {title:"วิธีปฏิบัติงาน",desc:"WI · วิธีป้องกันไม่ให้พลาดซ้ำ",k:["WI"]},
+ {title:"แบบบันทึก / จุดตรวจ",desc:"FORM · หลักฐานว่าปฏิบัติจริง",k:["FORM"]}
+ ];
+ return '<div class="intel-hero"><div><div class="intel-kicker">CONTROLLED DOCUMENT INTELLIGENCE · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+' · WI / FORM</h2><p>อ่านความสัมพันธ์ของเอกสารเป็น 3 หมวด พร้อมแยกว่า <strong>มีเอกสาร</strong> กับ <strong>มีหลักฐานว่าใช้จริง</strong> ไม่ใช่สิ่งเดียวกัน</p><div class="intel-pillrow"><span class="intel-pill">'+rec.docs.length+' เอกสารที่เชื่อมโยง</span><span class="intel-pill">'+escapeHtml(levelShort(c.level))+'</span></div></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="case">กลับไปอ่านการวิเคราะห์ →</button><button class="intel-btn" data-intel-open="system">จุดควบคุมที่ต้องเปลี่ยน</button></div></div>'+
+ '<div class="intel-section-title"><h3>เอกสารแต่ละประเภททำหน้าที่อะไร</h3><p>คลิกเอกสารเพื่ออ่านข้อมูลอ้างอิงที่เปิดเผยได้</p></div>'+
+ '<div class="intel-docgrid">'+groups.map(g=>{const arr=rec.docs.filter(d=>g.k.includes(d.kind));
+ return '<article class="intel-docgroup"><div class="intel-kicker">'+arr.length+' DOCUMENTS</div><h3>'+escapeHtml(g.title)+'</h3><p>'+escapeHtml(g.desc)+'</p>'+
+ (arr.length?arr.map(d=>'<button class="intel-docpill" data-intel-doc="'+escapeHtml(d.code)+'">'+escapeHtml(d.code)+' <small>· '+escapeHtml(d.kind)+'</small></button>').join(""):'<p>ไม่พบเอกสารกลุ่มนี้ในชุดที่ตรวจ</p>')+'</article>'}).join("")+'</div>'+
+ '<div class="intel-section-title"><h3>Intelligence Review: เอกสารช่วยปิดช่องว่างอย่างไร</h3></div>'+
+ '<div class="intel-doc-read"><div class="intel-pocket"><h3>สิ่งที่ตรวจพบจริง</h3><p>'+escapeHtml(rec.interpretation||c.evidence)+'</p></div><div class="intel-pocket"><h3>สิ่งที่ต้องทำต่อ</h3><p>'+escapeHtml(rec.review||c.test)+'</p></div></div>'+
+ '<div class="intel-decision"><div><div class="intel-kicker">PROOF REQUIRED</div><h3>เอกสารอ้างอิง ≠ ป้องกันการเกิดซ้ำได้แล้ว</h3><p>ต้องตรวจ Revision ที่อนุมัติ บันทึกการใช้จริงจากงานใหม่ และผลติดตาม ก่อนให้ QMR รับรอง Effectiveness</p></div><div class="intel-decision-aside"><b>ผู้เกี่ยวข้อง</b><span>'+escapeHtml(c.owner)+'</span><b style="margin-top:12px">สถานะ</b><span>'+escapeHtml(levelLong(c.level))+'</span></div></div>'+
+ '<p class="intel-annot">ข้อมูลเอกสารต้นฉบับเก็บในระบบควบคุมภายใน และไม่ได้เปิดให้ดาวน์โหลดบนเว็บสาธารณะ</p>';
+}
+function renderIntelligence(){
+ const root=$("intelContent");if(!root)return;
+ const c=find(selected)||find(1);
+ const title=view==="overview"?"ภาพรวม Intelligence Workflow":view==="docs"?"WI / FORM Intelligence · "+projectTitle(c):projectTitle(c)+" · วิเคราะห์และตัดสิน CAR";
+ $("pageTitle").textContent=title;
+ $("pageSub").textContent=view==="overview"?"14 ข้อร้องเรียน · แบ่งตามกระบวนการ · คลิกเจาะโครงการ":view==="docs"?"เอกสารที่เกี่ยวข้อง · ผลตรวจ · สิ่งที่ต้องยืนยัน":c.car+" · "+levelLong(c.level)+" · QMR Human Gate";
+ root.innerHTML='<div class="intel-content">'+(view==="overview"?intelOverview():view==="docs"?intelDocPage(c):intelCase(c))+'</div>';
+ $("intelView").scrollTop=0;
+}
+function intelAction(e){
+ const btn=e.target.closest("button");if(!btn)return;
+ if(btn.dataset.intelCase){openCase(Number(btn.dataset.intelCase));return}
+ const c=find(selected)||find(1);
+ if(btn.dataset.intelView==="docs"){openDocTwin(c.n);return}
+ if(btn.dataset.intelView==="case"){view="case";openCase(c.n);return}
+ if(btn.dataset.intelView==="summary"){openSummary();return}
+ if(btn.dataset.intelDoc){const doc=docCase(c.n)?.docs.find(d=>d.code===btn.dataset.intelDoc);if(doc)showSourceDocument(doc,c);return}
+ if(btn.dataset.intelOpen){modalSection(c,btn.dataset.intelOpen);return}
+}
+
+function render(){renderList();const summary=view==="summary";$("summaryView").hidden=!summary;$("intelView").hidden=summary;vp.hidden=true;$("focusBtn").hidden=true;$("summaryBtn").classList.toggle("primary",summary);$("overviewBtn").classList.toggle("primary",view==="overview");$("docTwinBtn").classList.toggle("primary",view==="docs");if(summary){renderSummary()}else{renderIntelligence()}$("prevBtn").disabled=!["case","docs"].includes(view)||selected===1;$("nextBtn").disabled=!["case","docs"].includes(view)||selected===14}
 function openOverview(){selected=null;view="overview";location.hash="#map";render()}
+$("intelView").addEventListener("click",intelAction);
 const modal=$("modal");
 function modalSection(c,which){const labels={root:"เหตุและ Root Cause",system:"ระบบควบคุมที่ต้องเปลี่ยน",evidence:"หลักฐาน/ข้อเท็จจริง",verify:"การทวนสอบ QMR"};
 const fields={root:[["เหตุการณ์",c.event],["วิเคราะห์",c.why],["ความรับผิดชอบ",c.owner]],
@@ -768,7 +959,17 @@ vp.addEventListener("pointerdown",e=>{if(e.target.closest("button,.detailPanel,.
 vp.addEventListener("pointermove",e=>{if(!drag)return;tx=drag.tx+e.clientX-drag.x;ty=drag.ty+e.clientY-drag.y;transform()});vp.addEventListener("pointerup",()=>drag=null);vp.addEventListener("pointercancel",()=>drag=null);
 document.addEventListener("keydown",e=>{if(e.key==="Escape")closeModal();if(e.target.tagName==="INPUT")return;if(e.key==="ArrowRight"&&selected&&selected<14)openCase(selected+1);if(e.key==="ArrowLeft"&&selected>1)openCase(selected-1)});
 window.addEventListener("resize",fit);
-const fromHash=location.hash.match(/^#case-(\d{1,2})$/);selected=fromHash&&Number(fromHash[1])>=1&&Number(fromHash[1])<=14?Number(fromHash[1]):null;if(!fromHash){const docHash=location.hash.match(/^#docs-(\d{1,2})$/);if(docHash){selected=Number(docHash[1]);view="docs"}}if(view!=="docs")view=selected!==null?"case":location.hash==="#map"?"overview":"summary";render();
+function intelReadHash(){
+ const h=location.hash;
+ const c=h.match(/^#case-(\d{1,2})$/);
+ const dc=h.match(/^#docs-(\d{1,2})$/);
+ if(c&&Number(c[1])>=1&&Number(c[1])<=14){selected=Number(c[1]);view="case"}
+ else if(dc&&Number(dc[1])>=1&&Number(dc[1])<=14){selected=Number(dc[1]);view="docs"}
+ else if(h==="#map"){selected=null;view="overview"}
+ else{selected=null;view="summary"}
+}
+window.addEventListener("hashchange",()=>{const oldView=view,oldSelected=selected;intelReadHash();if(view!==oldView||selected!==oldSelected)render()});
+intelReadHash();render();
 })();
 </script>
 </body></html>
