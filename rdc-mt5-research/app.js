@@ -219,6 +219,7 @@ async function loadRemote(){
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
   renderParameterFinder(d.parameter_finder||null);
+  renderTFParameterPolicy(d.tf_parameter_policy||null,d.discovery_manager||null,d.indicator_research||null);
   renderManagerDailyAudit(d.agent_manager_daily_audit||null);
   renderWaveGraph(d.wave_graph||null);
   renderDiscoveryManager(d.discovery_manager||null);
@@ -270,6 +271,7 @@ async function loadRemote(){
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
     renderParameterFinder(previous.parameter_finder||null);
+    renderTFParameterPolicy(previous.tf_parameter_policy||null,previous.discovery_manager||null,previous.indicator_research||null);
     renderManagerDailyAudit(previous.agent_manager_daily_audit||null);
     renderWaveGraph(previous.wave_graph||null);
     renderDiscoveryManager(previous.discovery_manager||null);
@@ -1375,3 +1377,45 @@ $("param-clear")?.addEventListener("click",()=>{
  for(const id of ["param-fast","param-slow","param-signal"])if($(id))$(id).value="";
  updateParameterResults();
 });
+
+
+/* Timeframe-conditioned parameter ranges: honest distinction between active
+ * H1/H4 certified framework (effective from Round 19), and SHORT TF shadow
+ * candidates awaiting data/cost/EA certification. */
+function renderTFParameterPolicy(policy,queue,progress){
+ const grid=document.getElementById("tf-policy-grid");
+ if(!grid)return;
+ grid.replaceChildren();
+ if(!policy||policy.schema!=="rdc.tf_parameter_policy.v1"){
+  t("tf-policy-activation","AWAITING PC POLICY");
+  t("tf-policy-message","ไม่พบข้อมูล Range Profile จาก PC · ไม่สร้างผลหรือคิวสมมติ");
+  return;
+ }
+ const round=progress?.round??progress?.current_round??null;
+ const shadow=queue?.pending_by_kind?.TF_AWARE_MACD_SHADOW_CASE||0;
+ t("tf-policy-activation","NEW TF SEARCH FROM ROUND "+policy.activation_round);
+ for(const tf of ["M1","M5","M15","M30","H1","H4"]){
+  const p=policy.profiles?.[tf];if(!p)continue;
+  const card=document.createElement("article");card.className="tf-policy-card";
+  const title=document.createElement("strong");title.textContent=tf;
+  const state=document.createElement("span");state.className="tf-policy-state";
+  state.textContent=p.native_execution_enabled?"CERTIFIED TF · ROUND 19+":"SHADOW · QA REQUIRED";
+  const ranges=document.createElement("div");ranges.className="tf-policy-values";
+  for(const [key,val] of [["Fast",p.fast],["Slow",p.slow],["Signal",p.signal]]){
+   const cell=document.createElement("div");
+   const name=document.createElement("small");name.textContent=key;
+   const range=document.createElement("b");range.textContent=String(val[0])+"–"+String(val[1]);
+   cell.append(name,range);ranges.append(cell);
+  }
+  const note=document.createElement("small");note.className="tf-policy-footnote";
+  note.textContent=p.native_execution_enabled?
+   "Native H1/H4 FIT + VAL research only · check window bars and costs":
+   "Candidate source only · no native short-TF optimization yet";
+  card.append(title,state,ranges,note);grid.append(card);
+ }
+ t("tf-policy-message","Discovery Manager เก็บ "+shadow+
+   " เคส TF-aware Short-TF ที่รอ EA / Tick Quality / Spread & Slippage QA · "+
+   "Active H1/H4 search activates at Round "+policy.activation_round+
+   ". Broad → Local → Parameter Interaction → Robustness; results must be matched by TF and exact protocol. "+
+   "No promise that a 500-period parameter is superior. Historical results are not fresh blind OOS.");
+}

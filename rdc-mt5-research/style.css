@@ -387,3 +387,18 @@
  .parameter-toolbar{grid-template-columns:1fr}
  .parameter-triplet{grid-template-columns:repeat(2,minmax(0,1fr))}
 }
+
+/* TF-conditioned parameter-search coverage and distinct native/QA statuses */
+.tf-aware-policy-panel{border:1px solid #426b79;background:linear-gradient(140deg,#0d2c38,#103039);margin-bottom:14px}
+.tf-policy-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:9px;margin:12px 0}
+.tf-policy-card{border:1px solid #3d6976;background:#102d38;border-radius:10px;padding:11px;
+ display:flex;flex-direction:column;gap:8px;min-width:0}
+.tf-policy-card>strong{font-size:20px;color:#d7f6ea}
+.tf-policy-state{font-size:10px;font-weight:800;color:#a8d7cb}
+.tf-policy-values{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:6px}
+.tf-policy-values>div{background:#1b414b;border:1px solid #315663;border-radius:7px;padding:7px}
+.tf-policy-values small{display:block;font-size:9px;color:#9ab5ba}
+.tf-policy-values b{display:block;font-size:13px;color:#d4f2e9;margin-top:3px}
+.tf-policy-footnote{font-size:10px;color:#96bac1;line-height:1.45}
+@media(max-width:1050px){.tf-policy-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:570px){.tf-policy-grid{grid-template-columns:1fr}}
