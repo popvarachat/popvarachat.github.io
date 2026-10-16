@@ -572,7 +572,7 @@ function chartMatrix(){
 
 /* PMO responsibility analytics — from authorized SharePoint Summary26 */
 const PMO=JSON.parse(document.getElementById("pmo-data").textContent);
-let pmoMonth=4;
+let pmoMonth=Number(new Intl.DateTimeFormat('en-US',{timeZone:'Asia/Bangkok',month:'numeric'}).format(new Date()))-1;
 const pmoTotals=PMO.department_allocation.slice().sort((a,b)=>b.excelTotal-a.excelTotal);
 const pmoColors=["#4dbfd4","#edb86d","#70cfab","#aa9fed","#dd8e9d","#719cf0","#b0b9c1","#df9c6d","#95d8ad","#b9a3e4","#9dbbce","#87a8a4"];
 const pmoColorByName=Object.fromEntries(pmoTotals.map((v,i)=>[v.name,pmoColors[i]]));
