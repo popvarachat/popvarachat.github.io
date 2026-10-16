@@ -3,6 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Practika | Customer Complaint 2026 · QMR Workflow Map</title>
+<link rel="icon" href="data:,">
 <style>
 :root{--bg:#081019;--panel:#101d2b;--panel2:#142436;--border:#314459;--text:#e9f3ff;--muted:#96adbf;--safety:#ff6c78;--production:#3ed5ef;--engineering:#b19aff;--service:#efbd6f;--line:#49627a;--shadow:0 16px 55px #0006}
 *{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
@@ -448,6 +449,41 @@ html, body, * {
 .qmr-card-links .car-link-set{gap:4px}.qmr-card-links .car-doc-btn{padding:6px 9px}
 .intel-cluster .car-link-set{margin-top:7px}
 
+
+/* Executive evidence journey / department drilldown, 2026-10-16 */
+.pmo-rank[data-pmo-dept]{width:100%;font:inherit;background:transparent;color:inherit;border:0;border-radius:8px;cursor:pointer;text-align:left;padding:6px 8px}
+.pmo-rank[data-pmo-dept]:hover,.pmo-rank[data-pmo-dept]:focus-visible{background:#28465a;outline:2px solid #64c4df;outline-offset:1px}
+.pmo-rank .drill-arrow{color:#9ce8f4;font-weight:800}
+.pmo-month-open{margin-top:12px;background:#256c85;color:white;border:1px solid #67afc7;border-radius:9px;padding:10px 12px;cursor:pointer;font-weight:750}
+.pmo-month-open:hover{background:#3487a3}
+.evidence-hero{background:linear-gradient(115deg,#153e50,#152b40);border:1px solid #51859b;border-radius:16px;padding:23px;margin-bottom:18px}
+.evidence-hero h2{font-size:clamp(19px,2vw,27px);line-height:1.4;margin:7px 0;color:#f3fbff}
+.evidence-hero p,.evidence-warning{color:#c1d8e6;line-height:1.7;font-size:13px}
+.evidence-eyebrow{color:#81dded;font-size:11px;font-weight:850;letter-spacing:1px}
+.evidence-stats{display:flex;gap:10px;flex-wrap:wrap;margin-top:15px}
+.evidence-stat{border:1px solid #44637a;background:#20374a;border-radius:10px;padding:11px 14px;min-width:140px;display:flex;flex-direction:column;gap:4px}
+.evidence-stat b{font-size:22px;color:#f3fcff}
+.evidence-stat small{font-size:11px;color:#a8cad9}
+.evidence-card-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.evidence-card{border:1px solid #496b7e;border-radius:12px;background:#162f42;padding:16px;color:#e4f5fb}
+.evidence-card h3{font-size:14px;margin:4px 0}
+.evidence-card p{color:#aac9d8;font-size:12px;line-height:1.65;margin:6px 0}
+.evidence-card .code{font:800 11px system-ui;color:#7bdbed}
+.evidence-btn{font:inherit;font-size:12px;font-weight:750;padding:9px 12px;border:1px solid #5fa1bc;color:#e8fbff;background:#24526a;border-radius:9px;cursor:pointer;margin-top:7px}
+.evidence-btn:hover,.evidence-btn:focus-visible{background:#367990}
+.evidence-warning{border-left:3px solid #e1ba72;background:#302f31;padding:12px 16px;border-radius:4px;margin:12px 0 18px}
+.evidence-journey{background:#102a3b;border:1px solid #447b93;border-radius:15px;padding:18px;margin-bottom:16px}
+.evidence-journey h3{color:#e9faff;font-size:17px;margin:3px 0 6px}
+.evidence-steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:15px 0}
+.evidence-step{display:flex;flex-direction:column;align-items:flex-start;text-align:left;gap:7px;padding:12px;border:1px solid #38596e;border-radius:10px;background:#183448;color:#d4ebf4;min-width:0;font-size:12px}
+.evidence-step b{color:#8ce0eb;font-size:11px}
+.evidence-step strong{font-size:13px;word-break:break-word}
+.evidence-step small{color:#9cb7c7;line-height:1.5;overflow-wrap:anywhere}
+button.evidence-step{cursor:pointer}
+button.evidence-step:hover{border-color:#8be7fa;background:#28546b}
+.evidence-linkrow{display:flex;gap:8px;flex-wrap:wrap}
+@media(max-width:900px){.evidence-steps{grid-template-columns:repeat(2,minmax(0,1fr))}.evidence-card-grid{grid-template-columns:1fr}}
+@media(max-width:510px){.evidence-steps{grid-template-columns:1fr}}
 </style>
 <meta name="robots" content="noindex,nofollow"></head><body>
 <div class="shell">
@@ -694,11 +730,75 @@ function pmoDetail(month){
  const x=PMO.department_allocation.filter(r=>r.monthly[month]>0).sort((a,b)=>b.monthly[month]-a.monthly[month]);
  const sum=x.reduce((a,r)=>a+r.monthly[month],0);
  const el=$("pmo-month-detail");if(!el)return;
- el.innerHTML='<div class="pmo-detail-head"><strong>'+PMO.months[month]+' 2569</strong><span>'+PMO.actual_case_counts[month]+' เรื่องจริง · รวมสัดส่วน '+pmoFmt(sum)+' เรื่องเทียบเท่า</span></div>'+
+ el.innerHTML='<div class="pmo-detail-head"><strong>'+PMO.months[month]+' 2569</strong><span>'+PMO.actual_case_counts[month]+' เรื่องจริง · รวมสัดส่วน '+pmoFmt(sum)+' เรื่องเทียบเท่า</span></div><button type="button" class="pmo-month-open" data-pmo-open-month="'+month+'">ดูข้อร้องเรียน '+PMO.actual_case_counts[month]+' เรื่องในเดือนนี้ →</button>'+
  (x.length?'<div class="pmo-detail-list">'+x.map(r=>'<div class="pmo-detail-row"><i style="background:'+pmoColorByName[r.name]+'"></i><span>'+escapeHtml(r.name)+'</span><b>'+pmoFmt(r.monthly[month])+'</b></div>').join("")+'</div>':'<p class="pmo-empty">ไม่มีข้อร้องเรียนในเดือนนี้</p>');
  const container=$("pmo-department-dashboard");
  if(container){container.querySelectorAll("[data-pmo-month]").forEach(x=>x.classList.toggle("selected",Number(x.dataset.pmoMonth)===month));container.querySelectorAll("[data-month-column]").forEach(x=>x.classList.toggle("selected",Number(x.dataset.monthColumn)===month))}
 }
+
+/* QMR executive navigation: summary PMO allocations are NOT event-level attribution. */
+const REGISTER_MONTH_BY_CASE=[2,2,3,4,4,4,4,4,6,6,7,7,7,8];
+const PROCESS_DEPARTMENT_MATCH=[
+  /Delivery|Installation|Onsite|Site |Site\/|Logistics|Outsource|Transport/i,
+  /\bQC\b|QCC/i,
+  /\bSTS\b|\bSale\b|\bSales\b/i,
+  /Production|Manufactur|Maintenance/i,
+  /\bAFS\b|After.?Sales/i,
+  /a^/,
+  /\bSCD\b|Procurement|Purchasing/i,
+  /Engineering|Engineer/i,
+  /\bDesign\b/i,
+  /Innovation/i,
+  /\bCXD\b|Customer Experience/i,
+  /Production Planning|\bPlanning\b/i
+];
+let deptIndex=null,monthIndex=null,returnDeptIndex=null;
+function relatedCasesForDept(i,m){
+  const matcher=PROCESS_DEPARTMENT_MATCH[i];
+  return cases.filter(c=>matcher&&matcher.test(String(c.owner||""))&&(m===null||REGISTER_MONTH_BY_CASE[c.n-1]===m));
+}
+function deptNotice(){
+  return '<div class="evidence-warning"><b>ข้อจำกัดข้อมูล:</b> น้ำหนัก PMO มาจาก Summary26 (รายแผนก/รายเดือน) แต่ยังไม่มีตารางเชื่อมสัดส่วน PMO ลงถึงแต่ละเหตุการณ์อย่างยืนยันได้ รายการด้านล่างคัดจาก <b>เจ้าของกระบวนการในรายงานตรวจสอบ CAR</b> เพื่อช่วยเจาะหลักฐานเท่านั้น ไม่ใช่การแจกแจงยอด PMO 5.16 หรือยอดอื่นให้เคสเหล่านี้โดยตรง</div>';
+}
+function evidenceCaseCard(c){
+  return '<article class="evidence-card"><span class="code">'+escapeHtml(c.id)+' · '+escapeHtml(c.car)+'</span><h3>'+escapeHtml(projectTitle(c))+'</h3><p>'+escapeHtml(c.event)+'</p><p>เจ้าของกระบวนการที่เสนอ: '+escapeHtml(c.owner)+'</p><p>ระดับหลักฐาน: '+escapeHtml(levelShort(c.level))+'</p><button class="evidence-btn" data-intel-case="'+c.n+'">เปิดเรื่อง → CAR → WI/FORM → ผลการทวนสอบ</button></article>';
+}
+function intelDepartment(){
+  const r=PMO.department_allocation[deptIndex];
+  if(!r)return '<div class="evidence-warning">ไม่พบแผนกนี้ในข้อมูล PMO</div>';
+  const related=relatedCasesForDept(deptIndex,null);
+  return '<div class="evidence-hero"><span class="evidence-eyebrow">DEPARTMENT → EVIDENCE DRILLDOWN · PMO FINAL</span><h2>'+escapeHtml(r.name)+'</h2><p>คลิกดูเหตุการณ์ที่เชื่อมโยงกับเจ้าของกระบวนการ แล้วเข้าสู่ CAR, WI/FORM และผลการทวนสอบภายในเว็บเดียวกัน</p><div class="evidence-stats"><div class="evidence-stat"><b>'+pmoFmt(r.excelTotal)+'</b><small>เรื่องเทียบเท่าตาม PMO</small></div><div class="evidence-stat"><b>'+related.length+'</b><small>เหตุการณ์ที่พบชื่อฝ่ายในเจ้าของกระบวนการ (อ้างอิงคนละฐาน)</small></div><div class="evidence-stat"><b>0/14</b><small>Effectiveness Verified ทั้งโครงการ</small></div></div><button class="evidence-btn" data-intel-view="summary">← กลับ Executive KPI</button></div>'+deptNotice()+
+  '<h3>เหตุการณ์ที่เกี่ยวข้องจากการตรวจ CAR</h3>'+(related.length?'<div class="evidence-card-grid">'+related.map(evidenceCaseCard).join('')+'</div>':'<p class="evidence-warning">ยังไม่มีเหตุการณ์ที่ระบุฝ่ายนี้เป็น Process Owner ในทะเบียนวิเคราะห์ 14 เรื่อง การไม่พบชื่อไม่ได้หมายความว่าฝ่ายนี้ไม่เกี่ยวข้องหรือไม่มีความรับผิดชอบตาม PMO</p>')+
+  '<div class="evidence-warning">ข้อมูล PMO อ้างอิง: '+escapeHtml(PMO.source_updated_at)+' · Source of Truth คือไฟล์ Summary26 จาก SharePoint · หน้านี้ไม่ตัดสินความผิดของหน่วยงาน</div>';
+}
+function intelMonth(){
+  if(monthIndex===null||monthIndex<0||monthIndex>11)return '<div class="evidence-warning">เดือนไม่ถูกต้อง</div>';
+  const related=cases.filter(c=>REGISTER_MONTH_BY_CASE[c.n-1]===monthIndex);
+  const alloc=PMO.department_allocation.filter(d=>d.monthly[monthIndex]>0);
+  return '<div class="evidence-hero"><span class="evidence-eyebrow">MONTH → INCIDENT EVIDENCE</span><h2>'+escapeHtml(PMO.months[monthIndex])+' 2569</h2><p>รายการข้อร้องเรียนตามเดือนที่บันทึกไว้ในทะเบียนเหตุการณ์ต้นฉบับ (อาจต่างจากเดือนในวันที่ที่พิมพ์ไว้บางแถว) คลิกเข้าอ่าน CAR และการแก้ไขได้</p><div class="evidence-stats"><div class="evidence-stat"><b>'+PMO.actual_case_counts[monthIndex]+'</b><small>เหตุการณ์จริงตาม Summary26</small></div><div class="evidence-stat"><b>'+related.length+'</b><small>เหตุการณ์ในทะเบียนที่ตรวจแล้ว 14 เคส</small></div><div class="evidence-stat"><b>'+pmoFmt(PMO.excel_monthly_allocation_totals[monthIndex])+'</b><small>น้ำหนักรับผิดชอบรวม (PMO)</small></div></div><button class="evidence-btn" data-intel-view="summary">← กลับ Dashboard</button></div>'+
+  (related.length?'<div class="evidence-card-grid">'+related.map(evidenceCaseCard).join('')+'</div>':'<div class="evidence-warning">ไม่พบข้อร้องเรียนในเดือนนี้จากทะเบียนที่ตรวจแล้ว</div>')+
+  '<h3>หน่วยงานที่มีน้ำหนักจัดสรรเดือนนี้</h3><div class="evidence-linkrow">'+alloc.map(d=>'<button class="evidence-btn" data-intel-dept="'+PMO.department_allocation.indexOf(d)+'">'+escapeHtml(d.name)+' · '+pmoFmt(d.monthly[monthIndex])+'</button>').join('')+'</div>'+deptNotice();
+}
+function evidenceJourney(c){
+  const matched=VERIFIED_CAR_LINKS[c.n]&&c.level!=="HOLD";
+  const car=matched?VERIFIED_CAR_LINKS[c.n].code:"ต้องยืนยันเลข CAR";
+  const back=returnDeptIndex!==null?'<button class="evidence-btn" data-intel-dept="'+returnDeptIndex+'">← กลับแผนก</button>':'<button class="evidence-btn" data-intel-view="summary">← กลับ KPI</button>';
+  return '<section class="evidence-journey"><div class="evidence-eyebrow">EXECUTIVE EVIDENCE JOURNEY · '+escapeHtml(c.id)+'</div><h3>จากข้อร้องเรียนไปถึงการป้องกันเกิดซ้ำ</h3><p class="evidence-warning">สถานะ “ปิด CAR ตามฟอร์ม” ไม่ใช่ “ตรวจแล้วว่าไม่เกิดซ้ำ” · หากหลักฐานยังไม่ครบ ระบบจะแสดงว่า <b>รอพิสูจน์</b></p><div class="evidence-steps">'+
+   '<div class="evidence-step"><b>01 · เหตุการณ์</b><strong>'+escapeHtml(projectTitle(c))+'</strong><small>'+escapeHtml(c.event)+'</small></div>'+
+   (matched?'<button class="evidence-step" data-car-case="'+c.n+'" data-car-variant="main"><b>02 · CAR</b><strong>'+escapeHtml(car)+'</strong><small>เปิดฟอร์มภายใน (Notebook ที่มีสิทธิ์)</small></button>':'<div class="evidence-step"><b>02 · CAR</b><strong>HOLD</strong><small>ต้องจับคู่กับเหตุการณ์ให้ตรงก่อน</small></div>')+
+   '<button class="evidence-step" data-intel-view="docs"><b>03 · WI / FORM</b><strong>ตรวจจุดควบคุม</strong><small>ดู QP, WI, FORM และเอกสารอ้างอิง</small></button>'+
+   '<div class="evidence-step"><b>04 · ใช้มาตรการจริง</b><strong>ต้องตรวจหลักฐาน</strong><small>'+escapeHtml(c.evidence)+'</small></div>'+
+   '<div class="evidence-step"><b>05 · เกิดซ้ำหรือไม่</b><strong>ยังไม่รับรองผล</strong><small>'+escapeHtml(c.test)+'</small></div></div><div class="evidence-linkrow">'+back+'<button class="evidence-btn" data-intel-view="docs">เปิด WI / FORM Digital Twin →</button></div></section>';
+}
+function openDepartment(i){
+  i=Number(i);if(!Number.isInteger(i)||i<0||i>=PMO.department_allocation.length)return;
+  deptIndex=i;monthIndex=null;returnDeptIndex=i;selected=null;view="department";location.hash="#department-"+i;render();
+}
+function openMonth(i){
+  i=Number(i);if(!Number.isInteger(i)||i<0||i>11)return;
+  monthIndex=i;deptIndex=null;returnDeptIndex=null;selected=null;view="month";location.hash="#month-"+i;render();
+}
+
 function renderPmoDashboard(){
  const sorted=pmoTotals,max=Math.max(...sorted.map(r=>r.excelTotal));
  const realMonths=PMO.months.map((m,i)=>({label:m,n:PMO.actual_case_counts[i],i}));
@@ -710,7 +810,7 @@ function renderPmoDashboard(){
  '<div class="pmo-kpi"><b>'+pmoFmt(PMO.allocation_equivalent_total)+'</b><span>เรื่องเทียบเท่ารวมทุกแผนก</span><small>คลาดเคลื่อน '+pmoFmt(Math.abs(pmoActualTotal-PMO.allocation_equivalent_total))+' จากการปัดเศษ</small></div>'+
  '<div class="pmo-kpi"><b>'+pmoFmt(sorted[0].excelTotal)+'</b><span>'+escapeHtml(sorted[0].name)+' สูงสุด</span><small>~'+(sorted[0].excelTotal/pmoActualTotal*100).toFixed(1)+'% ของน้ำหนัก '+pmoActualTotal+' เรื่อง</small></div></div>';
  const rank='<section class="pmo-panel"><h4>แผนกใดรับไปเท่าไร <small>(สัดส่วนเทียบเท่าเรื่อง)</small></h4><div class="pmo-ranks">'+
- sorted.map(r=>'<div class="pmo-rank"><label>'+escapeHtml(r.name)+'</label><div class="pmo-rank-track"><div class="pmo-rank-fill" style="width:'+(max?r.excelTotal/max*100:0)+'%;background:'+pmoColorByName[r.name]+'"></div></div><b>'+pmoFmt(r.excelTotal)+'</b></div>').join("")+'</div>'+
+ sorted.map(r=>'<button type="button" class="pmo-rank" data-pmo-dept="'+PMO.department_allocation.indexOf(r)+'" title="เปิดเหตุการณ์ที่เกี่ยวข้องกับแผนกนี้"><label>'+escapeHtml(r.name)+'</label><div class="pmo-rank-track"><div class="pmo-rank-fill" style="width:'+(max?r.excelTotal/max*100:0)+'%;background:'+pmoColorByName[r.name]+'"></div></div><b>'+pmoFmt(r.excelTotal)+'</b><span class="drill-arrow" aria-hidden="true">→</span></button>').join("")+'</div>'+
  '<p class="pmo-explain">แผนกเดียวอาจรับงานร่วมกับแผนกอื่นในเรื่องเดียวกัน · ค่า 0 ไม่ได้แปลว่าไม่เคยมีส่วนเกี่ยวข้อง เพียงแต่ PMO ไม่จัดสรรน้ำหนักให้ในตารางนี้</p></section>';
  const monthly='<section class="pmo-panel"><h4>ร้องเรียนจริงกี่เรื่องในแต่ละเดือน <small>(จำนวนเหตุการณ์)</small></h4><div class="pmo-month-bars" role="group" aria-label="จำนวนเรื่องร้องเรียนจริงแต่ละเดือน">'+
  realMonths.map(x=>'<button type="button" class="pmo-month-bar" data-pmo-month="'+x.i+'" title="'+escapeHtml(x.label)+' '+x.n+' เรื่อง"><b>'+x.n+'</b><span class="pmo-month-pillar" style="height:'+(x.n>0?(x.n/Math.max(...PMO.actual_case_counts,1)*100):3)+'%;opacity:'+(x.n>0?1:.22)+'"></span><small>'+x.label+'</small></button>').join("")+
@@ -735,7 +835,7 @@ function insertPmo(){
  const pm=$("pmo-department-dashboard");
  pm.querySelectorAll("[data-pmo-month]").forEach(b=>b.addEventListener("click",()=>{pmoMonth=Number(b.dataset.pmoMonth);pmoDetail(pmoMonth)}));
  pm.querySelectorAll("thead [data-month-column]").forEach(b=>b.addEventListener("click",()=>{pmoMonth=Number(b.dataset.monthColumn);pmoDetail(pmoMonth)}));
- pmoDetail(pmoMonth);
+ pmoDetail(pmoMonth); pm.addEventListener('click',e=>{const d=e.target.closest('[data-pmo-dept]');if(d){openDepartment(d.dataset.pmoDept);return}const m=e.target.closest('[data-pmo-open-month]');if(m)openMonth(m.dataset.pmoOpenMonth)});
 }
 
 function renderAnalytics(){
@@ -945,16 +1045,16 @@ function intelDocPage(c){
 function renderIntelligence(){
  const root=$("intelContent");if(!root)return;
  const c=find(selected)||find(1);
- const title=view==="overview"?"ภาพรวม Intelligence Workflow":view==="docs"?"WI / FORM Intelligence · "+projectTitle(c):projectTitle(c)+" · วิเคราะห์และตัดสิน CAR";
+ const title=view==="department"?"Complaint / แผนก · "+(PMO.department_allocation[deptIndex]?.name||""):view==="month"?"Complaint / เดือน · "+PMO.months[monthIndex]:view==="overview"?"ภาพรวม Intelligence Workflow":view==="docs"?"WI / FORM Intelligence · "+projectTitle(c):projectTitle(c)+" · วิเคราะห์และตัดสิน CAR";
  $("pageTitle").textContent=title;
- $("pageSub").textContent=view==="overview"?"14 ข้อร้องเรียน · แบ่งตามกระบวนการ · คลิกเจาะโครงการ":view==="docs"?"เอกสารที่เกี่ยวข้อง · ผลตรวจ · สิ่งที่ต้องยืนยัน":c.car+" · "+levelLong(c.level)+" · QMR Human Gate";
- root.innerHTML='<div class="intel-content">'+(view==="overview"?intelOverview():view==="docs"?intelDocPage(c):intelCase(c))+'</div>';
+ $("pageSub").textContent=(view==="department"||view==="month")?"คลิกไล่ข้อมูลจากผลรวม → เหตุการณ์ → CAR → WI/FORM → การทวนสอบ":view==="overview"?"14 ข้อร้องเรียน · แบ่งตามกระบวนการ · คลิกเจาะโครงการ":view==="docs"?"เอกสารที่เกี่ยวข้อง · ผลตรวจ · สิ่งที่ต้องยืนยัน":c.car+" · "+levelLong(c.level)+" · QMR Human Gate";
+ root.innerHTML='<div class="intel-content">'+(view==="department"?intelDepartment():view==="month"?intelMonth():view==="overview"?intelOverview():view==="docs"?evidenceJourney(c)+intelDocPage(c):evidenceJourney(c)+intelCase(c))+'</div>';
  $("intelView").scrollTop=0;
 }
 function intelAction(e){
  const btn=e.target.closest("button");if(!btn)return;
  if(btn.dataset.carCase){openVerifiedCar(Number(btn.dataset.carCase),btn.dataset.carVariant);return}
- if(btn.dataset.intelCase){openCase(Number(btn.dataset.intelCase));return}
+ if(btn.dataset.intelDept){openDepartment(btn.dataset.intelDept);return} if(btn.dataset.intelCase){openCase(Number(btn.dataset.intelCase));return}
  const c=find(selected)||find(1);
  if(btn.dataset.intelView==="docs"){openDocTwin(c.n);return}
  if(btn.dataset.intelView==="case"){view="case";openCase(c.n);return}
@@ -996,10 +1096,10 @@ function intelReadHash(){
  const dc=h.match(/^#docs-(\d{1,2})$/);
  if(c&&Number(c[1])>=1&&Number(c[1])<=14){selected=Number(c[1]);view="case"}
  else if(dc&&Number(dc[1])>=1&&Number(dc[1])<=14){selected=Number(dc[1]);view="docs"}
- else if(h==="#map"){selected=null;view="overview"}
+ else if(/^#department-(\d+)$/.test(h)&&Number(h.split("-")[1])<PMO.department_allocation.length){deptIndex=Number(h.split("-")[1]);returnDeptIndex=deptIndex;selected=null;view="department"} else if(/^#month-(\d+)$/.test(h)&&Number(h.split("-")[1])<12){monthIndex=Number(h.split("-")[1]);selected=null;view="month"} else if(h==="#map"){selected=null;view="overview"}
  else{selected=null;view="summary"}
 }
-window.addEventListener("hashchange",()=>{const oldView=view,oldSelected=selected;intelReadHash();if(view!==oldView||selected!==oldSelected)render()});
+window.addEventListener("hashchange",()=>{const oldView=view,oldSelected=selected,oldDept=deptIndex,oldMonth=monthIndex;intelReadHash();if(view!==oldView||selected!==oldSelected||deptIndex!==oldDept||monthIndex!==oldMonth)render()});
 intelReadHash();render();
 })();
 </script>
