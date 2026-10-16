@@ -437,6 +437,17 @@ html, body, * {
  .intel-btn{font-size:11px;padding:9px}
  .intel-decision{padding:14px}
 }
+
+.car-link-set{display:inline-flex;gap:7px;flex-wrap:wrap;align-items:center;vertical-align:middle;max-width:100%}
+.car-doc-btn{appearance:none;cursor:pointer;border-radius:999px;padding:7px 11px;border:1px solid #5dafa9;background:#22585e;color:#e4fffb;font-size:11px;font-weight:800;line-height:1.3}
+.car-doc-btn:hover{background:#2e7b81;border-color:#7ee4d3}
+.car-doc-btn.secondary{background:#283e53;color:#cbe7fa;border-color:#52788c;font-weight:600}
+.car-doc-btn.secondary:hover{background:#3a5c78}
+.car-await{font-size:11px;line-height:1.5;color:#ffd3a0;border-radius:9px;border:1px solid #816753;padding:6px 10px;background:#3d312b}
+.intel-pillrow .car-link-set{margin:1px 0}
+.qmr-card-links .car-link-set{gap:4px}.qmr-card-links .car-doc-btn{padding:6px 9px}
+.intel-cluster .car-link-set{margin-top:7px}
+
 </style>
 <meta name="robots" content="noindex,nofollow"></head><body>
 <div class="shell">
@@ -763,7 +774,7 @@ return '<article class="qmr-card" style="--status:'+met.color+'">'+
 '<div class="qmr-field evidence"><b>✓ สิ่งที่มีหลักฐานแล้ว</b><p>'+escapeHtml(c.evidence)+'</p></div>'+
 '<div class="qmr-field"><b>↻ สิ่งที่ควรทบทวน / ต้องเปลี่ยนระบบ</b><p>'+escapeHtml(c.form)+'</p></div>'+
 '<div class="qmr-field"><b>◎ ต้องพิสูจน์อย่างไร ก่อน QMR รับรอง</b><p>'+escapeHtml(c.test)+'</p></div>'+
-'<div class="qmr-card-bottom"><span>'+escapeHtml(closeDesc)+'</span><div class="qmr-card-links"><button class="qmr-open" data-summary-case="'+c.n+'">Workflow →</button><button class="qmr-open qmr-doc-open" data-summary-doc="'+c.n+'">WI/FORM ↗</button></div></div>'+
+'<div class="qmr-card-bottom"><span>'+escapeHtml(closeDesc)+'</span><div class="qmr-card-links"><button class="qmr-open" data-summary-case="'+c.n+'">Workflow →</button><button class="qmr-open qmr-doc-open" data-summary-doc="'+c.n+'">WI/FORM ↗</button>'+carControls(c)+'</div></div>'+
 '</article>';
 }).join("");
 }
@@ -795,6 +806,7 @@ $("summaryContent").innerHTML=markup;
 renderAnalytics();
 $("summaryContent").querySelectorAll("[data-summary-case]").forEach(el=>el.addEventListener("click",()=>openCase(Number(el.dataset.summaryCase))));
 $("summaryContent").querySelectorAll("[data-summary-doc]").forEach(el=>el.addEventListener("click",()=>openDocTwin(Number(el.dataset.summaryDoc))));
+$("summaryContent").querySelectorAll("[data-car-case]").forEach(el=>el.addEventListener("click",()=>openVerifiedCar(Number(el.dataset.carCase),el.dataset.carVariant)));
 $("summaryContent").querySelectorAll("[data-summary-filter]").forEach(el=>el.addEventListener("click",()=>{summaryFilter=el.dataset.summaryFilter;renderSummary();$("summaryView").scrollTop=0}));
 }
 function openSummary(){view="summary";selected=null;location.hash="#summary";render()}
@@ -845,6 +857,24 @@ $("caseList").querySelectorAll("[data-case]").forEach(b=>b.addEventListener("cli
 }
 
 /* Intelligence workflow: decision-first explanatory view, no crossed graph links */
+
+const VERIFIED_CAR_LINKS={"1":{"code":"CXD-017","closure":true},"4":{"code":"CXD-025","closure":true},"5":{"code":"CXD-026","closure":true},"6":{"code":"CXD-027","closure":true},"7":{"code":"CXD-031","closure":true},"8":{"code":"CXD-030","closure":true,"extension":true},"9":{"code":"CXD-097","extension":true},"10":{"code":"CXD-089"},"11":{"code":"AMD-124"},"12":{"code":"CXD-088"},"13":{"code":"COO-073","extension":true},"14":{"code":"CXD-144"}};
+function carControls(c){
+ const r=VERIFIED_CAR_LINKS[c.n];
+ if(!r)return '<span class="car-await">รอยืนยัน CAR ที่ตรงเหตุการณ์</span>';
+ return '<span class="car-link-set">'+
+ '<button type="button" class="car-doc-btn" data-car-case="'+c.n+'" data-car-variant="main" title="เปิด CAR ต้นเรื่องบน Notebook ที่มีสิทธิ์">'+escapeHtml(r.code)+' · เปิด CAR ↗</button>'+
+ (r.closure?'<button type="button" class="car-doc-btn secondary" data-car-case="'+c.n+'" data-car-variant="closure" title="ปิด CAR ตามฟอร์ม ไม่ใช่รับรอง Effectiveness">เอกสารปิด CAR ↗</button>':'')+
+ (r.extension?'<button type="button" class="car-doc-btn secondary" data-car-case="'+c.n+'" data-car-variant="extension">เอกสารต่ออายุ ↗</button>':'')+
+ '</span>';
+}
+function openVerifiedCar(n,variant){
+ const r=VERIFIED_CAR_LINKS[n];
+ if(!r || !['main','closure','extension'].includes(variant))return;
+ if(variant!=='main' && !r[variant])return;
+ window.open('http://127.0.0.1:8769/car/'+encodeURIComponent(r.code)+'/'+variant,'_blank','noopener,noreferrer');
+}
+
 function intelGate(code,title,desc,status){
  return '<div class="intel-gate '+status+'"><i>'+code+'</i><b>'+escapeHtml(title)+'</b><span>'+escapeHtml(desc)+'</span></div>';
 }
@@ -864,7 +894,7 @@ function intelCase(c){
  intelGate("06 / QMR","อนุมัติปิดเชิงระบบ","รอผลตรวจที่พิสูจน์ได้จริง","pending")
  ].join("");
  const note=identity?"ตรวจเลข CAR ให้ตรงเหตุการณ์ก่อน จึงพิจารณา RCA และมาตรการได้":changed?"WI ที่เกี่ยวข้องได้รับการปรับแล้ว ขั้นต่อไปคือยืนยันว่าใช้งานกับงานจริงและป้องกันปัญหาได้":"ต้องตรวจการบังคับใช้มาตรการให้ชัดก่อนเสนอปิดเชิงระบบ";
- return '<div class="intel-hero"><div><div class="intel-kicker">CUSTOMER COMPLAINT · INTELLIGENCE REVIEW · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+'</h2><p><strong>ลูกค้าพบอะไร:</strong> '+escapeHtml(c.event)+'</p><div class="intel-pillrow"><span class="intel-pill">'+escapeHtml(c.car)+'</span><span class="intel-pill '+(changed?"good":"emphasis")+'">'+escapeHtml(levelShort(c.level))+'</span><span class="intel-pill">'+escapeHtml(state)+'</span></div></div>'+
+ return '<div class="intel-hero"><div><div class="intel-kicker">CUSTOMER COMPLAINT · INTELLIGENCE REVIEW · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+'</h2><p><strong>ลูกค้าพบอะไร:</strong> '+escapeHtml(c.event)+'</p><div class="intel-pillrow">'+carControls(c)+'<span class="intel-pill '+(changed?"good":"emphasis")+'">'+escapeHtml(levelShort(c.level))+'</span><span class="intel-pill">'+escapeHtml(state)+'</span></div></div>'+
  '<div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="docs">ดู WI / FORM ที่เกี่ยวข้อง →</button><button class="intel-btn" data-intel-open="verify">สิ่งที่ QMR ต้องตรวจ</button></div></div>'+
  '<div class="intel-section-title"><h3>เข้าใจเรื่องนี้ใน 3 ประเด็น</h3><p>เรียงจากต้นเหตุ → ระบบป้องกัน → หลักฐานที่ต้องขอ</p></div>'+
  '<div class="intel-answers">'+
@@ -892,7 +922,7 @@ function intelOverview(){
  '<div class="intel-clusters">'+group.map(g=>{
  const related=cases.filter(c=>c.type===g.key);
  return '<section class="intel-cluster" style="border-top:3px solid '+g.color+'"><div class="intel-kicker">'+related.length+' เหตุการณ์</div><h3>'+escapeHtml(g.label)+'</h3><p>'+escapeHtml(g.why)+'</p>'+
- related.map(c=>'<button class="intel-project-link" data-intel-case="'+c.n+'"><span class="intel-project-body"><strong>'+escapeHtml(projectTitle(c))+'</strong><small>'+escapeHtml(c.event)+' · '+escapeHtml(levelShort(c.level))+'</small></span><span class="intel-project-arrow">→</span></button>').join("")+'</section>'}).join("")+'</div>'+
+ related.map(c=>'<button class="intel-project-link" data-intel-case="'+c.n+'"><span class="intel-project-body"><strong>'+escapeHtml(projectTitle(c))+'</strong><small>'+escapeHtml(c.event)+' · '+escapeHtml(levelShort(c.level))+'</small></span><span class="intel-project-arrow">→</span></button>'+carControls(c)).join("")+'</section>'}).join("")+'</div>'+
  '<div class="intel-warning">พบรูปแบบการควบคุมที่คล้ายกันหลายเหตุการณ์ แต่ยังพิสูจน์ไม่ได้ว่าเกิดซ้ำ <b>หลัง</b> ปิด CAR แล้ว การตัดสินเรื่อง Effectiveness ต้องตรวจวันใช้มาตรการและงานที่เกิดภายหลัง</div>';
 }
 function intelDocPage(c){
@@ -902,7 +932,7 @@ function intelDocPage(c){
  {title:"วิธีปฏิบัติงาน",desc:"WI · วิธีป้องกันไม่ให้พลาดซ้ำ",k:["WI"]},
  {title:"แบบบันทึก / จุดตรวจ",desc:"FORM · หลักฐานว่าปฏิบัติจริง",k:["FORM"]}
  ];
- return '<div class="intel-hero"><div><div class="intel-kicker">CONTROLLED DOCUMENT INTELLIGENCE · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+' · WI / FORM</h2><p>อ่านความสัมพันธ์ของเอกสารเป็น 3 หมวด พร้อมแยกว่า <strong>มีเอกสาร</strong> กับ <strong>มีหลักฐานว่าใช้จริง</strong> ไม่ใช่สิ่งเดียวกัน</p><div class="intel-pillrow"><span class="intel-pill">'+rec.docs.length+' เอกสารที่เชื่อมโยง</span><span class="intel-pill">'+escapeHtml(levelShort(c.level))+'</span></div></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="case">กลับไปอ่านการวิเคราะห์ →</button><button class="intel-btn" data-intel-open="system">จุดควบคุมที่ต้องเปลี่ยน</button></div></div>'+
+ return '<div class="intel-hero"><div><div class="intel-kicker">CONTROLLED DOCUMENT INTELLIGENCE · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+' · WI / FORM</h2><p>อ่านความสัมพันธ์ของเอกสารเป็น 3 หมวด พร้อมแยกว่า <strong>มีเอกสาร</strong> กับ <strong>มีหลักฐานว่าใช้จริง</strong> ไม่ใช่สิ่งเดียวกัน</p><div class="intel-pillrow"><span class="intel-pill">'+rec.docs.length+' เอกสารที่เชื่อมโยง</span><span class="intel-pill">'+escapeHtml(levelShort(c.level))+'</span>'+carControls(c)+'</div></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="case">กลับไปอ่านการวิเคราะห์ →</button><button class="intel-btn" data-intel-open="system">จุดควบคุมที่ต้องเปลี่ยน</button></div></div>'+
  '<div class="intel-section-title"><h3>เอกสารแต่ละประเภททำหน้าที่อะไร</h3><p>คลิกเอกสารเพื่ออ่านข้อมูลอ้างอิงที่เปิดเผยได้</p></div>'+
  '<div class="intel-docgrid">'+groups.map(g=>{const arr=rec.docs.filter(d=>g.k.includes(d.kind));
  return '<article class="intel-docgroup"><div class="intel-kicker">'+arr.length+' DOCUMENTS</div><h3>'+escapeHtml(g.title)+'</h3><p>'+escapeHtml(g.desc)+'</p>'+
@@ -923,6 +953,7 @@ function renderIntelligence(){
 }
 function intelAction(e){
  const btn=e.target.closest("button");if(!btn)return;
+ if(btn.dataset.carCase){openVerifiedCar(Number(btn.dataset.carCase),btn.dataset.carVariant);return}
  if(btn.dataset.intelCase){openCase(Number(btn.dataset.intelCase));return}
  const c=find(selected)||find(1);
  if(btn.dataset.intelView==="docs"){openDocTwin(c.n);return}
