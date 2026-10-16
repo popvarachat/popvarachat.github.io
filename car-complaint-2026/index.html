@@ -491,6 +491,18 @@ button.evidence-step:hover{border-color:#8be7fa;background:#28546b}
 .doc-scope-caution{margin:12px 0 18px;padding:13px 16px;color:#dcebf6;background:#1b3447;border:1px solid #416d89;border-radius:10px;line-height:1.75;font-size:13px}
 .intel-docpill .real-title{display:block;margin-top:4px;font-size:11px;line-height:1.5;font-weight:550;color:#e0f2fb;overflow-wrap:anywhere}
 .intel-docpill .doc-origin-label{display:block;margin-top:6px;font-size:10px;font-weight:600;color:#d6c8ab}
+
+.attach-audit{border:1px solid #54758c;background:#132c3d;border-radius:14px;padding:17px;margin:16px 0;color:#e8f4ff}
+.attach-heading{font-weight:850;font-size:16px;color:#b7edfa}
+.attach-audit>p{color:#c2d6e5;line-height:1.7;font-size:12px;margin:8px 0}
+.attach-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:9px;margin:13px 0}
+.attach-metrics div{background:#1c3d50;border:1px solid #436c84;border-radius:10px;padding:9px;display:flex;flex-direction:column;gap:5px}
+.attach-metrics strong{font-size:22px}
+.attach-metrics small{color:#b2cfdf;font-size:10px}
+.attach-warning{display:block;background:#3a302b;border-left:3px solid #f1c18a;border-radius:8px;padding:9px 12px;color:#ffe3be;font-size:12px;line-height:1.7}
+.attach-warning p{margin:4px 0}
+.attach-foot{display:block;margin-top:11px;color:#b2ccda;font-size:10px;line-height:1.7}
+@media(max-width:750px){.attach-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
 </style>
 <meta name="robots" content="noindex,nofollow"></head><body>
 <div class="shell">
@@ -1055,13 +1067,33 @@ function intelDocPage(c){
  '<div class="intel-decision"><div><div class="intel-kicker">PROOF REQUIRED</div><h3>เอกสารอ้างอิง ≠ ป้องกันการเกิดซ้ำได้แล้ว</h3><p>ต้องตรวจ Revision ที่อนุมัติ บันทึกการใช้จริงจากงานใหม่ และผลติดตาม ก่อนให้ QMR รับรอง Effectiveness</p></div><div class="intel-decision-aside"><b>ผู้เกี่ยวข้อง</b><span>'+escapeHtml(c.owner)+'</span><b style="margin-top:12px">สถานะ</b><span>'+escapeHtml(levelLong(c.level))+'</span></div></div>'+
  '<p class="intel-annot">คลิก QP / WI / FORM เพื่อเปิดเอกสารต้นฉบับบน Notebook ที่ต่อเครือข่ายองค์กรและเข้าถึงไดรฟ์ W: ได้ · ไฟล์ต้นฉบับไม่ถูกเผยแพร่บน GitHub Pages</p>';
 }
+
+const CAR_ATTACHMENT_AUDIT={"AMD-124":{"pdfs":1,"occurrences":0,"unique":0,"images_need_review":0,"register_copies":0,"xlsx":0},"COO-073":{"pdfs":2,"occurrences":9,"unique":5,"images_need_review":6,"register_copies":0,"xlsx":1},"CXD-017":{"pdfs":2,"occurrences":3,"unique":2,"images_need_review":0,"register_copies":0,"xlsx":2},"CXD-025":{"pdfs":2,"occurrences":4,"unique":3,"images_need_review":0,"register_copies":2,"xlsx":2},"CXD-026":{"pdfs":2,"occurrences":5,"unique":3,"images_need_review":0,"register_copies":2,"xlsx":2},"CXD-027":{"pdfs":2,"occurrences":8,"unique":5,"images_need_review":2,"register_copies":2,"xlsx":2},"CXD-030":{"pdfs":3,"occurrences":29,"unique":17,"images_need_review":19,"register_copies":3,"xlsx":3},"CXD-031":{"pdfs":2,"occurrences":3,"unique":2,"images_need_review":0,"register_copies":2,"xlsx":2},"CXD-088":{"pdfs":1,"occurrences":1,"unique":1,"images_need_review":0,"register_copies":0,"xlsx":1},"CXD-089":{"pdfs":1,"occurrences":1,"unique":1,"images_need_review":0,"register_copies":1,"xlsx":1},"CXD-097":{"pdfs":2,"occurrences":3,"unique":2,"images_need_review":0,"register_copies":2,"xlsx":2},"CXD-144":{"pdfs":1,"occurrences":1,"unique":1,"images_need_review":0,"register_copies":1,"xlsx":1},"record_date":"2026-10-16","scope":"only_manifest_selected_CAR_PDF_variants"};
+function evidenceAttachmentAudit(c){
+ const verified=VERIFIED_CAR_LINKS[c.n];
+ const uncertain=!verified||c.level==="HOLD";
+ const x=uncertain?null:CAR_ATTACHMENT_AUDIT[verified.code];
+ if(uncertain) return '<section class="attach-audit"><div class="attach-heading">แฟ้มแนบ CAR · รอยืนยันเหตุการณ์</div><p>เลข CAR ยังจับคู่กับข้อร้องเรียนไม่ได้ จึงไม่นำเอกสารของ CAR อื่นมาอ้างว่าเป็นหลักฐานของเคสนี้</p><span class="attach-warning">HOLD — DCC/QMR ต้องจับคู่เหตุการณ์และ CAR ก่อน</span></section>';
+ if(!x)return '<section class="attach-audit"><div class="attach-heading">แฟ้มแนบ CAR · ยังไม่พบข้อมูลตรวจในชุดนี้</div><p>ยังไม่ได้รับรองไฟล์แนบสำหรับ CAR นี้ กรุณาตรวจจากต้นฉบับ W: ผ่านเจ้าของกระบวนการ</p></section>';
+ const notes=[];
+ if(x.register_copies)notes.push('มีสำเนา Excel ทะเบียน Complaint ที่ถูกใช้อ้างอิงในหลาย CAR — ไม่ใช่ Record ที่พิสูจน์การแก้ไขเฉพาะเคส');
+ if(x.images_need_review)notes.push('ภาพแนบ '+x.images_need_review+' รายการยังต้องตรวจเนื้อหา/บริบทภาพด้วยผู้ตรวจที่ได้รับอนุญาต');
+ if(verified.code==="CXD-030")notes.push('WI-M1S-027 แนบไว้ทั้ง Rev.5 และ Rev.6 ในไฟล์ PDF ซ้อน; DCC ปัจจุบัน Rev.6 ต้องแยกหลักฐานประวัติกับฉบับใช้งาน');
+ if(verified.code==="CXD-026")notes.push('WI-SCD-001 ที่แนบกับ CAR เป็น Rev.17; ฉบับควบคุมปัจจุบันคือ Rev.18');
+ if(verified.code==="AMD-124")notes.push('PDF หลักที่ตรวจไม่มีไฟล์แนบแบบฝัง ไม่ได้แปลว่าไม่มีหลักฐานในตัว PDF หรือแหล่งอื่น');
+ return '<section class="attach-audit"><div class="attach-heading">ตรวจไฟล์แนบภายใน CAR · '+escapeHtml(verified.code)+'</div><p>ตรวจต้นฉบับ PDF และไฟล์แนบซ้อนแบบ Read-only เมื่อ 16 ต.ค. 2569 โดย <b>ยังไม่รับรอง Effectiveness</b></p>'+
+   '<div class="attach-metrics"><div><strong>'+x.pdfs+'</strong><small>CAR PDF ที่ตรวจ</small></div><div><strong>'+x.occurrences+'</strong><small>รายการแนบ (นับซ้ำ)</small></div><div><strong>'+x.unique+'</strong><small>เนื้อหาไม่ซ้ำใน CAR</small></div><div><strong>'+x.images_need_review+'</strong><small>รายการภาพที่ต้องตรวจเพิ่ม</small></div></div>'+
+   (notes.length?'<div class="attach-warning">'+notes.map(t=>'<p>'+escapeHtml(t)+'</p>').join('')+'</div>':'<div class="attach-warning">ไฟล์แนบที่เปิดได้ยังไม่ยืนยันว่าเป็นหลักฐานการใช้มาตรการจริง ต้องตรวจความเกี่ยวข้อง, วันที่, ผู้รับรอง และงานถัดไป</div>')+
+   '<small class="attach-foot">ข้อมูลการตรวจเป็น Snapshot สำหรับ CAR PDF ที่เลือกไว้ ไม่ใช่สำรวจ CAR ทุกฉบับในองค์กร · ไฟล์แนบจริงอยู่ใน W: ภายในเท่านั้น · อำนาจอนุมัติเป็นของ QMR</small></section>';
+}
+
 function renderIntelligence(){
  const root=$("intelContent");if(!root)return;
  const c=find(selected)||find(1);
  const title=view==="department"?"Complaint / แผนก · "+(PMO.department_allocation[deptIndex]?.name||""):view==="month"?"Complaint / เดือน · "+PMO.months[monthIndex]:view==="overview"?"ภาพรวม Intelligence Workflow":view==="docs"?"WI / FORM Intelligence · "+projectTitle(c):projectTitle(c)+" · วิเคราะห์และตัดสิน CAR";
  $("pageTitle").textContent=title;
  $("pageSub").textContent=(view==="department"||view==="month")?"คลิกไล่ข้อมูลจากผลรวม → เหตุการณ์ → CAR → WI/FORM → การทวนสอบ":view==="overview"?"14 ข้อร้องเรียน · แบ่งตามกระบวนการ · คลิกเจาะโครงการ":view==="docs"?"เอกสารที่เกี่ยวข้อง · ผลตรวจ · สิ่งที่ต้องยืนยัน":c.car+" · "+levelLong(c.level)+" · QMR Human Gate";
- root.innerHTML='<div class="intel-content">'+(view==="department"?intelDepartment():view==="month"?intelMonth():view==="overview"?intelOverview():view==="docs"?evidenceJourney(c)+intelDocPage(c):evidenceJourney(c)+intelCase(c))+'</div>';
+ root.innerHTML='<div class="intel-content">'+(view==="department"?intelDepartment():view==="month"?intelMonth():view==="overview"?intelOverview():view==="docs"?evidenceJourney(c)+evidenceAttachmentAudit(c)+intelDocPage(c):evidenceJourney(c)+evidenceAttachmentAudit(c)+intelCase(c))+'</div>';
  $("intelView").scrollTop=0;
 }
 function intelAction(e){
