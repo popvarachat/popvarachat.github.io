@@ -218,6 +218,7 @@ async function loadRemote(){
   syncHeaderWithLatestEvidence(d);
   renderResearchMarketTape(d,source);
   renderResearchLeague(d.research_league||null,d);
+  renderWaveGraph(d.wave_graph||null);
   renderDiscoveryManager(d.discovery_manager||null);
   renderExternalResearch(d.external_discovery||null);
   renderQwenCrossReview(d.qwen_cross_review||null);
@@ -266,6 +267,7 @@ async function loadRemote(){
     syncHeaderWithLatestEvidence(previous);
     renderResearchMarketTape(previous,"Last cached snapshot (may be old)");
     renderResearchLeague(previous.research_league||null,previous);
+    renderWaveGraph(previous.wave_graph||null);
     renderDiscoveryManager(previous.discovery_manager||null);
     renderExternalResearch(previous.external_discovery||null);
     renderQwenCrossReview(previous.qwen_cross_review||null);
@@ -673,6 +675,8 @@ function openModelInspector(fid){
   return;
  }
  const m=latestModelInspections[key],config=m.tester_config||{},logic=m.logic||{};
+ const waveButton=document.getElementById("model-wave-jump");
+ if(waveButton)waveButton.hidden=(key!=="MACD"||!wavePayload);
  t("model-inspect-title",key+" · "+(m.run||"")+(config.ea?" · "+config.ea:""));
  t("model-inspect-proof",m.status==="NATIVE_REPORT_VERIFIED"?
    "✓ NATIVE MT5 REPORT SHA-256 VERIFIED · "+String(m.report_sha256||"").slice(0,20)+"… · "+
@@ -837,3 +841,231 @@ function renderExternalResearch(q){
   box.append(head,meta);root.append(box);
  }
 }
+
+
+/* WAVE GRAPH V1 — actual MT5 historical GOLDmicro H1 bars, confirmed closed-bar
+ * MACD reconstruction, and SHA-verified Strategy Tester Buy/Sell/Exit deals.
+ * Zigzag swing / early-mid-late is strictly HINDSIGHT only, not an AI trade signal.
+ * This UI cannot place orders; no remote libraries or untrusted scripts. */
+let wavePayload=null;
+let waveTradeId=null;
+let waveView=null;
+let waveHoverIdx=null;
+const waveFmt=(t)=>new Date(Number(t)*1000).toISOString().slice(0,16).replace("T"," ");
+function waveText(id,txt){const el=document.getElementById(id);if(el)el.textContent=String(txt);}
+function wavePairList(p){
+ const sorted=(p.events||[]).filter(x=>x.kind.endsWith("_ENTRY")).sort((a,b)=>a.time-b.time);
+ return sorted.map(a=>({...a,exit:(p.events||[]).find(x=>x.id===a.id&&x.kind.includes("EXIT"))||null}));
+}
+function renderWaveGraph(p){
+ if(!p||p.schema!=="rdc.wave.graph.v1"||!p.bars?.length||!p.events?.length){
+  wavePayload=null;
+  waveText("wave-graph-status","AWAITING VERIFIED MT5 WAVE DATA");
+  waveText("wave-graph-provenance","ยังไม่มีกราฟพร้อมหลักฐานจาก PC · ไม่สร้าง OHLC หรือ Entry/Exit สมมติ");
+  return;
+ }
+ if(p.model_id!=="MACD"||p.trading_authorized!==false || p.bars.length<300) return;
+ const same=wavePayload&&wavePayload.report_sha256===p.report_sha256&&
+     wavePayload.bars.length===p.bars.length;
+ wavePayload=p;
+ const pairs=wavePairList(p);
+ if(!pairs.length)return;
+ if(!same||waveTradeId===null||!pairs.some(x=>x.id===waveTradeId))
+   waveTradeId=pairs[pairs.length-1].id;
+ const select=document.getElementById("wave-trade-select");
+ if(select){
+  select.replaceChildren();
+  for(const tr of pairs){
+   const opt=document.createElement("option");opt.value=String(tr.id);
+   opt.textContent=waveFmt(tr.time)+" · "+tr.side+" · "+Number(tr.price).toFixed(2)+
+      (tr.exit?" · "+Number(tr.exit.pnl||0).toFixed(2)+" THB":"");
+   select.appendChild(opt);
+  }
+  select.value=String(waveTradeId);
+ }
+ waveText("wave-graph-status",p.timeframe+" · "+p.model_run+" · "+p.events.length+
+    " VERIFIED DEAL EVENTS");
+ waveText("wave-graph-provenance","GOLDmicro H1 · MACD "+p.parameters.fast+"/"+
+    p.parameters.slow+"/"+p.parameters.signal+" · "+p.bars.length+
+    " REAL MT5 OHLC bars · Native report SHA "+p.report_sha256.slice(0,16)+"… · "+
+    p.summary.historical_entries+" closed historical trades · Price-aligned time UTC"+
+    (p.trade_report_utc_offset_hours>=0?"+":"")+p.trade_report_utc_offset_hours);
+ drawWaveGraph();
+}
+function waveCanvas(id,height){
+ const el=document.getElementById(id);if(!el)return null;
+ const width=Math.max(330,Math.round(el.getBoundingClientRect().width||850));
+ const ratio=Math.min(2,window.devicePixelRatio||1);
+ el.width=Math.round(width*ratio);el.height=Math.round(height*ratio);
+ el.style.height=height+"px";
+ const ctx=el.getContext("2d");if(!ctx)return null;
+ ctx.setTransform(ratio,0,0,ratio,0,0);
+ ctx.clearRect(0,0,width,height);
+ return {el,ctx,width,height};
+}
+function waveLine(ctx,arr,mapper,color,width=1.5){
+ if(arr.length<2)return;
+ ctx.strokeStyle=color;ctx.lineWidth=width;ctx.beginPath();
+ arr.forEach((a,i)=>{const [x,y]=mapper(a,i);if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);});
+ ctx.stroke();
+}
+function drawWaveGraph(){
+ if(!wavePayload)return;
+ const p=wavePayload,trade=wavePairList(p).find(x=>x.id===waveTradeId);
+ if(!trade)return;
+ const ext=trade.exit?.time||trade.time+24*3600;
+ const begin=trade.time-55*3600, end=ext+38*3600;
+ let view=p.bars.filter(b=>b.time>=begin&&b.time<=end);
+ if(view.length<20)view=p.bars.slice(-125);
+ waveView=view;waveHoverIdx=null;
+ const lo=Math.min(...view.map(b=>b.low));
+ const hi=Math.max(...view.map(b=>b.high));
+ const margin=(hi-lo)*0.09||1, floor=lo-margin,ceil=hi+margin;
+ const mvals=view.flatMap(b=>[b.macd,b.signal]),limit=Math.max(.15,...mvals.map(Math.abs))*1.17;
+ const price=waveCanvas("wave-price-canvas",295),macd=waveCanvas("wave-macd-canvas",185);
+ if(!price||!macd)return;
+ const left=56,right=16;
+ const start=view[0].time,stop=view[view.length-1].time+3600;
+ const xval=(t,w)=>left+(w-left-right)*(t-start)/(stop-start);
+ const xp=(t)=>xval(t,price.width),xm=(t)=>xval(t,macd.width);
+ const yp=(y)=>18+(price.height-49)*(ceil-y)/(ceil-floor);
+ const ym=(y)=>15+(macd.height-44)*(limit-y)/(2*limit);
+ const grid=(cv,min,max,fmt,yMap)=>{
+  const {ctx,width,height}=cv;
+  ctx.font="10px system-ui";ctx.fillStyle="#8eabb7";ctx.lineWidth=.6;
+  for(let i=0;i<=4;i++){
+   const val=min+(max-min)*(i/4),y=yMap(val);
+   ctx.strokeStyle="rgba(142,171,183,.18)";ctx.beginPath();ctx.moveTo(left,y);ctx.lineTo(width-right,y);ctx.stroke();
+   ctx.fillText(fmt(val),3,y+4);
+  }
+  for(let k=0;k<=5;k++){
+   const tt=start+(stop-start)*k/5,xx=xval(tt,width);
+   ctx.strokeStyle="rgba(142,171,183,.11)";ctx.beginPath();ctx.moveTo(xx,15);ctx.lineTo(xx,height-27);ctx.stroke();
+   ctx.fillStyle="#8eabb7";ctx.fillText(waveFmt(tt).slice(5,16),Math.min(xx-20,width-85),height-6);
+  }
+ };
+ grid(price,floor,ceil,v=>v.toFixed(0),yp);
+ grid(macd,-limit,limit,v=>v.toFixed(1),ym);
+ const pc=price.ctx,mc=macd.ctx;
+ // Closed-bar phase shading is observational; negative/positive signal only.
+ view.forEach((bar,i)=>{
+  const next=view[i+1],xx=xp(bar.time),xnext=xp(next?.time??bar.time+3600);
+  pc.fillStyle=bar.phase.startsWith("BULL")?"rgba(48,154,111,.045)":"rgba(206,90,103,.045)";
+  pc.fillRect(xx,17,Math.max(1,xnext-xx),price.height-48);
+ });
+ const candleWidth=Math.max(1,Math.min(8,(price.width-left-right)/view.length*.65));
+ view.forEach(bar=>{
+  const xx=xp(bar.time+1800),up=bar.close>=bar.open;
+  pc.strokeStyle=up?"#5dcfa7":"#ea8895";pc.fillStyle=up?"#49ba95":"#d97686";
+  pc.lineWidth=1;pc.beginPath();pc.moveTo(xx,yp(bar.high));pc.lineTo(xx,yp(bar.low));pc.stroke();
+  pc.fillRect(xx-candleWidth/2,Math.min(yp(bar.open),yp(bar.close)),candleWidth,
+   Math.max(1,Math.abs(yp(bar.open)-yp(bar.close))));
+ });
+ if(document.getElementById("wave-pivots-toggle")?.checked){
+  const pivot=p.pivots.filter(z=>z.time>=start&&z.time<=stop);
+  if(pivot.length>=2){
+   waveLine(pc,pivot,z=>[xp(z.time+1800),yp(z.price)],"#c29eea",1.8);
+   pivot.forEach(z=>{
+    const xx=xp(z.time+1800),yy=yp(z.price);
+    pc.fillStyle=z.type==="HIGH"?"#eec5fa":"#a8b8ff";
+    pc.beginPath();pc.arc(xx,yy,2.3,0,Math.PI*2);pc.fill();
+   });
+  }
+ }
+ // MACD main and signal are computed from the same native H1 close bars.
+ mc.strokeStyle="#71828c";mc.lineWidth=1;
+ mc.beginPath();mc.moveTo(left,ym(0));mc.lineTo(macd.width-right,ym(0));mc.stroke();
+ waveLine(mc,view,z=>[xm(z.time+1800),ym(z.macd)],"#70beee",2);
+ waveLine(mc,view,z=>[xm(z.time+1800),ym(z.signal)],"#f6b66c",1.7);
+ for(const b of view){
+  if(!b.setup)continue;
+  const xx=xm(b.time+3600);
+  mc.strokeStyle=b.setup==="BUY_SETUP"?"rgba(80,222,155,.8)":"rgba(238,120,131,.8)";
+  mc.setLineDash([3,3]);mc.lineWidth=1;mc.beginPath();mc.moveTo(xx,19);mc.lineTo(xx,macd.height-32);mc.stroke();mc.setLineDash([]);
+  mc.fillStyle=b.setup==="BUY_SETUP"?"#72dab4":"#f4a2af";mc.font="10px system-ui";
+  mc.fillText(b.setup==="BUY_SETUP"?"▲":"▼",xx-4,ym(0)-5);
+ }
+ if(document.getElementById("wave-events-toggle")?.checked){
+  const visible=(p.events||[]).filter(z=>z.time>=start&&z.time<=stop+3600);
+  visible.forEach(ev=>{
+   const xx=xp(ev.time),yy=yp(ev.price),entry=ev.kind.endsWith("_ENTRY"),selected=ev.id===waveTradeId;
+   const color=ev.kind.startsWith("BUY")?"#53eab2":ev.kind.startsWith("SELL")?"#f18197":
+      ev.kind==="SL_EXIT"?"#cda5fd":"#ffcb73";
+   pc.fillStyle=color;pc.strokeStyle="#0d2530";pc.lineWidth=selected?2:1;
+   const rad=selected?6:4.4;
+   pc.beginPath();
+   if(entry){pc.moveTo(xx,yy-rad);pc.lineTo(xx+rad,yy+rad);pc.lineTo(xx-rad,yy+rad);}
+   else {pc.moveTo(xx-rad,yy-rad);pc.lineTo(xx+rad,yy-rad);pc.lineTo(xx+rad,yy+rad);pc.lineTo(xx-rad,yy+rad);}
+   pc.closePath();pc.fill();pc.stroke();
+   if(selected){
+    pc.font="bold 11px system-ui";pc.fillStyle=color;
+    const label=entry?(ev.side==="BUY"?"BUY":"SELL"):(ev.kind==="SL_EXIT"?"SL":"EXIT");
+    pc.fillText(label,Math.min(price.width-58,Math.max(60,xx-11)),Math.max(17,yy-11));
+    pc.strokeStyle=color;pc.setLineDash([3,5]);pc.globalAlpha=.45;
+    pc.beginPath();pc.moveTo(xx,17);pc.lineTo(xx,price.height-30);pc.stroke();
+    pc.setLineDash([]);pc.globalAlpha=1;
+   }
+  });
+ }
+ const pnl=trade.exit?.pnl;
+ const score=trade.wave_class_hindsight||"UNCLASSIFIED";
+ const stats=document.getElementById("wave-stats");
+ if(stats){
+  stats.replaceChildren();
+  for(const [label,value] of [
+   ["TRADE",trade.side+" @ "+trade.price.toFixed(2)],
+   ["EXIT",trade.exit?trade.exit.kind.replace("_"," ")+" @ "+trade.exit.price.toFixed(2):"NOT PAIRED"],
+   ["NET",typeof pnl==="number"?pnl.toFixed(2)+" THB":"—"],
+   ["WAVE POSITION*",score],
+   ["MACD",p.parameters.fast+" / "+p.parameters.slow+" / "+p.parameters.signal]
+  ]){
+   const node=document.createElement("div");const name=document.createElement("span");
+   name.textContent=label;const valueEl=document.createElement("strong");
+   valueEl.textContent=value;node.append(name,valueEl);stats.append(node);
+  }
+ }
+ waveText("wave-hover","Trade "+trade.report_time+" → "+(trade.exit?.report_time||"—")+
+  " · "+trade.side+" · "+(typeof pnl==="number"?pnl.toFixed(2)+" THB":"—")+
+  " · *Wave position is retrospective (future pivot confirmation), NOT an entry signal");
+ wavePriceMap={start,stop,view,price,macd,xp,xm,yp,ym,trade};
+}
+let wavePriceMap=null;
+function wavePointer(ev,fromMacd){
+ const p=wavePayload,map=wavePriceMap;if(!p||!map)return;
+ const canvas=fromMacd?map.macd.el:map.price.el;
+ const x=ev.clientX-canvas.getBoundingClientRect().left;
+ const t=map.start+(x-56)/(canvas.getBoundingClientRect().width-72)*(map.stop-map.start);
+ const b=map.view.reduce((best,v)=>Math.abs(v.time-t)<Math.abs(best.time-t)?v:best,map.view[0]);
+ const nearby=p.events.filter(z=>Math.abs(z.time-b.time)<3600);
+ const source=nearby.length?nearby.map(z=>z.kind+" @ "+z.price+
+    " ["+z.reason+"]").join(" | "):"No executed trade on this candle";
+ waveText("wave-hover",waveFmt(b.time)+" · OHLC "+[b.open,b.high,b.low,b.close].join(" / ")+
+  " · MACD "+b.macd+" / Signal "+b.signal+" / Hist "+b.hist+
+  " · "+b.phase+(b.setup?" · "+b.setup+" (closed bar)":"")+" · "+source);
+}
+for(const [id,isMacd] of [["wave-price-canvas",false],["wave-macd-canvas",true]]){
+ document.getElementById(id)?.addEventListener("mousemove",ev=>wavePointer(ev,isMacd));
+}
+function changeWaveTrade(n){
+ if(!wavePayload)return;
+ const list=wavePairList(wavePayload);let idx=list.findIndex(t=>t.id===waveTradeId);
+ idx=(idx+n+list.length)%list.length;waveTradeId=list[idx].id;
+ const select=document.getElementById("wave-trade-select");if(select)select.value=String(waveTradeId);
+ drawWaveGraph();
+}
+document.getElementById("wave-trade-select")?.addEventListener("change",e=>{
+ waveTradeId=Number(e.target.value);drawWaveGraph();
+});
+document.getElementById("wave-previous")?.addEventListener("click",()=>changeWaveTrade(-1));
+document.getElementById("wave-next")?.addEventListener("click",()=>changeWaveTrade(1));
+for(const id of ["wave-pivots-toggle","wave-events-toggle"])
+ document.getElementById(id)?.addEventListener("change",()=>drawWaveGraph());
+document.getElementById("model-wave-jump")?.addEventListener("click",()=>{
+ nav("league");window.history.replaceState(null,"","#league");
+ document.getElementById("wave-graph-panel")?.scrollIntoView({behavior:"smooth",block:"start"});
+ drawWaveGraph();
+});
+window.addEventListener("resize",()=>{
+ if(document.getElementById("page-league")?.classList.contains("active")&&wavePayload)
+  drawWaveGraph();
+});

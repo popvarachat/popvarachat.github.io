@@ -271,3 +271,31 @@
 .discovery-public-item a:hover{text-decoration:underline}
 .discovery-public-item small{color:#9abcb8;font-size:9px}
 @media(max-width:670px){.discovery-public-links{grid-template-columns:1fr}}
+
+/* Signal-on-Wave Graph: two synchronized, actual native MT5 historical panels. */
+.wave-graph-panel{border:1px solid #4a8792;background:linear-gradient(160deg,#0c2934,#103338);margin:0 0 17px;scroll-margin-top:18px}
+.wave-graph-symbol{color:#7cd4c3;font-weight:900;font-size:24px}
+.wave-graph-panel .panel-top h2{font-size:19px}
+.wave-controls{display:flex;align-items:center;gap:8px;flex-wrap:wrap;margin:13px 0}
+.wave-controls>label:first-child{font-size:11px;font-weight:800;color:#b4d6d0}
+.wave-controls select{min-width:260px;max-width:100%;border:1px solid #4d747c;border-radius:7px;
+ color:#ecfaf5;background:#163b45;padding:8px 10px;font-size:11px;cursor:pointer}
+.wave-controls .wave-small-btn{border:1px solid #47717b;border-radius:7px;color:#cfeee9;
+ background:#173942;padding:8px 10px;font-size:11px;cursor:pointer;white-space:nowrap}
+.wave-controls .wave-small-btn:hover{background:#236e64}
+.wave-check{font-size:11px;color:#b2d6cb;display:flex;align-items:center;gap:5px}
+.wave-check input{accent-color:#57cfa6}
+.wave-stats{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:8px;margin:12px 0 14px}
+.wave-stats>div{border:1px solid #385d66;border-radius:9px;background:#102c39;padding:9px;min-width:0}
+.wave-stats span{display:block;font-size:9px;color:#9fbfc6;letter-spacing:.7px}
+.wave-stats strong{display:block;margin-top:4px;font-size:12px;overflow-wrap:anywhere;color:#eafbf5}
+.wave-chart-stack{border:1px solid #3d6370;border-radius:10px;background:#0b2731;padding:8px 10px}
+.wave-chart-stack canvas{display:block;width:100%;max-width:100%;background:#0e2934;border-radius:5px}
+.wave-chart-header{display:flex;justify-content:space-between;gap:10px;align-items:center;
+ margin:9px 6px 3px;font-size:10px;color:#a8d0d1;flex-wrap:wrap}
+.wave-chart-header>strong{color:#d2eae6;letter-spacing:.6px}
+.wave-chart-header span{font-size:10px;color:#8faab8}
+.wave-hover{border-radius:8px;border:1px solid #3b6470;background:#0c2634;
+ color:#c7eee0;font-size:11px;line-height:1.5;margin:9px 0;padding:10px;min-height:38px}
+@media(max-width:1050px){.wave-stats{grid-template-columns:repeat(3,minmax(0,1fr))}}
+@media(max-width:650px){.wave-stats{grid-template-columns:repeat(2,minmax(0,1fr))}.wave-controls select{min-width:180px}}
