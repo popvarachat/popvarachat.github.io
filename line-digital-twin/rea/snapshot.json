@@ -1,147 +1,152 @@
 {
-  "schema_version": "rea_public_aggregate_v1",
-  "snapshot_at_utc": "2026-10-16T07:24:48Z",
-  "refresh": "manual_verified_snapshot_not_live",
-  "source": "Cloudflare D1 read-only aggregate views and earlier REA shadow observations",
-  "counts": {
-    "events": 9168,
-    "sink_sent": 9168,
-    "text": 3236,
-    "image": 5047,
-    "sticker": 537,
-    "file": 151,
-    "video": 40,
-    "unsend": 117,
-    "member_left": 34,
-    "member_joined": 6
-  },
-  "rooms": {
-    "historical": 86,
-    "observed": 75,
-    "silent_verified": 7,
-    "silent_http_404": 3,
-    "silent_not_looked_up": 1
-  },
-  "daily_utc": [
-    {
-      "day": "10-09",
-      "count": 1286
-    },
-    {
-      "day": "10-10",
-      "count": 1086
-    },
-    {
-      "day": "10-11",
-      "count": 318
-    },
-    {
-      "day": "10-12",
-      "count": 1597
-    },
-    {
-      "day": "10-13",
-      "count": 194
-    },
-    {
-      "day": "10-14",
-      "count": 1716
-    },
-    {
-      "day": "10-15",
-      "count": 1978
-    },
-    {
-      "day": "10-16",
-      "count": 993,
-      "partial": true
-    }
-  ],
-  "case_shadow": {
-    "note": "Separate earlier sample of 3123 deduplicated text messages, not same timestamp as D1 daily snapshot.",
-    "text_scanned": 3123,
-    "text_with_explicit_reference": 91,
-    "distinct_candidate_references": 78,
-    "cross_room_reference_candidates": 9,
-    "verified_erp_case_matches": 0,
-    "verified_handoffs": 0
-  },
-  "quality_gates": [
-    {
-      "id": "capture",
-      "title": "รับข้อมูล",
-      "status": "pass",
-      "detail": "D1 9168 events and 9168 SENT at snapshot; follow-on monitoring still required"
-    },
-    {
-      "id": "dedup",
-      "title": "การป้องกันซ้ำ",
-      "status": "partial",
-      "detail": "Apps Script v8 active, two historical duplicate Sheets rows retained; long-term archive-aware replay not yet certified"
-    },
-    {
-      "id": "rooms",
-      "title": "Coverage 86 ห้อง",
-      "status": "partial",
-      "detail": "75 observed; 7 silent verified room names, 3 historic 404, 1 unchecked"
-    },
-    {
-      "id": "cases",
-      "title": "เชื่อม ERP / CRM / CAR",
-      "status": "pending",
-      "detail": "Reference candidates only; source-system and human verification required"
-    },
-    {
-      "id": "bot",
-      "title": "LINE Outbound",
-      "status": "guarded",
-      "detail": "OA Auto-reply/Greeting OFF; code tested for no send, zero outbound policy mandatory"
-    }
-  ],
-  "workflow": [
-    {
-      "phase": "01",
-      "title": "LINE Inbound",
-      "detail": "Webhook, redelivery and diagnostics",
-      "status": "pass"
-    },
-    {
-      "phase": "02",
-      "title": "Private Evidence",
-      "detail": "D1 / Sheets / Media, raw kept private",
-      "status": "pass"
-    },
-    {
-      "phase": "03",
-      "title": "Enrich Context",
-      "detail": "Verified identity joins without raw rewrite",
-      "status": "pass"
-    },
-    {
-      "phase": "04",
-      "title": "Case Linker",
-      "detail": "Explicit case reference candidate extraction",
-      "status": "partial"
-    },
-    {
-      "phase": "05",
-      "title": "REA Intelligence",
-      "detail": "Hypotheses, counter-evidence and timing",
-      "status": "pending"
-    },
-    {
-      "phase": "06",
-      "title": "Human Gate",
-      "detail": "Approve each verified root cause and action",
-      "status": "pending"
-    }
-  ],
-  "privacy": {
-    "raw_messages": false,
-    "room_ids": false,
-    "actor_names": false,
-    "case_numbers": false,
-    "secrets": false,
-    "bot_send": false
-  }
+    "schema_version":  "rea_public_aggregate_v1",
+    "snapshot_at_utc":  "2026-10-16T08:40:36.531Z",
+    "refresh":  "manual_verified_snapshot_not_live",
+    "source":  "Cloudflare D1 read-only aggregate views and earlier REA shadow observations",
+    "counts":  {
+                   "events":  9390,
+                   "sink_sent":  9378,
+                   "text":  3312,
+                   "image":  5172,
+                   "sticker":  553,
+                   "file":  153,
+                   "video":  41,
+                   "unsend":  118,
+                   "member_left":  34,
+                   "member_joined":  7
+               },
+    "rooms":  {
+                  "historical":  86,
+                  "observed":  75,
+                  "silent_verified":  7,
+                  "silent_http_404":  3,
+                  "silent_not_looked_up":  1,
+                  "observed_last_48h":  67,
+                  "observed_last_7d_not_48h":  7,
+                  "observed_older":  1,
+                  "retired_confirmed":  0,
+                  "membership_exceptions":  11
+              },
+    "daily_utc":  [
+                      {
+                          "day":  "10-09",
+                          "count":  1286
+                      },
+                      {
+                          "day":  "10-10",
+                          "count":  1086
+                      },
+                      {
+                          "day":  "10-11",
+                          "count":  318
+                      },
+                      {
+                          "day":  "10-12",
+                          "count":  1597
+                      },
+                      {
+                          "day":  "10-13",
+                          "count":  194
+                      },
+                      {
+                          "day":  "10-14",
+                          "count":  1716
+                      },
+                      {
+                          "day":  "10-15",
+                          "count":  1978
+                      },
+                      {
+                          "day":  "10-16",
+                          "count":  1215,
+                          "partial":  true
+                      }
+                  ],
+    "case_shadow":  {
+                        "note":  "Separate earlier sample of 3123 deduplicated text messages, not same timestamp as D1 daily snapshot.",
+                        "text_scanned":  3123,
+                        "text_with_explicit_reference":  91,
+                        "distinct_candidate_references":  78,
+                        "cross_room_reference_candidates":  9,
+                        "verified_erp_case_matches":  0,
+                        "verified_handoffs":  0
+                    },
+    "quality_gates":  [
+                          {
+                              "id":  "capture",
+                              "title":  "รับข้อมูล",
+                              "status":  "pass",
+                              "detail":  "D1 9168 events and 9168 SENT at snapshot; follow-on monitoring still required"
+                          },
+                          {
+                              "id":  "dedup",
+                              "title":  "การป้องกันซ้ำ",
+                              "status":  "partial",
+                              "detail":  "Apps Script v8 active, two historical duplicate Sheets rows retained; long-term archive-aware replay not yet certified"
+                          },
+                          {
+                              "id":  "rooms",
+                              "title":  "Coverage 86 ห้อง",
+                              "status":  "partial",
+                              "detail":  "86 historical retained; 67 observed within 48h, 7 in 7d, 1 older, and 11 not observed. Retired confirmed: 0; owner/API verification pending."
+                          },
+                          {
+                              "id":  "cases",
+                              "title":  "เชื่อม ERP / CRM / CAR",
+                              "status":  "pending",
+                              "detail":  "Reference candidates only; source-system and human verification required"
+                          },
+                          {
+                              "id":  "bot",
+                              "title":  "LINE Outbound",
+                              "status":  "guarded",
+                              "detail":  "OA Auto-reply/Greeting OFF; code tested for no send, zero outbound policy mandatory"
+                          }
+                      ],
+    "workflow":  [
+                     {
+                         "phase":  "01",
+                         "title":  "LINE Inbound",
+                         "detail":  "Webhook, redelivery and diagnostics",
+                         "status":  "pass"
+                     },
+                     {
+                         "phase":  "02",
+                         "title":  "Private Evidence",
+                         "detail":  "D1 / Sheets / Media, raw kept private",
+                         "status":  "pass"
+                     },
+                     {
+                         "phase":  "03",
+                         "title":  "Enrich Context",
+                         "detail":  "Verified identity joins without raw rewrite",
+                         "status":  "pass"
+                     },
+                     {
+                         "phase":  "04",
+                         "title":  "Case Linker",
+                         "detail":  "Explicit case reference candidate extraction",
+                         "status":  "partial"
+                     },
+                     {
+                         "phase":  "05",
+                         "title":  "REA Intelligence",
+                         "detail":  "Hypotheses, counter-evidence and timing",
+                         "status":  "pending"
+                     },
+                     {
+                         "phase":  "06",
+                         "title":  "Human Gate",
+                         "detail":  "Approve each verified root cause and action",
+                         "status":  "pending"
+                     }
+                 ],
+    "privacy":  {
+                    "raw_messages":  false,
+                    "room_ids":  false,
+                    "actor_names":  false,
+                    "case_numbers":  false,
+                    "secrets":  false,
+                    "bot_send":  false
+                }
 }
