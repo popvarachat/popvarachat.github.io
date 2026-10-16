@@ -835,7 +835,7 @@ for(let i=0;i<Math.min(arr.length,4);i++){
 }
 networkView(nodes,ln,[{x:44,y:162,text:"QUALITY DOCUMENT HIERARCHY"},{x:42,y:591,text:"IMPLEMENTATION → EFFECTIVENESS"}]);
 }
-function showSourceDocument(doc,c){$("modalTitle").textContent="Controlled document — access restricted";$("modalBody").innerHTML="<p>ต้นฉบับ WI / FORM และหลักฐานลูกค้าถูกเก็บในระบบที่กำหนดสิทธิ์ภายในองค์กร</p>";$("modal").classList.add("open");$("modalClose").focus();}
+function showSourceDocument(doc,c){const code=String(doc?.code||"");if(!/^[A-Z0-9][A-Z0-9-]{2,63}$/.test(code))return;window.open("http://127.0.0.1:8769/doc/"+encodeURIComponent(code),"_blank","noopener,noreferrer");}
 function openDocTwin(n){selected=n||selected||8;view="docs";render();location.hash="#docs-"+String(selected).padStart(2,"0")}
 
 function openCase(n){selected=n;if(view!=="docs")view="case";render();location.hash=(view==="docs"?"#docs-":"#case-")+String(n).padStart(2,"0")}
@@ -910,7 +910,7 @@ function intelDocPage(c){
  '<div class="intel-section-title"><h3>Intelligence Review: เอกสารช่วยปิดช่องว่างอย่างไร</h3></div>'+
  '<div class="intel-doc-read"><div class="intel-pocket"><h3>สิ่งที่ตรวจพบจริง</h3><p>'+escapeHtml(rec.interpretation||c.evidence)+'</p></div><div class="intel-pocket"><h3>สิ่งที่ต้องทำต่อ</h3><p>'+escapeHtml(rec.review||c.test)+'</p></div></div>'+
  '<div class="intel-decision"><div><div class="intel-kicker">PROOF REQUIRED</div><h3>เอกสารอ้างอิง ≠ ป้องกันการเกิดซ้ำได้แล้ว</h3><p>ต้องตรวจ Revision ที่อนุมัติ บันทึกการใช้จริงจากงานใหม่ และผลติดตาม ก่อนให้ QMR รับรอง Effectiveness</p></div><div class="intel-decision-aside"><b>ผู้เกี่ยวข้อง</b><span>'+escapeHtml(c.owner)+'</span><b style="margin-top:12px">สถานะ</b><span>'+escapeHtml(levelLong(c.level))+'</span></div></div>'+
- '<p class="intel-annot">ข้อมูลเอกสารต้นฉบับเก็บในระบบควบคุมภายใน และไม่ได้เปิดให้ดาวน์โหลดบนเว็บสาธารณะ</p>';
+ '<p class="intel-annot">คลิก QP / WI / FORM เพื่อเปิดเอกสารต้นฉบับบน Notebook ที่ต่อเครือข่ายองค์กรและเข้าถึงไดรฟ์ W: ได้ · ไฟล์ต้นฉบับไม่ถูกเผยแพร่บน GitHub Pages</p>';
 }
 function renderIntelligence(){
  const root=$("intelContent");if(!root)return;
