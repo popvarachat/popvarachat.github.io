@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <meta name="theme-color" content="#07111f"/>
+  <title>Adaptive SO → WO → TimeEntry Dashboard</title>
+  <link rel="stylesheet" href="./styles.css"/>
+</head>
+<body>
+  <div class="bg-orb orb-a"></div><div class="bg-orb orb-b"></div>
+  <header class="topbar">
+    <div>
+      <div class="eyebrow">PRACTIKA · PRODUCTION CONTROL TOWER</div>
+      <h1>Adaptive SO → WO → TimeEntry</h1>
+      <p class="subtitle">ถอดโครงสร้างจากรายงาน Excel เดิม แล้วปรับให้เป็นมุมมองผู้บริหารที่กรอง เจาะ และเห็นคอขวดได้ทันที</p>
+    </div>
+    <div class="top-actions">
+      <a class="ghost-btn" href="../">← Control Tower</a>
+      <span class="mode-pill"><span class="dot"></span> Legacy Snapshot · Read-only</span>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="filterbar panel">
+      <div class="filter-group">
+        <label>ช่วงวันที่</label>
+        <div class="range-pair">
+          <input id="dateFrom" type="date"/>
+          <span>→</span>
+          <input id="dateTo" type="date"/>
+        </div>
+      </div>
+      <div class="filter-group grow">
+        <label>Project</label>
+        <select id="projectFilter"><option value="ALL">ทุก Project</option></select>
+      </div>
+      <div class="filter-group">
+        <label>มุมมอง</label>
+        <div class="segmented" id="viewMode">
+          <button data-mode="flow" class="active">Flow</button>
+          <button data-mode="project">Project</button>
+        </div>
+      </div>
+      <button id="resetBtn" class="reset-btn">รีเซ็ต</button>
+    </section>
+
+    <section id="kpis" class="kpi-grid"></section>
+
+    <section class="layout-main">
+      <article class="panel stage-panel">
+        <div class="section-head">
+          <div><span class="section-kicker">ADAPTIVE FLOW</span><h2>สถานะงานตาม Stage</h2></div>
+          <div class="mini-note" id="scopeNote"></div>
+        </div>
+        <div id="stageFlow" class="stage-flow"></div>
+        <div id="adaptiveInsight" class="insight-box"></div>
+      </article>
+
+      <article class="panel trend-panel">
+        <div class="section-head">
+          <div><span class="section-kicker">DAILY LOAD</span><h2>ภาระงานรายวัน</h2></div>
+        </div>
+        <div id="dailyChart" class="daily-chart"></div>
+        <div id="dailyLegend" class="daily-legend"></div>
+      </article>
+    </section>
+
+    <section class="layout-main lower">
+      <article class="panel">
+        <div class="section-head">
+          <div><span class="section-kicker">BOTTLENECK RADAR</span><h2>Project ที่มี WIP สูง</h2></div>
+          <button id="clearProject" class="text-btn">แสดงทั้งหมด</button>
+        </div>
+        <div id="projectRank" class="project-rank"></div>
+      </article>
+
+      <article class="panel">
+        <div class="section-head">
+          <div><span class="section-kicker">EXECUTIVE SIGNAL</span><h2>สิ่งที่ควรจับตา</h2></div>
+        </div>
+        <div id="signals" class="signal-list"></div>
+      </article>
+    </section>
+
+    <section class="panel detail-panel">
+      <div class="section-head">
+        <div><span class="section-kicker">DRILL-DOWN</span><h2>รายละเอียดตามวัน / Project</h2></div>
+        <div class="table-tools"><input id="searchBox" type="search" placeholder="ค้นหา Project..."/></div>
+      </div>
+      <div class="table-wrap">
+        <table>
+          <thead id="detailHead"></thead>
+          <tbody id="detailBody"></tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="source-strip">
+      <div>
+        <strong>ที่มาของ Dashboard</strong>
+        <span>SO_WO_TimeEntry30012564_2.xlsx · Pivot: Distinct Count of Cutting Number · 25–30 ม.ค. 2564</span>
+      </div>
+      <div class="source-stats">
+        <span>212 Pivot Rows</span><span>10 Production Stages</span><span>977 Stage Count</span>
+      </div>
+    </section>
+  </main>
+
+  <footer>Adaptive Dashboard prototype · Production Control Tower · PRACTIKA</footer>
+  <script src="./app.js"></script>
+</body>
+</html>
