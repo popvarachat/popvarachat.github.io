@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#061321"><title>SWING RESEARCH · Intelligent Priority & Daily Calendar | RDC</title>
+<meta name="description" content="GOLDmicro Swing Structure scientific research, fair-share priority routing and verified historical MT5 daily PnL. No live trading.">
+<style>
+:root{color-scheme:dark;--bg:#06101d;--panel:#0d2131;--panel2:#0c2536;--line:#2a5064;--ink:#e3f9ff;--muted:#99bbc9;--teal:#4ce0c6;--blue:#71a5f8;--gold:#ffd18a;--red:#ff7c91;--green:#3de5b0;--purple:#b99bfc}
+*{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at 58% -10%,#153754 0,#071725 37%,#050e19 78%);color:var(--ink);font:13px/1.55 system-ui,"Segoe UI",Tahoma,sans-serif}a{color:var(--teal);text-decoration:none}button,select{font:inherit}h1,h2,h3,p{margin-top:0}.top{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;padding:15px clamp(16px,3vw,45px);border-bottom:1px solid var(--line);background:#061522dd;position:sticky;top:0;z-index:10;backdrop-filter:blur(16px)}.brand{font-weight:850;letter-spacing:.08em}.brand span{color:var(--teal)}.top nav{display:flex;gap:16px;flex-wrap:wrap}.top nav a{font-size:11px;color:#afc7d8}.top nav a:hover{color:white}
+main{max-width:1480px;margin:auto;padding:30px clamp(12px,3vw,45px) 70px}
+.kicker{color:var(--teal);font-size:10px;letter-spacing:2px;font-weight:800}
+.hero{border:1px solid #355d73;border-radius:18px;background:linear-gradient(110deg,#113b43dd,#0b2442,#111b37);padding:28px;position:relative;overflow:hidden}
+.hero::after{content:"◈";position:absolute;right:4%;top:-47px;font-size:230px;opacity:.10;color:#91e8fc;pointer-events:none}.hero h1{font-size:clamp(26px,3.8vw,46px);line-height:1.1;letter-spacing:-.8px;margin:8px 0}.hero h1 em{font-style:normal;color:#48f7d8}.hero p{max-width:950px;color:#bed5e1;font-size:13px}.tag{display:inline-block;border:1px solid #53788a;background:#0c293b;padding:6px 12px;border-radius:30px;font-size:11px;color:#bcddf1;margin:4px 6px 2px 0}.tag.warn{color:#ffe0a0;border-color:#8a664e;background:#32271c}
+.section{margin-top:20px}.sectionhead{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px;margin:0 0 12px}.sectionhead h2{font-size:19px;margin:2px 0}.sectionhead p{margin:0;color:var(--muted);font-size:11px}.panel{background:linear-gradient(150deg,#102b3d,#0a1b2d);border:1px solid var(--line);border-radius:13px;padding:19px;min-width:0}
+.statgrid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin-top:14px}.stat small{color:var(--muted);display:block;font-size:11px}.stat strong{font-size:28px;display:block;font-variant-numeric:tabular-nums;color:#d3f8ff}.stat p{font-size:10px;margin:0;color:#8bb1c3}
+.workflow{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}.stage{border:1px solid #3a5973;border-radius:11px;padding:17px;background:linear-gradient(120deg,#102d46,#0a1a32);min-height:128px}.stage .label{font-size:10px;letter-spacing:1px;color:var(--teal);font-weight:800}.stage strong{display:block;font-size:15px;margin:6px 0}.stage p{font-size:11px;color:#a6bdd1}.stage i{font-size:11px;color:var(--gold);font-style:normal}
+.grid{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(260px,1fr);gap:15px}.controls{display:flex;gap:9px;flex-wrap:wrap;align-items:center}
+select{color:var(--ink);background:#133447;border:1px solid #4a7189;border-radius:8px;padding:8px 12px;max-width:100%;min-width:160px;cursor:pointer}
+.summary{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:15px 0}.sum{border:1px solid #244e61;border-radius:11px;background:#0b2435;padding:14px;min-height:83px}.sum small{display:block;font-size:10px;color:#97b5cb}.sum strong{font-size:clamp(17px,2vw,25px);display:block;font-variant-numeric:tabular-nums}.green{color:var(--green)!important}.red{color:var(--red)!important}.muted{color:var(--muted)}
+.calendar{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px;min-width:0}.weekday{color:#91c9d9;font-size:10px;text-align:center;padding:8px 0;font-weight:750;letter-spacing:.07em}
+.day{min-height:97px;border:1px solid #2f536a;border-radius:8px;background:#0d2539;padding:10px 8px;position:relative;overflow:hidden;display:flex;flex-direction:column;gap:5px}.day.empty{border-color:#243b4b;background:#091c2c;opacity:.72}.day.disabled{background:transparent;border-color:transparent}.day.profit{border-color:#2e856e;background:linear-gradient(145deg,#123a37,#0a2d30)}.day.loss{border-color:#8c3e58;background:linear-gradient(145deg,#412535,#232336)}.day b{font-size:11px;color:#b8d1df}.day strong{font-size:clamp(11px,1.2vw,18px);font-weight:750;font-variant-numeric:tabular-nums}.day small{color:#a2b9c6;font-size:10px}.calendar-foot{font-size:11px;color:#9fc1c9;display:flex;flex-wrap:wrap;gap:15px;margin-top:12px}
+.month-plot{width:100%;height:190px}.month-plot svg{width:100%;height:190px;display:block}.month-plot text{fill:#85b0bd;font-size:10px;font-family:system-ui}.chartinfo{font-size:11px;color:var(--muted)}
+.mini-cards{display:grid;gap:10px}.mini{border:1px solid #31536c;border-radius:10px;padding:13px;background:#0a2032}.mini small{color:#a0c4d5;display:block;font-size:10px}.mini b{font-size:21px}.mini p{margin:2px 0 0;color:#93b4c7;font-size:11px}
+.ribbon{display:flex;gap:8px;flex-wrap:wrap}.pill{border:1px solid #395a71;border-radius:30px;padding:5px 10px;font-size:10px;color:#bee2ed}.pill.a{border-color:#3a917b;color:var(--green)}.pill.b{border-color:#946656;color:var(--gold)}
+.lanes{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;align-items:stretch}.lane{border:1px solid #355970;border-radius:13px;overflow:hidden;background:#0c2234;min-width:0}.lanehead{padding:15px;border-bottom:1px solid #244d5c;background:linear-gradient(100deg,#0c3548,#142441)}.lanehead strong{font-size:13px;display:block}.lanehead .quota{font-size:24px;font-weight:850;color:var(--teal)}.lanehead p{font-size:10px;color:#9fb9c9;margin:1px 0}.jobs{padding:10px;display:grid;gap:8px;align-content:start}.job{padding:11px;background:#0e2b3d;border:1px solid #315870;border-radius:9px}.job .rank{font-size:10px;color:#ffdcaa}.job strong{font-size:12px;display:block;margin:2px 0;word-break:break-word}.job small{font-size:10px;color:#a8c6d6;display:block}.job .score{color:var(--teal);font-weight:700}
+.note{padding:12px 16px;margin-top:14px;border-left:2px solid var(--teal);border-radius:6px;background:#0d2937;color:#a7c9d5;font-size:11px}
+.theory{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}.idea{border:1px solid #48537d;background:linear-gradient(135deg,#18263d,#0c1d32);border-radius:11px;padding:17px}.idea h3{font-size:15px;color:#caedff}.idea p{font-size:11px;color:#abc5d4}.idea strong{color:var(--gold);font-size:11px}
+.footer{border-top:1px solid #254558;color:#91aabc;padding:18px clamp(16px,3vw,45px);font-size:11px}
+@media(max-width:1100px){.lanes{grid-template-columns:repeat(2,minmax(0,1fr))}.workflow{grid-template-columns:repeat(2,minmax(0,1fr))}.grid{grid-template-columns:1fr}}
+@media(max-width:690px){main{padding:18px 12px 44px}.hero{padding:19px}.statgrid{grid-template-columns:repeat(2,minmax(0,1fr))}.summary{grid-template-columns:repeat(2,minmax(0,1fr))}.lanes{grid-template-columns:1fr}.theory{grid-template-columns:1fr}.day{min-height:67px;padding:5px 3px;gap:2px}.day b,.day small{font-size:9px}.day strong{font-size:10px;overflow-wrap:anywhere}.calendar{gap:3px}.top nav{gap:7px}.workflow{grid-template-columns:1fr 1fr}.stage{min-height:110px;padding:12px}}
+</style></head><body>
+<header class="top"><a href="./intelligence.html" class="brand">◈ <span>RDC SWING</span> INTELLIGENCE</a><nav><a href="./intelligence.html">← Quantum Chief</a><a href="./capability.html">Capability KPI</a><a href="./index.html#manager">Research Manager</a></nav></header>
+<main>
+<section class="hero"><div class="kicker">RDC QUANT CHIEF · SWING STRUCTURE LAB</div><h1>Swing Strategy <em>Intelligence</em></h1>
+<p>ต่อยอดไอเดีย Swing Breaker จากภาพอ้างอิงเป็นสมมติฐานของเราเอง พร้อมระบบจัดคิวตามความสำคัญแบบกระจายทรัพยากร และปฏิทินผลเทรดย้อนหลังรายวันจาก Native MT5 ที่ตรวจ Hash และยอดกำไรแล้ว</p>
+<div class="tag">✦ 3 Original Swing Research Ideas · SHADOW</div><div class="tag">◈ Priority + Fair-Share Scheduler</div><div class="tag">▦ Native Historical Daily Calendar</div><div class="tag warn">Live Trading / LINE: HOLD</div>
+</section>
+<section class="section"><div class="sectionhead"><div><div class="kicker">01 · SCIENTIFIC DESIGN</div><h2>คิด Swing Model ของเราเอง ไม่ใช่คัดลอก EA</h2><p>ภาพ XAUUSD M1 เม.ย. 2024 มี 78 เทรด, ชนะประมาณ 81%, Max DD 23.60% — เป็นเพียงหลักฐานจากหน้าจอ ไม่ใช่ประวัติ GOLDmicro ของเรา</p></div></div>
+<div class="workflow"><div class="stage"><div class="label">SIGNAL RESEARCH</div><strong>Confirmed Swing Points</strong><p>ใช้ Pivot ที่ยืนยันด้วยแท่งปิดแล้วเท่านั้น ป้องกัน Future Lookahead</p><i>คัดด้วย Market Structure</i></div>
+<div class="stage"><div class="label">SETUP DESIGN</div><strong>Sweep / Breakout / Retest</strong><p>แยก False Break กับ Breakout จริง และทดสอบ Retest แบบมีเงื่อนไขยกเลิก</p><i>เปรียบเทียบ Matched Baseline</i></div>
+<div class="stage"><div class="label">CONTEXT VALIDATION</div><strong>ATR + Regime + Spread</strong><p>ยืนยัน Regime โดยใช้ H1 ที่ปิดแล้ว และความสมบูรณ์ของ Tick Bid/Ask</p><i>No-Trade Gate เมื่อไม่พร้อม</i></div>
+<div class="stage"><div class="label">SCIENTIFIC RED TEAM</div><strong>Cost / DD / OOS Stress</strong><p>ATR Risk, Daily Loss Limit, Spread Stress, Ablation และข้อมูลที่ไม่เคยใช้เลือกค่า</p><i>Shadow → EA QA → Native (รอ)</i></div></div>
+<div class="theory" id="ideaCards" style="margin-top:12px"></div></section>
+<section class="section" id="priority"><div class="sectionhead"><div><div class="kicker">02 · QUANT CHIEF WORK ALLOCATION</div><h2>Priority Portfolio — <span style="color:var(--teal)">ไม่ใช่รถไฟคิว FIFO</span></h2><p>เลือกงานที่ควรตรวจสอบก่อนด้วย Readiness, Scientific Value, ความเร่งด่วน, อายุคิว และการกระจาย Family/Team</p></div><div class="ribbon"><span class="pill a" id="routerState">ROUTING: REVIEW-ONLY</span><span class="pill" id="queueCount">รอข้อมูลคิว</span></div></div>
+<div class="lanes" id="queueLanes"></div>
+<p class="note">การจัดช่องงานเป็นแผนมอบหมายให้ Reviewer/QA ตามความพร้อม **ไม่ได้เปิด Worker อัตโนมัติ** และไม่ได้เปลี่ยนลำดับของ Native MT5 Tester ที่ต้องใช้ EA ผ่านการรับรองก่อน Shadow ไม่ได้รับสิทธิ์ Native/Live จากคะแนน Priority</p>
+</section>
+<section class="section" id="daily"><div class="sectionhead"><div><div class="kicker">03 · SELECTED CANDIDATE DAILY RESULTS</div><h2>Native MT5 · ปฏิทินผลเทรดรายวัน</h2><p>ใช้ Deals จาก Strategy Tester รายวันที่กระทบยอด Net Profit ได้ และ SHA-256 ของรายงานตรงกับ Ledger เท่านั้น · เวลาเป็น MT5 Tester Server Date</p></div>
+<div class="controls"><label for="candidate">เลือก Candidate</label><select id="candidate"></select><label for="month">เลือกเดือน</label><select id="month"></select><span class="pill a">ROBUST V2 RESEARCH SCREEN</span><span class="pill b">Historical VAL reused · Not blind OOS</span></div></div>
+<div class="grid" style="margin-top:12px"><div class="panel">
+<div class="sectionhead"><div><div class="kicker">CALENDAR PNL</div><h2 id="monthTitle">กำลังโหลดปฏิทิน</h2></div><span class="pill" id="calendarStatus">Native report pending</span></div>
+<div class="summary"><div class="sum"><small>Month Net PnL*</small><strong id="monthNet">—</strong></div><div class="sum"><small>Closed Deals</small><strong id="monthTrades">—</strong></div><div class="sum"><small>Active / Profit Days</small><strong id="monthDays">—</strong></div><div class="sum"><small>Best / Worst Day</small><strong id="monthBest">—</strong></div></div>
+<div class="calendar" id="calendar"></div>
+<div class="calendar-foot"><span>🟩 Net กำไร</span><span>🟥 Net ขาดทุน</span><span>◼ ไม่มีกิจกรรมในรายงาน</span><span>✦ PnL รวม Profit + Commission + Swap</span></div>
+</div>
+<div class="panel">
+<div class="kicker">MONTHLY TRADING REPORT</div><h2>ตรวจคุณภาพ Candidate</h2><div class="mini-cards">
+<div class="mini"><small>Selected Family & Timeframe</small><b id="candFamily">—</b><p id="candParams"></p></div>
+<div class="mini"><small>Historical VAL Profit Factor</small><b id="candPf">—</b><p>ใช้ประกอบการศึกษาเท่านั้น</p></div>
+<div class="mini"><small>Historical VAL Max Drawdown</small><b id="candDd">—</b><p>Drawdown ของช่วง VAL ทั้งหมด ไม่ใช่ DD รายเดือน</p></div>
+<div class="mini"><small>VAL Closed Deals / Native Test Trades</small><b id="candTrades">—</b><p>จำนวน Deal อาจไม่เท่าจำนวน Round-trip Trades</p></div>
+<div class="mini"><small>Research Evidence Status</small><b style="font-size:16px;color:var(--green)">SHA256 VERIFIED</b><p>กำไรสุทธิรวมจาก Deals กระทบยอดกับ Native Report</p></div>
+<div class="mini"><small>Monthly Winning Exits (deal-based)</small><b id="monthWin">—</b><p>เทียบ Winning / Losing Closed Deals เท่านั้น ไม่ใช่อัตราชนะการเปิดออร์เดอร์เต็มรอบ</p></div>
+<div class="mini"><small>Weekly Net Cashflow · MT5 Tester Server Time</small><div id="weekly" style="display:grid;gap:6px;margin-top:5px"></div></div>
+</div>
+<div class="sectionhead" style="margin-top:21px"><h3>Daily cumulative closed-deal cashflow</h3></div><div class="month-plot" id="monthlyPlot"></div><p class="chartinfo">* หน่วยเงินตามบัญชีจำลองใน MT5 Report ซึ่งยังไม่ได้ยืนยันสกุลเงินแยกต่างหาก ผลนี้เป็น Backtest ไม่ใช่ผลเทรดปัจจุบัน</p></div>
+</div></section>
+<section class="section"><div class="panel"><div class="kicker">04 · RESEARCH GOVERNANCE</div><h2>สิ่งที่ Agent Manager ต้องเรียนรู้ต่อ</h2>
+<div class="statgrid"><div class="stat"><small>Swing Hypotheses</small><strong id="swingCount">3</strong><p>Design only / ยังไม่มี EA ที่รับรองใหม่</p></div><div class="stat"><small>Native-ready reviews</small><strong id="nativeReady">—</strong><p>เป็นสิทธิ์รีวิว ไม่ใช่สิทธิ์ซื้อขาย</p></div><div class="stat"><small>Cost/Data QA backlog</small><strong id="costBacklog">—</strong><p>ต้องพิสูจน์ Real Ticks และ Spread</p></div><div class="stat"><small>Daily Calendar Candidates</small><strong id="candCount">—</strong><p>รายงานที่ Hash และ Cashflow ตรง</p></div></div>
+<p class="note">ข้อมูลใหม่สะสมผ่าน Research Ledger เท่านั้น · การทดสอบย้อนหลังไม่ได้พิสูจน์การทำกำไรในอนาคต · Short TF Shadow ≠ MT5 Native Backtest · การส่งคำสั่งเงินจริงและ LINE Bot ยัง HOLD</p>
+</div></section>
+</main><footer class="footer">POP-FARM01 · RDC Quant Chief / Research Only · No Live/Demo Orders · <span id="verifiedAt">Awaiting evidenced checkpoint</span></footer>
+<script>
+"use strict";
+const $=id=>document.getElementById(id), nf=n=>Number(n||0).toLocaleString("en-US"),signed=n=>(n>0?"+":"")+Number(n||0).toLocaleString("en-US",{minimumFractionDigits:2,maximumFractionDigits:2});
+const names={SWING_LIQUIDITY_SWEEP:"Liquidity Sweep + Rejection",SWING_BREAK_RETEST:"Breakout + Retest",SWING_REGIME_COST_GATE:"ATR / Regime / Cost Gate"};
+const laneNames={NATIVE_REVALIDATION:"Native Revalidation",MODEL_DESIGN:"Model & EA Design",COST_DATA_QA:"Tick / Cost Data QA",INDEPENDENT_REVIEW:"Independent Red Team"};
+const laneDescriptions={NATIVE_REVALIDATION:"EA Certified • ตรวจแผนเดิม",MODEL_DESIGN:"สร้าง Model / เขียน Spec",COST_DATA_QA:"รับรอง Real Tick / Spread",INDEPENDENT_REVIEW:"พิสูจน์สมมติฐาน / Data Leakage"};
+let DATA=null;
+function label(v){return v==null?"N/A":String(v)}
+function setupIdeas(){const host=$("ideaCards");host.replaceChildren();Object.entries(names).forEach(([key,title],i)=>{let c=document.createElement("article");c.className="idea";let a=document.createElement("strong");a.textContent="SHADOW IDEA "+(i+1);let h=document.createElement("h3");h.textContent=title;let p=document.createElement("p");p.textContent=[
+"ทดสอบการกวาด Stop เหนือ/ใต้ Swing ที่ยืนยันแล้วและกลับเข้ากรอบ โดยไม่อ่านอนาคต",
+"เปรียบเทียบ Swing Breakout ทันทีกับการรอ Retest และกำหนดเวลายกเลิกที่ทดสอบซ้ำได้",
+"นำ ATR/Regime/Spread มากรองโดยทดสอบทีละตัว พร้อมดูความคงทนและต้นทุน"
+][i];c.append(a,h,p);host.append(c)})}
+function drawQueue(q){let host=$("queueLanes");host.replaceChildren();let jobs=q.scheduled_reviews||[];
+$("routerState").textContent="REVIEW-ONLY · "+(q.method||"PRIORITY");
+$("queueCount").textContent=nf(q.total_pending)+" pending";
+$("nativeReady").textContent=nf((q.lane_pending||{}).NATIVE_REVALIDATION);
+$("costBacklog").textContent=nf((q.lane_pending||{}).COST_DATA_QA);
+Object.keys(laneNames).forEach(lane=>{let cards=jobs.filter(x=>x.lane===lane),wrapper=document.createElement("article");wrapper.className="lane";
+let header=document.createElement("div");header.className="lanehead";let strong=document.createElement("strong");strong.textContent=laneNames[lane];let count=document.createElement("div");count.className="quota";count.textContent=cards.length+" / "+(q.lane_quotas?.[lane]??"—");let p=document.createElement("p");p.textContent=laneDescriptions[lane]+" · Pending "+nf((q.lane_pending||{})[lane]);header.append(strong,count,p);wrapper.append(header);
+let list=document.createElement("div");list.className="jobs";cards.forEach(job=>{let e=document.createElement("div");e.className="job";let rank=document.createElement("div");rank.className="rank";rank.textContent="PRIORITY REVIEW #"+job.rank+" · "+(job.priority?.score??"N/A")+" pts";let title=document.createElement("strong");title.textContent=(job.archetype&&names[job.archetype]||job.archetype||job.family||job.timeframe||job.kind);let type=document.createElement("small");type.textContent=job.kind.replaceAll("_"," ");let reviewer=document.createElement("small");reviewer.textContent="→ "+job.review_owner;let auth=document.createElement("small");auth.style.color="#ffc98b";auth.textContent="Not dispatched • "+job.next_action;e.append(rank,title,type,reviewer,auth);list.append(e)});
+wrapper.append(list);host.append(wrapper)})}
+function setMonthOptions(record){const sel=$("month");sel.replaceChildren();const months=record.months||[];months.slice().reverse().forEach(m=>{let opt=document.createElement("option");opt.value=m.month;opt.textContent=m.month+" · "+nf(m.closed_deals)+" closed";sel.append(opt)});sel.onchange=drawMonth;drawMonth()}
+function setupCandidates(items){const select=$("candidate");select.replaceChildren();items.forEach((x,i)=>{let opt=document.createElement("option");opt.value=String(i);opt.textContent=x.candidate.family+" "+(x.candidate.timeframe||"")+" · R"+x.candidate.round+" T"+x.candidate.trial+" • PF "+x.candidate.val_pf;select.append(opt)});select.onchange=()=>{const x=items[Number(select.value)];if(x)setMonthOptions(x)};if(items.length)setMonthOptions(items[0]);else{$("calendarStatus").textContent="No verified deals"}}
+function drawMonth(){
+if(!DATA)return;const obj=DATA.calendar.candidates?.[Number($("candidate").value)]||DATA.calendar.candidates?.[0];if(!obj)return;
+const mon=obj.months.find(m=>m.month===$("month").value)||obj.months[obj.months.length-1];if(!mon)return;
+const monthName=new Date(mon.month+"-01T12:00:00Z").toLocaleDateString("th-TH",{timeZone:"UTC",year:"numeric",month:"long"});
+$("monthTitle").textContent=monthName+" · MT5 Tester Server Date";
+$("calendarStatus").textContent=label(obj.status).replaceAll("_"," ");
+$("monthNet").textContent=signed(mon.net);$("monthNet").className=mon.net>=0?"green":"red";
+$("monthTrades").textContent=nf(mon.closed_deals);$("monthDays").textContent=nf(mon.active_days)+" / "+nf(mon.profit_days);
+const wins=mon.days.reduce((n,d)=>n+d.winning_exits,0),losses=mon.days.reduce((n,d)=>n+d.losing_exits,0);
+$("monthWin").textContent=wins+" / "+losses+" ("+(wins+losses?Math.round(100*wins/(wins+losses)):"N/A")+"%)";
+const weekly=$("weekly");weekly.replaceChildren();const weekMap=new Map();mon.days.forEach(d=>{const date=new Date(d.date+"T12:00:00Z");const monDate=new Date(date);monDate.setUTCDate(date.getUTCDate()-((date.getUTCDay()+6)%7));const key=monDate.toISOString().slice(0,10);weekMap.set(key,(weekMap.get(key)||0)+d.net)});for(const [day,total] of weekMap){const row=document.createElement("div");row.style.cssText="display:flex;justify-content:space-between;border-bottom:1px solid #31536c;font-size:11px";const label=document.createElement("span");label.textContent="สัปดาห์เริ่ม "+day;const num=document.createElement("b");num.className=total>=0?"green":"red";num.textContent=signed(total);row.append(label,num);weekly.append(row)}
+const active=mon.days.filter(d=>d.cashflow_events>0);
+const best=active.length?active.reduce((a,b)=>a.net>b.net?a:b):null;
+const worst=active.length?active.reduce((a,b)=>a.net<b.net?a:b):null;
+$("monthBest").textContent=best&&worst?signed(best.net)+" / "+signed(worst.net):"No deals";
+$("candFamily").textContent=obj.candidate.family+" · "+(obj.candidate.timeframe||"");
+$("candParams").textContent="R"+obj.candidate.round+"/T"+obj.candidate.trial+" • "+JSON.stringify(obj.candidate.params);
+$("candPf").textContent=Number(obj.candidate.val_pf).toFixed(2);
+$("candDd").textContent=Number(obj.candidate.val_dd_pct).toFixed(2)+"%";
+$("candTrades").textContent=nf(obj.trade_count)+" / "+nf(obj.candidate.val_trades);
+let grid=$("calendar");grid.replaceChildren();
+["จ.","อ.","พ.","พฤ.","ศ.","ส.","อา."].forEach(w=>{let cell=document.createElement("div");cell.className="weekday";cell.textContent=w;grid.append(cell)});
+const first=new Date(mon.month+"-01T12:00:00Z");let pad=(first.getUTCDay()+6)%7;
+for(let i=0;i<pad;i++){let el=document.createElement("div");el.className="day disabled";grid.append(el)}
+const maxAbs=Math.max(1,...mon.days.map(d=>Math.abs(d.net)));
+mon.days.forEach(day=>{let box=document.createElement("div");box.className="day "+(!day.cashflow_events?"empty":day.net>0?"profit":day.net<0?"loss":"empty");
+let n=document.createElement("b");n.textContent=Number(day.date.slice(-2));let v=document.createElement("strong");v.textContent=day.cashflow_events?signed(day.net):"—";
+if(day.net>0)v.className="green";else if(day.net<0)v.className="red";
+let tr=document.createElement("small");tr.textContent=day.closed_deals?nf(day.closed_deals)+" closed":day.cashflow_events?"fees only":"no trading";
+box.title=day.date+" | net "+signed(day.net)+" | commissions "+signed(day.commission)+" | swap "+signed(day.swap)+" | closed "+day.closed_deals;
+box.style.boxShadow=day.net?("inset 0 0 "+Math.round(5+10*Math.abs(day.net)/maxAbs)+"px "+(day.net>0?"#23a37825":"#e34c6925")):"none";box.append(n,v,tr);grid.append(box)});
+drawCurve(mon.days)}
+function drawCurve(days){const root=$("monthlyPlot");root.replaceChildren();if(!days.length)return;let vals=[0],sum=0;for(const d of days){sum+=d.net;vals.push(sum)}
+let max=Math.max(...vals),min=Math.min(...vals),range=Math.max(1,max-min),w=460,h=190,pad=22;
+let svg=document.createElementNS("http://www.w3.org/2000/svg","svg");svg.setAttribute("viewBox","0 0 460 190");svg.setAttribute("role","img");svg.setAttribute("aria-label","Cumulative monthly realized trade cashflow in tester server date");
+for(let i=0;i<4;i++){let y=pad+(h-pad*2)*i/3;let line=document.createElementNS(svg.namespaceURI,"line");for(const [k,v] of Object.entries({x1:pad,y1:y,x2:w-pad,y2:y,stroke:"#2b5065","stroke-dasharray":"2 4"}))line.setAttribute(k,v);svg.append(line)}
+let pts=vals.map((v,i)=>(pad+i/(vals.length-1)*(w-pad*2)).toFixed(1)+","+(pad+(max-v)/range*(h-pad*2)).toFixed(1)).join(" ");
+let p=document.createElementNS(svg.namespaceURI,"polyline");p.setAttribute("points",pts);p.setAttribute("fill","none");p.setAttribute("stroke",sum>=0?"#4debc4":"#fd8197");p.setAttribute("stroke-width","3");p.setAttribute("stroke-linejoin","round");svg.append(p);root.append(svg)}
+function render(x){if(!x||x.schema!=="rdc.swing.analytics.public.v1")throw Error("Missing reliable analytics schema");DATA=x;
+$("verifiedAt").textContent="Historical native calendar • "+x.calendar.generated_utc+" UTC";
+$("candCount").textContent=nf(x.calendar.candidate_count);$("swingCount").textContent=nf(x.swing_shadow_ideas);
+setupIdeas();drawQueue(x.priority);setupCandidates(x.calendar.candidates||[]);
+}
+function load(url){return fetch(url,{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()})}
+const live="https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/main/rdc-mt5-research/data/live.json?sw="+Date.now();
+load(live).then(x=>{if(!x.swing_analytics)throw Error("Live data missing");return x.swing_analytics}).catch(()=>load("./data/live.json?sw="+Date.now()).then(x=>{if(!x.swing_analytics)throw Error("Static data missing");return x.swing_analytics})).catch(()=>load("./data/swing-analytics.json?sw="+Date.now())).then(render).catch(e=>{$("calendarStatus").textContent="Unavailable";$("verifiedAt").textContent="No verified data: "+e.message});
+</script></body></html>
