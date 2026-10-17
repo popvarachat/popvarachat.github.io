@@ -1,0 +1,138 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#06111f">
+<title>Agent Manager Intelligence · RDC Quant Chief</title>
+<meta name="description" content="Agent Manager Intelligence — evidence-based GOLDmicro research KPI, model discovery, agent operations and quantum-inspired strategy brain.">
+<style>
+:root{color-scheme:dark;--bg:#030b17;--glass:#0a1d31ec;--ink:#eaf8ff;--muted:#9fb7cd;--line:#215574;--cyan:#34eaff;--mint:#25e7bd;--violet:#b487ff;--gold:#ffd28a;--blue:#538fff;--rose:#ff82c5}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:radial-gradient(ellipse at 50% -15%,#11335a 0%,#041221 37%,#020916 74%);font:14px/1.55 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif;color:var(--ink)}
+a{color:inherit;text-decoration:none}button,select{font:inherit}button{cursor:pointer}
+.topbar{height:67px;padding:0 clamp(18px,3vw,50px);display:flex;align-items:center;justify-content:space-between;gap:24px;border-bottom:1px solid #24506e;background:rgba(2,11,23,.89);position:sticky;top:0;z-index:9;backdrop-filter:blur(22px)}
+.brand{display:flex;align-items:center;gap:10px;min-width:205px}.brand-mark{font-size:28px;font-weight:900;color:#40eaf5;line-height:1;text-shadow:0 0 19px #0089dd}.brand strong{letter-spacing:1.5px;font-size:12px}.brand small{display:block;letter-spacing:2.6px;font-size:9px;color:#9cbdda}
+.topnav{display:flex;align-items:center;gap:19px;color:#acc2da;font-size:11px}.topnav a{padding:13px 4px;border-bottom:2px solid transparent}.topnav a.active{color:#6df6ff;border-color:#36f0fa}.topnav a:hover{color:white}
+.status-pill{font-size:10px;border:1px solid #35657c;border-radius:40px;padding:7px 12px;color:#84e7e9;white-space:nowrap;background:#102e37}
+main{max-width:1660px;margin:auto}
+.hero{padding:43px clamp(16px,3vw,45px) 18px;position:relative;overflow:hidden;isolation:isolate}
+.hero:before{content:"";position:absolute;inset:0;background:linear-gradient(92deg,rgba(2,13,26,.3),transparent 35%,transparent 64%,rgba(2,13,26,.3)),repeating-linear-gradient(90deg,rgba(64,177,235,.065) 0 1px,transparent 1px 97px);pointer-events:none;z-index:-1}
+.hero:after{content:"";position:absolute;width:1150px;height:600px;top:150px;left:50%;transform:translateX(-50%);background:radial-gradient(ellipse,#12417e67 0%,#47318b28 35%,transparent 70%);z-index:-1;pointer-events:none}
+.eyebrow{color:var(--cyan);font-size:10px;letter-spacing:3px;font-weight:800}
+.headline{text-align:center;position:relative;z-index:2}.headline h1{font-size:clamp(31px,5vw,72px);font-weight:900;letter-spacing:-1.9px;line-height:1.03;margin:9px 0 14px;text-shadow:0 0 26px #2677aa66}
+.headline h1 span{background:linear-gradient(105deg,#f1fbff,#9fcbff 40%,#ffe2a4 70%,#d5a65f);background-clip:text;color:transparent}
+.headline h2{font-size:clamp(19px,2.45vw,34px);line-height:1.27;margin:0 0 4px;font-weight:750}.headline h2 em{color:var(--cyan);font-style:normal}
+.headline h3{font-size:clamp(14px,1.5vw,22px);margin:2px 0 9px;color:#d2ecff;font-weight:550}.headline h3 strong{color:#43dff5}
+.headline p{font-size:12px;line-height:1.7;color:#9bbdd4;margin:5px auto 0;max-width:750px}.vision-tag{display:inline-block;border:1px solid #806044;background:#251c1a;color:var(--gold);padding:4px 12px;border-radius:40px;margin-top:9px;font-size:10px;letter-spacing:.3px}
+.hero-grid{display:grid;grid-template-columns:minmax(210px,1fr) minmax(350px,2.25fr) minmax(210px,1fr);gap:18px;align-items:center;position:relative;z-index:2;margin-top:4px}
+.hero-metrics{display:grid;gap:12px}.hmetric{position:relative;overflow:hidden;display:flex;align-items:center;gap:12px;border:1px solid #2d6e8b;border-radius:11px;padding:14px;background:linear-gradient(110deg,#0b2643d9,#07162acf);min-height:93px;box-shadow:inset 0 0 18px #15578b17,0 4px 15px #0004}
+.hmetric.violet{border-color:#62519d}.hmetric.gold{border-color:#96734b}.hmetric:before{content:"";position:absolute;width:110px;height:90px;right:-36px;bottom:-55px;border-radius:50%;background:#1c95ff20;filter:blur(18px)}
+.hicon{display:grid;place-items:center;width:49px;height:49px;flex:none;border-radius:9px;background:linear-gradient(145deg,#184574,#06152e);border:1px solid #2e80ad;font-size:23px;color:var(--cyan);text-shadow:0 0 14px var(--cyan)}
+.violet .hicon{color:var(--violet);border-color:#62519d}.gold .hicon{color:var(--gold);border-color:#96734b}
+.hm-text{min-width:0}.hm-text small{font-size:10px;color:#c5e0f2;letter-spacing:.1px}.hm-text strong{display:block;font-size:clamp(19px,2vw,33px);line-height:1.12;letter-spacing:-.6px;font-variant-numeric:tabular-nums}.hm-text em{display:block;font-size:10px;font-style:normal;color:#61b1c1;margin-top:5px}
+.core-stage{height:485px;min-width:0;position:relative;display:grid;place-items:center;overflow:hidden}
+.halo{position:absolute;border:1px solid #36bdeb70;border-radius:50%;width:540px;height:350px;box-shadow:0 0 38px #0e91ff33,inset 0 0 34px #ab85ff22;transform:rotate(-13deg);animation:orbit 21s linear infinite}
+.halo.h2{width:390px;height:390px;transform:rotate(22deg);border-color:#b586ff63;animation:orbit2 19s linear infinite}
+.halo.h3{width:570px;height:150px;transform:rotate(21deg);border-color:#ffd38c7d;animation:orbit 16s linear infinite}
+.core-light{position:absolute;inset:25% 13%;background:radial-gradient(ellipse,#1a95fe69,#6429c233 48%,transparent 70%);filter:blur(18px)}
+.core-image{width:min(95%,560px);max-height:370px;object-fit:contain;position:relative;z-index:2;filter:contrast(1.14) saturate(1.5) drop-shadow(0 0 36px #149ffd) drop-shadow(0 0 20px #7143f1);image-rendering:auto;mask-image:radial-gradient(ellipse 55% 56% at 50% 51%,#000 49%,transparent 100%);transform:scale(1.17);animation:float 7s ease-in-out infinite}
+.core-center{position:absolute;z-index:3;top:47%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;display:grid;place-items:center;border:2px solid #89ecff;background:#082c52d6;color:#bdfdff;font-size:20px;text-shadow:0 0 18px #05cafd;box-shadow:0 0 21px #00daff,inset 0 0 25px #008bfc}
+.core-platform{position:absolute;z-index:2;width:66%;height:38px;bottom:56px;border:2px solid #fcd08896;box-shadow:0 0 35px #f1a53765,inset 0 0 30px #37beff88;border-radius:50%;background:radial-gradient(ellipse,#4bafdb24,transparent 70%)}
+.core-label{position:absolute;z-index:4;bottom:13px;font-size:9px;letter-spacing:2px;color:#98c9f5;white-space:nowrap;text-align:center}.core-label b{color:#e8ba74}
+@keyframes orbit{50%{transform:rotate(6deg)}}@keyframes orbit2{50%{transform:rotate(50deg)}}@keyframes float{50%{transform:translateY(-8px) scale(1.17)}}
+.summary-strip{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;margin:16px 0 12px}.mini{padding:16px;background:linear-gradient(150deg,#102b49bd,#07182cbd);border:1px solid #2c6681;border-radius:12px;min-width:0}.mini small{font-size:11px;color:#a6c9dd}.mini b{display:block;font-size:24px;color:var(--cyan);margin:3px 0}.mini .spark{height:34px;display:flex;align-items:end;gap:3px;opacity:.9}.spark i{width:8%;display:inline-block;background:linear-gradient(#42eeef,#244ebe);border-radius:2px 2px 0 0}
+.vision-quote{margin:17px auto 8px;max-width:940px;padding:11px 22px;text-align:center;border:1px solid #987a4f;border-radius:10px;color:#ffde9d;background:linear-gradient(90deg,#2b1f1899,#0a233099,#251e18a1);box-shadow:0 0 25px #ca974b19;font-size:clamp(11px,1.25vw,16px)}
+section.deck{padding:38px clamp(16px,3vw,45px) 26px}.section-head{display:flex;align-items:end;justify-content:space-between;flex-wrap:wrap;gap:18px;margin-bottom:20px}.section-head h2{font-size:clamp(22px,2.6vw,32px);margin:5px 0}.section-head h2 em{font-style:normal;color:var(--cyan)}.section-head p{margin:4px 0;color:#9ebad2;font-size:12px;max-width:850px}
+.linkbtn{display:inline-flex;align-items:center;gap:12px;border:1px solid #307d98;padding:11px 19px;border-radius:9px;color:#b8f9ff;background:#07354b;white-space:nowrap;font-size:12px;font-weight:700}.linkbtn:hover{background:#13506c}
+.cards{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:13px}.fcard{border:1px solid #245671;background:linear-gradient(145deg,#0e263b,#071425);border-radius:12px;min-width:0;padding:18px;min-height:210px}.fcard .serial{color:#54ceff;font-size:13px;font-weight:900;letter-spacing:1px}.fcard h3{font-size:15px;margin:7px 0}.fcard p{color:#9db6cb;font-size:11px;margin:4px 0}.fval{font-size:29px;font-variant-numeric:tabular-nums;font-weight:800;color:#53edff;margin:18px 0 4px}.fsub{font-size:10px;color:#85abc2}.bar{height:8px;border-radius:10px;overflow:hidden;background:#284158;margin-top:17px}.bar span{height:100%;display:block;background:linear-gradient(90deg,#2999fd,#2be5d0);width:0}
+.deck-grid{display:grid;grid-template-columns:minmax(0,1.45fr) minmax(310px,1fr);gap:16px;margin-top:18px}.plot{background:linear-gradient(145deg,#0c2336,#061529);border:1px solid #245671;border-radius:13px;padding:21px;min-width:0}.plot h3{font-size:17px;margin:0 0 7px}.plot p{font-size:11px;color:#91adc3}.chart{overflow:auto;min-height:200px}.chart svg{width:100%;min-width:430px;height:220px;display:block}.plot svg text{font-family:system-ui,Tahoma,sans-serif;font-size:10px;fill:#9eb7cf}.plot .line{fill:none;stroke:#3ae8df;stroke-width:3}.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:10px;color:#8fbbca}.legend i{display:inline-block;width:9px;height:9px;background:var(--color);margin-right:5px;border-radius:2px}.activity-list{display:grid;gap:14px}.alist{display:grid;grid-template-columns:1fr 80px;gap:10px;color:#b9d2e6;font-size:11px}.alist .rail{grid-column:1/-1;height:6px;border-radius:7px;background:#254053;overflow:hidden;margin-top:-5px}.alist .rail span{display:block;height:100%;background:linear-gradient(90deg,#3ba0ff,#4df7cb)}.alist b{text-align:right;color:#eefaff;font-variant-numeric:tabular-nums}
+.pathway{margin-top:18px;border:1px solid #4c5d87;border-radius:15px;min-height:220px;padding:25px 27px;background:radial-gradient(ellipse at 86% 90%,#225e9b77,transparent 60%),linear-gradient(110deg,#0c2036,#061122);display:grid;grid-template-columns:1.15fr 1fr;align-items:center;gap:15px}.pathway h2{font-size:clamp(23px,2.5vw,35px);line-height:1.17;margin:9px 0}.pathway h2 em{color:var(--cyan);font-style:normal}.pathway p{font-size:12px;max-width:620px;color:#adc7d9}.steps{display:flex;align-items:end;justify-content:center;gap:9px;min-height:120px}.step{width:24%;border:1px solid #3b7197;border-radius:10px;background:linear-gradient(#13416b,#07172d);padding:11px 7px;text-align:center;font-size:11px;display:grid;place-items:center;box-shadow:0 0 12px #0c9ffa45}.step:nth-child(1){height:63px}.step:nth-child(2){height:95px}.step:nth-child(3){height:126px}.step:nth-child(4){height:162px;border-color:#efbc69;color:#ffe09f;box-shadow:0 0 20px #f7b1425c}.footer{padding:22px 45px;border-top:1px solid #1c465d;font-size:11px;color:#819aaf;display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px}
+@media(max-width:1120px){.hero-grid{grid-template-columns:minmax(155px,1fr) minmax(260px,1.7fr) minmax(155px,1fr);gap:10px}.hmetric{padding:9px;min-height:83px}.hicon{display:none}.cards{grid-template-columns:repeat(3,minmax(0,1fr))}.topnav{gap:8px}}
+@media(max-width:760px){.brand{min-width:0}.topbar{gap:8px;padding:0 12px}.topnav{display:none}.hero-grid{grid-template-columns:1fr 1fr;gap:10px}.core-stage{grid-row:1;grid-column:1/-1;height:345px}.hero-metrics{gap:8px}.hmetric{min-height:67px}.hicon{display:grid;width:36px;height:36px;font-size:17px}.hm-text strong{font-size:21px}.halo{width:320px;height:210px}.halo.h2{width:220px;height:220px}.halo.h3{width:360px;height:70px}.core-image{max-height:270px;width:90%}.core-platform{bottom:25px}.core-label{bottom:2px;font-size:7px;letter-spacing:1px}.summary-strip{grid-template-columns:repeat(2,minmax(0,1fr))}.cards{grid-template-columns:repeat(2,minmax(0,1fr))}.deck-grid{grid-template-columns:1fr}.pathway{grid-template-columns:1fr}.step{font-size:9px}.topbar{height:60px}.status-pill{font-size:9px}}
+@media(prefers-reduced-motion:reduce){.halo,.core-image{animation:none}}
+</style></head>
+<body>
+<header class="topbar"><a class="brand" href="./index.html#overview"><span class="brand-mark">◇</span><span><strong>AGENT MANAGER</strong><small>QUANT CHIEF / RDC</small></span></a>
+<nav class="topnav" aria-label="Main navigation"><a class="active" href="#intelligence">Overview</a><a href="./index.html#manager">Research</a><a href="#agents">Agents</a><a href="./index.html#league">Experiments</a><a href="./capability.html">Analytics</a><a href="./index.html#workflow">Workflow</a></nav>
+<div class="status-pill" id="sourceState">● Loading PC research evidence</div></header>
+<main>
+<section class="hero" id="intelligence">
+<div class="headline"><div class="eyebrow">RESEARCH · SCIENTIFIC DISCOVERY · EVIDENCE-BASED INTELLIGENCE</div>
+<h1>AGENT MANAGER <span>INTELLIGENCE</span></h1>
+<h2>สมองกลยุทธ์ระดับ <em>Quantum Intelligence</em></h2>
+<h3>จาก <strong>Research Orchestrator</strong> สู่ <strong>Autonomous Chief Intelligence</strong></h3>
+<p>ยกระดับการคิด การทดลอง และการเรียนรู้จากหลักฐานจริง ให้ Agent Manager ค้นพบกลยุทธ์ที่มีคุณค่ามากขึ้นในทุก ๆ รอบ</p>
+<span class="vision-tag">✦ QUANTUM INTELLIGENCE = เป้าหมายการพัฒนา · ไม่ใช่เครื่อง Quantum Computer จริง</span>
+</div>
+<div class="hero-grid">
+<div class="hero-metrics" id="leftKpis">
+<div class="hmetric"><div class="hicon">▤</div><div class="hm-text"><small>Native FIT+VAL</small><strong id="k-native">—</strong><em>Verified Evidence</em></div></div>
+<div class="hmetric violet"><div class="hicon">⬡</div><div class="hm-text"><small>Robust V2 Passed</small><strong id="k-robust">—</strong><em>ย้อนหลัง ≠ Blind OOS</em></div></div>
+<div class="hmetric violet"><div class="hicon">✧</div><div class="hm-text"><small>Novel Model Ideas</small><strong id="k-ideas">—</strong><em>Shadow · รอ EA QA</em></div></div>
+<div class="hmetric gold"><div class="hicon">▧</div><div class="hm-text"><small>Independent Reviews</small><strong id="k-review">—</strong><em>Independent QA</em></div></div>
+</div>
+<div class="core-stage" aria-label="Quantum-inspired AI brain graphic from generated concept">
+<div class="core-light"></div><div class="halo"></div><div class="halo h2"></div><div class="halo h3"></div>
+<img class="core-image" src="./quantum-brain-ai.webp" alt="ภาพสมอง AI เรืองแสงสไตล์ Quantum ที่สร้างขึ้นด้วย AI">
+<div class="core-center">AI</div><div class="core-platform"></div>
+<div class="core-label">IDEAS　✦　EXPERIMENTS　✦　INSIGHTS　✦　<b>DISCOVERIES</b>　✦　REAL IMPACT</div>
+</div>
+<div class="hero-metrics" id="rightKpis">
+<div class="hmetric"><div class="hicon">⟠</div><div class="hm-text"><small>Discovery Cases</small><strong id="k-cases">—</strong><em>Ready + Shadow + QA</em></div></div>
+<div class="hmetric"><div class="hicon">⚙</div><div class="hm-text"><small>Parameter Search</small><strong id="k-param">—</strong><em>Native Experiments</em></div></div>
+<div class="hmetric violet"><div class="hicon">◎</div><div class="hm-text"><small>Tester Success</small><strong id="k-success">—</strong><em>FIT / VAL Phase</em></div></div>
+<div class="hmetric gold"><div class="hicon">▱</div><div class="hm-text"><small>Research Queue Ready</small><strong id="k-ready">—</strong><em>Promoter Revalidation</em></div></div>
+</div></div>
+<div class="summary-strip">
+<article class="mini"><small>Robust Discovery Rate</small><b id="r-robust">—</b><small>ต่อ 100 Native Experiments</small><div class="spark" id="spark1"></div></article>
+<article class="mini"><small>Native Tester Reliability</small><b id="r-reliability">—</b><small>Fresh Evidence / Tester Phase</small><div class="spark" id="spark2"></div></article>
+<article class="mini"><small>Idea Generation Output</small><b id="r-ideas">—</b><small>Qwen Ideas + Model Inventor (แยกสถานะ)</small><div class="spark" id="spark3"></div></article>
+<article class="mini"><small>Historical Research Qualification</small><b id="r-qualification">—</b><small>ไม่ใช่การอนุญาตซื้อขาย</small><div class="spark" id="spark4"></div></article>
+</div>
+<div class="vision-quote">✦ เป้าหมาย: ให้ Agent Manager <b>คิดได้ลึกขึ้น · มองได้ไกลขึ้น · เรียนรู้จากความผิดพลาด · วิจัยได้ฉลาดขึ้นทุก ๆ รอบ</b> ✦</div>
+</section>
+<section class="deck" id="agents">
+<div class="section-head"><div><div class="eyebrow">CORE INTELLIGENCE CAPABILITIES</div><h2>พลังของ Agent Manager ที่มากกว่า <em>จำนวน Loop</em></h2><p>ความสามารถที่วัดได้จาก Ledger จริง และความสามารถใหม่ที่อยู่ในขั้นพัฒนา — แยกกันอย่างชัดเจน</p></div>
+<a class="linkbtn" href="./capability.html">▥ เปิด Capability Dashboard ↗</a></div>
+<div class="cards">
+<article class="fcard"><span class="serial">01 / SKILL</span><h3>Capability Utilization</h3><p>เห็นปริมาณการใช้ความสามารถแต่ละวันและแต่ละ Research Round</p><div class="fval" id="f-util">—</div><div class="fsub">Verified Native Experiments</div><div class="bar"><span id="b-util"></span></div></article>
+<article class="fcard"><span class="serial">02 / DISCOVERY</span><h3>Research League</h3><p>จัดอันดับและคัด Candidate ด้วยหลักฐาน ไม่ใช่แค่ PF สูงสุด</p><div class="fval" id="f-league">—</div><div class="fsub">Research Judge Matches</div><div class="bar"><span id="b-league"></span></div></article>
+<article class="fcard"><span class="serial">03 / OPERATIONS</span><h3>AgentOps Reliability</h3><p>ตรวจ Tester Success เทียบ Failed/Stale จาก Event Ledger</p><div class="fval" id="f-ops">—</div><div class="fsub">Observed Tester Phase Reliability</div><div class="bar"><span id="b-ops"></span></div></article>
+<article class="fcard"><span class="serial">04 / THINKING</span><h3>Discovery Quality</h3><p>แยกไอเดียใหม่จริงออกจากการปรับ Parameter ซ้ำ</p><div class="fval" id="f-discovery">—</div><div class="fsub">Novel Model Hypotheses · Shadow</div><div class="bar"><span id="b-discovery"></span></div></article>
+<article class="fcard"><span class="serial">05 / INTELLIGENCE</span><h3>Daily Intelligence</h3><p>ติดตามผลการทดลองที่ตรวจสอบได้ และสิ่งที่ Agent ต้องเรียนรู้ต่อ</p><div class="fval" id="f-daily">—</div><div class="fsub" id="f-daily-label">Today · Asia/Bangkok · Partial</div><div class="bar"><span id="b-daily"></span></div></article>
+</div>
+<div class="deck-grid">
+<article class="plot"><h3>Daily Research Intelligence</h3><p>เปรียบเทียบ Native FIT+VAL, Qualified และ Robust (ย้อนหลัง) ตามวันไทย</p><div id="dailyChart" class="chart"></div><div class="legend"><span style="--color:var(--cyan)"><i></i>Native</span><span style="--color:var(--violet)"><i></i>Qualified</span><span style="--color:var(--gold)"><i></i>Robust V2</span></div></article>
+<article class="plot"><h3>How the Intelligence Is Used</h3><p>สัดส่วนกิจกรรมที่บันทึกได้ ไม่ใช่สัดส่วนพลัง AI/CPU/Token (บางหมวดนับซ้อน)</p><div id="activityList" class="activity-list"></div></article>
+</div>
+<div class="pathway"><div><div class="eyebrow">NEXT GENERATION · ROADMAP</div><h2>From Research Orchestrator<br>to <em>Autonomous Chief Intelligence</em></h2><p>ปลายทางคือ Chief Agent ที่คิดสมมติฐานเอง คัดงานที่มีคุณค่าก่อน ใช้ข้อมูลใหม่พิสูจน์ได้ และตัดสินใจ <b>No Trade</b> เมื่อความเสี่ยงไม่คุ้มค่า — วันนี้ยังเป็นระบบวิจัย/Shadow ไม่ใช่ Trading Autopilot</p><a class="linkbtn" href="./index.html#workflow">◈ ดู Intelligence Workflow ↗</a></div>
+<div class="steps"><div class="step">RULE<br>BASED</div><div class="step">MULTI<br>AGENT</div><div class="step">RESEARCH<br>CHIEF</div><div class="step">★ QUANTUM<br>INTELLIGENCE<br><small>VISION</small></div></div></div>
+</section></main>
+<footer class="footer"><span id="checkpointFoot">Checking PC Evidence...</span><span>NO REAL ORDERS · NO DEMO ORDERS · LINE ALERT HOLD · HISTORICAL VAL REUSED · INDEPENDENT OOS PENDING</span></footer>
+<script>
+"use strict";
+const $=id=>document.getElementById(id),num=x=>x==null?"—":Number(x).toLocaleString("en-US"),pct=x=>x==null?"—":Number(x).toFixed(2)+"%";
+const actColor=["#28e7d0","#5b9fff","#ae8eff","#ffd28a","#ec8fd3"];
+function set(k,v){let e=$(k);if(e)e.textContent=v}
+function spark(id,values){let h=$(id);h.replaceChildren();let m=Math.max(1,...values);values.forEach((v,i)=>{let el=document.createElement("i");el.style.height=(15+85*v/m)+"%";el.style.opacity=.47+.53*i/values.length;h.append(el)})}
+function graph(rows){const root=$("dailyChart");root.replaceChildren();if(!rows.length){root.textContent="ไม่มีข้อมูล";return}
+const w=630,h=218,pad=36,base=177,chartH=150,vals=rows.flatMap(x=>[x.native_hashed_fit_val,x.research_qualified,x.robust_pass].map(v=>Number(v||0))),max=Math.max(1,...vals)*1.12,s=document.createElementNS("http://www.w3.org/2000/svg","svg");s.setAttribute("viewBox","0 0 "+w+" "+h);s.setAttribute("role","img");s.setAttribute("aria-label","Native Qualified Robust per Asia Bangkok day");
+for(let k=0;k<4;k++){let line=document.createElementNS(s.namespaceURI,"line");let y=base-k*chartH/3;[["x1",pad],["y1",y],["x2",w-10],["y2",y],["stroke","#28506a"],["stroke-dasharray","3 5"]].forEach(p=>line.setAttribute(p[0],p[1]));s.append(line)}
+let gap=(w-2*pad)/rows.length;
+rows.forEach((r,i)=>{let origin=pad+i*gap+gap/2,metrics=[r.native_hashed_fit_val,r.research_qualified,r.robust_pass];metrics.forEach((v,j)=>{let height=chartH*(v||0)/max,rect=document.createElementNS(s.namespaceURI,"rect");[["x",origin-19+j*13],["y",base-height],["width",11],["height",Math.max(.5,height)],["rx",2],["fill",actColor[j]]].forEach(p=>rect.setAttribute(p[0],p[1]));let tip=document.createElementNS(s.namespaceURI,"title");tip.textContent=r.date+" "+["Native","Qualified","Robust"][j]+" "+num(v);rect.append(tip);s.append(rect)});let label=document.createElementNS(s.namespaceURI,"text");label.setAttribute("x",origin);label.setAttribute("y",203);label.setAttribute("text-anchor","middle");label.textContent=r.date.slice(5).replace("-","/")+(r.completeness==="PARTIAL"?"*":"");s.append(label)});root.append(s)}
+function draw(d){if(!d||d.schema!=="rdc.quant.capability.utilization.v1")throw Error("Capability schema missing");
+const c=d.cumulative||{},days=d.daily||[],today=days[days.length-1]||{},rate=c.native_hashed_fit_val?100*c.robust_pass/c.native_hashed_fit_val:null,reliability=c.tester_phases?100*c.tester_success/c.tester_phases:null,qualification=c.native_hashed_fit_val?100*c.research_qualified/c.native_hashed_fit_val:null;
+set("k-native",num(c.native_hashed_fit_val));set("k-robust",num(c.robust_pass));set("k-ideas",num(c.model_inventor_shadow));set("k-review",num(c.independent_review));set("k-cases",num(c.new_discovery_cases));set("k-param",num(c.parameter_search));set("k-success",num(c.tester_success));set("k-ready",num(d.queue_ready));
+set("r-robust",pct(rate));set("r-reliability",pct(reliability));set("r-ideas",num(c.qwen_ideas)+" / "+num(c.model_inventor_shadow));set("r-qualification",pct(qualification));
+set("f-util",num(c.native_hashed_fit_val));set("f-league",num(c.league_matches));set("f-ops",pct(reliability));set("f-discovery",num(c.model_inventor_shadow));set("f-daily",num(today.native_hashed_fit_val));set("f-daily-label",today.date+" · "+today.completeness);
+set("b-util","");["b-util","b-league","b-ops","b-discovery","b-daily"].forEach((k,i)=>{let el=$(k);if(el)el.style.width=Math.max(5,Math.min(100,[
+100*c.native_hashed_fit_val/Math.max(1,c.scheduled_ticks),
+100*c.league_matches/Math.max(1,c.native_hashed_fit_val),
+reliability||0,
+100*c.model_inventor_shadow/Math.max(1,c.new_discovery_cases),
+100*today.native_hashed_fit_val/Math.max(1,today.scheduled_ticks)][i]))+"%"});
+let maxNative=Math.max(1,...days.map(x=>x.native_hashed_fit_val||0));spark("spark1",days.map(x=>x.robust_pass||0));spark("spark2",days.map(x=>x.tester_success||0));spark("spark3",days.map(x=>x.qwen_ideas||0));spark("spark4",days.map(x=>x.research_qualified||0));
+graph(days);let list=$("activityList");list.replaceChildren();const acts=(d.capability_activity_mix||[]).slice().sort((a,b)=>b.events-a.events),maxActs=Math.max(1,...acts.map(a=>a.events));acts.slice(0,7).forEach((a,i)=>{let row=document.createElement("div");row.className="alist";let label=document.createElement("span");label.textContent=a.label;let value=document.createElement("b");value.textContent=num(a.events);let rail=document.createElement("div");rail.className="rail";let bar=document.createElement("span");bar.style.width=(100*a.events/maxActs)+"%";rail.append(bar);row.append(label,value,rail);list.append(row)});
+const checkpoint=new Date(d.generated_utc).toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"numeric",month:"short",hour:"2-digit",minute:"2-digit"});set("sourceState","● PC Evidence "+checkpoint+" ICT");set("checkpointFoot","PC POP-FARM01 · "+checkpoint+" ICT · "+d.ledger_first_day+" — "+d.ledger_last_day+" · Research Only");
+}
+function load(u){return fetch(u,{cache:"no-store"}).then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json()})}
+const raw="https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/main/rdc-mt5-research/data/live.json?quant="+Date.now();
+load(raw).then(x=>{if(!x.capability_utilization)throw Error("Checkpoint has no new capabilities");let d=x.capability_utilization;d.queue_ready=x.discovery_manager?.ready_for_promoter_revalidation??x.quant_chief?.queue?.native_ready??null;return d}).catch(()=>load("./data/live.json?t="+Date.now()).then(x=>{if(!x.capability_utilization)throw Error("Page snapshot is older");let d=x.capability_utilization;d.queue_ready=x.discovery_manager?.ready_for_promoter_revalidation??x.quant_chief?.queue?.native_ready??null;return d})).catch(()=>load("./data/capability.json?t="+Date.now())).then(draw).catch(e=>{set("sourceState","● Evidence unavailable");set("checkpointFoot","Data unavailable: "+e.message)});
+</script></body></html>
