@@ -47,16 +47,23 @@ function renderFreshness(){
 function renderSignals(rs){
  const rw=rs.reduce((a,r)=>a+(r.rework||0),0);
  const aging=Object.values(DATA.freshness||{}).filter(x=>x.state==="AGING").length;
+ const missingValue=rs.filter(r=>r.value_thb==null).length;
+ const missingDue=rs.filter(r=>!r.transfer_due).length;
  const cards=[
-  ["red","Rework / High exception","Rework "+fmt(rw)+" · HIGH "+fmt(DATA.exceptions.HIGH||0)],
+  ["red","Delivery risk gate","ยังฟันธงทัน/ไม่ทันไม่ได้ "+fmt(missingDue)+" WO เพราะยังไม่มี Target Transfer Date จาก SO"],
+  ["amber","Value visibility","ยังขาดมูลค่า SO "+fmt(missingValue)+" WO — targeted SO lookup required"],
   ["amber","Freshness","AGING "+fmt(aging)+" datasets — refresh ก่อนตัดสินใจรายวัน"],
-  ["green","Planning readiness","Finite capacity: "+DATA.readiness.finite_capacity],
-  ["","Material readiness",DATA.readiness.material_readiness]
+  ["green","Simulation lower-bound","คำนวณ P50/P75/P90 จาก empirical work-center time เฉพาะ route ที่มองเห็น; ไม่รวม page ที่ยังไม่ถูกดึงและ rework duration ที่ไม่มี model"]
  ];
  $("#signals").innerHTML=cards.map(s=>'<div class="signal '+s[0]+'"><div class="sig-title">'+s[1]+'</div><div class="sig-text">'+s[2]+'</div></div>').join("");
 }function renderTable(rs){
- $("#detailHead").innerHTML="<tr><th>WO</th><th>SO</th><th>Cutting</th><th>Operations</th><th>Current Stage</th><th>Rework</th></tr>";
- $("#detailBody").innerHTML=rs.map(r=>'<tr><td>'+r.id+'</td><td>'+(r.so||"-")+'</td><td>'+fmt(r.cuttings)+'</td><td>'+fmt(r.operations)+'</td><td>'+r.current_stage+'</td><td class="'+(r.rework?"hi":"")+'">'+fmt(r.rework)+'</td></tr>').join("");
+ $("#detailHead").innerHTML="<tr><th>WO</th><th>SO</th><th>Cutting</th><th>Route/จุดค้าง</th><th>มูลค่า</th><th>กำหนดโอน</th><th>Sim P50</th><th>Sim P75</th><th>Sim P90</th><th>ผลทันกำหนด</th></tr>";
+ $("#detailBody").innerHTML=rs.map(r=>{
+  const value=r.value_thb==null?"รอ SO lookup":("฿"+fmt(r.value_thb));
+  const due=r.transfer_due||"รอ SO lookup";
+  const result=r.transfer_due?"รอคำนวณ":"ยังฟันธงไม่ได้";
+  return '<tr><td>'+r.id+'</td><td>'+(r.so||"-")+'</td><td>'+(r.cutting||"-")+'</td><td>'+r.current_stage+'</td><td>'+value+'</td><td>'+due+'</td><td>'+fmt(r.sim_p50_hours_visible_route)+' ชม.</td><td>'+fmt(r.sim_p75_hours_visible_route)+' ชม.</td><td>'+fmt(r.sim_p90_hours_visible_route)+' ชม.</td><td class="hi">'+result+'</td></tr>';
+ }).join("");
 }
 function render(){
  const rs=rows(),sc=counts(rs);

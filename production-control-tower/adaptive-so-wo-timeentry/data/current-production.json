@@ -67,7 +67,7 @@
     "quality_hold":"2026-10-17T09:44:23.2981576Z"
   },
   "rows": [
-    {"id":"41167","so":"10002370","cuttings":1,"operations":8,"current_stage":"ผลิต3 → Rework","rework":1},
-    {"id":"43446","so":"10002893","cuttings":1,"operations":2,"current_stage":"ผลิต1","rework":0}
+    {"id":"41167","so":"10002370","cutting":"22626029013","cuttings":1,"operations":8,"current_stage":"ผลิต3 / Rework route visible","rework":1,"value_thb":null,"value_status":"SO_LOOKUP_REQUIRED","transfer_due":null,"due_status":"SO_LOOKUP_REQUIRED","sim_p50_hours_visible_route":5.49,"sim_p75_hours_visible_route":14.07,"sim_p90_hours_visible_route":31.83,"simulation_status":"LOWER_BOUND_ONLY","simulation_note":"Visible route only; 99-RWK empirical duration unavailable; JDE paging incomplete"},
+    {"id":"43446","so":"10002893","cutting":"21125009805","cuttings":1,"operations":2,"current_stage":"ผลิต1 route visible","rework":0,"value_thb":null,"value_status":"SO_LOOKUP_REQUIRED","transfer_due":null,"due_status":"SO_LOOKUP_REQUIRED","sim_p50_hours_visible_route":0.50,"sim_p75_hours_visible_route":1.10,"sim_p90_hours_visible_route":2.23,"simulation_status":"LOWER_BOUND_ONLY","simulation_note":"Visible route only; JDE paging incomplete"}
   ]
 }
