@@ -1,0 +1,73 @@
+{
+  "schema_version": "1.0.0",
+  "mode": "CURRENT_ERP",
+  "generated_at_utc": "2026-10-17T12:36:41.712Z",
+  "source": "Practika ERP Collector / normalized runtime",
+  "coverage": {
+    "completion_pct": 100,
+    "datasets": 9,
+    "live_row_coverage_pct": 100,
+    "normalized_coverage_pct": 100,
+    "semantic_ready": 9,
+    "blockers": 0
+  },
+  "production": {
+    "work_order_rows": 10,
+    "unique_work_orders": 2,
+    "unique_cuttings": 2,
+    "operation_rows": 10,
+    "rework_signals": 2,
+    "actual_execution_rows": 8,
+    "demand_rows": 4,
+    "material_rows": 35,
+    "inventory_rows": 10,
+    "open_po_rows": 10,
+    "quality_rows": 10,
+    "stage_counts": {
+      "ผลิต1": 2,
+      "ผลิต2": 0,
+      "ผลิต3": 7,
+      "ผลิต4": 0,
+      "ผลิต5": 0,
+      "Rework": 1,
+      "Other": 0
+    }
+  },
+  "readiness": {
+    "production_state": "READY_FOR_EXCEPTION_DETECTION",
+    "rework_detection": "READY",
+    "actual_hours": "PARTIAL_BLANK_NOT_ZERO",
+    "material_readiness": "PARTIAL_REQUIREMENT_QTY_GAP",
+    "inventory_evidence": "READY",
+    "supplier_receipt_history": "READY",
+    "open_po_eta": "READY",
+    "quality_hold_gate": "READY",
+    "finite_capacity": "READY_SCENARIO_EMPIRICAL",
+    "publish": "LOCKED_HUMAN_GATE_UAT"
+  },
+  "exceptions": {"BLOCKING":0,"HIGH":2,"MEDIUM":2,"LOW":0},
+  "freshness": {
+    "demand_so":{"age_minutes":448,"state":"AGING"},
+    "work_order_cutting":{"age_minutes":380,"state":"AGING"},
+    "routing_operations":{"age_minutes":380,"state":"AGING"},
+    "material_parts":{"age_minutes":41,"state":"FRESH"},
+    "inventory":{"age_minutes":375,"state":"AGING"},
+    "po_eta":{"age_minutes":181,"state":"AGING"},
+    "actual_execution":{"age_minutes":201,"state":"AGING"},
+    "quality_hold":{"age_minutes":172,"state":"AGING"},
+    "capacity_calendar":{"age_minutes":431,"state":"AGING"}
+  },
+  "source_times": {
+    "work_order_cutting":"2026-10-17T06:16:41.3016688Z",
+    "actual_execution":"2026-10-17T09:16:10.2809539Z",
+    "demand_so":"2026-10-17T05:09:09.3136340Z",
+    "material_parts":"2026-10-17T11:55:22.3061931Z",
+    "inventory":"2026-10-17T06:22:06.3116394Z",
+    "po_eta":"2026-10-17T09:35:54.3168566Z",
+    "quality_hold":"2026-10-17T09:44:23.2981576Z"
+  },
+  "rows": [
+    {"id":"41167","so":"10002370","cuttings":1,"operations":8,"current_stage":"ผลิต3 → Rework","rework":1},
+    {"id":"43446","so":"10002893","cuttings":1,"operations":2,"current_stage":"ผลิต1","rework":0}
+  ]
+}
