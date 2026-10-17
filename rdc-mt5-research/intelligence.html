@@ -32,8 +32,8 @@ main{max-width:1660px;margin:auto}
 .halo.h2{width:390px;height:390px;transform:rotate(22deg);border-color:#b586ff63;animation:orbit2 19s linear infinite}
 .halo.h3{width:570px;height:150px;transform:rotate(21deg);border-color:#ffd38c7d;animation:orbit 16s linear infinite}
 .core-light{position:absolute;inset:25% 13%;background:radial-gradient(ellipse,#1a95fe69,#6429c233 48%,transparent 70%);filter:blur(18px)}
-.core-image{width:min(95%,560px);max-height:370px;object-fit:contain;position:relative;z-index:2;filter:contrast(1.14) saturate(1.5) drop-shadow(0 0 36px #149ffd) drop-shadow(0 0 20px #7143f1);image-rendering:auto;mask-image:radial-gradient(ellipse 55% 56% at 50% 51%,#000 49%,transparent 100%);transform:scale(1.17);animation:float 7s ease-in-out infinite}
-.core-center{position:absolute;z-index:3;top:47%;left:50%;transform:translate(-50%,-50%);width:60px;height:60px;border-radius:50%;display:grid;place-items:center;border:2px solid #89ecff;background:#082c52d6;color:#bdfdff;font-size:20px;text-shadow:0 0 18px #05cafd;box-shadow:0 0 21px #00daff,inset 0 0 25px #008bfc}
+.core-image{width:min(100%,690px);max-height:435px;object-fit:contain;position:relative;z-index:2;filter:drop-shadow(0 0 14px #1588ed70);image-rendering:auto;mask-image:radial-gradient(ellipse 73% 72% at 50% 50%,#000 72%,transparent 100%);transform:none;animation:none}
+/* Keep generated quantum brain fully visible: no center badge overlay. */
 .core-platform{position:absolute;z-index:2;width:66%;height:38px;bottom:56px;border:2px solid #fcd08896;box-shadow:0 0 35px #f1a53765,inset 0 0 30px #37beff88;border-radius:50%;background:radial-gradient(ellipse,#4bafdb24,transparent 70%)}
 .core-label{position:absolute;z-index:4;bottom:13px;font-size:9px;letter-spacing:2px;color:#98c9f5;white-space:nowrap;text-align:center}.core-label b{color:#e8ba74}
 @keyframes orbit{50%{transform:rotate(6deg)}}@keyframes orbit2{50%{transform:rotate(50deg)}}@keyframes float{50%{transform:translateY(-8px) scale(1.17)}}
@@ -70,8 +70,8 @@ section.deck{padding:38px clamp(16px,3vw,45px) 26px}.section-head{display:flex;a
 </div>
 <div class="core-stage" aria-label="Quantum-inspired AI brain graphic from generated concept">
 <div class="core-light"></div><div class="halo"></div><div class="halo h2"></div><div class="halo h3"></div>
-<img class="core-image" src="./quantum-brain-ai.webp" alt="ภาพสมอง AI เรืองแสงสไตล์ Quantum ที่สร้างขึ้นด้วย AI">
-<div class="core-center">AI</div><div class="core-platform"></div>
+<img class="core-image" src="./quantum-brain-ai-v2.webp" width="1320" height="810" fetchpriority="high" decoding="async" alt="ภาพสมองควอนตัมเรืองแสงความละเอียดสูง ไม่มีป้าย AI บังตรงกลาง">
+<!-- v2 hero already includes its own holographic platform; no overlays on the neural detail -->
 <div class="core-label">IDEAS　✦　EXPERIMENTS　✦　INSIGHTS　✦　<b>DISCOVERIES</b>　✦　REAL IMPACT</div>
 </div>
 <div class="hero-metrics" id="rightKpis">
