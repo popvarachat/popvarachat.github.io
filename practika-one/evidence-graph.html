@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="PRACTIKA ONE public-safe enterprise evidence graph: dated and candidate relationships, not live enterprise telemetry.">
+<title>PRACTIKA ONE — Enterprise Evidence Graph | Public-safe Snapshot</title>
+<style>
+:root{color-scheme:dark;--bg:#061321;--card:#10243a;--line:#2b5066;--txt:#edf7ff;--mute:#a2b7c9;--verified:#74d5bb;--candidate:#edb879;--missing:#fb9299}
+*{box-sizing:border-box}body{margin:0;color:var(--txt);font:14px/1.5 system-ui,"Segoe UI",sans-serif;background:radial-gradient(circle at 35% -15%,#183b52,transparent 42%),var(--bg)}
+header{display:flex;justify-content:space-between;flex-wrap:wrap;gap:12px;padding:18px max(18px,4vw);align-items:center;border-bottom:1px solid var(--line)}
+h1{margin:0;font-size:clamp(17px,2.6vw,26px);letter-spacing:.025em}h1 strong{color:#78d9e1}
+small,.sub{color:var(--mute)}a{color:#8be2ec;text-decoration:none}a:hover{text-decoration:underline}.nav{display:flex;align-items:center;flex-wrap:wrap;gap:7px}
+.nav a,.btn{background:#12354c;border:1px solid #3a7487;border-radius:9px;padding:8px 11px;color:white;font-size:12px;cursor:pointer;text-decoration:none}
+.nav a:hover,.btn:hover{background:#155673;text-decoration:none}.btn:focus-visible,[data-id]:focus-visible{outline:2px solid #fff;outline-offset:3px}
+main{max-width:1450px;margin:auto;padding:18px}.notice{padding:13px 15px;border-radius:12px;border:1px solid #a4793a;background:#302a1e;font-size:12px;color:#ffdda3}
+.metrics{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;margin:13px 0}.metric,.panel{border:1px solid var(--line);background:linear-gradient(150deg,#11283d,#0a1b2c);border-radius:15px}.metric{padding:12px 16px}.metric b{display:block;font-size:26px;line-height:1.4}.metric span{color:var(--mute);font-size:11px}
+.layout{display:grid;grid-template-columns:minmax(0,2fr) minmax(260px,1fr);gap:12px}.panel{padding:15px}.row{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.row h2{font-size:17px;margin:0}.tools{display:flex;flex-wrap:wrap;gap:6px}.tools button[aria-pressed=true]{border-color:var(--verified);background:#20555c}
+.legend{display:flex;flex-wrap:wrap;gap:13px;color:var(--mute);font-size:11px;margin:10px 0}.swatch{display:inline-block;width:19px;border-top:3px solid var(--verified);vertical-align:middle;margin-right:5px}.candidate{border-color:var(--candidate);border-top-style:dashed}.missing{border-color:var(--missing);border-top-style:dotted}
+svg{width:100%;height:min(62vh,640px);min-height:355px;background:radial-gradient(ellipse at center,#13314a,#081b2b 70%);border:1px solid #2d566d;border-radius:12px;touch-action:none;cursor:grab}svg.dragging{cursor:grabbing}.edge{fill:none;stroke:var(--verified);stroke-width:3;opacity:.8}.edge.cand{stroke:var(--candidate);stroke-dasharray:8 6}.edge.unverified{stroke:var(--missing);stroke-dasharray:3 8}.node{cursor:pointer}.node rect{fill:#152e46;stroke:#6a9cbd;stroke-width:2;rx:12}.node.cand rect{stroke:var(--candidate)}.node.ok rect{stroke:var(--verified)}.node.block rect{stroke:var(--missing)}.node.sel rect{stroke:#fff;stroke-width:3}.node text{fill:#fff;pointer-events:none;text-anchor:middle}.node .nm{font-size:16px;font-weight:700}.node .meta{font-size:11px;fill:#b4cddd}
+.card{padding:12px;background:#0b2539;border:1px solid #2a5369;border-radius:11px;margin:10px 0}h3{font-size:14px;margin:0 0 8px}.card p{margin:7px 0;color:var(--mute);font-size:12px}.metaText{font-size:12px;color:var(--mute);margin:5px 0}
+.status{display:inline-block;font-size:11px;font-weight:700;color:var(--candidate)}.status.good{color:var(--verified)}.status.bad{color:var(--missing)}ul{padding-left:20px;margin:6px 0 0}li{margin-bottom:8px;color:var(--mute);font-size:12px}
+footer{font-size:11px;color:var(--mute);padding:19px 0}.hidden{display:none}
+@media(max-width:930px){.layout{grid-template-columns:1fr}.metrics{grid-template-columns:repeat(2,1fr)}}@media(max-width:470px){main{padding:12px}.metrics{grid-template-columns:repeat(2,1fr)}.metric{padding:10px}.metric b{font-size:21px}svg{height:370px}header{padding:14px}}
+</style></head>
+<body>
+<header><div><h1><strong>PRACTIKA ONE</strong> / EVIDENCE GRAPH</h1><small>Enterprise Intelligence Workflow · Public-safe Evidence Network</small></div>
+<div class="nav"><a href="./">← Intelligence Workflow</a><a href="http://127.0.0.1:8779/" target="_blank" rel="noopener noreferrer" title="Only available on the same authorized device with its local server running">Local Control + Monitor ↗</a></div></header>
+<main>
+<div class="notice"><strong>ARCHITECTURE / DATED EVIDENCE ONLY.</strong> เนื้อหานี้เป็นผลสรุปที่ตัดข้อมูลอ่อนไหวออกแล้วจากชุดหลักฐานย้อนหลัง ไม่ใช่การเชื่อมข้อมูล ERP, CRM, Network หรืออาคารแบบ Real-time ข้อมูลส่วนบุคคล โทโพโลยีเครือข่าย และหลักฐานละเอียดเปิดได้เฉพาะในสภาพแวดล้อมที่ได้รับอนุญาต</div>
+<div class="metrics"><div class="metric"><b>2</b><span>Versioned private source snapshots</span></div><div class="metric"><b>9</b><span>Aggregate source/entity nodes</span></div><div class="metric"><b>7</b><span>Evidence-labelled graph edges</span></div><div class="metric"><b>0</b><span>Certified live cross-system joins</span></div></div>
+<div class="layout">
+<section class="panel"><div class="row"><h2>Evidence-first Enterprise Graph</h2><div class="tools" aria-label="Graph controls"><button class="btn" id="zoomIn" aria-label="Zoom in">＋</button><button class="btn" id="zoomOut" aria-label="Zoom out">−</button><button class="btn" id="fit">Fit</button><button class="btn" id="focus" aria-pressed="false">Focus Pending</button></div></div>
+<div class="legend"><span><i class="swatch"></i>Dated, exact-ID joins</span><span><i class="swatch candidate"></i>Candidate relationships</span><span><i class="swatch missing"></i>Unverified / Missing</span></div>
+<svg id="map" viewBox="0 0 1060 680" role="img" aria-label="Interactive nine-node Practika enterprise evidence graph with seven typed edges and two unresolved relationships"></svg>
+<div class="metaText">เลือก Node เพื่อดูสถานะและเงื่อนไขการรับรอง · ลาก/ซูมได้ · ข้อมูลอ้างอิง CAR 15 ต.ค. 2569 และ Network–Building 6 ต.ค. 2569</div>
+</section>
+<aside class="panel"><h2>Evidence Inspector</h2><div id="inspect" class="card"><h3>Choose a node</h3><p>แสดงประเภทหลักฐาน วันที่ต้นทาง และข้อจำกัด ไม่แสดงข้อมูลลับ</p></div>
+<div class="card"><h3>ยังพิสูจน์ไม่ครบ 2 ความสัมพันธ์</h3><ul><li><strong>Complaint → JDE</strong> — ยังไม่มีหลักฐานเชื่อมเลข SO/ERP จริงที่ผ่านการตรวจรับ</li><li><strong>Network → JDE</strong> — ยังไม่มี Dependency จาก Application ถึง Business Process ที่รับรองแล้ว</li></ul></div>
+<div class="card"><h3>Snapshot source summary</h3><p><span class="status good">CAR: VERIFIED_SNAPSHOT</span> · 14/14 Complaint IDs เชื่อมกับ QMR และ WI/FORM Index, ความสัมพันธ์เอกสาร 73 รายการ, QMR effectiveness certified 0</p><p><span class="status">Network–Building: CANDIDATE</span> · 12 candidate links; High 4, Medium 1, Pending 7, Unmapped 4. High เป็นระดับความเชื่อมั่นในต้นทาง ไม่ใช่การรับรองจริง</p></div>
+</aside></div>
+<footer>Last published checkpoint: 18 October 2026 · Source approval: read-only · No private GitHub, IP, asset identities or personal data embedded in public page · Graph reflects verified source metadata and explicit uncertainty, not operational system control.</footer>
+</main>
+<script>
+const nodes=[
+{id:"ceia",name:"PRACTIKA ONE",meta:"Chief Agent / Monitor MVP",state:"MONITOR_MVP",detail:"Chief Agent ในขั้น Monitor; ไม่มีสิทธิ์ดำเนินธุรกรรม ERP หรืออนุมัติ QMR",x:426,y:15},
+{id:"car",name:"CAR Evidence",meta:"Versioned snapshot · 15 Oct",state:"VERIFIED_SNAPSHOT",detail:"อ่านหลักฐานจาก 3 แฟ้ม Private ที่ตรวจ SHA แล้ว ประมวลผลเฉพาะตัวเลขรวม",x:110,y:150},
+{id:"complaint",name:"Complaints",meta:"14 source keys matched",state:"VERIFIED_SNAPSHOT",detail:"เชื่อม complaint_id ตรงกัน 14/14 ใน Incident, QMR audit, controlled documents index",x:110,y:315},
+{id:"qmr",name:"QMR Review",meta:"Human Gate · 0 certified",state:"HUMAN_GATE",detail:"ยังไม่มีหลักฐานว่า QMR รับรองประสิทธิผล ไม่อนุญาตปิดเคสอัตโนมัติ",x:12,y:505},
+{id:"docs",name:"WI/FORM Index",meta:"73 document associations",state:"VERIFIED_SNAPSHOT",detail:"เป็นหลักฐานความสัมพันธ์เอกสาร ไม่ใช่การยืนยันนำมาตรการไปใช้จริง",x:300,y:505},
+{id:"network",name:"Network Twin",meta:"Versioned snapshot · 6 Oct",state:"ARCHITECTURE_SNAPSHOT",detail:"สรุปจาก Network–Building Registry ย้อนหลัง โดยไม่เปิดเผยข้อมูลโทโพโลยี",x:750,y:150},
+{id:"netasset",name:"Network Candidates",meta:"15 infrastructure candidates",state:"CANDIDATE",detail:"ยังไม่มีหลักฐานใหม่ที่ผ่านผู้ดูแลระบบและการตรวจรับ Asset→Application",x:750,y:315},
+{id:"building",name:"Building Links",meta:"12 candidate relations",state:"CANDIDATE",detail:"High 4 / Medium 1 / Pending 7 ตามเอกสารต้นทางเท่านั้น; รอการยืนยัน Location/Asset",x:750,y:505},
+{id:"jde",name:"JDE Source",meta:"NOT CONNECTED",state:"NOT_CONNECTED",detail:"ยังไม่มี Live SO/WO/Capacity feed ที่ผ่านการรับรอง ตรวจทางเชื่อมและสิทธิ์อ่านข้อมูลก่อน",x:425,y:315}
+];
+const edges=[
+["ceia","car","snap"],["car","complaint","snap"],["complaint","qmr","snap"],["complaint","docs","snap"],
+["ceia","network","arch"],["network","netasset","cand"],["netasset","building","cand"]
+];
+const missing=[["complaint","jde"],["network","jde"]];
+const svg=document.getElementById("map"),byId=Object.fromEntries(nodes.map(n=>[n.id,n]));let vb={x:0,y:0,w:1060,h:680};let selected=null,focus=false,drag=null;
+function esc(s){return String(s).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]))}
+function center(n){return [n.x+140,n.y+35]}
+function path(a,b){const [x,y]=center(byId[a]),[u,v]=center(byId[b]);return "M"+x+" "+y+" Q"+((x+u)/2)+" "+(Math.min(y,v)-40)+" "+u+" "+v}
+function draw(){
+const allEdges=edges.map(([a,b,t])=>'<path class="edge '+(t==="snap"?"":'cand')+'" d="'+path(a,b)+'" opacity="'+(focus&&t==="snap"?".12":"1")+'"/>').join("");
+const unresolved=missing.map(([a,b])=>'<path class="edge unverified" d="'+path(a,b)+'"/>').join("");
+const ns=nodes.map(n=>{const cls=n.state==="CANDIDATE"?"cand":n.state==="VERIFIED_SNAPSHOT"?"ok":n.state==="NOT_CONNECTED"?"block":"";return '<g class="node '+cls+(selected===n.id?' sel':'')+'" data-id="'+n.id+'" role="button" tabindex="0" aria-label="'+esc(n.name)+'"><rect x="'+n.x+'" y="'+n.y+'" width="280" height="70"/><text class="nm" x="'+(n.x+140)+'" y="'+(n.y+28)+'">'+esc(n.name)+'</text><text class="meta" x="'+(n.x+140)+'" y="'+(n.y+50)+'">'+esc(n.meta)+'</text></g>'}).join("");
+svg.innerHTML='<rect x="-2000" y="-2000" width="5000" height="5000" fill="transparent"/>'+allEdges+unresolved+ns;
+svg.setAttribute("viewBox",[vb.x,vb.y,vb.w,vb.h].join(" "));
+svg.querySelectorAll("[data-id]").forEach(g=>{let fn=()=>select(g.getAttribute("data-id"));g.addEventListener("click",fn);g.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();fn()}})});
+}
+function select(id){selected=id;const n=byId[id];const c=["VERIFIED_SNAPSHOT"].includes(n.state)?"good":["NOT_CONNECTED"].includes(n.state)?"bad":"";document.getElementById("inspect").innerHTML='<h3>'+esc(n.name)+'</h3><span class="status '+c+'">'+esc(n.state)+'</span><p>'+esc(n.detail)+'</p><p>'+esc(n.meta)+'</p>';draw()}
+function zoom(k){const w=Math.min(1600,Math.max(500,vb.w*k)),h=w*680/1060;vb.x+=(vb.w-w)/2;vb.y+=(vb.h-h)/2;vb.w=w;vb.h=h;draw()}
+document.getElementById("zoomIn").onclick=()=>zoom(.84);
+document.getElementById("zoomOut").onclick=()=>zoom(1.2);
+document.getElementById("fit").onclick=()=>{vb={x:0,y:0,w:1060,h:680};draw()};
+document.getElementById("focus").onclick=e=>{focus=!focus;e.currentTarget.setAttribute("aria-pressed",String(focus));select(focus?"jde":"ceia")};
+svg.addEventListener("wheel",e=>{e.preventDefault();zoom(e.deltaY>0?1.09:.91)},{passive:false});
+svg.addEventListener("pointerdown",e=>{if(e.target.closest(".node"))return;drag={x:e.clientX,y:e.clientY,vx:vb.x,vy:vb.y};svg.setPointerCapture(e.pointerId);svg.classList.add("dragging")});
+svg.addEventListener("pointermove",e=>{if(!drag)return;let r=svg.getBoundingClientRect();vb.x=drag.vx-(e.clientX-drag.x)*vb.w/r.width;vb.y=drag.vy-(e.clientY-drag.y)*vb.h/r.height;draw()});
+function drop(){drag=null;svg.classList.remove("dragging")}
+svg.addEventListener("pointerup",drop);svg.addEventListener("pointercancel",drop);select("ceia");
+</script></body></html>
