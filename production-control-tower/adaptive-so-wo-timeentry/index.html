@@ -13,7 +13,7 @@
 <div>
 <div class="eyebrow">PRACTIKA · PRODUCTION CONTROL TOWER</div>
 <h1>Live Adaptive SO → WO → Production</h1>
-<p class="subtitle">ข้อมูลปัจจุบันจาก ERP Collector / Production Digital State — แสดง WIP, Stage, Rework, readiness และ freshness</p>
+<p class="subtitle">All Open WIP จาก JDE Cutting 40 โดยตรง — ติดตาม WO / SO / Cutting / จุดค้าง / กำหนดโอน / Late และตัดรายการ 9D ออกจาก backlog</p>
 </div>
 <div class="top-actions">
 <a class="ghost-btn" href="../">← Control Tower</a>
@@ -24,24 +24,24 @@
 <section class="filterbar panel">
 <div class="filter-group grow"><label>WO / SO</label><select id="projectFilter"><option value="ALL">ทุก WO</option></select></div>
 <div class="filter-group"><label>ข้อมูลล่าสุด</label><input id="snapshotTime" type="text" readonly/></div>
-<div class="filter-group"><label>มุมมอง</label><div class="segmented" id="viewMode"><button data-mode="flow" class="active">Flow</button><button data-mode="freshness">Freshness</button></div></div>
+<div class="filter-group"><label>มุมมอง</label><div class="segmented" id="viewMode"><button data-mode="flow" class="active">Flow</button><button data-mode="risk">Risk</button></div></div>
 <button id="resetBtn" class="reset-btn">รีเซ็ต</button>
 </section><section id="kpis" class="kpi-grid"></section>
 <section class="layout-main">
 <article class="panel stage-panel">
-<div class="section-head"><div><span class="section-kicker">LIVE PRODUCTION FLOW</span><h2>Stage จาก Business Unit / Operation จริง</h2></div><div class="mini-note" id="scopeNote"></div></div>
+<div class="section-head"><div><span class="section-kicker">CUTTING 40 · ALL OPEN WIP</span><h2>งานค้างตาม Cutting Status / จุดผลิต</h2></div><div class="mini-note" id="scopeNote"></div></div>
 <div id="stageFlow" class="stage-flow"></div>
 <div id="adaptiveInsight" class="insight-box"></div>
 </article>
 <article class="panel trend-panel">
-<div class="section-head"><div><span class="section-kicker">SOURCE FRESHNESS</span><h2>ความสดของ Dataset</h2></div></div>
+<div class="section-head"><div><span class="section-kicker">DELIVERY RISK</span><h2>วันเกินกำหนดโอนสูงสุดต่อ WO</h2></div></div>
 <div id="dailyChart" class="daily-chart"></div>
 <div id="dailyLegend" class="daily-legend"></div>
 </article>
 </section>
 <section class="layout-main lower">
 <article class="panel">
-<div class="section-head"><div><span class="section-kicker">WO RADAR</span><h2>Work Order ที่มี Operation / Rework</h2></div><button id="clearProject" class="text-btn">แสดงทั้งหมด</button></div>
+<div class="section-head"><div><span class="section-kicker">WO BACKLOG</span><h2>Work Order ที่มี Cutting ค้าง</h2></div><button id="clearProject" class="text-btn">แสดงทั้งหมด</button></div>
 <div id="projectRank" class="project-rank"></div>
 </article>
 <article class="panel">
@@ -49,7 +49,7 @@
 <div id="signals" class="signal-list"></div>
 </article>
 </section><section class="panel detail-panel">
-<div class="section-head"><div><span class="section-kicker">DRILL-DOWN</span><h2>WO / SO Operational Detail</h2></div><div class="table-tools"><input id="searchBox" type="search" placeholder="ค้นหา WO / SO..."/></div></div>
+<div class="section-head"><div><span class="section-kicker">DRILL-DOWN</span><h2>Cutting 40 Open WIP Detail</h2></div><div class="table-tools"><input id="searchBox" type="search" placeholder="ค้นหา WO / SO / Cutting..."/></div></div>
 <div class="table-wrap"><table><thead id="detailHead"></thead><tbody id="detailBody"></tbody></table></div>
 </section>
 <section class="source-strip">
