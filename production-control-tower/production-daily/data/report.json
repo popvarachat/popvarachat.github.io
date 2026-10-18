@@ -1,0 +1,117 @@
+{
+    "schema_version":  "2.0",
+    "generated_at":  "2026-10-18T11:46:34.567Z",
+    "scope":  {
+                  "label":  "Observed ERP lifecycle partitions 40/45/60/70; all years",
+                  "complete":  false,
+                  "full_erp_census":  false,
+                  "limitations":  [
+                                      "Partition coverage is limited to lifecycle statuses 40/45/60/70; never a full ERP census.",
+                                      "Business department classification is not certified physical location.",
+                                      "Cached routing evidence covers only a prior cohort; remaining assignments may be unknown.",
+                                      "Overdue uses finish due date; unknown due dates are excluded from overdue counts.",
+                                      "Flow, hold, subcontract and responsibility are unverified; null means unknown.",
+                                      "Static snapshot: refresh reads existing local exports only; ERP collection is not run."
+                                  ]
+              },
+    "flags":  {
+                  "incomplete":  true,
+                  "unresolved":  true,
+                  "conflicting":  true,
+                  "source_conflicts":  30
+              },
+    "coverage":  {
+                     "observed":  6648,
+                     "wip":  6643,
+                     "unresolved":  4014,
+                     "transferred_excluded":  5,
+                     "repeated_observations":  5060,
+                     "source_started_at":  "2026-10-18T10:16:37.312Z",
+                     "source_finished_at":  "2026-10-18T11:46:29.235Z",
+                     "partitions":  [
+                                        {
+                                            "status":  "40",
+                                            "complete":  false,
+                                            "distinct":  2049
+                                        },
+                                        {
+                                            "status":  "45",
+                                            "complete":  false,
+                                            "distinct":  519
+                                        },
+                                        {
+                                            "status":  "60",
+                                            "complete":  false,
+                                            "distinct":  null
+                                        },
+                                        {
+                                            "status":  "70",
+                                            "complete":  false,
+                                            "distinct":  null
+                                        }
+                                    ]
+                 },
+    "departments":  [
+                        {
+                            "id":  "L1",
+                            "wip":  1086,
+                            "overdue":  1081,
+                            "unknown_due":  5,
+                            "incoming":  null,
+                            "outgoing":  null,
+                            "hold":  null,
+                            "subcontract":  null
+                        },
+                        {
+                            "id":  "L2",
+                            "wip":  1025,
+                            "overdue":  1022,
+                            "unknown_due":  3,
+                            "incoming":  null,
+                            "outgoing":  null,
+                            "hold":  null,
+                            "subcontract":  null
+                        },
+                        {
+                            "id":  "L3",
+                            "wip":  116,
+                            "overdue":  116,
+                            "unknown_due":  0,
+                            "incoming":  null,
+                            "outgoing":  null,
+                            "hold":  null,
+                            "subcontract":  null
+                        },
+                        {
+                            "id":  "L4",
+                            "wip":  0,
+                            "overdue":  0,
+                            "unknown_due":  0,
+                            "incoming":  null,
+                            "outgoing":  null,
+                            "hold":  null,
+                            "subcontract":  null
+                        },
+                        {
+                            "id":  "L5",
+                            "wip":  402,
+                            "overdue":  386,
+                            "unknown_due":  1,
+                            "incoming":  null,
+                            "outgoing":  null,
+                            "hold":  null,
+                            "subcontract":  null
+                        },
+                        {
+                            "id":  "UNKNOWN",
+                            "wip":  4014,
+                            "overdue":  4004,
+                            "unknown_due":  8,
+                            "incoming":  null,
+                            "outgoing":  null,
+                            "hold":  null,
+                            "subcontract":  null
+                        }
+                    ],
+    "preview_only":  true
+}
