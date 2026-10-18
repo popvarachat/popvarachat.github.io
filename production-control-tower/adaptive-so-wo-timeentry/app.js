@@ -1,6 +1,6 @@
 const $=s=>document.querySelector(s);
 let DATA=null;
-const state={wo:"ALL",search:""};
+const state={wo:"ALL",search:"",mode:"flow"};
 const fmt=n=>new Intl.NumberFormat("th-TH").format(n||0);
 const money=n=>n==null?"รอ SO value lookup":"฿"+new Intl.NumberFormat("th-TH",{maximumFractionDigits:0}).format(n);
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
@@ -49,9 +49,32 @@ function renderTable(rs){
  $("#detailHead").innerHTML="<tr><th>WO</th><th>SO</th><th>Cutting</th><th>Type</th><th>จุดค้าง</th><th>Status</th><th>กำหนดโอน</th><th>เกินกำหนด</th><th>ผล</th><th>มูลค่า</th></tr>";
  $("#detailBody").innerHTML=rs.slice().sort((a,b)=>b.late_days-a.late_days||a.wo.localeCompare(b.wo)).map(r=>'<tr><td>'+esc(r.wo)+'</td><td>'+esc(r.so||"-")+'</td><td>'+esc(r.cutting)+'</td><td>'+esc(r.cutting_type||"-")+'</td><td>'+esc(r.position)+'</td><td>'+esc(r.status)+'</td><td>'+esc(r.due_transfer||"-")+'</td><td class="'+(r.late_days?"hi":"")+'">'+(r.late_days?fmt(r.late_days)+" วัน":"-")+'</td><td class="'+(r.delivery_state==="LATE"?"hi":"")+'">'+esc(r.delivery_state)+'</td><td>'+money(null)+'</td></tr>').join("");
 }
+function renderPivot(rs){
+ const groups=new Map();
+ for(const r of rs){
+  const key=(r.so||"-")+"|"+(r.wo||"-");
+  if(!groups.has(key))groups.set(key,{so:r.so||"-",wo:r.wo||"-",s60:0,s70:0,s99:0,total:0,late:0,due:new Set()});
+  const g=groups.get(key); g.total++; if(r.status==="60")g.s60++; if(r.status==="70")g.s70++; if(r.status==="99")g.s99++; if(r.delivery_state==="LATE")g.late++; if(r.due_transfer)g.due.add(r.due_transfer);
+ }
+ const arr=[...groups.values()].sort((a,b)=>b.total-a.total||a.so.localeCompare(b.so));
+ $("#pivotHead").innerHTML="<tr><th>SO</th><th>WO</th><th>ผลิต1/2 → 3/4<br>Status 60</th><th>อยู่ผลิต3/4<br>Status 70</th><th>จบ Cutting รอ 9D<br>Status 99</th><th>Late</th><th>Grand Total</th><th>กำหนดโอน</th></tr>";
+ $("#pivotBody").innerHTML=arr.map(g=>'<tr><td>'+esc(g.so)+'</td><td><button class="text-btn pivot-wo" data-wo="'+esc(g.wo)+'">'+esc(g.wo)+'</button></td><td>'+(g.s60||"·")+'</td><td>'+(g.s70||"·")+'</td><td>'+(g.s99||"·")+'</td><td class="'+(g.late?"hi":"")+'">'+fmt(g.late)+'</td><td><strong>'+fmt(g.total)+'</strong></td><td>'+esc([...g.due].join(" | ")||"-")+'</td></tr>').join("");
+ const t=arr.reduce((a,g)=>({s60:a.s60+g.s60,s70:a.s70+g.s70,s99:a.s99+g.s99,late:a.late+g.late,total:a.total+g.total}),{s60:0,s70:0,s99:0,late:0,total:0});
+ $("#pivotBody").insertAdjacentHTML("beforeend",'<tr><td><strong>Grand Total</strong></td><td></td><td><strong>'+fmt(t.s60)+'</strong></td><td><strong>'+fmt(t.s70)+'</strong></td><td><strong>'+fmt(t.s99)+'</strong></td><td class="hi"><strong>'+fmt(t.late)+'</strong></td><td><strong>'+fmt(t.total)+'</strong></td><td></td></tr>');
+ $("#pivotNote").textContent="Distinct Cutting · Current ERP snapshot · "+new Date(DATA.generated_at_utc).toLocaleString("th-TH");
+ document.querySelectorAll(".pivot-wo").forEach(el=>el.onclick=()=>{state.wo=el.dataset.wo;$("#projectFilter").value=state.wo;render();});
+}
+function setMode(mode){
+ state.mode=mode;
+ document.querySelectorAll("#viewMode button").forEach(x=>x.classList.toggle("active",x.dataset.mode===mode));
+ $("#pivotPanel").style.display=mode==="pivot"?"block":"none";
+ if(mode==="pivot")$("#pivotPanel").scrollIntoView({behavior:"smooth",block:"start"});
+ else if(mode==="risk")document.querySelector(".trend-panel").scrollIntoView({behavior:"smooth",block:"nearest"});
+ else document.querySelector(".stage-panel").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
 function render(){
  const rs=selectedCuttings(),wos=selectedWos();
- renderKpis(rs);renderFlow(rs);renderRisk(wos);renderRank(wos);renderSignals(rs);renderTable(rs);
+ renderKpis(rs);renderFlow(rs);renderRisk(wos);renderRank(wos);renderSignals(rs);renderTable(rs);renderPivot(rs);
  $("#scopeNote").textContent=(state.wo==="ALL"?"ทุก WO":"WO "+state.wo)+" · "+fmt(rs.length)+" Cutting";
  $("#sourceStats").innerHTML='<span>'+fmt(DATA.coverage.open_rows)+' open</span><span>'+fmt(DATA.coverage.unique_work_orders)+' WO</span><span>'+fmt(DATA.coverage.unique_sales_orders)+' SO</span><span>'+fmt(DATA.coverage.transferred_9d)+' transferred 9D excluded</span>';
 }async function init(){
@@ -67,7 +90,7 @@ function render(){
   $("#searchBox").oninput=e=>{state.search=e.target.value;render();};
   $("#resetBtn").onclick=()=>{state.wo="ALL";state.search="";$("#projectFilter").value="ALL";$("#searchBox").value="";render();};
   $("#clearProject").onclick=()=>{state.wo="ALL";$("#projectFilter").value="ALL";render();};
-  document.querySelectorAll("#viewMode button").forEach(b=>b.onclick=()=>{document.querySelectorAll("#viewMode button").forEach(x=>x.classList.remove("active"));b.classList.add("active");document.querySelector(".trend-panel").scrollIntoView({behavior:"smooth",block:"nearest"});});
+  document.querySelectorAll("#viewMode button").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
   render();
  }catch(e){
   $("#modePill").textContent="Data unavailable";
