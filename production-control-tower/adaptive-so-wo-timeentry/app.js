@@ -17,7 +17,7 @@ function card(label,value,sub,kind=""){return '<div class="kpi '+kind+'"><div cl
 function renderKpis(rs){
  const late=rs.filter(r=>r.delivery_state==="LATE").length;
  const s60=rs.filter(r=>r.status==="60").length,s70=rs.filter(r=>r.status==="70").length,s99=rs.filter(r=>r.status==="99").length;
- $("#kpis").innerHTML=card("Open WIP",fmt(rs.length),"Cutting ที่ยังไม่มี 9D","warn")+card("WO",fmt(uniq(rs,"wo")),"Work Order จริงจาก Cutting","info")+card("SO",fmt(uniq(rs,"so")),"Sales Order ที่เชื่อมได้","info")+card("ผลิต1/2 → 3/4",fmt(s60),"Status 60","")+card("อยู่ผลิต3/4",fmt(s70),"Status 70","")+card("Late",fmt(late),"เลยวันกำหนดโอน","warn");
+ $("#kpis").innerHTML=card("Open WIP",fmt(rs.length),"Cutting ที่ยังไม่มี 9D","warn")+card("WO",fmt(uniq(rs,"wo")),"Work Order จริงจาก Cutting","info")+card("SO",fmt(uniq(rs,"so")),"Sales Order ที่เชื่อมได้","info")+card("ค้างผลิต 1/2",fmt(s60),"รอส่งต่อผลิต 3/4","warn")+card("ค้างผลิต 3/4",fmt(s70),"กำลังอยู่ฝั่งผลิต 3/4","warn")+card("จบ Cutting รอ 9D",fmt(s99),"ยังไม่โอนครบ","warn");
 }function renderFlow(rs){
  const stages=[["60","ผลิต1/2 → รอรับโดย 3/4"],["70","อยู่ที่ผลิต3/4"],["99","จบ Cutting → รอ 9D"]];
  const vals=stages.map(([k])=>rs.filter(r=>r.status===k).length),mx=Math.max(...vals,1);
@@ -46,7 +46,7 @@ function renderRank(wos){
  $("#signals").innerHTML=cards.map(s=>'<div class="signal '+s[0]+'"><div class="sig-title">'+s[1]+'</div><div class="sig-text">'+s[2]+'</div></div>').join("");
 }
 function renderTable(rs){
- $("#detailHead").innerHTML="<tr><th>WO</th><th>SO</th><th>Cutting</th><th>Type</th><th>จุดค้าง</th><th>Status</th><th>กำหนดโอน</th><th>เกินกำหนด</th><th>ผล</th><th>มูลค่า</th></tr>";
+ $("#detailHead").innerHTML="<tr><th>WO</th><th>SO</th><th>Cutting</th><th>Type</th><th>ค้างที่ผลิต</th><th>Cutting Status</th><th>กำหนดโอน</th><th>เกินกำหนด</th><th>ผล</th><th>มูลค่า</th></tr>";
  $("#detailBody").innerHTML=rs.slice().sort((a,b)=>b.late_days-a.late_days||a.wo.localeCompare(b.wo)).map(r=>'<tr><td>'+esc(r.wo)+'</td><td>'+esc(r.so||"-")+'</td><td>'+esc(r.cutting)+'</td><td>'+esc(r.cutting_type||"-")+'</td><td>'+esc(r.position)+'</td><td>'+esc(r.status)+'</td><td>'+esc(r.due_transfer||"-")+'</td><td class="'+(r.late_days?"hi":"")+'">'+(r.late_days?fmt(r.late_days)+" วัน":"-")+'</td><td class="'+(r.delivery_state==="LATE"?"hi":"")+'">'+esc(r.delivery_state)+'</td><td>'+money(null)+'</td></tr>').join("");
 }
 function renderPivot(rs){
@@ -57,7 +57,7 @@ function renderPivot(rs){
   const g=groups.get(key); g.total++; if(r.status==="60")g.s60++; if(r.status==="70")g.s70++; if(r.status==="99")g.s99++; if(r.delivery_state==="LATE")g.late++; if(r.due_transfer)g.due.add(r.due_transfer);
  }
  const arr=[...groups.values()].sort((a,b)=>b.total-a.total||a.so.localeCompare(b.so));
- $("#pivotHead").innerHTML="<tr><th>SO</th><th>WO</th><th>ผลิต1/2 → 3/4<br>Status 60</th><th>อยู่ผลิต3/4<br>Status 70</th><th>จบ Cutting รอ 9D<br>Status 99</th><th>Late</th><th>Grand Total</th><th>กำหนดโอน</th></tr>";
+ $("#pivotHead").innerHTML="<tr><th>SO</th><th>WO</th><th>ค้างที่ผลิต 1/2<br><span style='font-size:10px;color:#7f95ab'>รอส่งต่อผลิต 3/4</span></th><th>ค้างที่ผลิต 3/4</th><th>จบ Cutting<br><span style='font-size:10px;color:#7f95ab'>รอ 9D / โอน</span></th><th>Late</th><th>Grand Total</th><th>กำหนดโอน</th></tr>";
  $("#pivotBody").innerHTML=arr.map(g=>'<tr><td>'+esc(g.so)+'</td><td><button class="text-btn pivot-wo" data-wo="'+esc(g.wo)+'">'+esc(g.wo)+'</button></td><td>'+(g.s60||"·")+'</td><td>'+(g.s70||"·")+'</td><td>'+(g.s99||"·")+'</td><td class="'+(g.late?"hi":"")+'">'+fmt(g.late)+'</td><td><strong>'+fmt(g.total)+'</strong></td><td>'+esc([...g.due].join(" | ")||"-")+'</td></tr>').join("");
  const t=arr.reduce((a,g)=>({s60:a.s60+g.s60,s70:a.s70+g.s70,s99:a.s99+g.s99,late:a.late+g.late,total:a.total+g.total}),{s60:0,s70:0,s99:0,late:0,total:0});
  $("#pivotBody").insertAdjacentHTML("beforeend",'<tr><td><strong>Grand Total</strong></td><td></td><td><strong>'+fmt(t.s60)+'</strong></td><td><strong>'+fmt(t.s70)+'</strong></td><td><strong>'+fmt(t.s99)+'</strong></td><td class="hi"><strong>'+fmt(t.late)+'</strong></td><td><strong>'+fmt(t.total)+'</strong></td><td></td></tr>');
