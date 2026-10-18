@@ -24,7 +24,7 @@
 <section class="filterbar panel">
 <div class="filter-group grow"><label>WO / SO</label><select id="projectFilter"><option value="ALL">ทุก WO</option></select></div>
 <div class="filter-group"><label>ข้อมูลล่าสุด</label><input id="snapshotTime" type="text" readonly/></div>
-<div class="filter-group"><label>มุมมอง</label><div class="segmented" id="viewMode"><button data-mode="flow" class="active">Flow</button><button data-mode="pivot">Pivot</button><button data-mode="risk">Risk</button></div></div>
+<div class="filter-group view-switch"><label>มุมมอง Dashboard</label><div class="segmented" id="viewMode"><button data-mode="flow">FLOW</button><button data-mode="pivot" class="active pivot-primary">PIVOT MATRIX</button><button data-mode="risk">RISK</button></div></div>
 <button id="resetBtn" class="reset-btn">รีเซ็ต</button>
 </section><section id="kpis" class="kpi-grid"></section>
 <section class="layout-main">
@@ -40,7 +40,7 @@
 </article>
 </section>
 <section id="pivotPanel" class="panel detail-panel" style="display:none">
-<div class="section-head"><div><span class="section-kicker">LIVE PIVOT · DISTINCT CUTTING</span><h2>SO / WO × จุดค้างปัจจุบัน</h2></div><div class="mini-note" id="pivotNote"></div></div>
+<div class="section-head"><div><span class="section-kicker">LIVE PIVOT · DISTINCT CUTTING · CURRENT ERP</span><h2>Pivot Matrix: SO / WO × จุดค้างปัจจุบัน</h2></div><div class="mini-note" id="pivotNote"></div></div>
 <div class="table-wrap"><table><thead id="pivotHead"></thead><tbody id="pivotBody"></tbody></table></div>
 </section>
 <section class="layout-main lower">

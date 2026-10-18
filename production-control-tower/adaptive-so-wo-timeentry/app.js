@@ -1,6 +1,6 @@
 const $=s=>document.querySelector(s);
 let DATA=null;
-const state={wo:"ALL",search:"",mode:"flow"};
+const state={wo:"ALL",search:"",mode:"pivot"};
 const fmt=n=>new Intl.NumberFormat("th-TH").format(n||0);
 const money=n=>n==null?"รอ SO value lookup":"฿"+new Intl.NumberFormat("th-TH",{maximumFractionDigits:0}).format(n);
 const esc=v=>String(v??"").replace(/[&<>"']/g,m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
@@ -91,7 +91,7 @@ function render(){
   $("#resetBtn").onclick=()=>{state.wo="ALL";state.search="";$("#projectFilter").value="ALL";$("#searchBox").value="";render();};
   $("#clearProject").onclick=()=>{state.wo="ALL";$("#projectFilter").value="ALL";render();};
   document.querySelectorAll("#viewMode button").forEach(b=>b.onclick=()=>setMode(b.dataset.mode));
-  render();
+  render(); setMode("pivot");
  }catch(e){
   $("#modePill").textContent="Data unavailable";
   $("#adaptiveInsight").textContent="โหลดข้อมูล Cutting 40 ไม่สำเร็จ: "+e.message;
