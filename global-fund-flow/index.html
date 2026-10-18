@@ -1,6 +1,6 @@
 <!doctype html>
 <html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#091827">
-<title>Global Fund Flow Intelligence V6 | World Bilateral Network</title>
+<title>Global Fund Flow Intelligence V8 | 2026 Rate Impact & World Capital Balances</title>
 <meta name="description" content="Global fund flow evidence dashboard: interactive country-to-US asset transactions and auditable intelligence workflow.">
 <style>
 :root{--bg:#071521;--panel:#112638;--panel2:#152f43;--ink:#eef8ff;--muted:#9cbbca;--border:#315064;--green:#55e4b9;--red:#ff8d96;--gold:#f5c78e;--cyan:#8dc9ff}
@@ -30,13 +30,115 @@ nav{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;padding-bottom:8px;borde
 .bil-table td{white-space:normal}
 @media(max-width:760px){.bil-topstrip,.bil-coverage{grid-template-columns:1fr}.bilcontrols label{flex:1;min-width:135px}.bilcontrols select{max-width:100%}}
 </style>
+<style id="world-v7">
+.worldlead{color:var(--ink)}
+.wfilterbar{display:flex;flex-wrap:wrap;align-items:end;gap:10px;margin:14px 0}
+.wfilterbar label{display:flex;flex-direction:column;gap:4px;font-size:10px;color:var(--muted)}
+.wfilterbar select,.wfilterbar input{min-width:115px;max-width:225px;padding:9px 10px;color:var(--ink);border-radius:9px;border:1px solid #4a6c82;background:#1b394e}
+.wfilterbar input{font-size:12px}
+.wcoverage{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px;margin:13px 0}
+.wcoverage>div{background:#142e3f;border:1px solid var(--border);border-radius:12px;padding:14px;display:flex;flex-direction:column;gap:5px}
+.wcoverage strong{font-size:25px;color:#d8f9f1}
+.wcoverage small{font-size:10px;color:#a1c3d2}
+.wbarcharts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:13px}
+.wbar{width:100%;display:grid;grid-template-columns:minmax(75px,123px) 1fr 90px;gap:9px;align-items:center;background:transparent;border:1px solid transparent;border-radius:6px;padding:6px;margin:0;color:var(--ink);text-align:left;min-height:34px;font-size:10px;cursor:pointer}
+.wbar:hover,.wbar.picked{background:#245065;border-color:#517a8e}
+.wbar b{text-align:right;font-size:11px;font-variant-numeric:tabular-nums}
+.wtrack{display:block;height:13px;border-radius:5px;background:#26475a;overflow:hidden}
+.wtrack i{display:block;height:100%;border-radius:4px}
+.wname{white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.wcontinent{display:grid;grid-template-columns:1.2fr .5fr 1fr 1fr;gap:12px;padding:12px 7px;border-bottom:1px solid var(--border);font-size:11px;align-items:center}
+.wcontinent small{color:#a0b7c6}
+.wmetric{display:flex;align-items:center;justify-content:space-between;gap:8px;border-top:1px solid var(--border);padding:10px 0;font-size:11px}
+.wmetric>div{display:flex;flex-direction:column;gap:2px}
+.wmetric small{font-size:10px;color:var(--muted)}
+.wmetric b{font-size:13px;font-variant-numeric:tabular-nums;white-space:nowrap}
+.wlead{font-size:clamp(28px,3vw,43px);font-weight:800;letter-spacing:-1px;margin:15px 0}
+.wlead.sup{color:#55e4b9}.wlead.recv{color:#90c1ff}
+.wclick{cursor:pointer}.wclick:focus,.wclick:hover{outline:1px solid #507586;background:#23445b}
+@media(max-width:1000px){.wbarcharts{grid-template-columns:1fr}.wcoverage{grid-template-columns:repeat(2,1fr)}}@media(max-width:590px){.wcoverage{grid-template-columns:1fr 1fr}.wcontinent{grid-template-columns:1fr 1fr}.wbar{grid-template-columns:95px 1fr 75px}}
+</style>
+<style id="rate-v8">
+.rate-tabbar{display:flex;flex-wrap:wrap;gap:10px;margin:16px 0}
+.rate-tabbar button{font-size:12px;min-width:170px;padding:12px 15px;border-radius:11px}
+.rate-tabbar button.active{background:#23586b;color:#b9ffec;border-color:#8ad8bd}
+.rate-kpis{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.rate-stat{border:1px solid #365c6e;border-radius:12px;padding:15px;background:#112c3e;min-width:0}
+.rate-stat>span{color:#a8c6d4;font-size:11px;display:block;min-height:31px}
+.rate-stat strong{font-size:clamp(19px,2.2vw,30px);display:block;line-height:1.3;white-space:nowrap}
+.rate-stat strong small{font-size:11px;color:#a4c1ce}
+.rate-stat p{font-size:11px;color:#b1c9d3;line-height:1.55;min-height:48px}
+.rate-flow{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.rate-flow .big{font-size:30px;display:block;line-height:1.5}
+.rate-source-links{display:flex;flex-wrap:wrap;gap:10px;margin-top:14px}
+.rate-source-links a{padding:7px 10px;border:1px solid var(--border);border-radius:9px;font-size:11px;line-height:1.5}
+.rate-evidence li{margin:9px 0;font-size:12px;line-height:1.65;color:#c1d6e4}
+.rate-gantt{display:flex;align-items:center;gap:7px;font-size:11px;line-height:1.5;flex-wrap:wrap}
+.rate-gantt span{padding:8px 10px;border:1px solid #497287;border-radius:8px;background:#1b4257}
+.rate-gantt b{color:#acd6e6}
+@media(max-width:970px){.rate-kpis{grid-template-columns:repeat(2,1fr)}.rate-flow{grid-template-columns:1fr}}
+@media(max-width:560px){.rate-kpis{grid-template-columns:1fr}.rate-tabbar button{flex:1;min-width:130px}}
+</style>
 </head>
-<body><header class="hero"><div class="wrap"><div class="toprow"><span class="eyebrow">◎ Global Capital Intelligence / V6</span><span class="rightstamp">VERIFIED SNAPSHOT · 18 OCT 2026 · NOT LIVE</span></div><h1>Follow the <span>Money.</span><br>Global Intelligence Network</h1><p>ติดตามหลักฐานการซื้อขายสินทรัพย์ข้ามพรมแดนในรูปแบบ Network และ Intelligence Workflow ระดับผู้บริหาร — แยกการซื้อขายจริง (Net Transactions), การถือครอง (Holdings), และความเชื่อมโยงที่ยังไม่มีหลักฐานยืนยัน</p></div></header>
+<body><header class="hero"><div class="wrap"><div class="toprow"><span class="eyebrow">◎ Global Capital Intelligence / V8</span><span class="rightstamp">VERIFIED SNAPSHOT · 18 OCT 2026 · NOT LIVE</span></div><h1>Follow the <span>Money.</span><br>Global Intelligence Network</h1><p>ติดตามหลักฐานการซื้อขายสินทรัพย์ข้ามพรมแดนในรูปแบบ Network และ Intelligence Workflow ระดับผู้บริหาร — แยกการซื้อขายจริง (Net Transactions), การถือครอง (Holdings), และความเชื่อมโยงที่ยังไม่มีหลักฐานยืนยัน</p></div></header>
 <div class="wrap"><div class="notice"><strong>Evidence boundary:</strong> เส้นจากประเทศไปยังหุ้นและพันธบัตรสหรัฐฯ เป็น <b>ธุรกรรมสุทธิเดือนสิงหาคม 2026 ตาม US Treasury TIC</b> ซึ่งจำแนกตามประเทศผู้ถือครอง/รายงาน ไม่ใช่หลักฐานว่าขายหุ้นในประเทศต้นทางแล้วโอนเงินตรงมายังสหรัฐฯ เส้นสีแดงคือขายหลักทรัพย์สหรัฐฯ สุทธิ ไม่ได้ยืนยันประเทศปลายทางของเงิน</div>
 <section class="kpis"><div class="kpi"><div class="lbl">Foreign net purchases<br>US long-term securities</div><strong class="good">+$300.7B</strong><small>Aug 2026 · Treasury TIC</small></div><div class="kpi"><div class="lbl">US equities · foreign<br>net acquisitions</div><strong class="good">+$153.9B</strong><small>Aug 2026 · measured flows</small></div><div class="kpi"><div class="lbl">US Treasury notes &amp; bonds<br>foreign net acquisitions</div><strong class="good">+$108.9B</strong><small>Aug 2026 · excludes T-bills</small></div><div class="kpi"><div class="lbl">Verified country sample<br>with asset breakdown</div><strong id="sampleKpi">20 / 20</strong><small>TIC Table 1 · full world not covered</small></div></section>
-<nav aria-label="dashboard sections"><button data-view="bilateral" class="active" type="button">◎ Global Bilateral · BIS / IMF</button><button data-view="network" type="button">◈ Capital Flow Network</button><button data-view="workflow" type="button">◇ Intelligence Workflow</button><button data-view="country" type="button">▦ Country / Asset Matrix</button><button data-view="evidence" type="button">◉ Evidence &amp; Data Quality</button></nav>
+<nav aria-label="dashboard sections"><button data-view="rate" class="active" type="button">↗ 2026 Rate Hike Impact</button><button data-view="world" type="button">🌐 Worldwide Net Capital In/Out</button><button data-view="bilateral" type="button">◎ Global Bilateral · BIS / IMF</button><button data-view="network" type="button">◈ Capital Flow Network</button><button data-view="workflow" type="button">◇ Intelligence Workflow</button><button data-view="country" type="button">▦ Country / Asset Matrix</button><button data-view="evidence" type="button">◉ Evidence &amp; Data Quality</button></nav>
 <main>
-<section id="view-bilateral" class="view active">
+<section id="view-rate" class="view active">
+<div class="sectionhead"><div><div class="eyebrow">LATEST 2026 · GLOBAL CAPITAL ROTATION</div><h2>August → September → October: Fund Flow หลัง Fed ขึ้นดอกเบี้ย</h2>
+<p class="micro muted">Fed <b>ขึ้น</b> ดอกเบี้ยวันที่ 16 กันยายน 2026 อีก 25 basis points เป็นกรอบ 3.75–4.00% ไม่ใช่ลดดอกเบี้ย · ข้อมูลถึง 16 ต.ค. 2026 เท่านั้น</p></div><span class="tag pending">Monthly &amp; Weekly · Different Coverage</span></div>
+<div class="rate-gantt"><span>August · Before Fed hike</span><b>→</b><span>Sep 16 · Fed +25bp to 3.75–4%</span><b>→</b><span>October · Partial, selective re-entry</span></div>
+<div class="notice"><b>อย่าอ่านกราฟผิด:</b> กันยายนเป็นเดือนที่ Fed ขึ้นดอกเบี้ย (ไม่ใช่ลด) และผลตอบแทน US 10-Year เพิ่ม 53.5bp ภายในเดือน กราฟด้านล่างมี 3 ความหมายแตกต่างกัน: ① ตลาดหลักทรัพย์เอเชีย Foreign Net Trade รายเดือน ② US Treasury TIC เงินทุนสุทธิข้ามพรมแดนรายเดือน ③ เงินเข้า–ออกกองทุน LSEG รายสัปดาห์ ห้ามรวมยอดเหล่านี้หรือวาดเส้นว่าเป็นเงินก้อนเดียวกัน</div>
+<div class="card" style="margin-bottom:13px">
+ <div class="eyebrow">APPLES-TO-APPLES · SAME ASIAN MARKET SET</div><h3 style="font-size:18px;margin:7px 0">หุ้นเอเชีย 7 ตลาด: ต่างชาติซื้อสุทธิ → ขายสุทธิหลัง Fed Tightening</h3>
+ <div class="rate-flow">
+ <div class="insight"><span class="eyebrow">AUG 2026 · BEFORE HIKE</span><strong class="big good">+$4.72B</strong><div style="height:16px;border-radius:6px;background:#224759;overflow:hidden"><div style="width:20.09%;height:100%;background:#55e4b9;border-radius:6px"></div></div><p class="micro muted">Foreign net buying · 7 Asian exchanges</p></div>
+ <div class="insight"><span class="eyebrow">SEP 2026 · HIKED SEP 16</span><strong class="big bad">−$23.49B</strong><div style="height:16px;border-radius:6px;background:#224759;overflow:hidden"><div style="width:100%;height:100%;background:#ff8d96;border-radius:6px"></div></div><p class="micro muted">Foreign net selling · 7 Asian exchanges</p></div></div>
+ <p class="micro muted">Coverage: Taiwan, South Korea, India, Indonesia, Thailand, Vietnam, Philippines · LSEG/Reuters · NOT world totals · Not evidence that capital left Asia and arrived in the USA.</p>
+ <a href="https://www.reuters.com/world/asia-pacific/asian-stocks-draw-foreign-buyers-after-nine-month-selloff-2026-09-10/" target="_blank" rel="noopener noreferrer">August Reuters source ↗</a> · <a href="https://www.reuters.com/world/asia-pacific/asian-bonds-record-biggest-monthly-foreign-outflow-since-march-2020-2026-10-16/" target="_blank" rel="noopener noreferrer">September Reuters source ↗</a>
+</div>
+<div class="sectionhead"><div><div class="eyebrow">PERIOD INTELLIGENCE</div><h3 id="rateMonth" style="font-size:20px;margin:6px 0">September 2026</h3><p class="micro muted" id="rateScope"></p></div><span class="tag" id="rateTag">Fed hike +25bp</span></div>
+<div class="rate-tabbar"><button type="button" data-rate-month="aug">AUG · Before hike</button><button type="button" data-rate-month="sep" class="active">SEP · Tightening</button><button type="button" data-rate-month="oct">OCT · Partial weekly</button></div>
+<div class="rate-kpis" id="rateKpis"></div>
+<div class="chartcols" style="margin-top:13px">
+<div class="insight"><div class="eyebrow">EXECUTIVE ANALYSIS</div><h3>Money rotation insight</h3><p id="rateNarrative" class="micro muted"></p></div>
+<div class="card"><div class="eyebrow">EVIDENCE LEDGER / PERIOD LIMITS</div><h3 style="font-size:16px">What is actually measured</h3><ul id="rateEvidence" class="rate-evidence"></ul></div>
+</div>
+<div class="card" style="margin-top:12px"><div class="eyebrow">PRIMARY &amp; REPORTED SOURCES</div><div id="rateSources" class="rate-source-links"></div>
+<div class="notice" style="margin-bottom:0"><b>International flow vs fund subscriptions:</b> October LSEG Lipper figures are one week only, <b>not October month-to-date</b>. August total U.S. TIC was $199.8B while long-term securities alone were $300.7B; the latter is a component, not an additional inflow. September U.S. TIC scheduled Nov 18, 2026. 2025 country Financial Account is the latest broad comparable worldwide ranking, not 2026 monthly data.</div></div>
+</section>
+<section id="view-world" class="view">
+<div class="sectionhead"><div><div class="eyebrow">00 / WORLD NET CAPITAL IMPORTERS VS EXPORTERS</div><h2>ทั่วโลก: ใครเป็นผู้ให้เงินทุนสุทธิ และใครเป็นผู้รับเงินทุนสุทธิ?</h2><p class="micro muted">World Bank WDI / IMF Balance of Payments · Financial account (BN.FIN.TOTL.CD) · US$ billions · ปีเดียวกันเท่านั้น · จำแนกทุกเศรษฐกิจที่มีข้อมูล ไม่ใช่การสมมติประเทศคู่โอนเงิน</p></div><span class="tag" id="wLive">Loading IMF/World Bank data…</span></div>
+<div class="notice"><b>วิธีอ่าน:</b> Financial account <b>บวก = Net capital supplier / Net lender</b> (ให้เงินทุนแก่โลกสุทธิ); <b>ลบ = Net capital receiver / Net borrower</b> (รับเงินทุนจากโลกสุทธิ) | เป็นบัญชีการเงินสุทธิของทั้งประเทศ รวมสินทรัพย์/หนี้สิน ไม่ใช่เงินซื้อหุ้นเพียงอย่างเดียว และไม่ยืนยันว่าประเทศผู้ให้เงินลงทุนไปยังประเทศผู้รับรายใดโดยตรง</div>
+<div class="wfilterbar">
+<label>Year <select id="wYear"><option value="2025">2025 · latest consistent</option><option value="2024">2024 · comparison</option></select></label>
+<label>Continent <select id="wContSelect"><option value="All">🌍 World · all continents</option><option value="Asia">Asia</option><option value="Europe">Europe</option><option value="Americas">Americas</option><option value="Africa">Africa</option><option value="Oceania">Oceania</option></select></label>
+<label>Direction <select id="wType"><option value="all">Both net lenders & borrowers</option><option value="exporters">Net capital suppliers only</option><option value="importers">Net capital receivers only</option></select></label>
+<label>Sort <select id="wSort"><option value="absolute">Largest absolute balance</option><option value="exporter">Most capital supplied</option><option value="receiver">Most capital received</option><option value="name">Country name</option></select></label>
+<label>Country search <input id="wSearch" type="search" placeholder="Find economy…" aria-label="Search country by name or ISO code"></label>
+<button id="wExport" type="button">↓ Export country CSV</button>
+</div>
+<div class="wcoverage">
+<div><small>ECONOMIES REPORTING DATA</small><strong id="wCount">—</strong><small>Not all world economies are covered</small></div>
+<div><small>NET CAPITAL SUPPLIERS</small><strong class="good" id="wSuppliers">—</strong><small>Positive financial-account balance</small></div>
+<div><small>NET CAPITAL RECEIVERS</small><strong style="color:#90c1ff" id="wReceivers">—</strong><small>Negative financial-account balance</small></div>
+<div><small>SAME-YEAR COMPARISON</small><strong id="wDataDate">2025</strong><small id="wCoverageCaption">Waiting for data…</small></div>
+</div>
+<div class="wbarcharts">
+<div class="card"><div class="eyebrow">COUNTRIES SUPPLYING CAPITAL TO THE WORLD</div><h3 style="font-size:18px;margin:6px 0 3px">Top Net Capital Exporters</h3><p class="micro muted">Financial account: net lender (+) · click country to see indicators</p><div id="wSupChart"></div></div>
+<div class="card"><div class="eyebrow">COUNTRIES ABSORBING CAPITAL FROM THE WORLD</div><h3 style="font-size:18px;margin:6px 0 3px">Top Net Capital Importers</h3><p class="micro muted">Financial account: net borrower (−) · amounts shown as positive magnitude</p><div id="wRecvChart"></div></div>
+</div>
+<div class="chartcols">
+<div class="card"><div class="eyebrow">CONTINENTAL OVERVIEW</div><h3 style="font-size:17px">Capital supplying vs absorbing economies</h3><div id="wContinent"></div></div>
+<div class="insight" id="worldDetail"><h3>Country evidence</h3><p class="muted">Select a country from the chart or table.</p></div>
+</div>
+<div class="card" style="margin-top:13px"><div class="sectionhead"><div><div class="eyebrow">ALL REPORTED ECONOMIES</div><h3 style="font-size:18px;margin:5px 0">World Financial Account Country Matrix</h3><p class="micro muted">แยก Financial Account สุทธิ / Current Account / Portfolio / FDI Inflows รายประเทศ · หน่วย USD billions · n/a = ไม่มีข้อมูล</p></div><span class="tag">Filtered countries: <b id="wFilterCount">—</b></span></div>
+<div class="tableclip" style="max-height:560px"><table><thead><tr><th>Country / economy</th><th>Continent</th><th>Net capital</th><th class="num">Financial account, net</th><th class="num">Current account</th><th class="num">Portfolio net</th><th class="num">FDI inflows</th></tr></thead><tbody id="worldRows"></tbody></table></div></div>
+<div class="notice"><b>Audit restriction:</b> ยังระบุไม่ได้ว่า 'เงินจากจีน US$773B ไปสหรัฐฯ US$1.3T' ทั้งหมด เพราะ Financial Account เป็นยอดสุทธิระหว่างแต่ละประเทศกับโลก ไม่ใช่ Bilateral Transaction Map หากต้องการทราบปลายทางรายคู่ประเทศ ให้เปลี่ยนไปดูแท็บ BIS / IMF / US TIC ซึ่งแต่ละชุดวัดสินทรัพย์และรอบเวลาต่างกัน</div>
+<p class="micro muted"><a target="_blank" rel="noopener noreferrer" href="https://data.worldbank.org/indicator/BN.FIN.TOTL.CD">Source: World Bank WDI / IMF Balance of Payments Financial Account</a> · <a target="_blank" rel="noopener noreferrer" href="./data/global-financial-account-2025-2024.json">Auditable JSON data</a> · Published values may be revised.</p>
+</section>
+<section id="view-bilateral" class="view">
   <div class="sectionhead"><div><div class="eyebrow">00 / WORLD BILATERAL COVERAGE</div>
   <h2>Global Banking Flows × Portfolio Securities Holdings</h2>
   <div class="micro muted">ข้ามทวีป / ข้ามประเทศ จากแหล่งข้อมูลทางการ · แยก BIS (การเปลี่ยนแปลงสินเชื่อ) ออกจาก IMF (ยอดถือครอง) อย่างเคร่งครัด</div></div>
@@ -103,7 +205,7 @@ nav{display:flex;gap:8px;margin-top:26px;flex-wrap:wrap;padding-bottom:8px;borde
 <div class="source"><span class="tag pending">SEPARATE FLOW TYPE</span><strong>UNCTAD FDI</strong>Direct investment is tracked separately; not commensurate with monthly secondary-market trading<br><a href="https://unctadstat.unctad.org/" target="_blank" rel="noopener noreferrer">เปิด UNCTAD</a></div>
 </div><div class="chartcols"><div class="card"><strong>Confidence policy</strong><p class="micro muted">Tier A — primary verified transaction by reporting jurisdiction and asset, period specified.<br>Tier B — official bilateral positions; not transaction flow.<br>Tier C — fund flows or inferred link; must state sampling and assumptions.<br>Tier D — unverified cross-country destination; not plotted as factual money movement.</p></div><div class="card"><strong>Current release scope</strong><p class="micro muted">Static snapshot through Oct 17, 2026. No live polling, brokerage execution, or beneficial-owner identification. One monthly TIC sample (20 selected reporting countries), source links, observable workflow, country matrix and CSV export. No worldwide bilateral net-flow dataset is claimed.</p></div></div>
 </section></main>
-<footer class="foot">GLOBAL CAPITAL INTELLIGENCE V6 · BIS and IMF bilateral evidence-led dashboard · Data period: August 2026 for TIC transactions · V6 expanded 18 Oct 2026 · Not investment advice · <a href="https://github.com/popvarachat/popvarachat.github.io/tree/main/global-fund-flow" target="_blank" rel="noopener noreferrer">GitHub source</a></footer></div>
+<footer class="foot">GLOBAL CAPITAL INTELLIGENCE V8 · BIS and IMF bilateral evidence-led dashboard · Data period: August 2026 for TIC transactions · V6 expanded 18 Oct 2026 · Not investment advice · <a href="https://github.com/popvarachat/popvarachat.github.io/tree/main/global-fund-flow" target="_blank" rel="noopener noreferrer">GitHub source</a></footer></div>
 <script>
 'use strict';
 const raw=[
@@ -180,4 +282,4 @@ $('scope').addEventListener('change',netDraw);$('asset').addEventListener('chang
 $('csv').addEventListener('click',()=>{let ss=$('tableRegion').value;let rows=[['reporting_country','region','total_usd_m','equities_usd_m','treasury_usd_m','corporate_usd_m','agency_usd_m','holdings_usd_m','period','source']];countries.filter(d=>scopeMatch(d,ss)).forEach(d=>rows.push([d.name,d.region,d.total,d.equity,d.treas,d.corp,d.agency,d.hold,'2026-08','US Treasury SLT Table 1']));const csv=rows.map(r=>r.map(x=>'"'+String(x).replace(/"/g,'""')+'"').join(',')).join('\r\n');const a=document.createElement('a'),u=URL.createObjectURL(new Blob(['\ufeff',csv],{type:'text/csv;charset=utf-8'}));a.href=u;a.download='global_us_tic_flows_aug_2026.csv';a.click();setTimeout(()=>URL.revokeObjectURL(u),1000)});
 const invalid=countries.filter(d=>d.equity+d.treas+d.corp+d.agency!==d.total);if(invalid.length){console.error('Reconciliation issue',invalid);$('sampleKpi').textContent=(countries.length-invalid.length)+' / '+countries.length;}
 hookup('netSvg','net');hookup('wfSvg','wf');regionBars();netDraw();workflowDraw();countryTable();
-</script><script defer src="./bilateral.js"></script></body></html>
+</script><script defer src="./bilateral.js"></script><script defer src="./world.js"></script><script defer src="./rate2026.js"></script></body></html>

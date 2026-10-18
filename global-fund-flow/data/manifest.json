@@ -1,5 +1,5 @@
 {
-  "release": "v6",
+  "release": "v8",
   "snapshot_date": "2026-10-18",
   "not_live": true,
   "quality": "passed deterministic pair-uniqueness, numeric, reporter and period checks",
@@ -25,7 +25,22 @@
       "counterpart_economies": 237,
       "units": "USD millions",
       "source": "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,PIP/*.A.P_TOTINV_P_USD.S1.S1.*.S?startPeriod=2025&endPeriod=2025"
+    },
+    {
+      "file": "global-financial-account-2025-2024.json",
+      "measure": "Net financial account (BoP) by country; stocks and holdings NOT included",
+      "period": [
+        "2025",
+        "2024"
+      ],
+      "sha256": "90c27454a9d6773e270957bb544d355ca0f355ccaa310bd3e10b01dac1359235",
+      "records": 201,
+      "reporters_2025": 138,
+      "reporters_2024": 169,
+      "units": "USD billions",
+      "source": "https://api.worldbank.org/v2/country/all/indicator/BN.FIN.TOTL.CD?date=2024:2025&per_page=900&format=json"
     }
   ],
-  "republication": "Official BIS and IMF source attribution; subsets of data, no inferred origin/destination transfers."
+  "republication": "Official BIS and IMF source attribution; subsets of data, no inferred origin/destination transfers.",
+  "note": "Additional 2026 Rate-Hike Impact tab contains individually cited Reuters/LSEG, Federal Reserve and U.S. Treasury facts, with mixed frequencies clearly labeled. Country financial account uses 2024 and 2025 WDI/BPM6, never mixed with 2026 event flow data."
 }
