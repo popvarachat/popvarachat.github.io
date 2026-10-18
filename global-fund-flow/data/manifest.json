@@ -1,0 +1,31 @@
+{
+  "release": "v6",
+  "snapshot_date": "2026-10-18",
+  "not_live": true,
+  "quality": "passed deterministic pair-uniqueness, numeric, reporter and period checks",
+  "assets": [
+    {
+      "file": "bis-global-2026q1.json",
+      "measure": "BIS adjusted banking claim changes",
+      "period": "2026-Q1",
+      "sha256": "cecf92ae8158ec6a354c9d8a09782f321b71e78ef7864dd230aee83b8470e1f6",
+      "records": 3521,
+      "reporters": 31,
+      "counterpart_economies": 218,
+      "units": "USD millions",
+      "source": "https://stats.bis.org/api/v2/data/dataflow/BIS/WS_LBS_D_PUB/1.0/?format=csv&startPeriod=2026-Q1&endPeriod=2026-Q1"
+    },
+    {
+      "file": "imf-pip-2025s2.json",
+      "measure": "IMF portfolio securities positions",
+      "period": "2025-S2",
+      "sha256": "10adbf935e0b945963e3bb9173d32dc2299bf5bc2bd72ae4668a2112fda8102d",
+      "records": 12893,
+      "reporters": 79,
+      "counterpart_economies": 237,
+      "units": "USD millions",
+      "source": "https://api.imf.org/external/sdmx/2.1/data/IMF.STA,PIP/*.A.P_TOTINV_P_USD.S1.S1.*.S?startPeriod=2025&endPeriod=2025"
+    }
+  ],
+  "republication": "Official BIS and IMF source attribution; subsets of data, no inferred origin/destination transfers."
+}
