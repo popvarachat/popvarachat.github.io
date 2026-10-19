@@ -1,0 +1,1767 @@
+{
+  "schema_version": "1.0",
+  "kind": "CONTROLPLAN_PIVOT",
+  "mode": "public",
+  "source": "P5511026 / ZPTK0001",
+  "date_basis": "finish_due",
+  "date_label": "วันที่กำหนดเสร็จ",
+  "due_date_source_snapshot": "2026-10-18",
+  "due_date_queue_generated_utc": "2026-10-19T02:37:07.306Z",
+  "source_first_capture_utc": "2026-10-19T06:57:08.277Z",
+  "source_last_capture_utc": "2026-10-19T08:25:06.727Z",
+  "generated_at": "2026-10-19T08:43:17.730Z",
+  "target": 1235,
+  "columns": [
+    {
+      "id": "store",
+      "label": "สโตร์"
+    },
+    {
+      "id": "p1",
+      "label": "ผลิต 1"
+    },
+    {
+      "id": "p2",
+      "label": "ผลิต 2"
+    },
+    {
+      "id": "p3",
+      "label": "ผลิต 3"
+    },
+    {
+      "id": "p4",
+      "label": "ผลิต 4"
+    },
+    {
+      "id": "p5",
+      "label": "ผลิต 5"
+    },
+    {
+      "id": "operation_complete",
+      "label": "ครบ Move Complete*"
+    },
+    {
+      "id": "review",
+      "label": "รอตรวจ Operation"
+    }
+  ],
+  "totals": {
+    "store": 33,
+    "p1": 222,
+    "p2": 641,
+    "p3": 72,
+    "p4": 116,
+    "p5": 62,
+    "operation_complete": 36,
+    "review": 53
+  },
+  "current_station_certified": false,
+  "factory_wip_certified": false,
+  "transfer_date_available": false,
+  "missing_due": 0,
+  "rows": [
+    {
+      "due": "2026-01-12",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 3,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-01-13",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 0,
+        "p3": 0,
+        "p4": 1,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-01-22",
+      "counts": {
+        "store": 2,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-01-27",
+      "counts": {
+        "store": 2,
+        "p1": 0,
+        "p2": 1,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-01-28",
+      "counts": {
+        "store": 1,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 5,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-14",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 10,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-16",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-02-18",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 2,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-20",
+      "counts": {
+        "store": 1,
+        "p1": 0,
+        "p2": 1,
+        "p3": 1,
+        "p4": 0,
+        "p5": 2,
+        "operation_complete": 1,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-23",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-02-24",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 2,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 1,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-26",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-02-28",
+      "counts": {
+        "store": 1,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 1,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-02",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 8,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-03-04",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-05",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-03-06",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 6,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-03-10",
+      "counts": {
+        "store": 1,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 1,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-11",
+      "counts": {
+        "store": 2,
+        "p1": 0,
+        "p2": 1,
+        "p3": 3,
+        "p4": 3,
+        "p5": 1,
+        "operation_complete": 2,
+        "review": 5
+      }
+    },
+    {
+      "due": "2026-03-12",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-16",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 3
+      }
+    },
+    {
+      "due": "2026-03-17",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-03-19",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 3,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 2
+      }
+    },
+    {
+      "due": "2026-03-20",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 6,
+        "p4": 3,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-23",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 1,
+        "p4": 10,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-24",
+      "counts": {
+        "store": 1,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 5,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-03-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 2,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-03-26",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 5,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-03-30",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 6,
+        "p3": 0,
+        "p4": 1,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-04-06",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 3,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 1,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-04-07",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 2
+      }
+    },
+    {
+      "due": "2026-04-09",
+      "counts": {
+        "store": 2,
+        "p1": 0,
+        "p2": 1,
+        "p3": 4,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-04-13",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 0,
+        "p3": 0,
+        "p4": 1,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-04-17",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-04-18",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-04-20",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 2
+      }
+    },
+    {
+      "due": "2026-04-23",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 1,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-04-24",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 8,
+        "p3": 0,
+        "p4": 0,
+        "p5": 3,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-04-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 3,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-04-28",
+      "counts": {
+        "store": 2,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-04-30",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 4,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-05",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 1,
+        "p5": 4,
+        "operation_complete": 2,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-06",
+      "counts": {
+        "store": 1,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-07",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 6,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-13",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-05-14",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 1,
+        "review": 4
+      }
+    },
+    {
+      "due": "2026-05-15",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 1,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-18",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 11,
+        "p3": 2,
+        "p4": 0,
+        "p5": 3,
+        "operation_complete": 1,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-19",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 3,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 2,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-20",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 4
+      }
+    },
+    {
+      "due": "2026-05-21",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-22",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-26",
+      "counts": {
+        "store": 1,
+        "p1": 1,
+        "p2": 2,
+        "p3": 5,
+        "p4": 2,
+        "p5": 2,
+        "operation_complete": 1,
+        "review": 2
+      }
+    },
+    {
+      "due": "2026-05-27",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 4,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-28",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-05-29",
+      "counts": {
+        "store": 0,
+        "p1": 3,
+        "p2": 4,
+        "p3": 2,
+        "p4": 7,
+        "p5": 4,
+        "operation_complete": 3,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-01",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 8,
+        "p3": 2,
+        "p4": 3,
+        "p5": 0,
+        "operation_complete": 7,
+        "review": 2
+      }
+    },
+    {
+      "due": "2026-06-02",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 4,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-04",
+      "counts": {
+        "store": 0,
+        "p1": 4,
+        "p2": 15,
+        "p3": 0,
+        "p4": 5,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-05",
+      "counts": {
+        "store": 0,
+        "p1": 3,
+        "p2": 5,
+        "p3": 0,
+        "p4": 13,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-06-08",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-12",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 3,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-06-15",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 2,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-17",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-18",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-23",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 2,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-06-26",
+      "counts": {
+        "store": 0,
+        "p1": 2,
+        "p2": 18,
+        "p3": 0,
+        "p4": 28,
+        "p5": 5,
+        "operation_complete": 0,
+        "review": 4
+      }
+    },
+    {
+      "due": "2026-06-29",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 7,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-03",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 2,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-07",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 9,
+        "p3": 0,
+        "p4": 5,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-10",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 5,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-11",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 8,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-13",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 4,
+        "p3": 0,
+        "p4": 0,
+        "p5": 3,
+        "operation_complete": 2,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-14",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-15",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-20",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-21",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-23",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 1,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-24",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 5,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-07-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 9,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-04",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 5,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-05",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-06",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-13",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-14",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-24",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 6,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-25",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 13,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-26",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-28",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-29",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-08-31",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-03",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-04",
+      "counts": {
+        "store": 0,
+        "p1": 9,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-09",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-10",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-12",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-16",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 0,
+        "p3": 1,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-17",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-18",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 6,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-21",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-24",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 4,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-25",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-29",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 6,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-09-30",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-01",
+      "counts": {
+        "store": 0,
+        "p1": 5,
+        "p2": 27,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-02",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 7,
+        "p3": 3,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-10-03",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 2,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-05",
+      "counts": {
+        "store": 0,
+        "p1": 2,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-06",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-07",
+      "counts": {
+        "store": 0,
+        "p1": 2,
+        "p2": 0,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-08",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 14,
+        "p3": 3,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-09",
+      "counts": {
+        "store": 0,
+        "p1": 21,
+        "p2": 42,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-10",
+      "counts": {
+        "store": 0,
+        "p1": 12,
+        "p2": 8,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-12",
+      "counts": {
+        "store": 1,
+        "p1": 10,
+        "p2": 62,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-14",
+      "counts": {
+        "store": 1,
+        "p1": 29,
+        "p2": 50,
+        "p3": 0,
+        "p4": 2,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 2
+      }
+    },
+    {
+      "due": "2026-10-15",
+      "counts": {
+        "store": 0,
+        "p1": 9,
+        "p2": 6,
+        "p3": 0,
+        "p4": 1,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 3
+      }
+    },
+    {
+      "due": "2026-10-16",
+      "counts": {
+        "store": 2,
+        "p1": 3,
+        "p2": 64,
+        "p3": 0,
+        "p4": 0,
+        "p5": 2,
+        "operation_complete": 0,
+        "review": 1
+      }
+    },
+    {
+      "due": "2026-10-17",
+      "counts": {
+        "store": 0,
+        "p1": 17,
+        "p2": 37,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-19",
+      "counts": {
+        "store": 0,
+        "p1": 12,
+        "p2": 10,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-20",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 1,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-21",
+      "counts": {
+        "store": 5,
+        "p1": 10,
+        "p2": 13,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-22",
+      "counts": {
+        "store": 0,
+        "p1": 0,
+        "p2": 3,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-26",
+      "counts": {
+        "store": 5,
+        "p1": 0,
+        "p2": 4,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-27",
+      "counts": {
+        "store": 1,
+        "p1": 42,
+        "p2": 12,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-28",
+      "counts": {
+        "store": 1,
+        "p1": 7,
+        "p2": 6,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-30",
+      "counts": {
+        "store": 0,
+        "p1": 2,
+        "p2": 4,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-10-31",
+      "counts": {
+        "store": 0,
+        "p1": 1,
+        "p2": 7,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    },
+    {
+      "due": "2026-11-02",
+      "counts": {
+        "store": 0,
+        "p1": 6,
+        "p2": 5,
+        "p3": 0,
+        "p4": 0,
+        "p5": 0,
+        "operation_complete": 0,
+        "review": 0
+      }
+    }
+  ]
+}
