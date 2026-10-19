@@ -1,0 +1,14 @@
+{
+  "schema_version": "1.0",
+  "status": "PENDING_ADMIN_GATE",
+  "source": "JDE_AIS_READ_ONLY",
+  "as_of_utc": null,
+  "certified_wip": null,
+  "certified_overdue": null,
+  "required": [
+    "Approved AIS endpoint and read-only role",
+    "Certified current WO and open operation mapping",
+    "Reconciled full-factory source and owner attestation"
+  ],
+  "note": "This file contains no live ERP observations."
+}
