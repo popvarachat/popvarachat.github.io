@@ -5,7 +5,7 @@ $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
 $Script=Join-Path $Root 'serve_private.py'
 $PrivateDir=Join-Path $env:LOCALAPPDATA 'UAIOS\MD-FollowUp-Private'
 New-Item $PrivateDir -ItemType Directory -Force | Out-Null
-foreach($template in @(@('pivot.view-template','pivot.html'),@('details.view-template','index.html'))){
+foreach($template in @(@('pivot.view-template','pivot.html'),@('stage-list.view-template','stage-list.html'),@('details.view-template','index.html'),@('matrix.css','matrix.css'),@('matrix.js','matrix.js'))){
  $dest=Join-Path $PrivateDir $template[1]
  if(!(Test-Path $dest) -and (Test-Path (Join-Path $Root $template[0]))){
   Copy-Item (Join-Path $Root $template[0]) $dest

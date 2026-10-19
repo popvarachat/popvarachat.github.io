@@ -11,7 +11,7 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_error(403,"Host not allowed")
             return
         requested=urllib.parse.urlsplit(self.path).path
-        if requested not in ("/","/index.html","/records.json","/pivot.html","/pivot.json"):
+        if requested not in ("/","/index.html","/records.json","/pivot.html","/pivot.json","/stage-list.html","/matrix.js","/matrix.css"):
             self.send_error(404,"Resource not served");return
         return super().do_GET()
     def end_headers(self):

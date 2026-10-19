@@ -74,3 +74,19 @@ Do not add private JSON or local source paths to public GitHub.
 - Department resolution is based only on explicit department tokens in work assignment or CB status (e.g. P3/P5). Person-only owners are shown as "department not verified"; never guess the team.
 - The "current stage" is an algorithmic candidate (first active or first unknown gate), not a certified bottleneck when source status is blank. Stage rows across sources are not yet deduplicated.
 - Localhost means the viewer is accessible only via browser running **on the NB**. Other devices require an authenticated intranet service before private records can be remotely viewed.
+
+
+## MD hierarchical Pivot Table (spreadsheet-style)
+- Open NB localhost `http://127.0.0.1:8766/pivot.html` using the public source
+  panel's 'Pivot Table' link, available **only from the NB's own browser**.
+- Hierarchical rows: **year > month > due date > project/work**, plus explicit
+  'No Confirmed Stage Due' rows; collapsible by level.
+- Change pivot columns between **department / owner / stage / source**.
+  Default measure: distinct *source-local* work keys, with Stage row option.
+  Rows/cells can be clicked to see records and step-by-step work progression.
+- Year and date represent the task's own scheduled deadline; CB planned transfer
+  is not a certified late delivery; ICS/ICF/ICE lack certified Stage Due and are
+  classified as unknown instead of falsely overdue.
+- Local `pivot.json` is refreshed with each NB batch, data and owners never
+  committed to public git or GitHub Pages. Legacy stage-list remains accessible
+  as `/stage-list.html`.
