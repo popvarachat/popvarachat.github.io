@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="th">
+<head>
+<meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="referrer" content="no-referrer">
+<link rel="icon" href="data:,">
+<title>MD Work Tracking | Pivot Dashboard · GitHub Web</title>
+<link rel="stylesheet" href="./pivot.css"><script defer src="./pivot.js"></script>
+</head>
+<body>
+<main class="app">
+<header class="top">
+  <div><div class="eyebrow">PRACTIKA · PRIVATE MD CONTROL · PIVOT REPORT</div>
+  <h1>MD Work Tracking — Person-in-Charge Pivot</h1>
+  <p>ปี → เดือน → วันที่ต้องส่ง → งาน · ดูว่า Stage ค้างฝ่ายไหน ค้างที่ใคร และกำหนดส่งเมื่อไร</p></div>
+  <nav class="topnav"><a href="./?v=pivot">กลับ Overview ↗</a><a href="http://127.0.0.1:8766/pivot.html">เปิด Live Pivot บน NB ↗</a><a class="private" href="https://popvarachat.github.io/md-follow-up/" target="_blank" rel="noopener">Executive Dashboard ↗</a></nav>
+</header>
+<section class="panel public-loader" id="dataConnection">
+ <div class="panelhead">
+  <div><div class="eyebrow">GITHUB WEB · SECURE DATA ACCESS</div>
+   <h2>MD Pivot Table — เชื่อมข้อมูลรายรายการ</h2>
+   <p class="desc">หน้า Pivot เปิดจาก GitHub ได้ทุกเครื่อง แต่ข้อมูลชื่อเจ้าภาพและเลข Order ต้องเปิดจากไฟล์ที่คุณได้รับสิทธิ์เท่านั้น</p>
+  </div><span class="subbadge warning">NO PRIVATE DATA IN PUBLIC REPOSITORY</span>
+ </div>
+ <div class="loader-grid">
+  <div><strong>1. ภาพรวมจากแหล่งข้อมูลที่ตรวจแล้ว</strong><div id="cloudSources" class="cloud-sources">กำลังอ่านสถานะล่าสุด…</div></div>
+  <div><strong>2. เปิดรายงานรายละเอียดบนเครื่องนี้</strong>
+    <p>นำไฟล์ <code>pivot.json</code> จาก MD Private Viewer บน Notebook มาเลือกที่นี่ ข้อมูลจะถูกประมวลผลใน Browser เท่านั้น ไม่อัปโหลดไป GitHub</p>
+    <div class="loader-actions">
+      <label class="loadbtn" for="pivotFile"><span>เลือกไฟล์ MD Pivot JSON</span><input id="pivotFile" type="file" accept=".json,application/json"></label>
+      <a class="open-private" href="http://127.0.0.1:8766/pivot.html" target="_blank" rel="noopener noreferrer">เปิดรายงานสดบน NB ↗</a>
+    </div><div id="importStatus" role="status" aria-live="polite">ยังไม่ได้โหลดข้อมูลรายรายการ</div>
+    <div class="safe-msg">⚠ GitHub Pages เป็นเว็บสาธารณะ ไม่ควรนำข้อมูลส่วนบุคคลมาฝังใน Repository · ไฟล์ที่เลือกใช้แค่ในหน้านี้ ไม่ส่งกลับเซิร์ฟเวอร์</div>
+  </div>
+ </div>
+ </section>
+<section class="metrics" id="kpis" aria-label="สรุปจำนวนงาน">
+  <div class="metric">รอเชื่อมข้อมูลส่วนบุคคล</div>
+</section>
+<section class="panel">
+ <div class="panelhead"><div><h2>ตัวกรองรายงาน</h2><div id="asof" class="desc">กำลังอ่านทะเบียน MD ภายใน</div></div><div class="badges"><span class="subbadge">READ ONLY</span><span class="subbadge warning">PRIVATE DATA STAYS ON YOUR DEVICE</span></div></div>
+ <div class="toolbar">
+   <label class="field"><span>ค้นหาชื่องาน / Stage / ผู้รับผิดชอบ / เลขที่</span><input id="query" placeholder="พิมพ์เพื่อค้นหา…"></label>
+   <label class="field"><span>กลุ่มงานติดตาม</span><select id="source"><option value="all">ทุกสายงาน</option></select></label>
+   <label class="field"><span>กรองตามชื่อเจ้าภาพ</span><select id="ownerFilter"><option value="">ทุกคน</option></select></label>
+   <label class="field"><span>คอลัมน์ Pivot</span><select id="axis"><option value="owner" selected>ชื่อเจ้าภาพรายบุคคล</option><option value="department">ฝ่าย / แผนก</option><option value="stage">ขั้นตอนงาน</option><option value="source">สายงานต้นทาง</option></select></label>
+   <label class="field"><span>สถานะที่นำมานับ</span><select id="status"><option value="open">งานที่ยังเปิด</option><option value="all">ทั้งหมด</option><option value="closed">ปิด/ส่งต่อตามสถานะ</option></select></label>
+   <label class="field"><span>กำหนดส่ง</span><select id="dueFilter"><option value="all">ทุกกำหนดส่ง</option><option value="overdue">ผ่านวันกำหนด</option><option value="today">ครบกำหนดวันนี้</option><option value="future">ยังไม่ถึงกำหนด</option><option value="missing">ไม่มี Due ที่รับรอง</option></select></label>
+ </div>
+ <div class="options">
+   <div class="switches">
+     <label class="tick"><input id="stageOnly" type="checkbox" checked> เฉพาะ Stage ที่ระบบเสนอว่าต้องติดตาม</label>
+     <label class="field"><span>หน่วยนับ</span><select id="unit"><option value="work">งานไม่ซ้ำในทะเบียน</option><option value="stage">จำนวนขั้นตอน</option></select></label>
+     <label class="field"><span>คอลัมน์สูงสุด</span><select id="maxCols"><option value="8">8 กลุ่ม</option><option value="11">11 กลุ่ม</option><option value="15">15 กลุ่ม</option><option value="60" selected>แสดงทุกชื่อ</option></select></label>
+   </div>
+   <div class="actions"><button type="button" class="ghost" id="expandMonth">ขยายถึงเดือน</button><button type="button" class="ghost" id="expandAll">ขยายทั้งหมด</button><button type="button" class="ghost" id="collapseAll">ยุบทั้งหมด</button><button type="button" class="ghost" id="downloadCsv">ดาวน์โหลด CSV</button></div>
+ </div>
+</section>
+<section class="panel">
+ <div class="panelhead"><div><h2 id="nameOfGroup">MD Tracking Pivot</h2><div class="desc">คลิก <strong>+</strong> เพื่อขยาย ปี → เดือน → วัน → รายการงาน หรือคลิกตัวเลขในตารางเพื่อดูรายละเอียด</div></div><div class="badges"><span class="subbadge">PIVOT STRUCTURE</span><span class="subbadge">GRAND TOTAL</span></div></div>
+ <div class="legend"><span><i class="late"></i> มีงานที่วันกำหนดผ่านไป</span><span><i class="today"></i> ครบกำหนดวันนี้</span><span><i class="ok"></i> มีรายการตามกลุ่ม</span><span class="counts" id="columnNote">กำลังประมวลผล…</span></div>
+ <div class="pivot-scroller" id="pivotScroll"><table class="pivot" id="pivot"><thead id="thead"></thead><tbody id="tbody"><tr><td>โปรดเลือกไฟล์รายงานจาก Notebook เพื่อแสดง Pivot</td></tr></tbody></table></div>
+ <div class="pivotfoot"><span id="rowCount">—</span><span><strong>กดตัวเลขเพื่อดูงาน</strong> · ลากตารางแนวนอนได้เมื่อคอลัมน์มาก · ค่า “—” = ไม่มีรายการ</span></div>
+</section>
+<section id="drill" class="drill" hidden>
+ <div class="dh"><div><div class="eyebrow">DRILLDOWN · SOURCE EVIDENCE</div><h3 id="drillTitle">รายการงาน</h3><div class="muted" id="drillMeta"></div></div><button id="closeDrill" class="close" type="button">✕ ปิด</button></div>
+ <div class="drillitems" id="detailBody"></div>
+ <div class="stageTrace" id="stageTrace"></div>
+</section>
+<div class="notice">**นิยามตัวเลข:** วันโอนใน CB คือวันโอนตามแผน ยังไม่ใช่หลักฐานว่าโอนช้าจริง · ICS / ICF / ICE ยังไม่มี Stage Due ที่ยืนยันครบ จัดอยู่ในกลุ่ม “ไม่มี Due” ไม่แจ้งว่าเลยกำหนดโดยการเดา · ผู้รับผิดชอบที่มีเฉพาะชื่อแต่ไม่ระบุฝ่าย จะแสดง “ยังไม่ยืนยันฝ่าย” · งานที่อยู่หลายทะเบียนอาจซ้ำข้ามระบบ และ Stage ปัจจุบันเป็นข้อเสนอจากสถานะต้นทาง ไม่ใช่ผลรับรองเจ้าภาพคอขวด</div>
+<div class="footer">ตัวเว็บและโค้ด Pivot อยู่บน GitHub Pages · ไม่มีข้อมูลรายบุคคลบน GitHub · การนำไฟล์รายงานเข้าหน้านี้จะประมวลผลภายใน Browser เท่านั้น · สำหรับ Live Auto Refresh โปรดใช้ Private Viewer บน NB</div>
+</main>
+</body></html>

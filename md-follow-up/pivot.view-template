@@ -34,7 +34,7 @@
      <label class="field"><span>หน่วยนับ</span><select id="unit"><option value="work">งานไม่ซ้ำในทะเบียน</option><option value="stage">จำนวนขั้นตอน</option></select></label>
      <label class="field"><span>คอลัมน์สูงสุด</span><select id="maxCols"><option value="8">8 กลุ่ม</option><option value="11">11 กลุ่ม</option><option value="15">15 กลุ่ม</option><option value="60" selected>แสดงทุกชื่อ</option></select></label>
    </div>
-   <div class="actions"><button type="button" class="ghost" id="expandMonth">ขยายถึงเดือน</button><button type="button" class="ghost" id="expandAll">ขยายทั้งหมด</button><button type="button" class="ghost" id="collapseAll">ยุบทั้งหมด</button><button type="button" class="ghost" id="downloadCsv">ดาวน์โหลด CSV</button></div>
+   <div class="actions"><button type="button" class="ghost" id="expandMonth">ขยายถึงเดือน</button><button type="button" class="ghost" id="expandAll">ขยายทั้งหมด</button><button type="button" class="ghost" id="collapseAll">ยุบทั้งหมด</button><button type="button" class="ghost" id="downloadPrivateJson" title="ไฟล์นี้มีข้อมูลภายใน อย่าส่งให้บุคคลภายนอก">ส่งออก JSON เพื่อเปิดบน GitHub (ข้อมูลภายใน)</button><button type="button" class="ghost" id="downloadCsv">ดาวน์โหลด CSV</button></div>
  </div>
 </section>
 <section class="panel">

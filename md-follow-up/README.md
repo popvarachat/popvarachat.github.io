@@ -108,3 +108,12 @@ Do not add private JSON or local source paths to public GitHub.
   work items or personal identities to GitHub Pages.
 - Both NB Scheduled Tasks support running on battery, preventing Queued
   start failures when NB is unplugged.
+
+
+## Public Pivot UI on GitHub
+- md-follow-up/pivot.html hosts the full public-safe Pivot UI, CSS and JS.
+- source-health.json is the only data read automatically by the static page.
+- Use Export JSON on NB Private Viewer and choose the downloaded private JSON
+  in the Github-hosted Pivot page. Parsing remains in the browser, no upload.
+- This is manual local-data import, NOT cross-device automatic sync.
+- Do not commit pivot.json or any personal / work-order data to public Git.

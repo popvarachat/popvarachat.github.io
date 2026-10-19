@@ -1,3 +1,8 @@
 refresh.config.json
 .audit-local/
 __pycache__/
+
+pivot.json
+records.json
+verified-person-config.json
+MD-Private-Pivot-*.json

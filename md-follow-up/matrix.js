@@ -238,6 +238,14 @@ $("closeDrill").addEventListener("click",()=>$("drill").hidden=true);
 ["source","axis","unit","status","dueFilter","stageOnly","maxCols","ownerFilter"].forEach(x=>$(x).addEventListener("change",refresh));
 $("query").addEventListener("input",()=>{clearTimeout(window.qdeb);window.qdeb=setTimeout(refresh,150)});
 $("expandAll").onclick=()=>setExpand("all");$("expandMonth").onclick=()=>setExpand("month");$("collapseAll").onclick=()=>setExpand("none");$("downloadCsv").onclick=exportCsv;
+$("downloadPrivateJson").addEventListener("click",()=>{
+ if(!payload||!Array.isArray(payload.rows))return;
+ const data=new Blob([JSON.stringify(payload)],{type:"application/json;charset=utf-8"});
+ const u=URL.createObjectURL(data),a=document.createElement("a");
+ a.href=u;a.download="MD-Private-Pivot-"+payload.as_of+".json";a.click();
+ setTimeout(()=>URL.revokeObjectURL(u),1000);
+});
+
 fetch("./pivot.json?refresh="+Date.now(),{cache:"no-store"})
 .then(r=>{if(!r.ok)throw Error("HTTP "+r.status);return r.json();})
 .then(j=>{payload=j;all=j.rows||[];renderSourceCounts();refresh();})

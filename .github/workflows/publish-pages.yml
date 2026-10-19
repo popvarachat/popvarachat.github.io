@@ -10,6 +10,9 @@ on:
       - 'md-follow-up/app.js'
       - 'md-follow-up/drilldown.js'
       - 'md-follow-up/styles.css'
+      - 'md-follow-up/pivot.css'
+      - 'md-follow-up/pivot.js'
+      - 'md-follow-up/pivot.html'
 
 permissions:
   contents: read
