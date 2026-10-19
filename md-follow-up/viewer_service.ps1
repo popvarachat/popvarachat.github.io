@@ -19,7 +19,7 @@ if($Mode -eq 'Install'){
  $trigger=New-ScheduledTaskTrigger -AtLogOn -User $user
  $taskAction=New-ScheduledTaskAction -Execute $py -Argument ('-3 "'+$Script+'"') -WorkingDirectory $Root
  $principal=New-ScheduledTaskPrincipal -UserId $user -LogonType Interactive -RunLevel Limited
- $settings=New-ScheduledTaskSettingsSet -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero)
+ $settings=New-ScheduledTaskSettingsSet -AllowStartIfOnBatteries -DontStopIfGoingOnBatteries -StartWhenAvailable -MultipleInstances IgnoreNew -ExecutionTimeLimit ([TimeSpan]::Zero) -RestartCount 5 -RestartInterval (New-TimeSpan -Minutes 2)
  Register-ScheduledTask -TaskName $TaskName -Action $taskAction -Trigger $trigger -Settings $settings -Principal $principal -Force|Out-Null
  Write-Output 'VIEWER_TASK_INSTALLED'
 }

@@ -102,6 +102,67 @@ for k in ("cb","ics","icf","ice","innovation","planner"):
  "open_stages":len(openrows),"overdue_schedule":sum(x["deadline_state"]=="ผ่านกำหนดตามตาราง" for x in openrows),
  "missing_due":sum(x["deadline_state"] in ("ไม่มีวันกำหนด","ไม่ได้กำหนด Stage Due") for x in openrows),
  "current_stages":sum(x["is_current_stage"] for x in openrows)}
+
+# VERIFIED INDIVIDUAL PRIMARY PIVOT:
+# These are literal names observed in workbooks. Never infer a person from a team label.
+OWNER_CONFIG_PATH=pathlib.Path(os.environ["LOCALAPPDATA"])/"UAIOS"/"MD-FollowUp-Private"/"verified-person-config.json"
+try:
+    _owner_config=json.loads(OWNER_CONFIG_PATH.read_text(encoding="utf8"))
+except (OSError,ValueError):
+    _owner_config={}
+SOURCE_NAMES=_owner_config.get("known_person_labels",[])
+UNKNOWN="\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38\u0e40\u0e08\u0e49\u0e32\u0e20\u0e32\u0e1e\u0e23\u0e32\u0e22\u0e1a\u0e38\u0e04\u0e04\u0e25"
+JOINT_SUFFIX=" (\u0e23\u0e48\u0e27\u0e21)"
+ASSIGNMENT_USER_NAMES=_owner_config.get("verified_planner_assignments",{})
+if not SOURCE_NAMES:
+    raise RuntimeError("PRIVATE_OWNER_DIRECTORY_MISSING: restore local verified-person-config.json before refreshing Pivot")
+def named_people(raw):
+    raw=(raw or "").strip()
+    people=[]
+    for name in SOURCE_NAMES:
+        if name in raw:
+            # Avoid counting a name twice when it is embedded in a longer observed name.
+            if any(name in p for p in people):continue
+            people=[p for p in people if p not in name]
+            people.append(name)
+    return people
+
+# Prefer explicit Planner assignment IDs, verified against Microsoft tenant directory.
+try:
+    exported=json.loads((pathlib.Path(os.environ["LOCALAPPDATA"])/"UAIOS"/"MD-FollowUp-Private"/"planner-export.json").read_text(encoding="utf8"))
+    plan_owner={str(t["id"]):t.get("owner_ids",[]) for t in exported.get("tasks",[])}
+except Exception:
+    plan_owner={}
+
+for row in out:
+    raw=row.get("owner","")
+    row["owner_raw"]=raw
+    if row["source"]=="planner":
+        ids=plan_owner.get(str(row["row_id"]),[])
+        found=[ASSIGNMENT_USER_NAMES[x] for x in ids if x in ASSIGNMENT_USER_NAMES]
+        if found:
+            row["owner_person"]=" / ".join(found)
+            row["owner_kind"]="named" if len(found)==1 else "joint"
+            row["owner_evidence"]="Planner assignment ID verified against tenant directory"
+        else:
+            row["owner_person"]=UNKNOWN
+            row["owner_kind"]="missing"
+            row["owner_evidence"]="No named assignment verified in Planner"
+        continue
+    people=named_people(raw)
+    if len(people)==1:
+        row["owner_person"]=people[0]
+        row["owner_kind"]="named"
+        row["owner_evidence"]="Named person explicitly present in source Owner cell"
+    elif len(people)>1:
+        row["owner_person"]=" / ".join(people)+JOINT_SUFFIX
+        row["owner_kind"]="joint"
+        row["owner_evidence"]="Multiple persons in source Owner cell; lead not certified"
+    else:
+        row["owner_person"]=UNKNOWN
+        row["owner_kind"]="missing"
+        row["owner_evidence"]="Source has team, placeholder, or missing personal assignment"
+
 payload={"schema":1,"updated":dt.datetime.now(dt.timezone.utc).isoformat(),
  "as_of":TODAY.isoformat(),"source_snapshot":src["generated_at"],"summary":summary,
  "warning":"Internal data only. Open CB overdue means planned transfer date passed, not actual transfer confirmed. ICS/ICF/ICE have no independently confirmed Stage Due; no overdue inference. Blank statuses are uncertain. Rows across sources are not deduplicated.",

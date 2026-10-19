@@ -90,3 +90,21 @@ Do not add private JSON or local source paths to public GitHub.
 - Local `pivot.json` is refreshed with each NB batch, data and owners never
   committed to public git or GitHub Pages. Legacy stage-list remains accessible
   as `/stage-list.html`.
+
+
+## Person-in-charge (default Pivot column)
+- Grouping uses owner_person (not department). Columns include all verified
+  people and a visible 'no individual owner verified' exception column.
+- The owner's raw text is kept for audit inside the NB-only pivot.json.
+  Team labels, role codes (RDS, ENG, P5), and placeholders (X) are not individuals.
+- Jointly named owners remain a shared-owner group until an accountable primary
+  person is certified. Do not silently assign one of them.
+- Planner user IDs may be mapped to display names only after tenant-directory
+  verification. The owner directory lives at
+  %LOCALAPPDATA%/UAIOS/MD-FollowUp-Private/verified-person-config.json
+  on authorized NB only, excluded from GitHub.
+- The pivot generator refuses a missing local owner directory rather than
+  reporting all names unknown with false confidence. Do not publish named
+  work items or personal identities to GitHub Pages.
+- Both NB Scheduled Tasks support running on battery, preventing Queued
+  start failures when NB is unplugged.

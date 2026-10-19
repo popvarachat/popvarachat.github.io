@@ -11,7 +11,7 @@
 <main class="app">
 <header class="top">
   <div><div class="eyebrow">PRACTIKA · PRIVATE MD CONTROL · PIVOT REPORT</div>
-  <h1>MD Work Tracking — Pivot Dashboard</h1>
+  <h1>MD Work Tracking — Person-in-Charge Pivot</h1>
   <p>ปี → เดือน → วันที่ต้องส่ง → งาน · ดูว่า Stage ค้างฝ่ายไหน ค้างที่ใคร และกำหนดส่งเมื่อไร</p></div>
   <nav class="topnav"><a href="./stage-list.html">ดู Stage List แบบละเอียด ↗</a><a href="./?source=cb">ทะเบียนงานรายรายการ ↗</a><a class="private" href="https://popvarachat.github.io/md-follow-up/" target="_blank" rel="noopener">Executive Dashboard ↗</a></nav>
 </header>
@@ -23,7 +23,8 @@
  <div class="toolbar">
    <label class="field"><span>ค้นหาชื่องาน / Stage / ผู้รับผิดชอบ / เลขที่</span><input id="query" placeholder="พิมพ์เพื่อค้นหา…"></label>
    <label class="field"><span>กลุ่มงานติดตาม</span><select id="source"><option value="all">ทุกสายงาน</option></select></label>
-   <label class="field"><span>คอลัมน์ Pivot</span><select id="axis"><option value="department">ฝ่าย / แผนก</option><option value="owner">ผู้รับผิดชอบ</option><option value="stage">ขั้นตอนงาน</option><option value="source">สายงานต้นทาง</option></select></label>
+   <label class="field"><span>กรองตามชื่อเจ้าภาพ</span><select id="ownerFilter"><option value="">ทุกคน</option></select></label>
+   <label class="field"><span>คอลัมน์ Pivot</span><select id="axis"><option value="owner" selected>ชื่อเจ้าภาพรายบุคคล</option><option value="department">ฝ่าย / แผนก</option><option value="stage">ขั้นตอนงาน</option><option value="source">สายงานต้นทาง</option></select></label>
    <label class="field"><span>สถานะที่นำมานับ</span><select id="status"><option value="open">งานที่ยังเปิด</option><option value="all">ทั้งหมด</option><option value="closed">ปิด/ส่งต่อตามสถานะ</option></select></label>
    <label class="field"><span>กำหนดส่ง</span><select id="dueFilter"><option value="all">ทุกกำหนดส่ง</option><option value="overdue">ผ่านวันกำหนด</option><option value="today">ครบกำหนดวันนี้</option><option value="future">ยังไม่ถึงกำหนด</option><option value="missing">ไม่มี Due ที่รับรอง</option></select></label>
  </div>
@@ -31,7 +32,7 @@
    <div class="switches">
      <label class="tick"><input id="stageOnly" type="checkbox" checked> เฉพาะ Stage ที่ระบบเสนอว่าต้องติดตาม</label>
      <label class="field"><span>หน่วยนับ</span><select id="unit"><option value="work">งานไม่ซ้ำในทะเบียน</option><option value="stage">จำนวนขั้นตอน</option></select></label>
-     <label class="field"><span>คอลัมน์สูงสุด</span><select id="maxCols"><option value="8">8 กลุ่ม</option><option value="11" selected>11 กลุ่ม</option><option value="15">15 กลุ่ม</option></select></label>
+     <label class="field"><span>คอลัมน์สูงสุด</span><select id="maxCols"><option value="8">8 กลุ่ม</option><option value="11">11 กลุ่ม</option><option value="15">15 กลุ่ม</option><option value="60" selected>แสดงทุกชื่อ</option></select></label>
    </div>
    <div class="actions"><button type="button" class="ghost" id="expandMonth">ขยายถึงเดือน</button><button type="button" class="ghost" id="expandAll">ขยายทั้งหมด</button><button type="button" class="ghost" id="collapseAll">ยุบทั้งหมด</button><button type="button" class="ghost" id="downloadCsv">ดาวน์โหลด CSV</button></div>
  </div>

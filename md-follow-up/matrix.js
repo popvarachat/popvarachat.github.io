@@ -4,12 +4,12 @@ const escapeHtml=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;"
 const names={all:"ทุกสายงาน",cb:"Check Board",ics:"ICS",icf:"ICF",ice:"ICE / EDU",innovation:"นวัตกรรม",planner:"Planner / Todo"};
 const months=["ม.ค.","ก.พ.","มี.ค.","เม.ย.","พ.ค.","มิ.ย.","ก.ค.","ส.ค.","ก.ย.","ต.ค.","พ.ย.","ธ.ค."];
 let payload=null,all=[],filtered=[],nodeMap=new Map(),roots=[],columns=[],rawCols=[],visible=[],expanded=new Set();
-let axis="department",measure="work",source="all",status="open",dueState="all",search="",currentOnly=true,columnLimit=11,opened=false;
+let axis="owner",measure="work",source="all",status="open",dueState="all",search="",currentOnly=true,columnLimit=11,opened=false;
 const dateSort=(a,b)=>(a.due_iso||"9999").localeCompare(b.due_iso||"9999")||a.work_key.localeCompare(b.work_key);
 const missingDept=x=>!x||/ยังไม่|ไม่ระบุ|unknown/i.test(x);
 function groupName(r){
  if(axis==="source")return names[r.source]||r.source;
- if(axis==="owner")return r.owner||"ไม่ระบุผู้รับผิดชอบ";
+ if(axis==="owner")return r.owner_person||"ไม่ระบุผู้รับผิดชอบ";
  if(axis==="stage")return r.stage||"ไม่ระบุ Stage";
  return r.department||"ยังไม่ยืนยันฝ่าย";
 }
@@ -28,33 +28,46 @@ function buildFilters(){
 function makeStats(){
  const live=filtered.filter(r=>!r.closed),over=live.filter(isDueRisk).length;
  const missing=live.filter(r=>!r.due_iso).length;
- const missingOwner=live.filter(r=>missingDept(r.department)).length;
+ const missingOwner=live.filter(r=>r.owner_kind==="missing").length;
  const units=[
   {title:"งาน/โครงการในผลลัพธ์",value:new Set(filtered.map(r=>r.work_key)).size,extra:"นับไม่ซ้ำภายในทะเบียน"},
   {title:"Stage ที่แสดง",value:filtered.length,extra:"แถวตามเงื่อนไข"},
   {title:"ผ่านวันกำหนดในตาราง",value:over,extra:"ไม่ใช่การรับรองผิด SLA",class:"urgent"},
   {title:"ครบกำหนดวันนี้",value:live.filter(r=>r.deadline_state==="ครบกำหนดวันนี้").length,extra:"ตามวันที่ในแหล่งข้อมูล",class:"caution"},
   {title:"ยังไม่มี Stage Due ที่ยืนยัน",value:missing,extra:"ต้องจัดทำกำหนดส่ง",class:"caution"},
-  {title:"ฝ่ายยังไม่ยืนยัน",value:missingOwner,extra:"ไม่อนุมานจากชื่อเจ้าภาพ",class:"caution"}];
+  {title:"ยังไม่ระบุเจ้าภาพรายบุคคล",value:missingOwner,extra:"ต้องมอบหมายคนรับผิดชอบ",class:"caution"}];
  $("kpis").innerHTML=units.map(o=>'<div class="metric '+(o.class||"")+'"><div class="label">'+escapeHtml(o.title)+'</div><strong>'+o.value.toLocaleString("th-TH")+'</strong><small>'+escapeHtml(o.extra)+'</small></div>').join("");
  $("asof").textContent="ข้อมูลภายใน ณ "+new Date(payload.updated).toLocaleString("th-TH")+", "+filtered.length.toLocaleString("th-TH")+" Stage (ไม่ใช่จำนวนคำสั่ง MD ที่ไม่ซ้ำกัน)";
 }
+function refreshOwnerSelect(){
+ const box=$("ownerFilter");
+ if(!box)return;
+ const old=box.value;
+ const opts=[...new Set(all.filter(r=>(source==="all"||r.source===source)&&!r.closed).map(r=>r.owner_person).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"th"));
+ box.innerHTML='<option value="">'+ "ทุกคน และยังไม่ระบุเจ้าภาพ" +'</option>'+opts.map(name=>'<option value="'+escapeHtml(name)+'">'+escapeHtml(name)+'</option>').join("");
+ if(opts.includes(old))box.value=old;
+}
 function getRowsByFilters(){
- const q=search.toLocaleLowerCase();
+ const q=search.toLocaleLowerCase(); const ownerSelected=$("ownerFilter")?.value||"";
  filtered=all.filter(r=>
   (source==="all"||r.source===source)&&
+  (!ownerSelected||r.owner_person===ownerSelected)&&
   (status==="all"||(status==="open"?!r.closed:r.closed))&&
   (!currentOnly||r.is_current_stage)&&
   (dueState==="all"||(dueState==="overdue"?r.deadline_state==="ผ่านกำหนดตามตาราง":dueState==="today"?r.deadline_state==="ครบกำหนดวันนี้":dueState==="future"?r.deadline_state==="ยังไม่ถึงกำหนด":!r.due_iso))&&
-  (!q||[r.project,r.stage,r.owner,r.department,r.source,r.work_key,r.row_id,r.note].join(" ").toLocaleLowerCase().includes(q))
+  (!q||[r.project,r.stage,r.owner_person,r.owner_raw,r.department,r.source,r.work_key,r.row_id,r.note].join(" ").toLocaleLowerCase().includes(q))
  ).sort(dateSort);
  if(source==="all")$("nameOfGroup").textContent="ทุกสายงาน MD";else $("nameOfGroup").textContent=names[source]||source;
 }
 function colDefs(){
  const hist=new Map();
  for(const r of filtered){const name=groupName(r),arr=hist.get(name)||[];arr.push(r);hist.set(name,arr);}
- let keys=[...hist.entries()].sort((a,b)=>unitCount(b[1])-unitCount(a[1])||a[0].localeCompare(b[0],"th")).map(([k])=>k);
- if(keys.length>columnLimit){
+ let keys=[...hist.entries()].sort((a,b)=>{
+   const aUnknown=(a[0]||"").includes("\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38");
+   const bUnknown=(b[0]||"").includes("\u0e22\u0e31\u0e07\u0e44\u0e21\u0e48\u0e23\u0e30\u0e1a\u0e38");
+   return bUnknown-aUnknown||unitCount(b[1])-unitCount(a[1])||a[0].localeCompare(b[0],"th");
+  }).map(([k])=>k);
+ if(keys.length>columnLimit && !(axis==="owner" && columnLimit>=60)){
   const unknown=keys.find(missingDept);
   let keep=keys.slice(0,columnLimit-1);
   if(unknown&&!keep.includes(unknown)){keep[keep.length-1]=unknown;}
@@ -167,7 +180,7 @@ function showDrill(key,col){
 }
 function renderTimeline(r){
  const sequence=all.filter(x=>x.work_key===r.work_key).sort((a,b)=>a.stage_index-b.stage_index);
- $("stageTrace").innerHTML=sequence.map(x=>'<div class="node '+(x.stage_index===r.stage_index?"current":"")+'"><div class="eyebrow">STAGE '+x.stage_index+'/'+x.stage_total+'</div><h4>'+escapeHtml(x.stage)+'</h4><p>เจ้าภาพ: '+escapeHtml(x.owner)+'</p><p>ฝ่าย: '+escapeHtml(x.department)+'</p><p>กำหนด: '+escapeHtml(x.due||"ไม่ระบุ")+'</p><p>สถานะ: '+escapeHtml(x.status)+'</p><p>'+escapeHtml(x.deadline_state)+'</p></div>').join("");
+ $("stageTrace").innerHTML=sequence.map(x=>'<div class="node '+(x.stage_index===r.stage_index?"current":"")+'"><div class="eyebrow">STAGE '+x.stage_index+'/'+x.stage_total+'</div><h4>'+escapeHtml(x.stage)+'</h4><p>เจ้าภาพ: '+escapeHtml(x.owner_person||x.owner)+'</p><p>ฝ่าย: '+escapeHtml(x.department)+'</p><p>กำหนด: '+escapeHtml(x.due||"ไม่ระบุ")+'</p><p>สถานะ: '+escapeHtml(x.status)+'</p><p>'+escapeHtml(x.deadline_state)+'</p></div>').join("");
  $("stageTrace").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 function renderSourceCounts(){
@@ -176,7 +189,7 @@ function renderSourceCounts(){
 }
 function refresh(){
  source=$("source").value;axis=$("axis").value;measure=$("unit").value;status=$("status").value;dueState=$("dueFilter").value;currentOnly=$("stageOnly").checked;columnLimit=Number($("maxCols").value)||11;search=$("query").value.trim();
- getRowsByFilters();opened=false;render();
+ refreshOwnerSelect();getRowsByFilters();opened=false;render();
 }
 function setExpand(mode){
  if(mode==="all")expanded=new Set([...nodeMap.values()].filter(n=>n.children?.length).map(n=>n.key));
@@ -185,9 +198,9 @@ function setExpand(mode){
  renderTree();
 }
 function exportCsv(){
- const header=["Source","Work Key","Project","Stage","Stage index","Due","Status","Owner","Department","Due status"];
+ const header=["Source","Work Key","Project","Stage","Stage index","Due","Status","Person in charge","Source owner / team","Department","Due status"];
  const quote=x=>'"'+String(x??"").replace(/"/g,'""')+'"';
- const csv="\uFEFF"+[header,...filtered.map(r=>[r.source,r.work_key,r.project,r.stage,r.stage_index,r.due,r.status,r.owner,r.department,r.deadline_state])].map(row=>row.map(quote).join(",")).join("\r\n");
+ const csv="\uFEFF"+[header,...filtered.map(r=>[r.source,r.work_key,r.project,r.stage,r.stage_index,r.due,r.status,r.owner_person,r.owner_raw,r.department,r.deadline_state])].map(row=>row.map(quote).join(",")).join("\r\n");
  const b=new Blob([csv],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="md-stage-pivot-local-"+payload.as_of+".csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
 }
 $("tbody").addEventListener("click",e=>{
@@ -200,7 +213,7 @@ $("tbody").addEventListener("click",e=>{
 });
 $("detailBody").addEventListener("click",e=>{const row=e.target.closest("[data-idx]");if(row)renderTimeline(window.currentDrillRows[Number(row.dataset.idx)])});
 $("closeDrill").addEventListener("click",()=>$("drill").hidden=true);
-["source","axis","unit","status","dueFilter","stageOnly","maxCols"].forEach(x=>$(x).addEventListener("change",refresh));
+["source","axis","unit","status","dueFilter","stageOnly","maxCols","ownerFilter"].forEach(x=>$(x).addEventListener("change",refresh));
 $("query").addEventListener("input",()=>{clearTimeout(window.qdeb);window.qdeb=setTimeout(refresh,150)});
 $("expandAll").onclick=()=>setExpand("all");$("expandMonth").onclick=()=>setExpand("month");$("collapseAll").onclick=()=>setExpand("none");$("downloadCsv").onclick=exportCsv;
 fetch("./pivot.json?refresh="+Date.now(),{cache:"no-store"})
