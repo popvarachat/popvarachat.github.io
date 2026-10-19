@@ -9,6 +9,11 @@ function build(input=INPUT){
  assert.equal(a.scope.factory_wip_certified,false);assert.equal(a.scope.physical_location_certified,false);
  assert.deepEqual(a.scope.statuses,['40','45','60','70']);
  const by=a.observed.year2026_wo_code_10_30_40_departments,wo=a.observed.year2026_wo_status;
+ const audit=JSON.parse(fs.readFileSync(path.join(__dirname,'data','controlplan-coverage-audit.json'),'utf8'));
+ assert.equal(audit.kind,'PUBLIC_AGGREGATE_CONTROLPLAN_COVERAGE_AUDIT');
+ assert.equal(audit.candidate_2026_unresolved_cuttings,1235);
+ assert.equal(audit.remaining_missing_controlplan,audit.candidate_2026_unresolved_cuttings-audit.overlap_with_scanned_controlplan);
+ assert.equal(audit.operation_position_certified_for_1235,false);
  const cohortPath=path.join(__dirname,'..','adaptive-so-wo-timeentry','data','current-production.json');
  const cohort=JSON.parse(fs.readFileSync(cohortPath,'utf8'));
  const c=cohort.coverage||{},positions=c.production_counts||{};
@@ -43,13 +48,16 @@ function build(input=INPUT){
    candidates:candidate,classified:known,unresolved,certified_wip:null,certified_overdue:null},
   wo_codes:['10','30','40'].map(code=>({code,count:wo[code]})),
   fixed_cohort:cohortSummary,
+  controlplan_audit:audit,
   departments:NAMES.map(name=>({name,count:name==='ผลิต4'?null:by[name]||0,
    reference_only:name!=='ผลิต4',physical_position_confirmed:false,
    certified_wip:null,certified_overdue:null})),
-  unknown:{name:'ยังระบุสายผลิตไม่ได้',count:unresolved,why:'CONTROLPLAN_REQUIRED'},
+  unknown:{name:'รออ่าน Control Plan',count:unresolved,why:'CONTROLPLAN_NOT_COLLECTED_FOR_THIS_COHORT'},
   facts:[
    'จำนวนเป็น Cutting candidate ไม่ใช่ยอด WIP จริง SO หรือ WO',
-   'Type/Status ระบุแผนกตาม Access Reference ได้บางส่วน แต่ไม่ยืนยันตำแหน่ง Operation',
+   '395 Cutting จัดกลุ่มตาม Type/Status Reference เท่านั้น ยังไม่ใช่ตำแหน่ง Operation ที่รับรอง',
+   '1,235 Cutting ยังไม่มีผลการอ่าน Control Plan ในชุดข้อมูลนี้ ไม่ได้หมายความว่า ERP ไม่มีรหัสสายผลิต',
+   'Control Plan ระบุ L1-L6, S1-S2 แต่การระบุงานค้างต้องเลือก Operation ที่ยังไม่เสร็จ',
    'ผลิต4 ไม่มีข้อมูลที่ยืนยันได้ใน Scope นี้ ต้องแสดง — ไม่ใช่ศูนย์',
    'ยังไม่ยืนยัน Due date และเหตุค้าง จึงไม่ประกาศยอด Overdue',
    'MCP-AIS ยังไม่มี AIS Endpoint/สิทธิ์ที่รับรอง; กด Refresh เว็บจะไม่ดึง ERP สด',

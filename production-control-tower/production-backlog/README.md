@@ -11,6 +11,16 @@ The page also independently presents the **fixed 160-Cutting ControlPlan-reviewe
 
 All data in public JSON is strictly aggregated; no Cutting/WO/SO/customer/employee IDs.
 
+## Control Plan Mapping Correction — 19 October 2026
+
+Root cause of the original **1,235 "unknown production line"** label was missing per-Cutting Control Plan collection, **not absence of line codes in ERP**. Reference `SO_WO_Cutting Rev2.accdb` provides `MapControlPlan`: L1→ผลิต1, L2→ผลิต2, L3→ผลิต3, L4→ผลิต4, L5/L6→ผลิต5, S1/S2→สโตร์.
+
+Private read-only audit checked 20 ControlPlan batch files: 156 verified unique Cuttings, 1,061 operations (Move Complete 651, รอดำเนินการ 295, Partially Completed 113, Material Received 2). The 1,235 2026 high-priority Cutting queue had **0 Cutting ID matches** with this fixed 156-Cutting Control Plan cohort. Consequently, the web now calls the 1,235 **"รออ่าน Control Plan"** and shows mapping/coverage separately. It does NOT infer or fabricate production-line counts for them.
+
+To attribute **current WIP at a station**, join Cutting Number to JDE P5511026/ZPTK0001 current Operations, select outstanding/partially completed operations using business-approved statuses and sequence, map Business Unit prefix L1–L6/S1–S2 to the production area, then reconcile WO status, transfers, due dates and unresolved/multiple-current-operation exceptions. Last control code / Max Oper Seq# alone does not establish actual current station.
+
+This page keeps separate cohorts and anonymized aggregates only. Source detail and private 1,235 Cutting queue never belong in public GitHub.
+
 ## Source governance
 - `build_backlog.js` builds `data/backlog-focus.json` from the previously published audited summary, reconciling candidate and department/WO counts.
 - `app.js` renders desktop/mobile, cards, selectable production lines, a source freshness banner, table, WO code distribution and precise limitations. Refresh only fetches static JSON.

@@ -1,0 +1,55 @@
+{
+  "schema_version": "1.0",
+  "kind": "PUBLIC_AGGREGATE_CONTROLPLAN_COVERAGE_AUDIT",
+  "verified_snapshot_utc": "2026-10-18T09:11:55.053Z",
+  "reference_source": "SO_WO_Cutting Rev2.accdb · MapControlPlan (reference only)",
+  "control_to_department": [
+    {
+      "code": "L1",
+      "department": "ผลิต1"
+    },
+    {
+      "code": "L2",
+      "department": "ผลิต2"
+    },
+    {
+      "code": "L3",
+      "department": "ผลิต3"
+    },
+    {
+      "code": "L4",
+      "department": "ผลิต4"
+    },
+    {
+      "code": "L5",
+      "department": "ผลิต5"
+    },
+    {
+      "code": "L6",
+      "department": "ผลิต5"
+    },
+    {
+      "code": "S1",
+      "department": "สโตร์"
+    },
+    {
+      "code": "S2",
+      "department": "สโตร์"
+    }
+  ],
+  "scanned_controlplan_cuttings": 156,
+  "operation_rows": 1061,
+  "operation_status_counts": {
+    "Move Complete": 651,
+    "รอดำเนินการ": 295,
+    "Partially Completed": 113,
+    "Material Received": 2
+  },
+  "candidate_2026_unresolved_cuttings": 1235,
+  "overlap_with_scanned_controlplan": 0,
+  "remaining_missing_controlplan": 1235,
+  "reason": "CONTROLPLAN_NOT_COLLECTED_FOR_THIS_COHORT",
+  "physical_wip_certified": false,
+  "operation_position_certified_for_1235": false,
+  "next_step": "Collect current P5511026 ControlPlan by cutting for 1235 candidates; classify open operation and transfer/WO state; reconcile."
+}

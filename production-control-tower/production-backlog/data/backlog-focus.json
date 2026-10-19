@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-10-19T04:10:59.633Z",
+  "generated_at_utc": "2026-10-19T06:41:19.851Z",
   "source_observed_at_utc": "2026-10-18T11:57:20.283Z",
   "source": {
     "mode": "HISTORICAL_JDE_BROWSER_AGGREGATE",
@@ -76,6 +76,61 @@
     "whole_factory_certified": false,
     "physical_location_certified": false
   },
+  "controlplan_audit": {
+    "schema_version": "1.0",
+    "kind": "PUBLIC_AGGREGATE_CONTROLPLAN_COVERAGE_AUDIT",
+    "verified_snapshot_utc": "2026-10-18T09:11:55.053Z",
+    "reference_source": "SO_WO_Cutting Rev2.accdb · MapControlPlan (reference only)",
+    "control_to_department": [
+      {
+        "code": "L1",
+        "department": "ผลิต1"
+      },
+      {
+        "code": "L2",
+        "department": "ผลิต2"
+      },
+      {
+        "code": "L3",
+        "department": "ผลิต3"
+      },
+      {
+        "code": "L4",
+        "department": "ผลิต4"
+      },
+      {
+        "code": "L5",
+        "department": "ผลิต5"
+      },
+      {
+        "code": "L6",
+        "department": "ผลิต5"
+      },
+      {
+        "code": "S1",
+        "department": "สโตร์"
+      },
+      {
+        "code": "S2",
+        "department": "สโตร์"
+      }
+    ],
+    "scanned_controlplan_cuttings": 156,
+    "operation_rows": 1061,
+    "operation_status_counts": {
+      "Move Complete": 651,
+      "รอดำเนินการ": 295,
+      "Partially Completed": 113,
+      "Material Received": 2
+    },
+    "candidate_2026_unresolved_cuttings": 1235,
+    "overlap_with_scanned_controlplan": 0,
+    "remaining_missing_controlplan": 1235,
+    "reason": "CONTROLPLAN_NOT_COLLECTED_FOR_THIS_COHORT",
+    "physical_wip_certified": false,
+    "operation_position_certified_for_1235": false,
+    "next_step": "Collect current P5511026 ControlPlan by cutting for 1235 candidates; classify open operation and transfer/WO state; reconcile."
+  },
   "departments": [
     {
       "name": "ผลิต1",
@@ -119,13 +174,15 @@
     }
   ],
   "unknown": {
-    "name": "ยังระบุสายผลิตไม่ได้",
+    "name": "รออ่าน Control Plan",
     "count": 1235,
-    "why": "CONTROLPLAN_REQUIRED"
+    "why": "CONTROLPLAN_NOT_COLLECTED_FOR_THIS_COHORT"
   },
   "facts": [
     "จำนวนเป็น Cutting candidate ไม่ใช่ยอด WIP จริง SO หรือ WO",
-    "Type/Status ระบุแผนกตาม Access Reference ได้บางส่วน แต่ไม่ยืนยันตำแหน่ง Operation",
+    "395 Cutting จัดกลุ่มตาม Type/Status Reference เท่านั้น ยังไม่ใช่ตำแหน่ง Operation ที่รับรอง",
+    "1,235 Cutting ยังไม่มีผลการอ่าน Control Plan ในชุดข้อมูลนี้ ไม่ได้หมายความว่า ERP ไม่มีรหัสสายผลิต",
+    "Control Plan ระบุ L1-L6, S1-S2 แต่การระบุงานค้างต้องเลือก Operation ที่ยังไม่เสร็จ",
     "ผลิต4 ไม่มีข้อมูลที่ยืนยันได้ใน Scope นี้ ต้องแสดง — ไม่ใช่ศูนย์",
     "ยังไม่ยืนยัน Due date และเหตุค้าง จึงไม่ประกาศยอด Overdue",
     "MCP-AIS ยังไม่มี AIS Endpoint/สิทธิ์ที่รับรอง; กด Refresh เว็บจะไม่ดึง ERP สด",

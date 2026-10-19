@@ -12,6 +12,11 @@ test('Reconciled source candidate counts and WO cohort',()=>{
  assert.equal(x.fixed_cohort.production_positions.reduce((n,x)=>n+x.count,0),156);
  assert.equal(x.fixed_cohort.not_additive_to_2026_candidate_cohort,true);
  assert.equal(x.source.current_wip_certified,false);assert.equal(x.source.ais_live,false);
+ assert.equal(x.controlplan_audit.scanned_controlplan_cuttings,156);
+ assert.equal(x.controlplan_audit.operation_rows,1061);
+ assert.equal(x.controlplan_audit.candidate_2026_unresolved_cuttings,1235);
+ assert.equal(x.controlplan_audit.overlap_with_scanned_controlplan,0);
+ assert.equal(x.controlplan_audit.control_to_department.find(x=>x.code==='L4').department,'ผลิต4');
 });
 test('Public snapshot has no private cutting order or customer records',()=>{
  const x=build(),s=JSON.stringify(x);
@@ -26,7 +31,7 @@ test('Reject fake AIS live flag, missing-line zero and unreconciled totals',()=>
 });
 test('dashboard renders every production line, source notice and review gates',()=>{
  const x=build(),html=render(x);
- for(const id of ['ผลิต1','ผลิต2','ผลิต3','ผลิต4','ผลิต5','ยังระบุสายผลิตไม่ได้'])assert(html.includes(id));
+ for(const id of ['ผลิต1','ผลิต2','ผลิต3','ผลิต4','ผลิต5','รออ่าน Control Plan'])assert(html.includes(id));
  assert(html.includes('data-select=\"ผลิต1\"'));
  assert(html.includes('1,630')&&html.includes('1,235'));
  assert(html.includes('รายงานติดตาม ไม่ใช่ยอด WIP สด'));
@@ -34,6 +39,9 @@ test('dashboard renders every production line, source notice and review gates',(
  assert(html.includes('Current ControlPlan แล้ว'));
  assert(html.includes('131'));
  assert(html.includes('ห้ามนำยอดมาบวกกับ 1,630'));
+ assert(html.includes('L1 → ผลิต1'));
+ assert(html.includes('L6 → ผลิต5'));
+ assert(html.includes('Cutting ที่ต้องอ่าน Control Plan เพิ่ม'));
 });
 test('Interactive scope selection respects unknown and no evidence',()=>{
  const x=validate(build());
