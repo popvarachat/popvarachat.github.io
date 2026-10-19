@@ -1,6 +1,6 @@
 "use strict";
 const lanes={
-executive:{code:"01",name:"Executive Tasks",sub:"To Do / Planner",color:"#8daafa",status:"Assignment & intake gaps",summary:"คำสั่งบริหาร งานนัดหมาย คำสั่งข้ามฝ่าย และการติดตามเฉพาะกิจอยู่ในสายนี้ โดย To Do และ Planner มีขอบเขตข้อมูลต่างกัน ไม่ใช่ทะเบียนที่เอาจำนวนมาบวกกันได้",scope:"Planner ตรวจ 34 งาน: 7 ปิด, 23 กำลังทำ, 4 ยังไม่เริ่ม; 27 ยังเปิด; 19 เลยกำหนดในกลุ่มที่เปิด; 31 ไม่มี Assignments ในฟิลด์ระบบ ส่วน Microsoft To Do ของบัญชีที่ตรวจพบ 10 งาน ซึ่งไม่ใช่ภาพรวมองค์กร",handoff:"LINE / MD → Task Classification → Existing Planner / To Do → Next Action → Evidence Verification → Executive Closure",gap:"ไม่พบทะเบียนกลางที่พิสูจน์ว่าทุกคำสั่ง MD ถูกผูกกับงานต้นทางแล้ว; งานที่บันทึก Notes อาจมีเจ้าภาพแต่ไม่ได้ใส่ Assignment ในระบบ; Todo Agent Lab รายงานล่าสุดที่ตรวจคือ 5 ต.ค. ไม่ใช่ Live",proof:"รหัสคำสั่ง, ชื่อผู้รับผิดชอบหลัก, วันรับงาน, วันส่ง, หลักฐานผลลัพธ์, ผู้รับรองปิดงาน",metrics:["34 Planner tasks","27 still open","19 open overdue","31 without Planner assignments"],tags:["Planner is not Microsoft To Do","Human Gate","Read-only"]},
+executive:{code:"01",name:"Executive Tasks",sub:"To Do / Planner",color:"#8daafa",status:"Assignment & intake gaps",summary:"คำสั่งบริหาร งานนัดหมาย คำสั่งข้ามฝ่าย และการติดตามเฉพาะกิจอยู่ในสายนี้ โดย To Do และ Planner มีขอบเขตข้อมูลต่างกัน ไม่ใช่ทะเบียนที่เอาจำนวนมาบวกกันได้",scope:"Planner ล่าสุด 38 งาน: 9 ปิด, 24 กำลังทำ, 5 ยังไม่เริ่ม; 29 ยังเปิด; 13 เกินกำหนดก่อน 19 ต.ค. และ 1 ครบกำหนด 19 ต.ค.; 35 ไม่มี Assignments ส่วน Microsoft To Do ของบัญชีที่ตรวจพบ 10 งาน ซึ่งไม่ใช่ภาพรวมองค์กร",handoff:"LINE / MD → Task Classification → Existing Planner / To Do → Next Action → Evidence Verification → Executive Closure",gap:"ไม่พบทะเบียนกลางที่พิสูจน์ว่าทุกคำสั่ง MD ถูกผูกกับงานต้นทางแล้ว; งานที่บันทึก Notes อาจมีเจ้าภาพแต่ไม่ได้ใส่ Assignment ในระบบ; Todo Agent Lab รายงานล่าสุดที่ตรวจคือ 5 ต.ค. ไม่ใช่ Live",proof:"รหัสคำสั่ง, ชื่อผู้รับผิดชอบหลัก, วันรับงาน, วันส่ง, หลักฐานผลลัพธ์, ผู้รับรองปิดงาน",metrics:["38 Planner tasks","29 still open","13 overdue before Oct 19","35 without Planner assignments"],tags:["Planner is not Microsoft To Do","Human Gate","Read-only"]},
 development:{code:"02",name:"Product Development",sub:"ICS / ICF / ICE",color:"#bba8ff",status:"Gate-level reconciliation",summary:"ควบคุมวงจรงานผลิตภัณฑ์จาก Drawing / Memo / Engineering / ต้นแบบ / ทดสอบ ไปสู่ QP-40 โดยเก็บ Gate และผู้รับผิดชอบรายขั้นตอน การสำเร็จหนึ่ง Gate ไม่ได้แปลว่าสินค้าทั้งชิ้นปิดงาน",scope:"ICS 850 แถว (284 สำเร็จ, 77 กำลังทำ, 489 ว่าง); ICF 564 แถว (196/57/311); ICE 216 แถว (101/19/96). รวม 1,630 แถวขั้นตอน มิใช่จำนวนโครงการ",handoff:"Product Concept → Drawing → Memo → Engineering → Prototype → Gate Approval → QP-40 / PPI",gap:"กระทบยอดเลข Order กลุ่มเดียวกันกับ CB ได้ 54/56 รายการ; อีกสองรายการต้องตรวจเส้นทางข้ามกลุ่มหรือเลขอ้างอิง; Gate ส่ง QP-40 บางรายการยังว่าง แม้ CB ระบุเข้าระบบแล้ว",proof:"Order/Mockup ID, Drawing Revision, ผลทดสอบ, Gate Owner, วันที่อนุมัติ, หลักฐานส่งต่อ",metrics:["ICS · 850 rows","ICF · 564 rows","ICE · 216 rows","54 / 56 matched to CB"],tags:["Do not count blank gates as overdue","3 sub-streams","CB reconciliation"]},
 innovation:{code:"03",name:"Innovation Programs",sub:"SharePoint Innovation Follow-up",color:"#eabb87",status:"Executive escalation missing",summary:"โครงการนวัตกรรมและเทคนิคการผลิตอยู่ในตารางออนไลน์ มี Project Manager, กิจกรรม, กำหนด, สถานะ และประวัติปิดงาน พร้อม Sheet Check Board list และงานที่จบแล้ว",scope:"Dashboard ไฟล์ SharePoint ออนไลน์รายงาน 98 เรื่อง: เปิด 12, ปิด 86; สำรวจหัวโครงการที่มีเลขกำกับพบ 22 ใน Sheet ติดตามงาน และ 68 ใน Sheet งานที่จบแล้ว ตัวเลข 90 กลุ่มยังต้อง reconcile กับยอดสรุป 98",handoff:"Research / Trial → Action Plan → Owner & Due Date → Test Result → Manufacturing / Development → Close & Learn",gap:"งานราคาวัสดุสามประเภทพบอยู่ในทะเบียนแล้ว: เทียบราคาวัสดุสำเร็จ แต่ Gate คิดราคาสุดท้ายเลยกำหนดตามไฟล์; 13/14 ขั้นตอนที่ระบุ 'กำลังดำเนินการ' ไม่มีเจ้าภาพระดับแถว แม้มีผู้จัดการโครงการ",proof:"Project ID, แผนงานจริง, เจ้าภาพระดับกิจกรรม, กำหนด, เวอร์ชันผลทดลอง, ผลรับรองขั้นสุดท้าย",metrics:["98 dashboard items","12 open / 86 closed","14 in-progress steps","13 / 14 no row-level owner"],tags:["SharePoint downloaded 19 Oct","3 worksheets","Executive follow-up"]},
 checkboard:{code:"04",name:"Check Board",sub:"CB V13 / Production",color:"#65d6c1",status:"Board completeness & gate owners",summary:"ควบคุมสินค้าพิเศษที่อยู่ในขั้นผลิต/ตรวจรับ โดยใช้เลข Order, สินค้า, เจ้าภาพ, วันที่โอน และสถานะ เป็นหลักฐานต้นทาง ไม่ต้องเปิด To Do ซ้ำทุกงาน",scope:"CB V13 มี 88 รายการ; PowerPoint Tracking แสดง 66 รายการ — ผลต่าง 22 ต้องพิสูจน์ขอบเขต; 50 รายการสถานะ 'อยู่ในแผน' โดย 38 มีวันที่โอนก่อน 19 ต.ค. แต่ยังไม่ได้ยืนยันว่าโอนล่าช้าจริงทั้งหมด",handoff:"CB Order → Engineering / Production → QC → Owner Acceptance → Photo Handoff → Transfer → QP-40 if applicable",gap:"การระบุเจ้าภาพสินค้าไม่เท่ากับการระบุผู้เริ่มแจ้งถ่ายภาพ; ต้องดู CB ฉบับบังคับใช้และผู้รับผิดชอบ Handoff อย่างเป็นทางการ; CB Excel กับ PPT ไม่ครบตรงกัน",proof:"เลข Order, เจ้าภาพสินค้า, QC Pass, ผลตรวจรับเจ้าภาพ, ภาพที่สัมพันธ์กับ SKU, หลักฐานโอนจริง",metrics:["88 CB V13 entries","66 PPT entries","22 presentation gap","38 scheduled dates require review"],tags:["CB is operation master","QC ≠ transfer","Photo request owner unresolved"]},
@@ -17,7 +17,7 @@ const concerns=[
 {title:"งานเดิมของ MD ถูกติดตามครบทุกเรื่องจริงหรือไม่",state:"partial",answer:"พบงานใน Planner และระบบปฏิบัติการหลายสาย รวมถึงงานที่ปิดแล้ว",missing:"reconcile รายคำสั่งย้อนหลังและตรวจส่งต่อจาก LINE ไป Source of Truth",lane:"executive"}
 ];
 const sources=[
-["Executive Planner","34 tasks","19 overdue among 27 open","Planner snapshot / 2026-10-19","สิทธิ์/Assignment ไม่ครบ"],
+["Executive Planner","38 tasks","13 overdue before Oct 19; 29 open","Planner snapshot / 2026-10-19","สิทธิ์/Assignment ไม่ครบ"],
 ["Microsoft To Do","10 visible tasks","Different personal scope","Account view / 2026-10-19","ไม่ใช่ทะเบียนรวมองค์กร"],
 ["Check Board","88 entries","50 in-plan; 38 dated before review","CB V13 / edited 2026-10-14","PPT only 66"],
 ["Innovation","98 on dashboard","12 open; 86 closed per sheet","SharePoint online / 2026-10-19","detail headings 22+68 ≠ 98"],
@@ -62,7 +62,7 @@ const nodes=[
 {id:"owner",title:"Owner / RACI Resolver",cat:"ACCOUNTABILITY",caption:"One owner · Handoff owner",hint:"RULE ENFORCEMENT",kind:"control",x:272,y:447},
 {id:"registry",title:"Source Link Registry",cat:"CANONICAL REFERENCES",caption:"No duplicate tasks · Stable IDs",hint:"SOURCE OF TRUTH",kind:"control",x:272,y:626},
 {id:"shadow",title:"RDC / JEV Shadow Review",cat:"INDEPENDENT REVIEW",caption:"Suggestions · Contradictions",hint:"ADVISORY ONLY",kind:"validator",x:272,y:802},
-{id:"executive",title:"Executive Tasks",cat:"STREAM 01 · TODO / PLANNER",caption:"MD requests · Cross-functional",hint:"34 PLANNER ITEMS",kind:"stream",x:532,y:39},
+{id:"executive",title:"Executive Tasks",cat:"STREAM 01 · TODO / PLANNER",caption:"MD requests · Cross-functional",hint:"38 PLANNER ITEMS",kind:"stream",x:532,y:39},
 {id:"development",title:"Product Development",cat:"STREAM 02 · ICS / ICF / ICE",caption:"Drawing · Memo · Prototype",hint:"1,630 GATE ROWS",kind:"stream",x:532,y:176},
 {id:"innovation",title:"Innovation Programs",cat:"STREAM 03 · INNOVATION",caption:"Projects · Experiments · Costing",hint:"98 PROJECT SUMMARY",kind:"stream",x:532,y:313},
 {id:"checkboard",title:"Check Board",cat:"STREAM 04 · CB V13",caption:"Production · QC · Photo Gate",hint:"88 CB ENTRIES",kind:"stream",x:532,y:450},
@@ -197,7 +197,7 @@ el("qualityBtn").addEventListener("click",()=>setMode("quality"));
 el("print").addEventListener("click",()=>window.print());
 buildArch();renderConcerns();renderSources();renderSummary();initializePanZoom();requestAnimationFrame(fitCanvas);
 
-const sourceLabel={cb:'Check Board',ics:'ICS',icf:'ICF',ice:'ICE / EDU',innovation:'Innovation'};
+const sourceLabel={planner:'Planner / Monitor Coordinator',cb:'Check Board',ics:'ICS',icf:'ICF',ice:'ICE / EDU',innovation:'Innovation'};
 async function loadSourceHealth(){
  const status=el('batchStatus'),date=el('batchDate'),area=el('connectorCards');
  try{
@@ -206,12 +206,15 @@ async function loadSourceHealth(){
   const data=await response.json();
   const batch=data.batch||{};
   const names=Object.keys(data.sources||{});
-  status.textContent=Number(batch.successful||0)+' / '+names.length+' CONNECTORS VERIFIED';
+  status.textContent=names.filter(name=>data.sources[name]?.status==='ok').length+' / '+names.length+' CONNECTORS VERIFIED';
   date.textContent=data.generated_at? 'Last batch: '+new Date(data.generated_at).toLocaleString('th-TH'): 'รอผลจาก Collector ที่ได้รับอนุญาต';
   area.innerHTML=names.map(name=>{
     const item=data.sources[name]||{},state=item.status||'unavailable';
     const date=item.checked_at?new Date(item.checked_at).toLocaleString('th-TH'):'ยังไม่เชื่อม';
     const total=Number.isFinite(item.total)?Number(item.total).toLocaleString('th-TH'):'—';
+    let facts='';
+    if(name==='planner' && state==='ok')facts='Open: '+item.open+' · Done: '+item.completed+' · Overdue before 19 Oct: '+item.overdue_before_2026_10_19+' · Due 19 Oct: '+item.due_on_2026_10_19+' · Unassigned open: '+item.open_without_assignment;
+    if(name==='innovation' && state==='ok')facts='Open: '+item.open+' · Closed: '+item.completed+' · Source updated: '+new Date(item.file_modified).toLocaleDateString('th-TH');
     return '<div class="connector"><span class="tag '+(state==='ok'?'ok':state==='stale'?'stale':'')+'">'+safe(state.toUpperCase())+'</span><h3>'+safe(sourceLabel[name]||name)+'</h3><div class="stat">'+safe(total)+'</div><div class="minor">Unit: '+safe(item.unit||'pending')+'</div><div class="minor">Last verified: '+safe(date)+'</div></div>'
   }).join('');
  }catch(err){status.textContent='SNAPSHOT UNAVAILABLE';area.textContent='ไม่สามารถโหลดผลตรวจล่าสุดจาก GitHub Pages ได้';date.textContent=String(err.message)}

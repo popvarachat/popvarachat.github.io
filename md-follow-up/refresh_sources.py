@@ -61,7 +61,7 @@ def main():
     conf=json.loads(pathlib.Path(a.config).read_text(encoding="utf-8-sig"))
     destination=ROOT/"source-health.json"
     old=json.loads(destination.read_text(encoding="utf8")) if destination.exists() else {"sources":{}}
-    report={"schema":1,"generated_at":stamp(),"mode":a.mode,"sources":dict(old.get("sources",{})),"batch":{"ok":[],"failed":[]}}
+    report={"schema":2,"generated_at":stamp(),"mode":a.mode,"sources":dict(old.get("sources",{})),"batch":{"ok":[],"failed":[]}}
     sources=conf.get("sources",{})
     for name,src in sources.items():
         kind=src.get("kind",name);path=pathlib.Path(os.path.expandvars(src.get("path","")))

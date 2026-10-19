@@ -1,41 +1,66 @@
 {
-    "schema":  1,
-    "generated_at":  null,
-    "mode":  "awaiting_authorized_collector",
-    "sources":  {
-                    "cb":  {
-                               "status":  "unavailable",
-                               "reason":  "Collector host requires source mount and explicit config"
-                           },
-                    "ics":  {
-                                "status":  "unavailable",
-                                "reason":  "Collector host requires source mount and explicit config"
-                            },
-                    "icf":  {
-                                "status":  "unavailable",
-                                "reason":  "Collector host requires source mount and explicit config"
-                            },
-                    "ice":  {
-                                "status":  "unavailable",
-                                "reason":  "Collector host requires source mount and explicit config"
-                            },
-                    "innovation":  {
-                                       "status":  "unavailable",
-                                       "reason":  "Collector host requires source mount and explicit config"
-                                   }
-                },
-    "batch":  {
-                  "ok":  [
-
-                         ],
-                  "failed":  [
-                                 "cb",
-                                 "ics",
-                                 "icf",
-                                 "ice",
-                                 "innovation"
-                             ],
-                  "total":  5,
-                  "successful":  0
-              }
+  "schema": 2,
+  "generated_at": "2026-10-19T08:09:09+00:00",
+  "mode": "connector_manual_verified",
+  "sources": {
+    "cb": {
+      "status": "unavailable",
+      "reason": "Collector host requires source mount and explicit config"
+    },
+    "ics": {
+      "status": "unavailable",
+      "reason": "Collector host requires source mount and explicit config"
+    },
+    "icf": {
+      "status": "unavailable",
+      "reason": "Collector host requires source mount and explicit config"
+    },
+    "ice": {
+      "status": "unavailable",
+      "reason": "Collector host requires source mount and explicit config"
+    },
+    "innovation": {
+      "status": "ok",
+      "provider": "Microsoft SharePoint (read-only connector)",
+      "unit": "projects",
+      "total": 98,
+      "open": 12,
+      "completed": 86,
+      "checked_at": "2026-10-19T08:09:09+00:00",
+      "file_modified": "2026-10-16T07:11:32Z",
+      "basis": "Dashboard totals from source workbook; detail-row totals not certified"
+    },
+    "planner": {
+      "status": "ok",
+      "provider": "Microsoft Planner (read-only connector)",
+      "unit": "tasks",
+      "total": 38,
+      "open": 29,
+      "completed": 9,
+      "in_progress": 24,
+      "not_started": 5,
+      "open_without_assignment": 26,
+      "all_without_assignment": 35,
+      "overdue_before_2026_10_19": 13,
+      "due_on_2026_10_19": 1,
+      "open_without_due_date": 4,
+      "checked_at": "2026-10-19T08:09:09+00:00",
+      "basis": "Data checked from Microsoft Graph through connected Teams/Planner"
+    }
+  },
+  "batch": {
+    "ok": [
+      "planner",
+      "innovation"
+    ],
+    "failed": [
+      "cb",
+      "ics",
+      "icf",
+      "ice"
+    ],
+    "total": 6,
+    "successful": 2,
+    "note": "Cloud sources read successfully. Network W collector remains unavailable on offline NB."
+  }
 }
