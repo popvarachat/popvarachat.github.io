@@ -15,8 +15,8 @@ if($Action -eq 'Run'){$arguments=$arguments.Replace('--mode auto','--mode manual
 if($EveryMinutes -lt 15){throw 'Minimum interval 15 minutes for shared file load'}
 $Start=(Get-Date).AddMinutes(5)
 $trigger=New-ScheduledTaskTrigger -Once -At $Start -RepetitionInterval (New-TimeSpan -Minutes $EveryMinutes) -RepetitionDuration (New-TimeSpan -Days 365)
-$action=New-ScheduledTaskAction -Execute $Python -Argument $arguments -WorkingDirectory $Root
+$taskAction=New-ScheduledTaskAction -Execute $Python -Argument $arguments -WorkingDirectory $Root
 $settings=New-ScheduledTaskSettingsSet -StartWhenAvailable -ExecutionTimeLimit (New-TimeSpan -Minutes 20) -MultipleInstances IgnoreNew
 $principal=New-ScheduledTaskPrincipal -UserId ([Security.Principal.WindowsIdentity]::GetCurrent().Name) -LogonType Interactive -RunLevel Limited
-Register-ScheduledTask -TaskName $TaskName -Action $action -Trigger $trigger -Settings $settings -Principal $principal -Description 'Read-only MD Dashboard aggregate refresh; does not include private row-level data.' -Force|Out-Null
+Register-ScheduledTask -TaskName $TaskName -Action $taskAction -Trigger $trigger -Settings $settings -Principal $principal -Description 'Read-only MD Dashboard aggregate refresh; does not include private row-level data.' -Force|Out-Null
 Write-Output ('TASK_INSTALLED '+$TaskName+' every '+$EveryMinutes+' minutes sources='+$found)
