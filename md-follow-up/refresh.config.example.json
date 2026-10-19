@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "note": "Example only. Copy to refresh.config.json on authorized host; do not commit site-specific network paths.",
+  "sources": {
+    "cb": {
+      "kind": "cb",
+      "path": "%MD_SOURCES_DIR%\\<approved_cb_file>.xlsx"
+    },
+    "ics": {
+      "kind": "ics",
+      "path": "%MD_SOURCES_DIR%\\<approved_ics_file>.xlsx"
+    },
+    "icf": {
+      "kind": "icf",
+      "path": "%MD_SOURCES_DIR%\\<approved_icf_file>.xlsx"
+    },
+    "ice": {
+      "kind": "ice",
+      "path": "%MD_SOURCES_DIR%\\<approved_ice_file>.xlsx"
+    },
+    "innovation": {
+      "kind": "innovation",
+      "path": "%MD_SOURCES_DIR%\\<approved_innovation_file>.xlsx"
+    }
+  }
+}

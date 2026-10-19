@@ -35,3 +35,15 @@ Run `node --check app.js`; browse `/md-follow-up/`; verify node selection, MD co
 - 25 clickable nodes and 36 directed curved connectors, showing inputs, outputs, and control/evidence gaps.
 - Drag to pan, wheel or +/- to zoom, FIT to restore; preserves detailed six-stream panels, seven concerns, and the evidence ledger.
 - Public-safe static design only: no live integration, automatic task updates, or private evidence hosting.
+
+
+## Local source refresh — auto and manual batch
+Public GitHub Pages **cannot access W:\ network drives, protected SharePoint files, or a logged-in Planner account directly**. The local collector is the trust boundary; only approved aggregate counts and source freshness metadata go to `source-health.json`. Confidential rows, user assignments, quotations and source paths never go to GitHub.
+- Install Python `openpyxl` on the authorized read-only collector host.
+- Copy `refresh.config.example.json` to `refresh.config.json` locally, then set actual accessible paths. The local config and audit logs are excluded from Git. Do not commit them.
+- **Manual batch:** `py -3 md-follow-up/refresh_sources.py --config md-follow-up/refresh.config.json --mode manual`.
+- **Manual batch with publish:** add `--publish`. This is a public *aggregate metadata* upload, not an upload of source Excel or internal identities.
+- **Automatic refresh:** on an authorized Windows host, run `powershell -File md-follow-up/scheduler.ps1 -Action Install -EveryMinutes 60 -Publish`; this script refuses installation if no configured source is currently readable. Remove with `-Action Remove`.
+- For SharePoint use a **separately authorized read-only mirrored/synced local file** and ensure the file is refreshed before running the batch. The current collector does not implement Graph, Planner or SharePoint authentication.
+- If source missing/broken, preserve last-good counts with explicit `stale` status; no fake success. The public page refresh button reloads published source-health only; it does not send requests to PCs.
+- Do not claim automatic update active before installing and observing a successful run on a machine that actually sees the shares.

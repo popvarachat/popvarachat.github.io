@@ -196,3 +196,25 @@ el("issuesBtn").addEventListener("click",()=>setMode("exceptions"));
 el("qualityBtn").addEventListener("click",()=>setMode("quality"));
 el("print").addEventListener("click",()=>window.print());
 buildArch();renderConcerns();renderSources();renderSummary();initializePanZoom();requestAnimationFrame(fitCanvas);
+
+const sourceLabel={cb:'Check Board',ics:'ICS',icf:'ICF',ice:'ICE / EDU',innovation:'Innovation'};
+async function loadSourceHealth(){
+ const status=el('batchStatus'),date=el('batchDate'),area=el('connectorCards');
+ try{
+  const response=await fetch('./source-health.json?at='+Date.now(),{cache:'no-store'});
+  if(!response.ok)throw Error('Snapshot HTTP '+response.status);
+  const data=await response.json();
+  const batch=data.batch||{};
+  const names=Object.keys(data.sources||{});
+  status.textContent=Number(batch.successful||0)+' / '+names.length+' CONNECTORS VERIFIED';
+  date.textContent=data.generated_at? 'Last batch: '+new Date(data.generated_at).toLocaleString('th-TH'): 'รอผลจาก Collector ที่ได้รับอนุญาต';
+  area.innerHTML=names.map(name=>{
+    const item=data.sources[name]||{},state=item.status||'unavailable';
+    const date=item.checked_at?new Date(item.checked_at).toLocaleString('th-TH'):'ยังไม่เชื่อม';
+    const total=Number.isFinite(item.total)?Number(item.total).toLocaleString('th-TH'):'—';
+    return '<div class="connector"><span class="tag '+(state==='ok'?'ok':state==='stale'?'stale':'')+'">'+safe(state.toUpperCase())+'</span><h3>'+safe(sourceLabel[name]||name)+'</h3><div class="stat">'+safe(total)+'</div><div class="minor">Unit: '+safe(item.unit||'pending')+'</div><div class="minor">Last verified: '+safe(date)+'</div></div>'
+  }).join('');
+ }catch(err){status.textContent='SNAPSHOT UNAVAILABLE';area.textContent='ไม่สามารถโหลดผลตรวจล่าสุดจาก GitHub Pages ได้';date.textContent=String(err.message)}
+}
+el('checkSnapshot')?.addEventListener('click',loadSourceHealth);
+loadSourceHealth();

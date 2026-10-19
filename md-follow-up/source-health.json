@@ -1,0 +1,41 @@
+﻿{
+    "schema":  1,
+    "generated_at":  null,
+    "mode":  "awaiting_authorized_collector",
+    "sources":  {
+                    "cb":  {
+                               "status":  "unavailable",
+                               "reason":  "Collector host requires source mount and explicit config"
+                           },
+                    "ics":  {
+                                "status":  "unavailable",
+                                "reason":  "Collector host requires source mount and explicit config"
+                            },
+                    "icf":  {
+                                "status":  "unavailable",
+                                "reason":  "Collector host requires source mount and explicit config"
+                            },
+                    "ice":  {
+                                "status":  "unavailable",
+                                "reason":  "Collector host requires source mount and explicit config"
+                            },
+                    "innovation":  {
+                                       "status":  "unavailable",
+                                       "reason":  "Collector host requires source mount and explicit config"
+                                   }
+                },
+    "batch":  {
+                  "ok":  [
+
+                         ],
+                  "failed":  [
+                                 "cb",
+                                 "ics",
+                                 "icf",
+                                 "ice",
+                                 "innovation"
+                             ],
+                  "total":  5,
+                  "successful":  0
+              }
+}
