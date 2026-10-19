@@ -37,6 +37,12 @@ function makeStats(){
   {title:"ยังไม่มี Stage Due ที่ยืนยัน",value:missing,extra:"ต้องจัดทำกำหนดส่ง",class:"caution"},
   {title:"ยังไม่ระบุเจ้าภาพรายบุคคล",value:missingOwner,extra:"ต้องมอบหมายคนรับผิดชอบ",class:"caution"}];
  $("kpis").innerHTML=units.map(o=>'<div class="metric '+(o.class||"")+'"><div class="label">'+escapeHtml(o.title)+'</div><strong>'+o.value.toLocaleString("th-TH")+'</strong><small>'+escapeHtml(o.extra)+'</small></div>').join("");
+  const missingCard=$("kpis").querySelectorAll(".metric")[5];
+ if(missingCard){
+   missingCard.tabIndex=0;
+   missingCard.setAttribute("role","button");
+   missingCard.title="คลิกเพื่อกรองงานที่ยังไม่ยืนยันชื่อเจ้าภาพ";
+ }
  $("asof").textContent="ข้อมูลภายใน ณ "+new Date(payload.updated).toLocaleString("th-TH")+", "+filtered.length.toLocaleString("th-TH")+" Stage (ไม่ใช่จำนวนคำสั่ง MD ที่ไม่ซ้ำกัน)";
 }
 function refreshOwnerSelect(){
@@ -165,6 +171,13 @@ function renderTree(){
  $("rowCount").textContent=visible.length.toLocaleString("th-TH")+" แถวแสดง · "+filtered.length.toLocaleString("th-TH")+" Stage ที่นำมาคำนวณ";
  $("columnNote").textContent="คอลัมน์ "+columns.length+" จาก "+new Set(filtered.map(groupName)).size+" กลุ่ม · นับ "+(measure==="work"?"Distinct Work ภายในแต่ละทะเบียน":"Stage Rows")+" · ยอดอาจซ้ำข้ามระบบ";
 }
+function assigneeLabel(r){
+ if(r.owner_kind==="missing")return "ยังไม่ยืนยันเจ้าภาพรายบุคคล · ต้นทาง: "+(r.owner_raw||"ไม่ระบุ");
+ if(r.owner_kind==="joint")return "ร่วมหลายคน · ยังไม่ยืนยันผู้รับผิดชอบหลัก";
+ if(r.source==="planner")return "ผู้รับ Assignment ใน Planner · ตรวจชื่อจาก Microsoft Directory";
+ return "ชื่อบุคคลที่ระบุในช่องเจ้าภาพต้นทาง";
+}
+function individual(r){return r.owner_person||"ยังไม่ยืนยันเจ้าภาพรายบุคคล";}
 function showDrill(key,col){
  const node=nodeMap.get(key);if(!node)return;
  const rows=col==="__all__"?node.items:node.items.filter(r=>colOf(r)===col);
@@ -173,14 +186,14 @@ function showDrill(key,col){
  $("drillTitle").textContent=(node.title||"")+" / "+(col==="__all__"?"ทุกฝ่าย":col);
  $("drillMeta").textContent=unitCount(rows).toLocaleString("th-TH")+" "+(measure==="work"?"งาน":"ขั้นตอน")+" · คลิกชื่อเพื่อดู Stage ทั้งสาย";
  $("detailBody").innerHTML='<table><thead><tr><th>กำหนดส่ง</th><th>งาน / โครงการ</th><th>Stage ที่ค้าง</th><th>เจ้าภาพ</th><th>ฝ่าย</th><th>สถานะ</th></tr></thead><tbody>'+
-  dedup.slice(0,300).map((r,i)=>'<tr data-idx="'+i+'"><td>'+escapeHtml(r.due||"—")+'</td><td><strong>'+escapeHtml(r.project)+'</strong><div class="sub">'+escapeHtml(names[r.source]||r.source)+'</div></td><td>'+escapeHtml(r.stage)+'</td><td>'+escapeHtml(r.owner)+'</td><td>'+escapeHtml(r.department)+'</td><td>'+escapeHtml(r.deadline_state)+'</td></tr>').join("")+'</tbody></table>';
+  dedup.slice(0,300).map((r,i)=>'<tr data-idx="'+i+'"><td>'+escapeHtml(r.due||"—")+'</td><td><strong>'+escapeHtml(r.project)+'</strong><div class="sub">'+escapeHtml(names[r.source]||r.source)+'</div></td><td>'+escapeHtml(r.stage)+'</td><td>'+escapeHtml(individual(r))+'<small>'+escapeHtml(assigneeLabel(r))+'</small></td><td>'+escapeHtml(r.department)+'</td><td>'+escapeHtml(r.deadline_state)+'</td></tr>').join("")+'</tbody></table>';
  window.currentDrillRows=dedup;
  $("stageTrace").innerHTML="";
  holder.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 function renderTimeline(r){
  const sequence=all.filter(x=>x.work_key===r.work_key).sort((a,b)=>a.stage_index-b.stage_index);
- $("stageTrace").innerHTML=sequence.map(x=>'<div class="node '+(x.stage_index===r.stage_index?"current":"")+'"><div class="eyebrow">STAGE '+x.stage_index+'/'+x.stage_total+'</div><h4>'+escapeHtml(x.stage)+'</h4><p>เจ้าภาพ: '+escapeHtml(x.owner_person||x.owner)+'</p><p>ฝ่าย: '+escapeHtml(x.department)+'</p><p>กำหนด: '+escapeHtml(x.due||"ไม่ระบุ")+'</p><p>สถานะ: '+escapeHtml(x.status)+'</p><p>'+escapeHtml(x.deadline_state)+'</p></div>').join("");
+ $("stageTrace").innerHTML=sequence.map(x=>'<div class="node '+(x.stage_index===r.stage_index?"current":"")+'"><div class="eyebrow">STAGE '+x.stage_index+'/'+x.stage_total+'</div><h4>'+escapeHtml(x.stage)+'</h4><p>เจ้าภาพ: '+escapeHtml(individual(x))+' — '+escapeHtml(assigneeLabel(x))+'</p><p>ฝ่าย: '+escapeHtml(x.department)+'</p><p>กำหนด: '+escapeHtml(x.due||"ไม่ระบุ")+'</p><p>สถานะ: '+escapeHtml(x.status)+'</p><p>'+escapeHtml(x.deadline_state)+'</p></div>').join("");
  $("stageTrace").scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 function renderSourceCounts(){
@@ -203,6 +216,15 @@ function exportCsv(){
  const csv="\uFEFF"+[header,...filtered.map(r=>[r.source,r.work_key,r.project,r.stage,r.stage_index,r.due,r.status,r.owner_person,r.owner_raw,r.department,r.deadline_state])].map(row=>row.map(quote).join(",")).join("\r\n");
  const b=new Blob([csv],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="md-stage-pivot-local-"+payload.as_of+".csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
 }
+function missingOwnerShortcut(){
+ const select=$("ownerFilter");
+ const option=[...select.options].find(o=>o.value.includes("ยังไม่ระบุเจ้าภาพรายบุคคล"));
+ if(option){select.value=option.value;refresh();$("pivotScroll").scrollIntoView({behavior:"smooth",block:"start"});}
+}
+$("kpis").addEventListener("click",e=>{if(e.target.closest(".metric")===$("kpis").querySelectorAll(".metric")[5])missingOwnerShortcut()});
+$("kpis").addEventListener("keydown",e=>{
+ if((e.key==="Enter"||e.key===" ")&&e.target===$("kpis").querySelectorAll(".metric")[5]){e.preventDefault();missingOwnerShortcut();}
+});
 $("tbody").addEventListener("click",e=>{
  const toggle=e.target.closest("[data-toggle]");
  if(toggle){const k=toggle.dataset.toggle;if(expanded.has(k))expanded.delete(k);else expanded.add(k);renderTree();return;}
