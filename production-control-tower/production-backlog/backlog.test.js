@@ -41,7 +41,7 @@ test('dashboard renders every production line, source notice and review gates',(
  assert(html.includes('ห้ามนำยอดมาบวกกับ 1,630'));
  assert(html.includes('L1 → ผลิต1'));
  assert(html.includes('L6 → ผลิต5'));
- assert(html.includes('Cutting ที่ต้องอ่าน Control Plan เพิ่ม'));
+ assert(html.includes('กลุ่มเป้าหมายเดิมที่ต้องตรวจ Control Plan'));
 });
 test('read-only ControlPlan progress distinguishes found, query-empty and pending',()=>{
  const x={schema_version:'1.0',kind:'CONTROLPLAN_READONLY_COLLECTION_PROGRESS',source:'P5511026/ZPTK0001',

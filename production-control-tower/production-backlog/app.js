@@ -19,12 +19,18 @@ function validatedProgress(p){
  if(!p||p.kind!=='CONTROLPLAN_READONLY_COLLECTION_PROGRESS'||p.source!=='P5511026/ZPTK0001'||p.source_type!=='JDE_BROWSER_READ_ONLY')return null;
  if(p.target_cuttings!==1235||![p.checked_cuttings,p.pending_cuttings,p.found_controlplan,p.verified_query_empty,p.collected_operation_rows,p.with_reference_route_codes].every(ok))return null;
  if(p.checked_cuttings+p.pending_cuttings!==1235||p.found_controlplan+p.verified_query_empty!==p.checked_cuttings||p.with_reference_route_codes>p.found_controlplan||p.current_station_certified!==false||p.factory_wip_certified!==false)return null;
+ if(p.provisional_single_active_line_cuttings!==undefined){
+  const a=p.provisional_single_active_line_cuttings,b=p.provisional_stage_needs_review,st=p.provisional_active_stage_counts;
+  if(!ok(a)||!ok(b)||a+b!==p.found_controlplan||!st||Object.values(st).some(x=>!ok(x))||Object.values(st).reduce((n,x)=>n+x,0)!==a)return null;
+ }
  return p;
 }
 function renderProgress(p){
  const a=validatedProgress(p);
  if(!a)return '<section class="panel" style="border-color:#917141"><h2>ตรวจ Control Plan ของ 1,235 Cutting</h2><p class="sub">กำลังรอผลตรวจจาก P5511026 ที่ผ่านการนับและตรวจความครบถ้วน</p></section>';
  const value=(100*a.checked_cuttings/1235).toFixed(1),codes=Object.entries(a.route_code_presence_by_cutting||{}).filter(([k,n])=>/^(L[1-6]|S[12])$/.test(k)&&Number.isSafeInteger(n)&&n>0);
+ const stage=a.provisional_single_active_line_cuttings;
+ const stages=Number.isSafeInteger(stage)&&a.provisional_active_stage_counts?Object.entries(a.provisional_active_stage_counts).map(([line,count])=>'<span>'+e(line)+' '+fmt(count)+' (ขั้นตอนที่เป็นไปได้)</span>').join(''):'';
  return '<section class="panel" style="border-color:#398e90" aria-label="ความคืบหน้าตรวจ Control Plan จริง">'+
  '<div class="detail-title"><div><h2>กำลังตรวจ Control Plan ราย Cutting จริง · P5511026</h2><p class="sub">รายงานจากผลอ่าน ERP ผ่าน Playwright · ล่าสุด '+e(stamp(a.as_of_utc))+' · ไม่ใช่ข้อมูล AIS หรือ WIP ที่รับรอง</p></div><span class="pill">ตรวจแล้ว '+fmt(a.checked_cuttings)+' / 1,235 ('+value+'%)</span></div>'+
  '<div class="track" style="height:11px;margin:12px 0 17px"><span class="fill" style="width:'+value+'%;background:linear-gradient(90deg,#30a7bc,#80e1d5)"></span></div>'+
@@ -36,14 +42,15 @@ function renderProgress(p){
  '</div>'+
  '<p class="sub">Control Plan ที่พบมี '+fmt(a.collected_operation_rows)+' Operation · พบรหัสสายผลิตจาก Business Unit ใน '+fmt(a.with_reference_route_codes)+' Cutting แต่ยังไม่ยืนยันว่าเป็นสายผลิตปัจจุบัน</p>'+
  '<div class="source">'+codes.map(([k,n])=>'<span>'+e(k)+': '+fmt(n)+' Cutting ที่มีรหัสในเส้นทาง</span>').join('')+'</div>'+
- '<p class="warning-text" style="font-size:12px;margin-top:12px">จำนวนแต่ละรหัสเป็นการพบในเส้นทางผลิต อาจซ้ำข้ามรหัส และไม่ใช่จำนวนงานค้างรายสาย ต้องตรวจสถานะ Operation ที่ยังเปิดก่อน</p>'+
+ (stages?'<div class="mini-kv"><span>พบขั้นตอนที่ยังไม่เสร็จลำดับแรกและแปลเป็นสายผลิตได้เบื้องต้น</span><strong>'+fmt(stage)+'</strong></div><div class="mini-kv"><span>พบแผนแต่ต้องตรวจ Operation/รหัสพิเศษเพิ่ม</span><strong>'+fmt(a.provisional_stage_needs_review)+'</strong></div><div class="source">'+stages+'</div>':'')+
+ '<p class="warning-text" style="font-size:12px;margin-top:12px">รหัสในเส้นทางอาจซ้ำกันได้ ส่วนตัวเลขขั้นตอนเบื้องต้นใช้ Operation ที่ยังไม่เสร็จลำดับต่ำสุดเท่านั้น ต้องตรวจ WO, 9D/การโอน และกฎการเดินงานก่อนรับรองว่าเป็น WIP ปัจจุบัน</p>'+
  '</section>';
 }
 
 const metric=(name,v,description,cls)=>'<article class="metric-card"><div class="klabel">'+e(name)+'</div><div class="kvalue '+(cls||'')+'">'+fmt(v)+'</div><p>'+e(description)+'</p></article>';
 function focus(d,id){
  if(id==='ALL')return {name:'ภาพรวมทุกสาย',count:d.totals.candidates,description:'ยอดทั้งหมดเป็น Cutting candidate ต้องตรวจ WO และ Current Operation ก่อนรับรอง',todo:['ตรวจ WO ว่ายังต้องผลิตจริง','จับคู่กับ Operation/ControlPlan ปัจจุบัน','ตรวจวันที่ครบกำหนดและสถานะโอน']};
- if(id==='UNKNOWN')return {name:'รออ่าน Control Plan',count:d.totals.unresolved,description:'Control Plan มีรหัส L1–L6 และ S1–S2 แต่ยังไม่ได้ดึง Operation ของ 1,235 Cutting ชุดนี้จาก ERP',todo:['ตรวจ Cutting กับ Open Operation จาก AIS','อ่าน Current ControlPlan และ Work Center','แยก WO ที่ปิดแล้วและสถานะขัดแย้งออกจาก WIP']};
+ if(id==='UNKNOWN')return {name:'รออ่าน Control Plan',count:d.totals.unresolved,description:'กลุ่ม 1,235 Cutting มีการดึง Control Plan เพิ่มแล้วบางส่วน แต่ยังไม่ผ่านการรับรอง Current Operation และสถานะ WO ทั้งชุด',todo:['ตรวจ Cutting กับ Open Operation จาก AIS','อ่าน Current ControlPlan และ Work Center','แยก WO ที่ปิดแล้วและสถานะขัดแย้งออกจาก WIP']};
  const x=d.departments.find(a=>a.name===id);
  if(!x)return focus(d,'ALL');
  return {name:x.name+(x.count===null?' · ข้อมูลไม่พอ':' · ตาม Reference'),count:x.count,
@@ -62,7 +69,7 @@ function render(d){
  const lineButtons=rows.map(x=>{
   const id=x.name==='รออ่าน Control Plan'?'UNKNOWN':x.name;
   const cls=(id==='UNKNOWN'?' missing':'')+(x.count===null?' empty':'')+(id===selected?' selected':'');
-  const hint=x.count===null?'ยังไม่มีหลักฐาน':id==='UNKNOWN'?'รออ่าน Operation สำหรับ 1,235 Cutting':'Type/Status Reference';
+  const hint=x.count===null?'ยังไม่มีหลักฐาน':id==='UNKNOWN'?'ตรวจงานค้างและ Operation จริง':'Type/Status Reference';
   return '<button class="line'+cls+'" type="button" data-select="'+e(id)+'" aria-pressed="'+(id===selected)+'"><span class="name">'+e(x.name)+'<span class="hint">'+e(hint)+'</span></span><span class="track"><span class="fill" style="width:'+(x.count===null?0:100*x.count/mx)+'%"></span></span><span class="value">'+fmt(x.count)+'</span></button>';
  }).join('');
  const tables=rows.filter(x=>selected==='ALL'||x.name===(selected==='UNKNOWN'?'รออ่าน Control Plan':selected)).map(x=>
@@ -73,7 +80,7 @@ function render(d){
  '<section class="metrics" aria-label="ตัวเลขภาพรวม">'+
  metric('Cutting ที่ต้องตรวจต่อ',t.candidates,'WO Code 10/30/40 ในขอบเขตนี้','cyan')+
  metric('ระบุสายตาม Reference ได้',t.classified,'ไม่ใช่ยืนยันตำแหน่งผลิตจริง','green')+
- metric('รอดึง Control Plan',t.unresolved,percent(t.unresolved,t.candidates)+' ของรายการติดตาม','amber')+
+ metric('ยังไม่รับรองสายผลิตปัจจุบัน',t.unresolved,percent(t.unresolved,t.candidates)+' ของรายการติดตาม','amber')+
  metric('WIP / Overdue ที่รับรองแล้ว',null,'รอ Current Operation และ WO Reconciliation','')+'</section>'+
  '<div class="main-layout"><section class="panel"><h2>งานติดตามแยกตามสายผลิต</h2><p class="sub">คลิกที่สายผลิต เพื่อดูจำนวนและขั้นตอนตรวจสอบต่อ · นับ Cutting ไม่ใช่ WO</p>'+
  '<div class="line-list">'+lineButtons+'</div><div class="section-foot"><span>ผลิต 4 ยังไม่มีจำนวนที่ยืนยันได้ · กลุ่มรอหลักฐานยังไม่จัดสรรเข้าสายใด</span><a href="../production-daily/quality.html">ดู Audit ที่มา ↗</a></div></section>'+
@@ -85,7 +92,7 @@ function render(d){
  '<section class="panel"><div class="detail-title"><div><h2>รายงานสรุปแยกสายผลิต</h2><p class="sub">เลือกดูเฉพาะสาย / ดูกลุ่มที่ยังต้องตรวจหลักฐาน</p></div><div class="pills">'+pills+'</div></div>'+
  '<div class="table-wrap"><table><thead><tr><th>สายผลิต</th><th style="text-align:right">Cutting ที่พบ</th><th style="text-align:right">สัดส่วน</th><th>ตำแหน่งผลิต</th><th>งานเกินกำหนดจริง</th></tr></thead><tbody>'+tables+'</tbody></table></div>'+
  '<p class="sub">ตัวเลขยังจัดตาม Access Reference ไม่ใช่ตำแหน่งหน้างาน และยังไม่ใช่ WIP ทั้งโรงงาน</p></section>'+
- '<section class="panel" style="border-color:#326e7b"><h2>Control Plan ระบุสายผลิตไว้อยู่แล้ว</h2><p class="sub">อ่านจาก MapControlPlan ของ Access Reference (ใช้แปลรหัสเท่านั้น ไม่ใช่ยอด WIP สด)</p><div class="source">'+mapLabels+'</div><div class="mini-kv"><span>Control Plan ที่อ่านแล้ว (คนละ Cohort)</span><strong>'+fmt(a.scanned_controlplan_cuttings)+'</strong></div><div class="mini-kv"><span>Operation ที่อ่านในชุดนั้น</span><strong>'+fmt(a.operation_rows)+'</strong></div><div class="mini-kv"><span>Cutting ที่ต้องอ่าน Control Plan เพิ่ม</span><strong class="warning-text">'+fmt(a.remaining_missing_controlplan)+'</strong></div><p class="sub">ตรวจรหัส Cutting เทียบกันแล้ว ตรงกัน '+fmt(a.overlap_with_scanned_controlplan)+' รายการ จึงยังเอาข้อมูล Control Plan ชุด 156 ไปจำแนกอีก 1,235 ไม่ได้</p><p class="warning-text" style="font-size:12px">หากจะรายงานว่างานค้างอยู่สายใด ต้องเลือกขั้นตอนที่ยังไม่เสร็จใน Current Operation และตรวจสถานะ WO/การโอนประกอบ</p></section><section class="panel" style="border-color:#326e7b"><div class="detail-title"><h2>ตัวอย่างที่ตรวจ Current ControlPlan แล้ว · Cutting40 เท่านั้น</h2><span class="pill">แยกขอบเขต ห้ามนำยอดมาบวกกับ 1,630</span></div><p class="sub">ใน Cohort เดิม 160 Cutting พบ Open ตามเงื่อนไข 156 รายการ และมีหลักฐาน ControlPlan ครบใน Cohort 100% ณ '+e(stamp(c.controlplan_verified_to_utc))+' · ไม่ใช่ยอดทั้งโรงงาน</p><div class="main-layout"><div class="line-list">'+cohortBars+'</div><div class="detail-body"><div class="klabel">Cutting ใน Cohort ที่จัดกลุ่มได้</div><div class="detail-big">'+fmt(c.observed_open_cuttings)+'</div><p class="sub">ตรวจ ControlPlan 156 จาก 156 · ตัด 9D ออก '+fmt(c.transferred_9d_excluded)+' รายการ</p><div class="mini-kv"><span>WO/Cutting status 99 ต้องตรวจเพิ่ม</span><strong class="warning-text">'+fmt(c.status99_requires_review)+'</strong></div><p class="sub">ผลิต4 = 131 เฉพาะ Cohort นี้ ไม่ใช่ยอด WIP ทั้งโรงงานหรืองานใหม่ที่ดึงผ่าน AIS</p><a href="../adaptive-so-wo-timeentry/">ดู Cutting รายการและ Operation ของ Cohort นี้ ↗</a></div></div></section>'+
+ '<section class="panel" style="border-color:#326e7b"><h2>Control Plan ระบุสายผลิตไว้อยู่แล้ว</h2><p class="sub">อ่านจาก MapControlPlan ของ Access Reference (ใช้แปลรหัสเท่านั้น ไม่ใช่ยอด WIP สด)</p><div class="source">'+mapLabels+'</div><div class="mini-kv"><span>Control Plan ที่อ่านแล้ว (คนละ Cohort)</span><strong>'+fmt(a.scanned_controlplan_cuttings)+'</strong></div><div class="mini-kv"><span>Operation ที่อ่านในชุดนั้น</span><strong>'+fmt(a.operation_rows)+'</strong></div><div class="mini-kv"><span>กลุ่มเป้าหมายเดิมที่ต้องตรวจ Control Plan</span><strong class="warning-text">'+fmt(a.remaining_missing_controlplan)+'</strong></div><p class="sub">ตรวจรหัส Cutting เทียบกันแล้ว ตรงกัน '+fmt(a.overlap_with_scanned_controlplan)+' รายการ จึงยังเอาข้อมูล Control Plan ชุด 156 ไปจำแนกอีก 1,235 ไม่ได้</p><p class="warning-text" style="font-size:12px">หากจะรายงานว่างานค้างอยู่สายใด ต้องเลือกขั้นตอนที่ยังไม่เสร็จใน Current Operation และตรวจสถานะ WO/การโอนประกอบ</p></section><section class="panel" style="border-color:#326e7b"><div class="detail-title"><h2>ตัวอย่างที่ตรวจ Current ControlPlan แล้ว · Cutting40 เท่านั้น</h2><span class="pill">แยกขอบเขต ห้ามนำยอดมาบวกกับ 1,630</span></div><p class="sub">ใน Cohort เดิม 160 Cutting พบ Open ตามเงื่อนไข 156 รายการ และมีหลักฐาน ControlPlan ครบใน Cohort 100% ณ '+e(stamp(c.controlplan_verified_to_utc))+' · ไม่ใช่ยอดทั้งโรงงาน</p><div class="main-layout"><div class="line-list">'+cohortBars+'</div><div class="detail-body"><div class="klabel">Cutting ใน Cohort ที่จัดกลุ่มได้</div><div class="detail-big">'+fmt(c.observed_open_cuttings)+'</div><p class="sub">ตรวจ ControlPlan 156 จาก 156 · ตัด 9D ออก '+fmt(c.transferred_9d_excluded)+' รายการ</p><div class="mini-kv"><span>WO/Cutting status 99 ต้องตรวจเพิ่ม</span><strong class="warning-text">'+fmt(c.status99_requires_review)+'</strong></div><p class="sub">ผลิต4 = 131 เฉพาะ Cohort นี้ ไม่ใช่ยอด WIP ทั้งโรงงานหรืองานใหม่ที่ดึงผ่าน AIS</p><a href="../adaptive-so-wo-timeentry/">ดู Cutting รายการและ Operation ของ Cohort นี้ ↗</a></div></div></section>'+
  '<div class="main-layout"><section class="panel"><h2>WO Code ของกลุ่มที่ต้องตรวจ</h2><p class="sub">ใช้คัดแยกงานสำหรับตรวจรับ ไม่ใช่การรับรองว่ายังเปิด WO ทุกใบ</p>'+
  d.wo_codes.map(x=>'<div class="mini-kv"><span>WO Code '+e(x.code)+'</span><strong>'+fmt(x.count)+'</strong></div>').join('')+
  '<p class="sub">รวม '+fmt(t.candidates)+' Cutting ในช่วงที่คัดกรอง · ไม่รวม WO Code 99 / 9C</p></section>'+
