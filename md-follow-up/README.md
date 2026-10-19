@@ -27,3 +27,11 @@ No automatic refresh, writeback, live API, or background automation is implement
 ## Validation
 
 Run `node --check app.js`; browse `/md-follow-up/`; verify node selection, MD concerns expansion, responsive reflow, and portal card. All public-bound counts and notes should be manually checked against the Oct 19 audit on each release.
+
+
+## Layered Architecture Flow v2 — 19 October 2026
+
+- Replaced six-card radial diagram with five horizontal functional layers: Intake, Control Plane, Six Workstreams, Quality / Exceptions, and Management Decisions.
+- 25 clickable nodes and 36 directed curved connectors, showing inputs, outputs, and control/evidence gaps.
+- Drag to pan, wheel or +/- to zoom, FIT to restore; preserves detailed six-stream panels, seven concerns, and the evidence ledger.
+- Public-safe static design only: no live integration, automatic task updates, or private evidence hosting.

@@ -33,40 +33,166 @@ const safe=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"
 let active=null,mode="overview";
 function renderDetail(id){
  active=id;
- document.querySelectorAll(".lane").forEach(n=>{n.classList.toggle("active",n.dataset.id===id);n.setAttribute("aria-pressed",String(n.dataset.id===id))});
+ document.querySelectorAll(".arch-node").forEach(n=>{n.classList.toggle("active",n.dataset.id===id);n.setAttribute("aria-pressed",String(n.dataset.id===id))});
  const d=lanes[id];if(!d)return;
  el("detail").innerHTML='<div class="detail-head"><div><div class="eyebrow">SELECTED STREAM / '+d.code+'</div><h3 style="color:'+d.color+'">'+safe(d.name)+'</h3><p style="margin:0">'+safe(d.sub)+' · '+safe(d.summary)+'</p></div><span class="pill">'+safe(d.status)+'</span></div><div class="detail-grid"><div class="detail-cell"><strong>WHAT IS TRACKED</strong><p>'+safe(d.scope)+'</p></div><div class="detail-cell"><strong>HANDOFF WORKFLOW</strong><p>'+safe(d.handoff)+'</p></div><div class="detail-cell"><strong>OPEN CONTROL GAP</strong><p>'+safe(d.gap)+'</p></div></div><div class="chipline">'+d.metrics.map(x=>'<span>'+safe(x)+'</span>').join("")+'</div><p style="margin:17px 0 0;color:#a5d5d5;font-size:12px"><strong>Completion evidence:</strong> '+safe(d.proof)+'</p>';
  drawLines();
 }
 function renderSummary(){
- active=null;document.querySelectorAll(".lane").forEach(n=>{n.classList.remove("active");n.setAttribute("aria-pressed","false")});
+ active=null;document.querySelectorAll(".arch-node").forEach(n=>{n.classList.remove("active");n.setAttribute("aria-pressed","false")});
  el("detail").innerHTML='<div class="detail-head"><div><div class="eyebrow">CONTROL CENTER / PRIMARY DESIGN RULE</div><h3>หนึ่งคำสั่ง · หนึ่งเจ้าภาพหลัก · หลายระบบสนับสนุน</h3></div><span class="pill">SINGLE RESPONSIBILITY, MULTI-SOURCE EVIDENCE</span></div><p>ใช้ Task/Order/Project ID จากระบบต้นทางเป็นหลัก แล้วเชื่อมเพียง Reference, Gate, Owner และ Evidence Status เข้ากลางโดยไม่คัดลอกเนื้อหาที่มีความอ่อนไหวไปยังเว็บสาธารณะ ทุกสายตรวจ Exception ส่งกลับมายัง MD Control เฉพาะเรื่องที่ต้องตัดสินใจ</p><div class="chipline"><span>Source Registry</span><span>Cross-system Identity</span><span>Owner Resolution</span><span>Freshness Check</span><span>Evidence-backed Closure</span><span>Human Gate</span></div>';
  drawLines();
 }
 function renderConcerns(){
  el("concerns").innerHTML=concerns.map((x,i)=>'<div class="audit-entry"><button class="concern" data-no="'+i+'" aria-expanded="false"><span class="audit-number">'+String(i+1).padStart(2,"0")+'</span><span class="audit-title">'+safe(x.title)+'</span><span class="status '+(x.state==="unknown"?"unknown":"")+'">'+(x.state==="unknown"?"ยังตอบไม่ได้":"ตอบได้บางส่วน")+'</span><span>⌄</span></button><div class="audit-detail" id="concern-'+i+'" hidden><div><strong>ผลตรวจ:</strong> '+safe(x.answer)+'</div><div><strong>ยังขาด:</strong> '+safe(x.missing)+'</div><button class="goto-stream" data-id="'+x.lane+'">ดูสายงานที่เกี่ยวข้อง ↗</button></div></div>').join("");
- el("concerns").addEventListener("click",e=>{const a=e.target.closest(".concern");if(a){const n=+a.dataset.no;const panel=el("concern-"+n);panel.hidden=!panel.hidden;a.setAttribute("aria-expanded",String(!panel.hidden))}const btn=e.target.closest(".goto-stream");if(btn){renderDetail(btn.dataset.id);el("detail").scrollIntoView({behavior:"smooth",block:"start"})}});
+ el("concerns").addEventListener("click",e=>{const a=e.target.closest(".concern");if(a){const n=+a.dataset.no;const panel=el("concern-"+n);panel.hidden=!panel.hidden;a.setAttribute("aria-expanded",String(!panel.hidden))}const btn=e.target.closest(".goto-stream");if(btn){activate(btn.dataset.id);el("detail").scrollIntoView({behavior:"smooth",block:"start"})}});
 }
 function renderSources(){
  el("sources").innerHTML='<table><thead><tr><th>DATA SOURCE</th><th>UNIT / COUNT</th><th>FINDINGS</th><th>EVIDENCE AGE</th><th>OPEN LIMITATION</th></tr></thead><tbody>'+sources.map(s=>'<tr><td><strong>'+safe(s[0])+'</strong></td><td><span class="tiny">'+safe(s[1])+'</span></td><td>'+safe(s[2])+'</td><td><small>'+safe(s[3])+'</small></td><td><span class="warn">'+safe(s[4])+'</span></td></tr>').join("")+'</tbody></table>';
 }
-function wireEndpoints(container,hub,target){
- const wrap=container.getBoundingClientRect(),a=hub.getBoundingClientRect(),b=target.getBoundingClientRect();
- const ax=a.left+a.width/2-wrap.left,ay=a.top+a.height/2-wrap.top,bx=b.left+b.width/2-wrap.left,by=b.top+b.height/2-wrap.top;
- const dx=bx-ax,dy=by-ay,angle=Math.atan2(dy,dx),ua=Math.cos(angle),va=Math.sin(angle);
- // Trace behind cards into them, with round joins; no clipped/visually broken endpoints.
- const x0=ax+ua*91,y0=ay+va*81,x1=bx-ua*Math.min(b.width*.31,94),y1=by-va*Math.min(b.height*.36,78);
- return {x0,y0,x1,y1};
+
+const W=1300,H=940;
+const nodes=[
+{id:"intent",title:"MD / Human Direction",cat:"INTENT & GOAL",caption:"Command · Scope · Priority",hint:"INPUT · human origin",kind:"input",x:30,y:65},
+{id:"signals",title:"LINE / Meeting Signals",cat:"SOURCE EVENTS",caption:"Message · Decision · Follow-up",hint:"READ-ONLY capture",kind:"input",x:30,y:241},
+{id:"sources",title:"Business Data Sources",cat:"SOURCE REGISTRY",caption:"Planner · SharePoint · CB · ERP",hint:"MULTI-SOURCE",kind:"input",x:30,y:420},
+{id:"human",title:"Human Approval Gate",cat:"STOP / APPROVE",caption:"Authority · Data Access · Writeback",hint:"NO AUTO WRITE",kind:"exception",x:30,y:743},
+{id:"orchestrator",title:"MD Orchestrator",cat:"CONTROL PLANE",caption:"RDC · Intake · Trace ID",hint:"CONTROL",kind:"control",x:272,y:82},
+{id:"router",title:"Stream Classifier",cat:"INTELLIGENCE ROUTER",caption:"Match issue to primary stream",hint:"6 STREAMS",kind:"control",x:272,y:265},
+{id:"owner",title:"Owner / RACI Resolver",cat:"ACCOUNTABILITY",caption:"One owner · Handoff owner",hint:"RULE ENFORCEMENT",kind:"control",x:272,y:447},
+{id:"registry",title:"Source Link Registry",cat:"CANONICAL REFERENCES",caption:"No duplicate tasks · Stable IDs",hint:"SOURCE OF TRUTH",kind:"control",x:272,y:626},
+{id:"shadow",title:"RDC / JEV Shadow Review",cat:"INDEPENDENT REVIEW",caption:"Suggestions · Contradictions",hint:"ADVISORY ONLY",kind:"validator",x:272,y:802},
+{id:"executive",title:"Executive Tasks",cat:"STREAM 01 · TODO / PLANNER",caption:"MD requests · Cross-functional",hint:"34 PLANNER ITEMS",kind:"stream",x:532,y:39},
+{id:"development",title:"Product Development",cat:"STREAM 02 · ICS / ICF / ICE",caption:"Drawing · Memo · Prototype",hint:"1,630 GATE ROWS",kind:"stream",x:532,y:176},
+{id:"innovation",title:"Innovation Programs",cat:"STREAM 03 · INNOVATION",caption:"Projects · Experiments · Costing",hint:"98 PROJECT SUMMARY",kind:"stream",x:532,y:313},
+{id:"checkboard",title:"Check Board",cat:"STREAM 04 · CB V13",caption:"Production · QC · Photo Gate",hint:"88 CB ENTRIES",kind:"stream",x:532,y:450},
+{id:"product",title:"Product Master",cat:"STREAM 05 · QP-40 / PPI",caption:"Catalog · Final Price · Publish",hint:"164 GATE REFERENCES",kind:"stream",x:532,y:587},
+{id:"commercial",title:"Commercial / SCD",cat:"STREAM 06 · SOURCING",caption:"Supplier · Quote · Customer",hint:"SOURCE TO VERIFY",kind:"stream",x:532,y:724},
+{id:"status",title:"Status Collector",cat:"OBSERVE / NORMALIZE",caption:"Owner · Deadline · Gate Status",hint:"READ-ONLY",kind:"validator",x:799,y:80},
+{id:"cross",title:"Cross-System Resolver",cat:"MATCH / RECONCILE",caption:"Order · Task · Product lineage",hint:"VERSION-CHECK",kind:"validator",x:799,y:270},
+{id:"exception",title:"Exception Detector",cat:"FAILURE & RISK ENGINE",caption:"Overdue · Missing Owner · Gap",hint:"AUTO-DETECT",kind:"exception",x:799,y:455},
+{id:"evidence",title:"Evidence Ledger",cat:"PROVENANCE RECORD",caption:"Source file · Timestamp · Proof",hint:"TRACEABLE",kind:"validator",x:799,y:631},
+{id:"validator",title:"Closure Validator",cat:"INDEPENDENT QA",caption:"DONE ≠ message · Verify outcome",hint:"HUMAN GATE",kind:"validator",x:799,y:805},
+{id:"action",title:"Action Required",cat:"NEXT BEST ACTION",caption:"Named owner · Due · Next step",hint:"OPEN CASE",kind:"exception",x:1070,y:94},
+{id:"escalation",title:"Escalation / Decision",cat:"MD ATTENTION",caption:"Delay · Conflict · Authority",hint:"DECISION NEEDED",kind:"exception",x:1070,y:275},
+{id:"gap",title:"Evidence Gap",cat:"UNCERTIFIED RESULT",caption:"Missing photo · Signoff · Quote",hint:"PROOF REQUIRED",kind:"exception",x:1070,y:455},
+{id:"done",title:"Verified Closed",cat:"OUTCOME & ACCEPTANCE",caption:"Proof · Acknowledged · Trace",hint:"VERIFIED",kind:"done",x:1070,y:634},
+{id:"brief",title:"MD Executive Brief",cat:"MANAGEMENT VIEW",caption:"What · Who · When · Action",hint:"SINGLE EXEC VIEW",kind:"done",x:1070,y:811}
+];
+const detailText={
+intent:["คำสั่งจากผู้บริหารหรือการตัดสินใจเชิงธุรกิจ", "ข้อความต้นทาง / เวลา / ระดับความสำคัญ","Trace ID และเกณฑ์ความสำเร็จ", "ต้องไม่อนุมานว่างานปิดจากข้อความตอบรับ"],
+signals:["สัญญาณจาก LINE การประชุม และการติดตามงาน","ข้อความ/ข้อสั่งการจากแหล่งที่ได้รับอนุญาต","Action draft ที่ต้องตรวจเทียบทะเบียนก่อน","LINE Bot ไม่มีสิทธิ์โพสต์ตอบโดยอัตโนมัติ"],
+sources:["ข้อมูลสถานะจากระบบต้นทางหลายประเภท","Task/Order/Project ID และสิทธิ์อ่าน","Reference ที่ระบุแหล่งข้อมูลจริง","ไม่เผยแพร่ข้อมูลบุคคลหรือไฟล์ต้นฉบับบนเว็บสาธารณะ"],
+human:["จุดที่ต้องมีคนอนุมัติก่อนแก้ข้อมูลหรือสื่อสารออก","ข้อเสนอพร้อมผลตรวจและผู้มีอำนาจ","Approved / Rejected / Require evidence","หน้าเว็บนี้เป็น Read-only ไม่มี Writeback"],
+orchestrator:["รวมเหตุการณ์ให้มีรหัสติดตามและบริบทเดียวกัน","MD Command / Business Signals","Routing plan / Trace / Review trigger","ยังไม่ติดตั้งระบบรันอัตโนมัติบนหน้า Public Web"],
+router:["จำแนกเจ้าของงานหลักใน 6 สาย","Intent และบริบทของรายการเดิม","Primary stream + Secondary references","ต้องตรวจงานซ้ำก่อนเปิดทะเบียนใหม่"],
+owner:["แยกเจ้าภาพหลักออกจากผู้รับผิดชอบขั้นตอนและผู้เริ่มแจ้งงาน","Order/Task + RACI / Rule","Named primary owner + Handoff owner","คำถามว่าใครต้องแจ้งช่างภาพยังรอเอกสารบังคับใช้"],
+registry:["เชื่อมงานด้วยรหัสต้นทาง ไม่คัดลอกงานใหม่เป็นเงา","Planner ID / CB Order / Innovation Project","Canonical link / Version / Source age","เลขอ้างอิงตรงกันไม่ได้แปลว่าสถานะสำเร็จตรงกัน"],
+shadow:["ให้ RDC/JEV เป็นผู้ช่วยตรวจทานข้อสรุปเมื่อเชื่อมได้","Evidence และข้อเสนอการตัดสินใจ","ความเห็นเพิ่มเติม / Conflict / Confidence","Shadow ไม่ใช่อำนาจดำเนินการและยังไม่มี Live integration"],
+status:["อ่านสถานะและกำหนดส่งจากระบบเจ้าของงาน","Source records และหลักฐานที่ได้รับอนุญาต","Normalized snapshot + Freshness labels","ไฟล์แต่ละระบบอัปเดตไม่พร้อมกัน"],
+cross:["เปรียบเทียบข้อมูลข้ามระบบตามเลขอ้างอิงจริง","Order, Project, Gate และ Revision","Matched references + Inconsistency","CB กับ PPT และ QP-40 ยังต้องตรวจรุ่นและความหมายของสถานะ"],
+exception:["ตรวจหางานเลยกำหนด ขาดเจ้าภาพ ขาดหลักฐาน หรือส่งต่อไม่ได้","Status + RACI + Source age","Priority queue พร้อมเหตุผล","ต้องไม่ตีความช่องว่างเป็นงานผิดกำหนดโดยอัตโนมัติ"],
+evidence:["จัดเก็บที่มาและความน่าเชื่อถือของการปิดงาน","Original reference + Evidence timestamp","Proof ledger + Link to private source","ไม่โฮสต์ LINE, ราคา, ลูกค้า และไฟล์ภายในบน GitHub Pages"],
+validator:["แยก 'ทำแล้ว' ออกจาก 'ตรวจรับและปิดได้จริง'","Evidence + Acceptance criteria","Verified / Hold / Reopen","ไม่ประกาศปิดถ้าไม่มีผลตรวจรับหรือสิทธิ์ผู้อนุมัติ"],
+action:["สิ่งที่ต้องตามทันทีโดยไม่รอ MD ทวง","Exceptions with named owner","งานที่ต้องทำต่อและกำหนดตอบ","เป็น Architecture Design ยังไม่ส่งงานจริง"],
+escalation:["ส่งเรื่องที่ต้องใช้อำนาจตัดสินใจกลับ MD","Blocked process / SLA breach / Conflicting owner","Decision request พร้อมทางเลือก","ต้องผ่าน Human Approval ก่อนเปลี่ยนงานต้นทาง"],
+gap:["ระบุว่าขาดอะไรโดยไม่เดาข้อเท็จจริง","Source status ที่ยังไม่มีหลักฐานปิด","Evidence request / Uncertified label","เช่น QC ผ่านแต่ยังไม่มีเจ้าภาพรับโอน"],
+done:["ปิดงานด้วยหลักฐานผลลัพธ์และผู้รับรอง","Validator pass + Owner acceptance","Verified closure + Audit trace","ยังไม่มีการรับรองว่าข้อกังวล MD ทั้ง 7 ปิดครบ"],
+brief:["สรุปเฉพาะงานที่ MD ต้องตัดสินใจและงานที่ใกล้พลาด","Action / Escalation / Gap / Closed evidence","What · Who · Due · Blocker · Decision","Snapshot ปัจจุบันไม่ใช่รายงานสดโดยอัตโนมัติ"]
+};
+const edges=[
+["intent","orchestrator","intake"],["signals","orchestrator","intake"],["sources","router","intake"],
+["orchestrator","router","logic"],["orchestrator","owner","logic"],["router","owner","logic"],["human","owner","exception"],["owner","registry","logic"],["owner","shadow","logic"],
+["router","executive","logic"],["router","development","logic"],["router","innovation","logic"],["router","checkboard","logic"],["router","product","logic"],["router","commercial","logic"],
+["registry","cross","logic"],["executive","status","stream"],["innovation","status","stream"],["development","cross","stream"],["checkboard","cross","stream"],["product","evidence","stream"],["commercial","evidence","stream"],
+["status","cross","proof"],["status","exception","proof"],["cross","exception","proof"],["cross","evidence","proof"],
+["exception","action","exception"],["exception","escalation","exception"],["exception","gap","exception"],
+["evidence","validator","proof"],["shadow","validator","proof"],["validator","done","proof"],
+["action","brief","exception"],["escalation","brief","exception"],["gap","brief","exception"],["done","brief","proof"]
+];
+const colors={intake:"#76a8ec",logic:"#91b3fd",stream:"#6ad9c8",exception:"#e7bb7d",proof:"#81d6c5"};
+const byId=Object.fromEntries(nodes.map(n=>[n.id,n]));
+let selectedNode=null,zoom=1,panX=0,panY=0,dragState=null;
+const clamp=(v,a,b)=>Math.max(a,Math.min(b,v));
+function buildArch(){
+ el("archNodes").innerHTML=nodes.map(n=>'<button class="arch-node kind-'+safe(n.kind)+'" style="left:'+n.x+'px;top:'+n.y+'px" data-id="'+safe(n.id)+'" aria-label="เปิดรายละเอียด '+safe(n.title)+'" aria-pressed="false"><span class="node-category">'+safe(n.cat)+'</span><strong class="node-title">'+safe(n.title)+'</strong><span class="node-caption">'+safe(n.caption)+'</span><span class="node-bottom">'+safe(n.hint)+'</span></button>').join("");
+ document.querySelectorAll(".arch-node").forEach(b=>b.addEventListener("click",()=>activate(b.dataset.id)));
+ renderWires();
 }
-function drawLines(){
- const box=el("mesh"),svg=el("links"),hub=el("center");if(!box||!svg||!hub)return;
- const b=box.getBoundingClientRect();if(b.width<=0||b.height<=0)return;
- svg.setAttribute("viewBox","0 0 "+b.width+" "+b.height);const glows=[],lines=[];
- document.querySelectorAll(".lane").forEach((node,i)=>{const id=node.dataset.id,l=lanes[id],q=wireEndpoints(box,hub,node),cx=(q.x0+q.x1)/2,cy=(q.y0+q.y1)/2;const bend=(i%2?-1:1)*Math.min(34,Math.abs(q.x1-q.x0)*.12);const curve='M '+q.x0.toFixed(1)+' '+q.y0.toFixed(1)+' C '+(cx+bend).toFixed(1)+' '+q.y0.toFixed(1)+', '+(cx-bend).toFixed(1)+' '+q.y1.toFixed(1)+', '+q.x1.toFixed(1)+' '+q.y1.toFixed(1);const emphasis=active===id;const dim=active&&active!==id;const opacity=dim ? 0.17 : (emphasis ? 1 : 0.69);glows.push('<path d="'+curve+'" stroke="'+l.color+'" stroke-width="'+(emphasis?13:9)+'" opacity="'+(opacity*.15)+'" fill="none" stroke-linecap="round" filter="url(#soft)"/>');lines.push('<path d="'+curve+'" stroke="'+l.color+'" stroke-width="'+(emphasis?2.6:1.65)+'" opacity="'+opacity+'" fill="none" stroke-linecap="round" stroke-linejoin="round"/><circle cx="'+q.x1+'" cy="'+q.y1+'" r="'+(emphasis?4:3)+'" fill="'+l.color+'" opacity="'+opacity+'"/><circle cx="'+q.x0+'" cy="'+q.y0+'" r="2.5" fill="'+l.color+'" opacity="'+opacity+'"/>')});
- el("linkGlow").innerHTML=glows.join("");el("linkLines").innerHTML=lines.join("");
+function wire(a,b){
+ const n=byId[a],m=byId[b],nw=194;
+ let x0=n.x+nw,y0=n.y+49,x1=m.x,y1=m.y+49;
+ if(m.x<=n.x+10 || (m.x===n.x)){
+   if(m.x===n.x){x0=n.x+nw/2;y0=n.y+100;x1=m.x+nw/2;y1=m.y}
+   else {x0=n.x+nw/2;y0=n.y+100;x1=m.x+nw/2;y1=m.y; }
+   const travel=Math.abs(y1-y0),c=Math.max(28,Math.min(96,travel*.4));
+   return 'M'+x0+' '+y0+' C '+(x0+c)+' '+(y0+travel*.23)+', '+(x1+c)+' '+(y1-travel*.23)+', '+x1+' '+y1;
+ }
+ const dx=x1-x0,cy=Math.abs(y1-y0),ctrl=Math.max(36,Math.min(125,dx*.56 + cy*.034));
+ return 'M'+x0+' '+y0+' C '+(x0+ctrl)+' '+y0+', '+(x1-ctrl)+' '+y1+', '+x1+' '+y1;
 }
-function setMode(m){mode=m;el("allBtn").classList.toggle("selected",m==="overview");el("issuesBtn").classList.toggle("selected",m==="exceptions");el("qualityBtn").classList.toggle("selected",m==="quality");if(m==="overview")renderSummary();if(m==="exceptions"){renderDetail("executive");el("detail").innerHTML+='<div class="chipline"><span>7 MD concern categories</span><span>0 verified fully closed</span><span>Prioritize deadline + owner + evidence</span></div>'}if(m==="quality"){renderDetail("checkboard");el("detail").innerHTML+='<div class="chipline"><span>CB 88 vs PPT 66</span><span>Innovation summary 98 vs 90 detectable headings</span><span>54/56 source order matches</span></div>'}drawLines()}
-document.querySelectorAll(".lane").forEach(n=>n.addEventListener("click",()=>renderDetail(n.dataset.id)));
-el("center").addEventListener("click",()=>setMode("overview"));
-el("allBtn").addEventListener("click",()=>setMode("overview"));el("issuesBtn").addEventListener("click",()=>setMode("exceptions"));el("qualityBtn").addEventListener("click",()=>setMode("quality"));el("print").addEventListener("click",()=>window.print());
-renderConcerns();renderSources();renderSummary();window.addEventListener("resize",drawLines);if(window.ResizeObserver){new ResizeObserver(drawLines).observe(el("mesh"))}requestAnimationFrame(drawLines);
+function renderWires(){
+ const gd=[],li=[];
+ edges.forEach(([a,b,t],i)=>{
+  const color=colors[t];const d=wire(a,b);
+  const selected=selectedNode&&(a===selectedNode||b===selectedNode);
+  const faded=selectedNode&&!selected;const o=faded?.10:(selected?1:.62);
+  gd.push('<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+(selected?10:7)+'" opacity="'+(o*.15)+'" filter="url(#soft)" />');
+  li.push('<path d="'+d+'" fill="none" stroke="'+color+'" stroke-width="'+(selected?2.2:1.3)+'" stroke-dasharray="'+(selected?"5 5":"5 7")+'" opacity="'+o+'" marker-end="url(#tip-'+t+')" />');
+ });
+ el("linkGlow").innerHTML=gd.join("");el("linkLines").innerHTML=li.join("");
+ document.querySelectorAll(".arch-node").forEach(x=>{const active=x.dataset.id===selectedNode;x.classList.toggle("selected",active);x.setAttribute("aria-pressed",String(active));x.style.opacity=selectedNode&&!active&&!edges.some(e=>(e[0]===selectedNode&&e[1]===x.dataset.id)||(e[1]===selectedNode&&e[0]===x.dataset.id))?".67":"1"});
+}
+function activate(id){
+ selectedNode=id;
+ if(lanes[id]){renderDetail(id)}
+ else{
+   const n=byId[id];const parts=detailText[id];if(!n||!parts)return;
+   el("detail").innerHTML='<div class="detail-head"><div><div class="eyebrow">ARCHITECTURE NODE / '+safe(n.cat)+'</div><h3>'+safe(n.title)+'</h3><p style="margin:0">'+safe(parts[0])+'</p></div><span class="pill">'+safe(n.hint)+'</span></div><div class="detail-grid"><div class="detail-cell"><strong>INPUT</strong><p>'+safe(parts[1])+'</p></div><div class="detail-cell"><strong>OUTPUT</strong><p>'+safe(parts[2])+'</p></div><div class="detail-cell"><strong>CONTROL / EVIDENCE GAP</strong><p>'+safe(parts[3])+'</p></div></div><div class="chipline"><span>Click another node to inspect</span><span>Source of Truth unchanged</span><span>Read-only architecture</span></div>';
+ }
+ renderWires();
+}
+function drawLines(){renderWires()}
+function renderSummary(){
+ selectedNode=null;
+ el("detail").innerHTML='<div class="detail-head"><div><div class="eyebrow">CONTROL CENTER / INTELLIGENCE ARCHITECTURE V2</div><h3>Intake → Control → Six Streams → Validation → MD Decision</h3></div><span class="pill">ONE PRIMARY OWNER · MULTI-SOURCE EVIDENCE</span></div><p>ทุกคำสั่งต้องผ่านการจำแนกสายงานและหาต้นทางเจ้าของงานก่อน ระบบตรงกลางเก็บเพียง Reference/Trace, ตรวจงานเกินกำหนดหรือขาดเจ้าภาพ แล้วส่งเรื่องที่ต้องตัดสินใจขึ้น MD โดยไม่เปิด To Do ซ้ำกับ CB และไม่ตัดสินว่าปิดงานจากข้อความตอบรับ</p><div class="chipline"><span>25 Functional Nodes</span><span>6 Owner Streams</span><span>Source ID Reconciliation</span><span>Owner / RACI Gate</span><span>Independent QA</span><span>Human Approval</span><span>Evidence Closure</span></div>';
+ renderWires();
+}
+function transformCanvas(){el("archCanvas").style.transform='translate('+panX+'px,'+panY+'px) scale('+zoom+')';el("zoomReadout").textContent=Math.round(zoom*100)+'%'}
+function fitCanvas(){
+ const stage=el("archStage"),w=stage.clientWidth,h=stage.clientHeight;
+ zoom=Math.min((w-26)/W,(h-34)/H,1.5);
+ panX=(w-W*zoom)/2;panY=(h-H*zoom)/2;transformCanvas();
+}
+function zoomAt(factor,x,y){
+ const stage=el("archStage");
+ const old=zoom;
+ zoom=clamp(zoom*factor,.22,2.5);
+ panX=x-(x-panX)*(zoom/old);panY=y-(y-panY)*(zoom/old);
+ transformCanvas();
+}
+function initializePanZoom(){
+ const st=el("archStage");
+ st.addEventListener("wheel",e=>{e.preventDefault();const r=st.getBoundingClientRect();zoomAt(e.deltaY<0?1.10:.9,e.clientX-r.left,e.clientY-r.top)},{passive:false});
+ st.addEventListener("pointerdown",e=>{if(e.target.closest(".arch-node")||e.button!==0)return;dragState={id:e.pointerId,x:e.clientX,y:e.clientY,pX:panX,pY:panY};st.setPointerCapture(e.pointerId)});
+ st.addEventListener("pointermove",e=>{if(!dragState||dragState.id!==e.pointerId)return;panX=dragState.pX+e.clientX-dragState.x;panY=dragState.pY+e.clientY-dragState.y;transformCanvas()});
+ const finish=e=>{if(dragState&&e.pointerId===dragState.id)dragState=null};
+ st.addEventListener("pointerup",finish);st.addEventListener("pointercancel",finish);
+ st.addEventListener("keydown",e=>{if(e.key==="+"||e.key==="="){zoomAt(1.15,st.clientWidth/2,st.clientHeight/2);e.preventDefault()}if(e.key==="-"){zoomAt(1/1.15,st.clientWidth/2,st.clientHeight/2);e.preventDefault()}if(e.key==="0"){fitCanvas();e.preventDefault()}});
+ el("zoomIn").addEventListener("click",()=>zoomAt(1.16,st.clientWidth/2,st.clientHeight/2));
+ el("zoomOut").addEventListener("click",()=>zoomAt(1/1.16,st.clientWidth/2,st.clientHeight/2));
+ el("fitArch").addEventListener("click",fitCanvas);
+ if(window.ResizeObserver)new ResizeObserver(fitCanvas).observe(st);
+}
+function setMode(m){
+ mode=m;
+ el("allBtn").classList.toggle("selected",m==="overview");el("issuesBtn").classList.toggle("selected",m==="exceptions");el("qualityBtn").classList.toggle("selected",m==="quality");
+ if(m==="overview")renderSummary();
+ else if(m==="exceptions")activate("exception");
+ else activate("cross");
+}
+el("allBtn").addEventListener("click",()=>setMode("overview"));
+el("issuesBtn").addEventListener("click",()=>setMode("exceptions"));
+el("qualityBtn").addEventListener("click",()=>setMode("quality"));
+el("print").addEventListener("click",()=>window.print());
+buildArch();renderConcerns();renderSources();renderSummary();initializePanZoom();requestAnimationFrame(fitCanvas);
