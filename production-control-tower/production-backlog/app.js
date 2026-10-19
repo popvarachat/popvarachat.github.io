@@ -3,7 +3,8 @@ const e=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 const fmt=v=>v==null?'—':new Intl.NumberFormat('th-TH').format(v);
 const percent=(v,t)=>v==null?'—':(100*v/t).toFixed(1)+'%';
 const stamp=s=>{const d=new Date(s);return !Number.isNaN(+d)?new Intl.DateTimeFormat('th-TH',{timeZone:'Asia/Bangkok',dateStyle:'medium',timeStyle:'short'}).format(d):'ไม่ทราบ'};
-let report=null,selected='ALL';
+let report=null,selected='ALL',live=null;
+const liveView=typeof window!=='undefined' ? window.WIPLive : require('./live-wip');
 function validate(d){
  if(!d||d.schema_version!=='1.0'||d.source?.ais_live!==false||d.source?.current_wip_certified!==false)throw Error('SOURCE_CONTRACT_INVALID');
  if(!Array.isArray(d.departments)||d.departments.length!==5||d.totals.classified+d.totals.unresolved!==d.totals.candidates)throw Error('SOURCE_COUNTS_INVALID');
@@ -39,7 +40,7 @@ function render(d){
  '<tr><td><strong>'+e(x.name)+'</strong></td><td class="num"><strong>'+fmt(x.count)+'</strong></td><td class="num">'+percent(x.count,t.candidates)+'</td><td>'+(x.count===null?'ยังไม่มีหลักฐาน':'รอ Current Operation จาก AIS')+'</td><td class="alert">ยังไม่รับรอง</td></tr>'
  ).join('');
  const pills=tabs.map(([id,name])=>'<button class="pill'+(selected===id?' active':'')+'" data-select="'+e(id)+'" type="button">'+e(name)+'</button>').join('');
- return '<div class="strip" role="status"><strong>รายงานติดตาม ไม่ใช่ยอด WIP สดที่รับรอง</strong> · Snapshot JDE วันที่ '+e(d.source.source_snapshot_date)+' · MCP–AIS ยังรอสิทธิ์ ERP Admin</div>'+
+ return liveView.render(live)+'<div class="strip" role="status"><strong>รายงานติดตาม ไม่ใช่ยอด WIP สดที่รับรอง</strong> · Snapshot JDE วันที่ '+e(d.source.source_snapshot_date)+' · MCP–AIS ยังรอสิทธิ์ ERP Admin</div>'+
  '<section class="metrics" aria-label="ตัวเลขภาพรวม">'+
  metric('Cutting ที่ต้องตรวจต่อ',t.candidates,'WO Code 10/30/40 ในขอบเขตนี้','cyan')+
  metric('ระบุสายตาม Reference ได้',t.classified,'ไม่ใช่ยืนยันตำแหน่งผลิตจริง','green')+
@@ -76,8 +77,9 @@ async function refresh(){
   const response=await fetch('./data/backlog-focus.json',{cache:'no-store'});
   if(!response.ok)throw Error('HTTP '+response.status);
   report=validate(await response.json());
+  try{const s=await fetch('./data/live-status.json',{cache:'no-store'});live=s.ok?await s.json():null}catch{live=null}
   document.getElementById('lastSeen').textContent='ข้อมูลต้นทาง '+stamp(report.source_observed_at_utc);
-  document.getElementById('connection').textContent='AIS Read-only: ยังรอสิทธิ์ ERP Admin';
+  document.getElementById('connection').textContent=liveView.accept(live).state==='CERTIFIED_SNAPSHOT'?'MCP–AIS: Snapshot ผ่านการรับรอง':'AIS Read-only: ยังไม่มีข้อมูล WIP สดที่รับรอง';
   draw();
  }catch(err){
   document.getElementById('dashboard').textContent='ตรวจรับรายงานไม่สำเร็จ: '+err.message+' · ไม่แสดงตัวเลขที่ไม่ผ่านการตรวจสอบ';

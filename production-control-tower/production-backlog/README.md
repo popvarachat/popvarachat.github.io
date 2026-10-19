@@ -20,6 +20,12 @@ All data in public JSON is strictly aggregated; no Cutting/WO/SO/customer/employ
 
 Related approval gate: https://github.com/popvarachat/practika-erp-architecture/issues/8
 
+## Live/current WIP contract (19 Oct 2026)
+
+The top panel consumes `data/live-status.json` with a strict fail-closed contract. Until AIS is Admin-approved and operation-level reconciled, it displays `PENDING_ADMIN_GATE` without fake WIP values. Once a **signed current-operation source** is certified by the private ERP module and an aggregate-only file is published, the panel shows five production lines, overdue and hold. Expired (>24 hours), conflicting, incomplete or non-AIS data are rejected in-browser. The historical 1,630 Cutting candidate group and separate Cutting40 cohort remain visibly **different scopes** and are never combined.
+
+The only supported promotion path is private `practika-erp-architecture/collector/mcp/publish-certified-wip.js` (rechecks owner HMAC, full scope, unique Cutting and reconciliation). Public GitHub Pages must never contain any row-level JDE data. Test: `node --test backlog.test.js live-wip.test.js`.
+
 ## Rebuild and test
 ```powershell
 cd production-control-tower/production-backlog
