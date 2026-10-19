@@ -2,7 +2,7 @@
 <html lang="th">
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071321">
 <title>งานค้างสายผลิต · PRACTIKA Production Control Tower</title>
-<link rel="stylesheet" href="./styles.css"><script defer src="./live-wip.js"></script><script defer src="./app.js"></script></head>
+<link rel="stylesheet" href="./styles.css"><script defer src="./live-wip.js"></script><script defer src="./app.js"></script><script defer src="./wo-status-scope.js"></script></head>
 <body>
 <a class="skip" href="#dashboard">ข้ามไปเนื้อหาหลัก</a>
 <div class="shell">
@@ -16,7 +16,7 @@
  <p class="lead">ติดตาม Cutting ที่ต้องตรวจต่อ แยกตามสายผลิต พร้อมชี้รายการที่ยังไม่ทราบ Operation — ไม่รวมข้อมูลที่ไม่มีหลักฐานเข้าเป็นยอด WIP จริง</p>
  <div class="connect"><span class="dot warning"></span><strong id="connection">MCP–AIS ยังไม่เชื่อม ERP สด</strong><span class="sep">·</span><span id="lastSeen">กำลังอ่านเวลาหลักฐาน</span><button id="reload" type="button">อ่าน Snapshot อีกครั้ง <span aria-hidden="true">↻</span></button></div>
 </section>
-<main id="dashboard" aria-live="polite">
+<section id="woStatusScope" class="panel" hidden style="margin-top:18px;border-color:#398e90"></section><main id="dashboard" aria-live="polite">
 <div class="loading">กำลังตรวจสอบข้อมูลสรุปจาก ERP…</div>
 </main>
 <footer>
