@@ -2,6 +2,13 @@ name: publish-pages
 
 on:
   workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'md-follow-up/source-health.json'
+      - 'md-follow-up/index.html'
+      - 'md-follow-up/app.js'
+      - 'md-follow-up/styles.css'
 
 permissions:
   contents: read
