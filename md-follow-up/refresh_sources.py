@@ -117,6 +117,16 @@ def main():
     if a.publish and not sources:
         print("SKIP_PUBLISH: no source could be checked",flush=True);return 2
     atomic_json(destination,report)
+    # PRIVATE_DETAIL_BUILD: permitted local W sources to per-row private records, no GitHub upload
+    try:
+        sub=subprocess.run([sys.executable,str(ROOT/"build_private_details.py")],
+            capture_output=True,text=True,encoding="utf-8",timeout=90)
+        if sub.returncode:
+            print("PRIVATE_DETAIL_BUILD_FAILED "+sub.stderr[:220],flush=True)
+        else:
+            print("PRIVATE_DETAIL_BUILD_SUCCESS",flush=True)
+    except Exception as e:
+        print("PRIVATE_DETAIL_BUILD_UNAVAILABLE "+type(e).__name__,flush=True)
     audit_dir=ROOT/".audit-local";audit_dir.mkdir(exist_ok=True)
     with (audit_dir/"refresh.jsonl").open("a",encoding="utf8") as f:
         f.write(json.dumps({"time":stamp(),"mode":a.mode,"ok":report["batch"]["ok"],"failed":report["batch"]["failed"]})+"\n")

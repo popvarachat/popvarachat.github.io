@@ -43,3 +43,22 @@
 
 /* Source connector health */
 .source-toolbar{display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:15px;padding:12px 0 23px;border-bottom:1px solid #2a3d52}.source-toolbar>div{display:flex;flex-direction:column;gap:6px}.source-toolbar strong{font-size:13px;color:#aed9db;letter-spacing:.08em}.source-toolbar small{font-size:11px;color:#8babc6}.source-toolbar>div:last-child{align-items:flex-end}.source-caution{font-size:10px;color:#91a8be;max-width:300px;text-align:right}.connector-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;padding:20px 0}.connector{background:#12243a;border:1px solid #29405b;border-radius:12px;padding:14px;min-width:0}.connector h3{font-size:14px;margin:3px 0 12px}.connector .tag{color:#e2c188;font-size:10px;letter-spacing:.06em;font-weight:800}.connector .tag.ok{color:#83d8b9}.connector .tag.stale{color:#f2b08c}.connector .stat{font-size:20px;font-weight:800;margin:0 0 5px}.connector .minor{font-size:11px;color:#91aac4;overflow-wrap:anywhere}.connector-info{padding:15px;background:#143041;border:1px solid #31526a;border-radius:12px}.connector-info strong{font-size:11px;color:#89d6dd;letter-spacing:.07em}.connector-info p{font-size:12px;color:#b1c7d9;line-height:1.7;margin:8px 0 0}@media(max-width:850px){.connector-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}@media(max-width:550px){.connector-grid{grid-template-columns:1fr}.source-toolbar>div:last-child{align-items:flex-start}.source-caution{text-align:left}}
+
+
+/* Source status drilldown, public-safe; private data only served on NB localhost */
+.connector{cursor:pointer;transition:transform .18s,border-color .18s,box-shadow .18s}
+.connector:hover,.connector.selected{transform:translateY(-2px);border-color:#71d7d0;box-shadow:0 8px 28px #0004}
+.connector:focus-visible{outline:2px solid #76ddd7;outline-offset:2px}
+.connector:after{content:"ดูสถานะรายกลุ่ม  ↗";display:block;margin-top:12px;font-size:10px;color:#89d7d1;font-weight:780}
+.connector-expanded{margin:14px 0 23px;padding:21px;border:1px solid #3b6e77;border-radius:14px;background:linear-gradient(135deg,#162e41,#0f2434);scroll-margin-top:18px}
+.connector-expanded[hidden]{display:none}
+.drilltop{display:flex;justify-content:space-between;gap:16px;align-items:flex-start}
+.drilltop h3{margin:7px 0;font-size:23px}.drilltop p,.drillgrid p{font-size:12px;color:#9fbcd0;line-height:1.7}
+.drilltop button{padding:7px 11px;background:transparent;color:#cce4ed;border:1px solid #427183;border-radius:8px;cursor:pointer}
+.drillgrid{margin-top:16px;display:grid;grid-template-columns:1fr 1fr;gap:25px}
+.drillgrid>div>strong{font-size:12px;color:#c3e2e9}
+.source-status{margin:13px 0}.status-line{display:flex;justify-content:space-between;gap:8px;color:#c7dded;font-size:12px}.status-track{height:5px;margin-top:8px;border-radius:8px;background:#2b4558;overflow:hidden}.status-track>div{height:100%;background:linear-gradient(90deg,#6bc8c5,#94b6f9);border-radius:8px}
+.private-drill-link{display:inline-block;background:#86dcd6;color:#093041;padding:11px 15px;border-radius:9px;margin-top:10px;font-size:12px;font-weight:800;text-decoration:none}
+.private-note{font-size:11px;color:#8aaabc;line-height:1.65;margin-top:13px}
+.drillgrid .source-alert{color:#f2c990}
+@media(max-width:750px){.drillgrid{grid-template-columns:1fr}.drilltop h3{font-size:20px}}

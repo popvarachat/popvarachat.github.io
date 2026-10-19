@@ -47,3 +47,18 @@ Public GitHub Pages **cannot access W:\ network drives, protected SharePoint fil
 - For SharePoint use a **separately authorized read-only mirrored/synced local file** and ensure the file is refreshed before running the batch. The current collector does not implement Graph, Planner or SharePoint authentication.
 - If source missing/broken, preserve last-good counts with explicit `stale` status; no fake success. The public page refresh button reloads published source-health only; it does not send requests to PCs.
 - Do not claim automatic update active before installing and observing a successful run on a machine that actually sees the shares.
+
+
+## Private row-level drilldown (NB only)
+Click any Source Health card on public GitHub Pages for aggregate statuses. The link to
+`http://127.0.0.1:8766/?source=cb` opens detailed work items only when the viewer is
+running on the **same authorized NB**. The server binds 127.0.0.1, serves only
+`index.html` and `records.json`, and never exposes original source files or exports.
+The NB-only `build_private_details.py` creates a refreshed `records.json` under
+`%LOCALAPPDATA%/UAIOS/MD-FollowUp-Private` on every regular W-drive batch.
+Cloud Planner detail export uses the authenticated connector's last verified local
+snapshot and does not have a live private connector yet. Innovation detail derives
+from the last downloaded authorized workbook and may lag the live SharePoint workbook.
+For ICS/ICF/ICE, work date is not certified as Due Date; overdue is not inferred.
+The private viewer runs using `serve_private.py` on authorized NB only.
+Do not add private JSON or local source paths to public GitHub.
