@@ -1,0 +1,10 @@
+'use strict';
+const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
+const {build,yearOf}=require('./build_historical_audit');
+test('Thai year date parser and unknown dates',()=>{assert.equal(yearOf('20/06/26'),'2026');assert.equal(yearOf('21/09/2569'),'2026');assert.equal(yearOf(''),'UNKNOWN');});
+test('strict census cardinality and not certified as factory WIP',()=>{const x=build();const sum=Object.values(x.observed.per_status).reduce((n,r)=>n+r.cuttings,0);
+ assert.equal(sum,x.observed.distinct_cuttings);assert.equal(x.scope.factory_wip_certified,false);assert.equal(x.checks.source_version_conflicts,0);assert.equal(x.checks.all_terminal,true);
+ assert.equal(Object.values(x.observed.created_years).reduce((a,b)=>a+b,0),sum);});
+test('public payload contains aggregate-only and no record identifiers',()=>{const p=path.join(__dirname,'data/historical-status-audit.json');const x=JSON.parse(fs.readFileSync(p,'utf8'));const s=JSON.stringify(x);
+ for(const id of ['Cutting Number','WO Number','Order Number','Product','Customer','User ID','Cutting Type'])assert.equal(s.includes('"'+id+'"'),false,'Forbidden field '+id);
+ assert.equal(x.kind,'PUBLIC_AGGREGATE_READ_ONLY');assert.equal(x.scope.factory_wip_certified,false);});

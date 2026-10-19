@@ -1,0 +1,162 @@
+{
+  "schema_version": "1.0",
+  "generated_at_utc": "2026-10-19T02:20:03.760Z",
+  "kind": "PUBLIC_AGGREGATE_READ_ONLY",
+  "title": "JDE Cutting lifecycle evidence quality by status; not factory WIP",
+  "scope": {
+    "statuses": [
+      "40",
+      "45",
+      "60",
+      "70"
+    ],
+    "selection": "All Records, Cutting statuses 40/45/60/70, all created years",
+    "source": "JDE P594801C/PTK0002/W594801CE",
+    "factory_wip_certified": false,
+    "physical_location_certified": false,
+    "current_status_verification": "COLLECTED_TERMINAL_NOT_RECONCILED",
+    "source_first_at_utc": "2026-10-18T10:16:37.312Z",
+    "source_last_at_utc": "2026-10-18T11:57:20.283Z",
+    "limitations": [
+      "WO Status 99/9Z needs business-rule reconciliation; not assumed completed",
+      "Unchanged legacy lifecycle codes from older years cannot establish real current work",
+      "Other Cutting statuses including 10/15/25/30/54/65/99/9C/9D are not included",
+      "JDE grid pagination labels were inconsistent with chunk contents; ERP row totals remain independently unverified",
+      "ControlPlan current operation and physical work center are not certified in this aggregate"
+    ]
+  },
+  "observed": {
+    "distinct_cuttings": 10343,
+    "per_status": {
+      "40": {
+        "cuttings": 2049,
+        "terminal_reached": true,
+        "summary_finished_at": "2026-10-18T10:31:25.8910002Z",
+        "chunk_count": 19
+      },
+      "45": {
+        "cuttings": 519,
+        "terminal_reached": true,
+        "summary_finished_at": "2026-10-18T10:32:51.4611420Z",
+        "chunk_count": 5
+      },
+      "60": {
+        "cuttings": 5403,
+        "terminal_reached": true,
+        "summary_finished_at": "2026-10-18T11:51:04.2648100Z",
+        "chunk_count": 46
+      },
+      "70": {
+        "cuttings": 2372,
+        "terminal_reached": true,
+        "summary_finished_at": "2026-10-18T11:57:22.3124687Z",
+        "chunk_count": 20
+      }
+    },
+    "created_years": {
+      "2015": 580,
+      "2016": 1089,
+      "2017": 612,
+      "2018": 467,
+      "2019": 147,
+      "2020": 190,
+      "2021": 452,
+      "2022": 1280,
+      "2023": 444,
+      "2024": 2681,
+      "2025": 389,
+      "2026": 2008,
+      "UNKNOWN": 4
+    },
+    "year_status": {
+      "2015": {
+        "40": 98,
+        "60": 482
+      },
+      "2016": {
+        "60": 1060,
+        "70": 29
+      },
+      "2017": {
+        "40": 20,
+        "60": 587,
+        "70": 5
+      },
+      "2018": {
+        "40": 45,
+        "60": 420,
+        "70": 2
+      },
+      "2019": {
+        "40": 2,
+        "60": 130,
+        "70": 15
+      },
+      "2020": {
+        "40": 6,
+        "60": 178,
+        "70": 6
+      },
+      "2021": {
+        "40": 80,
+        "60": 292,
+        "70": 80
+      },
+      "2022": {
+        "40": 256,
+        "60": 501,
+        "70": 523
+      },
+      "2023": {
+        "40": 180,
+        "60": 154,
+        "70": 110
+      },
+      "2024": {
+        "40": 1361,
+        "45": 75,
+        "60": 364,
+        "70": 881
+      },
+      "2025": {
+        "45": 70,
+        "60": 213,
+        "70": 106
+      },
+      "2026": {
+        "45": 374,
+        "60": 1020,
+        "70": 614
+      },
+      "UNKNOWN": {
+        "40": 1,
+        "60": 2,
+        "70": 1
+      }
+    },
+    "wo_status": {
+      "10": 25,
+      "30": 1584,
+      "40": 772,
+      "90": 1,
+      "95": 1,
+      "99": 3981,
+      "UNKNOWN": 5,
+      "9Z": 3710,
+      "9C": 264
+    },
+    "quality": {
+      "cutting_close_date_present": 106,
+      "completed_transfer_date_present": 25,
+      "wo_code_99_or_9Z": 7691,
+      "created_2026": 2008,
+      "created_before_2024": 5261,
+      "missing_cutting_created_date": 4
+    }
+  },
+  "checks": {
+    "source_version_conflicts": 0,
+    "all_terminal": true,
+    "distinct_sum_matches": true
+  }
+}
