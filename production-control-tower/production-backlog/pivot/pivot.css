@@ -2,3 +2,5 @@
 tfoot .grand{background:#12384b!important;color:#fff!important}thead tr:first-child th:not(.rowlabel){text-align:center}
 
 .statusbar{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}.statusbar span{background:#fff;border:1px solid #d7e3eb;border-radius:6px;padding:7px 10px;font-size:10px;color:#4d697d}#lifecycle{max-width:235px}#woStatus{max-width:210px}
+
+.project td,.project .rowlabel{background:#e0eff5;font-weight:750}.project .rowlabel{max-width:440px}#view{min-width:230px}.project .toggle{border-color:#8bb5c9}
