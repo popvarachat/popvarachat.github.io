@@ -5,7 +5,7 @@ Usage:
   py -3 refresh_sources.py --config refresh.config.json --mode auto --publish
 Missing sources NEVER overwrite the last good snapshot. No macro execution.
 """
-import argparse, datetime as dt, hashlib, json, os, pathlib, subprocess, sys, tempfile
+import argparse, datetime as dt, base64, json, os, pathlib, subprocess, sys, tempfile, time, re
 from collections import Counter
 
 ROOT=pathlib.Path(__file__).resolve().parent
@@ -22,8 +22,10 @@ def extract(path,kind):
             s=next((x for x in w if "CB" in x.title.upper()),w.active)
             total=0; states=Counter()
             for r in s.iter_rows(min_row=2,min_col=1,max_col=11,values_only=True):
-                if isinstance(r[0],(int,float)) and 1<=r[0]<=10000 and r[1]:
-                    total+=1;states[str(r[10]).strip() if r[10] is not None else "blank"]+=1
+                if str(r[0]).strip().isdigit() and 1 <= int(str(r[0]).strip()) <= 10000 and r[1]:
+                    total+=1
+                    states[str(r[10]).strip() if r[10] is not None else "blank"]+=1
+            if total<80:raise ValueError("CB_COUNT_TOO_LOW_EXPECTED_88")
             return {"unit":"entries","total":total,"status_counts":dict(states)}
         if kind in ("ics","icf","ice"):
             wanted={"ics":"ICS69","icf":"ICF 2569","ice":"ICF 2569"}[kind]
@@ -52,6 +54,41 @@ def atomic_json(path,obj):
         os.replace(tmp,path)
     finally:
         if os.path.exists(tmp):os.unlink(tmp)
+def publish_public(report, source_names):
+    """Merge only locally checked sources with newest remote GitHub JSON via SHA guard.
+    Preserves remote Planner / Innovation from cloud automation.
+    """
+    uri="repos/popvarachat/popvarachat.github.io/contents/md-follow-up/source-health.json"
+    for attempt in range(4):
+        response=subprocess.run(["gh","api",uri],capture_output=True,text=True,encoding="utf-8",timeout=40,check=True)
+        blob=json.loads(response.stdout)
+        remote=json.loads(base64.b64decode(blob["content"]).decode("utf-8-sig"))
+        entries=remote.setdefault("sources",{})
+        changed=False
+        for name in source_names:
+            old=entries.get(name,{})
+            fresh=report["sources"][name]
+            def shape(v):
+                return {k:vv for k,vv in v.items() if k not in ("checked_at","last_attempt","error")}
+            if shape(old)!=shape(fresh):
+                entries[name]=fresh
+                changed=True
+        if not changed:
+            return {"result":"unchanged","attempt":attempt+1}
+        remote["schema"]=max(2,int(remote.get("schema",1)))
+        remote["generated_at"]=report["generated_at"]
+        remote["mode"]=report["mode"]
+        remote["batch"]=report["batch"]
+        body={"message":"data: refresh NB W-drive source health read-only","content":base64.b64encode(json.dumps(remote,ensure_ascii=False,indent=2).encode("utf-8")).decode("ascii"),"sha":blob["sha"],"branch":"main"}
+        resp=subprocess.run(["gh","api","--method","PUT",uri,"--input","-"],input=json.dumps(body),capture_output=True,text=True,encoding="utf-8",timeout=55)
+        if resp.returncode==0:
+            data=json.loads(resp.stdout)
+            return {"sha":data.get("commit",{}).get("sha"),"attempt":attempt+1,"merged_sources":list(entries)}
+        if attempt==3:
+            raise RuntimeError("GITHUB_PUBLISH_FAILED: "+resp.stderr[:400])
+        time.sleep(1.5*(attempt+1))
+    raise RuntimeError("PUB_FAILED")
+
 def main():
     pa=argparse.ArgumentParser()
     pa.add_argument("--config",default=str(ROOT/"refresh.config.json"))
@@ -77,20 +114,15 @@ def main():
     report["batch"]["total"]=len(sources)
     report["batch"]["successful"]=len(report["batch"]["ok"])
     # For public deployment never expose source file locations, owner identities or document payloads.
-    if a.publish and not report["batch"]["ok"]:
+    if a.publish and not sources:
         print("SKIP_PUBLISH: no source could be checked",flush=True);return 2
     atomic_json(destination,report)
     audit_dir=ROOT/".audit-local";audit_dir.mkdir(exist_ok=True)
     with (audit_dir/"refresh.jsonl").open("a",encoding="utf8") as f:
         f.write(json.dumps({"time":stamp(),"mode":a.mode,"ok":report["batch"]["ok"],"failed":report["batch"]["failed"]})+"\n")
     if a.publish:
-        repo=ROOT.parent
-        subprocess.run(["git","add","md-follow-up/source-health.json"],cwd=repo,check=True)
-        changes=subprocess.run(["git","diff","--cached","--quiet"],cwd=repo).returncode
-        if changes:
-            subprocess.run(["git","commit","-m","chore: refresh public-safe MD source health"],cwd=repo,check=True)
-            subprocess.run(["git","push","origin","main"],cwd=repo,check=True)
-        print("PUBLISHED_PUBLIC_METADATA",flush=True)
+        result=publish_public(report,list(sources))
+        print("PUBLISHED_PUBLIC_METADATA "+json.dumps(result),flush=True)
     print(json.dumps({"status":"complete","ok":report["batch"]["ok"],"failed":report["batch"]["failed"],"output":str(destination)},ensure_ascii=False))
     return 0
 if __name__=="__main__":sys.exit(main())

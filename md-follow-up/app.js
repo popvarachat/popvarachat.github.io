@@ -204,6 +204,12 @@ async function loadSourceHealth(){
   const response=await fetch('./source-health.json?at='+Date.now(),{cache:'no-store'});
   if(!response.ok)throw Error('Snapshot HTTP '+response.status);
   const data=await response.json();
+  const p=data.sources?.planner, inn=data.sources?.innovation;
+  if(p?.status==='ok' && el('metricPlanner'))el('metricPlanner').textContent=Number(p.total).toLocaleString('th-TH');
+  if(inn?.status==='ok' && el('metricInnovation'))el('metricInnovation').textContent=Number(inn.total).toLocaleString('th-TH');
+  const dev=['ics','icf','ice'].map(n=>data.sources?.[n]);
+  if(dev.every(x=>x?.status==='ok' && Number.isFinite(x.total)) && el('metricProductGates'))
+    el('metricProductGates').textContent=dev.reduce((sum,x)=>sum+x.total,0).toLocaleString('th-TH');
   const batch=data.batch||{};
   const names=Object.keys(data.sources||{});
   status.textContent=names.filter(name=>data.sources[name]?.status==='ok').length+' / '+names.length+' CONNECTORS VERIFIED';
