@@ -1,0 +1,9 @@
+'use strict';
+const p=document.getElementById('fresh');
+const fmt26=n=>new Intl.NumberFormat('th-TH').format(n||0), esc26=v=>String(v??'UNKNOWN').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function view26(d){if(d.schema_version!=='1.0'||d.factory_wip_certified!==false||d.selection_capture_complete!==true)throw Error('Schema or certification flag invalid');
+const entries=Object.entries(d.cutting_status_counts),max=Math.max(1,...entries.map(x=>x[1]));
+const b=(x,n)=>'<div class="bar-row"><div class="bar-label"><span>'+esc26(x)+'</span><strong>'+fmt26(n)+'</strong></div><div class="track"><div class="fill" style="width:'+Math.max(1,n*100/max)+'%"></div></div></div>';
+return '<h2>Cutting ที่ลงในปี 2026 · ทุกสถานะ</h2><p><strong>'+fmt26(d.distinct_cuttings)+'</strong> Cutting จาก ERP read-only (ขอบเขตเป็นปีที่ลง Cutting ไม่ใช่ WIP ทั้งโรงงาน)</p><p class="muted">เวลาจัดเก็บ: '+esc26(d.sources.started_at_utc)+' ถึง '+esc26(d.sources.finished_at_utc)+' UTC · '+fmt26(d.sources.parts)+' ชุดข้อมูล</p><div class="comparison"><div><h3>Cutting Status</h3>'+entries.map(([s,n])=>b('Status '+s,n)).join('')+'</div><div><h3>WO Status</h3>'+Object.entries(d.wo_status_counts).map(([s,n])=>b('WO '+s,n)).join('')+'</div></div><p>วันที่ลง Cutting ว่าง: '+fmt26(d.sources.unknown_created_dates)+' · มีวันที่โอนครบ: '+fmt26(d.completed_transfer_date_count)+'</p><p class="muted">'+esc26(d.scope_note)+'</p>';
+}
+fetch('data/2026-all-status-audit.json',{cache:'no-store'}).then(r=>{if(!r.ok)throw Error('NOT_AVAILABLE');return r.json()}).then(d=>p.innerHTML=view26(d)).catch(()=>p.textContent='ยังไม่มีผลตรวจรับครบจากแหล่ง Cutting ปี 2026 ทุกสถานะ — ไม่แสดงตัวเลขที่ไม่รับรอง');

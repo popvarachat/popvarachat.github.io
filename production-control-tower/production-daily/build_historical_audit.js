@@ -6,6 +6,10 @@ function read(p){return JSON.parse(fs.readFileSync(p,'utf8'));}
 function yearOf(value){const parts=String(value||'').split('/');if(parts.length!==3)return 'UNKNOWN';let y=Number(parts[2]);if(!Number.isInteger(y)||y<1)return 'UNKNOWN';if(y<100)y+=2000;if(y>=2400)y-=543;return y>=2010&&y<=2026?String(y):'UNKNOWN';}
 function build(folder=root){
  const rows=new Map(),sources=[],recTimes=[],perStatus={},sourceConflicts=[];
+ const refPath=path.join(process.env.USERPROFILE||'','Documents','Practika-ERP-Architecture','collector','reference','access_controlplan_reference_verified.json');
+ const ref=read(refPath),lookup=new Map();
+ for(const record of ref.StatusNoControlPlan){const key=record.Type+'|'+record.Status;if(!lookup.has(key))lookup.set(key,new Set());lookup.get(key).add(String(record.Statusnow2||'').trim());}
+ const normalizeDepartment=name=>{const s=String(name||'').trim();const m=s.match(/^ผลิต([1-5])/);return m?'ผลิต'+m[1]:s==='Store'?'สโตร์':s||'รอหลักฐาน';};
  for(const status of statuses){
   const fileNames=fs.readdirSync(folder).filter(n=>new RegExp('^status-'+status+'-part-[0-9]+[.]json$').test(n)).sort();
   assert(fileNames.length>0,'MISSING_'+status);
@@ -32,12 +36,16 @@ function build(folder=root){
   perStatus[status]={cuttings:subset.size,terminal_reached:true,summary_finished_at:summary.finished_at,chunk_count:fileNames.length};
  }
  assert(sourceConflicts.length===0,'SOURCE_VERSION_CONFLICT');
- const years={},yearStatus={},wo={},risk={cutting_close_date_present:0,completed_transfer_date_present:0,wo_code_99_or_9Z:0,created_2026:0,created_before_2024:0,missing_cutting_created_date:0};
+ const years={},yearStatus={},wo={},departments={},deptUnknownByStatus={},risk={cutting_close_date_present:0,completed_transfer_date_present:0,wo_code_99_or_9Z:0,created_2026:0,created_before_2024:0,missing_cutting_created_date:0};
  for(const row of rows.values()){
   const y=yearOf(row['วันที่ลง Cutting']),status=String(row['Cutting Status']),ws=String(row['WO Status']||'UNKNOWN');
   years[y]=(years[y]||0)+1;
   if(!yearStatus[y])yearStatus[y]={};yearStatus[y][status]=(yearStatus[y][status]||0)+1;
   wo[ws]=(wo[ws]||0)+1;
+  const possible=lookup.get(String(row['Cutting Type'])+'|'+status);
+  const dept=possible?.size===1?normalizeDepartment([...possible][0]):'รอหลักฐาน';
+  departments[dept]=(departments[dept]||0)+1;
+  if(dept==='รอหลักฐาน')deptUnknownByStatus[status]=(deptUnknownByStatus[status]||0)+1;
   if(y==='2026')risk.created_2026++;
   if(y==='UNKNOWN')risk.missing_cutting_created_date++;
   else if(Number(y)<2024)risk.created_before_2024++;
@@ -50,7 +58,7 @@ function build(folder=root){
    title:'JDE Cutting lifecycle evidence quality by status; not factory WIP',
    scope:{statuses,selection:'All Records, Cutting statuses 40/45/60/70, all created years',source:'JDE P594801C/PTK0002/W594801CE',factory_wip_certified:false,physical_location_certified:false,current_status_verification:'COLLECTED_TERMINAL_NOT_RECONCILED',source_first_at_utc:sorted[0],source_last_at_utc:sorted.at(-1),
    limitations:['WO Status 99/9Z needs business-rule reconciliation; not assumed completed','Unchanged legacy lifecycle codes from older years cannot establish real current work','Other Cutting statuses including 10/15/25/30/54/65/99/9C/9D are not included','JDE grid pagination labels were inconsistent with chunk contents; ERP row totals remain independently unverified','ControlPlan current operation and physical work center are not certified in this aggregate']},
-   observed:{distinct_cuttings:rows.size,per_status:perStatus,created_years:Object.fromEntries(Object.entries(years).sort((a,b)=>a[0].localeCompare(b[0]))),year_status:yearStatus,wo_status:wo,quality:risk},
+   observed:{distinct_cuttings:rows.size,per_status:perStatus,created_years:Object.fromEntries(Object.entries(years).sort((a,b)=>a[0].localeCompare(b[0]))),year_status:yearStatus,wo_status:wo,access_reference_departments:departments,unresolved_by_status:deptUnknownByStatus,quality:risk},
    checks:{source_version_conflicts:sourceConflicts.length,all_terminal:true,distinct_sum_matches:statuses.reduce((s,k)=>s+perStatus[k].cuttings,0)===rows.size}
  };
 }

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-10-19T02:20:03.760Z",
+  "generated_at_utc": "2026-10-19T02:29:50.550Z",
   "kind": "PUBLIC_AGGREGATE_READ_ONLY",
   "title": "JDE Cutting lifecycle evidence quality by status; not factory WIP",
   "scope": {
@@ -144,6 +144,18 @@
       "UNKNOWN": 5,
       "9Z": 3710,
       "9C": 264
+    },
+    "access_reference_departments": {
+      "ผลิต1": 1188,
+      "ผลิต2": 1027,
+      "ผลิต3": 193,
+      "รอหลักฐาน": 7529,
+      "ผลิต5": 406
+    },
+    "unresolved_by_status": {
+      "40": 1,
+      "60": 5230,
+      "70": 2298
     },
     "quality": {
       "cutting_close_date_present": 106,
