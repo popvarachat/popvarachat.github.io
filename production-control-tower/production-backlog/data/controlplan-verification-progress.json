@@ -1,0 +1,39 @@
+{
+  "schema_version": "1.0",
+  "kind": "CONTROLPLAN_READONLY_COLLECTION_PROGRESS",
+  "as_of_utc": "2026-10-19T07:06:05.740Z",
+  "source": "P5511026/ZPTK0001",
+  "source_type": "JDE_BROWSER_READ_ONLY",
+  "source_cohort": "2026 priority Cutting/WO status scope; not factory-wide WIP",
+  "target_cuttings": 1235,
+  "checked_cuttings": 172,
+  "pending_cuttings": 1063,
+  "found_controlplan": 172,
+  "verified_query_empty": 0,
+  "found_plan_operation_requires_review": 172,
+  "with_reference_route_codes": 172,
+  "collected_operation_rows": 1211,
+  "route_code_presence_by_cutting": {
+    "L1": 94,
+    "L2": 76,
+    "L3": 7,
+    "L4": 158,
+    "L5": 7,
+    "L6": 0,
+    "S1": 4,
+    "S2": 0
+  },
+  "source_operation_status_examples": {
+    "Other or unverified text": 392,
+    "Move Complete": 29,
+    "Partially Completed": 781,
+    "Material Received": 9
+  },
+  "operation_status_text_requires_validation": true,
+  "scope_check_complete": false,
+  "current_station_certified": false,
+  "factory_wip_certified": false,
+  "no_controlplan_finally_certified": false,
+  "note": "No Control Plan in query result is not an ERP master-data absence certification; operation routing prefixes do not prove current station.",
+  "individual_identifiers_exposed": false
+}

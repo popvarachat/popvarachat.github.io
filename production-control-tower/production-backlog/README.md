@@ -21,6 +21,12 @@ To attribute **current WIP at a station**, join Cutting Number to JDE P5511026/Z
 
 This page keeps separate cohorts and anonymized aggregates only. Source detail and private 1,235 Cutting queue never belong in public GitHub.
 
+## New: P5511026 read-only ControlPlan collection progress (19 Oct 2026)
+
+A separate checked-scope bar is fetched from `data/controlplan-verification-progress.json`. Its private source is the checkpointed `collector/scripts/Collect-PriorityControlPlan2026.ps1` reading the exact 1,235 tier-1 Cutting IDs from approved JDE HTML (`P5511026/ZPTK0001`, Playwright Read-only; NOT AIS). No Cutting/WO IDs are copied to the public site. The bar separately displays checked, matching ControlPlan, empty verified query results and pending. The Business Unit prefixes L1–L6/S1/S2 are route-presence metadata, **NOT confirmed current factory WIP**; they may overlap between Cutting records. Source Operation Status strings remain under review because the ERP UI sometimes returns garbled Thai text. Only `certify-wip.js` signed full-scope AIS audit may upgrade the WIP report.
+
+Collection is checkpointed and the NB Windows Task `RDC-ERP-PriorityControlPlan1235` executes the continuation, with a single-reader lock; do not launch a competing Playwright session on the same authenticated ERP page. The public JSON is a checkpoint snapshot, not auto-live from the browser.
+
 ## Source governance
 - `build_backlog.js` builds `data/backlog-focus.json` from the previously published audited summary, reconciling candidate and department/WO counts.
 - `app.js` renders desktop/mobile, cards, selectable production lines, a source freshness banner, table, WO code distribution and precise limitations. Refresh only fetches static JSON.

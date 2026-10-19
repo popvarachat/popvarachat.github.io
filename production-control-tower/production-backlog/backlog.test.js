@@ -1,6 +1,6 @@
 'use strict';
 const test=require('node:test'),assert=require('node:assert/strict'),fs=require('node:fs'),path=require('node:path');
-const {build}=require('./build_backlog'),{validate,focus,percent,render}=require('./app');
+const {build}=require('./build_backlog'),{validate,focus,percent,render,validatedProgress,renderProgress}=require('./app');
 test('Reconciled source candidate counts and WO cohort',()=>{
  const x=build();assert.equal(x.totals.candidates,1630);assert.equal(x.totals.classified,395);
  assert.equal(x.totals.unresolved,1235);assert.equal(x.totals.source_2026_cuttings,2008);
@@ -42,6 +42,19 @@ test('dashboard renders every production line, source notice and review gates',(
  assert(html.includes('L1 → ผลิต1'));
  assert(html.includes('L6 → ผลิต5'));
  assert(html.includes('Cutting ที่ต้องอ่าน Control Plan เพิ่ม'));
+});
+test('read-only ControlPlan progress distinguishes found, query-empty and pending',()=>{
+ const x={schema_version:'1.0',kind:'CONTROLPLAN_READONLY_COLLECTION_PROGRESS',source:'P5511026/ZPTK0001',
+ source_type:'JDE_BROWSER_READ_ONLY',target_cuttings:1235,checked_cuttings:12,pending_cuttings:1223,
+ found_controlplan:12,verified_query_empty:0,with_reference_route_codes:12,collected_operation_rows:70,
+ route_code_presence_by_cutting:{L1:9,L2:4},as_of_utc:'2026-10-19T07:00:00Z',
+ current_station_certified:false,factory_wip_certified:false};
+ assert.equal(validatedProgress(x).checked_cuttings,12);
+ const html=renderProgress(x);
+ assert(html.includes('P5511026')&&html.includes('1,223')&&html.includes('Operation'));
+ assert.equal(validatedProgress({...x,found_controlplan:15}),null);
+ assert.equal(validatedProgress({...x,current_station_certified:true}),null);
+ assert(renderProgress(null).includes('รอผลตรวจ'));
 });
 test('Interactive scope selection respects unknown and no evidence',()=>{
  const x=validate(build());

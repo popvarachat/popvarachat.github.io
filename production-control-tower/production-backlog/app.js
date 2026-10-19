@@ -3,7 +3,7 @@ const e=v=>String(v??'—').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'
 const fmt=v=>v==null?'—':new Intl.NumberFormat('th-TH').format(v);
 const percent=(v,t)=>v==null?'—':(100*v/t).toFixed(1)+'%';
 const stamp=s=>{const d=new Date(s);return !Number.isNaN(+d)?new Intl.DateTimeFormat('th-TH',{timeZone:'Asia/Bangkok',dateStyle:'medium',timeStyle:'short'}).format(d):'ไม่ทราบ'};
-let report=null,selected='ALL',live=null;
+let report=null,selected='ALL',live=null,priorityProgress=null;
 const liveView=typeof window!=='undefined' ? window.WIPLive : require('./live-wip');
 function validate(d){
  if(!d||d.schema_version!=='1.0'||d.source?.ais_live!==false||d.source?.current_wip_certified!==false)throw Error('SOURCE_CONTRACT_INVALID');
@@ -14,6 +14,32 @@ function validate(d){
  if(!a||a.kind!=='PUBLIC_AGGREGATE_CONTROLPLAN_COVERAGE_AUDIT'||a.candidate_2026_unresolved_cuttings!==d.totals.unresolved||a.remaining_missing_controlplan!==d.totals.unresolved||a.overlap_with_scanned_controlplan!==0||a.physical_wip_certified!==false)throw Error('CONTROLPLAN_COVERAGE_MISMATCH');
  return d;
 }
+function validatedProgress(p){
+ const ok=n=>Number.isSafeInteger(n)&&n>=0;
+ if(!p||p.kind!=='CONTROLPLAN_READONLY_COLLECTION_PROGRESS'||p.source!=='P5511026/ZPTK0001'||p.source_type!=='JDE_BROWSER_READ_ONLY')return null;
+ if(p.target_cuttings!==1235||![p.checked_cuttings,p.pending_cuttings,p.found_controlplan,p.verified_query_empty,p.collected_operation_rows,p.with_reference_route_codes].every(ok))return null;
+ if(p.checked_cuttings+p.pending_cuttings!==1235||p.found_controlplan+p.verified_query_empty!==p.checked_cuttings||p.with_reference_route_codes>p.found_controlplan||p.current_station_certified!==false||p.factory_wip_certified!==false)return null;
+ return p;
+}
+function renderProgress(p){
+ const a=validatedProgress(p);
+ if(!a)return '<section class="panel" style="border-color:#917141"><h2>ตรวจ Control Plan ของ 1,235 Cutting</h2><p class="sub">กำลังรอผลตรวจจาก P5511026 ที่ผ่านการนับและตรวจความครบถ้วน</p></section>';
+ const value=(100*a.checked_cuttings/1235).toFixed(1),codes=Object.entries(a.route_code_presence_by_cutting||{}).filter(([k,n])=>/^(L[1-6]|S[12])$/.test(k)&&Number.isSafeInteger(n)&&n>0);
+ return '<section class="panel" style="border-color:#398e90" aria-label="ความคืบหน้าตรวจ Control Plan จริง">'+
+ '<div class="detail-title"><div><h2>กำลังตรวจ Control Plan ราย Cutting จริง · P5511026</h2><p class="sub">รายงานจากผลอ่าน ERP ผ่าน Playwright · ล่าสุด '+e(stamp(a.as_of_utc))+' · ไม่ใช่ข้อมูล AIS หรือ WIP ที่รับรอง</p></div><span class="pill">ตรวจแล้ว '+fmt(a.checked_cuttings)+' / 1,235 ('+value+'%)</span></div>'+
+ '<div class="track" style="height:11px;margin:12px 0 17px"><span class="fill" style="width:'+value+'%;background:linear-gradient(90deg,#30a7bc,#80e1d5)"></span></div>'+
+ '<div class="metrics">'+
+ metric('ตรวจครบแล้ว',a.checked_cuttings,'Checkpoint ผ่าน · Cutting ไม่ซ้ำ','cyan')+
+ metric('พบ Control Plan',a.found_controlplan,'แต่ต้องตรวจ Current Operation ก่อนสรุปค้างผลิต','green')+
+ metric('ค้นแล้วไม่พบรายการ',a.verified_query_empty,'ต้องตรวจซ้ำก่อนสรุปว่าไม่มีแผน','amber')+
+ metric('รอตรวจเพิ่มเติม',a.pending_cuttings,'ยังไม่ผ่านการค้นจาก ERP','')+
+ '</div>'+
+ '<p class="sub">Control Plan ที่พบมี '+fmt(a.collected_operation_rows)+' Operation · พบรหัสสายผลิตจาก Business Unit ใน '+fmt(a.with_reference_route_codes)+' Cutting แต่ยังไม่ยืนยันว่าเป็นสายผลิตปัจจุบัน</p>'+
+ '<div class="source">'+codes.map(([k,n])=>'<span>'+e(k)+': '+fmt(n)+' Cutting ที่มีรหัสในเส้นทาง</span>').join('')+'</div>'+
+ '<p class="warning-text" style="font-size:12px;margin-top:12px">จำนวนแต่ละรหัสเป็นการพบในเส้นทางผลิต อาจซ้ำข้ามรหัส และไม่ใช่จำนวนงานค้างรายสาย ต้องตรวจสถานะ Operation ที่ยังเปิดก่อน</p>'+
+ '</section>';
+}
+
 const metric=(name,v,description,cls)=>'<article class="metric-card"><div class="klabel">'+e(name)+'</div><div class="kvalue '+(cls||'')+'">'+fmt(v)+'</div><p>'+e(description)+'</p></article>';
 function focus(d,id){
  if(id==='ALL')return {name:'ภาพรวมทุกสาย',count:d.totals.candidates,description:'ยอดทั้งหมดเป็น Cutting candidate ต้องตรวจ WO และ Current Operation ก่อนรับรอง',todo:['ตรวจ WO ว่ายังต้องผลิตจริง','จับคู่กับ Operation/ControlPlan ปัจจุบัน','ตรวจวันที่ครบกำหนดและสถานะโอน']};
@@ -43,7 +69,7 @@ function render(d){
  '<tr><td><strong>'+e(x.name)+'</strong></td><td class="num"><strong>'+fmt(x.count)+'</strong></td><td class="num">'+percent(x.count,t.candidates)+'</td><td>'+(x.count===null?'ยังไม่มีหลักฐาน':'รอ Current Operation จาก AIS')+'</td><td class="alert">ยังไม่รับรอง</td></tr>'
  ).join('');
  const pills=tabs.map(([id,name])=>'<button class="pill'+(selected===id?' active':'')+'" data-select="'+e(id)+'" type="button">'+e(name)+'</button>').join('');
- return liveView.render(live)+'<div class="strip" role="status"><strong>รายงานติดตาม ไม่ใช่ยอด WIP สดที่รับรอง</strong> · Snapshot JDE วันที่ '+e(d.source.source_snapshot_date)+' · MCP–AIS ยังรอสิทธิ์ ERP Admin</div>'+
+ return liveView.render(live)+renderProgress(priorityProgress)+'<div class="strip" role="status"><strong>รายงานติดตาม ไม่ใช่ยอด WIP สดที่รับรอง</strong> · Snapshot JDE วันที่ '+e(d.source.source_snapshot_date)+' · MCP–AIS ยังรอสิทธิ์ ERP Admin</div>'+
  '<section class="metrics" aria-label="ตัวเลขภาพรวม">'+
  metric('Cutting ที่ต้องตรวจต่อ',t.candidates,'WO Code 10/30/40 ในขอบเขตนี้','cyan')+
  metric('ระบุสายตาม Reference ได้',t.classified,'ไม่ใช่ยืนยันตำแหน่งผลิตจริง','green')+
@@ -81,6 +107,7 @@ async function refresh(){
   if(!response.ok)throw Error('HTTP '+response.status);
   report=validate(await response.json());
   try{const s=await fetch('./data/live-status.json',{cache:'no-store'});live=s.ok?await s.json():null}catch{live=null}
+  try{const t=await fetch('./data/controlplan-verification-progress.json',{cache:'no-store'});priorityProgress=t.ok?await t.json():null}catch{priorityProgress=null}
   document.getElementById('lastSeen').textContent='ข้อมูลต้นทาง '+stamp(report.source_observed_at_utc);
   document.getElementById('connection').textContent=liveView.accept(live).state==='CERTIFIED_SNAPSHOT'?'MCP–AIS: Snapshot ผ่านการรับรอง':'AIS Read-only: ยังไม่มีข้อมูล WIP สดที่รับรอง';
   draw();
@@ -89,4 +116,4 @@ async function refresh(){
  }finally{button.disabled=false}
 }
 if(typeof document!=='undefined'){document.getElementById('reload')?.addEventListener('click',refresh);refresh()}
-if(typeof module!=='undefined')module.exports={validate,render,focus,percent};
+if(typeof module!=='undefined')module.exports={validate,render,focus,percent,validatedProgress,renderProgress};
