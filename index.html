@@ -188,6 +188,11 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "md-followup-manual": {
+    title:"MD Follow-up Intelligence — Executive Control",
+    description:"Public-safe six-stream oversight: Todo / Planner, ICS-ICF-ICE, Innovation, Check Board, QP-40/PPI and Commercial. Clickable evidence-led network, MD concern audit and data-quality checks."
+  },
+
   "practika-one-manual": {
     title:"PRACTIKA ONE · Enterprise Intelligence Workflow",
     description:"Executive Chief Agent Architecture · Business Flow × Information Flow × Digital Twin × Human Gate · โครงสร้างต้นแบบ ไม่ใช่สถานะ Live"
@@ -256,6 +261,12 @@ const overrides = {
 };
 
 const architectures = {
+  "md-followup-manual": {
+    note:"Public-safe static evidence snapshot dated 19 Oct 2026. Tracks each stream in its original owner system. No private LINE content, identity, customer, order number, actual quotation, private file URL or source token is published. No writeback, live sync or automation is enabled.",
+    flow:[["MD / LINE","Human direction and source evidence"],["Command Classification","Find primary owner and current source registry"],["Six Primary Streams","Executive; Development (ICS/ICF/ICE); Innovation; CB; Product Master; Commercial"],["Evidence Reconciliation","Order / Project / Task source-ID + actual handoff status"],["Exception Monitor","No owner; overdue; missing proof; version conflict"],["Executive Closure","Verified evidence; assigned owner; management acceptance"]],
+    meta:["6 owner streams","7 management concerns","Snapshot only","Public-safe architecture","No live feed"]
+  },
+
   "practika-one-manual": {
     note:"ภาพ Intelligence Workflow สำหรับผู้บริหาร แสดงการเชื่อมงานทุกฝ่ายในเชิงสถาปัตยกรรม ยังไม่ใช่ข้อมูลสดหรือ Agent ที่ปฏิบัติงานอัตโนมัติ",
     flow:[["Sense & Understand","Business events + verified Information Flow + Federated Digital Twin"],["Enterprise Context","Entity + Relationship + Provenance + Knowledge Graph"],["Chief Agent","Analyze · Simulate · Prioritize · Delegate"],["Director Agents","Operations · Quality · IT · Facilities · Data · Performance"],["Governed Execution","RDC API/MCP/CLI · Human Gate · Independent QA"],["Verified Improvement","Actual outcome → RCA → Learning feedback"]],
@@ -329,6 +340,8 @@ const architectures = {
   }
 };
 const manualApps = [
+  {name:"md-followup-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/md-follow-up/",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/md-follow-up",updated_at:"2026-10-19T12:00:00+07:00",topics:["Executive Intelligence","Task Governance","CB"],language:"Interactive HTML",description:"Six-stream MD follow-up network with status/evidence checks; public-safe snapshot."},
+
   {name:"practika-one-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/practika-one/",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/practika-one",updated_at:"2026-10-16T16:00:00+07:00",topics:["Enterprise Intelligence","Digital Twin"],language:"HTML / Interactive Network",description:"Public-safe PRACTIKA ONE Intelligence Workflow prototype"},
   {name:"line-digital-twin-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/line-digital-twin/",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/line-digital-twin",updated_at:"2026-10-10T14:00:00+07:00",topics:["LINE Digital Twin"],language:"HTML",description:"Public-safe LINE Digital Twin Executive Overview"},
   {
