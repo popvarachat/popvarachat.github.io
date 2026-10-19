@@ -1,4 +1,4 @@
-﻿# MD Follow-up Intelligence (public-safe)
+# MD Follow-up Intelligence (public-safe)
 
 A static, read-only, GitHub Pages executive visualization of six workflow owners plus one central exception/closure layer.
 
@@ -117,3 +117,9 @@ Do not add private JSON or local source paths to public GitHub.
   in the Github-hosted Pivot page. Parsing remains in the browser, no upload.
 - This is manual local-data import, NOT cross-device automatic sync.
 - Do not commit pivot.json or any personal / work-order data to public Git.
+
+## Automatic browser-to-NB Pivot connection
+- On authorised NB, GitHub Pages opens the public UI and automatically reads pivot.json from the NB-only 127.0.0.1:8766 viewer using strict origin-restricted CORS, without publishing records to GitHub.
+- Browser refresh checks every 5 minutes while the page is visible; the NB W drive collector continues its 60-minute snapshots.
+- On other devices the private NB loopback is not accessible: show a connection warning and allow a locally selected authorised JSON file. A cross-device live API will require authenticated enterprise infrastructure.
+- NB private server permits Origin https://popvarachat.github.io only for the pivot.json resource, rejects other web origins, and remains bound to 127.0.0.1.

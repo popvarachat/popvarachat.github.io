@@ -251,7 +251,7 @@ fetch(sourceHealthEndpoint,{cache:"no-store"})
   .then(r=>r.ok?r.json():Promise.reject(new Error("Source metadata unavailable")))
   .then(renderPublicSnapshot)
   .catch(()=>$("cloudSources").textContent="ยังอ่าน Source Health ไม่ได้ โปรดลองรีเฟรช");
-function loadPrivatePivot(j){
+function loadPrivatePivot(j,automatic=false){
   if(!j || j.schema!==1 || !Array.isArray(j.rows) || typeof j.updated!=="string" || !j.summary){
     throw Error("ไฟล์นี้ไม่ใช่ MD Pivot Snapshot ที่รองรับ");
   }
@@ -264,14 +264,38 @@ function loadPrivatePivot(j){
   expanded=new Set();opened=false;
   renderSourceCounts();refresh();
   $("dataConnection").classList.add("loaded");
-  $("importStatus").textContent="โหลดรายงานสำเร็จ · "+j.rows.length.toLocaleString("th-TH")+" ขั้นตอน · ณ "+new Date(j.updated).toLocaleString("th-TH")+" · ประมวลผลใน Browser เท่านั้น";
-  $("pivotScroll").scrollIntoView({behavior:"smooth",block:"start"});
+  $("importStatus").textContent=(automatic?"เชื่อมข้อมูลจริงจาก Notebook อัตโนมัติแล้ว":"โหลดรายงานสำเร็จจากไฟล์")+" · "+j.rows.length.toLocaleString("th-TH")+" ขั้นตอน · ณ "+new Date(j.updated).toLocaleString("th-TH")+" · ทำงานใน Browser เท่านั้น";
+  if(!automatic)$("pivotScroll").scrollIntoView({behavior:"smooth",block:"start"});
 }
+let privateFileSelected=false, localSyncRunning=false;
+const localSource="http://127.0.0.1:8766/pivot.json";
+async function syncWithNotebook(){
+  if(localSyncRunning || privateFileSelected)return;
+  localSyncRunning=true;
+  const current=$("importStatus");
+  current.textContent="กำลังเชื่อมข้อมูล Stage / กำหนดส่ง / ชื่อเจ้าภาพจาก Notebook ในเครื่องนี้…";
+  try{
+    const response=await fetch(localSource,{mode:"cors",credentials:"omit",cache:"no-store",signal:AbortSignal.timeout(7000)});
+    if(!response.ok)throw Error("HTTP "+response.status);
+    const j=await response.json();
+    if(privateFileSelected)return;
+    loadPrivatePivot(j,true);
+    $("connectionState").textContent="LIVE FROM NB · ใช้ข้อมูลล่าสุดที่เก็บในเครื่อง";
+    $("connectionState").classList.add("connected");
+  }catch(e){
+    if(!payload)current.textContent="ไม่พบ Private Viewer บนเครื่องนี้ · หากใช้ PC ให้เปิดผ่าน NB หรือใช้ปุ่มเลือกไฟล์ JSON";
+    else current.textContent="ข้อมูลครั้งล่าสุดยังแสดงอยู่ · เชื่อม NB รอบนี้ไม่ได้ ("+e.name+")";
+    $("connectionState").textContent="NB NOT CONNECTED";
+    $("connectionState").classList.remove("connected");
+  }finally{localSyncRunning=false;}
+}
+$("syncNow").addEventListener("click",()=>{privateFileSelected=false;syncWithNotebook()});
 $("pivotFile").addEventListener("change",async e=>{
   const file=e.target.files&&e.target.files[0];if(!file)return;
   const area=$("importStatus");area.textContent="กำลังอ่าน "+file.name+"…";
   try{
     if(file.size>35000000)throw Error("ไฟล์ใหญ่เกิน 35 MB");
+    privateFileSelected=true;
     const txt=await file.text();
     const j=JSON.parse(txt);
     loadPrivatePivot(j);
@@ -279,3 +303,8 @@ $("pivotFile").addEventListener("change",async e=>{
     area.textContent="โหลดไม่สำเร็จ: "+error.message;
   }finally{e.target.value="";}
 });
+
+// On authorized NB this reads loopback only; on another device show an explicit fallback.
+syncWithNotebook();
+setInterval(()=>{if(!document.hidden)syncWithNotebook()},5*60*1000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden && !privateFileSelected)syncWithNotebook()});

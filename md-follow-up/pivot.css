@@ -29,3 +29,10 @@
 .safe-msg{background:#fff8e8;border:1px solid #f0dcaf;padding:9px;border-radius:8px;margin-top:9px}
 .public-loader.loaded{border-color:#68c2bf}
 @media(max-width:900px){.loader-grid{grid-template-columns:1fr}}
+
+/* Local auto-sync connection state */
+.sync-panel{display:flex;flex-wrap:wrap;align-items:center;gap:10px;margin:11px 0 1px}
+#connectionState{display:inline-flex;font-size:10px;letter-spacing:.05em;border-radius:6px;padding:8px 10px;border:1px solid #e1bd77;background:#fff4dc;color:#87611a;font-weight:800}
+#connectionState.connected{background:#e2f6eb;color:#196c4c;border-color:#8cd9b5}
+#syncNow{border:1px solid #4fa4ab;background:#e6f7f5;border-radius:7px;padding:8px 11px;color:#17677a;font-size:11px;font-weight:750}
+#syncNow:hover{background:#d1f0ee}

@@ -18,18 +18,19 @@
 <section class="panel public-loader" id="dataConnection">
  <div class="panelhead">
   <div><div class="eyebrow">GITHUB WEB · SECURE DATA ACCESS</div>
-   <h2>MD Pivot Table — เชื่อมข้อมูลรายรายการ</h2>
-   <p class="desc">หน้า Pivot เปิดจาก GitHub ได้ทุกเครื่อง แต่ข้อมูลชื่อเจ้าภาพและเลข Order ต้องเปิดจากไฟล์ที่คุณได้รับสิทธิ์เท่านั้น</p>
+   <h2>MD Pivot Table — กำหนดส่งและเจ้าภาพรายบุคคล</h2>
+   <p class="desc">เมื่อเปิดจาก NB จะเชื่อมรายงานจริงอัตโนมัติทันที · หากเปิดจากเครื่องอื่นจะใช้ข้อมูลสำรองแบบเลือกไฟล์</p>
   </div><span class="subbadge warning">NO PRIVATE DATA IN PUBLIC REPOSITORY</span>
  </div>
  <div class="loader-grid">
   <div><strong>1. ภาพรวมจากแหล่งข้อมูลที่ตรวจแล้ว</strong><div id="cloudSources" class="cloud-sources">กำลังอ่านสถานะล่าสุด…</div></div>
-  <div><strong>2. เปิดรายงานรายละเอียดบนเครื่องนี้</strong>
-    <p>นำไฟล์ <code>pivot.json</code> จาก MD Private Viewer บน Notebook มาเลือกที่นี่ ข้อมูลจะถูกประมวลผลใน Browser เท่านั้น ไม่อัปโหลดไป GitHub</p>
+  <div><strong>2. เชื่อมรายงานรายละเอียดอัตโนมัติจาก NB</strong>
+    <p>เปิดหน้านี้บน NB ที่ติดตั้ง MD Private Viewer แล้วระบบจะดึงรายงานกำหนดส่งและชื่อเจ้าภาพโดยตรงจาก localhost · หากไม่อยู่บน NB สามารถเลือกไฟล์ <code>pivot.json</code> ที่ได้รับอนุญาตเพื่อดูข้อมูลแทนได้</p>
     <div class="loader-actions">
       <label class="loadbtn" for="pivotFile"><span>เลือกไฟล์ MD Pivot JSON</span><input id="pivotFile" type="file" accept=".json,application/json"></label>
       <a class="open-private" href="http://127.0.0.1:8766/pivot.html" target="_blank" rel="noopener noreferrer">เปิดรายงานสดบน NB ↗</a>
-    </div><div id="importStatus" role="status" aria-live="polite">ยังไม่ได้โหลดข้อมูลรายรายการ</div>
+    </div><div class="sync-panel"><span id="connectionState">CONNECTING NB…</span><button type="button" id="syncNow">รีเฟรชข้อมูลจาก NB ↻</button></div>
+    <div id="importStatus" role="status" aria-live="polite">กำลังเชื่อม Private Viewer บน Notebook อัตโนมัติ…</div>
     <div class="safe-msg">⚠ GitHub Pages เป็นเว็บสาธารณะ ไม่ควรนำข้อมูลส่วนบุคคลมาฝังใน Repository · ไฟล์ที่เลือกใช้แค่ในหน้านี้ ไม่ส่งกลับเซิร์ฟเวอร์</div>
   </div>
  </div>
