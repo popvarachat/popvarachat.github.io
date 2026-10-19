@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="th">
+<head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="theme-color" content="#071321">
+<title>งานค้างสายผลิต · PRACTIKA Production Control Tower</title>
+<link rel="stylesheet" href="./styles.css"><script defer src="./app.js"></script></head>
+<body>
+<a class="skip" href="#dashboard">ข้ามไปเนื้อหาหลัก</a>
+<div class="shell">
+<header class="top">
+ <div class="brand"><span class="logo">P</span><div><b>PRACTIKA</b><small>PRODUCTION CONTROL TOWER</small></div></div>
+ <nav class="header-actions"><a href="../">Workflow</a><a href="../production-daily/quality.html">ERP Audit</a><a href="../adaptive-so-wo-timeentry/">Cutting40 Pivot</a></nav>
+</header>
+<section class="hero">
+ <div class="eyebrow">PRODUCTION BACKLOG INTELLIGENCE · MCP–AIS FIRST</div>
+ <h1>งานค้าง <em>อยู่สายผลิตไหน?</em></h1>
+ <p class="lead">ติดตาม Cutting ที่ต้องตรวจต่อ แยกตามสายผลิต พร้อมชี้รายการที่ยังไม่ทราบ Operation — ไม่รวมข้อมูลที่ไม่มีหลักฐานเข้าเป็นยอด WIP จริง</p>
+ <div class="connect"><span class="dot warning"></span><strong id="connection">MCP–AIS ยังไม่เชื่อม ERP สด</strong><span class="sep">·</span><span id="lastSeen">กำลังอ่านเวลาหลักฐาน</span><button id="reload" type="button">อ่าน Snapshot อีกครั้ง <span aria-hidden="true">↻</span></button></div>
+</section>
+<main id="dashboard" aria-live="polite">
+<div class="loading">กำลังตรวจสอบข้อมูลสรุปจาก ERP…</div>
+</main>
+<footer>
+ <span>ข้อมูลธุรกรรมรายตัวไม่เผยแพร่บนเว็บสาธารณะ · AIS ต้องมีสิทธิ์ Read-only และหลักฐาน ControlPlan ก่อนรับรอง</span>
+ <span>© PRACTIKA · Production Control Tower</span>
+</footer>
+</div>
+</body></html>
