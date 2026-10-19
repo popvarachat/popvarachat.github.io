@@ -1,23 +1,66 @@
 {
   "schema": 2,
-  "generated_at": "2026-10-19T08:09:09+00:00",
-  "mode": "connector_manual_verified",
+  "generated_at": "2026-10-19T08:24:57+00:00",
+  "mode": "manual",
   "sources": {
     "cb": {
-      "status": "unavailable",
-      "reason": "Collector host requires source mount and explicit config"
+      "status": "ok",
+      "checked_at": "2026-10-19T08:24:57+00:00",
+      "size_bytes": 34213,
+      "file_modified": "2026-10-14T05:45:25+00:00",
+      "unit": "entries",
+      "total": 88,
+      "status_counts": {
+        "รอกำหนดแก้จากผลิต": 1,
+        "ยกเลิก": 1,
+        "เปิด Order ใหม่": 18,
+        "จบ": 4,
+        "เข้า QP": 4,
+        "รอ ICS สรุป": 1,
+        "รอ ICF สรุป": 1,
+        "เลยกำหนด P3": 4,
+        "เลยกำหนด P5": 4,
+        "อยู่ในแผน": 50
+      }
     },
     "ics": {
-      "status": "unavailable",
-      "reason": "Collector host requires source mount and explicit config"
+      "status": "ok",
+      "checked_at": "2026-10-19T08:24:57+00:00",
+      "size_bytes": 56255710,
+      "file_modified": "2026-10-14T02:39:55+00:00",
+      "unit": "gate_rows",
+      "total": 851,
+      "status_counts": {
+        "blank": 490,
+        "สำเร็จ": 284,
+        "ระหว่างดำเนินการ": 77
+      }
     },
     "icf": {
-      "status": "unavailable",
-      "reason": "Collector host requires source mount and explicit config"
+      "status": "ok",
+      "checked_at": "2026-10-19T08:24:58+00:00",
+      "size_bytes": 39640654,
+      "file_modified": "2026-10-19T01:22:46+00:00",
+      "unit": "gate_rows",
+      "total": 635,
+      "status_counts": {
+        "blank": 315,
+        "สำเร็จ": 247,
+        "ระหว่างดำเนินการ": 73
+      }
     },
     "ice": {
-      "status": "unavailable",
-      "reason": "Collector host requires source mount and explicit config"
+      "status": "ok",
+      "checked_at": "2026-10-19T08:24:58+00:00",
+      "size_bytes": 24791985,
+      "file_modified": "2026-10-14T03:02:32+00:00",
+      "unit": "gate_rows",
+      "total": 239,
+      "status_counts": {
+        "blank": 96,
+        "สำเร็จ": 124,
+        "ระหว่างดำเนินการ": 19
+      }
     },
     "innovation": {
       "status": "ok",
@@ -50,17 +93,13 @@
   },
   "batch": {
     "ok": [
-      "planner",
-      "innovation"
-    ],
-    "failed": [
       "cb",
       "ics",
       "icf",
       "ice"
     ],
-    "total": 6,
-    "successful": 2,
-    "note": "Cloud sources read successfully. Network W collector remains unavailable on offline NB."
+    "failed": [],
+    "total": 4,
+    "successful": 4
   }
 }
