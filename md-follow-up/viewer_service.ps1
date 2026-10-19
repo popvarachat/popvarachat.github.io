@@ -3,6 +3,15 @@ $ErrorActionPreference='Stop'
 $TaskName='MD-FollowUp-Private-Viewer'
 $Root=Split-Path -Parent $MyInvocation.MyCommand.Path
 $Script=Join-Path $Root 'serve_private.py'
+$PrivateDir=Join-Path $env:LOCALAPPDATA 'UAIOS\MD-FollowUp-Private'
+New-Item $PrivateDir -ItemType Directory -Force | Out-Null
+foreach($template in @(@('pivot.view-template','pivot.html'),@('details.view-template','index.html'))){
+ $dest=Join-Path $PrivateDir $template[1]
+ if(!(Test-Path $dest) -and (Test-Path (Join-Path $Root $template[0]))){
+  Copy-Item (Join-Path $Root $template[0]) $dest
+ }
+}
+
 if($Mode -eq 'Remove'){Unregister-ScheduledTask -TaskName $TaskName -Confirm:$false -ErrorAction SilentlyContinue;Write-Output 'VIEWER_TASK_REMOVED';exit 0}
 if($Mode -eq 'Install'){
  $py=(Get-Command py).Source

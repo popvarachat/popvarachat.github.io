@@ -62,3 +62,15 @@ from the last downloaded authorized workbook and may lag the live SharePoint wor
 For ICS/ICF/ICE, work date is not certified as Due Date; overdue is not inferred.
 The private viewer runs using `serve_private.py` on authorized NB only.
 Do not add private JSON or local source paths to public GitHub.
+
+## Stage-Due Pivot Report (NB Private Viewer)
+- Public source cards link to `http://127.0.0.1:8766/pivot.html` on the authorized NB.
+- Private pivot stores about 2,300 gate/stage rows under `%LOCALAPPDATA%/UAIOS/MD-FollowUp-Private/pivot.json`, **never on GitHub Pages**.
+- Views: due-date schedule, stage, department, owner; filter source, status, department, search; stage timeline of original work.
+- Manual W batch and hourly Task Scheduler now refresh `records.json` **and** `pivot.json`. Private viewer runs via logon task `MD-FollowUp-Private-Viewer` on loopback port 8766.
+- CB date = planned transfer only; no claim the item actually missed its transfer without evidence. Planner date = task due, not per-stage due.
+- ICS/ICF/ICE date column = an event/completion date, **not** a verified stage due; displayed as No Stage Due; do not falsely mark overdue.
+- Innovation stage due dates are based on an authenticated *local downloaded workbook snapshot*, which can be older than the SharePoint cloud total (98). Closed-sheet projects are closed by **sheet classification only**, not certified final outcome.
+- Department resolution is based only on explicit department tokens in work assignment or CB status (e.g. P3/P5). Person-only owners are shown as "department not verified"; never guess the team.
+- The "current stage" is an algorithmic candidate (first active or first unknown gate), not a certified bottleneck when source status is blank. Stage rows across sources are not yet deduplicated.
+- Localhost means the viewer is accessible only via browser running **on the NB**. Other devices require an authenticated intranet service before private records can be remotely viewed.

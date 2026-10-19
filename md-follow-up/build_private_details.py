@@ -17,10 +17,10 @@ def safe(x,maxlen=600):return value(x)[:maxlen]
 def parse_due(raw):
     s=value(raw)
     if not s:return None
-    if re.match(r"^\\d{4}-\\d{2}-\\d{2}",s):
+    if re.match(r"^\d{4}-\d{2}-\d{2}",s):
         try:return dt.date.fromisoformat(s[:10])
         except ValueError:return None
-    m=re.match(r"^(\\d{1,2})[./-](\\d{1,2})[./-](\\d{2,4})$",s)
+    m=re.match(r"^(\d{1,2})[./-](\d{1,2})[./-](\d{2,4})$",s)
     if not m:return None
     y=int(m.group(3))
     if y>=2500:y-=543
@@ -32,7 +32,7 @@ def due_state(s,st,is_due=True):
     if not is_due:return "ไม่ยืนยันกำหนด"
     d=parse_due(s)
     if not d:return "ไม่ระบุวัน"
-    if st=="สำเร็จ" or st=="จบ" or st=="เข้า QP":return "ปิดตามสถานะ"
+    if st in ("สำเร็จ","จบ","เข้า QP","ยกเลิก","เปิด Order ใหม่"):return "ปิด/ส่งต่อตามสถานะ"
     if d<TODAY:return "ผ่านกำหนดในตาราง"
     if d==TODAY:return "ครบกำหนดวันนี้"
     return "ยังไม่ถึงกำหนด"
@@ -55,7 +55,7 @@ try:
     for row in tab.iter_rows(min_row=8,max_col=11,values_only=True):
         no=value(row[0])
         if not no.isdigit() or not row[1]:continue
-        order=value(row[1]); st=value(row[10]);title=value(row[8]) or value(row[7])
+        order=value(row[1]); st=value(row[10]);title=value(row[7]) if value(row[7])!="-" else value(row[8])
         rec=create("cb","CB-"+no,title,st,value(row[6]),value(row[5]),"วันที่โอน",
             value(row[9]),order,value(row[2]))
         rec["customer"]=safe(row[3],200)

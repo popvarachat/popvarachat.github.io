@@ -62,3 +62,7 @@
 .private-note{font-size:11px;color:#8aaabc;line-height:1.65;margin-top:13px}
 .drillgrid .source-alert{color:#f2c990}
 @media(max-width:750px){.drillgrid{grid-template-columns:1fr}.drilltop h3{font-size:20px}}
+
+.pivot-public-entry{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:14px;background:#193849;border:1px solid #487889;border-radius:12px;padding:17px;margin:12px 0}
+.pivot-public-entry strong{font-size:14px;color:#d9f7f5}.pivot-public-entry p{font-size:11px;line-height:1.65;color:#afc8d8;margin:7px 0 0}
+.pivot-public-entry a{background:#83d9d2;color:#0b3040;padding:10px 15px;border-radius:9px;text-decoration:none;font-weight:850;font-size:12px;white-space:nowrap}

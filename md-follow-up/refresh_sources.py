@@ -125,6 +125,11 @@ def main():
             print("PRIVATE_DETAIL_BUILD_FAILED "+sub.stderr[:220],flush=True)
         else:
             print("PRIVATE_DETAIL_BUILD_SUCCESS",flush=True)
+            pivot=subprocess.run([sys.executable,str(ROOT/"build_pivot.py")],
+                capture_output=True,text=True,encoding="utf-8",timeout=45)
+            print("PRIVATE_PIVOT_BUILD_SUCCESS" if pivot.returncode==0
+                  else "PRIVATE_PIVOT_BUILD_FAILED "+pivot.stderr[:220],flush=True)
+
     except Exception as e:
         print("PRIVATE_DETAIL_BUILD_UNAVAILABLE "+type(e).__name__,flush=True)
     audit_dir=ROOT/".audit-local";audit_dir.mkdir(exist_ok=True)
