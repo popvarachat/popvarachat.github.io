@@ -26,6 +26,9 @@ function render(d){
  const t=d.totals,f=focus(d,selected);
  const rows=[...d.departments,{name:'ยังระบุสายผลิตไม่ได้',count:t.unresolved}],mx=Math.max(...rows.map(x=>x.count||0),1);
  const tabs=[['ALL','ทุกสาย'],...d.departments.map(x=>[x.name,x.name]),['UNKNOWN','ไม่ทราบสาย']];
+ const c=d.fixed_cohort;
+ const cohortMax=Math.max(...c.production_positions.map(p=>p.count),1);
+ const cohortBars=c.production_positions.map(p=>'<div class="line" style="cursor:default"><span class="name">'+e(p.name)+'<span class="hint">ControlPlan · Cohort เฉพาะชุด</span></span><span class="track"><span class="fill" style="width:'+(100*p.count/cohortMax)+'%"></span></span><span class="value">'+fmt(p.count)+'</span></div>').join('');
  const lineButtons=rows.map(x=>{
   const id=x.name==='ยังระบุสายผลิตไม่ได้'?'UNKNOWN':x.name;
   const cls=(id==='UNKNOWN'?' missing':'')+(x.count===null?' empty':'')+(id===selected?' selected':'');
@@ -52,6 +55,7 @@ function render(d){
  '<section class="panel"><div class="detail-title"><div><h2>รายงานสรุปแยกสายผลิต</h2><p class="sub">เลือกดูเฉพาะสาย / ดูกลุ่มที่ยังต้องตรวจหลักฐาน</p></div><div class="pills">'+pills+'</div></div>'+
  '<div class="table-wrap"><table><thead><tr><th>สายผลิต</th><th style="text-align:right">Cutting ที่พบ</th><th style="text-align:right">สัดส่วน</th><th>ตำแหน่งผลิต</th><th>งานเกินกำหนดจริง</th></tr></thead><tbody>'+tables+'</tbody></table></div>'+
  '<p class="sub">ตัวเลขยังจัดตาม Access Reference ไม่ใช่ตำแหน่งหน้างาน และยังไม่ใช่ WIP ทั้งโรงงาน</p></section>'+
+ '<section class="panel" style="border-color:#326e7b"><div class="detail-title"><h2>ตัวอย่างที่ตรวจ Current ControlPlan แล้ว · Cutting40 เท่านั้น</h2><span class="pill">แยกขอบเขต ห้ามนำยอดมาบวกกับ 1,630</span></div><p class="sub">ใน Cohort เดิม 160 Cutting พบ Open ตามเงื่อนไข 156 รายการ และมีหลักฐาน ControlPlan ครบใน Cohort 100% ณ '+e(stamp(c.controlplan_verified_to_utc))+' · ไม่ใช่ยอดทั้งโรงงาน</p><div class="main-layout"><div class="line-list">'+cohortBars+'</div><div class="detail-body"><div class="klabel">Cutting ใน Cohort ที่จัดกลุ่มได้</div><div class="detail-big">'+fmt(c.observed_open_cuttings)+'</div><p class="sub">ตรวจ ControlPlan 156 จาก 156 · ตัด 9D ออก '+fmt(c.transferred_9d_excluded)+' รายการ</p><div class="mini-kv"><span>WO/Cutting status 99 ต้องตรวจเพิ่ม</span><strong class="warning-text">'+fmt(c.status99_requires_review)+'</strong></div><p class="sub">ผลิต4 = 131 เฉพาะ Cohort นี้ ไม่ใช่ยอด WIP ทั้งโรงงานหรืองานใหม่ที่ดึงผ่าน AIS</p><a href="../adaptive-so-wo-timeentry/">ดู Cutting รายการและ Operation ของ Cohort นี้ ↗</a></div></div></section>'+
  '<div class="main-layout"><section class="panel"><h2>WO Code ของกลุ่มที่ต้องตรวจ</h2><p class="sub">ใช้คัดแยกงานสำหรับตรวจรับ ไม่ใช่การรับรองว่ายังเปิด WO ทุกใบ</p>'+
  d.wo_codes.map(x=>'<div class="mini-kv"><span>WO Code '+e(x.code)+'</span><strong>'+fmt(x.count)+'</strong></div>').join('')+
  '<p class="sub">รวม '+fmt(t.candidates)+' Cutting ในช่วงที่คัดกรอง · ไม่รวม WO Code 99 / 9C</p></section>'+

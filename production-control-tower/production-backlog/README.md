@@ -7,6 +7,8 @@ Shows a **clearly labeled, historic source observation** of Cutting candidates g
 
 At release: 1,630 candidate Cuttings, 395 uniquely classifiable by historical Access Type/Status Reference (ผลิต1 74, ผลิต2 48, ผลิต3 2, ผลิต5 271), 1,235 unknown. ผลิต4 = **null**, not zero. These are NOT certified physically located/open factory WIP; no certified overdue numbers. Counts are distinct Cutting, not WO or SO. The 160-Cutting legacy cohort is separate and not additive.
 
+The page also independently presents the **fixed 160-Cutting ControlPlan-reviewed cohort** from `../adaptive-so-wo-timeentry/data/current-production.json` (156 reported open Cutting, 4 transferred excluded, ControlPlan coverage 100% within cohort, production4 131, production2 17, store 6, production1 1, production5 1). These are a DIFFERENT cohort from the 1,630 candidate group and MUST NOT BE ADDED. Status 99 within this cohort is flagged for reconciliation; physical location and whole-factory totals remain unverified.
+
 All data in public JSON is strictly aggregated; no Cutting/WO/SO/customer/employee IDs.
 
 ## Source governance

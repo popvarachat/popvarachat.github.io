@@ -7,6 +7,10 @@ test('Reconciled source candidate counts and WO cohort',()=>{
  assert.equal(x.wo_codes.reduce((n,r)=>n+r.count,0),1630);
  assert.equal(x.departments.reduce((n,x)=>n+(x.count||0),0),395);
  assert.equal(x.departments.find(x=>x.name==='ผลิต4').count,null);
+ assert.equal(x.fixed_cohort.observed_open_cuttings,156);
+ assert.equal(x.fixed_cohort.production_positions.find(x=>x.name==='ผลิต4').count,131);
+ assert.equal(x.fixed_cohort.production_positions.reduce((n,x)=>n+x.count,0),156);
+ assert.equal(x.fixed_cohort.not_additive_to_2026_candidate_cohort,true);
  assert.equal(x.source.current_wip_certified,false);assert.equal(x.source.ais_live,false);
 });
 test('Public snapshot has no private cutting order or customer records',()=>{
@@ -27,6 +31,9 @@ test('dashboard renders every production line, source notice and review gates',(
  assert(html.includes('1,630')&&html.includes('1,235'));
  assert(html.includes('รายงานติดตาม ไม่ใช่ยอด WIP สด'));
  assert(html.includes('ยังไม่รับรอง'));
+ assert(html.includes('Current ControlPlan แล้ว'));
+ assert(html.includes('131'));
+ assert(html.includes('ห้ามนำยอดมาบวกกับ 1,630'));
 });
 test('Interactive scope selection respects unknown and no evidence',()=>{
  const x=validate(build());

@@ -1,6 +1,6 @@
 {
   "schema_version": "1.0",
-  "generated_at_utc": "2026-10-19T04:06:17.676Z",
+  "generated_at_utc": "2026-10-19T04:10:59.633Z",
   "source_observed_at_utc": "2026-10-18T11:57:20.283Z",
   "source": {
     "mode": "HISTORICAL_JDE_BROWSER_AGGREGATE",
@@ -37,6 +37,45 @@
       "count": 318
     }
   ],
+  "fixed_cohort": {
+    "title": "Cutting40 cohort · current ControlPlan evidence",
+    "source_snapshot_at_utc": "2026-10-18T09:29:54.221Z",
+    "controlplan_verified_to_utc": "2026-10-18T09:11:55.053Z",
+    "captured_scope_count": 160,
+    "observed_open_cuttings": 156,
+    "transferred_9d_excluded": 4,
+    "controlplan_coverage_pct": 100,
+    "status99_requires_review": 22,
+    "production_positions": [
+      {
+        "name": "ผลิต1",
+        "count": 1
+      },
+      {
+        "name": "ผลิต2",
+        "count": 17
+      },
+      {
+        "name": "ผลิต3",
+        "count": 0
+      },
+      {
+        "name": "ผลิต4",
+        "count": 131
+      },
+      {
+        "name": "ผลิต5",
+        "count": 1
+      },
+      {
+        "name": "สโตร์",
+        "count": 6
+      }
+    ],
+    "not_additive_to_2026_candidate_cohort": true,
+    "whole_factory_certified": false,
+    "physical_location_certified": false
+  },
   "departments": [
     {
       "name": "ผลิต1",

@@ -9,6 +9,23 @@ function build(input=INPUT){
  assert.equal(a.scope.factory_wip_certified,false);assert.equal(a.scope.physical_location_certified,false);
  assert.deepEqual(a.scope.statuses,['40','45','60','70']);
  const by=a.observed.year2026_wo_code_10_30_40_departments,wo=a.observed.year2026_wo_status;
+ const cohortPath=path.join(__dirname,'..','adaptive-so-wo-timeentry','data','current-production.json');
+ const cohort=JSON.parse(fs.readFileSync(cohortPath,'utf8'));
+ const c=cohort.coverage||{},positions=c.production_counts||{};
+ assert.equal(c.source_rows,160);assert.equal(c.open_rows,156);assert.equal(cohort.controlplan.resolved_cuttings,156);
+ assert.equal(c.controlplan_coverage_pct,100);
+ assert.equal(Object.values(positions).reduce((s,v)=>s+v,0),156);
+ const cohortSummary={title:'Cutting40 cohort · current ControlPlan evidence',
+  source_snapshot_at_utc:cohort.cutting_snapshot_at_utc,
+  controlplan_verified_to_utc:cohort.controlplan.collected_to,
+  captured_scope_count:c.source_rows,
+  observed_open_cuttings:c.open_rows,
+  transferred_9d_excluded:c.transferred_9d,
+  controlplan_coverage_pct:c.controlplan_coverage_pct,
+  status99_requires_review:c.status_counts['99']||0,
+  production_positions:['ผลิต1','ผลิต2','ผลิต3','ผลิต4','ผลิต5','สโตร์'].map(name=>({name,count:positions[name]||0})),
+  not_additive_to_2026_candidate_cohort:true,
+  whole_factory_certified:false,physical_location_certified:false};
  const candidate=['10','30','40'].reduce((n,k)=>n+(wo[k]||0),0);
  const known=NAMES.reduce((n,k)=>n+(by[k]||0),0),unresolved=by['รอหลักฐาน'];
  assert(Number.isSafeInteger(candidate)&&candidate>0);
@@ -25,6 +42,7 @@ function build(input=INPUT){
   totals:{source_2026_cuttings:a.observed.created_years['2026'],
    candidates:candidate,classified:known,unresolved,certified_wip:null,certified_overdue:null},
   wo_codes:['10','30','40'].map(code=>({code,count:wo[code]})),
+  fixed_cohort:cohortSummary,
   departments:NAMES.map(name=>({name,count:name==='ผลิต4'?null:by[name]||0,
    reference_only:name!=='ผลิต4',physical_position_confirmed:false,
    certified_wip:null,certified_overdue:null})),
