@@ -36,6 +36,11 @@
     <div><b id="truthTitle">กำลังตรวจระดับการรับรองข้อมูล</b><p id="truthText">ตรวจที่มาของข้อมูลก่อนแสดงตัวเลขผลผลิตจริง</p></div>
     <div class="banner-action"><button id="refreshData" type="button">↻ อัปเดตสถานะ</button></div>
   </section>
+  <section class="private-preview hidden" id="privatePreview" aria-label="NB private read-only daily snapshot">
+    <div class="private-label"><span class="private-lock">▣</span><div><b>NB PRIVATE DATA · เฉพาะเครื่องนี้</b><p id="privateTitle">กำลังโหลดผลตรวจ JDE จริงเฉพาะเครื่อง Notebook</p></div><span class="private-chip">ไม่เผยแพร่ GitHub</span></div>
+    <div class="private-facts"><div><small>Purchase Receipt Lines</small><strong id="privateLines">—</strong></div><div><small>PO ที่พบใน Receipt</small><strong id="privatePO">—</strong></div><div><small>Item ที่พบ</small><strong id="privateItems">—</strong></div><div><small>Receipt Amount</small><strong id="privateAmount">—</strong></div><button id="privateExport" title="ส่งออกข้อมูลที่ตรวจใน Local เท่านั้น">↓ CSV</button></div>
+    <p class="private-caution">ยอดจาก Inquiry ที่ Pagination ครบแล้ว แต่ยังไม่ใช่ยอดทั่วทั้งโรงงานที่ Finance รับรอง · บันทึกจาก ERP Read-only</p>
+  </section>
   <section class="metrics" aria-label="Executive overview">
     <article class="metric emphasized"><span class="metric-label">ขอบเขตที่ต้องตรวจทุกวัน</span><div class="metric-big" id="totalDomains">15<span class="metric-small"> มิติ</span></div><div class="metric-note">ครอบคลุมตั้งแต่ PR → GL</div></article>
     <article class="metric"><span class="metric-label">มีหลักฐานธุรกรรม/การตั้งค่า</span><div class="metric-big" id="evidenceCount">—</div><div class="metric-note">หลักฐานบางส่วน ≠ KPI รับรอง</div></article>

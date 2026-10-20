@@ -18,7 +18,7 @@
     ['quality','scrap'],['output','wip'],['wip','cost'],['inventory','cost'],
     ['scrap','cost'],['cost','gl'],['delivery','gl'],['receipt','cost']
   ];
-  const state = {dataset:null,focused:'receipt',domain:'all',query:'',view:'map',date:'2026-10-20',zoom:1,dx:0,dy:0,dragging:null,private:false};
+  const state = {dataset:null,privateSnapshot:null,focused:'receipt',domain:'all',query:'',view:'map',date:'2026-10-20',zoom:1,dx:0,dy:0,dragging:null,private:false};
   const safe = t => String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const sourceBadge = s => evidenceStatus[s]||'ยังไม่ทราบ';
   const find = id => state.dataset?.dimensions.find(d=>d.id===id);
@@ -50,7 +50,7 @@
     setText('dateFoot','ข้อมูลรายวันเฉพาะ '+niceDate(day)+' · หากไม่ผ่านรับรองจะแสดง —');
     const params=new URLSearchParams(location.search);params.set('date',day);
     history.replaceState(null,'',location.pathname+'?'+params.toString());
-    renderSummary();renderInspector();
+    renderSummary();renderInspector();renderPrivate();
   }
   function dateDelta(delta){
     const dt=new Date(state.date+'T12:00:00+07:00');dt.setUTCDate(dt.getUTCDate()+delta);
@@ -160,7 +160,28 @@
     '<div class="inspect-field"><dt>Data Owner</dt><dd>'+safe(d.owner)+'</dd></div></dl>'+
     '<div class="detail-divider"></div><p class="note-inspect"><b>สิ่งที่ต้องตรวจ:</b> '+safe(d.note)+'</p>'+
     '<div class="owner">รายงานของวันที่ <b>'+niceDate(state.date)+'</b> · Certification: <b>'+safe(d.records_certified?'ผ่าน':'ยังไม่ผ่าน')+'</b></div>'+
-    (d.evidence||[]).map(e=>'<a class="source-link" href="'+safe(e.url)+'" target="_blank" rel="noopener noreferrer"><span>↗ '+safe(e.label)+'</span><span>›</span></a>').join('');
+    (d.evidence||[]).map(e=>'<a class="source-link" href="'+safe(e.url)+'" target="_blank" rel="noopener noreferrer"><span>↗ '+safe(e.label)+'</span><span>›</span></a>').join('')+privateInspector(d);
+  }
+  function privateInspector(d){
+    const priv=state.privateSnapshot;
+    if(!priv||d.id!=='receipt'||priv.date!==state.date)return '';
+    const fmt=new Intl.NumberFormat('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+    const r=priv.rows.slice(0,43).map(row=>'<tr><td>'+safe(row.receipt)+'</td><td>'+safe(row.po)+'</td><td>'+safe(row.item)+'</td><td>'+safe(row.branch)+'</td><td>'+safe(row.qty)+'</td><td>'+fmt.format(row.amount_thb)+'</td></tr>').join('');
+    return '<div class="private-details"><b>NB PRIVATE · P55432A4 ('+safe(niceDate(priv.date))+')</b>'+
+       '<small>'+priv.summary.receipt_lines+' Receipt lines · '+priv.summary.distinct_po+' PO · ฿'+fmt.format(priv.summary.amount_thb)+' · อ่านครบทุกหน้าที่ Inquiry ส่งคืน แต่ยังรอรับรอง Scope</small>'+
+       '<div class="private-table"><table><thead><tr><th>Receipt</th><th>PO</th><th>Item</th><th>Branch</th><th>Qty</th><th>THB</th></tr></thead><tbody>'+r+'</tbody></table></div></div>';
+  }
+  function renderPrivate(){
+    const priv=state.privateSnapshot;
+    const show=Boolean(priv&&priv.date===state.date);
+    $('privatePreview').classList.toggle('hidden',!show);
+    if(!show)return;
+    const fmt=new Intl.NumberFormat('th-TH',{minimumFractionDigits:2,maximumFractionDigits:2});
+    setText('privateTitle','JDE Inquiry '+safe(niceDate(priv.date))+' · 43 แถวครบ Pagination · ยังรอ Owner Sign-off');
+    setText('privateLines',String(priv.summary.receipt_lines));
+    setText('privatePO',String(priv.summary.distinct_po));
+    setText('privateItems',String(priv.summary.distinct_items));
+    setText('privateAmount','฿'+fmt.format(priv.summary.amount_thb));
   }
   function renderEvidence(){
     $('evidenceList').innerHTML=(state.dataset.source_evidence||[]).map((e,i)=>'<a class="source-row" href="'+safe(e.url)+'" target="_blank" rel="noopener noreferrer"><span class="source-index">'+String(i+1).padStart(2,'0')+'</span><span class="source-content"><b>'+safe(e.label)+'</b><small>'+safe(e.status)+' · '+safe(e.date)+' · GitHub Private SoT</small></span><span class="source-arrow">↗</span></a>').join('');
@@ -177,7 +198,7 @@
     $('canvasTools').classList.toggle('hidden',v!=='map');
     renderVisual();
   }
-  function render(){renderSummary();renderVisual();renderEvidence();}
+  function render(){renderSummary();renderVisual();renderEvidence();renderPrivate();}
   async function load(){
     try{
       const res=await fetch(API+'?t='+Date.now(),{cache:'no-store'});
@@ -185,8 +206,25 @@
       const ds=await res.json();
       if(ds.data_classification!=='PUBLIC_SAFE_METADATA_ONLY'||!Array.isArray(ds.dimensions)||ds.dimensions.length!==15||new Set(ds.dimensions.map(d=>d.id)).size!==15)throw Error('Data Pool schema or publication classification mismatch');
       state.dataset=ds;
+      // Private transaction rows are loaded ONLY by the NB-local loopback preview.
+      // GitHub Pages never requests the private file.
+      const local=/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
+      if(local){
+        try{
+          const privateRes=await fetch('private-daily.json?t='+Date.now(),{cache:'no-store'});
+          if(privateRes.ok){
+            const priv=await privateRes.json();
+            if(priv.schema_version==='private-local-v1'&&priv.scope==='PRIVATE_LOCALHOST_ONLY_DO_NOT_COMMIT'&&priv.classification==='INTERNAL'&&Array.isArray(priv.rows)&&priv.pagination_complete===true&&priv.rows.length===priv.summary.receipt_lines){
+              state.privateSnapshot=priv;
+              state.private=true;
+              const status=document.querySelector('.top-right');if(status){status.innerHTML='<span class="indicator"></span><span>NB PRIVATE · READ ONLY</span>';}
+              if(!new URLSearchParams(location.search).has('date'))setDate(priv.date);
+            }
+          }
+        }catch(e){console.warn('Private snapshot unavailable',e.message)}
+      }
       render();
-      setText('footerSource','Metadata as-of '+ds.last_live_jde_proof+' · No certified daily totals');
+      setText('footerSource',state.private?'NB PRIVATE read-only snapshot · not published to GitHub':'Metadata as-of '+ds.last_live_jde_proof+' · No certified daily totals');
     }catch(e){
       setText('truthTitle','ไม่สามารถอ่าน Data Pool ได้');
       setText('truthText','กรุณาตรวจการเผยแพร่ไฟล์ daily-status.json ('+e.message+')');
@@ -216,6 +254,16 @@
     });
     const end=()=>{vp.classList.remove('dragging');if(state.dragging){setTimeout(()=>{state.dragging=null},100)}};
     vp.addEventListener('pointerup',end);vp.addEventListener('pointercancel',end);
+    $('privateExport').addEventListener('click',()=>{
+      const p=state.privateSnapshot;
+      if(!state.private||!p||p.date!==state.date)return;
+      const fields=['receipt','po','item','supplier','supplier_name','branch','receipt_date','amount_thb','qty','uom','unit_cost_thb','currency','cost_rule'];
+      const escapeCell=v=>{let s=String(v??'');if(/^[=+@-]/.test(s))s="'"+s;return '"'+s.replace(/"/g,'""')+'"';};
+      const csv='\uFEFF'+fields.join(',')+'\r\n'+p.rows.map(r=>fields.map(k=>escapeCell(r[k])).join(',')).join('\r\n');
+      const url=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'}));
+      const a=document.createElement('a');a.href=url;a.download='JDE_PRIVATE_receipts_'+p.date+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1200);
+      toast('ส่งออก CSV ลงเครื่อง NB แล้ว · ห้ามเผยแพร่ข้อมูลดิบ');
+    });
     $('downloadTemplate').addEventListener('click',()=>{
       const payload={schema_version:'1.0.0',as_of:state.date,source:'CERTIFIED_PRIVATE_EXPORT',data_classification:'PRIVATE_DO_NOT_PUBLISH',dimensions:allDims().map(d=>({id:d.id,source:d.applications,grain:d.grain,record_count:null,daily_value:null,unit:null,extracted_at:null,records_certified:false,quality:{passed:false},owner_approved:false,public_release_approved:false}))};
       const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});

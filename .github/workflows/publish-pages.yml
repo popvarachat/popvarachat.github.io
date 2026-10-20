@@ -5,6 +5,7 @@ on:
   push:
     branches: [main]
     paths:
+      - 'erp-architecture/**'
       - 'md-follow-up/source-health.json'
       - 'md-follow-up/index.html'
       - 'md-follow-up/app.js'
