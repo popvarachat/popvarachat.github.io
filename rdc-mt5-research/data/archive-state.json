@@ -1,0 +1,10 @@
+﻿{
+    "schema":  "rdc.gold.research.archive.v1",
+    "live_trading":  "HOLD",
+    "source":  "OWNER_DIRECT_COMMAND",
+    "status":  "OWNER_HOLD_NO_SCHEDULED_RESEARCH",
+    "data_freshness":  "FROZEN_HISTORICAL_SNAPSHOT",
+    "resume_requires":  "NEW_EXPLICIT_OWNER_ORDER",
+    "mt5_backtest_connected":  false,
+    "archived_on_ict":  "2026-10-20"
+}
