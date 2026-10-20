@@ -1,0 +1,422 @@
+{
+  "schema_version": "1.0.0",
+  "generated_at": "2026-10-20T21:56:00+07:00",
+  "data_classification": "PUBLIC_SAFE_METADATA_ONLY",
+  "source_mode": "LIVE_JDE_PARTIAL_RESEARCH",
+  "production_truth": "NOT_CERTIFIED",
+  "read_only": true,
+  "has_scheduled_public_updates": false,
+  "daily_kpi_status": "NONE_CERTIFIED",
+  "reference_date": "2026-10-20",
+  "public_release": "META_ONLY",
+  "notice": "บันทึกความพร้อมของแหล่งข้อมูล ERP จริง ไม่ใช่ยอดรวมธุรกรรมหรือ KPI รับรอง การไม่มีข้อมูล = ไม่ทราบ ไม่ใช่ 0",
+  "private_source": "popvarachat/practika-erp-architecture",
+  "last_live_jde_proof": "2026-10-20T21:48:00+07:00",
+  "dimensions": [
+    {
+      "id": "transfer",
+      "name": "การโอนงาน",
+      "en": "Production Transfer",
+      "domain": "production",
+      "seq": "01",
+      "question": "วันนี้โอนงานจากผลิตใดไปผลิตใด และค้างจุดไหน",
+      "metric_label": "จำนวนใบโอน / ปริมาณ / มูลค่าการโอน",
+      "applications": "P4111 · P554801C",
+      "grain": "WO · Cutting · Control Plan · Origin · Destination · Transaction Date",
+      "owner": "Production / Warehouse",
+      "status": "MAPPED",
+      "note": "ต้องจับคู่เลขโอนกับ Control Plan และ WO; เอกสาร Movement ไม่ใช่หลักฐาน QC ผ่าน",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "output",
+      "name": "ผลิตได้จริง",
+      "en": "Production Actual",
+      "domain": "production",
+      "seq": "02",
+      "question": "แต่ละผลิตทำได้กี่ชิ้น เทียบแผนและกำหนดโอนแล้วเป็นอย่างไร",
+      "metric_label": "Actual Qty / Plan Qty / Achievement %",
+      "applications": "P31225 · P48013 · P5511026",
+      "grain": "WO · Operation · Completion Qty · As-of Time",
+      "owner": "Production Planning",
+      "status": "MAPPED",
+      "note": "ต้องตัดงานทดสอบ / Cancel / Reversal และป้องกันนับใบโอนเป็นยอดผลิตซ้ำ",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "material",
+      "name": "เบิกวัตถุดิบ",
+      "en": "Material Issue",
+      "domain": "production",
+      "seq": "03",
+      "question": "เบิก DM เท่าไร เกิน BOM หรือเบิกผิด WO หรือไม่",
+      "metric_label": "Issued Qty / BOM Required / Variance",
+      "applications": "P3121 · P4111",
+      "grain": "WO · Item · Issue Qty · BOM Standard · Branch · Date",
+      "owner": "Store / Production",
+      "status": "MAPPED",
+      "note": "แยก Actual Issue, Return, Scrap และ Partial Issue; ไม่มีข้อมูลไม่ใช่ศูนย์",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "labor",
+      "name": "เวลาและค่าแรง",
+      "en": "Labor / Clock",
+      "domain": "production",
+      "seq": "04",
+      "question": "ใครลงเวลาทำงานจริงให้ WO ไหน กี่ชั่วโมง และ Key ครบหรือไม่",
+      "metric_label": "Actual Labor Hour / Standard Hour",
+      "applications": "P31121 · P5931122",
+      "grain": "WO · Operation · Worker · Labor Hours · Transaction Date",
+      "owner": "Production / HR",
+      "status": "MAPPED",
+      "note": "Attendance Hours ไม่เท่ากับ Productive Hours; อนุมัติวิธีปัน DL ก่อน",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "quality",
+      "name": "QC / Reject",
+      "en": "QC & Reject",
+      "domain": "quality",
+      "seq": "05",
+      "question": "วันนี้ตรวจ QC กี่ชิ้น Reject/ Hold เท่าไร หลุดไปผลิตถัดไปหรือไม่",
+      "metric_label": "Inspected / Reject / Hold",
+      "applications": "P553711Y · P3711 · P4108",
+      "grain": "Item · Lot · Test Result · Hold Status · Date",
+      "owner": "Quality Assurance",
+      "status": "MAPPED",
+      "note": "ต้องเชื่อมตรวจสอบกับการโอนและการคืนงานเพื่อแยก Reject จริง",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "rework",
+      "name": "งานแก้ไข",
+      "en": "Rework",
+      "domain": "quality",
+      "seq": "06",
+      "question": "วันนี้ซ่อมงานใด ซ้ำกี่ครั้ง เสียชั่วโมงและ DM เพิ่มเท่าไร",
+      "metric_label": "Rework WO / Time / Cost",
+      "applications": "P48013 PTK0002 · P3703",
+      "grain": "Original WO · Rework WO · Reason · Actual Issue · Labor",
+      "owner": "QA / Production",
+      "status": "MAPPED",
+      "note": "อย่านับเฉพาะ Rework WO; ต้องหารายการแก้ที่ไม่เปิด WO เพิ่มด้วย",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "scrap",
+      "name": "ของเสีย / ทิ้ง",
+      "en": "Scrap",
+      "domain": "quality",
+      "seq": "07",
+      "question": "วัตถุดิบหรือชิ้นงานทิ้งกี่ชิ้น มูลค่ากี่บาท และรับรองการตัดออกหรือยัง",
+      "metric_label": "Scrap Qty / Cost / Reason",
+      "applications": "P4111 · P43250",
+      "grain": "WO · Item · Quantity · Cost · Adjustment Doc",
+      "owner": "QA / Store / Accounting",
+      "status": "MAPPED",
+      "note": "ต้องแยก Adjust Stock, Reject, Rework และ Scrap จริง",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "wip",
+      "name": "งานระหว่างทำ",
+      "en": "WIP Movement",
+      "domain": "production",
+      "seq": "08",
+      "question": "WO ไหนยังค้าง อยู่ผลิตใด อายุงานเท่าไร และใครรับผิดชอบ",
+      "metric_label": "Open WO / Aging / WIP Value",
+      "applications": "P5511026 · P48013 · P31121",
+      "grain": "WO · Cutting · Control Plan · Operation Status · Cost",
+      "owner": "Planning / Production",
+      "status": "MAPPED",
+      "note": "WO ≠ ไม่ใช่ 99/9D เสมอไป; นิยาม WIP ต้องผ่าน Operations และ Finance",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "machine",
+      "name": "เวลาของเครื่อง",
+      "en": "Machine Utilization",
+      "domain": "production",
+      "seq": "09",
+      "question": "เครื่องจักรใช้งาน หยุดรอ ซ่อม และคอขวดกี่ชั่วโมง",
+      "metric_label": "Machine Hour / Downtime / Capacity",
+      "applications": "P31121 · Machine Downtime Source (PENDING)",
+      "grain": "Work Center · Machine · Actual Runtime · Scheduled Hours",
+      "owner": "Engineering / Maintenance",
+      "status": "UNVERIFIED",
+      "note": "P012503 ไม่ใช่ Work Center เครื่องจักร; ยังไม่รับรองแหล่ง Downtime จริง",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "purchase",
+      "name": "PR / PO / ราคา",
+      "en": "Purchase & Approval",
+      "domain": "supply",
+      "seq": "10",
+      "question": "Engineer ขอราคาก่อน PR หรือไม่ ราคาใหม่แพงกว่าครั้งก่อนกี่ % และมี Approval หรือไม่",
+      "metric_label": "PR / PO / Price Variance / Override",
+      "applications": "P4310 · P41061 · P4312",
+      "grain": "Item · Supplier · UOM · Currency · Baseline · Approval",
+      "owner": "Engineering / Purchasing",
+      "status": "MAPPED",
+      "note": "Price Gate ก่อน PR และการอนุมัติเมื่อราคาสูงกว่าเดิมยังไม่ได้พิสูจน์ว่าเปิดใช้อยู่จริง",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "receipt",
+      "name": "รับเข้าสโตร์",
+      "en": "Goods Receipt",
+      "domain": "supply",
+      "seq": "11",
+      "question": "วันนี้รับเข้าจริงจาก SUP เท่าไร เกิน/ขาด PO และมีเอกสารค้าง Voucher หรือไม่",
+      "metric_label": "Receipt Qty / Value / Not Vouchered",
+      "applications": "P55432A4 · P4312",
+      "grain": "PO Line · Receipt OV · Item · Cost · Date · Voucher",
+      "owner": "Purchasing / Store",
+      "status": "EVIDENCE_ONLY",
+      "note": "พบตัวอย่าง Receipt จริงและจับคู่ Cardex แล้ว แต่ยังไม่ใช่ยอดรวมทั้งวัน",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "JDE Live Evidence · 20 Oct 2026",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/52_live_jde_landed_cost_receipt_cardex_verification_20261020.md"
+        }
+      ]
+    },
+    {
+      "id": "inventory",
+      "name": "สต็อกเคลื่อนไหว",
+      "en": "Inventory Movement",
+      "domain": "supply",
+      "seq": "12",
+      "question": "รายการรับ เบิก โอน คืน ปรับยอด เปลี่ยนมูลค่า Store อย่างไร",
+      "metric_label": "Opening / In / Out / Closing / Valuation",
+      "applications": "P4111 · P4105 · P4108",
+      "grain": "Item · Branch · Location · Lot · Date · Cost Method",
+      "owner": "Store / Finance",
+      "status": "EVIDENCE_ONLY",
+      "note": "ยืนยัน Cardex 2 ตัวอย่าง; ยังไม่ได้คำนวณยอดคงเหลือรวมและ Landed Cost",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "JDE Live Evidence · 20 Oct 2026",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/52_live_jde_landed_cost_receipt_cardex_verification_20261020.md"
+        }
+      ]
+    },
+    {
+      "id": "cost",
+      "name": "ต้นทุนการผลิต",
+      "en": "Production Cost",
+      "domain": "finance",
+      "seq": "13",
+      "question": "DM/DL/X3/X4 ค่าเสื่อมและ Landed Cost ถูกปันลงผลิต 1–5 ถูกต้องหรือไม่",
+      "metric_label": "Cost by Component / Variance / Allocation",
+      "applications": "P30026 · P31022 · P41291",
+      "grain": "WO · Cost Type · Branch · Allocation Rule · GL",
+      "owner": "Cost Accounting",
+      "status": "EVIDENCE_ONLY",
+      "note": "ยืนยัน Landed Cost Setup มี Include in Cost = Y แต่ยังไม่รับรอง Posted Cost Allocation",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "JDE Live Evidence · 20 Oct 2026",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/52_live_jde_landed_cost_receipt_cardex_verification_20261020.md"
+        }
+      ]
+    },
+    {
+      "id": "delivery",
+      "name": "จัดส่ง / ติดตั้ง",
+      "en": "Delivery & Install",
+      "domain": "supply",
+      "seq": "14",
+      "question": "จัดส่งสำเร็จ ติดตั้งแล้ว หรือค้างที่เจ้าภาพใด",
+      "metric_label": "Due / Delivered / Installed / Late",
+      "applications": "P4210 · P554801C · Dispatch Evidence (PENDING)",
+      "grain": "Project · SO · Schedule · Delivery Event · Responsible",
+      "owner": "Logistics / Installation",
+      "status": "MAPPED",
+      "note": "ต้องใช้หลักฐานส่งมอบจริง ไม่ใช้ WO 99/9D เท่ากับติดตั้งสำเร็จ",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    },
+    {
+      "id": "gl",
+      "name": "บัญชีและการ Post",
+      "en": "GL / Accounting",
+      "domain": "finance",
+      "seq": "15",
+      "question": "ต้นทุนใด Post/ไม่ Post แล้ว และ WIP, Inventory, AP, GL กระทบยอดได้หรือไม่",
+      "metric_label": "Posted / Unposted / Reconciliation Difference",
+      "applications": "P0911 · P0411 · P31022",
+      "grain": "Batch · Journal · Account · WO · Voucher · Period",
+      "owner": "Accounting / Finance",
+      "status": "MAPPED",
+      "note": "ไม่สรุปต้นทุนจริงจากธุรกรรมที่ยังไม่ Post หรือค่าใช้จ่ายส่วนเพิ่มที่ยังไม่ปัน",
+      "daily_value": null,
+      "unit": null,
+      "record_count": null,
+      "records_certified": false,
+      "as_of": null,
+      "evidence": [
+        {
+          "label": "Application & Report Map",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        }
+      ]
+    }
+  ],
+  "source_evidence": [
+    {
+      "id": "e1",
+      "label": "Cost → Receipt → Cardex, P4111 / P55432A4 / P41291",
+      "status": "PARTIAL",
+      "date": "2026-10-20",
+      "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/52_live_jde_landed_cost_receipt_cardex_verification_20261020.md"
+    },
+    {
+      "id": "e2",
+      "label": "Read-only App / Report Mapping",
+      "status": "MAPPED",
+      "date": "2026-10-15",
+      "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+    },
+    {
+      "id": "e3",
+      "label": "Playwright Popup Guard operational proof",
+      "status": "VERIFIED",
+      "date": "2026-10-20",
+      "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/53_jde_playwright_popup_guard_operational_proof_20261020.md"
+    }
+  ],
+  "controls": {
+    "public_no_raw_transactions": true,
+    "masked_sensitive_business_data": true,
+    "fail_closed_numeric_kpis": true,
+    "per_day_total_requires_full_extract": true,
+    "approval_before_public_metrics": true
+  }
+}

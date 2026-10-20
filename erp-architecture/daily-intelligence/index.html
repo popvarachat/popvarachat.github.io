@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="th">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="#f5f7f8">
+  <meta name="description" content="Practika Daily ERP Intelligence — 15 operational dimensions, evidence coverage, source lineage and daily decision workflow.">
+  <title>Daily ERP Intelligence | Practika</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 48 48%22%3E%3Crect width=%2248%22 height=%2248%22 rx=%2212%22 fill=%22%2311776e%22/%3E%3Ctext x=%2224%22 y=%2233%22 font-size=%2225%22 font-weight=%22bold%22 text-anchor=%22middle%22 fill=%22white%22%3EE%3C/text%3E%3C/svg%3E">
+  <link rel="stylesheet" href="styles.css?v=20261020a">
+</head>
+<body>
+<header class="topbar">
+  <div class="top-left">
+    <a class="back" href="../" title="ERP Architecture Home" aria-label="ERP Architecture Home">←</a>
+    <div class="identity"><span class="brand">PRACTIKA <b>/ ERP INTELLIGENCE</b></span><span class="header-sub">Factory Pulse · 15 Dimensions</span></div>
+  </div>
+  <nav class="quick-links" aria-label="Navigation"><a href="../executive-dashboard.html">Executive</a><a href="../workflow.html">Business Flow</a><a href="../lt-intelligence/">LT</a><a href="../evidence.html">Evidence</a></nav>
+  <div class="top-right"><span class="indicator" aria-hidden="true"></span><span>PUBLIC SAFE · READ ONLY</span></div>
+</header>
+<main class="page">
+  <section class="masthead">
+    <div>
+      <div class="eyebrow">EXECUTIVE OPERATIONS / BUSINESS EVENT INTELLIGENCE</div>
+      <h1>วันนี้ โรงงานเกิดอะไรขึ้น<span>?</span></h1>
+      <p class="subhead">ภาพเดียวมองเห็น 15 กลุ่มข้อมูลทั้งโรงงาน · เลือกกระบวนการแล้วเจาะถึงแหล่ง Report และระดับความน่าเชื่อถือ ไม่แสดงผลลัพธ์สมมติเป็นข้อมูลจริง</p>
+    </div>
+    <div class="mast-right">
+      <span class="quiet-label">วันที่ต้องการตรวจสอบ</span>
+      <div class="date-row"><button class="date-step" id="datePrev" title="วันก่อนหน้า" aria-label="วันก่อนหน้า">‹</button><input id="focusDate" type="date" value="2026-10-20" min="2024-01-01" max="2026-10-20" aria-label="เลือกวันตรวจสอบ"><button class="date-step" id="dateNext" title="วันถัดไป" aria-label="วันถัดไป">›</button></div>
+      <span class="date-foot" id="dateFoot">ประเมินจากข้อมูลใน Data Pool ที่เผยแพร่ได้เท่านั้น</span>
+    </div>
+  </section>
+  <section class="truth-banner" role="status" id="truthBanner">
+    <div class="truth-mark" aria-hidden="true">!</div>
+    <div><b id="truthTitle">กำลังตรวจระดับการรับรองข้อมูล</b><p id="truthText">ตรวจที่มาของข้อมูลก่อนแสดงตัวเลขผลผลิตจริง</p></div>
+    <div class="banner-action"><button id="refreshData" type="button">↻ อัปเดตสถานะ</button></div>
+  </section>
+  <section class="metrics" aria-label="Executive overview">
+    <article class="metric emphasized"><span class="metric-label">ขอบเขตที่ต้องตรวจทุกวัน</span><div class="metric-big" id="totalDomains">15<span class="metric-small"> มิติ</span></div><div class="metric-note">ครอบคลุมตั้งแต่ PR → GL</div></article>
+    <article class="metric"><span class="metric-label">มีหลักฐานธุรกรรม/การตั้งค่า</span><div class="metric-big" id="evidenceCount">—</div><div class="metric-note">หลักฐานบางส่วน ≠ KPI รับรอง</div></article>
+    <article class="metric"><span class="metric-label">KPI รายวันที่ผ่านการรับรอง</span><div class="metric-big" id="certifiedCount">—</div><div class="metric-note">ไม่ถือว่า 0 = ไม่มีธุรกรรม</div></article>
+    <article class="metric"><span class="metric-label">ยังรอการพิสูจน์</span><div class="metric-big" id="pendingCount">—</div><div class="metric-note">แยกรายงาน/สิทธิ์/สูตรที่ขาด</div></article>
+    <article class="metric last"><span class="metric-label">สถานะแหล่งข้อมูล</span><div class="status-main" id="sourceState">CHECKING</div><div class="metric-note" id="asOfValue">—</div></article>
+  </section>
+  <section class="workspace">
+    <div class="work-header">
+      <div><div class="eyebrow">01 / BUSINESS INTELLIGENCE MAP</div><h2>แตะ Node เพื่อขยายความจริงของกระบวนการ</h2><p class="soft">เส้นโค้งคือความสัมพันธ์ของข้อมูลที่ต้องตรวจจับคู่ ไม่ใช่หลักฐานว่าสินค้าทุกงานผ่านขั้นตอนนั้นแล้ว</p></div>
+      <div class="view-switch" role="group" aria-label="เลือกมุมมอง"><button class="chosen" id="mapMode" aria-pressed="true">◇ Workflow</button><button id="gridMode" aria-pressed="false">▤ 15 มิติ</button></div>
+    </div>
+    <div class="work-controls">
+      <div class="filters" role="group" aria-label="ตัวกรองกระบวนการ">
+        <button data-domain="all" class="active">ทั้งหมด <span>15</span></button>
+        <button data-domain="production">Production</button><button data-domain="supply">Supply / Logistics</button>
+        <button data-domain="quality">Quality</button><button data-domain="finance">Accounting</button>
+      </div>
+      <div class="search"><label for="findDim" class="sr-only">ค้นหากระบวนการ</label><span>⌕</span><input id="findDim" placeholder="ค้นหาแผนก / Report / คำถาม..." autocomplete="off"></div>
+    </div>
+    <div class="main-split">
+      <div class="viz-pane">
+        <div class="canvas-tools" id="canvasTools"><span><span class="legend-point has"></span> มีหลักฐานบางส่วน</span><span><span class="legend-point mapped"></span> พบแหล่งข้อมูล</span><span><span class="legend-point unknown"></span> ยังไม่พบแหล่งที่ยืนยัน</span><span class="tool-spacer"></span><button id="zoomOut" title="ย่อ">−</button><b id="zoomPct">100%</b><button id="zoomIn" title="ขยาย">+</button><button id="zoomFit" title="คืนค่า">⤢</button></div>
+        <div class="map-viewport" id="mapViewport" tabindex="0" aria-label="Workflow Intelligence Map — ลากแผนภาพหรือใช้เมาส์เลื่อนเพื่อซูม">
+          <svg id="flowSvg" viewBox="0 0 1220 805" role="img" aria-label="Interactive 15-node process workflow"></svg>
+          <div class="map-tip">ลากเพื่อเลื่อน · หมุนล้อเมาส์เพื่อซูม · คลิก Node เพื่อดูหลักฐาน</div>
+        </div>
+        <div class="grid-view hidden" id="gridView" role="list" aria-label="15 dimensions"></div>
+        <div class="pane-bottom"><span id="graphCount">15 กระบวนการ</span><span>Source metadata: Private JDE Evidence Ledger</span></div>
+      </div>
+      <aside class="inspector" aria-live="polite">
+        <div class="inspector-head"><div class="eyebrow">02 / PROCESS DEEP DIVE</div><span id="inspectorIndex">11 / 15</span></div>
+        <div class="inspector-main" id="inspectorMain"><p>กำลังอ่าน Data Pool…</p></div>
+      </aside>
+    </div>
+  </section>
+  <section class="lower">
+    <article class="panel coverage">
+      <div class="panel-head"><div><div class="eyebrow">03 / DATA RELIABILITY</div><h2>ความพร้อมของ 15 Data Sources</h2></div><span class="small-tag" id="coverageTag">ตรวจสอบสถานะ</span></div>
+      <div class="coverage-body">
+        <div class="coverage-donut" id="coverageDonut"><span id="coverageNum">—</span><small>มีหลักฐานบางส่วน</small></div>
+        <div class="coverage-breakdown" id="coverageBars"></div>
+      </div>
+      <div class="foot-note">สถานะบอก <strong>ระดับหลักฐาน</strong> ไม่ใช่ประสิทธิภาพโรงงาน; KPI ที่ไม่มีข้อมูลต้องคงเป็น “—”</div>
+    </article>
+    <article class="panel lineage">
+      <div class="panel-head"><div><div class="eyebrow">04 / AUDIT TRAIL</div><h2>แหล่งหลักฐาน &amp; Reconciliation</h2></div><a class="small-link" href="../evidence.html">Evidence Explorer ↗</a></div>
+      <div id="evidenceList" class="source-rows"></div>
+      <div class="lineage-strip"><span>JDE Read-only</span><i>→</i><span>Private Staging</span><i>→</i><span>DQ / Reconcile</span><i>→</i><span>Certified Pool</span><i>→</i><span>Dashboard</span></div>
+      <p class="foot-note">การเปิดเผยข้อมูลบน GitHub Pages จำกัดเฉพาะ Metadata ที่ปลอดภัย รายการ WO/SO/ราคา/GL จริงต้องตรวจในสภาพแวดล้อมส่วนตัว</p>
+    </article>
+  </section>
+  <section class="contract panel">
+    <div class="panel-head"><div><div class="eyebrow">05 / DAILY EVENT CONTRACT</div><h2>ตรวจหนึ่งวัน ต้องพิสูจน์อะไรก่อนสรุปว่า “ปกติ”</h2></div><button id="downloadTemplate">↓ ดาวน์โหลดแม่แบบ Data Contract</button></div>
+    <div class="contract-grid">
+      <div class="contract-step"><span>01</span><b>ครบทุกธุรกรรม</b><p>Transaction Date / GL Date / Snapshot cutoff · ไม่ดูแค่หน้าแรก 10 แถว</p></div>
+      <div class="contract-step"><span>02</span><b>จับคู่เอกสาร</b><p>Project · SO · WO · Cutting · Control Plan · PO · Receipt · Cost</p></div>
+      <div class="contract-step"><span>03</span><b>ตรวจการย้อนรายการ</b><p>Reversal · Adjustment · Reject · Rework · Backdate · Unposted</p></div>
+      <div class="contract-step"><span>04</span><b>รับรองโดยเจ้าภาพ</b><p>Owner · As-of · Coverage · Lineage · Quality Passed · Published</p></div>
+    </div>
+  </section>
+  <footer><span>Practika ERP · Daily Intelligence · 20 Oct 2026</span><span id="footerSource">ข้อมูลจริงที่ยังไม่ครบจะไม่ถูกเติมด้วยตัวเลขสมมติ</span><a href="../">↗ ERP Architecture</a></footer>
+</main>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<script src="app.js?v=20261020a" defer></script>
+</body></html>
