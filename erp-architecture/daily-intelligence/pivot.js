@@ -194,7 +194,11 @@
   }
   $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PR/PO Lines · ':nodeData()?.activity_not_backlog?' Receipt Lines · ':' Cutting · ')+fmt(sorted.length)+' Group · '+
    fmt(columns.length)+' แผนก':'ยังไม่สามารถคำนวณยอดงานของ Node นี้';
-  $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: แผนกที่สถานะค้าง';
+  $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: '+(activity?'สโตร์ที่รับเข้าแล้ว (ไม่ใช่แผนกค้าง)':'แผนกที่สถานะค้าง');
+  $('modeDateProject').textContent=activity?'วันรับเข้าจริง → โครงการ':'วันกำหนดส่ง → โครงการ';
+  $('modeProjectDate').textContent=activity?'โครงการ → วันรับเข้าจริง':'โครงการ → วันกำหนดส่ง';
+  $('rowMode').options[0].textContent=activity?'Group: วันรับเข้าจริง → Sub Group: โครงการ':'Group: วันที่กำหนดส่ง → Sub Group: โครงการ';
+  $('rowMode').options[1].textContent=activity?'Group: โครงการ → Sub Group: วันรับเข้าจริง':'Group: โครงการ → Sub Group: วันที่';
   $('modeDateProject').classList.toggle('mode-active',isDateFirst);
   $('modeProjectDate').classList.toggle('mode-active',!isDateFirst);
   $('modeDateProject').setAttribute('aria-pressed',String(isDateFirst));
