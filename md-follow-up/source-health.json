@@ -1,7 +1,7 @@
 {
   "schema": 2,
-  "generated_at": "2026-10-21T01:56:30+00:00",
-  "mode": "manual",
+  "generated_at": "2026-10-21T01:59:29+00:00",
+  "mode": "auto",
   "sources": {
     "cb": {
       "status": "ok",
@@ -24,49 +24,43 @@
       }
     },
     "ics": {
-      "status": "stale",
-      "checked_at": "2026-10-21T01:35:35+00:00",
-      "size_bytes": 56255710,
-      "file_modified": "2026-10-14T02:39:55+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:59:29+00:00",
+      "size_bytes": 56324405,
+      "file_modified": "2026-10-20T03:10:19+00:00",
       "unit": "gate_rows",
-      "total": 851,
+      "total": 859,
       "status_counts": {
-        "blank": 490,
-        "สำเร็จ": 284,
-        "ระหว่างดำเนินการ": 77
-      },
-      "last_attempt": "2026-10-21T01:56:30+00:00",
-      "error": "FileNotFoundError"
+        "blank": 495,
+        "สำเร็จ": 288,
+        "ระหว่างดำเนินการ": 76
+      }
     },
     "icf": {
-      "status": "stale",
-      "checked_at": "2026-10-21T01:35:36+00:00",
-      "size_bytes": 39640654,
-      "file_modified": "2026-10-19T01:22:46+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:59:30+00:00",
+      "size_bytes": 39643703,
+      "file_modified": "2026-10-20T03:58:13+00:00",
       "unit": "gate_rows",
-      "total": 635,
+      "total": 647,
       "status_counts": {
-        "blank": 315,
-        "สำเร็จ": 247,
-        "ระหว่างดำเนินการ": 73
-      },
-      "last_attempt": "2026-10-21T01:56:30+00:00",
-      "error": "FileNotFoundError"
+        "blank": 320,
+        "สำเร็จ": 252,
+        "ระหว่างดำเนินการ": 75
+      }
     },
     "ice": {
-      "status": "stale",
-      "checked_at": "2026-10-21T01:35:37+00:00",
-      "size_bytes": 24791985,
-      "file_modified": "2026-10-14T03:02:32+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:59:30+00:00",
+      "size_bytes": 24790835,
+      "file_modified": "2026-10-20T04:01:11+00:00",
       "unit": "gate_rows",
-      "total": 239,
+      "total": 250,
       "status_counts": {
-        "blank": 96,
-        "สำเร็จ": 124,
+        "blank": 102,
+        "สำเร็จ": 129,
         "ระหว่างดำเนินการ": 19
-      },
-      "last_attempt": "2026-10-21T01:56:30+00:00",
-      "error": "FileNotFoundError"
+      }
     },
     "innovation": {
       "status": "ok",
@@ -99,14 +93,13 @@
   },
   "batch": {
     "ok": [
-      "cb"
-    ],
-    "failed": [
+      "cb",
       "ics",
       "icf",
       "ice"
     ],
+    "failed": [],
     "total": 4,
-    "successful": 1
+    "successful": 4
   }
 }
