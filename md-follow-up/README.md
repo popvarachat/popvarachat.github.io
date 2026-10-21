@@ -136,3 +136,17 @@ Do not add private JSON or local source paths to public GitHub.
 ### Interactive W-drive scan context
 - The GitHub Pivot scan button triggers the existing MD-FollowUp-Safe-Refresh Windows Scheduled Task. This reuses the task's interactive mapped W: drive context, which differs from the localhost web server process.
 - Results show four W: source statuses and keep Planner and Innovation explicitly unscanned; the private pivot is rebuilt before the browser reloads it. No public row-level records are committed.
+
+
+## Clickable source health cards
+- The six public Source Health cards now open a source-specific inspector.
+- Source inspector shows date, project, stage, named individual, source status,
+  owner evidence, deadlines, source latest-check timestamp and page navigation.
+- Source card click also sets the underlying Pivot source to that group and
+  enables all statuses + all stages for complete source-level inspection.
+- Rows open the existing private Stage trace for the clicked work. Files are
+  never published to GitHub; private details come from the NB viewer or a
+  user-selected authorized JSON file in browser memory.
+- If the private source is not connected, show an informative empty state,
+  not a fabricated list. Cloud source timestamps remain visible, including
+  stale Planner/Innovation snapshots.

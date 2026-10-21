@@ -5,7 +5,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="data:,">
 <title>MD Work Tracking | Pivot Dashboard · GitHub Web</title>
-<link rel="stylesheet" href="./pivot.css?v=manual-scan-20261021a"><script defer src="./pivot.js?v=manual-scan-20261021a"></script>
+<link rel="stylesheet" href="./pivot.css?v=source-cards-20261021"><script defer src="./pivot.js?v=source-cards-20261021"></script>
 </head>
 <body>
 <main class="app">
@@ -37,6 +37,30 @@
   </div>
  </div>
  </section>
+<section id="sourceDetail" class="panel source-drill" hidden>
+  <div class="panelhead source-drill-head">
+    <div><div class="eyebrow">SOURCE INSPECTOR / PRIVATE WORK RECORDS</div><h2 id="sourceDetailTitle">รายละเอียดแหล่งข้อมูล</h2>
+      <div id="sourceDetailMeta" class="desc">คลิกกล่องแหล่งข้อมูลเพื่อดูรายการจริง</div>
+    </div><div class="actions"><button type="button" class="ghost" id="sourceDetailClose">✕ ปิดรายละเอียด</button></div>
+  </div>
+  <div id="sourceDetailStats" class="source-detail-stats"></div>
+  <div id="sourceDetailNote" class="source-detail-note"></div>
+  <div class="source-detail-filters">
+    <label class="field"><span>ค้นหางาน / Stage / เจ้าภาพ</span><input id="sourceDetailSearch" type="search" placeholder="ค้นหาเฉพาะแหล่งนี้…"></label>
+    <label class="field"><span>กรองสถานะ</span><select id="sourceDetailStatus">
+      <option value="all">ทุกสถานะ</option><option value="open">ที่ยังเปิด</option>
+      <option value="closed">ปิดตามทะเบียน</option><option value="late">ผ่านวันกำหนดในตาราง</option>
+      <option value="missing">ยังไม่ระบุเจ้าภาพรายบุคคล</option>
+    </select></label>
+  </div>
+  <div class="source-detail-tablewrap"><table class="source-detail-table">
+    <thead><tr><th>กำหนดส่ง</th><th>งาน / โครงการ</th><th>Stage / งานที่ค้าง</th><th>เจ้าภาพรายบุคคล</th><th>สถานะต้นทาง</th><th>กำหนดส่ง / ความเสี่ยง</th></tr></thead>
+    <tbody id="sourceDetailRows"><tr><td colspan="6">รอเชื่อมข้อมูลจาก NB…</td></tr></tbody>
+  </table></div>
+  <div class="source-detail-pager"><span id="sourceDetailPageInfo"></span>
+    <div class="actions"><button type="button" class="ghost" id="sourceDetailPrev">← ก่อนหน้า</button><button type="button" class="ghost" id="sourceDetailNext">ถัดไป →</button></div>
+  </div>
+</section>
 <section class="metrics" id="kpis" aria-label="สรุปจำนวนงาน">
   <div class="metric">รอเชื่อมข้อมูลส่วนบุคคล</div>
 </section>

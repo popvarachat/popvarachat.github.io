@@ -240,13 +240,122 @@ $("query").addEventListener("input",()=>{clearTimeout(window.qdeb);window.qdeb=s
 $("expandAll").onclick=()=>setExpand("all");$("expandMonth").onclick=()=>setExpand("month");$("collapseAll").onclick=()=>setExpand("none");$("downloadCsv").onclick=exportCsv;
 
 const sourceHealthEndpoint="./source-health.json";
+let sourceMetadata={}, selectedSource=null, sourceDetailRows=[], sourceDetailPage=0;
+const SOURCE_PAGE_SIZE=60;
+const sourceTitles={cb:"Check Board",ics:"ICS",icf:"ICF",ice:"ICE / EDU",innovation:"นวัตกรรม",planner:"Planner / Todo"};
 function renderPublicSnapshot(snap){
-  const namesSafe={cb:"Check Board",ics:"ICS",icf:"ICF",ice:"ICE / EDU",innovation:"นวัตกรรม",planner:"Planner"};
-  const holder=$("cloudSources");
-  holder.innerHTML=Object.entries(snap.sources||{}).map(([name,src])=>
-    '<div class="source-stat"><b>'+escapeHtml(namesSafe[name]||name)+'</b><strong>'+escapeHtml(Number.isFinite(src.total)?src.total.toLocaleString("th-TH"):"—")+'</strong><small>'+escapeHtml(src.status==="ok"?"ตรวจสอบข้อมูลแล้ว":"ข้อมูลยังไม่พร้อม")+'</small></div>'
-  ).join("");
+ sourceMetadata=snap.sources||{};
+ const holder=$("cloudSources");
+ holder.innerHTML=Object.entries(sourceMetadata).map(([key,src])=>{
+  const date=src.checked_at||src.last_verified||src.last_checked||null;
+  const timestamp=date?new Date(date).toLocaleString("th-TH"):"ไม่มีเวลาตรวจยืนยัน";
+  return '<button type="button" class="source-stat source-stat-action'+(selectedSource===key?" active":"")+'" data-source-card="'+escapeHtml(key)+'" aria-pressed="'+(selectedSource===key)+'" title="เปิดรายการ '+escapeHtml(sourceTitles[key]||key)+'">'+
+   '<b>'+escapeHtml(sourceTitles[key]||key)+'</b><strong>'+escapeHtml(Number.isFinite(src.total)?src.total.toLocaleString("th-TH"):"—")+'</strong>'+
+   '<small>'+escapeHtml(src.status==="ok"?"ตรวจสอบข้อมูลแล้ว":"ข้อมูลเก่าหรือยังไม่พร้อม")+'</small>'+
+   '<span class="source-card-more">ดูรายละเอียด ↗</span></button>';
+ }).join("");
+ if(selectedSource)renderSourceDetail();
 }
+function sourceStageSort(a,b){
+ const late=x=>x.deadline_state==="ผ่านกำหนดตามตาราง"&&!x.closed?0:x.deadline_state==="ครบกำหนดวันนี้"&&!x.closed?1:x.due_iso?2:3;
+ return late(a)-late(b)||
+  (a.due_iso||"9999-12-31").localeCompare(b.due_iso||"9999-12-31")||
+  (a.project||"").localeCompare(b.project||"","th")||
+  (a.stage_index||0)-(b.stage_index||0);
+}
+function renderSourceDetail(){
+ if(!selectedSource)return;
+ const pane=$("sourceDetail");
+ pane.hidden=false;
+ const rows=all.filter(r=>r.source===selectedSource);
+ const health=sourceMetadata[selectedSource]||{};
+ const name=sourceTitles[selectedSource]||selectedSource;
+ $("sourceDetailTitle").textContent=name+" — รายการและ Stage ทั้งหมด";
+ const checked=health.checked_at||health.last_verified||health.last_checked||null;
+ const checkedText=checked?new Date(checked).toLocaleString("th-TH"):"ไม่มีเวลาตรวจรับล่าสุด";
+ $("sourceDetailMeta").textContent="ต้นทาง "+name+" · "+(health.total??"—")+" หน่วยนับตาม Source Health · ตรวจครั้งล่าสุด "+checkedText;
+ const pending=rows.filter(x=>!x.closed);
+ const metrics=[
+ ["จำนวน Stage ที่อ่านได้",rows.length],
+ ["จำนวนงานไม่ซ้ำภายในทะเบียน",new Set(rows.map(x=>x.work_key)).size],
+ ["Stage ยังเปิด",pending.length],
+ ["Stage ผ่านวันกำหนดในตาราง",pending.filter(x=>x.deadline_state==="ผ่านกำหนดตามตาราง").length],
+ ["Stage ยังไม่มีชื่อเจ้าภาพ",pending.filter(x=>x.owner_kind==="missing").length]
+ ];
+ $("sourceDetailStats").innerHTML=metrics.map(([n,v])=>'<div class="source-stat-metric"><small>'+escapeHtml(n)+'</small><strong>'+Number(v).toLocaleString("th-TH")+'</strong></div>').join("");
+ let caution=selectedSource==="cb"?"CB: วันโอนตามแผนไม่ยืนยันว่าโอนช้าจริง และต้องตรวจใบโอน":"";
+ if(["ics","icf","ice"].includes(selectedSource))caution="ICS/ICF/ICE: วันที่ทำงานไม่ใช่ Stage Due ที่รับรองแล้ว จึงไม่ตัดสินว่าเลยกำหนดจากคอลัมน์นั้น";
+ if(["innovation","planner"].includes(selectedSource))caution="Cloud: ใช้ Snapshot ล่าสุดที่ได้รับ ไม่ได้ตรวจไฟล์ Cloud ใหม่จากปุ่ม Scan W:";
+ $("sourceDetailNote").textContent=(payload?"มีข้อมูลรายรายการจาก Private Viewer บนเครื่องนี้":"ยังไม่เชื่อมข้อมูลรายรายการ: เปิดผ่าน NB หรือเลือกไฟล์ Pivot ที่ได้รับอนุญาต")+" · "+caution;
+ const query=$("sourceDetailSearch").value.trim().toLocaleLowerCase(),kind=$("sourceDetailStatus").value;
+ sourceDetailRows=rows.filter(r=>
+  (!query||[r.project,r.stage,r.owner_person,r.owner_raw,r.row_id,r.work_key].join(" ").toLocaleLowerCase().includes(query))&&
+  (kind==="all"||kind==="open"&&!r.closed||kind==="closed"&&r.closed||
+   kind==="late"&&!r.closed&&r.deadline_state==="ผ่านกำหนดตามตาราง"||
+   kind==="missing"&&!r.closed&&r.owner_kind==="missing")
+ ).sort(sourceStageSort);
+ renderSourceRowsPage();
+ for(const card of $("cloudSources").querySelectorAll("[data-source-card]")){
+  const pressed=card.dataset.sourceCard===selectedSource;
+  card.classList.toggle("active",pressed);
+  card.setAttribute("aria-pressed",String(pressed));
+ }
+}
+function renderSourceRowsPage(){
+ const start=sourceDetailPage*SOURCE_PAGE_SIZE;
+ if(start>=sourceDetailRows.length&&start>0){sourceDetailPage=0;return renderSourceRowsPage();}
+ const rows=sourceDetailRows.slice(start,start+SOURCE_PAGE_SIZE);
+ $("sourceDetailRows").innerHTML=rows.length?rows.map((r,i)=>
+  '<tr data-source-row="'+(start+i)+'" tabindex="0" title="คลิกดู Stage ทั้งสาย">'+
+  '<td>'+escapeHtml(r.due||r.due_iso||"—")+'</td>'+
+  '<td><strong>'+escapeHtml(r.project||r.work_key)+'</strong><small>'+escapeHtml(r.row_id||"")+'</small></td>'+
+  '<td>'+escapeHtml(r.stage||"ยังไม่ระบุ")+'<small>Stage '+escapeHtml(r.stage_index||1)+'/'+escapeHtml(r.stage_total||1)+'</small></td>'+
+  '<td><strong>'+escapeHtml(r.owner_person||"ยังไม่ระบุเจ้าภาพรายบุคคล")+'</strong>'+
+    '<small>'+escapeHtml(r.owner_kind==="missing"?"ต้นทาง: "+(r.owner_raw||"ไม่ระบุ"):r.owner_evidence||"จากข้อมูลต้นทาง")+'</small></td>'+
+  '<td>'+escapeHtml(r.status||"ไม่ระบุ")+'</td>'+
+  '<td class="'+(r.deadline_state==="ผ่านกำหนดตามตาราง"?"source-overdue":"")+'">'+escapeHtml(r.deadline_state||"ยังไม่ตรวจรับ")+'</td></tr>'
+ ).join(""):'<tr><td colspan="6" class="empty">ไม่มีรายการภายใต้เงื่อนไขนี้'+(!payload?" · ต้องเชื่อมข้อมูล Private Viewer ก่อน":"")+'</td></tr>';
+ $("sourceDetailPageInfo").textContent="แสดง "+(sourceDetailRows.length?(start+1):0)+"–"+Math.min(start+SOURCE_PAGE_SIZE,sourceDetailRows.length)+" / "+sourceDetailRows.length.toLocaleString("th-TH")+" Stage";
+ $("sourceDetailPrev").disabled=sourceDetailPage===0;
+ $("sourceDetailNext").disabled=start+SOURCE_PAGE_SIZE>=sourceDetailRows.length;
+}
+function openSourceRecord(r){
+ const n=[...nodeMap.values()].find(n=>n.type==="work"&&n.items.some(i=>i.work_key===r.work_key));
+ if(n){showDrill(n.key,"__all__");renderTimeline(r);return;}
+ $("sourceDetailNote").textContent="รายการนี้ไม่ได้อยู่ในแถว Pivot ตามตัวกรองปัจจุบัน กรุณาเลือกแหล่งข้อมูลอีกครั้ง";
+}
+function selectSourceCard(key){
+ if(!["cb","ics","icf","ice","innovation","planner"].includes(key))return;
+ selectedSource=key;sourceDetailPage=0;
+ $("sourceDetailSearch").value="";$("sourceDetailStatus").value="all";
+ $("source").value=key;$("status").value="all";$("stageOnly").checked=false;
+ $("dueFilter").value="all";$("ownerFilter").value="";$("query").value="";
+ if(payload)refresh();
+ renderSourceDetail();
+ $("sourceDetail").scrollIntoView({behavior:"smooth",block:"start"});
+}
+$("cloudSources").addEventListener("click",e=>{
+ const card=e.target.closest("[data-source-card]");
+ if(card)selectSourceCard(card.dataset.sourceCard);
+});
+$("sourceDetailClose").addEventListener("click",()=>{
+ selectedSource=null;$("sourceDetail").hidden=true;
+ $("cloudSources").querySelectorAll("[data-source-card]").forEach(x=>{x.classList.remove("active");x.setAttribute("aria-pressed","false")});
+});
+$("sourceDetailSearch").addEventListener("input",()=>{sourceDetailPage=0;renderSourceDetail()});
+$("sourceDetailStatus").addEventListener("change",()=>{sourceDetailPage=0;renderSourceDetail()});
+$("sourceDetailPrev").addEventListener("click",()=>{sourceDetailPage=Math.max(0,sourceDetailPage-1);renderSourceRowsPage()});
+$("sourceDetailNext").addEventListener("click",()=>{sourceDetailPage++;renderSourceRowsPage()});
+$("sourceDetailRows").addEventListener("click",e=>{
+ const row=e.target.closest("[data-source-row]");
+ if(row)openSourceRecord(sourceDetailRows[Number(row.dataset.sourceRow)]);
+});
+$("sourceDetailRows").addEventListener("keydown",e=>{
+ if(e.key!=="Enter"&&e.key!==" ")return;
+ const row=e.target.closest("[data-source-row]");
+ if(row){e.preventDefault();openSourceRecord(sourceDetailRows[Number(row.dataset.sourceRow)])}
+});
+
 fetch(sourceHealthEndpoint,{cache:"no-store"})
   .then(r=>r.ok?r.json():Promise.reject(new Error("Source metadata unavailable")))
   .then(renderPublicSnapshot)
@@ -263,6 +372,7 @@ function loadPrivatePivot(j,automatic=false){
   payload=j;all=j.rows;
   expanded=new Set();opened=false;
   renderSourceCounts();refresh();
+  if(selectedSource)renderSourceDetail();
   $("dataConnection").classList.add("loaded");
   $("importStatus").textContent=(automatic?"เชื่อมข้อมูลจริงจาก Notebook อัตโนมัติแล้ว":"โหลดรายงานสำเร็จจากไฟล์")+" · "+j.rows.length.toLocaleString("th-TH")+" ขั้นตอน · ณ "+new Date(j.updated).toLocaleString("th-TH")+" · ทำงานใน Browser เท่านั้น";
   if(!automatic)$("pivotScroll").scrollIntoView({behavior:"smooth",block:"start"});
