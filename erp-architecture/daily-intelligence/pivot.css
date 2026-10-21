@@ -38,3 +38,19 @@
  .group-help{flex-basis:100%;margin:0}
  .matrixwrap{max-height:520px}
 }
+
+/* 15-node source evidence ledger — distinction between business event data and pending work */
+.audit-selected{border:1px solid #d6e4e0;background:#f6faf9;border-radius:12px;padding:15px 18px;margin:4px 0 15px}
+.audit-selected b{display:block;font-weight:850;font-size:13px;color:#17685e;margin-bottom:8px}
+.audit-selected p{margin:5px 0;color:#385b60;font-size:12px;line-height:1.6}
+.audit-selected small{font-size:10px;color:#7a8f94}
+.audit-wrap{max-height:525px;overflow:auto}
+.audit-table{width:100%;min-width:890px;border-collapse:separate;border-spacing:0}
+.audit-table thead th{position:sticky;top:0;z-index:2;background:#e5f0ed;text-align:left}
+.audit-table td{font-size:11px;white-space:normal!important;vertical-align:top;line-height:1.55;padding:10px!important}
+.audit-table .audit-record.selected td{background:#e9f5ef}
+.audit-table td button{padding:3px 5px;color:#0c7770;background:transparent;border:none;box-shadow:none;font-size:11px;font-weight:750;text-align:left;white-space:normal}
+.audit-table td button:hover{background:transparent;text-decoration:underline}
+.audit-table small{display:block;color:#839596;font-size:9px;margin-top:3px}
+.audit-table .audit-num{text-align:center;font-weight:900}
+.audit-footnote{font-size:10px;line-height:1.5;margin:12px 0 0}
