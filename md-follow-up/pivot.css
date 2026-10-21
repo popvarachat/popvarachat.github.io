@@ -36,3 +36,8 @@
 #connectionState.connected{background:#e2f6eb;color:#196c4c;border-color:#8cd9b5}
 #syncNow{border:1px solid #4fa4ab;background:#e6f7f5;border-radius:7px;padding:8px 11px;color:#17677a;font-size:11px;font-weight:750}
 #syncNow:hover{background:#d1f0ee}
+
+#scanSources{border:1px solid #155d6a;background:#1c6b79;color:#fff;font-weight:800;font-size:11px;padding:9px 12px;border-radius:7px}
+#scanSources:hover{background:#0f5868}
+#scanSources:disabled{opacity:.5;cursor:progress}
+#scanStatus{margin-top:10px;padding:9px 11px;font-size:11px;line-height:1.65;color:#326276;background:#eaf6f9;border-left:3px solid #70bdc6;border-radius:5px}

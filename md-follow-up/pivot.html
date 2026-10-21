@@ -5,7 +5,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="data:,">
 <title>MD Work Tracking | Pivot Dashboard · GitHub Web</title>
-<link rel="stylesheet" href="./pivot.css?v=auto20261019b"><script defer src="./pivot.js?v=auto20261019b"></script>
+<link rel="stylesheet" href="./pivot.css?v=manual-scan-20261021a"><script defer src="./pivot.js?v=manual-scan-20261021a"></script>
 </head>
 <body>
 <main class="app">
@@ -29,7 +29,9 @@
     <div class="loader-actions">
       <label class="loadbtn" for="pivotFile"><span>เลือกไฟล์ MD Pivot JSON</span><input id="pivotFile" type="file" accept=".json,application/json"></label>
       <a class="open-private" href="http://127.0.0.1:8766/pivot.html" target="_blank" rel="noopener noreferrer">เปิดรายงานสดบน NB ↗</a>
-    </div><div class="sync-panel"><span id="connectionState">CONNECTING NB…</span><button type="button" id="syncNow">รีเฟรชข้อมูลจาก NB ↻</button></div>
+    </div><div class="sync-panel"><span id="connectionState">CONNECTING NB…</span><button type="button" id="syncNow">รีเฟรชข้อมูลจาก NB ↻</button>
+      <button type="button" id="scanSources">Scan W: 4 แหล่ง + Update Pivot ↻</button></div>
+    <div id="scanStatus" role="status" aria-live="polite">สแกนต้นทางใหม่: Check Board · ICS · ICF · ICE | Planner และนวัตกรรมตรวจ Cloud แยกต่างหาก</div>
     <div id="importStatus" role="status" aria-live="polite">กำลังเชื่อม Private Viewer บน Notebook อัตโนมัติ…</div>
     <div class="safe-msg">⚠ GitHub Pages เป็นเว็บสาธารณะ ไม่ควรนำข้อมูลส่วนบุคคลมาฝังใน Repository · ไฟล์ที่เลือกใช้แค่ในหน้านี้ ไม่ส่งกลับเซิร์ฟเวอร์</div>
   </div>

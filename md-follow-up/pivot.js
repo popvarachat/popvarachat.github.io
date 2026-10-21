@@ -290,6 +290,48 @@ async function syncWithNotebook(){
   }finally{localSyncRunning=false;}
 }
 $("syncNow").addEventListener("click",()=>{privateFileSelected=false;syncWithNotebook()});
+const localScanEndpoint="http://127.0.0.1:8766/scan-sources";
+const localScanStatus="http://127.0.0.1:8766/scan-status";
+let scanningSources=false;
+function describeScan(d){
+  const groups={cb:"CB",ics:"ICS",icf:"ICF",ice:"ICE"};
+  if(d.state==="running")return "กำลังสแกนไฟล์ต้นทางบน W: … เริ่ม "+new Date(d.started_at).toLocaleTimeString("th-TH")+" (Planner/นวัตกรรมยังไม่ถูกสแกน)";
+  if(d.state==="success")return "Scan W: สำเร็จ 4/4 · "+Object.entries(d.sources||{}).map(([k,v])=>(groups[k]||k)+" "+(v==="ok"?"✓":"!")).join(" · ")+" · อัปเดต Pivot แล้ว (Cloud สองแหล่งไม่ได้สแกน)";
+  if(d.state==="partial_or_failed"||d.state==="error")return "Scan ยังไม่ครบ · "+(d.message||"")+". ตรวจ NB Collector Audit";
+  return "พร้อมสแกน W: 4 แหล่ง · Cloud อีก 2 แหล่งติดตามแยกต่างหาก";
+}
+async function scanSourceFiles(){
+  if(scanningSources)return;
+  scanningSources=true;
+  const btn=$("scanSources"),statusEl=$("scanStatus");
+  btn.disabled=true;
+  privateFileSelected=false;
+  statusEl.textContent="กำลังส่งคำสั่งสแกนไฟล์จริงจาก NB…";
+  try{
+    const start=await fetch(localScanEndpoint,{
+      method:"POST",mode:"cors",credentials:"omit",
+      headers:{"Content-Type":"application/json"},
+      body:"{}",cache:"no-store",signal:AbortSignal.timeout(8000)});
+    const begin=await start.json();
+    if(start.status!==202 && start.status!==409)throw Error("Scan request "+start.status);
+    statusEl.textContent=describeScan(begin);
+    let final=null;
+    for(let n=0;n<180;n++){
+      await new Promise(r=>setTimeout(r,2000));
+      const req=await fetch(localScanStatus,{mode:"cors",credentials:"omit",cache:"no-store",signal:AbortSignal.timeout(8000)});
+      if(!req.ok)throw Error("Scan status "+req.status);
+      const obj=await req.json();
+      statusEl.textContent=describeScan(obj);
+      if(obj.state!=="running"){final=obj;break;}
+    }
+    if(!final)throw Error("Scan still processing: timeout 6 min");
+    if(final.state==="success")await syncWithNotebook();
+  }catch(error){
+    statusEl.textContent="สแกนต้นทางไม่ได้ ("+error.message+") · โปรดตรวจว่าเปิดเว็บบน NB และ Private Viewer ยังทำงาน";
+  }finally{scanningSources=false;btn.disabled=false;}
+}
+$("scanSources").addEventListener("click",scanSourceFiles);
+
 $("pivotFile").addEventListener("change",async e=>{
   const file=e.target.files&&e.target.files[0];if(!file)return;
   const area=$("importStatus");area.textContent="กำลังอ่าน "+file.name+"…";

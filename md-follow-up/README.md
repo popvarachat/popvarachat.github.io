@@ -123,3 +123,12 @@ Do not add private JSON or local source paths to public GitHub.
 - Browser refresh checks every 5 minutes while the page is visible; the NB W drive collector continues its 60-minute snapshots.
 - On other devices the private NB loopback is not accessible: show a connection warning and allow a locally selected authorised JSON file. A cross-device live API will require authenticated enterprise infrastructure.
 - NB private server permits Origin https://popvarachat.github.io only for the pivot.json resource, rejects other web origins, and remains bound to 127.0.0.1.
+
+## Click-to-scan W: from GitHub Pivot (NB browser only)
+- Scan W: 4 sources + Update Pivot is a manual POST from public GitHub HTML
+  to localhost /scan-sources, accepted only from approved GitHub Pages origin.
+  Fixed command, zero caller-controlled paths or arguments.
+- This triggers an authorized read-only scan of CB, ICS, ICF, ICE on W:,
+  rebuilds private records and Pivot, and merges safe aggregate metadata.
+- The button does not crawl Planner / Innovation cloud sources.
+- Other devices need a separately authenticated intranet API to scan on NB.
