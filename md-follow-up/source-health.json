@@ -75,20 +75,22 @@
     },
     "planner": {
       "status": "ok",
-      "provider": "Microsoft Planner (connected Teams / Graph read-only)",
+      "provider": "Microsoft Graph read-only via authorized NB Azure CLI",
       "unit": "tasks",
       "total": 38,
       "open": 29,
       "completed": 9,
       "in_progress": 24,
       "not_started": 5,
-      "open_without_assignment": 26,
       "all_without_assignment": 35,
+      "open_without_assignment": 26,
       "overdue_open": 12,
       "open_due_today": 0,
       "open_without_due_date": 4,
-      "checked_at": "2026-10-21T08:28:11.401Z",
-      "basis": "Read directly from Microsoft Graph via connected Teams Planner; no task names published."
+      "checked_at": "2026-10-21T08:41:41.508298+00:00",
+      "details_checked": 38,
+      "details_unavailable": 0,
+      "basis": "Planner plan tasks via Microsoft Graph; no task names or owners published."
     }
   },
   "batch": {
