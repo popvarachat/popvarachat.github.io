@@ -106,7 +106,8 @@
  function renderMatrix(){
   const rows=filteredRows(),columns=rows?departmentList(rows):[];
   const isDateFirst=state.rowMode==='date_project';
-  const groupName=isDateFirst?'กำหนดส่ง':'โครงการ',subName=isDateFirst?'ชื่อโครงการ':'กำหนดส่ง';
+  const projectLabel=state.node==='purchase'?'โครงการ / อ้างอิง (รอตรวจ)':'ชื่อโครงการ';
+  const groupName=isDateFirst?'กำหนดส่ง':projectLabel,subName=isDateFirst?projectLabel:'กำหนดส่ง';
   const colspan=columns.length+3;
   const groups=new Map(),grand=new Map();
   if(rows){
@@ -204,7 +205,7 @@
   const namedProject=r?sumWeight(r.filter(x=>x.project&&x.project!=='ยังไม่พบชื่อโครงการ')):0;
   const namedCustomer=r?sumWeight(r.filter(x=>Boolean(x.customer))):0;
   $('nodeTitle').textContent=d.name;
-  $('matrixHeading').textContent=d.name+' · '+(state.node==='purchase'?'PO Open · Original Promise Date × จัดซื้อ (เบื้องต้น)':'วันที่ / โครงการ × แผนกที่ค้าง');
+  $('matrixHeading').textContent=d.name+' · '+(state.node==='purchase'?'PR / PO · Request/Promise Date × จุดติดตาม (เบื้องต้น)':'วันที่ / โครงการ × แผนกที่ค้าง');
   $('sourceLine').textContent=(state.node==='purchase'?'P5543007 (PR Inquiry) + P4338 (PO Detail) · ':'')+d.applications+' · '+(p?p.due_field:'ไม่มี Transaction Pivot Extract ของ Node นี้')+' · Source Snapshot '+date;
   $('dueSource').textContent=conf[state.node]?.[0]||d.grain;
   $('ownerSource').textContent=conf[state.node]?.[1]||d.owner;
