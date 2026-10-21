@@ -20,7 +20,7 @@
   delivery:['นัดส่งมอบ / Install Appointment / Due ของโครงการ','Delivery / Installation / Customer Confirmation ตาม Event ล่าสุด'],
   gl:['Batch Posting Cutoff / Period Close Due','Accounting / AP / Finance Approver ที่ยังไม่ Post/Reconcile']
  };
- const state={ds:null,pub:null,priv:null,node:'wip',grain:'month',year:'2026',month:'',query:'',scope:'open',rowMode:'project',projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35};
+ const state={ds:null,pub:null,priv:null,node:'wip',grain:'day',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35};
  const nodeIds=['transfer','output','material','labor','quality','rework','scrap','wip','machine','purchase','receipt','inventory','cost','delivery','gl'];
  let toastTimeout;
  function message(s){$('toast').textContent=s;$('toast').classList.add('on');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').classList.remove('on'),2500);}
@@ -35,7 +35,7 @@
  function datesForNode(){const rows=datasetRows();if(!rows)return ['2026'];return [...new Set(rows.map(x=>x.due?.slice(0,4)).filter(Boolean))].sort();}
  function setOptions(id,items,selected){const el=$(id);el.innerHTML=items.map(x=>'<option value="'+escape(x[0])+'">'+escape(x[1])+'</option>').join('');el.value=selected;}
  function setupYears(){const years=datesForNode();const current=years.includes(state.year)?state.year:(years[years.length-1]||'2026');state.year=current;setOptions('year',[['','ทุกปี'],...years.map(x=>[x,x])],current);setOptions('month',[['','ทุกเดือน'],...Array.from({length:12},(_,i)=>[String(i+1).padStart(2,'0'),String(i+1).padStart(2,'0')])],state.month);}
- function choose(id){if(!dim(id))return;state.node=id;state.cell=null;state.page=1;state.year='2026';state.month='';state.query='';state.projectFilter='';state.customerFilter='';$('search').value='';const url=new URL(location.href);url.searchParams.set('node',id);history.replaceState(null,'',url.pathname+url.search);renderAll(true);}
+ function choose(id){if(!dim(id))return;state.node=id;state.cell=null;state.page=1;state.year='2026';state.month='';state.query='';state.projectFilter='';state.customerFilter='';state.collapsed.clear();state.groupDefaultApplied=false;$('search').value='';const url=new URL(location.href);url.searchParams.set('node',id);history.replaceState(null,'',url.pathname+url.search);renderAll(true);}
  function renderNav(){const dims=state.ds?.dimensions||[];$('nodeNav').innerHTML=dims.map(d=>'<button type="button" data-node="'+escape(d.id)+'" class="'+(d.id===state.node?'selected':'')+'" aria-current="'+(d.id===state.node?'page':'false')+'"><span>'+escape(d.seq)+'</span>'+escape(d.name)+'</button>').join('');$('nodeNav').querySelectorAll('button').forEach(x=>x.onclick=()=>choose(x.dataset.node));setOptions('nodeSelect',dims.map(x=>[x.id,x.name+' · '+x.en]),state.node)}
  function syncFacets(){
   const rows=datasetRows()||[];
@@ -61,46 +61,142 @@
   const yr=state.year||'2026',month=state.month||'10',count=new Date(Number(yr),Number(month),0).getDate();
   return Array.from({length:count},(_,i)=>yr+'-'+month+'-'+String(i+1).padStart(2,'0'));
  }
- function rowGroupKey(r){
-  const dep=r.department_code||r.department||'unknown';
-  if(state.rowMode==='customer')return JSON.stringify([r.customer||'ยังไม่พบชื่อลูกค้า',r.project||'ยังไม่พบชื่อโครงการ',dep]);
-  if(state.rowMode==='project')return JSON.stringify([r.project||'ยังไม่พบชื่อโครงการ',dep]);
-  return dep;
+
+ // Vertical Group/Sub Group switch. Departments are always horizontal columns.
+ const NO_DATE='ไม่ระบุวัน',NO_PROJECT='ยังไม่พบชื่อโครงการ';
+ function groupParts(row){
+  const date=bucket(row.due),project=row.project||NO_PROJECT;
+  return state.rowMode==='date_project'?[date,project]:[project,date];
  }
- function rowGroupLabel(r){
-  const proj=r.project||'ยังไม่พบชื่อโครงการ',cust=r.customer||'ยังไม่พบชื่อลูกค้า',dep=r.department||'ยังไม่ระบุส่วนงาน';
-  return state.rowMode==='customer'?(cust+' / '+proj+' / '+dep):state.rowMode==='project'?(proj+' / '+dep):dep;
- }
+ function departmentKey(row){return row.department_code||row.department||'unread';}
  function departmentList(rows){
-  const grouped=new Map();
-  for(const r of rows)grouped.set(rowGroupKey(r),rowGroupLabel(r));
-  return [...grouped.entries()].sort((a,b)=>a[1].localeCompare(b[1],'th'));
+  const all=datasetRows()||rows||[];
+  const map=new Map();
+  for(const r of all){
+   const key=departmentKey(r);
+   if(!map.has(key))map.set(key,r.department||'ยังไม่ทราบส่วนงาน');
+  }
+  const rank=['p1','p2','p3','p4','p5','store','operation_complete','review','unread'];
+  return [...map.entries()].sort((a,b)=>{
+   const ra=rank.indexOf(a[0]),rb=rank.indexOf(b[0]);
+   return (ra<0?99:ra)-(rb<0?99:rb)||a[1].localeCompare(b[1],'th');
+  });
  }
- function keyForCell(dep,col){return dep+'|'+col;}
- function cellMatches(row,cell){return !cell||(cell.dept===rowGroupKey(row)&&cell.bucket===bucket(row.due));}
+ function cellMatches(row,cell){
+  if(!cell)return true;
+  const [group,sub]=groupParts(row);
+  return group===cell.group&&(cell.sub===null||sub===cell.sub)&&
+    (cell.department===null||departmentKey(row)===cell.department);
+ }
+ function dateLabel(iso){
+  if(iso===NO_DATE)return iso;
+  if(state.grain==='year')return iso;
+  if(state.grain==='month'&&/^\d{4}-\d{2}$/.test(iso))return iso.slice(5,7)+'/'+iso.slice(0,4);
+  if(/^\d{4}-\d{2}-\d{2}$/.test(iso))return iso.slice(8,10)+'/'+iso.slice(5,7)+'/'+iso.slice(0,4);
+  return iso;
+ }
+ function niceGroupText(s,isDate){return isDate?dateLabel(s):s;}
+ function sortGroup(a,b,isDate){
+  if(a===NO_DATE||a===NO_PROJECT)return 1;
+  if(b===NO_DATE||b===NO_PROJECT)return -1;
+  return isDate?a.localeCompare(b):a.localeCompare(b,'th');
+ }
+ function newCounter(){return {total:0,departments:new Map(),subs:new Map()};}
+ function addCount(group,row,amount){group.total+=amount;const key=departmentKey(row);group.departments.set(key,(group.departments.get(key)||0)+amount);}
  function renderMatrix(){
-  const r=filteredRows(), cols=columnList(r), departments=r?departmentList(r):[];
-  const byGroup=new Map(),byBucket=new Map(),counts=new Map();
-  if(r)for(const row of r){const dep=rowGroupKey(row),day=bucket(row.due),n=weight(row);
-    byGroup.set(dep,(byGroup.get(dep)||0)+n);byBucket.set(day,(byBucket.get(day)||0)+n);
-    const k=keyForCell(dep,day);counts.set(k,(counts.get(k)||0)+n);
+  const rows=filteredRows(),columns=rows?departmentList(rows):[];
+  const isDateFirst=state.rowMode==='date_project';
+  const groupName=isDateFirst?'กำหนดส่ง':'โครงการ',subName=isDateFirst?'ชื่อโครงการ':'กำหนดส่ง';
+  const colspan=columns.length+3;
+  const groups=new Map(),grand=new Map();
+  if(rows){
+   for(const r of rows){
+    const [groupKey,subKey]=groupParts(r),weightOfRow=weight(r);
+    if(!groups.has(groupKey))groups.set(groupKey,newCounter());
+    const group=groups.get(groupKey);
+    addCount(group,r,weightOfRow);
+    if(!group.subs.has(subKey))group.subs.set(subKey,newCounter());
+    addCount(group.subs.get(subKey),r,weightOfRow);
+    const dep=departmentKey(r);grand.set(dep,(grand.get(dep)||0)+weightOfRow);
+   }
   }
-  const allColumns=r&&r.some(x=>!x.due)?[...cols,'ไม่ระบุวัน']:cols;
-  $('thead').innerHTML='<tr><th scope="col">'+escape(state.rowMode==='department'?'ค้างที่ส่วนงาน':state.rowMode==='customer'?'ลูกค้า / โครงการ / ส่วนงาน':'โครงการ / ส่วนงานที่ค้าง')+'</th>'+
-    allColumns.map(c=>'<th scope="col">'+escape(c==='ไม่ระบุวัน'?'ไม่ระบุวัน':state.grain==='year'?c:state.grain==='month'?c.slice(5,7)+'/'+c.slice(0,4):c.slice(8,10))+'</th>').join('')+'<th scope="col">รวม</th></tr>';
-  if(r&&!departments.length)$('tbody').innerHTML='<tr><td class="empty" colspan="'+(allColumns.length+2)+'">ไม่พบรายการในผลกรองนี้ (เฉพาะข้อมูลที่มีใน Snapshot)</td></tr>';
-  else if(!r)$('tbody').innerHTML='<tr><td class="empty" colspan="'+(allColumns.length+2)+'">ยังไม่พบข้อมูล Due Date + Pending Department ของ Node นี้ใน Data Pool · ไม่ใช่ศูนย์งานค้าง</td></tr>';
-  else {
-    $('tbody').innerHTML=departments.map(([dep,label])=>'<tr><td title="'+escape(label)+'">'+escape(label)+'</td>'+
-      allColumns.map(col=>{const n=counts.get(keyForCell(dep,col))||0,sel=state.cell?.dept===dep&&state.cell?.bucket===col;
-      return '<td>'+(n?'<button type="button" class="cell'+(sel?' sel':'')+(dep.includes('unread')||dep.includes('review')?' unverifiable':'')+
-        '" data-dep="'+escape(dep)+'" data-bucket="'+escape(col)+'" title="เปิดงาน '+escape(label)+' วันที่ '+escape(col)+'">'+fmt(n)+'</button>':'<span class="missing">·</span>')+'</td>'})
-      .join('')+'<td>'+fmt(byGroup.get(dep)||0)+'</td></tr>').join('');
-    $('tbody').querySelectorAll('.cell').forEach(b=>b.onclick=()=>{state.cell={dept:b.dataset.dep,bucket:b.dataset.bucket};state.page=1;renderMatrix();renderDetails()});
+  const sorted=[...groups.entries()].sort((a,b)=>sortGroup(a[0],b[0],isDateFirst));
+  if(!state.groupDefaultApplied&&sorted.length){
+   state.collapsed.clear();
+   if(sorted.length>35)sorted.forEach(([group],i)=>{if(i>=14)state.collapsed.add(group)});
+   state.groupDefaultApplied=true;
   }
-  $('tfoot').innerHTML=r&&r.length?'<tr><th scope="row">รวมตามวันกำหนด</th>'+allColumns.map(c=>'<td>'+fmt(byBucket.get(c)||0)+'</td>').join('')+'<td>'+fmt(sumWeight(r))+'</td></tr>':'';
-  $('foundLabel').textContent=r?fmt(sumWeight(r))+' Cutting / '+fmt(r.length)+' แถวกลุ่มข้อมูล':'ยังไม่มีธุรกรรมรับรองสำหรับ Node นี้';
-  $('axisTitle').textContent='แนวนอน = '+(state.grain==='year'?'ปี':state.grain==='month'?'เดือน':'วัน')+'กำหนดส่ง · แนวตั้ง = '+(state.rowMode==='department'?'ส่วนงานที่ค้าง':state.rowMode==='customer'?'ลูกค้า → โครงการ → ส่วนงาน':'โครงการ → ส่วนงานที่ค้าง');
+  const thLabel='<tr><th class="group-col" scope="col">Group · '+escape(groupName)+'</th>'+
+   '<th class="sub-col" scope="col">Sub Group · '+escape(subName)+'</th>'+
+   columns.map(([code,label])=>'<th scope="col" title="'+escape(code)+'">'+escape(label)+'</th>').join('')+
+   '<th scope="col">รวม</th></tr>';
+  $('thead').innerHTML=thLabel;
+  if(!rows){
+   $('tbody').innerHTML='<tr><td class="empty" colspan="'+colspan+
+    '">ยังไม่พบรายการที่ผูกกำหนดส่งกับแผนกที่ค้างของ Node นี้ · ข้อมูลไม่พร้อม ไม่ใช่ศูนย์งานค้าง</td></tr>';
+   $('tfoot').innerHTML='';
+  }else if(!rows.length){
+   $('tbody').innerHTML='<tr><td class="empty" colspan="'+colspan+'">ไม่พบรายการในเงื่อนไขที่เลือกจาก Snapshot นี้</td></tr>';
+   $('tfoot').innerHTML='';
+  }else{
+   const cell=(amount,g,sub,dep)=>{
+    if(!amount)return '<td><span class="missing">·</span></td>';
+    const chosen=state.cell&&state.cell.group===g&&state.cell.sub===sub&&state.cell.department===dep;
+    return '<td><button type="button" class="cell'+(chosen?' sel':'')+
+     '" data-group="'+escape(g)+'" data-sub="'+escape(sub??'')+'" data-level="'+(sub===null?'group':'sub')+
+     '" data-dept="'+escape(dep??'')+'" title="คลิกเจาะรายการ '+fmt(amount)+' งาน">'+fmt(amount)+'</button></td>';
+   };
+   const html=[];
+   for(const [groupNameValue,g] of sorted){
+    const collapsed=state.collapsed.has(groupNameValue);
+    const subgroupList=[...g.subs.entries()].sort((a,b)=>sortGroup(a[0],b[0],!isDateFirst));
+    html.push('<tr class="group-row"><td class="group-col group-label"><button type="button" class="group-toggle" data-group="'+escape(groupNameValue)+
+     '" aria-expanded="'+(!collapsed)+'"><span aria-hidden="true">'+(collapsed?'▸':'▾')+'</span> '+escape(niceGroupText(groupNameValue,isDateFirst))+
+     '<span class="count-badge">'+subgroupList.length+'</span></button></td>'+
+     '<td class="sub-col group-caption">รวม '+escape(subName)+' · '+fmt(g.total)+' Cutting</td>'+
+     columns.map(([dep])=>cell(g.departments.get(dep)||0,groupNameValue,null,dep)).join('')+
+     cell(g.total,groupNameValue,null,null)+'</tr>');
+    if(!collapsed){
+     for(const [subValue,sub] of subgroupList){
+      html.push('<tr class="sub-row"><td class="group-col child-marker">↳ '+escape(niceGroupText(groupNameValue,isDateFirst))+'</td>'+
+       '<td class="sub-col child-label"><span class="sub-name" title="'+escape(niceGroupText(subValue,!isDateFirst))+'">'+escape(niceGroupText(subValue,!isDateFirst))+'</span></td>'+
+       columns.map(([dep])=>cell(sub.departments.get(dep)||0,groupNameValue,subValue,dep)).join('')+
+       cell(sub.total,groupNameValue,subValue,null)+'</tr>');
+     }
+    }
+   }
+   $('tbody').innerHTML=html.join('');
+   $('tbody').querySelectorAll('button.group-toggle').forEach(button=>{
+    button.onclick=()=>{
+     const group=button.dataset.group;
+     if(state.collapsed.has(group))state.collapsed.delete(group);else state.collapsed.add(group);
+     renderMatrix();
+    };
+   });
+   $('tbody').querySelectorAll('button.cell').forEach(button=>{
+    button.onclick=()=>{
+     state.cell={
+      group:button.dataset.group,
+      sub:button.dataset.level==='group'?null:button.dataset.sub,
+      department:button.dataset.dept||null
+     };
+     state.page=1;
+     renderMatrix();renderDetails();
+    };
+   });
+   $('tfoot').innerHTML='<tr><th class="group-col pivot-grand" scope="row">รวมทั้งหมด</th>'+
+    '<th class="sub-col pivot-grand">'+fmt(sorted.length)+' Group</th>'+
+    columns.map(([dep])=>'<td class="pivot-grand">'+fmt(grand.get(dep)||0)+'</td>').join('')+
+    '<td class="pivot-grand">'+fmt(sumWeight(rows))+'</td></tr>';
+  }
+  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+' Cutting · '+fmt(sorted.length)+' Group · '+
+   fmt(columns.length)+' แผนก':'ยังไม่สามารถคำนวณยอดงานของ Node นี้';
+  $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: แผนกที่สถานะค้าง';
+  $('modeDateProject').classList.toggle('mode-active',isDateFirst);
+  $('modeProjectDate').classList.toggle('mode-active',!isDateFirst);
+  $('modeDateProject').setAttribute('aria-pressed',String(isDateFirst));
+  $('modeProjectDate').setAttribute('aria-pressed',String(!isDateFirst));
+  $('rowMode').value=state.rowMode;
  }
  function renderSummary(){
   const d=dim(state.node);if(!d)return;const r=filteredRows(),p=nodeData(),meta=sourceMeta();
@@ -108,7 +204,7 @@
   const namedProject=r?sumWeight(r.filter(x=>x.project&&x.project!=='ยังไม่พบชื่อโครงการ')):0;
   const namedCustomer=r?sumWeight(r.filter(x=>Boolean(x.customer))):0;
   $('nodeTitle').textContent=d.name;
-  $('matrixHeading').textContent=d.name+' · กำหนดส่ง × ส่วนงานค้าง';
+  $('matrixHeading').textContent=d.name+' · วันที่ / โครงการ × แผนกที่ค้าง';
   $('sourceLine').textContent=d.applications+' · '+(p?p.due_field:'ไม่มี Transaction Pivot Extract ของ Node นี้')+' · Source Snapshot '+date;
   $('dueSource').textContent=conf[state.node]?.[0]||d.grain;
   $('ownerSource').textContent=conf[state.node]?.[1]||d.owner;
@@ -126,7 +222,7 @@
  }
  function renderDetails(){
   const r=filteredRows(),list=r?r.filter(x=>cellMatches(x,state.cell)):null;
-  $('detailHeading').textContent=state.cell?'รายการค้าง · '+(list?.[0]?.project||list?.[0]?.department||'ผลกรอง')+' · '+state.cell.bucket:'รายการงานในผลกรอง';
+  $('detailHeading').textContent=state.cell?'รายการค้าง · '+niceGroupText(state.cell.group,state.rowMode==='date_project')+(state.cell.sub===null?'':' → '+niceGroupText(state.cell.sub,state.rowMode==='project_date'))+(state.cell.department===null?'':' · '+(list?.[0]?.department||state.cell.department)):'รายการงานในผลกรอง';
   $('detailScope').textContent=state.cell?'แสดงเฉพาะช่องที่เลือกจาก Pivot':'แสดงรายการตามตัวกรองและช่วงวันที่';
   const total=list?sumWeight(list):null,count=list?.length??0,pages=Math.max(1,Math.ceil(count/state.pageSize));state.page=Math.min(state.page,pages);
   const page=list?.slice((state.page-1)*state.pageSize,state.page*state.pageSize)||[];
@@ -170,19 +266,31 @@
   const csv='\uFEFF'+fields.join(',')+'\r\n'+src.map(r=>fields.map(f=>quote(r[f])).join(',')).join('\r\n');
   const u=URL.createObjectURL(new Blob([csv],{type:'text/csv;charset=utf-8'})),a=document.createElement('a');a.href=u;a.download='PRIVATE_ERP_PIVOT_'+state.node+'_'+state.year+'.csv';document.body.append(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(u),1200);message('ส่งออกข้อมูล Private เฉพาะเครื่องนี้แล้ว');
  }
- $('rowMode').onchange=e=>{state.rowMode=e.target.value;state.cell=null;state.page=1;renderMatrix();renderDetails();};
+ function switchMode(next){
+  if(next!=='date_project'&&next!=='project_date')return;
+  state.rowMode=next;state.cell=null;state.page=1;state.collapsed.clear();state.groupDefaultApplied=false;
+  renderMatrix();renderDetails();
+ }
+ $('rowMode').onchange=e=>switchMode(e.target.value);
+ $('modeDateProject').onclick=()=>switchMode('date_project');
+ $('modeProjectDate').onclick=()=>switchMode('project_date');
+ $('collapseAll').onclick=()=>{for(const row of filteredRows()||[]){state.collapsed.add(groupParts(row)[0]);}state.groupDefaultApplied=true;renderMatrix();};
+ $('expandAll').onclick=()=>{state.collapsed.clear();state.groupDefaultApplied=true;renderMatrix();};
  $('projectFilter').onchange=e=>{state.projectFilter=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('customerFilter').onchange=e=>{state.customerFilter=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('refreshData').onclick=()=>load(true);
  $('nodeSelect').onchange=e=>choose(e.target.value);
- $('grain').onchange=e=>{state.grain=e.target.value;if(state.grain==='day'&&!state.month){state.month='10';$('month').value=state.month;}if(state.grain==='year'){state.year='';$('year').value='';state.month='';$('month').value='';}state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
+ $('grain').onchange=e=>{
+  state.grain=e.target.value;state.cell=null;state.page=1;
+  state.collapsed.clear();state.groupDefaultApplied=false;renderSummary();renderMatrix();renderDetails();
+ };
  $('year').onchange=e=>{state.year=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('month').onchange=e=>{state.month=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('scope').onchange=e=>{state.scope=e.target.value;if(state.scope==='all'&&nodeData()){message('ข้อมูลปัจจุบันมีเฉพาะ Open WO; ไม่รวม Closed/Cancelled');state.scope='open';$('scope').value='open';}renderSummary();};
  $('search').oninput=e=>{state.query=e.target.value.trim();state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('clearCell').onclick=()=>{state.cell=null;state.page=1;renderMatrix();renderDetails()};
  $('download').onclick=csv;
- $('reset').onclick=()=>{state.grain='month';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='project';state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;for(const id of ['search'])$(id).value='';$('grain').value='month';$('scope').value='open';renderAll(true)};
+ $('reset').onclick=()=>{state.grain='day';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;for(const id of ['search'])$(id).value='';$('grain').value='day';$('scope').value='open';renderAll(true)};
  $('prev').onclick=()=>{state.page=Math.max(1,state.page-1);renderDetails()};
  $('next').onclick=()=>{state.page++;renderDetails()};
  load();
