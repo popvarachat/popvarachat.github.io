@@ -2,6 +2,20 @@
 
 **URL**: https://popvarachat.github.io/erp-architecture/daily-intelligence/
 
+## Pivot axis orientation — 21 October 2026
+
+**New default layout:** Vertical rows = **Group: due date (day)** → **Sub Group: project name**. Horizontal columns = **pending production department / stage** (P1–P5, Store, unresolved stages). A mode toggle switches the row hierarchy to **Group: project name → Sub Group: due date** while leaving the department columns unchanged.
+
+- The `rowMode` dropdown and the two prominent buttons are synchronized.
+- Group rows show department subtotals, project/date subrows expand underneath. Expand/collapse one group or all groups.
+- Click any non-empty subtotal/subrow × department intersection for corresponding details (WO, Cutting, project, customer, deadline, named owner when verified). 
+- Default time grain is **day**; users can choose month/year and filter year/month, project, customer and keyword.
+- Reports for all 15 nodes use the same orientation but do not fabricate rows for nodes lacking certified ERP transaction joins.
+- Approved public data contains only aggregated counts + named project/customer; private NB detail includes WO/Cutting identifiers.
+- Tested on NB Playwright local: HTTP 200, 15 nodes, 160 due-date groups / 1,632 WIP-cutting entries in 2026 snapshot, working collapse/expand, working click drilldown, reversed group/subgroup with **unchanged total (1,632)**, and no JS page errors.
+- Public GitHub Pages assets were separately checked by HTTP GET; public aggregate-mode tested from the same locally served public data source with private feed disabled. Chrome in the remote automation profile had an intermittent outbound HTTPS timeout during direct live-site smoke, not a reported JS validation failure.
+- **Important:** Source snapshot still 2026-10-18, WO finish due (NOT operation handoff due), and department assignment provisional. The 2026 live census run `20261021-034629` failed closed on out-of-year Cutting after 36,532 distinct records and has NOT replaced the previous approved snapshot.
+
 ## Per-node Pivot (21 Oct 2026)
 
 - Public: https://popvarachat.github.io/erp-architecture/daily-intelligence/pivot.html?node=wip
