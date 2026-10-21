@@ -2,6 +2,17 @@
 
 **URL**: https://popvarachat.github.io/erp-architecture/daily-intelligence/
 
+## Per-node Pivot (21 Oct 2026)
+
+- Public: https://popvarachat.github.io/erp-architecture/daily-intelligence/pivot.html?node=wip
+- Every one of the 15 Workflow node Inspector panels has an **open Pivot** link to its own `pivot.html?node=<id>` route.
+- X-axis: due date for the selected node (year/month/day drill levels); Y-axis: where work is actually pending, when such evidence exists.
+- Pivot cells are interactive and drill into supporting work rows; search, date filters, stage grouping and CSV download on NB private data.
+- **Private NB WIP preview:** 2,383 distinct open Cuttings in the source dataset, 1,632 with WO finish due in 2026. Of those 2026 rows, 1,146 preliminarily assigned a stage and 486 require further Control Plan/Operation verification. Snapshot 2026-10-18; not whole-factory WIP.
+- **Critical:** the WIP date is WO finish due, NOT a per-operation handoff deadline; stage classification NOT verified Current Operation and individual employee owner is unknown. Other 14 node pivots have source contracts and no fake work counts while due/owner joins remain unavailable.
+- Local internal-only `private-pivot.json` has been explicitly gitignored; no WO/Item/Project rows in public data.
+- Playwright acceptance: 15 node contracts publicly, 2026 pivot with local private data, 31 daily due columns, cell-click details, no JS exceptions.
+
 ## What is delivered
 
 - Interactive zoomable, pannable curved-connector workflow with 15 clickable business dimensions; alternative 15-card grid, department filter, searchable source catalog and Inspector drill-down.
@@ -36,7 +47,7 @@ The `download data contract` feature generates a **blank PRIVATE template locall
 ## Public versus local URLs
 
 - Public dashboard: `/erp-architecture/daily-intelligence/`.
-- NB local preview: `http://127.0.0.1:8768/erp-architecture/daily-intelligence/` when the local preview server is running.
+- NB local preview: `http://127.0.0.1:8767/erp-architecture/daily-intelligence/` when the local preview server is running.
 - NB Playwright JDE and its Chrome session are separate; GitHub Pages cannot directly query internal JDE, and does not attempt to.
 
 ## QA
