@@ -20,7 +20,7 @@
   delivery:['นัดส่งมอบ / Install Appointment / Due ของโครงการ','Delivery / Installation / Customer Confirmation ตาม Event ล่าสุด'],
   gl:['Batch Posting Cutoff / Period Close Due','Accounting / AP / Finance Approver ที่ยังไม่ Post/Reconcile']
  };
- const state={ds:null,pub:null,priv:null,node:'wip',grain:'day',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35};
+ const state={ds:null,pub:null,priv:null,node:'wip',grain:'day',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35,historyYear:'',historySelected:null};
  const nodeIds=['transfer','output','material','labor','quality','rework','scrap','wip','machine','purchase','receipt','inventory','cost','delivery','gl'];
  let toastTimeout;
  function message(s){$('toast').textContent=s;$('toast').classList.add('on');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').classList.remove('on'),2500);}
@@ -35,7 +35,7 @@
  function datesForNode(){const rows=datasetRows();if(!rows)return ['2026'];return [...new Set(rows.map(x=>x.due?.slice(0,4)).filter(Boolean))].sort();}
  function setOptions(id,items,selected){const el=$(id);el.innerHTML=items.map(x=>'<option value="'+escape(x[0])+'">'+escape(x[1])+'</option>').join('');el.value=selected;}
  function setupYears(){const years=datesForNode();const current=years.includes(state.year)?state.year:(years[years.length-1]||'2026');state.year=current;setOptions('year',[['','ทุกปี'],...years.map(x=>[x,x])],current);setOptions('month',[['','ทุกเดือน'],...Array.from({length:12},(_,i)=>[String(i+1).padStart(2,'0'),String(i+1).padStart(2,'0')])],state.month);}
- function choose(id){if(!dim(id))return;state.node=id;state.cell=null;state.page=1;state.year='2026';state.month='';state.query='';state.projectFilter='';state.customerFilter='';state.collapsed.clear();state.groupDefaultApplied=false;$('search').value='';const url=new URL(location.href);url.searchParams.set('node',id);history.replaceState(null,'',url.pathname+url.search);renderAll(true);}
+ function choose(id){if(!dim(id))return;state.node=id;state.cell=null;state.page=1;state.historyYear='';state.historySelected=null;state.year='2026';state.month='';state.query='';state.projectFilter='';state.customerFilter='';state.collapsed.clear();state.groupDefaultApplied=false;$('search').value='';const url=new URL(location.href);url.searchParams.set('node',id);history.replaceState(null,'',url.pathname+url.search);renderAll(true);}
  function renderNav(){const dims=state.ds?.dimensions||[];$('nodeNav').innerHTML=dims.map(d=>'<button type="button" data-node="'+escape(d.id)+'" class="'+(d.id===state.node?'selected':'')+'" aria-current="'+(d.id===state.node?'page':'false')+'"><span>'+escape(d.seq)+'</span>'+escape(d.name)+'</button>').join('');$('nodeNav').querySelectorAll('button').forEach(x=>x.onclick=()=>choose(x.dataset.node));setOptions('nodeSelect',dims.map(x=>[x.id,x.name+' · '+x.en]),state.node)}
  function syncFacets(){
   const rows=datasetRows()||[];
@@ -294,7 +294,74 @@
   }).join('');
   $('auditRows').querySelectorAll('button[data-audit-node]').forEach(b=>b.onclick=()=>choose(b.dataset.auditNode));
  }
- function renderAll(resetYears=false){renderNav();if(resetYears){setupYears();syncFacets();}renderSummary();renderMatrix();renderDetails();renderAudit();}
+
+ function historyData(){
+  return (isPrivate()?state.priv?.historical_evidence?.nodes?.[state.node]||state.pub?.historical_evidence?.nodes?.[state.node]:
+           state.pub?.historical_evidence?.nodes?.[state.node])||null;
+ }
+ function publicHistory(){
+  return state.pub?.historical_evidence?.nodes?.[state.node]||null;
+ }
+ function renderHistoryDetails(r){
+  const block=$('historyDrilldown');
+  if(!r){block.textContent='ยังไม่มีหลักฐานย้อนหลังของ Node นี้ในไฟล์ที่เก็บไว้ ไม่ใช่หลักฐานว่า ERP ไม่มีธุรกรรม';return;}
+  const source=historyData(),privateRows=isPrivate()&&source?source.rows||[]:[];
+  const refs=privateRows.filter(x=>x.date===r.date&&x.date_kind===r.date_kind&&x.reference);
+  const descriptor=r.date_kind==='Source Capture Date (not transaction date)'?'วันที่ดึงข้อมูลตัวอย่าง (ไม่มีวันที่ธุรกรรมในแถว)':'วันที่ในฟิลด์ต้นทาง';
+  let html='<b>'+escape(r.date)+' · '+escape(descriptor)+' · '+fmt(r.count)+' แถวจากแหล่งตัวอย่าง</b>';
+  if(!refs.length){
+   html+='<p>บน GitHub แสดงเพียงจำนวนแถวและวันที่ของหลักฐาน เนื่องจากเลขเอกสาร/สินค้า/บุคคลเก็บเฉพาะ Private NB เท่านั้น</p>';
+  }else{
+   html+='<div class="history-private-list">'+refs.slice(0,50).map(x=>
+    '<div><b>'+escape(x.reference)+'</b> · '+escape(x.description||'Source Evidence')+
+    ' <span>'+escape(x.date_kind||'')+'</span></div>').join('')+'</div>';
+   if(refs.length>50)html+='<p>แสดง 50/'+fmt(refs.length)+' แถว</p>';
+  }
+  block.innerHTML=html;
+ }
+ function renderHistory(){
+  const h=publicHistory(),privateH=historyData(),pubRows=h?.rows||[];
+  const hasRecords=Array.isArray(pubRows)&&pubRows.length>0;
+  const dates=pubRows.filter(x=>x.date).map(x=>x.date);
+  const years=[...new Set(dates.map(x=>x.slice(0,4)))].sort().reverse();
+  if(!state.historyYear||!years.includes(state.historyYear))state.historyYear=years[0]||'';
+  setOptions('historyYear',[['','ทุกปีที่มีหลักฐาน'],...years.map(y=>[y,y])],state.historyYear);
+  $('historyLatest').disabled=!hasRecords;
+  $('historyBadge').textContent=hasRecords?'ปีที่พบล่าสุด: '+(years[0]||'ไม่ทราบ')+' · บางแถวเป็นวัน Snapshot ไม่ใช่วันเกิดเหตุ':'ยังไม่มีประวัติที่ดึงเป็นรายการ';
+  if(!h){
+   $('historySummary').textContent='ยังไม่มีไฟล์ข้อมูลย้อนหลังใน Data Pool';
+   $('historySource').textContent='ไม่มีข้อมูลบนเว็บ ไม่ได้หมายความว่าไม่มีใน ERP';
+   $('historyRows').innerHTML='<tr><td colspan="5" class="empty">ยังไม่ได้ดึงประวัติของ Node นี้</td></tr>';
+   renderHistoryDetails(null);return;
+  }
+  $('historySource').textContent='แหล่ง '+(h.source||'JDE')+' · '+fmt(h.sample_count||0)+' แถวจากตัวอย่าง/Snapshot · '+(h.note||'')+
+  ' · วันที่เก็บหลักฐาน '+(h.source_capture||'ตาม Source ของแต่ละรายการ')+' · ไม่ใช่ยอดค้างทั้งโรงงาน';
+  const actual=h.last_event;
+  $('historySummary').textContent=hasRecords?
+   'พบหลักฐานย้อนหลัง '+fmt(h.sample_count||0)+' แถว · '+(actual?'วันธุรกรรม/สถานะที่พบล่าสุด '+actual:'ไม่พบวันที่ธุรกรรมในแถว: แสดงวัน Snapshot เท่านั้น')+
+    ' · เลือกปีอื่นได้โดยไม่ต้องมีรายการของวันนี้':
+   'ยังไม่พบแถวประวัติในชุดข้อมูลที่เคยดึงสำหรับ Node นี้ — ต้องค้น JDE ย้อนหลังเพิ่ม ไม่ใช่ยอดศูนย์';
+  const visible=pubRows.filter(x=>!state.historyYear||x.date?.slice(0,4)===state.historyYear)
+   .sort((a,b)=>(b.date||'').localeCompare(a.date||''));
+  if(!visible.length){
+   $('historyRows').innerHTML='<tr><td colspan="5" class="empty">ไม่มีแถวสำหรับปีที่เลือกใน Extract ที่ตรวจไว้ — ไม่ใช่ยืนยันว่า ERP ไม่มี</td></tr>';
+   renderHistoryDetails(null);return;
+  }
+  $('historyRows').innerHTML=visible.map((r,i)=>'<tr>'+
+   '<td>'+escape(r.date||'ไม่มีวัน')+'</td>'+
+   '<td>'+escape(r.date_kind||'ไม่ทราบชนิดวันที่')+'</td>'+
+   '<td>'+escape(r.source||h.source||'JDE Inquiry')+'</td>'+
+   '<td><strong>'+fmt(r.count||0)+'</strong></td>'+
+   '<td><button type="button" data-hist="'+i+'">ดูรายละเอียดหลักฐาน</button></td></tr>').join('');
+  $('historyRows').querySelectorAll('button[data-hist]').forEach(b=>b.onclick=()=>{
+   const r=visible[Number(b.dataset.hist)];
+   state.historySelected={date:r.date,kind:r.date_kind};
+   renderHistoryDetails(r);
+  });
+  const wanted=visible.find(x=>x.date===state.historySelected?.date&&x.date_kind===state.historySelected?.kind)||visible[0];
+  renderHistoryDetails(wanted);
+ }
+ function renderAll(resetYears=false){renderNav();if(resetYears){setupYears();syncFacets();}renderSummary();renderMatrix();renderDetails();renderAudit();renderHistory();}
  async function load(preserve=false){
   try{
     const q=new URL(location.href).searchParams.get('node'),currentNode=state.node;
@@ -334,6 +401,8 @@
  $('projectFilter').onchange=e=>{state.projectFilter=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('customerFilter').onchange=e=>{state.customerFilter=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('refreshData').onclick=()=>load(true);
+ $('historyYear').onchange=e=>{state.historyYear=e.target.value;state.historySelected=null;renderHistory()};
+ $('historyLatest').onclick=()=>{state.historyYear='';state.historySelected=null;renderHistory()};
  $('nodeSelect').onchange=e=>choose(e.target.value);
  $('grain').onchange=e=>{
   state.grain=e.target.value;state.cell=null;state.page=1;
@@ -345,7 +414,7 @@
  $('search').oninput=e=>{state.query=e.target.value.trim();state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('clearCell').onclick=()=>{state.cell=null;state.page=1;renderMatrix();renderDetails()};
  $('download').onclick=csv;
- $('reset').onclick=()=>{state.grain='day';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;for(const id of ['search'])$(id).value='';$('grain').value='day';$('scope').value='open';renderAll(true)};
+ $('reset').onclick=()=>{state.grain='day';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;state.historyYear='';state.historySelected=null;for(const id of ['search'])$(id).value='';$('grain').value='day';$('scope').value='open';renderAll(true)};
  $('prev').onclick=()=>{state.page=Math.max(1,state.page-1);renderDetails()};
  $('next').onclick=()=>{state.page++;renderDetails()};
  load();
