@@ -189,7 +189,7 @@
     columns.map(([dep])=>'<td class="pivot-grand">'+fmt(grand.get(dep)||0)+'</td>').join('')+
     '<td class="pivot-grand">'+fmt(sumWeight(rows))+'</td></tr>';
   }
-  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PO Lines · ':' Cutting · ')++fmt(sorted.length)+' Group · '+
+  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PO Lines · ':' Cutting · ')+fmt(sorted.length)+' Group · '+
    fmt(columns.length)+' แผนก':'ยังไม่สามารถคำนวณยอดงานของ Node นี้';
   $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: แผนกที่สถานะค้าง';
   $('modeDateProject').classList.toggle('mode-active',isDateFirst);
