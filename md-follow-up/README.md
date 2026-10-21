@@ -171,3 +171,7 @@ Do not add private JSON or local source paths to public GitHub.
 - Task snapshots and Pivot are stored only in `%LOCALAPPDATA%/UAIOS/MD-FollowUp-Private`. Completed Planner tasks are detected using numeric `percentComplete == 100`.
 - GitHub receives only aggregate health counts, provenance and checked_at; when local Graph authentication fails the button reports an error and retains the last good local Pivot.
 - A browser on a different computer points its loopback to that computer, not to NB. It needs a separately authenticated internal API for cross-machine live updates.
+
+## NB Planner automatic refresh
+- Installed local Windows Scheduled Task MD-FollowUp-Planner-Refresh to scan the connected Microsoft Planner plan via delegated Graph every 60 minutes. The initial run is staggered 20 minutes after installation, reducing overlap with W-drive polling.
+- Manual Refresh Todo and scheduled refresh use the same read-only Graph scanner. On auth or data mismatch, retain last good source and show errors; only aggregate metadata is made public.
