@@ -60,13 +60,43 @@ def _run_scan():
     finally:
         _SCAN_LOCK.release()
 
+_PLANNER_LOCK=threading.Lock()
+_PLANNER_STATE={"state":"idle","started_at":None,"finished_at":None,
+                "message":"Planner scan has not been requested in this server session"}
+def _run_planner_scan():
+    try:
+        # Fixed Graph read-only scanner. The authorized NB Azure CLI profile provides delegated auth.
+        r=subprocess.run([sys.executable,str(SCAN_ROOT/"scan_planner_graph.py")],
+             cwd=str(SCAN_ROOT),capture_output=True,text=True,
+             encoding="utf8",errors="replace",timeout=250)
+        final=None
+        for line in reversed(r.stdout.splitlines()):
+            try:
+                obj=json.loads(line)
+                if isinstance(obj,dict) and "state" in obj:final=obj;break
+            except ValueError:pass
+        if r.returncode or not final or final.get("state")!="success":
+            code=(final or {}).get("code","GRAPH_SCAN_OR_PIVOT_BUILD_FAILED")
+            _PLANNER_STATE.update(state="error",finished_at=_now(),
+                message=str(code)[:175])
+        else:
+            _PLANNER_STATE.update(final)
+            _PLANNER_STATE.update(state="success",finished_at=_now(),
+                message="Planner Graph refreshed: "+str(final["total"])+" tasks, "+
+                       str(final["completed"])+" completed; private Pivot rebuilt")
+    except Exception as e:
+        _PLANNER_STATE.update(state="error",finished_at=_now(),
+            message="Todo Graph refresh unavailable: "+type(e).__name__)
+    finally:
+        _PLANNER_LOCK.release()
+
 class Handler(http.server.SimpleHTTPRequestHandler):
     def __init__(self,*a,**kw):super().__init__(*a,directory=str(ROOT),**kw)
     def _is_allowed_origin(self):
         origin=self.headers.get("Origin")
         return origin is None or origin==TRUSTED_PUBLIC_ORIGIN
     def _cors_path(self):
-        return urllib.parse.urlsplit(self.path).path in ("/pivot.json","/scan-status","/scan-sources")
+        return urllib.parse.urlsplit(self.path).path in ("/pivot.json","/scan-status","/scan-sources","/planner-status","/scan-planner")
     def do_OPTIONS(self):
         authority=(self.headers.get("Host") or "").lower()
         origin=self.headers.get("Origin")
@@ -80,10 +110,13 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_error(403,"Host not allowed")
             return
         requested=urllib.parse.urlsplit(self.path).path
-        if requested in ("/pivot.json","/scan-status") and not self._is_allowed_origin():
+        if requested in ("/pivot.json","/scan-status","/planner-status") and not self._is_allowed_origin():
             self.send_error(403,"Origin not allowed");return
         if requested=="/scan-status":
             self._send_json(200,dict(_SCAN_STATE))
+            return
+        if requested=="/planner-status":
+            self._send_json(200,dict(_PLANNER_STATE))
             return
         if requested not in ("/","/index.html","/records.json","/pivot.html","/pivot.json","/stage-list.html","/matrix.js","/matrix.css"):
             self.send_error(404,"Resource not served");return
@@ -99,7 +132,8 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         authority=(self.headers.get("Host") or "").lower()
         if authority not in ("127.0.0.1:8766","localhost:8766"):
             self.send_error(403,"Host not allowed");return
-        if urllib.parse.urlsplit(self.path).path!="/scan-sources":
+        action=urllib.parse.urlsplit(self.path).path
+        if action not in ("/scan-sources","/scan-planner"):
             self.send_error(404,"Unsupported action");return
         if self.headers.get("Origin")!=TRUSTED_PUBLIC_ORIGIN:
             self.send_error(403,"Origin not permitted");return
@@ -114,6 +148,16 @@ class Handler(http.server.SimpleHTTPRequestHandler):
             self.send_error(400,"Invalid JSON");return
         if data != {}:
             self.send_error(400,"No parameters accepted");return
+        if action=="/scan-planner":
+            if not _PLANNER_LOCK.acquire(blocking=False):
+                self._send_json(409,dict(_PLANNER_STATE));return
+            _PLANNER_STATE.update(state="running",started_at=_now(),finished_at=None,
+                message="Reading Planner tasks and checklists from Microsoft Graph on authorized NB")
+            try:threading.Thread(target=_run_planner_scan,daemon=True,name="MD_Graph_PlannerScan").start()
+            except Exception:
+                _PLANNER_LOCK.release()
+                self._send_json(500,{"state":"error","message":"Cannot start Todo scan"});return
+            self._send_json(202,dict(_PLANNER_STATE));return
         if not _SCAN_LOCK.acquire(blocking=False):
             self._send_json(409,dict(_SCAN_STATE))
             return

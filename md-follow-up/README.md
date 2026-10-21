@@ -163,3 +163,11 @@ Do not add private JSON or local source paths to public GitHub.
 - Cards use semantic buttons and keyboard access. No record-level information
   is uploaded to GitHub; data is read from authorised NB loopback or imported
   locally in the browser.
+
+## One-click Microsoft Planner Todo refresh (authorized NB)
+- The GitHub Pages Pivot now offers `Scan Todo / Planner (Microsoft 365)` separately from the four W-drive source scanners.
+- On the authorized NB only, GitHub Pages POSTs an empty fixed command to `127.0.0.1:8766/scan-planner` (allowed origin restricted), then polls `/planner-status`.
+- The local scanner uses the user's existing Microsoft Azure CLI delegated Graph authentication to read the known `Monitor Coordinator 2026` plan and task details/checklists **read-only**. It neither publishes task records nor exports bearer tokens.
+- Task snapshots and Pivot are stored only in `%LOCALAPPDATA%/UAIOS/MD-FollowUp-Private`. Completed Planner tasks are detected using numeric `percentComplete == 100`.
+- GitHub receives only aggregate health counts, provenance and checked_at; when local Graph authentication fails the button reports an error and retains the last good local Pivot.
+- A browser on a different computer points its loopback to that computer, not to NB. It needs a separately authenticated internal API for cross-machine live updates.

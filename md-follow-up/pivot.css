@@ -87,3 +87,10 @@
 .kpi-table tbody tr[data-kpi-row]{cursor:pointer}
 .kpi-table tbody tr[data-kpi-row]:hover,.kpi-table tbody tr[data-kpi-row]:focus-visible{background:#eaf6f9;outline:1px solid #9bcad4}
 .kpi-pager{display:flex;justify-content:space-between;align-items:center;padding:11px 16px;gap:12px;font-size:11px;color:#64808f}
+
+#scanTodo{border:1px solid #15676f;background:#155a68;color:white;font-size:11px;font-weight:800;
+ padding:9px 12px;border-radius:7px;cursor:pointer}
+#scanTodo:hover{background:#0b7583}
+#scanTodo:disabled{opacity:.52;cursor:progress}
+#todoScanStatus{margin-top:9px;padding:9px 11px;font-size:11px;line-height:1.65;color:#28596f;
+ background:#e8f5f3;border-left:3px solid #3c9ca1;border-radius:5px}

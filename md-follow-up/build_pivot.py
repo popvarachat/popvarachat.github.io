@@ -86,6 +86,8 @@ for group in ("cb","ics","icf","ice","innovation","planner"):
   for row in rows:
    ref=group+"::"+row["id"]
    append(group,ref,row["title"],"งานสั่งการ / Planner",1,row["status"],row["owner"],row.get("due",""),True,row.get("notes",""),row["id"],due_type="กำหนดส่งงาน (ยังไม่มี Stage Due แยก)")
+   # The numeric Planner percent is authoritative for completion; Thai UI labels vary.
+   out[-1]["closed"]=int(row.get("percent") or 0)>=100
 for ref,a in timelines.items():
  total=len(a);active=[x for x in a if not x["closed"] and x["state"]=="ดำเนินการ/ติดขัด"]
  unverified=[x for x in a if not x["closed"] and x["state"]=="สถานะไม่ชัด"]
@@ -163,6 +165,8 @@ for row in out:
         row["owner_kind"]="missing"
         row["owner_evidence"]="Source has team, placeholder, or missing personal assignment"
 
+from planner_owner_notes import audit
+summary["planner_ownership_audit"]=audit(out,plan_owner,ASSIGNMENT_USER_NAMES,named_people,UNKNOWN,JOINT_SUFFIX)
 payload={"schema":1,"updated":dt.datetime.now(dt.timezone.utc).isoformat(),
  "as_of":TODAY.isoformat(),"source_snapshot":src["generated_at"],"summary":summary,
  "warning":"Internal data only. Open CB overdue means planned transfer date passed, not actual transfer confirmed. ICS/ICF/ICE have no independently confirmed Stage Due; no overdue inference. Blank statuses are uncertain. Rows across sources are not deduplicated.",

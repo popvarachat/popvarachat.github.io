@@ -543,6 +543,53 @@ async function scanSourceFiles(){
   }finally{scanningSources=false;btn.disabled=false;}
 }
 $("scanSources").addEventListener("click",scanSourceFiles);
+const localTodoScan="http://127.0.0.1:8766/scan-planner";
+const localTodoStatus="http://127.0.0.1:8766/planner-status";
+let todoScanBusy=false;
+function describeTodoScan(s){
+ if(s.state==="running")return "Todo: กำลังอ่าน Microsoft Graph จาก Planner ต้นทางและตรวจ Checklist (อาจใช้เวลา 30–90 วินาที)…";
+ if(s.state==="success")return "Todo: Scan Microsoft Graph สำเร็จ · "+s.total+" งาน · เปิดอยู่ "+s.open+
+  " · ปิดแล้ว "+s.completed+" · ตรวจรายละเอียด "+s.details_checked+"/"+s.total+
+  " · อัปเดต Pivot แล้ว"+(s.public_health_published?" · Cloud Source Health ล่าสุด":" · Metadata GitHub อาจรอรอบเผยแพร่");
+ if(s.state==="error")return "Todo: ยังอัปเดตไม่สำเร็จ ("+(s.message||"Graph auth/connection error")+
+  ") · คง Snapshot ล่าสุดที่ผ่านการตรวจไว้";
+ return "Todo: รอสั่งสแกน Microsoft Planner ต้นทาง";
+}
+async function refreshTodoFromGraph(){
+ if(todoScanBusy)return;
+ todoScanBusy=true;
+ const btn=$("scanTodo"),area=$("todoScanStatus");btn.disabled=true;
+ privateFileSelected=false;
+ area.textContent="Todo: กำลังเริ่มสแกน Microsoft Planner บน NB…";
+ try{
+  const req=await fetch(localTodoScan,{method:"POST",mode:"cors",credentials:"omit",
+    headers:{"Content-Type":"application/json"},body:"{}",cache:"no-store",signal:AbortSignal.timeout(12000)});
+  const data=await req.json();
+  if(req.status!==202&&req.status!==409)throw Error("Graph scan HTTP "+req.status);
+  area.textContent=describeTodoScan(data);
+  let state=null;
+  for(let n=0;n<140;n++){
+    await new Promise(resolve=>setTimeout(resolve,2000));
+    const status=await fetch(localTodoStatus,{mode:"cors",credentials:"omit",cache:"no-store",signal:AbortSignal.timeout(8000)});
+    if(!status.ok)throw Error("Planner status HTTP "+status.status);
+    const obj=await status.json();area.textContent=describeTodoScan(obj);
+    if(obj.state!=="running"){state=obj;break;}
+  }
+  if(!state)throw Error("Planner scan timeout; check NB private viewer");
+  if(state.state==="success"){
+    await syncWithNotebook();
+    if(state.public_health_published){
+      try{const u=await fetch("./source-health.json?todo="+Date.now(),{cache:"no-store"});
+        if(u.ok)renderPublicSnapshot(await u.json());}catch(_){}
+    }
+  }
+ }catch(error){
+  area.textContent="Todo: สแกนไม่ได้ ("+error.message+
+    ") · ต้องเปิดจาก Notebook ที่ Azure CLI เชื่อม Microsoft 365 ไว้";
+ }finally{todoScanBusy=false;btn.disabled=false;}
+}
+$("scanTodo").addEventListener("click",refreshTodoFromGraph);
+
 
 $("pivotFile").addEventListener("change",async e=>{
   const file=e.target.files&&e.target.files[0];if(!file)return;
