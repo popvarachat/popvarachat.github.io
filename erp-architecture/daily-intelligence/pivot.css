@@ -54,3 +54,23 @@
 .audit-table small{display:block;color:#839596;font-size:9px;margin-top:3px}
 .audit-table .audit-num{text-align:center;font-weight:900}
 .audit-footnote{font-size:10px;line-height:1.5;margin:12px 0 0}
+
+/* Historical fallback: event date vs extract date always visible */
+.history-source{background:#f2f7f6;border:1px solid #dbe8e4;border-left:3px solid #158f81;border-radius:10px;padding:13px 16px;font-size:12px;line-height:1.65;color:#355960;margin:6px 0 14px}
+.history-controls{display:flex;align-items:end;justify-content:space-between;gap:12px;flex-wrap:wrap;margin:10px 0 12px}
+.history-controls label{font-size:11px;font-weight:750;color:#55727a}
+.history-controls select{display:block;margin-top:5px;min-width:150px}
+.history-badge{font-size:10px;color:#777e84}
+.history-wrap{max-height:430px;overflow:auto}
+.history-table{width:100%;min-width:770px;border-collapse:separate;border-spacing:0}
+.history-table thead th{position:sticky;top:0;background:#e4efec;z-index:3}
+.history-table td{font-size:11px;vertical-align:top;padding:10px!important;line-height:1.5}
+.history-table td button{font-weight:750;font-size:11px;background:#e7f4ed;border:1px solid #c3e5d8;color:#076f63;padding:7px 10px;border-radius:7px}
+.history-table td button:hover{background:#d3eee0}
+.history-drilldown{margin-top:12px;border:1px solid #d6e2e0;border-radius:12px;background:#f9fbfa;padding:15px;font-size:11px;line-height:1.6}
+.history-drilldown> b{font-weight:800;color:#126559}
+.history-drilldown p{margin-top:7px;color:#697d80}
+.history-private-list{max-height:260px;overflow:auto;margin-top:9px;display:grid;gap:3px}
+.history-private-list>div{padding:6px 8px;border-bottom:1px solid #e7eeed}
+.history-private-list span{color:#87989b}
+.history-warning{font-size:10px;margin:10px 0 0;line-height:1.7}
