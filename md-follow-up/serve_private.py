@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """NB-only private drilldown web server. Never bind to LAN/public interface."""
-import os,pathlib,http.server,urllib.parse,threading,subprocess,sys,json,datetime as dt,time
+import os,pathlib,http.server,urllib.parse,threading,subprocess,sys,json,datetime as dt,time,traceback
 ROOT=pathlib.Path(os.environ.get("LOCALAPPDATA",str(pathlib.Path.home())))/"UAIOS"/"MD-FollowUp-Private"
 ROOT.mkdir(parents=True,exist_ok=True)
 TRUSTED_PUBLIC_ORIGIN="https://popvarachat.github.io"
@@ -12,31 +12,51 @@ def _now():
     return dt.datetime.now(dt.timezone.utc).isoformat()
 def _run_scan():
     try:
-        # Fixed executable and fixed read-only source scan. No user-submitted commands, paths or arguments.
-        result=subprocess.run(
-            [sys.executable,str(SCAN_ROOT/"refresh_sources.py"),
-             "--config",str(SCAN_ROOT/"refresh.config.json"),"--mode","manual","--publish"],
-            cwd=str(SCAN_ROOT),text=True,encoding="utf-8",errors="replace",
-            capture_output=True,timeout=600)
-        source_file=SCAN_ROOT/"source-health.json"
-        batch={}
-        if source_file.is_file():
-            try: batch=json.loads(source_file.read_text(encoding="utf-8-sig")).get("batch",{})
-            except (ValueError,OSError): pass
-        success=bool(result.returncode==0 and batch.get("successful")==4 and not batch.get("failed"))
-        pivot=ROOT/"pivot.json"
-        if success and not pivot.is_file():success=False
-        _SCAN_STATE.update(
-            state="success" if success else "partial_or_failed",
-            finished_at=_now(),
-            sources={k:("ok" if k in batch.get("ok",[]) else "failed")
-                     for k in ("cb","ics","icf","ice")},
-            message=("Scanned W: 4/4 and rebuilt private pivot" if success
-                      else "Some W: sources failed, or rebuild/publish failed; inspect NB collector audit"),
-            local_pivot_updated=dt.datetime.fromtimestamp(pivot.stat().st_mtime,dt.timezone.utc).isoformat() if pivot.is_file() else None,
-            cloud={"planner":"NOT_SCANNED_BY_THIS_BUTTON","innovation":"NOT_SCANNED_BY_THIS_BUTTON"})
+        # Run in the same interactive Windows logon, mapped-W: drive and account
+        # as the known-good hourly Task Scheduler, NOT the isolated viewer process.
+        srcfile=SCAN_ROOT/"source-health.json"
+        pivotfile=ROOT/"pivot.json"
+        baseline_src=srcfile.stat().st_mtime_ns if srcfile.is_file() else 0
+        baseline_pivot=pivotfile.stat().st_mtime_ns if pivotfile.is_file() else 0
+        result=subprocess.run(["schtasks.exe","/run","/tn","MD-FollowUp-Safe-Refresh"],
+            capture_output=True,text=True,encoding="utf8",errors="replace",timeout=22)
+        if result.returncode!=0:
+            raise RuntimeError("ScheduledTaskStartFailed")
+        deadline=time.monotonic()+240
+        while time.monotonic()<deadline:
+            time.sleep(1.5)
+            if not srcfile.is_file() or not pivotfile.is_file():
+                continue
+            if srcfile.stat().st_mtime_ns<=baseline_src or pivotfile.stat().st_mtime_ns<=baseline_pivot:
+                continue
+            try:scan=json.loads(srcfile.read_text(encoding="utf-8-sig"))
+            except (OSError,ValueError):continue
+            batch=scan.get("batch",{})
+            if len(batch.get("ok",[]))+len(batch.get("failed",[]))!=4:
+                continue
+            if pivotfile.stat().st_mtime_ns < srcfile.stat().st_mtime_ns:
+                continue
+            good=len(batch.get("ok",[]))==4 and not batch.get("failed")
+            _SCAN_STATE.update(
+                state="success" if good else "partial_or_failed",
+                finished_at=_now(),
+                sources={k:("ok" if k in batch.get("ok",[]) else "failed")
+                         for k in ("cb","ics","icf","ice")},
+                message=("Scheduled W-drive scan 4/4 completed and local pivot rebuilt"
+                         if good else "Scheduled scan incomplete; check NB collector audit"),
+                local_pivot_updated=dt.datetime.fromtimestamp(
+                    pivotfile.stat().st_mtime,dt.timezone.utc).isoformat(),
+                cloud={"planner":"NOT_SCANNED_BY_THIS_BUTTON",
+                       "innovation":"NOT_SCANNED_BY_THIS_BUTTON"})
+            break
+        else:
+            _SCAN_STATE.update(state="error",finished_at=_now(),
+                message="Scheduled W-drive scan did not finish within four minutes")
     except Exception as exc:
-        _SCAN_STATE.update(state="error",finished_at=_now(),message="Scan failed: "+type(exc).__name__)
+        try: (SCAN_ROOT/".audit-local"/"scan-error.log").write_text(traceback.format_exc(),encoding="utf8")
+        except OSError:pass
+        _SCAN_STATE.update(state="error",finished_at=_now(),
+            message="Scheduled source scan failed: "+type(exc).__name__)
     finally:
         _SCAN_LOCK.release()
 

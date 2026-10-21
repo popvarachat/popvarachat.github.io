@@ -132,3 +132,7 @@ Do not add private JSON or local source paths to public GitHub.
   rebuilds private records and Pivot, and merges safe aggregate metadata.
 - The button does not crawl Planner / Innovation cloud sources.
 - Other devices need a separately authenticated intranet API to scan on NB.
+
+### Interactive W-drive scan context
+- The GitHub Pivot scan button triggers the existing MD-FollowUp-Safe-Refresh Windows Scheduled Task. This reuses the task's interactive mapped W: drive context, which differs from the localhost web server process.
+- Results show four W: source statuses and keep Planner and Innovation explicitly unscanned; the private pivot is rebuilt before the browser reloads it. No public row-level records are committed.
