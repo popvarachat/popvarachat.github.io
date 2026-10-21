@@ -210,10 +210,10 @@
   $('ownerSource').textContent=conf[state.node]?.[1]||d.owner;
   $('certification').textContent=!p?'ยังไม่มี Event ที่ผูก Due Date + Pending Owner ครบ':state.node==='purchase'?'P5543007 PR (ไม่มีเลข PO) และ P4338 PO (Qty Open > 0) · ไม่ใช่คิว PR Approval ที่รับรองแล้ว · PR Request Date/PO Original Promise ไม่ใช่ SLA การอนุมัติ · Buyer ไม่ใช่ Action Owner ที่ยืนยัน · ยังไม่ผูกชื่อโครงการครบ':'วันกำหนดคือ WO Finish Due ไม่ใช่ Stage Due · Current Operation / Owner ยังไม่ผ่านการรับรอง · ชื่อโครงการ/ลูกค้าเผยแพร่ตามอนุมัติ 21 ต.ค. 2026';
   $('trust').textContent=!p?'SOURCE NOT CERTIFIED · NO DAILY PIVOT DATA':state.node==='purchase'?'PR/PO READ-ONLY SAMPLES · NOT CERTIFIED':isPrivate()&&state.priv?.domains?.[state.node]?'NB PRIVATE · NAMES VISIBLE · PROVISIONAL':'PROJECT/CUSTOMER APPROVED · PROVISIONAL';
-  $('scopeNote').textContent=!p?'ยังไม่ได้ผูก Due Date + Pending Department ของ '+d.name+' ใน JDE · ไม่สร้างยอดสมมติ':state.node==='purchase'?'P5543007 PR Inquiry วันที่ 20 ต.ค.: PR ยังไม่พบ PO 30 รายการ · P4338 PO นำเข้า 10 ใบ / 14 Lines ที่มี Qty Open > 0 · ใช้ Request Date ของ PR / Original Promised Date ของ PO ไม่ใช่กำหนดอนุมัติ PR · แผนกค้างและเจ้าภาพยังไม่รับรอง · ยังไม่มี Project/SO Join · Source Updated '+date:'ERP Source Snapshot '+date+' · แสดงชื่อโครงการ '+fmt(namedProject)+' Cutting และชื่อลูกค้า '+fmt(namedCustomer)+' Cutting ในผลกรอง · ชื่อลูกค้าที่ยังจับคู่ P4210 ไม่ได้แสดงว่า “ยังไม่พบชื่อลูกค้า” · กำหนดส่งเป็น WO Finish Due ไม่ใช่กำหนดส่งราย Operation · จัดส่วนงานเบื้องต้นจาก Control Plan เท่านั้น และไม่ใช่ยอด WIP ทั้งโรงงาน';
+  $('scopeNote').textContent=!p?'ยังไม่ได้ผูก Due Date + Pending Department ของ '+d.name+' ใน JDE · ไม่สร้างยอดสมมติ':state.node==='purchase'?'P5543007 PR Inquiry วันที่ 20 ต.ค.: PR ไม่พบ PO 30 บรรทัด (21 เลข PR) · P4338 PO นำเข้า 10 ใบ / 14 Lines ที่มี Qty Open > 0 · ใช้ Request Date ของ PR / Original Promised Date ของ PO ไม่ใช่กำหนดอนุมัติ PR · แผนกค้างและเจ้าภาพยังไม่รับรอง · ยังไม่มี Project/SO Join · Source Updated '+date:'ERP Source Snapshot '+date+' · แสดงชื่อโครงการ '+fmt(namedProject)+' Cutting และชื่อลูกค้า '+fmt(namedCustomer)+' Cutting ในผลกรอง · ชื่อลูกค้าที่ยังจับคู่ P4210 ไม่ได้แสดงว่า “ยังไม่พบชื่อลูกค้า” · กำหนดส่งเป็น WO Finish Due ไม่ใช่กำหนดส่งราย Operation · จัดส่วนงานเบื้องต้นจาก Control Plan เท่านั้น และไม่ใช่ยอด WIP ทั้งโรงงาน';
   const total=r?sumWeight(r):null;
   $('total').textContent=r?fmt(total):'—';
-  $('metricExplain').textContent=r?(state.node==='purchase'?'30 PR ไม่มี PO + 14 PO Lines Qty Open · ตัวอย่าง ไม่ใช่งานค้างทั้งหมด':'จำนวน Cutting ตาม Snapshot · ยังไม่ใช่ Factory WIP Certified'):'ข้อมูลต้นทางไม่พร้อม';
+  $('metricExplain').textContent=r?(state.node==='purchase'?'30 PR Lines (21 ใบ) ไม่พบ PO + 14 PO Lines Qty Open · ตัวอย่าง ไม่ใช่ยอดทั้งหมด':'จำนวน Cutting ตาม Snapshot · ยังไม่ใช่ Factory WIP Certified'):'ข้อมูลต้นทางไม่พร้อม';
   const recognized=r?sumWeight(r.filter(x=>['p1','p2','p3','p4','p5','store','purchasing_followup'].includes(x.department_code))):null;
   $('assigned').textContent=r?fmt(recognized):'—';$('unknown').textContent=r?fmt(total-recognized):'—';
   const now=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
@@ -239,7 +239,7 @@
     '<td>'+escape(x.wo||'—')+'</td>'+
     '<td>'+escape(x.cutting||'—')+'</td>'+
     '<td>'+escape(x.project||'ยังไม่พบชื่อโครงการ')+'</td>'+
-    '<td>'+escape(purchase?(x.supplier||x.item||'ยังไม่มีรายละเอียด Supplier/PR Item บนเว็บสาธารณะ'):(x.customer||'ยังไม่พบชื่อลูกค้า'))+'</td>'+
+    '<td>'+escape(purchase?(x.supplier||x.attachment||x.item||'ยังไม่มีรายละเอียด Supplier/PR Item บนเว็บสาธารณะ'):(x.customer||'ยังไม่พบชื่อลูกค้า'))+'</td>'+
     '<td>'+fmt(weight(x))+'</td>'+
     '<td class="'+(!x.owner?'mute':'')+'">'+escape(x.owner||'ยังไม่ยืนยันชื่อบุคคล')+'</td>'+
     '<td>'+escape(x.wo_status||'Provisional Snapshot')+'</td></tr>').join(''):'<tr><td colspan="9" class="empty">ไม่พบรายการในช่องนี้</td></tr>';
