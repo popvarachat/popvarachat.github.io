@@ -160,6 +160,7 @@
     '<div class="inspect-field"><dt>Data Owner</dt><dd>'+safe(d.owner)+'</dd></div></dl>'+
     '<div class="detail-divider"></div><p class="note-inspect"><b>สิ่งที่ต้องตรวจ:</b> '+safe(d.note)+'</p>'+
     '<div class="owner">รายงานของวันที่ <b>'+niceDate(state.date)+'</b> · Certification: <b>'+safe(d.records_certified?'ผ่าน':'ยังไม่ผ่าน')+'</b></div>'+
+    '<a class="source-link pivot-entry" href="pivot.html?node='+encodeURIComponent(d.id)+'"><span>▤ เปิด Pivot · วันกำหนดส่ง × ส่วนงานที่ค้าง</span><span>→</span></a>'+
     (d.evidence||[]).map(e=>'<a class="source-link" href="'+safe(e.url)+'" target="_blank" rel="noopener noreferrer"><span>↗ '+safe(e.label)+'</span><span>›</span></a>').join('')+privateInspector(d);
   }
   function privateInspector(d){
