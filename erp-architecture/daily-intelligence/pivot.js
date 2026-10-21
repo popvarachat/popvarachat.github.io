@@ -189,7 +189,7 @@
     columns.map(([dep])=>'<td class="pivot-grand">'+fmt(grand.get(dep)||0)+'</td>').join('')+
     '<td class="pivot-grand">'+fmt(sumWeight(rows))+'</td></tr>';
   }
-  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PO Lines · ':' Cutting · ')+fmt(sorted.length)+' Group · '+
+  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PR/PO Lines · ':' Cutting · ')+fmt(sorted.length)+' Group · '+
    fmt(columns.length)+' แผนก':'ยังไม่สามารถคำนวณยอดงานของ Node นี้';
   $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: แผนกที่สถานะค้าง';
   $('modeDateProject').classList.toggle('mode-active',isDateFirst);
@@ -243,7 +243,7 @@
     '<td>'+fmt(weight(x))+'</td>'+
     '<td class="'+(!x.owner?'mute':'')+'">'+escape(x.owner||'ยังไม่ยืนยันชื่อบุคคล')+'</td>'+
     '<td>'+escape(x.wo_status||'Provisional Snapshot')+'</td></tr>').join(''):'<tr><td colspan="9" class="empty">ไม่พบรายการในช่องนี้</td></tr>';
-  $('detailCount').textContent=list?fmt(total)+' '+(purchase?'PO Lines':'Cutting')+' / '+fmt(count)+' แถว (หน้าปัจจุบัน '+fmt(page.length)+')':'ไม่ทราบจำนวน';
+  $('detailCount').textContent=list?fmt(total)+' '+(purchase?'PR/PO Lines':'Cutting')+' / '+fmt(count)+' แถว (หน้าปัจจุบัน '+fmt(page.length)+')':'ไม่ทราบจำนวน';
   $('pageIndex').textContent=state.page+' / '+pages;$('prev').disabled=state.page===1;$('next').disabled=state.page>=pages;
  }
  function renderAll(resetYears=false){renderNav();if(resetYears){setupYears();syncFacets();}renderSummary();renderMatrix();renderDetails();}
