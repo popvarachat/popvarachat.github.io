@@ -153,7 +153,7 @@
     html.push('<tr class="group-row"><td class="group-col group-label"><button type="button" class="group-toggle" data-group="'+escape(groupNameValue)+
      '" aria-expanded="'+(!collapsed)+'"><span aria-hidden="true">'+(collapsed?'▸':'▾')+'</span> '+escape(niceGroupText(groupNameValue,isDateFirst))+
      '<span class="count-badge">'+subgroupList.length+'</span></button></td>'+
-     '<td class="sub-col group-caption">รวม '+escape(subName)+' · '+fmt(g.total)+' Cutting</td>'+
+     '<td class="sub-col group-caption">รวม '+escape(subName)+' · '+fmt(g.total)+' '+(state.node==='purchase'?'PO Lines':'Cutting')+'</td>'+
      columns.map(([dep])=>cell(g.departments.get(dep)||0,groupNameValue,null,dep)).join('')+
      cell(g.total,groupNameValue,null,null)+'</tr>');
     if(!collapsed){
@@ -189,7 +189,7 @@
     columns.map(([dep])=>'<td class="pivot-grand">'+fmt(grand.get(dep)||0)+'</td>').join('')+
     '<td class="pivot-grand">'+fmt(sumWeight(rows))+'</td></tr>';
   }
-  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+' Cutting · '+fmt(sorted.length)+' Group · '+
+  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PO Lines · ':' Cutting · ')++fmt(sorted.length)+' Group · '+
    fmt(columns.length)+' แผนก':'ยังไม่สามารถคำนวณยอดงานของ Node นี้';
   $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: แผนกที่สถานะค้าง';
   $('modeDateProject').classList.toggle('mode-active',isDateFirst);
@@ -200,30 +200,37 @@
  }
  function renderSummary(){
   const d=dim(state.node);if(!d)return;const r=filteredRows(),p=nodeData(),meta=sourceMeta();
-  const date=(meta?.source_snapshot||meta?.due_date_source_snapshot||'ไม่ทราบ');
+  const date=(p?.source_snapshot||meta?.source_snapshot||meta?.due_date_source_snapshot||'ไม่ทราบ');
   const namedProject=r?sumWeight(r.filter(x=>x.project&&x.project!=='ยังไม่พบชื่อโครงการ')):0;
   const namedCustomer=r?sumWeight(r.filter(x=>Boolean(x.customer))):0;
   $('nodeTitle').textContent=d.name;
-  $('matrixHeading').textContent=d.name+' · วันที่ / โครงการ × แผนกที่ค้าง';
-  $('sourceLine').textContent=d.applications+' · '+(p?p.due_field:'ไม่มี Transaction Pivot Extract ของ Node นี้')+' · Source Snapshot '+date;
+  $('matrixHeading').textContent=d.name+' · '+(state.node==='purchase'?'PO Open · Original Promise Date × จัดซื้อ (เบื้องต้น)':'วันที่ / โครงการ × แผนกที่ค้าง');
+  $('sourceLine').textContent=(state.node==='purchase'?'P4338 (PO Detail) · ':'')+d.applications+' · '+(p?p.due_field:'ไม่มี Transaction Pivot Extract ของ Node นี้')+' · Source Snapshot '+date;
   $('dueSource').textContent=conf[state.node]?.[0]||d.grain;
   $('ownerSource').textContent=conf[state.node]?.[1]||d.owner;
-  $('certification').textContent=p?'วันกำหนดคือ WO Finish Due ไม่ใช่ Stage Due · Current Operation / Owner ยังไม่ผ่านการรับรอง · ชื่อโครงการ/ลูกค้าเผยแพร่ตามอนุมัติ 21 ต.ค. 2026':'ยังไม่มี Event ที่ผูก Due Date + Pending Owner ครบ';
-  $('trust').textContent=p?(isPrivate()&&state.priv?.domains?.[state.node]?'NB PRIVATE · NAMES VISIBLE · PROVISIONAL':'PROJECT/CUSTOMER APPROVED · PROVISIONAL'):'SOURCE NOT CERTIFIED · NO DAILY PIVOT DATA';
-  $('scopeNote').textContent=p?('ERP Source Snapshot '+date+' · แสดงชื่อโครงการ '+fmt(namedProject)+' Cutting และชื่อลูกค้า '+fmt(namedCustomer)+' Cutting ในผลกรอง · ชื่อลูกค้าที่ยังจับคู่ P4210 ไม่ได้แสดงว่า “ยังไม่พบชื่อลูกค้า” · กำหนดส่งเป็น WO Finish Due ไม่ใช่กำหนดส่งราย Operation · จัดส่วนงานเบื้องต้นจาก Control Plan เท่านั้น และไม่ใช่ยอด WIP ทั้งโรงงาน'):('ยังไม่ได้ผูก Due Date + Pending Department ของ '+d.name+' ใน JDE · ไม่สร้างยอดสมมติ');
+  $('certification').textContent=!p?'ยังไม่มี Event ที่ผูก Due Date + Pending Owner ครบ':state.node==='purchase'?'PO Sample เท่านั้น · Quantity Open > 0 จาก P4338 · Original Promised Date ไม่ใช่วันครบกำหนดอนุมัติ PR · Buyer ไม่ใช่ผู้ถือ Action ที่ยืนยันแล้ว · Project Mapping ยังไม่ครบ':'วันกำหนดคือ WO Finish Due ไม่ใช่ Stage Due · Current Operation / Owner ยังไม่ผ่านการรับรอง · ชื่อโครงการ/ลูกค้าเผยแพร่ตามอนุมัติ 21 ต.ค. 2026';
+  $('trust').textContent=!p?'SOURCE NOT CERTIFIED · NO DAILY PIVOT DATA':state.node==='purchase'?'P4338 PO SAMPLE · NOT CERTIFIED':isPrivate()&&state.priv?.domains?.[state.node]?'NB PRIVATE · NAMES VISIBLE · PROVISIONAL':'PROJECT/CUSTOMER APPROVED · PROVISIONAL';
+  $('scopeNote').textContent=!p?'ยังไม่ได้ผูก Due Date + Pending Department ของ '+d.name+' ใน JDE · ไม่สร้างยอดสมมติ':state.node==='purchase'?'P4338 Read-only · ตัวอย่าง PO นำเข้า 10 ใบ / 14 Lines · Original Promised Date (ไม่ใช่วันอนุมัติ PR) · Quantity Open > 0 · Purchasing เป็นกลุ่มติดตามเบื้องต้น ไม่ได้พิสูจน์ว่าเป็นส่วนงานที่ค้างจริง · ยังไม่มี Project/SO Join และ PR Approval Log · Snapshot '+date:'ERP Source Snapshot '+date+' · แสดงชื่อโครงการ '+fmt(namedProject)+' Cutting และชื่อลูกค้า '+fmt(namedCustomer)+' Cutting ในผลกรอง · ชื่อลูกค้าที่ยังจับคู่ P4210 ไม่ได้แสดงว่า “ยังไม่พบชื่อลูกค้า” · กำหนดส่งเป็น WO Finish Due ไม่ใช่กำหนดส่งราย Operation · จัดส่วนงานเบื้องต้นจาก Control Plan เท่านั้น และไม่ใช่ยอด WIP ทั้งโรงงาน';
   const total=r?sumWeight(r):null;
   $('total').textContent=r?fmt(total):'—';
-  $('metricExplain').textContent=r?'จำนวน Cutting ตาม Snapshot · ยังไม่ใช่ Factory WIP Certified':'ข้อมูลต้นทางไม่พร้อม';
-  const recognized=r?sumWeight(r.filter(x=>['p1','p2','p3','p4','p5','store'].includes(x.department_code))):null;
+  $('metricExplain').textContent=r?(state.node==='purchase'?'PO Lines มี Quantity Open > 0 · ตัวอย่าง ไม่ใช่ PO ค้างทั้งหมด':'จำนวน Cutting ตาม Snapshot · ยังไม่ใช่ Factory WIP Certified'):'ข้อมูลต้นทางไม่พร้อม';
+  const recognized=r?sumWeight(r.filter(x=>['p1','p2','p3','p4','p5','store','purchasing_followup'].includes(x.department_code))):null;
   $('assigned').textContent=r?fmt(recognized):'—';$('unknown').textContent=r?fmt(total-recognized):'—';
   const now=new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
   $('overdue').textContent=r?fmt(sumWeight(r.filter(x=>x.due&&x.due<now))):'—';
-  if(state.scope==='all'&&p)$('scopeNote').textContent+=' · ชุดข้อมูลนี้มีเฉพาะ Open WO';
+  if(state.scope==='all'&&p)$('scopeNote').textContent+=state.node==='purchase'?' · ชุดนี้มีเฉพาะ PO Line ที่ Quantity Open > 0':' · ชุดข้อมูลนี้มีเฉพาะ Open WO';
  }
+
  function renderDetails(){
   const r=filteredRows(),list=r?r.filter(x=>cellMatches(x,state.cell)):null;
+  const purchase=state.node==='purchase';
+  $('colPrimary').textContent=purchase?'PO Number':'WO';
+  $('colSecondary').textContent=purchase?'PO Line':'Cutting / เอกสาร';
+  $('colCustomer').textContent=purchase?'Supplier (เฉพาะ NB)':'ลูกค้า';
+  $('colQty').textContent=purchase?'จำนวน PO Lines':'จำนวน Cutting';
+  $('colOwner').textContent=purchase?'PO Buyer (ไม่ใช่ Pending Owner)':'เจ้าภาพชื่อบุคคล';
   $('detailHeading').textContent=state.cell?'รายการค้าง · '+niceGroupText(state.cell.group,state.rowMode==='date_project')+(state.cell.sub===null?'':' → '+niceGroupText(state.cell.sub,state.rowMode==='project_date'))+(state.cell.department===null?'':' · '+(list?.[0]?.department||state.cell.department)):'รายการงานในผลกรอง';
-  $('detailScope').textContent=state.cell?'แสดงเฉพาะช่องที่เลือกจาก Pivot':'แสดงรายการตามตัวกรองและช่วงวันที่';
+  $('detailScope').textContent=purchase?'รายการ PO มี Qty Open > 0 จาก P4338 (Sample) · PR/Requisition ยังไม่ตรวจรับ'+(state.cell?' · เฉพาะช่องที่เลือก':''):state.cell?'แสดงเฉพาะช่องที่เลือกจาก Pivot':'แสดงรายการตามตัวกรองและช่วงวันที่';
   const total=list?sumWeight(list):null,count=list?.length??0,pages=Math.max(1,Math.ceil(count/state.pageSize));state.page=Math.min(state.page,pages);
   const page=list?.slice((state.page-1)*state.pageSize,state.page*state.pageSize)||[];
   $('details').innerHTML=!list?'<tr><td colspan="9" class="empty">ยังไม่มีรายการ Drilldown ของ Node นี้</td></tr>':page.length?page.map(x=>'<tr>'+
@@ -232,11 +239,11 @@
     '<td>'+escape(x.wo||'—')+'</td>'+
     '<td>'+escape(x.cutting||'—')+'</td>'+
     '<td>'+escape(x.project||'ยังไม่พบชื่อโครงการ')+'</td>'+
-    '<td>'+escape(x.customer||'ยังไม่พบชื่อลูกค้า')+'</td>'+
+    '<td>'+escape(purchase?(x.supplier||'ไม่เผยแพร่ Supplier บนเว็บสาธารณะ'):(x.customer||'ยังไม่พบชื่อลูกค้า'))+'</td>'+
     '<td>'+fmt(weight(x))+'</td>'+
     '<td class="'+(!x.owner?'mute':'')+'">'+escape(x.owner||'ยังไม่ยืนยันชื่อบุคคล')+'</td>'+
     '<td>'+escape(x.wo_status||'Provisional Snapshot')+'</td></tr>').join(''):'<tr><td colspan="9" class="empty">ไม่พบรายการในช่องนี้</td></tr>';
-  $('detailCount').textContent=list?fmt(total)+' Cutting / '+fmt(count)+' แถว (หน้าปัจจุบัน '+fmt(page.length)+')':'ไม่ทราบจำนวน';
+  $('detailCount').textContent=list?fmt(total)+' '+(purchase?'PO Lines':'Cutting')+' / '+fmt(count)+' แถว (หน้าปัจจุบัน '+fmt(page.length)+')':'ไม่ทราบจำนวน';
   $('pageIndex').textContent=state.page+' / '+pages;$('prev').disabled=state.page===1;$('next').disabled=state.page>=pages;
  }
  function renderAll(resetYears=false){renderNav();if(resetYears){setupYears();syncFacets();}renderSummary();renderMatrix();renderDetails();}
@@ -286,7 +293,7 @@
  };
  $('year').onchange=e=>{state.year=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('month').onchange=e=>{state.month=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
- $('scope').onchange=e=>{state.scope=e.target.value;if(state.scope==='all'&&nodeData()){message('ข้อมูลปัจจุบันมีเฉพาะ Open WO; ไม่รวม Closed/Cancelled');state.scope='open';$('scope').value='open';}renderSummary();};
+ $('scope').onchange=e=>{state.scope=e.target.value;if(state.scope==='all'&&nodeData()){message(state.node==='purchase'?'ข้อมูลนี้มีเฉพาะ PO Line ที่ Qty Open > 0 และยังไม่ครบ PR/PO ทั้งระบบ':'ข้อมูลปัจจุบันมีเฉพาะ Open WO; ไม่รวม Closed/Cancelled');state.scope='open';$('scope').value='open';}renderSummary();};
  $('search').oninput=e=>{state.query=e.target.value.trim();state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('clearCell').onclick=()=>{state.cell=null;state.page=1;renderMatrix();renderDetails()};
  $('download').onclick=csv;
