@@ -28,7 +28,7 @@ function buildFilters(){
 function makeStats(){
  const live=filtered.filter(r=>!r.closed),over=live.filter(isDueRisk).length;
  const missing=live.filter(r=>!r.due_iso).length;
- const missingOwner=live.filter(r=>r.owner_kind==="missing").length;
+ const missingOwner=live.filter(r=>["missing","team_only","not_audited"].includes(r.owner_kind)).length;
  const units=[
   {title:"งาน/โครงการในผลลัพธ์",value:new Set(filtered.map(r=>r.work_key)).size,extra:"นับไม่ซ้ำภายในทะเบียน"},
   {title:"Stage ที่แสดง",value:filtered.length,extra:"แถวตามเงื่อนไข"},
@@ -36,13 +36,8 @@ function makeStats(){
   {title:"ครบกำหนดวันนี้",value:live.filter(r=>r.deadline_state==="ครบกำหนดวันนี้").length,extra:"ตามวันที่ในแหล่งข้อมูล",class:"caution"},
   {title:"ยังไม่มี Stage Due ที่ยืนยัน",value:missing,extra:"ต้องจัดทำกำหนดส่ง",class:"caution"},
   {title:"ยังไม่ระบุเจ้าภาพรายบุคคล",value:missingOwner,extra:"ต้องมอบหมายคนรับผิดชอบ",class:"caution"}];
- $("kpis").innerHTML=units.map(o=>'<div class="metric '+(o.class||"")+'"><div class="label">'+escapeHtml(o.title)+'</div><strong>'+o.value.toLocaleString("th-TH")+'</strong><small>'+escapeHtml(o.extra)+'</small></div>').join("");
-  const missingCard=$("kpis").querySelectorAll(".metric")[5];
- if(missingCard){
-   missingCard.tabIndex=0;
-   missingCard.setAttribute("role","button");
-   missingCard.title="คลิกเพื่อกรองงานที่ยังไม่ยืนยันชื่อเจ้าภาพ";
- }
+ $("kpis").innerHTML=units.map((o,i)=>'<button type="button" class="metric kpi-clickable '+(o.class||"")+'" data-kpi="'+i+'" aria-label="เปิดรายละเอียด '+escapeHtml(o.title)+' จำนวน '+o.value+'"><span class="label">'+escapeHtml(o.title)+'</span><strong>'+o.value.toLocaleString("th-TH")+'</strong><small>'+escapeHtml(o.extra)+'</small><span class="kpi-action">ดูรายการที่นับ ↗</span></button>').join("");
+
  $("asof").textContent="ข้อมูลภายใน ณ "+new Date(payload.updated).toLocaleString("th-TH")+", "+filtered.length.toLocaleString("th-TH")+" Stage (ไม่ใช่จำนวนคำสั่ง MD ที่ไม่ซ้ำกัน)";
 }
 function refreshOwnerSelect(){
@@ -149,6 +144,7 @@ function cellHtml(items,k,node,idx){
 }
 function render(){
  makeStats();colDefs();buildTree();renderTree();$("drill").hidden=true;
+ if(activeKpi!==null)renderKpiInspector();
 }
 function renderTree(){
  allVisible();
@@ -172,10 +168,15 @@ function renderTree(){
  $("columnNote").textContent="คอลัมน์ "+columns.length+" จาก "+new Set(filtered.map(groupName)).size+" กลุ่ม · นับ "+(measure==="work"?"Distinct Work ภายในแต่ละทะเบียน":"Stage Rows")+" · ยอดอาจซ้ำข้ามระบบ";
 }
 function assigneeLabel(r){
- if(r.owner_kind==="missing")return "ยังไม่ยืนยันเจ้าภาพรายบุคคล · ต้นทาง: "+(r.owner_raw||"ไม่ระบุ");
- if(r.owner_kind==="joint")return "ร่วมหลายคน · ยังไม่ยืนยันผู้รับผิดชอบหลัก";
- if(r.source==="planner")return "ผู้รับ Assignment ใน Planner · ตรวจชื่อจาก Microsoft Directory";
- return "ชื่อบุคคลที่ระบุในช่องเจ้าภาพต้นทาง";
+ if(r.owner_role==="notes_explicit_person")
+  return "เจ้าภาพจาก Planner Notes" + (r.owner_assignee_person?" · ผู้รับ Assignment: "+r.owner_assignee_person:" · ไม่มี Assignment");
+ if(r.owner_role==="notes_team_only")return "เจ้าภาพระดับทีม: "+(r.owner_team||r.owner_raw)+" · ยังไม่ระบุคน";
+ if(r.owner_role==="notes_not_checked")return "ยังไม่ได้ตรวจ Planner Notes · ไม่ใช่หลักฐานว่าไม่มีเจ้าภาพ";
+ if(r.owner_role==="notes_checked_no_owner")return "ตรวจ Notes แล้วไม่พบเจ้าภาพ และไม่มี Assignment";
+ if(r.owner_role==="assignment_only")return "ผู้รับ Assignment เท่านั้น · ยังไม่รับรองว่าเป็นเจ้าภาพหลัก";
+ if(r.owner_kind==="missing")return "ไม่ระบุเจ้าภาพรายบุคคล · ต้นทาง: "+(r.owner_raw||"ไม่ระบุ");
+ if(r.owner_kind==="joint")return "ผู้รับผิดชอบร่วมตามทะเบียน · ยังไม่ระบุ Lead";
+ return "เจ้าภาพจากคอลัมน์ผู้รับผิดชอบต้นทาง";
 }
 function individual(r){return r.owner_person||"ยังไม่ยืนยันเจ้าภาพรายบุคคล";}
 function showDrill(key,col){
@@ -216,15 +217,6 @@ function exportCsv(){
  const csv="\uFEFF"+[header,...filtered.map(r=>[r.source,r.work_key,r.project,r.stage,r.stage_index,r.due,r.status,r.owner_person,r.owner_raw,r.department,r.deadline_state])].map(row=>row.map(quote).join(",")).join("\r\n");
  const b=new Blob([csv],{type:"text/csv;charset=utf-8"}),u=URL.createObjectURL(b),a=document.createElement("a");a.href=u;a.download="md-stage-pivot-local-"+payload.as_of+".csv";a.click();setTimeout(()=>URL.revokeObjectURL(u),1000);
 }
-function missingOwnerShortcut(){
- const select=$("ownerFilter");
- const option=[...select.options].find(o=>o.value.includes("ยังไม่ระบุเจ้าภาพรายบุคคล"));
- if(option){select.value=option.value;refresh();$("pivotScroll").scrollIntoView({behavior:"smooth",block:"start"});}
-}
-$("kpis").addEventListener("click",e=>{if(e.target.closest(".metric")===$("kpis").querySelectorAll(".metric")[5])missingOwnerShortcut()});
-$("kpis").addEventListener("keydown",e=>{
- if((e.key==="Enter"||e.key===" ")&&e.target===$("kpis").querySelectorAll(".metric")[5]){e.preventDefault();missingOwnerShortcut();}
-});
 $("tbody").addEventListener("click",e=>{
  const toggle=e.target.closest("[data-toggle]");
  if(toggle){const k=toggle.dataset.toggle;if(expanded.has(k))expanded.delete(k);else expanded.add(k);renderTree();return;}
@@ -280,19 +272,23 @@ function renderSourceDetail(){
  ["จำนวนงานไม่ซ้ำภายในทะเบียน",new Set(rows.map(x=>x.work_key)).size],
  ["Stage ยังเปิด",pending.length],
  ["Stage ผ่านวันกำหนดในตาราง",pending.filter(x=>x.deadline_state==="ผ่านกำหนดตามตาราง").length],
- ["Stage ยังไม่มีชื่อเจ้าภาพ",pending.filter(x=>x.owner_kind==="missing").length]
+ ["Stage ยังไม่มีชื่อเจ้าภาพ",pending.filter(x=>["missing","team_only","not_audited"].includes(x.owner_kind)).length]
  ];
  $("sourceDetailStats").innerHTML=metrics.map(([n,v])=>'<div class="source-stat-metric"><small>'+escapeHtml(n)+'</small><strong>'+Number(v).toLocaleString("th-TH")+'</strong></div>').join("");
  let caution=selectedSource==="cb"?"CB: วันโอนตามแผนไม่ยืนยันว่าโอนช้าจริง และต้องตรวจใบโอน":"";
  if(["ics","icf","ice"].includes(selectedSource))caution="ICS/ICF/ICE: วันที่ทำงานไม่ใช่ Stage Due ที่รับรองแล้ว จึงไม่ตัดสินว่าเลยกำหนดจากคอลัมน์นั้น";
  if(["innovation","planner"].includes(selectedSource))caution="Cloud: ใช้ Snapshot ล่าสุดที่ได้รับ ไม่ได้ตรวจไฟล์ Cloud ใหม่จากปุ่ม Scan W:";
  $("sourceDetailNote").textContent=(payload?"มีข้อมูลรายรายการจาก Private Viewer บนเครื่องนี้":"ยังไม่เชื่อมข้อมูลรายรายการ: เปิดผ่าน NB หรือเลือกไฟล์ Pivot ที่ได้รับอนุญาต")+" · "+caution;
+ if(selectedSource==="planner"&&payload){
+    const a=payload.summary?.planner_ownership_audit||{};
+    $("sourceDetailNote").textContent+=" · ตรวจ Notes "+(a.notes_inspected||0)+"/38 งาน · พบเจ้าภาพใน Notes "+(a.notes_with_owner_label||0)+" งาน";
+  }
  const query=$("sourceDetailSearch").value.trim().toLocaleLowerCase(),kind=$("sourceDetailStatus").value;
  sourceDetailRows=rows.filter(r=>
   (!query||[r.project,r.stage,r.owner_person,r.owner_raw,r.row_id,r.work_key].join(" ").toLocaleLowerCase().includes(query))&&
   (kind==="all"||kind==="open"&&!r.closed||kind==="closed"&&r.closed||
    kind==="late"&&!r.closed&&r.deadline_state==="ผ่านกำหนดตามตาราง"||
-   kind==="missing"&&!r.closed&&r.owner_kind==="missing")
+   ["missing","team_only","not_audited"].includes(r.owner_kind)&&!r.closed&&r.owner_kind==="missing")
  ).sort(sourceStageSort);
  renderSourceRowsPage();
  for(const card of $("cloudSources").querySelectorAll("[data-source-card]")){
@@ -311,7 +307,7 @@ function renderSourceRowsPage(){
   '<td><strong>'+escapeHtml(r.project||r.work_key)+'</strong><small>'+escapeHtml(r.row_id||"")+'</small></td>'+
   '<td>'+escapeHtml(r.stage||"ยังไม่ระบุ")+'<small>Stage '+escapeHtml(r.stage_index||1)+'/'+escapeHtml(r.stage_total||1)+'</small></td>'+
   '<td><strong>'+escapeHtml(r.owner_person||"ยังไม่ระบุเจ้าภาพรายบุคคล")+'</strong>'+
-    '<small>'+escapeHtml(r.owner_kind==="missing"?"ต้นทาง: "+(r.owner_raw||"ไม่ระบุ"):r.owner_evidence||"จากข้อมูลต้นทาง")+'</small></td>'+
+    '<small>'+escapeHtml(assigneeLabel(r))+'</small></td>'+
   '<td>'+escapeHtml(r.status||"ไม่ระบุ")+'</td>'+
   '<td class="'+(r.deadline_state==="ผ่านกำหนดตามตาราง"?"source-overdue":"")+'">'+escapeHtml(r.deadline_state||"ยังไม่ตรวจรับ")+'</td></tr>'
  ).join(""):'<tr><td colspan="6" class="empty">ไม่มีรายการภายใต้เงื่อนไขนี้'+(!payload?" · ต้องเชื่อมข้อมูล Private Viewer ก่อน":"")+'</td></tr>';
@@ -319,6 +315,112 @@ function renderSourceRowsPage(){
  $("sourceDetailPrev").disabled=sourceDetailPage===0;
  $("sourceDetailNext").disabled=start+SOURCE_PAGE_SIZE>=sourceDetailRows.length;
 }
+const KPI_NAMES=[
+ "งาน/โครงการในผลลัพธ์","Stage ที่แสดง","ผ่านวันกำหนดในตาราง",
+ "ครบกำหนดวันนี้","ยังไม่มี Stage Due ที่ยืนยัน","ยังไม่ระบุเจ้าภาพรายบุคคล"];
+let activeKpi=null, kpiRows=[], kpiPage=0, kpiMatches=[];
+const KPI_PAGE_SIZE=60;
+function rowsForKpi(k){
+ const open=filtered.filter(r=>!r.closed);
+ switch(k){
+  case 0: return [...new Map(filtered.map(r=>[r.work_key,r])).values()];
+  case 1: return [...filtered];
+  case 2: return open.filter(isDueRisk);
+  case 3: return open.filter(r=>r.deadline_state==="ครบกำหนดวันนี้");
+  case 4: return open.filter(r=>!r.due_iso);
+  case 5: return open.filter(r=>["missing","team_only","not_audited"].includes(r.owner_kind));
+  default: return [];
+ }
+}
+function kpiDeadlineComparator(a,b){
+ return (a.due_iso||"9999-12-31").localeCompare(b.due_iso||"9999-12-31")||
+  (a.project||"").localeCompare(b.project||"","th")||
+  (a.stage_index||0)-(b.stage_index||0);
+}
+function renderKpiInspector(){
+ if(activeKpi===null)return;
+ kpiRows=rowsForKpi(activeKpi);
+ const inspector=$("kpiInspector");
+ inspector.hidden=false;
+ $("kpiInspectorTitle").textContent=KPI_NAMES[activeKpi]+" — "+kpiRows.length.toLocaleString("th-TH")+" รายการ";
+ const countInCard=$("kpis").querySelector('[data-kpi="'+activeKpi+'"] strong')?.textContent?.replace(/,/g,"");
+ $("kpiInspectorContext").textContent="แสดงงานที่ถูกนับตามตัวกรอง Pivot ปัจจุบัน · จำนวนรายการ "+kpiRows.length.toLocaleString("th-TH")+
+  (countInCard&&Number(countInCard)!==kpiRows.length?" · โปรดตรวจหน่วยนับของ KPI":" · ตรงกับตัวเลขบนการ์ด");
+ const messages=[
+  "นับงานไม่ซ้ำภายในทะเบียนตาม work_key; อาจเป็นงานเดียวกันในหลายระบบ",
+  "นับ Stage ทุกแถวตามตัวกรองปัจจุบัน รวมทั้งการแสดง Stage ปัจจุบันที่ระบบเลือก",
+  "วันในตารางผ่านแล้ว แต่ไม่ได้แปลว่ายืนยันผิด SLA หรือส่งงานช้าจริง",
+  "ใช้สถานะวันกำหนดส่งจากแหล่งข้อมูลที่เก็บไว้ ไม่ใช่เวลาปัจจุบันของ Browser",
+  "ไม่มี Stage Due ที่รับรอง; ICS/ICF/ICE ไม่ได้ใช้วันทำกิจกรรมมาเดา Stage Due",
+  "ไม่มีชื่อบุคคลที่ยืนยันได้จากช่องเจ้าภาพ/หลักฐานที่ตรวจแล้ว อาจมีชื่อคนในแหล่งอื่นที่ยังไม่ได้เทียบ"
+ ];
+ $("kpiInspectorGuide").textContent=messages[activeKpi]+" · คลิกแถวเพื่อเปิด Stage ทั้งสายและหลักฐานผู้รับผิดชอบ";
+ const requested=$("kpiSource").value;
+ const sources=["all",...new Set(kpiRows.map(x=>x.source))];
+ $("kpiSource").innerHTML=sources.map(k=>'<option value="'+escapeHtml(k)+'">'+escapeHtml(names[k]||k)+'</option>').join("");
+ $("kpiSource").value=sources.includes(requested)?requested:"all";
+ renderKpiPage();
+}
+function renderKpiPage(){
+ if(activeKpi===null)return;
+ const q=$("kpiSearch").value.trim().toLocaleLowerCase(),from=$("kpiSource").value,sort=$("kpiSort").value;
+ kpiMatches=kpiRows.filter(r=>(from==="all"||r.source===from)&&
+  (!q||[r.project,r.stage,r.owner_person,r.owner_raw,r.department,r.row_id,r.work_key].join(" ").toLocaleLowerCase().includes(q)));
+ kpiMatches.sort((a,b)=>
+  (sort==="source"?(a.source||"").localeCompare(b.source||""):0)||
+  (sort==="owner"?(a.owner_person||"").localeCompare(b.owner_person||"","th"):0)||
+  kpiDeadlineComparator(a,b));
+ if(kpiPage*KPI_PAGE_SIZE>=kpiMatches.length)kpiPage=0;
+ const start=kpiPage*KPI_PAGE_SIZE;
+ const portion=kpiMatches.slice(start,start+KPI_PAGE_SIZE);
+ $("kpiInspectorRows").innerHTML=portion.length?portion.map((r,i)=>
+  '<tr data-kpi-row="'+(start+i)+'" tabindex="0" title="คลิกดู Stage ทั้งสาย">'+
+  '<td>'+escapeHtml(r.due||r.due_iso||"—")+'</td>'+
+  '<td><strong>'+escapeHtml(r.project||r.work_key)+'</strong><small>'+escapeHtml(r.work_key)+'</small></td>'+
+  '<td>'+escapeHtml(names[r.source]||r.source)+'</td>'+
+  '<td>'+escapeHtml(r.stage||"—")+'<small>Stage '+escapeHtml(r.stage_index||1)+'/'+escapeHtml(r.stage_total||1)+'</small></td>'+
+  '<td><strong>'+escapeHtml(r.owner_person||"ยังไม่ยืนยันเจ้าภาพรายบุคคล")+'</strong>'+
+    '<small>'+escapeHtml(assigneeLabel(r))+'</small></td>'+
+  '<td>'+escapeHtml(r.deadline_state||r.status||"—")+'<small>'+escapeHtml(r.status||"—")+'</small></td></tr>'
+ ).join(""):'<tr><td colspan="6" class="empty">ไม่มีรายการตรงกับเงื่อนไข</td></tr>';
+ $("kpiInspectorPage").textContent="แสดง "+(kpiMatches.length?start+1:0)+"–"+Math.min(start+KPI_PAGE_SIZE,kpiMatches.length)+
+ " / "+kpiMatches.length.toLocaleString("th-TH")+" รายการ (KPI ทั้งหมด "+kpiRows.length.toLocaleString("th-TH")+")";
+ $("kpiPrev").disabled=kpiPage===0;
+ $("kpiNext").disabled=start+KPI_PAGE_SIZE>=kpiMatches.length;
+}
+function openKpiRecord(r){
+ const allStages=all.filter(x=>x.work_key===r.work_key).sort((a,b)=>(a.stage_index||0)-(b.stage_index||0));
+ const key="kpi::"+r.work_key;
+ nodeMap.set(key,{key,title:r.project,items:allStages.length?allStages:[r]});
+ showDrill(key,"__all__");
+ renderTimeline(r);
+}
+$("kpis").addEventListener("click",e=>{
+ const card=e.target.closest("[data-kpi]");
+ if(!card)return;
+ activeKpi=Number(card.dataset.kpi);
+ kpiPage=0;
+ $("kpiSearch").value="";$("kpiSource").value="all";$("kpiSort").value="due";
+ renderKpiInspector();
+ $("kpiInspector").scrollIntoView({behavior:"smooth",block:"start"});
+});
+$("kpiInspectorClose").addEventListener("click",()=>{
+ activeKpi=null;$("kpiInspector").hidden=true;
+});
+$("kpiSearch").addEventListener("input",()=>{kpiPage=0;renderKpiPage()});
+$("kpiSource").addEventListener("change",()=>{kpiPage=0;renderKpiPage()});
+$("kpiSort").addEventListener("change",()=>{kpiPage=0;renderKpiPage()});
+$("kpiPrev").addEventListener("click",()=>{kpiPage=Math.max(0,kpiPage-1);renderKpiPage()});
+$("kpiNext").addEventListener("click",()=>{kpiPage++;renderKpiPage()});
+$("kpiInspectorRows").addEventListener("click",e=>{
+ const row=e.target.closest("[data-kpi-row]");
+ if(row)openKpiRecord(kpiMatches[Number(row.dataset.kpiRow)]);
+});
+$("kpiInspectorRows").addEventListener("keydown",e=>{
+ if(e.key!=="Enter"&&e.key!==" ")return;
+ const row=e.target.closest("[data-kpi-row]");
+ if(row){e.preventDefault();openKpiRecord(kpiMatches[Number(row.dataset.kpiRow)]);}
+});
 function openSourceRecord(r){
  const n=[...nodeMap.values()].find(n=>n.type==="work"&&n.items.some(i=>i.work_key===r.work_key));
  if(n){showDrill(n.key,"__all__");renderTimeline(r);return;}

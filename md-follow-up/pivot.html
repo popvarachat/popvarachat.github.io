@@ -5,7 +5,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="data:,">
 <title>MD Work Tracking | Pivot Dashboard · GitHub Web</title>
-<link rel="stylesheet" href="./pivot.css?v=source-cards-20261021"><script defer src="./pivot.js?v=source-cards-20261021"></script>
+<link rel="stylesheet" href="./pivot.css?v=kpi-drill-20261021"><script defer src="./pivot.js?v=kpi-drill-20261021"></script>
 </head>
 <body>
 <main class="app">
@@ -63,6 +63,27 @@
 </section>
 <section class="metrics" id="kpis" aria-label="สรุปจำนวนงาน">
   <div class="metric">รอเชื่อมข้อมูลส่วนบุคคล</div>
+</section>
+<section class="panel kpi-inspector" id="kpiInspector" hidden>
+ <div class="panelhead"><div>
+  <div class="eyebrow">KPI DRILLDOWN / SOURCE TRACE</div>
+  <h2 id="kpiInspectorTitle">รายการที่นับใน KPI</h2>
+  <div class="desc" id="kpiInspectorContext">คลิก KPI ด้านบนเพื่อดูรายการที่อยู่ในตัวเลข</div>
+ </div><button class="ghost" type="button" id="kpiInspectorClose">✕ ปิด</button></div>
+ <div class="kpi-inspector-toolbar">
+  <label class="field kpi-query"><span>ค้นหาโครงการ / Stage / เจ้าภาพ</span><input id="kpiSearch" placeholder="ค้นหาภายใน KPI ที่เลือก…"></label>
+  <label class="field"><span>แหล่งข้อมูล</span><select id="kpiSource"><option value="all">ทุกแหล่ง</option></select></label>
+  <label class="field"><span>เรียงลำดับ</span><select id="kpiSort"><option value="due">วันกำหนดส่ง (เก่าก่อน)</option><option value="source">แหล่งข้อมูล → วันส่ง</option><option value="owner">เจ้าภาพ → วันส่ง</option></select></label>
+ </div>
+ <div class="kpi-guide" id="kpiInspectorGuide"></div>
+ <div class="kpi-table-wrap"><table class="kpi-table">
+  <thead><tr><th>วันกำหนดส่ง</th><th>งาน / โครงการ</th><th>แหล่ง</th><th>Stage / จุดติดตาม</th><th>เจ้าภาพรายบุคคล</th><th>สถานะ / ความเสี่ยง</th></tr></thead>
+  <tbody id="kpiInspectorRows"></tbody>
+ </table></div>
+ <div class="kpi-pager"><span id="kpiInspectorPage"></span><div class="actions">
+   <button type="button" class="ghost" id="kpiPrev">← ก่อนหน้า</button>
+   <button type="button" class="ghost" id="kpiNext">ถัดไป →</button>
+ </div></div>
 </section>
 <section class="panel">
  <div class="panelhead"><div><h2>ตัวกรองรายงาน</h2><div id="asof" class="desc">กำลังอ่านทะเบียน MD ภายใน</div></div><div class="badges"><span class="subbadge">READ ONLY</span><span class="subbadge warning">PRIVATE DATA STAYS ON YOUR DEVICE</span></div></div>

@@ -150,3 +150,16 @@ Do not add private JSON or local source paths to public GitHub.
 - If the private source is not connected, show an informative empty state,
   not a fabricated list. Cloud source timestamps remain visible, including
   stale Planner/Innovation snapshots.
+
+
+## Six clickable KPI cards
+- All six cards now open a filtered source-record inspector, with counts
+  reconciled to the card's own metric/filter logic.
+- Drilldowns: distinct work keys, visible stage rows, open overdue-scheduled
+  stages, due-today stages, missing certified stage due, and missing individual
+  owner categories (missing / team_only / not_audited).
+- Source and keyword filters, owner evidence, scheduled due and source state,
+  60-record paging and full per-work stage timeline are supported.
+- Cards use semantic buttons and keyboard access. No record-level information
+  is uploaded to GitHub; data is read from authorised NB loopback or imported
+  locally in the browser.
