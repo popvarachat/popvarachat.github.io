@@ -240,7 +240,7 @@
   $('colCustomer').textContent=activity?'Supplier (เฉพาะ NB)':purchase?'Supplier / รายการ PR (NB)':'ลูกค้า';
   $('colQty').textContent=activity?'จำนวน Receipt Lines':purchase?'จำนวน PR / PO Lines':'จำนวน Cutting';
   $('colOwner').textContent=activity?'ผู้รับผิดชอบค้างรับ (ยังไม่ทราบ)':purchase?'PO Buyer / PR Owner (ยังไม่ยืนยัน)':'เจ้าภาพชื่อบุคคล';
-  $('detailHeading').textContent=state.cell?(activity?'รายการรับเข้าแล้ว · ':'รายการค้าง · ')++niceGroupText(state.cell.group,state.rowMode==='date_project')+(state.cell.sub===null?'':' → '+niceGroupText(state.cell.sub,state.rowMode==='project_date'))+(state.cell.department===null?'':' · '+(list?.[0]?.department||state.cell.department)):'รายการงานในผลกรอง';
+  $('detailHeading').textContent=state.cell?(activity?'รายการรับเข้าแล้ว · ':'รายการค้าง · ')+niceGroupText(state.cell.group,state.rowMode==='date_project')+(state.cell.sub===null?'':' → '+niceGroupText(state.cell.sub,state.rowMode==='project_date'))+(state.cell.department===null?'':' · '+(list?.[0]?.department||state.cell.department)):'รายการงานในผลกรอง';
   $('detailScope').textContent=activity?'แสดงธุรกรรมรับเข้า P55432A4 วันที่ 19 ต.ค. 2026 เท่านั้น · ไม่ใช่รายการรับค้าง':purchase?'PR ยังไม่มี PO จาก P5543007 + PO Qty Open จาก P4338 (Sample) · ยังไม่พิสูจน์ Approval/Current Owner'+(state.cell?' · เฉพาะช่องที่เลือก':''):state.cell?'แสดงเฉพาะช่องที่เลือกจาก Pivot':'แสดงรายการตามตัวกรองและช่วงวันที่';
   const total=list?sumWeight(list):null,count=list?.length??0,pages=Math.max(1,Math.ceil(count/state.pageSize));state.page=Math.min(state.page,pages);
   const page=list?.slice((state.page-1)*state.pageSize,state.page*state.pageSize)||[];
