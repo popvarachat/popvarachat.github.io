@@ -75,7 +75,7 @@
     },
     "planner": {
       "status": "ok",
-      "provider": "Microsoft Planner (read-only connector)",
+      "provider": "Microsoft Planner (connected Teams / Graph read-only)",
       "unit": "tasks",
       "total": 38,
       "open": 29,
@@ -84,11 +84,11 @@
       "not_started": 5,
       "open_without_assignment": 26,
       "all_without_assignment": 35,
-      "overdue_before_2026_10_19": 13,
-      "due_on_2026_10_19": 1,
+      "overdue_open": 12,
+      "open_due_today": 0,
       "open_without_due_date": 4,
-      "checked_at": "2026-10-19T08:09:09+00:00",
-      "basis": "Data checked from Microsoft Graph through connected Teams/Planner"
+      "checked_at": "2026-10-21T08:28:11.401Z",
+      "basis": "Read directly from Microsoft Graph via connected Teams Planner; no task names published."
     }
   },
   "batch": {
