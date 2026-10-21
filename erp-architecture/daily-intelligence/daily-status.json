@@ -246,11 +246,11 @@
       "seq": "10",
       "question": "Engineer ขอราคาก่อน PR หรือไม่ ราคาใหม่แพงกว่าครั้งก่อนกี่ % และมี Approval หรือไม่",
       "metric_label": "PR / PO / Price Variance / Override",
-      "applications": "P4310 · P41061 · P4312",
-      "grain": "Item · Supplier · UOM · Currency · Baseline · Approval",
+      "applications": "P5543007 · P4338 · P4310 · P41061 · P4312",
+      "grain": "PR Item / PO Line · Requested/Original Promised Due · Approval State (pending validation)",
       "owner": "Engineering / Purchasing",
-      "status": "MAPPED",
-      "note": "Price Gate ก่อน PR และการอนุมัติเมื่อราคาสูงกว่าเดิมยังไม่ได้พิสูจน์ว่าเปิดใช้อยู่จริง",
+      "status": "EVIDENCE_ONLY",
+      "note": "พบ JDE จริง: PR Inquiry 20 ต.ค. 76 บรรทัด (30 บรรทัดจาก 21 PR ยังไม่พบ PO) และ PO ตัวอย่าง OF 10 ใบ 14 บรรทัด Qty Open > 0; มีข้อมูลใน Pivot แต่ยังไม่ทราบผู้อนุมัติหรือจุดค้างจริง และยังไม่รับรองยอดรวม",
       "daily_value": null,
       "unit": null,
       "record_count": null,
@@ -260,6 +260,14 @@
         {
           "label": "Application & Report Map",
           "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md"
+        },
+        {
+          "label": "PR/PO Pivot — 44 Sample Lines",
+          "url": "https://popvarachat.github.io/erp-architecture/daily-intelligence/pivot.html?node=purchase"
+        },
+        {
+          "label": "Live JDE P5543007 + P4338 Read-only Evidence (Private)",
+          "url": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/58_pr_po_pivot_live_jde_readonly_evidence_20261021.md"
         }
       ]
     },
