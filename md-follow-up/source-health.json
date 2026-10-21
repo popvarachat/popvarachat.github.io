@@ -1,11 +1,11 @@
 {
   "schema": 2,
-  "generated_at": "2026-10-20T00:59:04+00:00",
+  "generated_at": "2026-10-21T01:35:34+00:00",
   "mode": "auto",
   "sources": {
     "cb": {
-      "status": "stale",
-      "checked_at": "2026-10-19T08:24:57+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:35:34+00:00",
       "size_bytes": 34213,
       "file_modified": "2026-10-14T05:45:25+00:00",
       "unit": "entries",
@@ -21,13 +21,11 @@
         "เลยกำหนด P3": 4,
         "เลยกำหนด P5": 4,
         "อยู่ในแผน": 50
-      },
-      "last_attempt": "2026-10-20T00:59:04+00:00",
-      "error": "FileNotFoundError"
+      }
     },
     "ics": {
-      "status": "stale",
-      "checked_at": "2026-10-19T08:24:57+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:35:35+00:00",
       "size_bytes": 56255710,
       "file_modified": "2026-10-14T02:39:55+00:00",
       "unit": "gate_rows",
@@ -36,13 +34,11 @@
         "blank": 490,
         "สำเร็จ": 284,
         "ระหว่างดำเนินการ": 77
-      },
-      "last_attempt": "2026-10-20T00:59:04+00:00",
-      "error": "FileNotFoundError"
+      }
     },
     "icf": {
-      "status": "stale",
-      "checked_at": "2026-10-19T08:24:58+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:35:36+00:00",
       "size_bytes": 39640654,
       "file_modified": "2026-10-19T01:22:46+00:00",
       "unit": "gate_rows",
@@ -51,13 +47,11 @@
         "blank": 315,
         "สำเร็จ": 247,
         "ระหว่างดำเนินการ": 73
-      },
-      "last_attempt": "2026-10-20T00:59:04+00:00",
-      "error": "FileNotFoundError"
+      }
     },
     "ice": {
-      "status": "stale",
-      "checked_at": "2026-10-19T08:24:58+00:00",
+      "status": "ok",
+      "checked_at": "2026-10-21T01:35:37+00:00",
       "size_bytes": 24791985,
       "file_modified": "2026-10-14T03:02:32+00:00",
       "unit": "gate_rows",
@@ -66,9 +60,7 @@
         "blank": 96,
         "สำเร็จ": 124,
         "ระหว่างดำเนินการ": 19
-      },
-      "last_attempt": "2026-10-20T00:59:04+00:00",
-      "error": "FileNotFoundError"
+      }
     },
     "innovation": {
       "status": "ok",
@@ -100,14 +92,14 @@
     }
   },
   "batch": {
-    "ok": [],
-    "failed": [
+    "ok": [
       "cb",
       "ics",
       "icf",
       "ice"
     ],
+    "failed": [],
     "total": 4,
-    "successful": 0
+    "successful": 4
   }
 }
