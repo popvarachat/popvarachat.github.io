@@ -18,7 +18,8 @@
     ['quality','scrap'],['output','wip'],['wip','cost'],['inventory','cost'],
     ['scrap','cost'],['cost','gl'],['delivery','gl'],['receipt','cost']
   ];
-  const state = {dataset:null,privateSnapshot:null,focused:'receipt',domain:'all',query:'',view:'map',date:'2026-10-20',zoom:1,dx:0,dy:0,dragging:null,private:false};
+  const todayInThailand=()=>new Intl.DateTimeFormat('sv-SE',{timeZone:'Asia/Bangkok',year:'numeric',month:'2-digit',day:'2-digit'}).format(new Date());
+  const state = {dataset:null,pivot:null,privateSnapshot:null,focused:'receipt',domain:'all',query:'',view:'map',date:todayInThailand(),zoom:1,dx:0,dy:0,dragging:null,private:false};
   const safe = t => String(t??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
   const sourceBadge = s => evidenceStatus[s]||'ยังไม่ทราบ';
   const find = id => state.dataset?.dimensions.find(d=>d.id===id);
@@ -44,7 +45,7 @@
   }
   function setDate(day){
     if(!/^\d{4}-\d\d-\d\d$/.test(day))return;
-    if(day < '2024-01-01'||day > '2026-10-20')return;
+    if(day < '2024-01-01'||day > todayInThailand())return;
     state.date=day;
     $('focusDate').value=day;
     setText('dateFoot','ข้อมูลรายวันเฉพาะ '+niceDate(day)+' · หากไม่ผ่านรับรองจะแสดง —');
@@ -62,7 +63,7 @@
     setText('totalDomains',ds.length||'—');setText('evidenceCount',evidence);setText('certifiedCount',cert);
     setText('pendingCount',ds.length-cert);
     setText('sourceState',cert===ds.length&&ds.length?'CERTIFIED': 'PARTIAL · NOT CERTIFIED');
-    setText('asOfValue','JDE proof · 20 ต.ค. 2026');
+    setText('asOfValue','JDE sample · 20 ต.ค. 2026 · WIP '+(state.pivot?.source_snapshot||'รอเชื่อม Snapshot'));
     setText('truthTitle',cert===ds.length&&ds.length?'ข้อมูลรายวันผ่านการรับรองครบ':'รายงานมีหลักฐานจาก JDE แต่ยังไม่มี KPI รายวันที่ผ่านการรับรองครบ');
     setText('truthText',cert?'KPI ที่ผ่านการรับรองของ '+niceDate(state.date)+' = '+cert+' มิติ':'กำลังแยกข้อมูลจริง / ตัวอย่าง / การตั้งค่า และส่วนที่ยังเชื่อมไม่ได้ · '+niceDate(state.date)+' ยังสรุปยอดรวมรายวันไม่ได้');
     const counts = ['EVIDENCE_ONLY','MAPPED','UNVERIFIED'].map(s=>ds.filter(d=>d.status===s).length);
@@ -207,6 +208,7 @@
       const ds=await res.json();
       if(ds.data_classification!=='PUBLIC_SAFE_METADATA_ONLY'||!Array.isArray(ds.dimensions)||ds.dimensions.length!==15||new Set(ds.dimensions.map(d=>d.id)).size!==15)throw Error('Data Pool schema or publication classification mismatch');
       state.dataset=ds;
+      try{const pr=await fetch('public-pivot.json?t='+Date.now(),{cache:'no-store'});if(pr.ok){const pi=await pr.json();if(pi.scope==='PUBLIC_APPROVED_PROJECT_CUSTOMER_NAMES'&&pi.domains?.wip)state.pivot=pi;}}catch(e){console.warn('Named pivot metadata not available',e.message)}
       // Private transaction rows are loaded ONLY by the NB-local loopback preview.
       // GitHub Pages never requests the private file.
       const local=/^(localhost|127\.0\.0\.1)$/.test(location.hostname);
@@ -225,7 +227,7 @@
         }catch(e){console.warn('Private snapshot unavailable',e.message)}
       }
       render();
-      setText('footerSource',state.private?'NB PRIVATE read-only snapshot · not published to GitHub':'Metadata as-of '+ds.last_live_jde_proof+' · No certified daily totals');
+      setText('footerSource',state.private?'NB PRIVATE read-only snapshot · not published to GitHub':'JDE sample '+ds.last_live_jde_proof+' · WIP Source Snapshot '+(state.pivot?.source_snapshot||'pending')+' · No certified daily totals');
     }catch(e){
       setText('truthTitle','ไม่สามารถอ่าน Data Pool ได้');
       setText('truthText','กรุณาตรวจการเผยแพร่ไฟล์ daily-status.json ('+e.message+')');
