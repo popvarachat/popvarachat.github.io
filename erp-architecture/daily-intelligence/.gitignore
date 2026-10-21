@@ -1,5 +1,7 @@
 # Private ERP data: localhost only, never commit or publish
 /private-daily.json
 /private-daily-*.json
+/private-pivot.json
+/private-pivot-*.json
 /private-*.csv
 /exports/
