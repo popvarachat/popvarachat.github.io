@@ -142,6 +142,17 @@ def publish_metadata(exported):
         if pull.returncode:raise RuntimeError("GH_METADATA_READ_UNAVAILABLE")
         blob=json.loads(pull.stdout)
         remote=json.loads(base64.b64decode(blob["content"]).decode("utf-8-sig"))
+        previous=remote.get("sources",{}).get("planner",{})
+        def meaningful(source):
+            return {k:v for k,v in source.items() if k not in ("checked_at",)}
+        if meaningful(previous)==meaningful(metadata):
+            try:
+                last_public=dt.datetime.fromisoformat(previous["checked_at"].replace("Z","+00:00"))
+                hours=(dt.datetime.now(dt.timezone.utc)-last_public).total_seconds()/3600
+                if hours<24:
+                    return False
+            except (KeyError,ValueError,TypeError):
+                pass
         remote.setdefault("sources",{})["planner"]=metadata
         body={"message":"data: refresh verified Planner source health from NB",
               "content":base64.b64encode(json.dumps(remote,ensure_ascii=False,indent=2).encode("utf8")).decode("ascii"),

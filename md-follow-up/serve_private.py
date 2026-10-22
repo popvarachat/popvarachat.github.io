@@ -18,6 +18,9 @@ def _run_scan():
         pivotfile=ROOT/"pivot.json"
         baseline_src=srcfile.stat().st_mtime_ns if srcfile.is_file() else 0
         baseline_pivot=pivotfile.stat().st_mtime_ns if pivotfile.is_file() else 0
+        marker=SCAN_ROOT/".audit-local"/"force-deep-w.scan"
+        marker.parent.mkdir(parents=True,exist_ok=True)
+        marker.write_text(_now(),encoding="utf-8")
         result=subprocess.run(["schtasks.exe","/run","/tn","MD-FollowUp-Safe-Refresh"],
             capture_output=True,text=True,encoding="utf8",errors="replace",timeout=22)
         if result.returncode!=0:
@@ -36,7 +39,7 @@ def _run_scan():
                 continue
             if pivotfile.stat().st_mtime_ns < srcfile.stat().st_mtime_ns:
                 continue
-            good=len(batch.get("ok",[]))==4 and not batch.get("failed")
+            good=len(batch.get("ok",[]))==4 and not batch.get("failed") and len(batch.get("deep_scanned",[]))==4
             _SCAN_STATE.update(
                 state="success" if good else "partial_or_failed",
                 finished_at=_now(),

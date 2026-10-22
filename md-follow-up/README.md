@@ -175,3 +175,6 @@ Do not add private JSON or local source paths to public GitHub.
 ## NB Planner automatic refresh
 - Installed local Windows Scheduled Task MD-FollowUp-Planner-Refresh to scan the connected Microsoft Planner plan via delegated Graph every 60 minutes. The initial run is staggered 20 minutes after installation, reducing overlap with W-drive polling.
 - Manual Refresh Todo and scheduled refresh use the same read-only Graph scanner. On auth or data mismatch, retain last good source and show errors; only aggregate metadata is made public.
+
+## Free-tier optimization and continuity
+See [COST_POLICY.md](./COST_POLICY.md): W-source signature cache (hourly lightweight check and 24-hour forced validation), 4-hour Microsoft Graph Planner scans, 30-minute visible-tab local viewer checks, GitHub metadata change-only publishing, and prospective Cloudflare D1/R2 strict per-project cost guard. Cloudflare D1/R2 have not been provisioned for this project by this policy.

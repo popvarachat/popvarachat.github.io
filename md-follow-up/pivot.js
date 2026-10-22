@@ -607,5 +607,14 @@ $("pivotFile").addEventListener("change",async e=>{
 
 // On authorized NB this reads loopback only; on another device show an explicit fallback.
 syncWithNotebook();
-setInterval(()=>{if(!document.hidden)syncWithNotebook()},5*60*1000);
-document.addEventListener("visibilitychange",()=>{if(!document.hidden && !privateFileSelected)syncWithNotebook()});
+// Cost Guard: only probe local viewer on page open, manual request, or after 30 minutes.
+let lastAutomaticCheck=Date.now();
+function maybeSyncAfterIdle(){
+ if(document.hidden||privateFileSelected||localSyncRunning)return;
+ const now=Date.now();
+ if(now-lastAutomaticCheck < 30*60*1000)return;
+ lastAutomaticCheck=now;
+ syncWithNotebook();
+}
+setInterval(maybeSyncAfterIdle,5*60*1000);
+document.addEventListener("visibilitychange",()=>{if(!document.hidden)maybeSyncAfterIdle()});

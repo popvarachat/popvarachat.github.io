@@ -100,11 +100,28 @@ def main():
     old=json.loads(destination.read_text(encoding="utf8")) if destination.exists() else {"sources":{}}
     report={"schema":2,"generated_at":stamp(),"mode":a.mode,"sources":dict(old.get("sources",{})),"batch":{"ok":[],"failed":[]}}
     sources=conf.get("sources",{})
+    force_marker=ROOT/".audit-local"/"force-deep-w.scan"
+    force_deep=force_marker.exists() or a.mode=="manual"
+    report["batch"]["deep_scanned"]=[]
+    report["batch"]["signature_cached"]=[]
     for name,src in sources.items():
         kind=src.get("kind",name);path=pathlib.Path(os.path.expandvars(src.get("path","")))
         try:
             if not path.is_file():raise FileNotFoundError("unavailable")
+            signature=sig(path)
+            prior=old.get("sources",{}).get(name,{})
+            same=prior.get("status")=="ok" and all(prior.get(k)==v for k,v in signature.items())
+            recent=False
+            if prior.get("checked_at"):
+                try: recent=(dt.datetime.now(UTC)-dt.datetime.fromisoformat(prior["checked_at"])).total_seconds()<24*3600
+                except (ValueError,TypeError): pass
+            if not force_deep and same and recent:
+                report["sources"][name]=prior
+                report["batch"]["ok"].append(name)
+                report["batch"]["signature_cached"].append(name)
+                continue
             values=extract(path,kind)
+            report["batch"]["deep_scanned"].append(name)
             report["sources"][name]={"status":"ok","checked_at":stamp(),**sig(path),**values}
             report["batch"]["ok"].append(name)
         except Exception as err:
@@ -117,18 +134,25 @@ def main():
     if a.publish and not sources:
         print("SKIP_PUBLISH: no source could be checked",flush=True);return 2
     atomic_json(destination,report)
+    if force_marker.exists():
+        try:force_marker.unlink()
+        except OSError:pass
+    must_rebuild=force_deep or bool(report["batch"]["deep_scanned"]) or bool(report["batch"]["failed"])
     # PRIVATE_DETAIL_BUILD: permitted local W sources to per-row private records, no GitHub upload
     try:
-        sub=subprocess.run([sys.executable,str(ROOT/"build_private_details.py")],
-            capture_output=True,text=True,encoding="utf-8",timeout=90)
-        if sub.returncode:
-            print("PRIVATE_DETAIL_BUILD_FAILED "+sub.stderr[:220],flush=True)
+        if not must_rebuild:
+            print("PRIVATE_DETAIL_REBUILD_SKIPPED: W source signatures unchanged",flush=True)
         else:
-            print("PRIVATE_DETAIL_BUILD_SUCCESS",flush=True)
-            pivot=subprocess.run([sys.executable,str(ROOT/"build_pivot.py")],
-                capture_output=True,text=True,encoding="utf-8",timeout=45)
-            print("PRIVATE_PIVOT_BUILD_SUCCESS" if pivot.returncode==0
-                  else "PRIVATE_PIVOT_BUILD_FAILED "+pivot.stderr[:220],flush=True)
+            sub=subprocess.run([sys.executable,str(ROOT/"build_private_details.py")],
+            capture_output=True,text=True,encoding="utf-8",timeout=90)
+            if sub.returncode:
+                print("PRIVATE_DETAIL_BUILD_FAILED "+sub.stderr[:220],flush=True)
+            else:
+                print("PRIVATE_DETAIL_BUILD_SUCCESS",flush=True)
+                pivot=subprocess.run([sys.executable,str(ROOT/"build_pivot.py")],
+                    capture_output=True,text=True,encoding="utf-8",timeout=45)
+                print("PRIVATE_PIVOT_BUILD_SUCCESS" if pivot.returncode==0
+                      else "PRIVATE_PIVOT_BUILD_FAILED "+pivot.stderr[:220],flush=True)
 
     except Exception as e:
         print("PRIVATE_DETAIL_BUILD_UNAVAILABLE "+type(e).__name__,flush=True)
@@ -136,8 +160,11 @@ def main():
     with (audit_dir/"refresh.jsonl").open("a",encoding="utf8") as f:
         f.write(json.dumps({"time":stamp(),"mode":a.mode,"ok":report["batch"]["ok"],"failed":report["batch"]["failed"]})+"\n")
     if a.publish:
-        result=publish_public(report,list(sources))
-        print("PUBLISHED_PUBLIC_METADATA "+json.dumps(result),flush=True)
+        if a.mode=="auto" and not report["batch"]["deep_scanned"] and not report["batch"]["failed"]:
+            print("SKIP_GITHUB_PUBLISH: source signatures unchanged",flush=True)
+        else:
+            result=publish_public(report,list(sources))
+            print("PUBLISHED_PUBLIC_METADATA "+json.dumps(result),flush=True)
     print(json.dumps({"status":"complete","ok":report["batch"]["ok"],"failed":report["batch"]["failed"],"output":str(destination)},ensure_ascii=False))
     return 0
 if __name__=="__main__":sys.exit(main())
