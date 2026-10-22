@@ -20,7 +20,7 @@
   delivery:['นัดส่งมอบ / Install Appointment / Due ของโครงการ','Delivery / Installation / Customer Confirmation ตาม Event ล่าสุด'],
   gl:['Batch Posting Cutoff / Period Close Due','Accounting / AP / Finance Approver ที่ยังไม่ Post/Reconcile']
  };
- const state={ds:null,pub:null,priv:null,node:'wip',grain:'day',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35,historyYear:'',historySelected:null};
+ const state={ds:null,pub:null,priv:null,node:'wip',grain:'day',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35,historyYear:null,historySelected:null,historyCollapsed:new Set(),historyDefaultApplied:false};
  const nodeIds=['transfer','output','material','labor','quality','rework','scrap','wip','machine','purchase','receipt','inventory','cost','delivery','gl'];
  let toastTimeout;
  function message(s){$('toast').textContent=s;$('toast').classList.add('on');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').classList.remove('on'),2500);}
@@ -40,7 +40,7 @@
  function datesForNode(){const rows=datasetRows();if(!rows)return ['2026'];return [...new Set(rows.map(x=>x.due?.slice(0,4)).filter(Boolean))].sort();}
  function setOptions(id,items,selected){const el=$(id);el.innerHTML=items.map(x=>'<option value="'+escape(x[0])+'">'+escape(x[1])+'</option>').join('');el.value=selected;}
  function setupYears(){const years=datesForNode();const current=years.includes(state.year)?state.year:(years[years.length-1]||'2026');state.year=current;setOptions('year',[['','ทุกปี'],...years.map(x=>[x,x])],current);setOptions('month',[['','ทุกเดือน'],...Array.from({length:12},(_,i)=>[String(i+1).padStart(2,'0'),String(i+1).padStart(2,'0')])],state.month);}
- function choose(id){if(!dim(id))return;state.node=id;state.cell=null;state.page=1;state.historyYear='';state.historySelected=null;state.year='2026';state.month='';state.query='';state.projectFilter='';state.customerFilter='';state.collapsed.clear();state.groupDefaultApplied=false;$('search').value='';const url=new URL(location.href);url.searchParams.set('node',id);history.replaceState(null,'',url.pathname+url.search);renderAll(true);}
+ function choose(id){if(!dim(id))return;state.node=id;state.cell=null;state.page=1;state.historyYear=null;state.historySelected=null;state.historyCollapsed.clear();state.historyDefaultApplied=false;state.year='2026';state.month='';state.query='';state.projectFilter='';state.customerFilter='';state.collapsed.clear();state.groupDefaultApplied=false;$('search').value='';const url=new URL(location.href);url.searchParams.set('node',id);history.replaceState(null,'',url.pathname+url.search);renderAll(true);}
  function renderNav(){const dims=state.ds?.dimensions||[];$('nodeNav').innerHTML=dims.map(d=>'<button type="button" data-node="'+escape(d.id)+'" class="'+(d.id===state.node?'selected':'')+'" aria-current="'+(d.id===state.node?'page':'false')+'"><span>'+escape(d.seq)+'</span>'+escape(d.name)+'</button>').join('');$('nodeNav').querySelectorAll('button').forEach(x=>x.onclick=()=>choose(x.dataset.node));setOptions('nodeSelect',dims.map(x=>[x.id,x.name+' · '+x.en]),state.node)}
  function syncFacets(){
   const rows=datasetRows()||[];
@@ -108,109 +108,78 @@
  }
  function newCounter(){return {total:0,departments:new Map(),subs:new Map()};}
  function addCount(group,row,amount){group.total+=amount;const key=departmentKey(row);group.departments.set(key,(group.departments.get(key)||0)+amount);}
- function renderMatrix(){
-  const rows=filteredRows(),columns=rows?departmentList(rows):[];
-  const isDateFirst=state.rowMode==='date_project';
-  const activity=Boolean(nodeData()?.activity_not_backlog);
-  const projectLabel=state.node==='purchase'?'โครงการ / อ้างอิง (รอตรวจ)':activity?'โครงการ (ใบรับเข้าไม่มี)': 'ชื่อโครงการ';
-  const timeLabel=activity?'วันที่รับเข้าจริง':transferReferenceOnly()?'WO Finish Due (ไม่ใช่กำหนดโอน)':'กำหนดส่ง';
-  const groupName=isDateFirst?timeLabel:projectLabel,subName=isDateFirst?projectLabel:timeLabel;
-  const colspan=columns.length+3;
-  const groups=new Map(),grand=new Map();
-  if(rows){
-   for(const r of rows){
-    const [groupKey,subKey]=groupParts(r),weightOfRow=weight(r);
-    if(!groups.has(groupKey))groups.set(groupKey,newCounter());
-    const group=groups.get(groupKey);
-    addCount(group,r,weightOfRow);
-    if(!group.subs.has(subKey))group.subs.set(subKey,newCounter());
-    addCount(group.subs.get(subKey),r,weightOfRow);
-    const dep=departmentKey(r);grand.set(dep,(grand.get(dep)||0)+weightOfRow);
+ // Unified group-path across the fifteen ERP Node views
+  const TH_MONTH=['มกราคม','กุมภาพันธ์','มีนาคม','เมษายน','พฤษภาคม','มิถุนายน','กรกฎาคม','สิงหาคม','กันยายน','ตุลาคม','พฤศจิกายน','ธันวาคม'];
+  function hierarchyParts(r){
+   const d=/^\d{4}-\d{2}-\d{2}$/.test(r.due||'')?[r.due.slice(0,4),r.due.slice(0,7),r.due]:['ไม่ระบุปี','ไม่ระบุเดือน','ไม่ระบุวัน'];
+   return state.rowMode==='date_project'?[...d,r.project||NO_PROJECT]:[r.project||NO_PROJECT,...d];
+  }
+  const hkey=path=>JSON.stringify(path);
+  function hlabel(v,d,first){const month=first?d===1:d===2,day=first?d===2:d===3;
+    if(month&&/^\d{4}-\d{2}$/.test(v))return TH_MONTH[Number(v.slice(5,7))-1]+' '+v.slice(0,4);
+    if(day&&/^\d{4}-\d{2}-\d{2}$/.test(v))return v.slice(8,10)+'/'+v.slice(5,7)+'/'+v.slice(0,4);
+    return v;}
+  function cellMatches(r,cell){if(!cell)return true;const p=hierarchyParts(r);return cell.path.every((v,i)=>v===p[i])&&(cell.department===null||departmentKey(r)===cell.department);}
+  function hsort(list,first){return [...list].sort((a,b)=>{
+    const unknown=k=>k.startsWith('ไม่ระบุ')||k===NO_PROJECT;
+    if(unknown(a.key)!==unknown(b.key))return unknown(a.key)?1:-1;
+    return (first?a.depth===3:a.depth===0)?a.key.localeCompare(b.key,'th'):a.key.localeCompare(b.key);});}
+  function renderMatrix(){
+   const rows=filteredRows(),cols=rows?departmentList(rows):[],first=state.rowMode==='date_project';
+   const activity=Boolean(nodeData()?.activity_not_backlog);
+   const pname=state.node==='purchase'?'โครงการ / อ้างอิง (รอตรวจ)':activity?'โครงการ (ใบรับเข้าไม่มี)':'ชื่อโครงการ';
+   const group=first?'ปี → เดือน → วัน':pname,sub=first?pname:'ปี → เดือน → วัน';
+   const root={kids:new Map()},grand=new Map();
+   for(const r of rows||[]){
+    const path=hierarchyParts(r),count=weight(r),dep=departmentKey(r);let cur=root;
+    grand.set(dep,(grand.get(dep)||0)+count);
+    path.forEach((v,d)=>{if(!cur.kids.has(v))cur.kids.set(v,{key:v,depth:d,path:path.slice(0,d+1),total:0,kids:new Map(),depts:new Map()});
+      cur=cur.kids.get(v);cur.total+=count;cur.depts.set(dep,(cur.depts.get(dep)||0)+count);});
    }
-  }
-  const sorted=[...groups.entries()].sort((a,b)=>sortGroup(a[0],b[0],isDateFirst));
-  if(!state.groupDefaultApplied&&sorted.length){
-   state.collapsed.clear();
-   if(sorted.length>35)sorted.forEach(([group],i)=>{if(i>=14)state.collapsed.add(group)});
-   state.groupDefaultApplied=true;
-  }
-  const thLabel='<tr><th class="group-col" scope="col">Group · '+escape(groupName)+'</th>'+
-   '<th class="sub-col" scope="col">Sub Group · '+escape(subName)+'</th>'+
-   columns.map(([code,label])=>'<th scope="col" title="'+escape(code)+'">'+escape(label)+'</th>').join('')+
-   '<th scope="col">รวม</th></tr>';
-  $('thead').innerHTML=thLabel;
-  if(!rows){
-   $('tbody').innerHTML='<tr><td class="empty" colspan="'+colspan+
-    '">ยังไม่พบรายการที่ผูกกำหนดส่งกับแผนกที่ค้างของ Node นี้ · ข้อมูลไม่พร้อม ไม่ใช่ศูนย์งานค้าง · '+escape(state.pub?.source_audit?.items?.[state.node]?.reason||'ยังไม่มี source dataset')+'</td></tr>';
-   $('tfoot').innerHTML='';
-  }else if(!rows.length){
-   $('tbody').innerHTML='<tr><td class="empty" colspan="'+colspan+'">ไม่พบรายการในเงื่อนไขที่เลือกจาก Snapshot นี้</td></tr>';
-   $('tfoot').innerHTML='';
-  }else{
-   const cell=(amount,g,sub,dep)=>{
-    if(!amount)return '<td><span class="missing">·</span></td>';
-    const chosen=state.cell&&state.cell.group===g&&state.cell.sub===sub&&state.cell.department===dep;
-    return '<td><button type="button" class="cell'+(chosen?' sel':'')+
-     '" data-group="'+escape(g)+'" data-sub="'+escape(sub??'')+'" data-level="'+(sub===null?'group':'sub')+
-     '" data-dept="'+escape(dep??'')+'" title="คลิกเจาะรายการ '+fmt(amount)+' งาน">'+fmt(amount)+'</button></td>';
-   };
-   const html=[];
-   for(const [groupNameValue,g] of sorted){
-    const collapsed=state.collapsed.has(groupNameValue);
-    const subgroupList=[...g.subs.entries()].sort((a,b)=>sortGroup(a[0],b[0],!isDateFirst));
-    html.push('<tr class="group-row"><td class="group-col group-label"><button type="button" class="group-toggle" data-group="'+escape(groupNameValue)+
-     '" aria-expanded="'+(!collapsed)+'"><span aria-hidden="true">'+(collapsed?'▸':'▾')+'</span> '+escape(niceGroupText(groupNameValue,isDateFirst))+
-     '<span class="count-badge">'+subgroupList.length+'</span></button></td>'+
-     '<td class="sub-col group-caption">รวม '+escape(subName)+' · '+fmt(g.total)+' '+(state.node==='purchase'?'PR/PO Lines':'Cutting')+'</td>'+
-     columns.map(([dep])=>cell(g.departments.get(dep)||0,groupNameValue,null,dep)).join('')+
-     cell(g.total,groupNameValue,null,null)+'</tr>');
-    if(!collapsed){
-     for(const [subValue,sub] of subgroupList){
-      html.push('<tr class="sub-row"><td class="group-col child-marker">↳ '+escape(niceGroupText(groupNameValue,isDateFirst))+'</td>'+
-       '<td class="sub-col child-label"><span class="sub-name" title="'+escape(niceGroupText(subValue,!isDateFirst))+'">'+escape(niceGroupText(subValue,!isDateFirst))+'</span></td>'+
-       columns.map(([dep])=>cell(sub.departments.get(dep)||0,groupNameValue,subValue,dep)).join('')+
-       cell(sub.total,groupNameValue,subValue,null)+'</tr>');
-     }
-    }
+   const top=hsort(root.kids.values(),first);
+   if(!state.groupDefaultApplied&&top.length){
+    const cutoff=state.grain==='year'?(first?0:1):state.grain==='month'?(first?1:2):(first?2:3);
+    state.collapsed.clear();
+    const setup=list=>list.forEach((n,i)=>{if(n.kids.size&&(n.depth>=cutoff||!first&&n.depth===0&&i>=8))state.collapsed.add(hkey(n.path));setup(hsort(n.kids.values(),first));});
+    setup(top);state.groupDefaultApplied=true;
    }
-   $('tbody').innerHTML=html.join('');
-   $('tbody').querySelectorAll('button.group-toggle').forEach(button=>{
-    button.onclick=()=>{
-     const group=button.dataset.group;
-     if(state.collapsed.has(group))state.collapsed.delete(group);else state.collapsed.add(group);
-     renderMatrix();
+   $('thead').innerHTML='<tr><th class="group-col">Group · '+escape(group)+'</th><th class="sub-col">Sub Group · '+escape(sub)+'</th>'+
+     cols.map(([key,label])=>'<th title="'+escape(key)+'">'+escape(label)+'</th>').join('')+'<th>รวม</th></tr>';
+   if(!rows||!rows.length){
+    $('tbody').innerHTML='<tr><td colspan="'+(cols.length+3)+'" class="empty">'+(!rows?'ยังไม่มีข้อมูลธุรกรรมของ Node นี้ · ไม่ใช่ศูนย์งานค้าง':'ไม่มีรายการตามตัวกรองที่เลือกจาก Snapshot')+'</td></tr>';
+    $('tfoot').innerHTML='';
+   }else{
+    const cell=(qty,path,dept)=>!qty?'<td><span class="missing">·</span></td>':
+     '<td><button type="button" class="cell'+(state.cell&&hkey(state.cell.path)===hkey(path)&&state.cell.department===dept?' sel':'')+
+     '" data-path="'+escape(hkey(path))+'" data-dept="'+escape(dept??'')+'">'+fmt(qty)+'</button></td>';
+    const out=[],draw=n=>{
+     const d=n.depth,children=hsort(n.kids.values(),first),collapsed=state.collapsed.has(hkey(n.path));
+     const label=hlabel(n.key,d,first),toggle='<button type="button" class="group-toggle" data-path="'+escape(hkey(n.path))+
+       '" aria-expanded="'+(!collapsed)+'">'+(collapsed?'▸':'▾')+' '+escape(label)+' <span class="count-badge">'+fmt(children.length||n.total)+'</span></button>';
+     const firstCell=(d===0||first&&d<3)?toggle:'↳';
+     const subCell=d===0?'รวม '+(first?'เดือน':'ปี')+' · '+fmt(n.total):(!first||d===3)?(children.length?toggle:escape(label)):'รวม '+(d===1?'วัน':'โครงการ')+' · '+fmt(n.total);
+     out.push('<tr class="'+(d===0?'group-row':d===1?'group-level-month':d===2?'group-level-day':'sub-row')+' tree-depth-'+d+
+      '"><td class="group-col '+(d===0?'group-label':'child-marker')+'">'+firstCell+'</td><td class="sub-col '+(d===0?'group-caption':'child-label')+
+      '"><span class="tree-indent depth-'+d+'">'+subCell+'</span></td>'+
+      cols.map(([dep])=>cell(n.depts.get(dep)||0,n.path,dep)).join('')+cell(n.total,n.path,null)+'</tr>');
+     if(!collapsed)children.forEach(draw);
     };
-   });
-   $('tbody').querySelectorAll('button.cell').forEach(button=>{
-    button.onclick=()=>{
-     state.cell={
-      group:button.dataset.group,
-      sub:button.dataset.level==='group'?null:button.dataset.sub,
-      department:button.dataset.dept||null
-     };
-     state.page=1;
-     renderMatrix();renderDetails();
-    };
-   });
-   $('tfoot').innerHTML='<tr><th class="group-col pivot-grand" scope="row">รวมทั้งหมด</th>'+
-    '<th class="sub-col pivot-grand">'+fmt(sorted.length)+' Group</th>'+
-    columns.map(([dep])=>'<td class="pivot-grand">'+fmt(grand.get(dep)||0)+'</td>').join('')+
-    '<td class="pivot-grand">'+fmt(sumWeight(rows))+'</td></tr>';
+    top.forEach(draw);$('tbody').innerHTML=out.join('');
+    $('tbody').querySelectorAll('button.group-toggle').forEach(b=>b.onclick=()=>{const key=b.dataset.path;state.collapsed.has(key)?state.collapsed.delete(key):state.collapsed.add(key);renderMatrix();});
+    $('tbody').querySelectorAll('button.cell').forEach(b=>b.onclick=()=>{state.cell={path:JSON.parse(b.dataset.path),department:b.dataset.dept||null};state.page=1;renderMatrix();renderDetails();});
+    $('tfoot').innerHTML='<tr><th class="group-col pivot-grand">รวมทั้งหมด</th><th class="sub-col pivot-grand">'+fmt(top.length)+' Group</th>'+
+       cols.map(([dep])=>'<td class="pivot-grand">'+fmt(grand.get(dep)||0)+'</td>').join('')+'<td class="pivot-grand">'+fmt(sumWeight(rows))+'</td></tr>';
+   }
+   $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PR/PO Lines · ':activity?' Receipt Lines · ':' Cutting · ')+fmt(top.length)+' Group · '+fmt(cols.length)+' แผนก':'ไม่มีจำนวนที่รับรอง';
+   $('axisTitle').textContent='แนวตั้ง: '+group+' → '+sub+' · แนวนอน: '+(activity?'สโตร์ที่รับเข้าแล้ว ไม่ใช่ค้างรับ':transferReferenceOnly()?'สายผลิตจาก WIP ไม่ใช่สถานะโอนจริง':'แผนกที่สถานะค้าง');
+   $('modeDateProject').textContent='ปี → เดือน → วัน → โครงการ';$('modeProjectDate').textContent='โครงการ → ปี → เดือน → วัน';
+   $('rowMode').options[0].textContent='Group: ปี → เดือน → วัน → โครงการ';
+   $('rowMode').options[1].textContent='Group: โครงการ → ปี → เดือน → วัน';
+   $('modeDateProject').classList.toggle('mode-active',first);$('modeProjectDate').classList.toggle('mode-active',!first);
+   $('modeDateProject').setAttribute('aria-pressed',String(first));$('modeProjectDate').setAttribute('aria-pressed',String(!first));
+   $('rowMode').value=state.rowMode;
   }
-  $('foundLabel').textContent=rows?fmt(sumWeight(rows))+(state.node==='purchase'?' PR/PO Lines · ':nodeData()?.activity_not_backlog?' Receipt Lines · ':' Cutting · ')+fmt(sorted.length)+' Group · '+
-   fmt(columns.length)+' แผนก':'ยังไม่สามารถคำนวณยอดงานของ Node นี้';
-  $('axisTitle').textContent='แนวตั้ง: '+groupName+' → '+subName+' · แนวนอน: '+(activity?'สโตร์ที่รับเข้าแล้ว (ไม่ใช่แผนกค้าง)':transferReferenceOnly()?'สายผลิตเบื้องต้นจาก WIP ไม่ใช่สถานะโอนจริง':'แผนกที่สถานะค้าง');
-  $('modeDateProject').textContent=activity?'วันรับเข้าจริง → โครงการ':'วันกำหนดส่ง → โครงการ';
-  $('modeProjectDate').textContent=activity?'โครงการ → วันรับเข้าจริง':'โครงการ → วันกำหนดส่ง';
-  $('rowMode').options[0].textContent=activity?'Group: วันรับเข้าจริง → Sub Group: โครงการ':'Group: วันที่กำหนดส่ง → Sub Group: โครงการ';
-  $('rowMode').options[1].textContent=activity?'Group: โครงการ → Sub Group: วันรับเข้าจริง':'Group: โครงการ → Sub Group: วันที่';
-  $('modeDateProject').classList.toggle('mode-active',isDateFirst);
-  $('modeProjectDate').classList.toggle('mode-active',!isDateFirst);
-  $('modeDateProject').setAttribute('aria-pressed',String(isDateFirst));
-  $('modeProjectDate').setAttribute('aria-pressed',String(!isDateFirst));
-  $('rowMode').value=state.rowMode;
- }
- function renderSummary(){
+  function renderSummary(){
   const d=dim(state.node);if(!d)return;const r=filteredRows(),p=nodeData(),meta=sourceMeta(),activity=Boolean(p?.activity_not_backlog),audit=state.pub?.source_audit?.items?.[state.node];
   const date=(p?.source_snapshot||meta?.source_snapshot||meta?.due_date_source_snapshot||'ไม่ทราบ');
   const namedProject=r?sumWeight(r.filter(x=>x.project&&x.project!=='ยังไม่พบชื่อโครงการ')):0;
@@ -249,7 +218,7 @@
   $('colCustomer').textContent=activity?'Supplier (เฉพาะ NB)':purchase?'Supplier / รายการ PR (NB)':'ลูกค้า';
   $('colQty').textContent=activity?'จำนวน Receipt Lines':purchase?'จำนวน PR / PO Lines':'จำนวน Cutting';
   $('colOwner').textContent=activity?'ผู้รับผิดชอบค้างรับ (ยังไม่ทราบ)':purchase?'PO Buyer / PR Owner (ยังไม่ยืนยัน)':'เจ้าภาพชื่อบุคคล';
-  $('detailHeading').textContent=state.cell?(transferReferenceOnly()?'รายการ WIP ที่ต้องตรวจโอน · ':activity?'รายการรับเข้าแล้ว · ':'รายการค้าง · ')+niceGroupText(state.cell.group,state.rowMode==='date_project')+(state.cell.sub===null?'':' → '+niceGroupText(state.cell.sub,state.rowMode==='project_date'))+(state.cell.department===null?'':' · '+(list?.[0]?.department||state.cell.department)):'รายการงานในผลกรอง';
+  $('detailHeading').textContent=state.cell?(transferReferenceOnly()?'รายการ WIP ที่ต้องตรวจโอน · ':activity?'รายการรับเข้าแล้ว · ':'รายการค้าง · ')+state.cell.path.map((v,i)=>hlabel(v,i,state.rowMode==='date_project')).join(' → ')+(state.cell.department===null?'':' · '+(list?.[0]?.department||state.cell.department)):'รายการงานในผลกรอง';
   $('detailScope').textContent=transferReferenceOnly()?'เปิดดู WO/Cutting จาก WIP Snapshot ที่เกี่ยวข้องกับการตรวจสอบโอน · ไม่ได้ยืนยันว่าค้างโอน · ต้องค้น TS / Posted Movement แยกต่างหาก':activity?'แสดงธุรกรรมรับเข้า P55432A4 วันที่ 19 ต.ค. 2026 เท่านั้น · ไม่ใช่รายการรับค้าง':purchase?'PR ยังไม่มี PO จาก P5543007 + PO Qty Open จาก P4338 (Sample) · ยังไม่พิสูจน์ Approval/Current Owner'+(state.cell?' · เฉพาะช่องที่เลือก':''):state.cell?'แสดงเฉพาะช่องที่เลือกจาก Pivot':'แสดงรายการตามตัวกรองและช่วงวันที่';
   const total=list?sumWeight(list):null,count=list?.length??0,pages=Math.max(1,Math.ceil(count/state.pageSize));state.page=Math.min(state.page,pages);
   const page=list?.slice((state.page-1)*state.pageSize,state.page*state.pageSize)||[];
@@ -353,7 +322,7 @@
   const hasRecords=Array.isArray(pubRows)&&pubRows.length>0;
   const dates=pubRows.filter(x=>x.date).map(x=>x.date);
   const years=[...new Set(dates.map(x=>x.slice(0,4)))].sort().reverse();
-  if(!state.historyYear||!years.includes(state.historyYear))state.historyYear=years[0]||'';
+  if(state.historyYear===null||state.historyYear&&!years.includes(state.historyYear))state.historyYear=years[0]||'';
   setOptions('historyYear',[['','ทุกปีที่มีหลักฐาน'],...years.map(y=>[y,y])],state.historyYear);
   $('historyLatest').disabled=!hasRecords;
   $('historyBadge').textContent=hasRecords?'ปีที่พบล่าสุด: '+(years[0]||'ไม่ทราบ')+' · บางแถวเป็นวัน Snapshot ไม่ใช่วันเกิดเหตุ':'ยังไม่มีประวัติที่ดึงเป็นรายการ';
@@ -376,17 +345,53 @@
    $('historyRows').innerHTML='<tr><td colspan="5" class="empty">ไม่มีแถวสำหรับปีที่เลือกใน Extract ที่ตรวจไว้ — ไม่ใช่ยืนยันว่า ERP ไม่มี</td></tr>';
    renderHistoryDetails(null);return;
   }
-  $('historyRows').innerHTML=visible.map((r,i)=>'<tr>'+
-   '<td>'+escape(r.date||'ไม่มีวัน')+'</td>'+
-   '<td>'+escape(r.date_kind||'ไม่ทราบชนิดวันที่')+'</td>'+
-   '<td>'+escape(r.source||h.source||'JDE Inquiry')+'</td>'+
-   '<td><strong>'+fmt(r.count||0)+'</strong></td>'+
-   '<td><button type="button" data-hist="'+i+'">ดูรายละเอียดหลักฐาน</button></td></tr>').join('');
-  $('historyRows').querySelectorAll('button[data-hist]').forEach(b=>b.onclick=()=>{
-   const r=visible[Number(b.dataset.hist)];
-   state.historySelected={date:r.date,kind:r.date_kind};
-   renderHistoryDetails(r);
-  });
+
+   // Independent historical evidence: Year -> Month -> Day, no false business-date certification.
+   const tree=new Map();
+   visible.forEach(ev=>{
+    const year=(ev.date||'').slice(0,4)||'ไม่ระบุปี';
+    const month=/^\d{4}-\d{2}/.test(ev.date||'')?ev.date.slice(0,7):'ไม่ระบุเดือน';
+    if(!tree.has(year))tree.set(year,new Map());
+    const months=tree.get(year);if(!months.has(month))months.set(month,[]);months.get(month).push(ev);
+   });
+   if(!state.historyDefaultApplied){
+    state.historyCollapsed.clear();
+    let firstYear=true;
+    for(const [year,months] of [...tree.entries()].sort((a,b)=>b[0].localeCompare(a[0]))){
+     if(!firstYear)state.historyCollapsed.add('Y:'+year);
+     for(const month of months.keys())state.historyCollapsed.add('M:'+month);
+     firstYear=false;
+    }
+    state.historyDefaultApplied=true;
+   }
+   const html=[];
+   for(const [year,months] of [...tree.entries()].sort((a,b)=>b[0].localeCompare(a[0]))){
+    const yrKey='Y:'+year,yrCollapsed=state.historyCollapsed.has(yrKey);
+    const yearRows=[...months.values()].flat();
+    html.push('<tr class="history-year-row"><td><button type="button" class="history-toggle" data-hgroup="'+escape(yrKey)+'" aria-expanded="'+(!yrCollapsed)+'">'+(yrCollapsed?'▸':'▾')+' ปี '+escape(year)+'</button></td><td>กลุ่มปี</td><td>รวมหลักฐานย้อนหลัง</td><td><strong>'+fmt(yearRows.reduce((sum,x)=>sum+Number(x.count||0),0))+'</strong></td><td>'+fmt(months.size)+' เดือน</td></tr>');
+    if(yrCollapsed)continue;
+    for(const [month,events] of [...months.entries()].sort((a,b)=>b[0].localeCompare(a[0]))){
+     const mKey='M:'+month,collapsed=state.historyCollapsed.has(mKey);
+     const label=/^\d{4}-\d{2}$/.test(month)?(TH_MONTH[Number(month.slice(5,7))-1]||month)+' '+month.slice(0,4):month;
+     html.push('<tr class="history-month-row"><td><button type="button" class="history-toggle" data-hgroup="'+escape(mKey)+'" aria-expanded="'+(!collapsed)+'">'+(collapsed?'▸':'▾')+' ↳ '+escape(label)+'</button></td><td>กลุ่มเดือน</td><td>แยกวันที่จริง/วันที่ Capture ในระดับวัน</td><td><strong>'+fmt(events.reduce((sum,x)=>sum+Number(x.count||0),0))+'</strong></td><td>'+fmt(events.length)+' วัน / ประเภท</td></tr>');
+     if(collapsed)continue;
+     for(const r of events){
+      const index=visible.indexOf(r);
+      html.push('<tr class="history-day-row"><td>↳ ↳ '+escape(r.date||'ไม่มีวัน')+'</td><td>'+escape(r.date_kind||'ไม่ทราบชนิดวันที่')+'</td><td>'+escape(r.source||h.source||'JDE Inquiry')+'</td><td><strong>'+fmt(r.count||0)+'</strong></td><td><button type="button" data-hist="'+index+'">ดูรายละเอียดหลักฐาน</button></td></tr>');
+     }
+    }
+   }
+   $('historyRows').innerHTML=html.join('');
+   $('historyRows').querySelectorAll('button[data-hgroup]').forEach(b=>b.onclick=()=>{
+    const key=b.dataset.hgroup;
+    state.historyCollapsed.has(key)?state.historyCollapsed.delete(key):state.historyCollapsed.add(key);
+    renderHistory();
+   });
+   $('historyRows').querySelectorAll('button[data-hist]').forEach(b=>b.onclick=()=>{
+    const r=visible[Number(b.dataset.hist)];
+    state.historySelected={date:r.date,kind:r.date_kind};
+    renderHistoryDetails(r);
+   });
   const wanted=visible.find(x=>x.date===state.historySelected?.date&&x.date_kind===state.historySelected?.kind)||visible[0];
   renderHistoryDetails(wanted);
  }
@@ -440,13 +445,13 @@
  $('rowMode').onchange=e=>switchMode(e.target.value);
  $('modeDateProject').onclick=()=>switchMode('date_project');
  $('modeProjectDate').onclick=()=>switchMode('project_date');
- $('collapseAll').onclick=()=>{for(const row of filteredRows()||[]){state.collapsed.add(groupParts(row)[0]);}state.groupDefaultApplied=true;renderMatrix();};
+ $('collapseAll').onclick=()=>{for(const r of filteredRows()||[]){const p=hierarchyParts(r);for(let i=1;i<4;i++)state.collapsed.add(hkey(p.slice(0,i)));}state.groupDefaultApplied=true;renderMatrix();};
  $('expandAll').onclick=()=>{state.collapsed.clear();state.groupDefaultApplied=true;renderMatrix();};
  $('projectFilter').onchange=e=>{state.projectFilter=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('customerFilter').onchange=e=>{state.customerFilter=e.target.value;state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('refreshData').onclick=()=>load(true);
- $('historyYear').onchange=e=>{state.historyYear=e.target.value;state.historySelected=null;renderHistory()};
- $('historyLatest').onclick=()=>{state.historyYear='';state.historySelected=null;renderHistory()};
+ $('historyYear').onchange=e=>{state.historyYear=e.target.value;state.historySelected=null;state.historyCollapsed.clear();state.historyDefaultApplied=false;renderHistory()};
+ $('historyLatest').onclick=()=>{state.historyYear=null;state.historySelected=null;state.historyCollapsed.clear();state.historyDefaultApplied=false;renderHistory()};
  $('nodeSelect').onchange=e=>choose(e.target.value);
  $('grain').onchange=e=>{
   state.grain=e.target.value;state.cell=null;state.page=1;
@@ -458,7 +463,7 @@
  $('search').oninput=e=>{state.query=e.target.value.trim();state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('clearCell').onclick=()=>{state.cell=null;state.page=1;renderMatrix();renderDetails()};
  $('download').onclick=csv;
- $('reset').onclick=()=>{state.grain='day';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;state.historyYear='';state.historySelected=null;for(const id of ['search'])$(id).value='';$('grain').value='day';$('scope').value='open';renderAll(true)};
+ $('reset').onclick=()=>{state.grain='day';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;state.historyYear=null;state.historySelected=null;state.historyCollapsed.clear();state.historyDefaultApplied=false;for(const id of ['search'])$(id).value='';$('grain').value='day';$('scope').value='open';renderAll(true)};
  $('prev').onclick=()=>{state.page=Math.max(1,state.page-1);renderDetails()};
  $('next').onclick=()=>{state.page++;renderDetails()};
  load();
