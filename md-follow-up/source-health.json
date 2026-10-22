@@ -1,11 +1,11 @@
 {
   "schema": 2,
-  "generated_at": "2026-10-22T01:35:33+00:00",
+  "generated_at": "2026-10-22T14:34:37+00:00",
   "mode": "auto",
   "sources": {
     "cb": {
-      "status": "ok",
-      "checked_at": "2026-10-22T01:35:33+00:00",
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:54+00:00",
       "size_bytes": 34213,
       "file_modified": "2026-10-14T05:45:25+00:00",
       "unit": "entries",
@@ -21,11 +21,13 @@
         "เลยกำหนด P3": 4,
         "เลยกำหนด P5": 4,
         "อยู่ในแผน": 50
-      }
+      },
+      "last_attempt": "2026-10-22T14:35:41+00:00",
+      "error": "FileNotFoundError"
     },
     "ics": {
-      "status": "ok",
-      "checked_at": "2026-10-22T01:35:34+00:00",
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:55+00:00",
       "size_bytes": 56324405,
       "file_modified": "2026-10-20T03:10:19+00:00",
       "unit": "gate_rows",
@@ -34,11 +36,13 @@
         "blank": 495,
         "สำเร็จ": 288,
         "ระหว่างดำเนินการ": 76
-      }
+      },
+      "last_attempt": "2026-10-22T14:35:41+00:00",
+      "error": "FileNotFoundError"
     },
     "icf": {
-      "status": "ok",
-      "checked_at": "2026-10-22T01:35:34+00:00",
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:55+00:00",
       "size_bytes": 39643703,
       "file_modified": "2026-10-20T03:58:13+00:00",
       "unit": "gate_rows",
@@ -47,11 +51,13 @@
         "blank": 320,
         "สำเร็จ": 252,
         "ระหว่างดำเนินการ": 75
-      }
+      },
+      "last_attempt": "2026-10-22T14:35:41+00:00",
+      "error": "FileNotFoundError"
     },
     "ice": {
-      "status": "ok",
-      "checked_at": "2026-10-22T01:35:34+00:00",
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:55+00:00",
       "size_bytes": 24790835,
       "file_modified": "2026-10-20T04:01:11+00:00",
       "unit": "gate_rows",
@@ -60,7 +66,9 @@
         "blank": 102,
         "สำเร็จ": 129,
         "ระหว่างดำเนินการ": 19
-      }
+      },
+      "last_attempt": "2026-10-22T14:35:41+00:00",
+      "error": "FileNotFoundError"
     },
     "innovation": {
       "status": "ok",
@@ -91,17 +99,97 @@
       "details_checked": 38,
       "details_unavailable": 0,
       "basis": "Planner plan tasks via Microsoft Graph; no task names or owners published."
+    },
+    "cb_edu": {
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:55+00:00",
+      "size_bytes": 10909238,
+      "file_modified": "2026-10-21T04:08:27+00:00",
+      "unit": "entries",
+      "total": 17,
+      "project_sheets": 17,
+      "status_counts": {
+        "blank": 16,
+        "อยู่ในแผน": 1
+      },
+      "last_attempt": "2026-10-22T14:36:44+00:00",
+      "error": "FileNotFoundError"
+    },
+    "cb_icf": {
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:55+00:00",
+      "size_bytes": 15696183,
+      "file_modified": "2026-10-20T08:21:11+00:00",
+      "unit": "entries",
+      "total": 21,
+      "project_sheets": 21,
+      "status_counts": {
+        "blank": 19,
+        "อยู่ในแผน": 2
+      },
+      "last_attempt": "2026-10-22T14:36:44+00:00",
+      "error": "FileNotFoundError"
+    },
+    "cb_ics": {
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:55+00:00",
+      "size_bytes": 14517100,
+      "file_modified": "2026-10-10T06:12:18+00:00",
+      "unit": "entries",
+      "total": 21,
+      "project_sheets": 21,
+      "status_counts": {
+        "blank": 20,
+        "อยู่ในแผน": 1
+      },
+      "last_attempt": "2026-10-22T14:36:44+00:00",
+      "error": "FileNotFoundError"
+    },
+    "cb_new": {
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:56+00:00",
+      "size_bytes": 15055863,
+      "file_modified": "2026-10-15T03:47:29+00:00",
+      "unit": "entries",
+      "total": 8,
+      "project_sheets": 8,
+      "status_counts": {
+        "blank": 8
+      },
+      "last_attempt": "2026-10-22T14:36:44+00:00",
+      "error": "FileNotFoundError"
+    },
+    "cb_abdul": {
+      "status": "stale",
+      "checked_at": "2026-10-22T08:47:56+00:00",
+      "size_bytes": 32127084,
+      "file_modified": "2026-10-21T07:31:32+00:00",
+      "unit": "entries",
+      "total": 25,
+      "project_sheets": 25,
+      "status_counts": {
+        "blank": 25
+      },
+      "last_attempt": "2026-10-22T14:36:44+00:00",
+      "error": "FileNotFoundError"
     }
   },
   "batch": {
-    "ok": [
+    "ok": [],
+    "failed": [
       "cb",
       "ics",
       "icf",
-      "ice"
+      "ice",
+      "cb_edu",
+      "cb_icf",
+      "cb_ics",
+      "cb_new",
+      "cb_abdul"
     ],
-    "failed": [],
-    "total": 4,
-    "successful": 4
+    "deep_scanned": [],
+    "signature_cached": [],
+    "total": 9,
+    "successful": 0
   }
 }
