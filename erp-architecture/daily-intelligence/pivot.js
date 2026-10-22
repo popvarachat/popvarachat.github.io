@@ -399,13 +399,28 @@
     state.ds=ds;
     if(!preserve)state.node=nodeIds.includes(q)?q:'wip';
     else state.node=currentNode;
-    try{const pubRes=await fetch('./public-pivot.json?x='+Date.now(),{cache:'no-store'});if(pubRes.ok){
-      const pub=await pubRes.json();if(pub.schema_version==='public-named-pivot-v1'&&pub.scope==='PUBLIC_APPROVED_PROJECT_CUSTOMER_NAMES'&&pub.domains?.wip?.rows?.length)state.pub=pub;
-    }}catch(e){console.warn('Published named Pivot not yet available',e.message)}
+    // Independent pinned GitHub snapshot protects a new session from missing/partial refresh.
+    const safeGet=async file=>{try{const r=await fetch('./'+file+'?x='+Date.now(),{cache:'no-store'});return r.ok?await r.json():null;}catch(e){return null}};
+    const goodPub=v=>v?.schema_version==='public-named-pivot-v1'&&
+      v.scope==='PUBLIC_APPROVED_PROJECT_CUSTOMER_NAMES'&&
+      v.domains?.wip?.rows?.length>0&&v.source_audit?.audited_nodes===15&&
+      Object.keys(v.source_audit?.items||{}).length===15;
+    const [primary,pinned]=await Promise.all([safeGet('public-pivot.json'),safeGet('public-pivot.stable.json')]);
+    let candidate=goodPub(primary)?primary:null;
+    const stable=goodPub(pinned)?pinned:null;
+    const coverage=d=>Object.keys(d?.domains||{}).length;
+    if(stable&&(!candidate||coverage(candidate)<coverage(stable)||String(candidate.source_snapshot||'')<String(stable.source_snapshot||''))){
+      candidate=stable;console.warn('Using last known good ERP snapshot after primary regression/absence');
+    }
+    if(candidate){state.pub=candidate;}
+    else if(!state.pub){throw Error('ไม่สามารถอ่าน Data Pool ทั้งไฟล์หลักและ Snapshot สำรองได้')}
     if(isPrivate()){
-      try{const pr=await fetch('./private-pivot.json?x='+Date.now(),{cache:'no-store'});if(pr.ok){
-        const priv=await pr.json();if(priv.schema_version==='private-pivot-v1'&&priv.scope==='PRIVATE_LOCALHOST_ONLY_DO_NOT_COMMIT'&&priv.domains?.wip?.rows?.length===priv.domains.wip.count)state.priv=priv;
-      }}catch(e){console.warn('Private snapshot not yet available',e.message)}
+      const getPriv=v=>v?.schema_version==='private-pivot-v1'&&v.scope==='PRIVATE_LOCALHOST_ONLY_DO_NOT_COMMIT'&&
+        v.domains?.wip?.rows?.length===v.domains?.wip?.count;
+      const current=await safeGet('private-pivot.json');
+      const backup=await safeGet('private-pivot.stable.json');
+      if(getPriv(current))state.priv=current;
+      else if(getPriv(backup))state.priv=backup;
     }
     renderAll(true);
   }catch(e){$('scopeNote').textContent='ไม่สามารถโหลดข้อมูลได้: '+e.message;console.error(e)}
