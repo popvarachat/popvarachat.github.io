@@ -235,19 +235,37 @@ const sourceHealthEndpoint="./source-health.json";
 let sourceMetadata={}, selectedSource=null, sourceDetailRows=[], sourceDetailPage=0;
 const SOURCE_PAGE_SIZE=60;
 const sourceTitles={cb:"Check Board",ics:"ICS",icf:"ICF",ice:"ICE / EDU",innovation:"นวัตกรรม",planner:"Planner / Todo"};
+// Public Source Health is change-only metadata, not live source verification.
+function publicSourceAge(key,src){
+ const date=src.checked_at||src.last_verified||src.last_checked||null;
+ const t=date?Date.parse(date):NaN;
+ if(!Number.isFinite(t))return {state:"unknown",label:"ไม่ทราบเวลาตรวจล่าสุด",date:""};
+ const hours=Math.max(0,(Date.now()-t)/3600000);
+ const dateLabel=new Intl.DateTimeFormat("th-TH",{day:"2-digit",month:"2-digit",year:"numeric",hour:"2-digit",minute:"2-digit"}).format(new Date(t));
+ const isCloud=key==="planner"||key==="innovation";
+ if(src.status!=="ok")return {state:"stale",label:"แหล่งข้อมูลมีปัญหา",date:dateLabel};
+ if(isCloud&&hours>(key==="planner"?12:48))return {state:"stale",label:"ข้อมูล Cloud เก่า · ต้องตรวจต้นทาง",date:dateLabel};
+ if(isCloud)return {state:"recent",label:"Cloud Snapshot · ยังอยู่ในรอบตรวจ",date:dateLabel};
+ // For W, PUBLIC checked_at only changes on meaningful content changes.
+ return {state:"unchanged",label:"สรุปที่เผยแพร่ล่าสุด · NB ตรวจตามรอบ",date:dateLabel};
+}
 function renderPublicSnapshot(snap){
  sourceMetadata=snap.sources||{};
  const holder=$("cloudSources");
  holder.innerHTML=Object.entries(sourceMetadata).map(([key,src])=>{
-  const date=src.checked_at||src.last_verified||src.last_checked||null;
-  const timestamp=date?new Date(date).toLocaleString("th-TH"):"ไม่มีเวลาตรวจยืนยัน";
-  return '<button type="button" class="source-stat source-stat-action'+(selectedSource===key?" active":"")+'" data-source-card="'+escapeHtml(key)+'" aria-pressed="'+(selectedSource===key)+'" title="เปิดรายการ '+escapeHtml(sourceTitles[key]||key)+'">'+
-   '<b>'+escapeHtml(sourceTitles[key]||key)+'</b><strong>'+escapeHtml(Number.isFinite(src.total)?src.total.toLocaleString("th-TH"):"—")+'</strong>'+
-   '<small>'+escapeHtml(src.status==="ok"?"ตรวจสอบข้อมูลแล้ว":"ข้อมูลเก่าหรือยังไม่พร้อม")+'</small>'+
+  const state=publicSourceAge(key,src);
+  return '<button type="button" class="source-stat source-stat-action'+(selectedSource===key?" active":"")+
+   (state.state==="stale"?" source-stat-stale":"")+'" data-source-card="'+escapeHtml(key)+
+   '" aria-pressed="'+(selectedSource===key)+'" title="เปิดรายการ '+escapeHtml(sourceTitles[key]||key)+'">'+
+   '<b>'+escapeHtml(sourceTitles[key]||key)+'</b><strong>'+
+   escapeHtml(Number.isFinite(src.total)?src.total.toLocaleString("th-TH"):"—")+'</strong>'+
+   '<small>'+escapeHtml(state.label)+'</small>'+
+   '<small class="source-timestamp">'+escapeHtml(state.date||"ยังไม่มี Timestamp")+'</small>'+
    '<span class="source-card-more">ดูรายละเอียด ↗</span></button>';
  }).join("");
  if(selectedSource)renderSourceDetail();
 }
+
 function sourceStageSort(a,b){
  const late=x=>x.deadline_state==="ผ่านกำหนดตามตาราง"&&!x.closed?0:x.deadline_state==="ครบกำหนดวันนี้"&&!x.closed?1:x.due_iso?2:3;
  return late(a)-late(b)||
@@ -265,6 +283,7 @@ function renderSourceDetail(){
  $("sourceDetailTitle").textContent=name+" — รายการและ Stage ทั้งหมด";
  const checked=health.checked_at||health.last_verified||health.last_checked||null;
  const checkedText=checked?new Date(checked).toLocaleString("th-TH"):"ไม่มีเวลาตรวจรับล่าสุด";
+ const sourceAge=publicSourceAge(selectedSource,health);
  $("sourceDetailMeta").textContent="ต้นทาง "+name+" · "+(health.total??"—")+" หน่วยนับตาม Source Health · ตรวจครั้งล่าสุด "+checkedText;
  const pending=rows.filter(x=>!x.closed);
  const metrics=[
@@ -278,7 +297,8 @@ function renderSourceDetail(){
  let caution=selectedSource==="cb"?"CB: วันโอนตามแผนไม่ยืนยันว่าโอนช้าจริง และต้องตรวจใบโอน":"";
  if(["ics","icf","ice"].includes(selectedSource))caution="ICS/ICF/ICE: วันที่ทำงานไม่ใช่ Stage Due ที่รับรองแล้ว จึงไม่ตัดสินว่าเลยกำหนดจากคอลัมน์นั้น";
  if(["innovation","planner"].includes(selectedSource))caution="Cloud: ใช้ Snapshot ล่าสุดที่ได้รับ ไม่ได้ตรวจไฟล์ Cloud ใหม่จากปุ่ม Scan W:";
- $("sourceDetailNote").textContent=(payload?"มีข้อมูลรายรายการจาก Private Viewer บนเครื่องนี้":"ยังไม่เชื่อมข้อมูลรายรายการ: เปิดผ่าน NB หรือเลือกไฟล์ Pivot ที่ได้รับอนุญาต")+" · "+caution;
+ $("sourceDetailNote").textContent=(payload?"มีข้อมูลรายรายการจาก Private Viewer บนเครื่องนี้":"ยังไม่เชื่อมข้อมูลรายรายการ: เปิดผ่าน NB หรือเลือกไฟล์ Pivot ที่ได้รับอนุญาต")+
+  " · "+sourceAge.label+" · "+caution;
  if(selectedSource==="planner"&&payload){
     const a=payload.summary?.planner_ownership_audit||{};
     $("sourceDetailNote").textContent+=" · ตรวจ Notes "+(a.notes_inspected||0)+"/38 งาน · พบเจ้าภาพใน Notes "+(a.notes_with_owner_label||0)+" งาน";

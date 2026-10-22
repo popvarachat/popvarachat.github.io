@@ -189,3 +189,13 @@ See [COST_POLICY.md](./COST_POLICY.md): W-source signature cache (hourly lightwe
 - Manual W/Planner scans remain fully available, but cannot be triggered by page load.
 - W: Scheduled Task monitors file signatures hourly, scans deep on change/at least
   every 24h. Planner runs every 4h, browser checks NB at most every 30min while visible.
+
+
+## Truthful change-only source health
+- Public source-health.json contains only the last published state, not an independent
+  proof of a fresh read when W content is unchanged. W cards label it published summary.
+- Planner snapshots older than 12h and Innovation older than 48h show stale warning
+  with the actual timestamp; opening this page does not trigger scans to clear the badge.
+- This freshness warning uses only static timestamps; zero extra API or backend calls.
+- An existing valid NB pivot still loads automatically, with its actual build timestamp
+  shown, and manual correction actions stay behind advanced controls.

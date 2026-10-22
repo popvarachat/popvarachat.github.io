@@ -120,3 +120,8 @@
 @media(max-width:640px){.update-tools>summary{align-items:flex-start;flex-direction:column;gap:3px}}
 
 .update-tools:not([open])>.update-tool-content{display:none!important}
+
+/* Truthful source freshness: public metadata may not reflect the latest unchanged W check */
+.source-stat-stale{background:#fff7ed!important;border-color:#d89e59!important}
+.source-stat-stale small{color:#985d24!important}
+.source-timestamp{font-size:9px!important;line-height:1.4;opacity:.85}
