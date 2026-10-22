@@ -74,3 +74,24 @@
 .history-private-list>div{padding:6px 8px;border-bottom:1px solid #e7eeed}
 .history-private-list span{color:#87989b}
 .history-warning{font-size:10px;margin:10px 0 0;line-height:1.7}
+
+/* 2026-10-22: consistent Year > Month > Day > Project grouped Pivot across all ERP nodes */
+.matrixwrap tr.tree-depth-0 td{background:#dcefe8;font-weight:900;border-top:2px solid #b6d6cc}
+.matrixwrap tr.tree-depth-0 td.group-col,.matrixwrap tr.tree-depth-0 td.sub-col{background:#d3eae2;color:#0a6658}
+.matrixwrap tr.tree-depth-1 td{background:#eff7f3;font-weight:800}
+.matrixwrap tr.tree-depth-1 td.group-col,.matrixwrap tr.tree-depth-1 td.sub-col{background:#e7f4ef}
+.matrixwrap tr.tree-depth-2 td{background:#f7fbf9;font-weight:700}
+.matrixwrap tr.tree-depth-2 td.group-col,.matrixwrap tr.tree-depth-2 td.sub-col{background:#f1f8f4}
+.matrixwrap tr.tree-depth-3 td.group-col,.matrixwrap tr.tree-depth-3 td.sub-col{background:#fff;font-weight:600}
+.matrixwrap .tree-indent{display:block;max-width:285px;overflow-wrap:anywhere;white-space:normal}
+.matrixwrap .tree-indent.depth-1{padding-left:8px}
+.matrixwrap .tree-indent.depth-2{padding-left:18px}
+.matrixwrap .tree-indent.depth-3{padding-left:28px}
+.matrixwrap .tree-branch{color:#80a59b}
+.matrixwrap .group-toggle{font-size:11px;min-height:28px;word-break:break-word}
+.matrixwrap .group-row .group-toggle{color:#075f52}
+.history-table .history-year-row td{background:#e0f1e9!important;font-weight:850}
+.history-table .history-month-row td{background:#eef8f3!important;font-weight:750}
+.history-table .history-day-row td{background:#fff}
+.history-table .history-toggle{border:0;background:transparent;color:#0a7667;text-align:left;padding:6px 8px;font-weight:850;min-width:165px}
+.history-table .history-toggle:hover{background:#d3eee2}
