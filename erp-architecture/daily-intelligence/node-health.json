@@ -1,6 +1,11 @@
 {
   "schema": "ERP_15_NODE_RECOVERY_STATUS_V1",
-  "snapshot_build_at_utc": "2026-10-22T03:54:14+00:00",
+  "cloudflare_d1": {
+    "status": "THROTTLED",
+    "last_attempt_at_utc": "2026-10-22T02:27:50.8881833Z",
+    "next_retry_utc": "2026-10-23T00:15:00.0000000Z"
+  },
+  "snapshot_build_at_utc": "2026-10-22T04:09:39+00:00",
   "source_business_snapshot": "2026-10-18",
   "business_certified": false,
   "preservation": "CLOUDFLARE_R2_PRIVATE_DPAPI_AES256_GCM_VERIFIED",
