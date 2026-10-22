@@ -1,0 +1,93 @@
+{
+  "schema_version": "ERP_LINEAGE_READINESS_AGGREGATE_V1",
+  "scope": "PUBLIC_SAFE_AGGREGATES_ONLY",
+  "generated_at": "2026-10-22T03:07:01.197753+00:00",
+  "source_snapshot": "2026-10-18",
+  "complete_factory": false,
+  "business_certified": false,
+  "all_cuttings": 6357,
+  "open_cuttings": 2383,
+  "provisional_stage_counts": {
+    "unread": 1148,
+    "p4": 116,
+    "p2": 641,
+    "store": 33,
+    "operation_complete": 36,
+    "p3": 72,
+    "p5": 62,
+    "review": 53,
+    "p1": 222
+  },
+  "availability_all_source_rows": {
+    "project": {
+      "available": 4803,
+      "total": 6357
+    },
+    "so": {
+      "available": 6357,
+      "total": 6357
+    },
+    "wo": {
+      "available": 6357,
+      "total": 6357
+    },
+    "cutting": {
+      "available": 6357,
+      "total": 6357
+    },
+    "control_plan": {
+      "available": 1235,
+      "total": 6357
+    },
+    "current_operation": {
+      "available": 0,
+      "total": 6357
+    },
+    "wo_finish_due": {
+      "available": 6347,
+      "total": 6357
+    },
+    "stage_handoff_due": {
+      "available": 0,
+      "total": 6357
+    },
+    "assigned_human_owner": {
+      "available": 0,
+      "total": 6357
+    },
+    "actual_dm": {
+      "available": 0,
+      "total": 6357
+    },
+    "actual_dl": {
+      "available": 0,
+      "total": 6357
+    },
+    "actual_depreciation": {
+      "available": 0,
+      "total": 6357
+    },
+    "actual_landed_cost": {
+      "available": 0,
+      "total": 6357
+    },
+    "actual_gl": {
+      "available": 0,
+      "total": 6357
+    }
+  },
+  "open_missing_field_counts": {
+    "control_plan": 1148,
+    "current_operation": 2383,
+    "stage_handoff_due": 2383,
+    "assigned_human_owner": 2383,
+    "actual_dm": 2383,
+    "actual_dl": 2383,
+    "actual_depreciation": 2383,
+    "actual_landed_cost": 2383,
+    "actual_gl": 2383,
+    "project": 45,
+    "wo_finish_due": 2
+  },
+  "notice": "Only historical source evidence; 2026-10-18 WO snapshot, NOT certified current factory backlog or any costs. No project/WO/cutting or human records are public."
+}
