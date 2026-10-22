@@ -395,7 +395,7 @@
   const wanted=visible.find(x=>x.date===state.historySelected?.date&&x.date_kind===state.historySelected?.kind)||visible[0];
   renderHistoryDetails(wanted);
  }
- function renderAll(resetYears=false){renderNav();if(resetYears){setupYears();syncFacets();}renderSummary();renderMatrix();renderDetails();renderAudit();renderHistory();}
+ function renderAll(resetYears=false){document.body.classList.toggle('quality-focus',state.node==='quality');const hero=document.querySelector('.hero p');if(hero){if(!hero.dataset.genericCopy)hero.dataset.genericCopy=hero.innerHTML;hero.innerHTML=state.node==='quality'?'QC ใช้ <strong>วันเกิดเหตุการณ์ตรวจจริง</strong> และแยกผล Pass/Fail ออกจาก <strong>Lot H / P, NCR Reject และการปลด Hold</strong> · ข้อมูลวันนี้ยังไม่รับรอง กรุณาเปิด QC Daily Interactive':hero.dataset.genericCopy;}renderNav();if(resetYears){setupYears();syncFacets();}renderSummary();renderMatrix();renderDetails();renderAudit();renderHistory();}
  async function load(preserve=false){
   try{
     const q=new URL(location.href).searchParams.get('node'),currentNode=state.node;
