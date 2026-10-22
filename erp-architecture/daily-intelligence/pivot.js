@@ -20,7 +20,7 @@
   delivery:['นัดส่งมอบ / Install Appointment / Due ของโครงการ','Delivery / Installation / Customer Confirmation ตาม Event ล่าสุด'],
   gl:['Batch Posting Cutoff / Period Close Due','Accounting / AP / Finance Approver ที่ยังไม่ Post/Reconcile']
  };
- const state={ds:null,pub:null,priv:null,node:'wip',grain:'day',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35,historyYear:null,historySelected:null,historyCollapsed:new Set(),historyDefaultApplied:false};
+ const state={ds:null,pub:null,priv:null,node:'wip',grain:'month',year:'2026',month:'',query:'',scope:'open',rowMode:'date_project',collapsed:new Set(),groupDefaultApplied:false,projectFilter:'',customerFilter:'',cell:null,page:1,pageSize:35,historyYear:null,historySelected:null,historyCollapsed:new Set(),historyDefaultApplied:false};
  const nodeIds=['transfer','output','material','labor','quality','rework','scrap','wip','machine','purchase','receipt','inventory','cost','delivery','gl'];
  let toastTimeout;
  function message(s){$('toast').textContent=s;$('toast').classList.add('on');clearTimeout(toastTimeout);toastTimeout=setTimeout(()=>$('toast').classList.remove('on'),2500);}
@@ -463,7 +463,7 @@
  $('search').oninput=e=>{state.query=e.target.value.trim();state.cell=null;state.page=1;renderSummary();renderMatrix();renderDetails();};
  $('clearCell').onclick=()=>{state.cell=null;state.page=1;renderMatrix();renderDetails()};
  $('download').onclick=csv;
- $('reset').onclick=()=>{state.grain='day';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;state.historyYear=null;state.historySelected=null;state.historyCollapsed.clear();state.historyDefaultApplied=false;for(const id of ['search'])$(id).value='';$('grain').value='day';$('scope').value='open';renderAll(true)};
+ $('reset').onclick=()=>{state.grain='month';state.year='2026';state.month='';state.query='';state.scope='open';state.rowMode='date_project';state.collapsed.clear();state.groupDefaultApplied=false;state.projectFilter='';state.customerFilter='';state.cell=null;state.page=1;state.historyYear=null;state.historySelected=null;state.historyCollapsed.clear();state.historyDefaultApplied=false;for(const id of ['search'])$(id).value='';$('grain').value='month';$('scope').value='open';renderAll(true)};
  $('prev').onclick=()=>{state.page=Math.max(1,state.page-1);renderDetails()};
  $('next').onclick=()=>{state.page++;renderDetails()};
  load();
