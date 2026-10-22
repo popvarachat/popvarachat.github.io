@@ -219,8 +219,8 @@
   $('metricMainLabel').textContent=transferReferenceOnly()?'WIP Open จาก Snapshot ที่ต้องตรวจสถานะโอน':activity?'รายการรับเข้าที่บันทึกแล้ว (ไม่ใช่งานค้าง)':'รายการงานค้างในผลกรอง';
   $('metricAssignedLabel').textContent=activity?'คิวค้างรับตาม PO (ยังไม่ได้เชื่อม)':'ระบุส่วนงานเบื้องต้นได้';
   $('metricUnknownLabel').textContent=activity?'ผู้รับผิดชอบที่ยังค้าง (ยังไม่ตรวจ)':'ส่วนงานยังไม่ชัด / ต้องตรวจ';
-  $('metricOverdueLabel').textContent=activity?'งานค้างรับเกินกำหนด (ยังไม่ตรวจ)':'เกินกำหนดตามวันที่อ้างอิง';
-  $('scope').querySelector('option[value="open"]').textContent=activity?'รายการรับเข้าแล้วในหลักฐาน':'เฉพาะงานค้าง / Open';
+  $('metricOverdueLabel').textContent=transferReferenceOnly()?'WO Finish Due ก่อนวันนี้ (Snapshot)':activity?'งานค้างรับเกินกำหนด (ยังไม่ตรวจ)':'เกินกำหนดตามวันที่อ้างอิง';
+  $('scope').querySelector('option[value="open"]').textContent=transferReferenceOnly()?'Open WO ใน Snapshot (ไม่ใช่ค้างโอน)':activity?'รายการรับเข้าแล้วในหลักฐาน':'เฉพาะงานค้าง / Open';
   $('scope').disabled=activity;
   $('matrixHeading').textContent=d.name+' · '+(transferReferenceOnly()?'WIP → ตรวจสอบการโอน: WO Finish Due × โครงการ × Stage เบื้องต้น':activity?'วันที่รับเข้าจริง × สโตร์ที่รับเข้า (ไม่ใช่แผนกค้าง)':state.node==='purchase'?'PR / PO · Request/Promise Date × จุดติดตาม (เบื้องต้น)':'วันที่ / โครงการ × แผนกที่ค้าง');
   $('sourceLine').textContent=transferReferenceOnly()?'ทะเบียน WIP จาก P5511026/P48013 · ไม่มี Transaction TS จาก P4111/P554801C · Date = WO Finish Due · Source Snapshot '+date:(activity?'P55432A4 (Actual Receipts) · ':state.node==='purchase'?'P5543007 (PR Inquiry) + P4338 (PO Detail) · ':'')+d.applications+' · '+(p?p.due_field:'ไม่มี Transaction Pivot Extract ของ Node นี้')+' · Source Snapshot '+date;
@@ -334,7 +334,7 @@
   if(!r){block.textContent='ยังไม่มีหลักฐานย้อนหลังของ Node นี้ในไฟล์ที่เก็บไว้ ไม่ใช่หลักฐานว่า ERP ไม่มีธุรกรรม';return;}
   const source=historyData(),privateRows=isPrivate()&&source?source.rows||[]:[];
   const refs=privateRows.filter(x=>x.date===r.date&&x.date_kind===r.date_kind&&x.reference);
-  const descriptor=r.date_kind==='Source Capture Date (not transaction date)'?'วันที่ดึงข้อมูลตัวอย่าง (ไม่มีวันที่ธุรกรรมในแถว)':'วันที่ในฟิลด์ต้นทาง';
+  const descriptor=r.date_kind==='WO Finish Due (NOT Transfer Date)'?'กำหนดเสร็จของ WO ไม่ใช่วันโอน':r.date_kind==='Source Capture Date (not transaction date)'?'วันที่ดึงข้อมูลตัวอย่าง (ไม่มีวันที่ธุรกรรมในแถว)':'วันที่ในฟิลด์ต้นทาง';
   let html='<b>'+escape(r.date)+' · '+escape(descriptor)+' · '+fmt(r.count)+' แถวจากแหล่งตัวอย่าง</b>';
   if(!refs.length){
    html+='<p>บน GitHub แสดงเพียงจำนวนแถวและวันที่ของหลักฐาน เนื่องจากเลขเอกสาร/สินค้า/บุคคลเก็บเฉพาะ Private NB เท่านั้น</p>';
@@ -347,6 +347,8 @@
   block.innerHTML=html;
  }
  function renderHistory(){
+  const heading=document.querySelector('#historicalEvidenceSection h2');
+  if(heading)heading.textContent=transferReferenceOnly()?'ข้อมูลกำหนดเสร็จ WO ที่เคยบันทึกไว้ (ไม่ใช่วันโอนจริง)':'วันนี้ไม่มีรายการ? เปิดข้อมูลย้อนหลังที่ตรวจพบได้';
   const h=publicHistory(),privateH=historyData(),pubRows=h?.rows||[];
   const hasRecords=Array.isArray(pubRows)&&pubRows.length>0;
   const dates=pubRows.filter(x=>x.date).map(x=>x.date);
