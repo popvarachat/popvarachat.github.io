@@ -303,8 +303,8 @@
  function historyData(){
   const found=(isPrivate()?state.priv?.historical_evidence?.nodes?.[state.node]||state.pub?.historical_evidence?.nodes?.[state.node]:
            state.pub?.historical_evidence?.nodes?.[state.node])||null;
-  if(found)return found;
-  if(!isPrivate()||!transferReferenceOnly())return null;
+  if(found&&(!transferReferenceOnly()||Array.isArray(found.rows)&&found.rows.length>0))return found;
+  if(!isPrivate()||!transferReferenceOnly())return found||null;
   // Private evidence references: WO FINISH dates are NEVER transfer transaction dates.
   const rows=(state.priv?.domains?.wip?.rows||[]).filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.due||''))
    .map(x=>({date:x.due,date_kind:'WO Finish Due (NOT Transfer Date)',
@@ -313,8 +313,9 @@
   return {rows};
  }
  function publicHistory(){
-  const direct=state.pub?.historical_evidence?.nodes?.[state.node];if(direct)return direct;
-  if(!transferReferenceOnly())return null;
+  const direct=state.pub?.historical_evidence?.nodes?.[state.node];
+  if(direct&&(!transferReferenceOnly()||Array.isArray(direct.rows)&&direct.rows.length>0))return direct;
+  if(!transferReferenceOnly())return direct||null;
   // Expose ONLY source-approved WIP snapshot aggregates. This is NOT a transfer ledger.
   const byDate=new Map();
   for(const x of state.pub.domains.wip.rows){
