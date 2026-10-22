@@ -118,3 +118,5 @@
 #scanStatus[hidden],#todoScanStatus[hidden]{display:none}
 @media(max-width:950px){.simple-source{grid-template-columns:1fr}}
 @media(max-width:640px){.update-tools>summary{align-items:flex-start;flex-direction:column;gap:3px}}
+
+.update-tools:not([open])>.update-tool-content{display:none!important}
