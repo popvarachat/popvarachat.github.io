@@ -301,11 +301,32 @@
  }
 
  function historyData(){
-  return (isPrivate()?state.priv?.historical_evidence?.nodes?.[state.node]||state.pub?.historical_evidence?.nodes?.[state.node]:
+  const found=(isPrivate()?state.priv?.historical_evidence?.nodes?.[state.node]||state.pub?.historical_evidence?.nodes?.[state.node]:
            state.pub?.historical_evidence?.nodes?.[state.node])||null;
+  if(found)return found;
+  if(!isPrivate()||!transferReferenceOnly())return null;
+  // Private evidence references: WO FINISH dates are NEVER transfer transaction dates.
+  const rows=(state.priv?.domains?.wip?.rows||[]).filter(x=>/^\d{4}-\d{2}-\d{2}$/.test(x.due||''))
+   .map(x=>({date:x.due,date_kind:'WO Finish Due (NOT Transfer Date)',
+      reference:(x.wo?'WO '+x.wo:'WO ไม่ทราบ')+(x.cutting?' · Cutting '+x.cutting:''),
+      description:x.project||'ไม่พบโครงการ'}));
+  return {rows};
  }
  function publicHistory(){
-  return state.pub?.historical_evidence?.nodes?.[state.node]||null;
+  const direct=state.pub?.historical_evidence?.nodes?.[state.node];if(direct)return direct;
+  if(!transferReferenceOnly())return null;
+  // Expose ONLY source-approved WIP snapshot aggregates. This is NOT a transfer ledger.
+  const byDate=new Map();
+  for(const x of state.pub.domains.wip.rows){
+   if(!/^\d{4}-\d{2}-\d{2}$/.test(x.due||''))continue;
+   byDate.set(x.due,(byDate.get(x.due)||0)+weight(x));
+  }
+  const kind='WO Finish Due (NOT Transfer Date)';
+  return {source:'P5511026/P48013 WIP Snapshot — not P4111 Transfer Ledger',
+   source_capture:state.pub.source_snapshot||state.pub.due_date_source_snapshot,
+   sample_count:state.pub.domains.wip.count,
+   note:'เฉพาะประวัติ WO Finish Due สำหรับตรวจงานโอนเท่านั้น ไม่ใช่เอกสาร TS หรือวันโอนจริง',
+   last_event:null,rows:[...byDate.entries()].map(([date,count])=>({date,date_kind:kind,count,source:'WIP WO Finish Due (NOT Transfer)'}))};
  }
  function renderHistoryDetails(r){
   const block=$('historyDrilldown');
@@ -342,7 +363,7 @@
   $('historySource').textContent='แหล่ง '+(h.source||'JDE')+' · '+fmt(h.sample_count||0)+' แถวจากตัวอย่าง/Snapshot · '+(h.note||'')+
   ' · วันที่เก็บหลักฐาน '+(h.source_capture||'ตาม Source ของแต่ละรายการ')+' · ไม่ใช่ยอดค้างทั้งโรงงาน';
   const actual=h.last_event;
-  $('historySummary').textContent=hasRecords?
+  $('historySummary').textContent=transferReferenceOnly()?'พบ WO Finish Due จาก WIP Snapshot '+fmt(h.sample_count||0)+' Cutting เพื่อช่วยตรวจสอบการโอน · ไม่มีวันที่โอนจริงจาก P4111/P554801C ในชุดนี้':hasRecords?
    'พบหลักฐานย้อนหลัง '+fmt(h.sample_count||0)+' แถว · '+(actual?'วันธุรกรรม/สถานะที่พบล่าสุด '+actual:'ไม่พบวันที่ธุรกรรมในแถว: แสดงวัน Snapshot เท่านั้น')+
     ' · เลือกปีอื่นได้โดยไม่ต้องมีรายการของวันนี้':
    'ยังไม่พบแถวประวัติในชุดข้อมูลที่เคยดึงสำหรับ Node นี้ — ต้องค้น JDE ย้อนหลังเพิ่ม ไม่ใช่ยอดศูนย์';
