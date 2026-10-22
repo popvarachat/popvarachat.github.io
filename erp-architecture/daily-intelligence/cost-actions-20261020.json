@@ -1,0 +1,426 @@
+{
+  "schema": "practika-erp-cost-control-bridge-v1",
+  "source": "MC weekly agenda — cost measures next steps 20 Oct 2026",
+  "source_snapshot": "2026-10-20",
+  "source_updated_at": "2026-10-21T16:09:12Z",
+  "classification": "PUBLIC_SUMMARY_ONLY_NO_RAW_SHAREPOINT_FINANCE_OR_STAFF_NAMES",
+  "erp_data_status": "CONTROL_REQUIREMENTS_NOT_CERTIFIED_OPERATIONAL_FACTS",
+  "notice": "แต่ละแถวคือข้อกำหนด/งานจากที่ประชุม ไม่ใช่หลักฐานว่างาน ERP ปัจจุบันค้างหรือปิดแล้ว ชื่อบุคคลและข้อมูลละเอียดต้องอยู่ Private เท่านั้น",
+  "groups": [
+    {
+      "id": "classify",
+      "title": "01 · จัดหมวดสินค้าให้สะท้อนต้นทุน",
+      "intro": "ทบทวน Product/Cost Category และวิธีแบ่งรายการผลิตเอง นำเข้า และ SUP",
+      "nodes": [
+        "cost",
+        "inventory",
+        "purchase"
+      ]
+    },
+    {
+      "id": "abc",
+      "title": "02 · Activity-Based Costing",
+      "intro": "Control Plan → แรงงาน/เครื่องจักร/ค่าเสื่อม → ต้นทุนแต่ละสายผลิตและจัดส่งติดตั้ง",
+      "nodes": [
+        "wip",
+        "labor",
+        "machine",
+        "cost",
+        "delivery"
+      ]
+    },
+    {
+      "id": "aging",
+      "title": "03 · Inventory / WIP / FG Aging",
+      "intro": "ติดตามของที่อยู่ค้างนาน การเบิกแล้วไม่คืน และต้นทุนที่จมในแต่ละจุด",
+      "nodes": [
+        "material",
+        "inventory",
+        "wip",
+        "output",
+        "delivery"
+      ]
+    },
+    {
+      "id": "rework",
+      "title": "04 · Rework / Scrap และการเบิกเกิน BOM",
+      "intro": "งานแก้ไขต้องมีธุรกรรมจริง เชื่อม Original WO และการอนุมัติเบิกเพิ่มเติม",
+      "nodes": [
+        "material",
+        "rework",
+        "quality",
+        "scrap",
+        "wip"
+      ]
+    },
+    {
+      "id": "procure",
+      "title": "05 · ราคาซื้อ / Imported / OEM / SUP",
+      "intro": "เปรียบเทียบราคากับมาตรฐานและต้นทุนรวมถึงโรงงาน อนุมัติราคาส่วนต่าง",
+      "nodes": [
+        "purchase",
+        "receipt",
+        "cost",
+        "gl",
+        "delivery"
+      ]
+    },
+    {
+      "id": "people",
+      "title": "06 · ประสิทธิภาพแรงงาน 5 ปีย้อนหลัง",
+      "intro": "ข้อสรุปเพิ่มเติมใน Sheet 21 ต.ค.: เงินเดือน+OT แยกประเภทงานผลิตและส่งติดตั้ง",
+      "nodes": [
+        "labor",
+        "output",
+        "delivery",
+        "cost"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "MC-00",
+      "sheet_row": 0,
+      "source_date": "2026-10-20",
+      "group": "classify",
+      "title": "จำลองหมวดสินค้า ERP ใหม่",
+      "ask": "จัดหมวด Office/Kitchen/Housing/Partition/Chair/Sofa/Locker/Imported Assembly/SUP เพื่อเสนออนุมัติ",
+      "owner_role": "การเงินต้นทุน · ทีมพัฒนาผลิตภัณฑ์",
+      "nodes": [
+        "cost",
+        "inventory"
+      ],
+      "evidence_gate": "ต้องรับรอง Category Master และการเปลี่ยนหมวด",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-01",
+      "sheet_row": 1,
+      "source_date": "2026-10-20",
+      "group": "abc",
+      "title": "ตรวจเส้นทางสินค้า 1 ตัวผ่านสายผลิตใด",
+      "ask": "ผูก Item/WO → Control Plan → Operation สำหรับ DL",
+      "owner_role": "ฝ่ายผลิต · วิศวกรรม",
+      "nodes": [
+        "wip",
+        "labor"
+      ],
+      "evidence_gate": "ต้องรับรอง Operation ที่ทำจริง ไม่ใช่เพียงแผน",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-02",
+      "sheet_row": 2,
+      "source_date": "2026-10-20",
+      "group": "abc",
+      "title": "แยกค่าเสื่อมราคาตามสายผลิต",
+      "ask": "จัดสรรค่าเสื่อม/เงินเดือนให้ Work Center จริง แทนหารเฉลี่ยทุกสินค้า",
+      "owner_role": "บัญชีต้นทุน · ฝ่ายผลิต · IT",
+      "nodes": [
+        "machine",
+        "labor",
+        "cost",
+        "gl"
+      ],
+      "evidence_gate": "ยังไม่มี Cost Center / ค่าเสื่อมจริงแยกตามสายผลิต",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-03",
+      "sheet_row": 3,
+      "source_date": "2026-10-20",
+      "group": "abc",
+      "title": "แก้เวลา Clock in / Clock out ให้ตรงงานจริง",
+      "ask": "บันทึกเวลาปฏิบัติงานจริงให้ครอบคลุมสายผลิตและติดตั้ง",
+      "owner_role": "ฝ่ายผลิต · HR · จัดส่งติดตั้ง",
+      "nodes": [
+        "labor",
+        "delivery"
+      ],
+      "evidence_gate": "ต้องเทียบเวลาจริงกับ Time Booking/Approval",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-04",
+      "sheet_row": 4,
+      "source_date": "2026-10-20",
+      "group": "abc",
+      "title": "บันทึกกำลังคนจริงทุกเช้า",
+      "ask": "จำนวนพนักงานในแต่ละสายผลิตต้องตรงผู้ที่ทำงานจริง",
+      "owner_role": "ฝ่ายผลิต · IT",
+      "nodes": [
+        "labor",
+        "cost"
+      ],
+      "evidence_gate": "ต้องเทียบ Attendance, Shift และ Work Center",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-05",
+      "sheet_row": 5,
+      "source_date": "2026-10-20",
+      "group": "aging",
+      "title": "แจ้งเตือน RM/WIP/FG ค้างนาน",
+      "ask": "RM เกิน 30/60 วัน, WIP เกิน 30 วัน, FG เลยกำหนดส่ง; แสดง Location และเจ้าภาพ",
+      "owner_role": "บัญชี · สโตร์ · ผลิต · จัดส่งติดตั้ง",
+      "nodes": [
+        "material",
+        "inventory",
+        "wip",
+        "output",
+        "delivery"
+      ],
+      "evidence_gate": "ต้องมี Event Date, On-hand และสถานะปัจจุบัน",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-06",
+      "sheet_row": 6,
+      "source_date": "2026-10-20",
+      "group": "aging",
+      "title": "เบิกวัตถุดิบเกินต้องคืนสโตร์",
+      "ask": "ตรวจการเบิกที่ยังไม่ตัดใช้และของเหลือไม่คืนสโตร์",
+      "owner_role": "ผลิต · สโตร์",
+      "nodes": [
+        "material",
+        "inventory",
+        "wip"
+      ],
+      "evidence_gate": "ต้องผูก Issue/Return Ledger กับ WO",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-07",
+      "sheet_row": 7,
+      "source_date": "2026-10-20",
+      "group": "aging",
+      "title": "Clear ของค้างจากรายการบัญชี",
+      "ask": "แสดง stock ค้างในมือ แยกผู้ถือ Action พร้อมเป้าหมายการลด",
+      "owner_role": "บัญชี · ผู้รับผิดชอบแต่ละจุด",
+      "nodes": [
+        "inventory",
+        "wip",
+        "delivery"
+      ],
+      "evidence_gate": "รอรายการอายุ stock และ owner ที่บัญชีรับรอง",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-08",
+      "sheet_row": 8,
+      "source_date": "2026-10-20",
+      "group": "rework",
+      "title": "พิสูจน์การใช้ Control Plan - Rework",
+      "ask": "ตรวจ Rework Operation จริงและการกระทบใบแจ้งซ่อม",
+      "owner_role": "ฝ่ายผลิต · QC",
+      "nodes": [
+        "rework",
+        "quality",
+        "wip"
+      ],
+      "evidence_gate": "ต้องเชื่อม Original WO → Rework WO → ปิดงาน",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-09",
+      "sheet_row": 9,
+      "source_date": "2026-10-20",
+      "group": "rework",
+      "title": "ควบคุมเบิกวัสดุเพิ่มจาก BOM",
+      "ask": "เบิกเกิน BOM ต้องมีเหตุผลและอนุมัติจากผู้มีอำนาจก่อนเบิก",
+      "owner_role": "ฝ่ายผลิต · ผู้อนุมัติ",
+      "nodes": [
+        "material",
+        "rework"
+      ],
+      "evidence_gate": "ยังต้องพิสูจน์ Approval Workflow และวงเงิน",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-10",
+      "sheet_row": 10,
+      "source_date": "2026-10-20",
+      "group": "rework",
+      "title": "ควบคุมเบิกเพิ่มหลังปิด Job",
+      "ask": "ห้ามถือว่าเป็นต้นทุนงานเดิมโดยไม่มีการอนุมัติและการอ้างอิง",
+      "owner_role": "ฝ่ายผลิต · บัญชีต้นทุน",
+      "nodes": [
+        "rework",
+        "material",
+        "cost"
+      ],
+      "evidence_gate": "ต้องเชื่อม Closed WO กับ Late Material Issue",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-11",
+      "sheet_row": 11,
+      "source_date": "2026-10-20",
+      "group": "rework",
+      "title": "วัดความแม่นยำของ BOM / ENG Estimate",
+      "ask": "เทียบปริมาณประมาณการ เบิกจริง คืนจริง และ WIP สูงผิดปกติ",
+      "owner_role": "วิศวกรรม · ผลิต · บัญชี",
+      "nodes": [
+        "material",
+        "wip",
+        "cost"
+      ],
+      "evidence_gate": "ต้องรับรอง BOM Version, Revisions และ Actual Issue",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-12",
+      "sheet_row": 12,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "เปรียบเทียบราคาซื้อกับ Estimate และปีก่อน",
+      "ask": "Top 30 ราคาซื้อจริงเทียบ Budget / Last Year พร้อมตัวอนุมัติส่วนต่าง",
+      "owner_role": "จัดซื้อ · ฝ่ายขาย · บัญชี",
+      "nodes": [
+        "purchase",
+        "cost"
+      ],
+      "evidence_gate": "ต้องผูก PR/PO/Estimate, Approval และ Landed Cost",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-13",
+      "sheet_row": 13,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "ราคานำเข้ารวม Shipping",
+      "ask": "Moving Average ราคาสินค้า+Shipping และค่าใช้จ่ายจนถึงโรงงาน",
+      "owner_role": "จัดซื้อ · บัญชี",
+      "nodes": [
+        "purchase",
+        "receipt",
+        "cost"
+      ],
+      "evidence_gate": "ต้องมี Landed Cost/Exchange/Receipt Vouchers",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-14",
+      "sheet_row": 14,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "Moving Average วัตถุดิบมาตรฐาน",
+      "ask": "วัตถุดิบซื้อจำนวนมาก ตั้งฐานราคาอ้างอิงใหม่",
+      "owner_role": "จัดซื้อ · บัญชี",
+      "nodes": [
+        "purchase",
+        "receipt"
+      ],
+      "evidence_gate": "ต้องรับรอง Unit Price, Quantity, Currency และ Reversal",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-15",
+      "sheet_row": 15,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "Moving Average วัตถุดิบพิเศษ",
+      "ask": "กลุ่มกระจก HPL Edge หินเทียม ผ้า Fitting ฯลฯ",
+      "owner_role": "จัดซื้อ · บัญชี · วิศวกรรม",
+      "nodes": [
+        "purchase",
+        "receipt"
+      ],
+      "evidence_gate": "ต้องแยก Spec และหน่วยนับเทียบเคียงได้",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-16",
+      "sheet_row": 16,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "กำหนดขั้นอนุมัติเมื่อซื้อแพงกว่าเฉลี่ย",
+      "ask": "เสนอ Approval Matrix ตาม % ส่วนต่าง โดย % เกณฑ์ยังต้องอนุมัติ",
+      "owner_role": "จัดซื้อ · บัญชี · ผู้บริหาร",
+      "nodes": [
+        "purchase",
+        "cost"
+      ],
+      "evidence_gate": "ยังไม่มี Threshold ที่อนุมัติ; ห้ามสมมติ xx%",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-17",
+      "sheet_row": 17,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "เทียบ OEM/SUP กับทำเอง",
+      "ask": "ต้นทุนจ้างผลิต/ติดตั้งเทียบ In-house Actual Cost และเป้า %",
+      "owner_role": "บัญชีต้นทุน · ฝ่ายผลิต · จัดส่งติดตั้ง",
+      "nodes": [
+        "cost",
+        "delivery",
+        "labor"
+      ],
+      "evidence_gate": "ต้องผูก Outsource PO กับ WO/Project และ Actual Delivery",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-18",
+      "sheet_row": 18,
+      "source_date": "2026-10-20",
+      "group": "procure",
+      "title": "ทบทวนวิธีคิดต้นทุน OEM",
+      "ask": "ยืนยัน Costing Method ของงานจ้างผลิตและต้นทุนที่ครบถ้วน",
+      "owner_role": "บัญชีต้นทุน · ฝ่ายผลิต",
+      "nodes": [
+        "cost",
+        "purchase"
+      ],
+      "evidence_gate": "ต้องรับรองวิธีปันส่วนและ Posted GL",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-19",
+      "sheet_row": 19,
+      "source_date": "2026-10-21",
+      "group": "people",
+      "title": "ผลิต: เงินเดือน+OT ต่อยอดโอนย้อนหลัง 5 ปี",
+      "ask": "แยกผลิตเอง / SUP (ประกอบ+แพ็ก) / OEM",
+      "owner_role": "บัญชี · HR · ฝ่ายผลิต",
+      "nodes": [
+        "labor",
+        "output",
+        "cost"
+      ],
+      "evidence_gate": "ต้องมี Payroll, OT, Transfer Value และ Classification",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-20",
+      "sheet_row": 20,
+      "source_date": "2026-10-21",
+      "group": "people",
+      "title": "จัดส่งติดตั้ง: เงินเดือน+OT ต่อยอดส่งมอบ 5 ปี",
+      "ask": "แยกผลิตเอง / SUP (ประกอบ+แพ็ก) / OEM",
+      "owner_role": "บัญชี · HR · จัดส่งติดตั้ง",
+      "nodes": [
+        "delivery",
+        "labor",
+        "cost"
+      ],
+      "evidence_gate": "ต้องมี Delivery Value / Payroll / OT กับ Project Join",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    },
+    {
+      "id": "MC-21",
+      "sheet_row": 21,
+      "source_date": "2026-10-21",
+      "group": "people",
+      "title": "ขาย/CXD/PMO: วิเคราะห์เงินเดือน+OT เพิ่มขึ้น",
+      "ask": "จำแนกต้นเหตุยอด OT และฐานรายได้ของแต่ละฝ่าย",
+      "owner_role": "บัญชี · HR · เจ้าภาพฝ่าย",
+      "nodes": [
+        "labor",
+        "cost"
+      ],
+      "evidence_gate": "ข้อมูล HR/Payroll เป็น Private; ห้ามเผยแพร่รายคน",
+      "action_status": "AWAITING_ERP_CERTIFICATION"
+    }
+  ]
+}
