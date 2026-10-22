@@ -286,16 +286,18 @@ function renderSourceDetail(){
  const checkedText=checked?new Date(checked).toLocaleString("th-TH"):"ไม่มีเวลาตรวจรับล่าสุด";
  const sourceAge=publicSourceAge(selectedSource,health);
  $("sourceDetailMeta").textContent="ต้นทาง "+name+" · "+(health.total??"—")+" หน่วยนับตาม Source Health · ตรวจครั้งล่าสุด "+checkedText;
- const pending=rows.filter(x=>!x.closed);
+ const operational=rows.filter(x=>!x.reference_only);
+ const pending=operational.filter(x=>!x.closed);
  const metrics=[
- ["จำนวน Stage ที่อ่านได้",rows.length],
- ["จำนวนงานไม่ซ้ำภายในทะเบียน",new Set(rows.map(x=>x.work_key)).size],
+ ["Stage งานจริง (ไม่รวมแม่แบบ)",operational.length],
+ ["ขั้นตอนแม่แบบอ้างอิง",rows.length-operational.length],
+ ["จำนวนงานไม่ซ้ำภายในทะเบียน",new Set(operational.map(x=>x.work_key)).size],
  ["Stage ยังเปิด",pending.length],
  ["Stage ผ่านวันกำหนดในตาราง",pending.filter(x=>x.deadline_state==="ผ่านกำหนดตามตาราง").length],
  ["Stage ยังไม่มีชื่อเจ้าภาพ",pending.filter(x=>["missing","team_only","not_audited"].includes(x.owner_kind)).length]
  ];
  $("sourceDetailStats").innerHTML=metrics.map(([n,v])=>'<div class="source-stat-metric"><small>'+escapeHtml(n)+'</small><strong>'+Number(v).toLocaleString("th-TH")+'</strong></div>').join("");
- let caution=selectedSource==="cb"?"CB: วันโอนตามแผนไม่ยืนยันว่าโอนช้าจริง และต้องตรวจใบโอน":"";
+ let caution=selectedSource==="cb"?"CB: ขั้นตอนจากแม่แบบเป็นเพียงงานที่ต้องตรวจ ไม่ใช่งานค้างที่ยืนยันแล้ว; วันที่โอนตามแผนไม่ใช่หลักฐานการโอนจริง":"";
  if(["ics","icf","ice"].includes(selectedSource))caution="ICS/ICF/ICE: วันที่ทำงานไม่ใช่ Stage Due ที่รับรองแล้ว จึงไม่ตัดสินว่าเลยกำหนดจากคอลัมน์นั้น";
  if(["innovation","planner"].includes(selectedSource))caution="Cloud: ใช้ Snapshot ล่าสุดที่ได้รับ ไม่ได้ตรวจไฟล์ Cloud ใหม่จากปุ่ม Scan W:";
  $("sourceDetailNote").textContent=(payload?"มีข้อมูลรายรายการจาก Private Viewer บนเครื่องนี้":"ยังไม่เชื่อมข้อมูลรายรายการ: เปิดผ่าน NB หรือเลือกไฟล์ Pivot ที่ได้รับอนุญาต")+
