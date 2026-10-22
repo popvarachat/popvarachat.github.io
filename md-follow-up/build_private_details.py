@@ -47,11 +47,47 @@ def create(source,rid,title,status,owner="",due="",due_kind="กำหนดส�
 conf=json.loads((ROOT/"refresh.config.json").read_text(encoding="utf-8-sig"))
 groups={}
 warnings=[]
+# CB worksheet drilldown. Template rows are not verified project execution.
+def cb_code(x):
+    m=re.match(r"^\s*(\d{1,2}\.\d{1,3})(?=\s|$)",value(x).replace("\n"," "))
+    return m.group(1) if m else ""
+def cb_sheet_steps(sheet,template=False):
+    rows=[]
+    for rn,raw in enumerate(sheet.iter_rows(min_row=5,max_col=10,values_only=True),5):
+        cells=list(raw)+[None]*max(0,10-len(raw))
+        code=cb_code(cells[1])
+        if not code or not value(cells[4]):continue
+        check=value(cells[2]).casefold()
+        checked=check in ("1","true","yes","done","complete","✓","✔","ผ่าน","เสร็จ")
+        status="แม่แบบ CB · ยังไม่ยืนยันผลราย Order" if template else (
+          "สำเร็จตาม Check ใน Sheet" if checked else
+          (value(cells[6]) if any(k in value(cells[6]) for k in
+          ("สำเร็จ","เสร็จ","อยู่ระหว่าง","รอ","ยังไม่")) else "ยังไม่พบผลตรวจรับใน Sheet"))
+        rows.append({"code":code,"row":rn,"sheet":sheet.title,
+          "task":safe(cells[4],650),"owner":safe(cells[3],180),
+          "due":safe(cells[5],100),"status":status,
+          "check_raw":safe(cells[2],80),"notes":safe(cells[6],300),
+          "process_group":safe(cells[0],220),"reference_only":template})
+    return rows
+def cb_tab_matches(sheet_name,record):
+    t=re.sub(r"[^a-z0-9]","",sheet_name.casefold())
+    order=re.sub(r"[^a-z0-9]","",record.get("reference","").casefold())
+    no=re.sub(r"\D","",record["id"])
+    if not order:return False
+    d=re.sub(r"\D","",order)
+    if len(d)>=4 and no and d[-4:] in t:
+        return bool(re.search(r"(?:^|\D)"+re.escape(no)+r"(?:\D|$)",sheet_name))
+    return order in t
+
 # CB: all 88 real order lines, statuses are raw file values.
 try:
     book=load_workbook(conf["sources"]["cb"]["path"],read_only=True,data_only=True,keep_links=False)
     tab=book["CB List"] if "CB List" in book.sheetnames else book.active
     records=[]
+    template=book["ต้นฉบับ"] if "ต้นฉบับ" in book.sheetnames else None
+    reference_steps=cb_sheet_steps(template,True) if template else []
+    project_tabs=[sh for sh in book if sh.title not in ("CB List","ต้นฉบับ")]
+    used_tabs=set()
     for row in tab.iter_rows(min_row=8,max_col=11,values_only=True):
         no=value(row[0])
         if not no.isdigit() or not row[1]:continue
@@ -59,7 +95,32 @@ try:
         rec=create("cb","CB-"+no,title,st,value(row[6]),value(row[5]),"วันที่โอน",
             value(row[9]),order,value(row[2]))
         rec["customer"]=safe(row[3],200)
+        rec["product_category"]=safe(row[2],100)
+        rec["cb_no"]=no
+        match=[sh for sh in project_tabs if cb_tab_matches(sh.title,rec)]
+        if match:
+            steps=[]
+            for sh in match:
+                steps.extend(cb_sheet_steps(sh,False))
+                used_tabs.add(sh.title)
+            rec["steps"]=steps
+            rec["cb_detail_origin"]="order_sheets"
+            rec["cb_sheet_names"]=[sh.title for sh in match]
+        elif reference_steps:
+            category=rec["product_category"].casefold()
+            selected="2.2" if any(x in category for x in ("ics","icf","edu")) else "2.1"
+            rec["steps"]=[dict(x) for x in reference_steps
+               if not x["code"].startswith("2.") or x["code"]==selected]
+            rec["cb_detail_origin"]="template_reference_only"
+            rec["cb_sheet_names"]=["ต้นฉบับ"]
+        else:
+            rec["steps"]=[]
+            rec["cb_detail_origin"]="no_substage_sheet"
+            rec["cb_sheet_names"]=[]
         records.append(rec)
+    unused=[sh.title for sh in project_tabs if sh.title not in used_tabs]
+    if unused:
+        warnings.append({"source":"cb","error":"CB_SHEETS_UNLINKED","sheets":unused[:60]})
     book.close()
     groups["cb"]=records
 except Exception as e:warnings.append({"source":"cb","error":type(e).__name__})
