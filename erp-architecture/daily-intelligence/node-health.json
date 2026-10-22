@@ -1,0 +1,159 @@
+{
+  "schema": "ERP_15_NODE_RECOVERY_STATUS_V1",
+  "snapshot_build_at_utc": "2026-10-22T03:54:14+00:00",
+  "source_business_snapshot": "2026-10-18",
+  "business_certified": false,
+  "preservation": "CLOUDFLARE_R2_PRIVATE_DPAPI_AES256_GCM_VERIFIED",
+  "nodes": [
+    {
+      "id": "transfer",
+      "source_state": "NOT_CONNECTED",
+      "source_snapshot": "2026-10-18",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": null,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "output",
+      "source_state": "SOURCE_SAMPLE_NOT_ACTION_QUEUE",
+      "source_snapshot": "2026-10-17T09:16:10.2809539Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 8,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "material",
+      "source_state": "SOURCE_SAMPLE_NOT_ACTION_QUEUE",
+      "source_snapshot": "2026-10-17T11:55:22.3061931Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 35,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "labor",
+      "source_state": "SOURCE_SAMPLE_NOT_ACTION_QUEUE",
+      "source_snapshot": "2026-10-17T09:16:10.2809539Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 8,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "quality",
+      "source_state": "HISTORICAL_SAMPLE_NOT_CURRENT",
+      "source_snapshot": "2026-10-17T09:44:23.2981576Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 10,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "rework",
+      "source_state": "NOT_CONNECTED",
+      "source_snapshot": "2026-10-18",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": null,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "scrap",
+      "source_state": "NOT_CONNECTED",
+      "source_snapshot": "2026-10-18",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": null,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "wip",
+      "source_state": "PIVOT_PROVISIONAL",
+      "source_snapshot": "2026-10-18",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 2383,
+      "pivot_available": true,
+      "not_current_pending": true
+    },
+    {
+      "id": "machine",
+      "source_state": "SOURCE_SAMPLE_NOT_ACTION_QUEUE",
+      "source_snapshot": "2026-10-17T09:16:10.2809539Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 8,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "purchase",
+      "source_state": "BOUNDED_PIVOT_SAMPLE",
+      "source_snapshot": "2026-10-21",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 44,
+      "pivot_available": true,
+      "not_current_pending": true
+    },
+    {
+      "id": "receipt",
+      "source_state": "RECORDED_ACTIVITY",
+      "source_snapshot": "2026-10-20T15:14:09.050Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 43,
+      "pivot_available": true,
+      "not_current_pending": true
+    },
+    {
+      "id": "inventory",
+      "source_state": "SOURCE_SAMPLE_NOT_ACTION_QUEUE",
+      "source_snapshot": "2026-10-17T06:22:06.3116394Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 10,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "cost",
+      "source_state": "NOT_CONNECTED",
+      "source_snapshot": "2026-10-18",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": null,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "delivery",
+      "source_state": "SOURCE_SAMPLE_NOT_ACTION_QUEUE",
+      "source_snapshot": "2026-10-17T05:09:09.3136340Z",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": 4,
+      "pivot_available": false,
+      "not_current_pending": true
+    },
+    {
+      "id": "gl",
+      "source_state": "NOT_CONNECTED",
+      "source_snapshot": "2026-10-18",
+      "r2_saved": true,
+      "r2_verified": true,
+      "sample_rows": null,
+      "pivot_available": false,
+      "not_current_pending": true
+    }
+  ]
+}
