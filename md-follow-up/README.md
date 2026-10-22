@@ -178,3 +178,14 @@ Do not add private JSON or local source paths to public GitHub.
 
 ## Free-tier optimization and continuity
 See [COST_POLICY.md](./COST_POLICY.md): W-source signature cache (hourly lightweight check and 24-hour forced validation), 4-hour Microsoft Graph Planner scans, 30-minute visible-tab local viewer checks, GitHub metadata change-only publishing, and prospective Cloudflare D1/R2 strict per-project cost guard. Cloudflare D1/R2 have not been provisioned for this project by this policy.
+
+## Zero-click dashboard opening (2026-10-22)
+- GitHub Pivot opens with the latest local NB snapshot automatically; this is a READ of
+  existing data and does not invoke W/Planner scans.
+- There is NO required refresh button when opening the dashboard.
+- Redundant refresh-NB, W-scan, Planner-scan, file import, and local viewer
+  shortcuts are grouped under a collapsed 'Advanced update/troubleshooting'
+  details panel. Users opt in only to investigate stale data or urgent changes.
+- Manual W/Planner scans remain fully available, but cannot be triggered by page load.
+- W: Scheduled Task monitors file signatures hourly, scans deep on change/at least
+  every 24h. Planner runs every 4h, browser checks NB at most every 30min while visible.

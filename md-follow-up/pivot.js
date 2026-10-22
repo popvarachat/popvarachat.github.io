@@ -492,12 +492,12 @@ async function syncWithNotebook(){
     const j=await response.json();
     if(privateFileSelected)return;
     loadPrivatePivot(j,true);
-    $("connectionState").textContent="LIVE FROM NB · ใช้ข้อมูลล่าสุดที่เก็บในเครื่อง";
+    $("connectionState").textContent="เชื่อม NB แล้ว · โหลดข้อมูลอัตโนมัติ";
     $("connectionState").classList.add("connected");
   }catch(e){
     if(!payload)current.textContent="ไม่พบ Private Viewer บนเครื่องนี้ · หากใช้ PC ให้เปิดผ่าน NB หรือใช้ปุ่มเลือกไฟล์ JSON";
     else current.textContent="ข้อมูลครั้งล่าสุดยังแสดงอยู่ · เชื่อม NB รอบนี้ไม่ได้ ("+e.name+")";
-    $("connectionState").textContent="NB NOT CONNECTED";
+    $("connectionState").textContent="NB NOT CONNECTED · ดูเครื่องมือแก้ปัญหา";
     $("connectionState").classList.remove("connected");
   }finally{localSyncRunning=false;}
 }
@@ -516,6 +516,7 @@ async function scanSourceFiles(){
   if(scanningSources)return;
   scanningSources=true;
   const btn=$("scanSources"),statusEl=$("scanStatus");
+  statusEl.hidden=false;
   btn.disabled=true;
   privateFileSelected=false;
   statusEl.textContent="กำลังส่งคำสั่งสแกนไฟล์จริงจาก NB…";
@@ -558,7 +559,7 @@ function describeTodoScan(s){
 async function refreshTodoFromGraph(){
  if(todoScanBusy)return;
  todoScanBusy=true;
- const btn=$("scanTodo"),area=$("todoScanStatus");btn.disabled=true;
+ const btn=$("scanTodo"),area=$("todoScanStatus");area.hidden=false;btn.disabled=true;
  privateFileSelected=false;
  area.textContent="Todo: กำลังเริ่มสแกน Microsoft Planner บน NB…";
  try{

@@ -5,7 +5,7 @@
 <meta name="referrer" content="no-referrer">
 <link rel="icon" href="data:,">
 <title>MD Work Tracking | Pivot Dashboard · GitHub Web</title>
-<link rel="stylesheet" href="./pivot.css?v=freeguard-20261022"><script defer src="./pivot.js?v=freeguard-20261022"></script>
+<link rel="stylesheet" href="./pivot.css?v=zero-click-20261022"><script defer src="./pivot.js?v=zero-click-20261022"></script>
 </head>
 <body>
 <main class="app">
@@ -22,21 +22,38 @@
    <p class="desc">เมื่อเปิดจาก NB จะเชื่อมรายงานจริงอัตโนมัติทันที · หากเปิดจากเครื่องอื่นจะใช้ข้อมูลสำรองแบบเลือกไฟล์</p>
   </div><span class="subbadge warning">NO PRIVATE DATA IN PUBLIC REPOSITORY</span>
  </div>
- <div class="loader-grid">
-  <div><strong>1. ภาพรวมจากแหล่งข้อมูลที่ตรวจแล้ว</strong><div id="cloudSources" class="cloud-sources">กำลังอ่านสถานะล่าสุด…</div></div>
-  <div><strong>2. เชื่อมรายงานรายละเอียดอัตโนมัติจาก NB</strong>
-    <p>เปิดหน้านี้บน NB ที่ติดตั้ง MD Private Viewer แล้วระบบจะดึงรายงานกำหนดส่งและชื่อเจ้าภาพโดยตรงจาก localhost · หากไม่อยู่บน NB สามารถเลือกไฟล์ <code>pivot.json</code> ที่ได้รับอนุญาตเพื่อดูข้อมูลแทนได้</p>
-    <div class="loader-actions">
-      <label class="loadbtn" for="pivotFile"><span>เลือกไฟล์ MD Pivot JSON</span><input id="pivotFile" type="file" accept=".json,application/json"></label>
-      <a class="open-private" href="http://127.0.0.1:8766/pivot.html" target="_blank" rel="noopener noreferrer">เปิดรายงานสดบน NB ↗</a>
-    </div><div class="sync-panel"><span id="connectionState">CONNECTING NB…</span><button type="button" id="syncNow">รีเฟรชข้อมูลจาก NB ↻</button>
-      <button type="button" id="scanSources">Scan W: 4 แหล่ง + Update Pivot ↻</button>
-      <button type="button" id="scanTodo">Scan Todo / Planner (Microsoft 365) ↻</button></div>
-    <div id="todoScanStatus" role="status" aria-live="polite">Todo: กด Scan Todo เพื่ออ่าน Planner ต้นทางจริง (แยกจาก Scan W:)</div>
-    <div id="scanStatus" role="status" aria-live="polite">สแกนต้นทางใหม่: Check Board · ICS · ICF · ICE | Planner และนวัตกรรมตรวจ Cloud แยกต่างหาก</div>
-    <div class="desc">โหมดประหยัด: เว็บเช็กข้อมูล NB ทุก 30 นาทีเมื่อหน้าเปิดอยู่ หรือกดปุ่มเพื่ออัปเดตทันที · ไม่ใช้ AI ในการสแกน</div>
-    <div id="importStatus" role="status" aria-live="polite">กำลังเชื่อม Private Viewer บน Notebook อัตโนมัติ…</div>
-    <div class="safe-msg">⚠ GitHub Pages เป็นเว็บสาธารณะ ไม่ควรนำข้อมูลส่วนบุคคลมาฝังใน Repository · ไฟล์ที่เลือกใช้แค่ในหน้านี้ ไม่ส่งกลับเซิร์ฟเวอร์</div>
+ <div class="simple-source">
+  <div class="simple-sources-overview">
+   <div class="simple-group-name">1. ภาพรวม 6 แหล่งข้อมูล · คลิกเพื่อดูรายการ</div>
+   <div id="cloudSources" class="cloud-sources">กำลังอ่านสถานะล่าสุด…</div>
+  </div>
+  <div class="simple-connect-overview">
+   <div class="simple-group-name">2. รายงานรายละเอียด</div>
+   <div class="connection-summary" role="status" aria-live="polite">
+    <span id="connectionState">กำลังเชื่อมต่อ NB…</span>
+    <span id="importStatus">เปิดหน้าเว็บแล้วระบบจะโหลดข้อมูลล่าสุดที่มีโดยอัตโนมัติ</span>
+   </div>
+   <div class="sync-explain">ไม่ต้องกดปุ่มเพื่อเริ่มใช้งาน · ไฟล์ W: ตรวจตามรอบบน NB · Todo ตรวจทุก 4 ชั่วโมง · เว็บไม่สแกนใหม่เพียงเพราะเปิดหน้า</div>
+   <details id="updateTools" class="update-tools">
+    <summary>เครื่องมืออัปเดต / แก้ปัญหา <span>ใช้เฉพาะเมื่อข้อมูลไม่ตรงต้นทาง</span></summary>
+    <div class="update-tool-content">
+     <div class="update-tool-title">โหลดข้อมูลล่าสุดที่ NB เก็บไว้</div>
+     <div class="sync-panel"><button type="button" id="syncNow">โหลด Pivot จาก NB ใหม่ ↻</button></div>
+     <div class="update-tool-title">บังคับอ่านไฟล์ต้นทางจริง (อาจใช้ทรัพยากรเพิ่ม)</div>
+     <div class="sync-panel">
+      <button type="button" id="scanSources">Scan W: CB / ICS / ICF / ICE ↻</button>
+      <button type="button" id="scanTodo">Scan Todo / Planner ↻</button>
+     </div>
+     <div id="scanStatus" role="status" aria-live="polite" hidden></div>
+     <div id="todoScanStatus" role="status" aria-live="polite" hidden></div>
+     <div class="update-tool-title">กรณี NB ไม่เชื่อมต่อ</div>
+     <div class="loader-actions">
+      <a class="open-private" href="http://127.0.0.1:8766/pivot.html" target="_blank" rel="noopener noreferrer">ตรวจ Private Viewer บน NB ↗</a>
+      <label class="loadbtn" for="pivotFile"><span>เปิดไฟล์ JSON ที่ได้รับอนุญาต</span><input id="pivotFile" type="file" accept=".json,application/json"></label>
+     </div>
+     <p class="safe-msg">ข้อมูลชื่อบุคคลและรายละเอียดบริษัทอ่านจาก NB หรือไฟล์ใน Browser เท่านั้น ไม่บันทึกลง GitHub Pages สาธารณะ</p>
+    </div>
+   </details>
   </div>
  </div>
  </section>
