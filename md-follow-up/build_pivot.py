@@ -80,8 +80,18 @@ for group in ("cb","ics","icf","ice","innovation","planner"):
  elif group=="cb":
   for row in rows:
    ref=group+"::"+row["id"]
-   append(group,ref,row["title"],"CB / "+row["status"],1,row["status"],row["owner"],row.get("due",""),True,row.get("notes",""),
-      row["id"],due_type="วันที่โอนตามแผน (ยังไม่รับรองผลโอนจริง)")
+   project=(row.get("parent","")+" / "+row.get("reference","")+" / "+row["title"]).strip(" /")
+   append(group,ref,project,"CB List / "+row["status"],1,row["status"],row["owner"],row.get("due",""),True,row.get("notes",""),row["id"],due_type="วันที่โอนตามแผน")
+   out[-1]["cb_kind"]="master"
+   for j,step in enumerate(row.get("steps",[]),2):
+    template=bool(step.get("reference_only"))
+    code=step.get("code","")
+    description=code+" · "+step.get("task","")
+    append(group,ref,project,description,j,step.get("status",""),step.get("owner",""),"",False,
+       "Sheet "+step.get("sheet","")+" row "+str(step.get("row",""))+" · "+step.get("process_group",""),
+       row["id"]+"::"+str(step.get("row","")),due_type="Template ไม่ใช่ Stage Due" if template else "Stage Due ไม่รับรอง")
+    out[-1].update({"reference_only":template,"cb_kind":"reference" if template else "order_sheet",
+                    "cb_code":code,"cb_sheet":step.get("sheet",""),"cb_excel_row":step.get("row")})
  elif group=="planner":
   for row in rows:
    ref=group+"::"+row["id"]
@@ -89,9 +99,15 @@ for group in ("cb","ics","icf","ice","innovation","planner"):
    # The numeric Planner percent is authoritative for completion; Thai UI labels vary.
    out[-1]["closed"]=int(row.get("percent") or 0)>=100
 for ref,a in timelines.items():
- total=len(a);active=[x for x in a if not x["closed"] and x["state"]=="ดำเนินการ/ติดขัด"]
- unverified=[x for x in a if not x["closed"] and x["state"]=="สถานะไม่ชัด"]
- current=active[0] if active else (unverified[0] if unverified else next((x for x in a if not x["closed"]),None))
+ total=len(a)
+ operative=[x for x in a if not x.get("reference_only")]
+ active=[x for x in operative if not x["closed"] and x["state"]=="ดำเนินการ/ติดขัด"]
+ unverified=[x for x in operative if not x["closed"] and x["state"]=="สถานะไม่ชัด"]
+ if ref.startswith("cb::"):
+  master=next((x for x in a if x.get("cb_kind")=="master"),None)
+  current=master if master and not master["closed"] else None
+ else:
+  current=active[0] if active else (unverified[0] if unverified else next((x for x in operative if not x["closed"]),None))
  for x in a:
   x["stage_total"]=total
   x["is_current_stage"]=x is current
@@ -99,8 +115,10 @@ for ref,a in timelines.items():
 summary={}
 for k in ("cb","ics","icf","ice","innovation","planner"):
  arr=[i for i in out if i["source"]==k]
- openrows=[i for i in arr if not i["closed"]]
- summary[k]={"stages":len(arr),"works":len(set(x["work_key"] for x in arr)),
+ tracked=[i for i in arr if not i.get("reference_only")]
+ openrows=[i for i in tracked if not i["closed"]]
+ summary[k]={"stages":len(tracked),"reference_substeps":len(arr)-len(tracked),
+ "works":len(set(x["work_key"] for x in tracked)),
  "open_stages":len(openrows),"overdue_schedule":sum(x["deadline_state"]=="ผ่านกำหนดตามตาราง" for x in openrows),
  "missing_due":sum(x["deadline_state"] in ("ไม่มีวันกำหนด","ไม่ได้กำหนด Stage Due") for x in openrows),
  "current_stages":sum(x["is_current_stage"] for x in openrows)}

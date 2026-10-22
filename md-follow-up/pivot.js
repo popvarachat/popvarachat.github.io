@@ -51,6 +51,7 @@ function refreshOwnerSelect(){
 function getRowsByFilters(){
  const q=search.toLocaleLowerCase(); const ownerSelected=$("ownerFilter")?.value||"";
  filtered=all.filter(r=>
+  !r.reference_only&&
   (source==="all"||r.source===source)&&
   (!ownerSelected||r.owner_person===ownerSelected)&&
   (status==="all"||(status==="open"?!r.closed:r.closed))&&
