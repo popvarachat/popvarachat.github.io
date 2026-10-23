@@ -1,0 +1,696 @@
+{
+  "schema": "practika-erp-data-quality-propagation-v1",
+  "published_on": "2026-10-23",
+  "basis": "Private ERP evidence and public-safe 2026-10-18 snapshot. NOT certified population defect rates or current JDE live.",
+  "status_definitions": {
+    "observed": "เคสผิดปกติที่มีหลักฐานธุรกรรมจริง (จำกัดขอบเขต)",
+    "gap": "พิสูจน์ว่าการเชื่อมข้อมูล/ครอบคลุมไม่พอ หรือ Query ยังรับรองไม่ได้",
+    "sample": "มีตัวอย่างจริง แต่ไม่สามารถสรุปงานปัจจุบัน",
+    "risk": "ความเสี่ยงเชิงควบคุม/สมมติฐาน ยังไม่ยืนยันการเกิดจริง"
+  },
+  "references": {
+    "workflow": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/01_end_to_end_workflow.md",
+    "apps": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md",
+    "lineage": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/03_data_architecture.md",
+    "pain": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/17_targeted_user_pain_rca_scan_20261008.md",
+    "control": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/50_controlplan_line_coverage_root_cause_20261019.md",
+    "cost": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/48_project_wo_actual_cost_gate_20261019.md",
+    "issue": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/77_wo466146_cutting_issue_posting_reversion_rca_20261022.md",
+    "qc": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/79_qc_daily_node_H_P_reject_readonly_20261023.md"
+  },
+  "source_metrics": {
+    "source_snapshot": "2026-10-18",
+    "cohort": 6357,
+    "open_cuttings": 2383,
+    "project_linked": 4803,
+    "control_plan_linked": 1235,
+    "current_operation_linked": 0,
+    "stage_due_linked": 0,
+    "human_owner_linked": 0,
+    "actual_gl_linked": 0,
+    "source_note": "Numbers are coverage of one historical source cohort, not factory incident rate."
+  },
+  "nodes": [
+    {
+      "id": "demand",
+      "x": 90,
+      "y": 130,
+      "stage": "sales",
+      "title": "ความต้องการลูกค้า",
+      "owner": "Sales / CRM",
+      "app": "CRM / Project Intake",
+      "grade": "risk",
+      "problem": "รายละเอียด Spec, Quantity, Scope, Revision และวันที่ลูกค้าต้องการอาจถูกส่งไม่ครบ",
+      "impact": "Quotation ผิดรุ่นหรือจำนวน และข้อกำหนดส่งมอบถูกตีความต่างกัน",
+      "gate": "บังคับลูกค้ายืนยัน Spec/Revision/Deliverable และผู้รับงานก่อนเสนอราคา",
+      "behavior": "อย่าสรุปเงื่อนไขจากแชตอย่างเดียว; บันทึกคำขอพร้อมไฟล์อ้างอิงและเวลา",
+      "doc": "workflow",
+      "metric": "",
+      "priority": "P1"
+    },
+    {
+      "id": "quote",
+      "x": 425,
+      "y": 130,
+      "stage": "sales",
+      "title": "Estimate / เสนอราคา",
+      "owner": "Sales / Estimate",
+      "app": "Estimate / Cost Method 07",
+      "grade": "risk",
+      "problem": "ต้นทุนประมาณการกับ Scope/Cost 07 ไม่ตรง Item-Branch; ความเสี่ยง Cost X3/X4 ไม่เกิดในรอบแรกจากกรณีร้องเรียน",
+      "impact": "ราคาขายตั้งจากต้นทุนไม่ครบ → GM ที่คาดเคลื่อน และการอนุมัติราคาหลุด",
+      "gate": "เช็ก Item/Branch/Cost 07/Estimate Revision และ Margin ก่อนส่งราคา",
+      "behavior": "ห้ามแก้ราคาโดยไม่มี Version และหลักฐานต้นทุนที่ใช้คำนวณ",
+      "doc": "pain",
+      "metric": "",
+      "priority": "P1"
+    },
+    {
+      "id": "so",
+      "x": 760,
+      "y": 130,
+      "stage": "sales",
+      "title": "Sales Order / Project",
+      "owner": "Sales Admin",
+      "app": "P4210 / W4210E / PTK0069",
+      "grade": "gap",
+      "problem": "พบ Project Map 4,803/6,357 Cutting ใน Source Cohort; ฝั่ง Open 2,383 ขาด Project 45 แต่ไม่ได้พิสูจน์ว่า SO ทุกใบขาดจริง",
+      "impact": "WO, WIP, ผลงาน และต้นทุนบางรายการไม่ผูกโครงการ รายงานไม่ครบกลุ่ม",
+      "gate": "ตรวจ SO+Line → Project Key → WO/Cutting; ไม่ยอมรับ Project ที่ว่างโดยไร้เหตุผล",
+      "behavior": "ผู้รับคำสั่งขายทวนรหัสโครงการและประเภท Order ก่อน Release",
+      "doc": "lineage",
+      "metric": "Project 4,803/6,357 ในชุดข้อมูลที่สำรวจ",
+      "priority": "P0"
+    },
+    {
+      "id": "promise",
+      "x": 1095,
+      "y": 130,
+      "stage": "sales",
+      "title": "Promise / Due Date",
+      "owner": "Sales / Planning",
+      "app": "P4210 / Original & Revised Promise",
+      "grade": "risk",
+      "problem": "นิยามวันที่สัญญาเดิม/แก้ไขและการยืนยันกำหนดส่งยังไม่รับรองเป็นกฎ OTD",
+      "impact": "แผนผลิต Delivery และ KPI ส่งทันถูกเลื่อนหรือแสดงผิด",
+      "gate": "เก็บ Original Due + Approved Revised Due + ผู้อนุมัติ + Revision Reason",
+      "behavior": "ห้ามแก้วันที่ให้ทัน KPI โดยไม่มีเหตุผลและอนุมัติ",
+      "doc": "pain",
+      "metric": "WO Finish Due มี 6,347/6,357; ไม่เท่ากับ Stage Due",
+      "priority": "P0"
+    },
+    {
+      "id": "wo",
+      "x": 1430,
+      "y": 130,
+      "stage": "planning",
+      "title": "Work Order / Release",
+      "owner": "PPC / Planning",
+      "app": "P48013 / P31225",
+      "grade": "gap",
+      "problem": "WO/SO/Cutting มี Key ใน Source Cohort แต่ WO 95 อาจยังมี Issue ที่ไม่ Posted; การปิดงานไม่ใช่สัญญาณความพร้อมทุกระบบ",
+      "impact": "Routing/Cost/Transfer/Invoice อ้างอิง WO สถานะดีเกินจริง",
+      "gate": "Gate: WO Status + Open Issue + Time + QC + FG + TS ครบก่อนปิด; เก็บ Company/Type/Suffix",
+      "behavior": "อย่าใช้รหัส WO 95 หรือ 99/9D อย่างเดียวสรุปว่างานเสร็จทั้งวงจร",
+      "doc": "issue",
+      "metric": "",
+      "priority": "P0"
+    },
+    {
+      "id": "cutting",
+      "x": 1765,
+      "y": 130,
+      "stage": "planning",
+      "title": "Cutting / แยกงาน",
+      "owner": "PPC / Production",
+      "app": "P594801C / P554801C",
+      "grade": "gap",
+      "problem": "ข้อมูลแยก Cutting กับการเลือกงานค้างมี Scope 2,383 ใน Snapshot แต่ไม่ใช่ Census โรงงานที่รับรอง; นับซ้ำได้หากใช้ WO เป็น Grain",
+      "impact": "จำนวนงานค้าง, วันครบกำหนด และหน่วยผลิตอาจผิด",
+      "gate": "Distinct Cutting ID, Company+WO, Part/Revision, Due, Status, Last Change",
+      "behavior": "ตรวจเลข Cutting กับ WO, สายผลิตและจำนวนทุกครั้งที่แตกงาน",
+      "doc": "control",
+      "metric": "WIP 2,383 Cutting (2026-10-18 Snapshot)",
+      "priority": "P0"
+    },
+    {
+      "id": "routing",
+      "x": 2100,
+      "y": 130,
+      "stage": "planning",
+      "title": "Control Plan / Operation",
+      "owner": "PPC / หัวหน้าสาย",
+      "app": "P5511026 / P3003",
+      "grade": "gap",
+      "problem": "Current Operation = 0/6,357 ในชุด Lineage; Control Plan มี 1,235/6,357; Cohort 156 Cutting กับ Priority Queue 1,235 ไม่ทับกันเลย",
+      "impact": "ระบุไม่ได้ว่างานอยู่จุดไหน → คอขวด/Owner/Due ส่งผิดไปทุกฝ่าย",
+      "gate": "กรอกทุก Operation Seq, L1–L6/S1–S2, Status, Effective Date, ผู้รับและงานขนาน; ห้ามใช้ Last() เดา",
+      "behavior": "หัวหน้าแผนกต้องยืนยันสถานะงานที่อยู่จริง ไม่กดเสร็จแค่เพื่อเคลียร์คิว",
+      "doc": "control",
+      "metric": "Current Operation 0/6,357; CP 1,235/6,357",
+      "priority": "P0"
+    },
+    {
+      "id": "execution",
+      "x": 2435,
+      "y": 130,
+      "stage": "production",
+      "title": "ปฏิบัติงานจริง",
+      "owner": "Production",
+      "app": "P31225 / P31121",
+      "grade": "sample",
+      "problem": "มี Operation Sample 8 แถว ไม่เท่ากับ Completion/Working Event จริง; เวลา Start-End ไม่ได้ผูกครบ",
+      "impact": "งานผลิตจริงกับ ERP ไม่ตรง; ส่งต่อ QC และ FG ก่อนงานเสร็จได้",
+      "gate": "บันทึก Start / Partial / Finish Event ต่อ Cutting+Operation+Qty+Timestamp",
+      "behavior": "แจ้งเสร็จเฉพาะขั้นที่ตรวจนับจริง พร้อมปริมาณและเวลาปิดงาน",
+      "doc": "apps",
+      "metric": "Operation Sample 8 Rows",
+      "priority": "P1"
+    },
+    {
+      "id": "opqc",
+      "x": 2770,
+      "y": 130,
+      "stage": "quality",
+      "title": "QC ระหว่าง / หลังผลิต",
+      "owner": "QC / Production",
+      "app": "P3711 / P553711Y / P3703",
+      "grade": "gap",
+      "problem": "สถานะ H/P ของ Lot ไม่ใช่ผลตรวจ Pass/Fail รายวัน; 10 Lot Sample ไม่ใช่ Queue ที่ครบ",
+      "impact": "Hold ไม่ถูกส่งต่อให้ Store/FG, Reject ไม่ถึง Rework, ปล่อยงานที่ยังไม่ผ่าน",
+      "gate": "Test ID + Actual Test Date + Spec/Result + Lot + NCR + Disposition + Release Approval",
+      "behavior": "QC และฝ่ายผลิตต้องยืนยันผลตาม Lot/Document ไม่สื่อสารเพียง LINE",
+      "doc": "qc",
+      "metric": "Sample H 3, P 7 จาก 10 Lot",
+      "priority": "P0"
+    },
+    {
+      "id": "completion",
+      "x": 3105,
+      "y": 130,
+      "stage": "production",
+      "title": "WO Completion / FG",
+      "owner": "Production / Store",
+      "app": "P31225 Completion / Stock Receipt",
+      "grade": "gap",
+      "problem": "Operation ตัวอย่างไม่พิสูจน์ Qty Completed, Doc Status หรือ FG Receipt ที่ Post แล้ว",
+      "impact": "Store/Delivery เห็น Finished Goods ทั้งที่ไม่มี FG Movement / Lot พร้อมขาย",
+      "gate": "ตรวจ Completion Doc + Qty accepted + WO/Cutting + FG Receipt + Posted Flag",
+      "behavior": "คนปิดงานต้องตรวจ Qty จริงและเอกสารรับเข้าสโตร์คู่กัน",
+      "doc": "workflow",
+      "metric": "",
+      "priority": "P0"
+    },
+    {
+      "id": "transfer",
+      "x": 3440,
+      "y": 130,
+      "stage": "store",
+      "title": "Transfer / TS / Store",
+      "owner": "Store / Logistics",
+      "app": "P4111 / Inventory Transfer / TS",
+      "grade": "gap",
+      "problem": "ไม่มี Transfer Posted Ledger ที่เชื่อมกับ Cutting/Receiving และ TS ใน 15-Node Data Pool",
+      "impact": "SO Status และการส่งมอบค้าง แม้ย้ายของจริงไปแล้ว",
+      "gate": "Document Chain, Origin/Destination/Qty + Posted + Receiver + TS Status",
+      "behavior": "ไม่ส่งของข้ามจุดโดยไม่มีการรับโอนในระบบและผู้รับ",
+      "doc": "pain",
+      "metric": "",
+      "priority": "P0"
+    },
+    {
+      "id": "delivery",
+      "x": 3775,
+      "y": 130,
+      "stage": "fulfillment",
+      "title": "จัดส่ง / ติดตั้ง",
+      "owner": "SCD / AFS",
+      "app": "P4210 / Dispatch / POD",
+      "grade": "sample",
+      "problem": "มี SO Inquiry Sample 4 แถว แต่ยังไม่ใช่ Dispatch/POD/Installation Complete Event ที่รับรอง",
+      "impact": "ลูกค้าได้รับของแล้วแต่ SO ไม่เปลี่ยน ทำ Invoice ไม่ได้; KPI OTD บิดเบือน",
+      "gate": "ตรวจ POD, Actual Delivery/Install Date, Qty, Customer Acceptance และย้อน SO/WO/TS",
+      "behavior": "อัปโหลด POD/ใบเซ็นรับพร้อมเวลาจริง อย่ารอสิ้นวันค่อย Key",
+      "doc": "pain",
+      "metric": "SO Inquiry Sample 4 Rows",
+      "priority": "P0"
+    },
+    {
+      "id": "invoice",
+      "x": 4110,
+      "y": 130,
+      "stage": "finance",
+      "title": "Invoice / Billing Gate",
+      "owner": "Billing / Sales",
+      "app": "SO Last/Next Status / AR Invoice",
+      "grade": "risk",
+      "problem": "หลักฐานเคสระบุ 550–555 / 555–556 ค้าง แม้ส่งงานแล้ว; Run99 อาจเป็นคนละสาเหตุ ต้องแยก",
+      "impact": "ลูกค้าได้รับสินค้าแล้วแต่ Invoice ช้า / รับเงินช้า",
+      "gate": "Invoice Ready = Delivery + WO + Transfer/TS + SO + Tax + No Financial Hold",
+      "behavior": "Billing ส่ง Exception กลับเจ้าของ Step ที่ขาด ไม่ขอ Run99 แบบไม่วิเคราะห์",
+      "doc": "pain",
+      "metric": "",
+      "priority": "P0"
+    },
+    {
+      "id": "cash",
+      "x": 4445,
+      "y": 130,
+      "stage": "finance",
+      "title": "ลูกหนี้ / รับเงิน",
+      "owner": "AR / Finance",
+      "app": "AR / Receipt Matching",
+      "grade": "risk",
+      "problem": "ยังไม่มี Event Join Invoice → Due → Receipt → Dispute สำหรับ Inventory-to-Cash ที่รับรอง",
+      "impact": "วัด DSO / Cash Conversion Cycle ไม่ได้และรู้ปัญหาช้า",
+      "gate": "Invoice + Cash Application + Due + Aging + Bank Reconcile",
+      "behavior": "ติดตามใบวางบิลและข้อโต้แย้งทันที อย่าปิดคิวเพียงเพราะวางบิลแล้ว",
+      "doc": "workflow",
+      "metric": "",
+      "priority": "P1"
+    },
+    {
+      "id": "bom",
+      "x": 1430,
+      "y": 455,
+      "stage": "materials",
+      "title": "BOM / Parts List",
+      "owner": "Engineering / PPC",
+      "app": "P3121 / P3002",
+      "grade": "sample",
+      "problem": "Parts List 35 Rows ตัวอย่างเก่า ไม่ใช่การเบิก/คืนจริง; Revision/Item-Branch/UOM อาจไม่ตรง",
+      "impact": "Store และ PR สั่ง/เตรียมผิดรุ่น หรือเบิกเกินทำให้เกิด Scrap",
+      "gate": "BOM vs SO Spec Revision + WO Qty + Component UOM + Date Required",
+      "behavior": "Engineering ยืนยัน Revision ใหม่ทุกครั้งก่อนเปิด WO/Cutting",
+      "doc": "apps",
+      "metric": "Parts List Sample 35 Rows",
+      "priority": "P1"
+    },
+    {
+      "id": "stock",
+      "x": 1765,
+      "y": 455,
+      "stage": "materials",
+      "title": "Stock / Reservation",
+      "owner": "Store / Inventory",
+      "app": "P41271 / P4111",
+      "grade": "sample",
+      "problem": "Inventory Position ตัวอย่าง 10 แถว แต่ไม่มี Movement Ledger Join แบบรายวัน; Lot H ไม่ใช่ Available",
+      "impact": "แผนคิดว่าวัสดุพร้อมทั้งที่ใช้ไม่ได้ ทำให้เปิดงานไม่ไหว",
+      "gate": "On-hand − Commitments/Reserved − QC Hold + Pending Receipts; Source As-of",
+      "behavior": "ตรวจ Location/Branch/Lot/Qty ในระบบพร้อมของจริงเมื่อรับ-จ่าย",
+      "doc": "pain",
+      "metric": "Inventory Position Sample 10 Rows",
+      "priority": "P0"
+    },
+    {
+      "id": "po",
+      "x": 2100,
+      "y": 455,
+      "stage": "materials",
+      "title": "PR / PO / Supplier",
+      "owner": "Purchasing",
+      "app": "P4310 / P4338",
+      "grade": "sample",
+      "problem": "มี 44 PR/PO Attention Lines เป็น Sample เท่านั้น ไม่ใช่ทุก PR ที่ค้าง; Price Estimate และ Approval ยังไม่เชื่อม",
+      "impact": "เปิด WO ทั้งที่วัสดุไม่มา, เสียต้นทุนซื้อแพง/อนุมัติช้า",
+      "gate": "PR→PO Line→Supplier→ETA→Approval→Price/FX/Spec",
+      "behavior": "เจ้าของ PR ระบุ Need Date/Reason และแจ้งเปลี่ยน Promise ทันที",
+      "doc": "apps",
+      "metric": "PR/PO 44 Lines (bounded)",
+      "priority": "P1"
+    },
+    {
+      "id": "receipt",
+      "x": 2435,
+      "y": 455,
+      "stage": "materials",
+      "title": "รับเข้าสโตร์",
+      "owner": "Store / Purchasing",
+      "app": "P4312 / P55432A4",
+      "grade": "sample",
+      "problem": "Receipt 43 Lines เป็นรายการรับเข้าแล้ว ไม่ใช่รายการ PO ค้างรับ; ไม่มี Incoming QC Join ครบ",
+      "impact": "นับยอดค้าง PO ต่ำกว่าจริง หรือส่งของเข้า Stock ก่อนผ่าน QC",
+      "gate": "PO Line ↔ Receipt Doc ↔ Accepted Qty ↔ Lot/Branch/Status",
+      "behavior": "รับเอกสารตาม PO/Item/Qty จริง ไม่เลือกย้อนหลังจากรายการใกล้เคียง",
+      "doc": "apps",
+      "metric": "Receipt 43 Lines (received activity)",
+      "priority": "P1"
+    },
+    {
+      "id": "inqc",
+      "x": 2770,
+      "y": 455,
+      "stage": "quality",
+      "title": "Incoming QC / Hold",
+      "owner": "QC / Store",
+      "app": "P4108 / P3711 / P3703",
+      "grade": "gap",
+      "problem": "ตัวกรองวันที่ P554108 ยังไม่ผ่านการรับรอง; บาง Query ต่างช่วงได้ 10 Rows ซ้ำ, Event Date ไม่ชัด",
+      "impact": "ของค้าง H ไม่ถูกกันออกจาก Material Ready และอาจข้ามสู่การผลิต",
+      "gate": "ต้องใช้ Lot Status As-of + Test Event Date + NCR + Release Approval + QC Owner",
+      "behavior": "อย่าแจ้ง 'ผ่านแล้ว' จนเห็นผลตรวจและสถานะปลด Hold ใน ERP",
+      "doc": "qc",
+      "metric": "P554108 10 Lot sample; Date filter uncertain",
+      "priority": "P0"
+    },
+    {
+      "id": "issue",
+      "x": 2435,
+      "y": 780,
+      "stage": "materials",
+      "title": "Issue / Return / Posting",
+      "owner": "Store / Production / AC",
+      "app": "P594801M / P4111 / R593102A",
+      "grade": "observed",
+      "problem": "กรณีหนึ่งพบ 49 Posted + 26 Complete (WD) + 42 Closed = 117; WIP Unpost ไม้ X โดยยังไม่พิสูจน์ P→1",
+      "impact": "ตัด Stock/WIP Cost และ GL อาจไม่ตรง; ส่งต่อ Completion/Cost/Closing ผิด",
+      "gate": "All-line Status Reconcile ต่อ WO/Cutting/Item/Doc; ตรวจ F4111/GL/Batch ก่อน Repost",
+      "behavior": "ห้ามคิดว่า WO Status ดีแปลว่าทุกรายการ Posted; ตรวจทุกหน้าทุกรายการ",
+      "doc": "issue",
+      "metric": "หนึ่งกรณี: 26 Complete-Not-Posted",
+      "priority": "P0"
+    },
+    {
+      "id": "labor",
+      "x": 2770,
+      "y": 780,
+      "stage": "production",
+      "title": "Time / Machine Booking",
+      "owner": "Production / HR / AC",
+      "app": "P5931122 / P31121",
+      "grade": "gap",
+      "problem": "Actual DL และ Stage Due ยังไม่มี Join ที่รับรองใน Source Cohort; Unpost Time = X ต้องตรวจแยกจากไม้",
+      "impact": "ABC Cost ผิด, Operation Status ไม่สะท้อนการทำงานจริง, Capacity คาดผิด",
+      "gate": "Clock vs Time Booking vs Operation Seq + Hours + Rate + Approved Posting",
+      "behavior": "พนักงานและหัวหน้ารับรองเวลารายวัน หลีกเลี่ยงคีย์รวมย้อนหลัง",
+      "doc": "pain",
+      "metric": "Actual DL join 0/6,357",
+      "priority": "P0"
+    },
+    {
+      "id": "rework",
+      "x": 3105,
+      "y": 780,
+      "stage": "quality",
+      "title": "Rework / Reinspection",
+      "owner": "QC / Production",
+      "app": "P48013 PTK0002 / QC NCR",
+      "grade": "gap",
+      "problem": "ไม่มี Original WO↔Rework WO↔NCR Transaction Extract ที่รับรอง",
+      "impact": "Rework ไม่ย้อนเพิ่ม DM/DL และคำนวณ Rework Cost/Repeat Defect ไม่ได้",
+      "gate": "Original WO / Reason / Owner / Start-End / Material+Labor / Re-QC",
+      "behavior": "อย่ารับงานแก้ผ่าน LINE อย่างเดียว; เปิดเอกสารซ่อมและแนบรูป/ผลตรวจ",
+      "doc": "pain",
+      "metric": "",
+      "priority": "P1"
+    },
+    {
+      "id": "scrap",
+      "x": 3440,
+      "y": 780,
+      "stage": "quality",
+      "title": "Scrap / Disposal",
+      "owner": "QC / Store / AC",
+      "app": "P4111 Adjust / NCR Disposition",
+      "grade": "gap",
+      "problem": "ไม่มี Scrap Adjustment Ledger, Reason, Approval และ GL Posting ที่ตรวจรับ",
+      "impact": "Stock และต้นทุนจริงสูง/ต่ำผิด, อัตราของเสียหลุดรายงาน",
+      "gate": "Scrap Qty/Value/Reason + Authorized Adjustment + GL Tie-out",
+      "behavior": "ห้ามตัดทิ้งจริงก่อนบันทึกเหตุผล การอนุมัติ และ Stock Transaction",
+      "doc": "workflow",
+      "metric": "",
+      "priority": "P1"
+    },
+    {
+      "id": "cost",
+      "x": 3775,
+      "y": 780,
+      "stage": "finance",
+      "title": "Actual Cost / WIP",
+      "owner": "Cost AC / Production",
+      "app": "P31022 / R593102A / F0911",
+      "grade": "gap",
+      "problem": "Actual DM/DL/Dep/GL mapping 0/6,357 ในชุด Lineage; Missing ≠ Zero; Cost 07 X3/X4 มี Pain Signature",
+      "impact": "Project Margin, ABC, OEM vs Make, WIP และ Variance ผิด/ไม่สามารถรับรอง",
+      "gate": "WO Cost Components + F4111 + Time + F0911 Signed Ledger + Finance Mapping",
+      "behavior": "บัญชีตรวจ Source แทนกด Rollup ซ้ำให้ตัวเลขขึ้นโดยไม่แก้ต้นเหตุ",
+      "doc": "cost",
+      "metric": "Actual DM/DL/Dep/GL Join 0/6,357",
+      "priority": "P0"
+    },
+    {
+      "id": "gl",
+      "x": 4110,
+      "y": 780,
+      "stage": "finance",
+      "title": "Posted GL / Close",
+      "owner": "Financial AC",
+      "app": "F0911 / P31022 / R09801",
+      "grade": "gap",
+      "problem": "ยังไม่มี Posted GL กับ WO/Cutting ที่รับรอง; ห้ามใช้ Amount จาก WIP หรือ AP แทน GL จริง",
+      "impact": "บัญชีปิดงวดหรือสรุปกำไรผิด รวมถึงติดตามต้นทุนที่ตกค้างไม่พบ",
+      "gate": "GL Doc/Line → Batch Posting → Account/Company/Period → WO Reconcile",
+      "behavior": "แยก Issue Post, WO Completion, GL Post และ Period Close ให้คนเข้าใจว่าไม่ใช่ปุ่มเดียว",
+      "doc": "cost",
+      "metric": "",
+      "priority": "P0"
+    }
+  ],
+  "edges": [
+    {
+      "a": "demand",
+      "b": "quote",
+      "l": "Spec/Scope",
+      "kind": "forward"
+    },
+    {
+      "a": "quote",
+      "b": "so",
+      "l": "Price/Rev",
+      "kind": "forward"
+    },
+    {
+      "a": "so",
+      "b": "promise",
+      "l": "Promise Date",
+      "kind": "forward"
+    },
+    {
+      "a": "promise",
+      "b": "wo",
+      "l": "Demand/Due",
+      "kind": "forward"
+    },
+    {
+      "a": "wo",
+      "b": "cutting",
+      "l": "WO/Cutting",
+      "kind": "forward"
+    },
+    {
+      "a": "cutting",
+      "b": "routing",
+      "l": "Line/Seq",
+      "kind": "forward"
+    },
+    {
+      "a": "routing",
+      "b": "execution",
+      "l": "Operation",
+      "kind": "forward"
+    },
+    {
+      "a": "execution",
+      "b": "opqc",
+      "l": "Qty/Test",
+      "kind": "forward"
+    },
+    {
+      "a": "opqc",
+      "b": "completion",
+      "l": "QC Pass",
+      "kind": "forward"
+    },
+    {
+      "a": "completion",
+      "b": "transfer",
+      "l": "FG Transfer",
+      "kind": "forward"
+    },
+    {
+      "a": "transfer",
+      "b": "delivery",
+      "l": "Goods/TS",
+      "kind": "forward"
+    },
+    {
+      "a": "delivery",
+      "b": "invoice",
+      "l": "POD",
+      "kind": "forward"
+    },
+    {
+      "a": "invoice",
+      "b": "cash",
+      "l": "AR",
+      "kind": "forward"
+    },
+    {
+      "a": "wo",
+      "b": "bom",
+      "l": "WO + Item",
+      "kind": "branch"
+    },
+    {
+      "a": "bom",
+      "b": "stock",
+      "l": "Component",
+      "kind": "branch"
+    },
+    {
+      "a": "stock",
+      "b": "po",
+      "l": "Shortage",
+      "kind": "branch"
+    },
+    {
+      "a": "po",
+      "b": "receipt",
+      "l": "PO Line",
+      "kind": "branch"
+    },
+    {
+      "a": "receipt",
+      "b": "inqc",
+      "l": "Lot/Test",
+      "kind": "branch"
+    },
+    {
+      "a": "inqc",
+      "b": "stock",
+      "l": "QC Release",
+      "kind": "feedback"
+    },
+    {
+      "a": "bom",
+      "b": "issue",
+      "l": "Required",
+      "kind": "branch"
+    },
+    {
+      "a": "stock",
+      "b": "issue",
+      "l": "Available",
+      "kind": "branch"
+    },
+    {
+      "a": "issue",
+      "b": "execution",
+      "l": "Material",
+      "kind": "branch"
+    },
+    {
+      "a": "issue",
+      "b": "cost",
+      "l": "DM",
+      "kind": "branch"
+    },
+    {
+      "a": "execution",
+      "b": "labor",
+      "l": "Hour/Stage",
+      "kind": "branch"
+    },
+    {
+      "a": "labor",
+      "b": "cost",
+      "l": "DL/Dep",
+      "kind": "branch"
+    },
+    {
+      "a": "opqc",
+      "b": "rework",
+      "l": "Fail/NCR",
+      "kind": "branch"
+    },
+    {
+      "a": "rework",
+      "b": "execution",
+      "l": "Rework",
+      "kind": "feedback"
+    },
+    {
+      "a": "opqc",
+      "b": "scrap",
+      "l": "Scrap",
+      "kind": "branch"
+    },
+    {
+      "a": "scrap",
+      "b": "cost",
+      "l": "Loss",
+      "kind": "branch"
+    },
+    {
+      "a": "completion",
+      "b": "cost",
+      "l": "FG Value",
+      "kind": "branch"
+    },
+    {
+      "a": "po",
+      "b": "cost",
+      "l": "Purchased Cost",
+      "kind": "branch"
+    },
+    {
+      "a": "cost",
+      "b": "gl",
+      "l": "Cost/GL",
+      "kind": "branch"
+    },
+    {
+      "a": "invoice",
+      "b": "gl",
+      "l": "Revenue",
+      "kind": "branch"
+    },
+    {
+      "a": "cash",
+      "b": "gl",
+      "l": "Cash/AR",
+      "kind": "branch"
+    },
+    {
+      "a": "so",
+      "b": "invoice",
+      "l": "SO/Tax",
+      "kind": "branch"
+    },
+    {
+      "a": "promise",
+      "b": "delivery",
+      "l": "Due",
+      "kind": "branch"
+    },
+    {
+      "a": "inqc",
+      "b": "issue",
+      "l": "Released Lot",
+      "kind": "branch"
+    },
+    {
+      "a": "wo",
+      "b": "cost",
+      "l": "WO Key",
+      "kind": "branch"
+    },
+    {
+      "a": "routing",
+      "b": "transfer",
+      "l": "Handoff",
+      "kind": "branch"
+    }
+  ]
+}
