@@ -2,7 +2,7 @@
   "schema": "practika-erp-sales-document-cell-scan-v1",
   "source": "P4210/W4210E/PTK0069",
   "captured_on": "2026-10-23",
-  "scope": "Read-only authenticated JDE 2026 query; incomplete pagination for SO/SN/SV/SB; complete within bounded query only for SP/SE",
+  "scope": "P4210 authenticated 2026 bounded pagination 2164 rows/81 fields; SO/SN page cap; other four types reach current query end",
   "query_literal": "Order Date >=10/01/26",
   "date_interpretation": "VERIFY JDE locale: >=10/01/26; observed dates parsed DD/MM/YY",
   "source_sha256": "5ec5828e751d5b1e965c40f9781f2e4efb062cec1b56b308b256228c8cd58800",
@@ -1149,5 +1149,15 @@
     "SO->SN can be Define Relation by item B#; original-reference columns may remain empty",
     "Status 999 is not proof payment or GL closure",
     "Cross-type parent-child, WO and GL actual joins still unverified"
-  ]
+  ],
+  "cross_document_readonly_probe": {
+    "scope": "P4210 bounded 700 SO and 700 SN lines captured 2026-10-23",
+    "so_lines_with_original_order_type_sn": 101,
+    "sn_order_key_found_in_bounded_sample": 101,
+    "company_matched": 101,
+    "grain": "SO line refers to SN document number+type+company, not line-level Define Relation",
+    "certification": "BOUNDED_DOCUMENT_REFERENCE_MATCH_ONLY_NOT_INVOICE_GL",
+    "source_status": "AUTHENTICATED_READONLY",
+    "remaining": "SO source-line to SN target-line allocation, B# Define Relation mapping, SN invoice document and actual AR/GL postings"
+  }
 }
