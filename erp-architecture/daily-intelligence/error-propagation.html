@@ -57,7 +57,7 @@ function attach(){
  $("filter").onchange=function(e){filter=e.target.value;paint()};
  $("reset").onclick=function(){current=null;history.replaceState(null,"",location.pathname);fit();paint();$("details").innerHTML='<div class="insheader"><h2>ภาพรวมทุกขั้นตอน</h2></div><div class="part"><p>เลือก Step เพื่อดูปัญหา ผลกระทบปลายทาง และพฤติกรรม Human</p><p>สีแสดงระดับหลักฐาน ไม่ใช่การกล่าวโทษบุคลากร</p></div>'};
  $("fit").onclick=fit;$("focus").onclick=function(){if(current)focus(current);else fit()};$("plus").onclick=function(){zoom(1.25)};$("minus").onclick=function(){zoom(.8)};
- svg.addEventListener("pointerdown",function(e){if(e.button!==0)return;drag=true;dragged=false;last={x:e.clientX,y:e.clientY};svg.setPointerCapture(e.pointerId);svg.classList.add("dragging")});
+ svg.addEventListener("pointerdown",function(e){if(e.button!==0||e.target.closest(".node"))return;drag=true;dragged=false;last={x:e.clientX,y:e.clientY};svg.setPointerCapture(e.pointerId);svg.classList.add("dragging")});
  svg.addEventListener("pointermove",function(e){if(!drag)return;var dx=e.clientX-last.x,dy=e.clientY-last.y;if(Math.abs(dx)+Math.abs(dy)>2)dragged=true;cam.x+=dx;cam.y+=dy;last={x:e.clientX,y:e.clientY};apply()});
  svg.addEventListener("pointerup",function(){drag=false;svg.classList.remove("dragging");setTimeout(function(){dragged=false},10)});
  svg.addEventListener("wheel",function(e){e.preventDefault();zoom(e.deltaY<0?1.14:.87,e.clientX,e.clientY)},{passive:false});
