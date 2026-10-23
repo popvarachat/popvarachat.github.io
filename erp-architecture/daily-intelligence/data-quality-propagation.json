@@ -465,12 +465,12 @@
       "owner": "Sales Admin / Billing",
       "app": "P4210 + Define Relation by Item/Line (SD-SSS-001)",
       "grade": "gap",
-      "problem": "P4210 read-only 2,164 lines found 101 SO lines pointing to SN document keys (all 101 Company+Document matched), but Define Relation Line/Amount/B# and posted invoice proof incomplete",
+      "problem": "Bounded P4210: 925 SO lines with Original SN reference; 924 SN document+company matches, 1 outside bounded result, no business invalidity proven.",
       "impact": "Mis-linked or incomplete SO→SN relation risks incorrect billed item/amount, AR, GL and order closure",
       "gate": "SO company/type/doc/line ↔ SN company/doc/line mapping; sum allocated quantities/amounts, customer acceptance, B# reason, signed billing readiness and invoice doc audit",
       "behavior": "Before generating SN/SP, review the actual originating SO lines and approved sales/delivery amounts; do not treat collecting-order creation as invoice posted or cash received",
       "doc": "workflow",
-      "metric": "101 SO lines with SN-document references within 700 bounded SO lines; line-to-line mapping not certified",
+      "metric": "SO 4,000 / SN 4,000 bounded and incompletely paginated; 924/925 source document-company key matches",
       "priority": "P0"
     }
   ],
@@ -741,5 +741,5 @@
     }
   ],
   "as_of": "2026-10-23",
-  "lineage_scope_note": "26 modeled steps and 44 relations, not factory-complete ERP table/link census. P4210 2164 bounded Document Lines/81 UI fields, SN relation 101 SO document refs; no full line-to-line or GL proof."
+  "lineage_scope_note": "26 modeled steps 44 paths. Latest read-only JDE P4210 8,764 Document Lines 81 UI columns; SO/SN 4,000 each still PAGE_CAP, SV/SB/SE/SP only query terminal. 924 of 925 SO source SN reference document company keys match within bounded scope, not line or AR/GL proof."
 }
