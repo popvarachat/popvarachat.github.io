@@ -1,0 +1,671 @@
+{
+  "schema": "practika-erp-patient-health-v1",
+  "as_of": "2026-10-23",
+  "status": "diagnostic evidence + control design; not population clinical metrics",
+  "disclaimer": "Day phases are a qualitative workflow storyboard, NOT verified factory timestamps or observation of all human behavior.",
+  "source_health": {
+    "collector_last": "2026-10-23 06:00 +07:00",
+    "collector_status": "FAIL_CLOSED",
+    "collector_error": "ECONNREFUSED 127.0.0.1:9222",
+    "last_erp_snapshot": "2026-10-18",
+    "r2_backups_verified": 15,
+    "node_total": 15,
+    "certified_daily_nodes": 0,
+    "lineage_cohort": 6357,
+    "controlplan_found": 1235,
+    "current_operation_join": 0,
+    "material_case": {
+      "wo": "anonymized",
+      "posted": 49,
+      "complete": 26,
+      "closed": 42,
+      "scope": "one read-only case"
+    }
+  },
+  "grades": {
+    "observed": "Case-level observed source/log, not population",
+    "gap": "Analytic source not connected / insufficient join, not proved absent in JDE",
+    "sample": "Historical sample cannot be current census",
+    "pattern": "Prior documented recurring user pain, not measured incidence",
+    "risk": "Hypothesis/design not observed"
+  },
+  "phases": [
+    {
+      "id": "night",
+      "label": "ระหว่างคืน / ระบบหลับ",
+      "subtitle": "Jobs, API, Backup, Business Cutoff",
+      "shape": "คืนก่อนหน้า–เช้า",
+      "scheduleVerified": "Collector ตรวจพบรอบ 06:00 น.",
+      "type": "system"
+    },
+    {
+      "id": "open",
+      "label": "ตื่น / เปิดวัน",
+      "subtitle": "Login, Queue, As-of, Priority",
+      "shape": "ก่อนเริ่มงาน",
+      "type": "human"
+    },
+    {
+      "id": "intake",
+      "label": "อาหารที่รับเข้าสู่ระบบ",
+      "subtitle": "CRM, SO, Master Data, Pricing, Supplier",
+      "shape": "รับงานใหม่",
+      "type": "human"
+    },
+    {
+      "id": "plan",
+      "label": "สมอง / ตัดสินใจวางแผน",
+      "subtitle": "WO, Cutting, Routing, Due, Capacity",
+      "shape": "ก่อนปล่อยงาน",
+      "type": "human"
+    },
+    {
+      "id": "supply",
+      "label": "สารอาหาร / เลือดเลี้ยงโรงงาน",
+      "subtitle": "BOM, Inventory, PR/PO, Receipt, Issue",
+      "shape": "ช่วงเบิก/รับวัตถุดิบ",
+      "type": "both"
+    },
+    {
+      "id": "execute",
+      "label": "กล้ามเนื้อ / ลงมือผลิต",
+      "subtitle": "Start/Finish, Time, Machine, Handoff",
+      "shape": "ระหว่างทำงาน",
+      "type": "human"
+    },
+    {
+      "id": "immune",
+      "label": "ภูมิคุ้มกัน / ตรวจคุณภาพ",
+      "subtitle": "Test, Hold, Rework, Scrap, Release",
+      "shape": "ทุกครั้งที่ตรวจ",
+      "type": "human"
+    },
+    {
+      "id": "deliver",
+      "label": "ส่งพลังงานถึงลูกค้า",
+      "subtitle": "FG, TS, POD, Install, Invoice",
+      "shape": "ช่วงส่งมอบ",
+      "type": "both"
+    },
+    {
+      "id": "close",
+      "label": "ตรวจเลือด / สรุปสิ้นวัน",
+      "subtitle": "WIP, Cost, GL, Reconcile, Recovery",
+      "shape": "ก่อนปิดวัน",
+      "type": "both"
+    },
+    {
+      "id": "recovery",
+      "label": "พักฟื้น / วงจร Feedback",
+      "subtitle": "Exceptions, Root Cause, Revision, Training",
+      "shape": "สิ้นวัน–วันรุ่งขึ้น",
+      "type": "management"
+    }
+  ],
+  "episodes": [
+    {
+      "id": "e1",
+      "phase": "night",
+      "organ": "technology",
+      "title": "ระบบดึง JDE ไม่ได้ตอน 06:00",
+      "grade": "observed",
+      "sign": "Scheduled collector 23 ต.ค. 06:00 FAIL_CLOSED (CDP connection refused).",
+      "mechanism": "ไม่มี Chrome CDP Listener 127.0.0.1:9222; Collector ไม่ได้อ่าน Transaction ชุดใหม่",
+      "downstream": "Node ทั้ง 15 ยังอ้างอิง Snapshot เดิม; ดูเหมือนข้อมูลไม่ขึ้นทุกฝ่าย",
+      "gate": "ตรวจ Endpoint + Session Health + Retry bounded, อายุ Snapshot และ Last Successful Source Batch; Fail Closed",
+      "habits": "ห้ามตีความ Collect Failure ว่าพนักงานไม่มีงาน; ทีม IT แยก Source Health จาก Transaction Health",
+      "source": "private-log",
+      "sourceType": "live",
+      "prob": "ขาด Authenticated CDP Session",
+      "priority": "P0"
+    },
+    {
+      "id": "e2",
+      "phase": "night",
+      "organ": "technology",
+      "title": "ความจำไม่หาย แต่ข้อมูลไม่สด",
+      "grade": "observed",
+      "sign": "R2 ตรวจสอบ 15/15 Node ผ่าน ขณะที่ WIP Source 18 ต.ค. และ D1 THROTTLED.",
+      "mechanism": "สำรองข้อมูลเดิมสำเร็จ แต่ Sync/Refresh ไม่ได้แปลว่าสแกน ERP สด",
+      "downstream": "Dashboard แสดงข้อมูลเก่าได้ทั้งวัน และอาจนำไปตัดสินใจผิด",
+      "gate": "Source As-of per Node, Batch Hash, Successful Sync, Freshness TTL และ Unknown ไม่ใช่ Zero",
+      "habits": "อ่านคำว่า Data As-of ก่อนสรุป; IT แยก Backup Success, Freshness, Completeness",
+      "source": "source-health",
+      "sourceType": "recent",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e3",
+      "phase": "open",
+      "organ": "people",
+      "title": "เช็กสถานะจาก Report โดยไม่ตรวจความหมาย",
+      "grade": "pattern",
+      "sign": "สถานะ WO 95, 99/9D หรือ X บน WIP อาจถูกนำมาแปลว่างานเสร็จหรือไม่ Post ทั้งหมด",
+      "mechanism": "Report Aggregation อาจมาจากหลายรายการ; Query Default Pending ทำให้มองไม่เห็น Complete/Posted",
+      "downstream": "Production, Accounting, Billing เปิด-ปิดงานผิด และเกิด LINE Follow-Up ซ้ำ",
+      "gate": "ตรวจทุก Status Tab, Pagination, WO+CUTTING+ITEM+LINE และ Last/Next Status",
+      "habits": "เช้าก่อนสรุปงานใช้ Definition Sheet และ Query Checklist แทนดูแค่สัญลักษณ์",
+      "source": "issue",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e4",
+      "phase": "open",
+      "organ": "management",
+      "title": "งานค้างไม่มี Owner / Stage Due ที่เชื่อมครบ",
+      "grade": "gap",
+      "sign": "Current Operation, Assigned Owner, Stage Handoff Due = 0 ใน Lineage Cohort 6,357.",
+      "mechanism": "Data Pool ไม่เชื่อม Event/Owner ตาม Grain; ไม่ใช่พิสูจน์ว่า JDE ไม่มีข้อมูล",
+      "downstream": "หัวหน้าไม่รู้ว่าควรติดตามแผนกใดและใครต้องรับช่วง",
+      "gate": "Current Op / owner / acknowledgment / stage due / last event ให้ครบทุก Cutting",
+      "habits": "ใช้รับ-ส่งงานพร้อมผู้รับชื่อชัด ไม่ถามกันใหม่ทุกเช้า",
+      "source": "lineage",
+      "sourceType": "snapshot",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e5",
+      "phase": "intake",
+      "organ": "data",
+      "title": "SO/Project/Promise Revision ข้อมูลไม่เป็นห่วงโซ่",
+      "grade": "gap",
+      "sign": "Project Link มี 4,803/6,357 ใน Cohort; 45 ของ 2,383 Provisional Open ขาด Project",
+      "mechanism": "Missing Key/Revisionใน Analytical Join; Original vs Revised Promise ยังไม่ได้อนุมัติกติกา",
+      "downstream": "WIP และ Cost ตามชื่อโครงการตกหล่น, OTD ผิด",
+      "gate": "ยืนยัน SO Line, Project, Spec Rev, Original & Approved Revised Due ก่อนส่ง PPC",
+      "habits": "ฝ่ายขายไม่ส่งคำขอผ่านข้อความลอย ๆ; อ้างใบยืนยัน Revision ทุกครั้ง",
+      "source": "lineage",
+      "sourceType": "snapshot",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e6",
+      "phase": "intake",
+      "organ": "data",
+      "title": "Cost 07 / X3 X4 ค่าบางรอบไม่ครบ",
+      "grade": "pattern",
+      "sign": "ผู้ใช้เคยพบ X3/X4 ไม่เกิดรอบแรกและ Rerun แล้วขึ้นบางกรณี",
+      "mechanism": "Item Branch/Cost Version/UBE Processing Options และ Component Lineage อาจไม่ตรง",
+      "downstream": "ราคาขาย/STD/WIP/GL ผิดหรือยังไม่รับรอง",
+      "gate": "เทียบ Item+Branch+Cost Method, Version, UBE run log ก่อนอนุมัติ",
+      "habits": "ไม่แก้ด้วยการกด Rerun อย่างเดียว; บันทึก Event Before/After",
+      "source": "pain",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e7",
+      "phase": "plan",
+      "organ": "planning",
+      "title": "Current Operation บอกไม่ได้ว่าอยู่จุดไหนจริง",
+      "grade": "gap",
+      "sign": "ControlPlan 1,235/6,357; Current Operation 0/6,357 ใน Data Pool; 156 ที่เคยอ่านไม่ทับ Priority 1,235.",
+      "mechanism": "Grain/Scope ไม่ตรง, Last()/Max Seq ใช้แทน Current Stage ไม่ได้",
+      "downstream": "ทั้งสายผลิต สโตร์ QC และ Delivery ไม่ทราบ Stage ที่ติดจริง",
+      "gate": "อ่าน P5511026 per Cutting ครบ Pagination; รองรับ Parallel Active Operations",
+      "habits": "หัวหน้าสายยืนยันจุดค้างที่เกิดจริง ไม่ไล่ Stage ตามลำดับสุดท้ายเพียงอย่างเดียว",
+      "source": "control",
+      "sourceType": "snapshot",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e8",
+      "phase": "plan",
+      "organ": "planning",
+      "title": "Due Date ของ WO ถูกใช้แทนกำหนดส่งแต่ละ Step",
+      "grade": "gap",
+      "sign": "WO Finish Due 6,347/6,357 แต่ Stage Handoff Due 0/6,357 ใน Analytical Cohort.",
+      "mechanism": "Due ชนิดคนละความหมาย; ไม่มี Stage Baseline + Actual Timestamp",
+      "downstream": "มองไม่เห็นคอขวดจริงและไม่รู้ว่าฝ่ายใดเลยกำหนด",
+      "gate": "เก็บ Plan Start/Finish Per Operation และ Actual Event Time; วัด LT ตาม Stage",
+      "habits": "PPC ส่ง Due/Lead Time ที่ขั้นรับงานเข้าใจได้ ไม่แค่วันส่งโครงการ",
+      "source": "lineage",
+      "sourceType": "snapshot",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e9",
+      "phase": "supply",
+      "organ": "supply",
+      "title": "Parts List ถูกเข้าใจว่าเบิกของจริง",
+      "grade": "sample",
+      "sign": "P3121 มีตัวอย่าง 35 แถว เป็น Parts List Request ไม่ใช่ Material Issue Ledger.",
+      "mechanism": "Need vs Issue vs Return vs Posting เป็นเหตุการณ์ต่างกัน",
+      "downstream": "Stock/WIP/ต้นทุนวัสดุอาจผิด; วัสดุเหมือนพร้อมทั้งที่ยังไม่รับหรือยัง Hold",
+      "gate": "Join BOM → Stock/PO/Receipt/QC → F4111 Issue+Return ตาม Doc Line",
+      "habits": "Store ตรวจ Item/Branch/Lot/Qty/Post ทุกครั้ง ก่อนปล่อยให้งานผลิต",
+      "source": "source-health",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e10",
+      "phase": "supply",
+      "organ": "supply",
+      "title": "Receipt แล้ว ≠ พร้อมใช้ใน Stock",
+      "grade": "sample",
+      "sign": "Receipt 43 Lines เคยตรวจเป็นรายการรับแล้ว; QC Lot Sample H/P ยังไม่เป็น Current Queue.",
+      "mechanism": "Lot ยัง H หรือ Location/Transfer ไม่ถูกต้อง จึงไม่ถือว่า Available",
+      "downstream": "Production อาจเริ่มก่อนวัสดุผ่านและเกิดซ้ำ Hold/Return",
+      "gate": "Receipt PO + Actual Qty + Lot/Test H/P + Accepted/Rejected + Loc/Branch",
+      "habits": "ฝ่ายรับเข้าถ่ายหลักฐาน, ระบุ Lot และรอ QC Release ก่อนแจ้งฝ่ายผลิตว่าพร้อม",
+      "source": "qc",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e11",
+      "phase": "supply",
+      "organ": "finance",
+      "title": "WO 466146 ไม้บาง Line Complete ไม่ Posted",
+      "grade": "observed",
+      "sign": "P594801M พบ Posted 49, Complete 26, Closed 42 ใน WO เดียว; WIP Unpost ไม้ = X.",
+      "mechanism": "สถานะระดับ WO/ยอด Material Cost ไม่เท่ากับ All-Line Posted; Reversal ข้ามคืนยังไม่พิสูจน์",
+      "downstream": "WIP/GL กับ Stock Movement ไม่ตรง; ผู้ใช้อาจกด Post ซ้ำทั้ง WO",
+      "gate": "Compare All 117 Rows, Batch/Status Time, F4111, GL และ R593102A X Formula ก่อนแก้",
+      "habits": "ผู้บันทึกต้องตรวจทุกบรรทัดและรายงาน Exception ไม่ Post ซ้ำสุ่ม",
+      "source": "issue",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e12",
+      "phase": "execute",
+      "organ": "people",
+      "title": "บันทึกเวลา/จำนวนผลิตไม่ใช่ Event สมบูรณ์",
+      "grade": "sample",
+      "sign": "Operation Inquiry มีเพียง 8 แถว; DL Booking ที่เชื่อมกับ Current Operation ยังไม่ครบ.",
+      "mechanism": "Start/Finish, Partial Qty, Shift, Approved Hours และ Work Center ไม่ครบร่วมกัน",
+      "downstream": "LT/Capacity/Payroll Cost/Current Stage ผิด",
+      "gate": "Operation Seq + Time Entry + Worker Approval + Qty + Machine run / Down",
+      "habits": "หน้างานบันทึกก่อนเปลี่ยนกะ พร้อมหัวหน้าตรวจและรับช่วง",
+      "source": "apps",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P1"
+    },
+    {
+      "id": "e13",
+      "phase": "execute",
+      "organ": "technology",
+      "title": "Report/UBE Version ต่างกันระหว่าง Web/Local",
+      "grade": "pattern",
+      "sign": "มีรายงานว่ารุ่น Version/Processing Options ต่างกันแล้วผลต่างกัน",
+      "mechanism": "Runtime Context ไม่ได้อยู่ใน Evidence Fingerprint",
+      "downstream": "รายงานคุยคนละตัวเลข / Recalculate ซ้ำ / กระทบ GL",
+      "gate": "บันทึก App+UBE+Version+Processing Options+Selection+Time+Channel",
+      "habits": "ห้ามยืนยันตัวเลขเมื่อไม่ทราบ Version หรือเวลา Report ที่ใช้",
+      "source": "pain",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e14",
+      "phase": "immune",
+      "organ": "quality",
+      "title": "H = Hold ไม่ได้แปล Reject และ P ไม่ใช่ Pass วันนี้",
+      "grade": "gap",
+      "sign": "P554108 ตัวอย่าง 10 Lot มี H3/P7; Date Filter ยังพิสูจน์ว่า Scope ถูกไม่ได้.",
+      "mechanism": "Lot Current Status Date ไม่ใช่ Test Event Date; P3703 มี 20 Sample ไม่มี Business Event Date",
+      "downstream": "Hold ค้าง ถูกปลดช้า หรือรวม Pass/Fail รายวันผิด",
+      "gate": "Test ID/Result/Spec/Date + Lot Status + NCR + Release Audit",
+      "habits": "QC รายงานผลตาม Lot และเวลาตรวจจริง ยืนยัน Release ในระบบ ไม่แค่ LINE",
+      "source": "qc",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e15",
+      "phase": "immune",
+      "organ": "quality",
+      "title": "งานแก้ไข/ของเสียออกจากกระบวนการหลักแล้วตามไม่เจอ",
+      "grade": "gap",
+      "sign": "Rework/Scrap ไม่มี Transaction Extract ที่เชื่อม Original WO และ Expense ได้ครบ",
+      "mechanism": "Work กับต้นทุนแก้ไขแยกจากงานเดิม จน Defect Rate และ Cost ดูต่ำเกินจริง",
+      "downstream": "เปิด Rework WO + NCR + Consumption + Retest + Disposal Authorization",
+      "gate": "ไม่สั่งแก้ด้วยปากเปล่า/แชตโดยไม่เชื่อม WO และประวัติผู้อนุมัติ",
+      "habits": "pain",
+      "source": "historical",
+      "sourceType": "",
+      "prob": "P1",
+      "priority": "P1"
+    },
+    {
+      "id": "e16",
+      "phase": "deliver",
+      "organ": "supply",
+      "title": "Physical Transfer ไปแล้วแต่ TS ไม่ครบ",
+      "grade": "pattern",
+      "sign": "หลักฐาน User Pain ระบุการโอนของจริงกับสถานะ ERP ขัดกันในบางงาน",
+      "mechanism": "Movement/TS/Receiver Acknowledgment ไม่ตรงกันหรือขาด",
+      "downstream": "SO ค้าง 550–555 / 555–556, Delivery/Billing ล่าช้า",
+      "gate": "Physical Move Time → ERP Transfer Doc → TS → Receiving Signature",
+      "habits": "ผู้ส่งและผู้รับเซ็น/ยืนยันในระบบ ณ เวลาเกิดจริง",
+      "source": "pain",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e17",
+      "phase": "deliver",
+      "organ": "customer",
+      "title": "Delivery/POD ยังไม่ทำให้ Invoice Ready",
+      "grade": "sample",
+      "sign": "มี P4210 Inquiry ตัวอย่าง 4 แถว แต่ไม่มี Dispatch/POD Complete ที่รับรองเป็น Timeline",
+      "mechanism": "Physical→ERP Sync, Tax Rule, SO Status/WO Closure ยังไม่ครบ",
+      "downstream": "บริษัทส่งสินค้าแล้วแต่ออก Invoice ไม่ได้ เงินเข้าช้า",
+      "gate": "Invoice Ready = POD + Transfer + WO + SO Next Status + Tax + Financial Hold",
+      "habits": "SCD แนบเอกสารผู้รับพร้อมเวลา บัญชีแจ้ง Blocker ให้เจ้าของก่อนเดดไลน์",
+      "source": "pain",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e18",
+      "phase": "close",
+      "organ": "finance",
+      "title": "WIP มี Cost ≠ Posted GL",
+      "grade": "gap",
+      "sign": "Actual DM/DL/Dep/GL Join เป็น 0/6,357 ของ Cohort; ไม่ยืนยันว่า JDE ไม่มีบัญชี",
+      "mechanism": "GL Source Grain/Amount/Bucket/Period/Version/Company ไม่เคย Tie-Out Certified",
+      "downstream": "Margin โครงการ/สินค้าและ Period Close ไม่แม่น",
+      "gate": "F0911 Posted + signed debit-credit + mapping + WO Link + Balancing",
+      "habits": "บัญชีไม่กรอก 0 ทดแทน Missing, Reconcile ก่อนปิดงาน",
+      "source": "cost",
+      "sourceType": "snapshot",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e19",
+      "phase": "close",
+      "organ": "people",
+      "title": "ใช้ Run99/Rerun เป็นยาแก้ปวดประจำ",
+      "grade": "pattern",
+      "sign": "เกิดคำขอ Run99/recalc/repost เพื่อให้สถานะไปต่อในหลาย Process; ไม่มี Job Cause Ledger ครบ",
+      "mechanism": "ซ่อมเฉพาะ Presentation State โดยข้าม Precondition ที่ผิด",
+      "downstream": "วันต่อมาอาจเกิด Flag เดิมและผู้ใช้พึ่ง Admin แทนแก้ต้นเหตุ",
+      "gate": "ทุก Recovery ต้องมี Reason, Before/After, Batch Version, Owner, Approval, Repeat Count",
+      "habits": "ห้ามใช้ Run99 โดยไม่แยกโหมดปกติ/กู้ระบบ/ปิดงวด และตรวจผลกระทบ",
+      "source": "pain",
+      "sourceType": "historical",
+      "prob": "",
+      "priority": "P0"
+    },
+    {
+      "id": "e20",
+      "phase": "recovery",
+      "organ": "management",
+      "title": "Learning Loop ไม่ย้อนถึง WI / Human Gate",
+      "grade": "risk",
+      "sign": "ยังไม่ได้วัด Incident Denominator, Repeat Rate, Time-to-Correct และเจ้าภาพต่อ Node ครบ",
+      "mechanism": "Error เดิมถูกแก้ทีละเคส ไม่พัฒนากฎป้องกันต้นทาง",
+      "downstream": "คนเหนื่อย, ต้องติดตามผ่าน LINE, System ถูกมองว่ายากโดยไม่รู้สาเหตุ",
+      "gate": "Evidence Case → Root Cause → WI Form/Training → Retest → 30d Recurrence",
+      "habits": "ใช้ Daily 15min Exception Review ข้ามฝ่ายแทนส่งภาพ Excel ถามซ้ำ",
+      "source": "workflow",
+      "sourceType": "design",
+      "prob": "",
+      "priority": "P1"
+    }
+  ],
+  "environments": [
+    {
+      "id": "master",
+      "name": "พันธุกรรม / โครงสร้างพื้นฐาน",
+      "layer": "Master Data",
+      "hazards": [
+        "Item/Branch/Cost Method ไม่ครบ",
+        "SO/WO/Cutting/Project ไม่ผูกกัน",
+        "BOM / Routing Revision ไม่ตรง"
+      ],
+      "controls": [
+        "Uniqueness + Referential Integrity ตาม Business Grain",
+        "Master change log และผู้รับรอง",
+        "Pre-release checklist"
+      ],
+      "linked": [
+        "e5",
+        "e6",
+        "e7",
+        "e9"
+      ]
+    },
+    {
+      "id": "food",
+      "name": "อาหาร / สิ่งที่รับเข้าระบบ",
+      "layer": "Input Data & Documents",
+      "hazards": [
+        "PO/Receipt/Issue Date คนละความหมาย",
+        "ข้อมูลภาพ/LINE ไม่ได้แปลงเป็น Event",
+        "Incomplete Lot / Quantity / Unit"
+      ],
+      "controls": [
+        "Validate Input Context",
+        "Required Date Type",
+        "Source Document Link"
+      ],
+      "linked": [
+        "e3",
+        "e9",
+        "e10",
+        "e11"
+      ]
+    },
+    {
+      "id": "exercise",
+      "name": "การออกกำลัง / การปฏิบัติงาน",
+      "layer": "Production & Capacity",
+      "hazards": [
+        "Stage Done แต่ไม่มี Actual Qty/Time",
+        "Machine/Work Center Time ไม่สมจริง",
+        "Partial & Parallel Step หาย"
+      ],
+      "controls": [
+        "Operation evidence on each event",
+        "Time Entry matching",
+        "Capacity/Shift check"
+      ],
+      "linked": [
+        "e7",
+        "e8",
+        "e12"
+      ]
+    },
+    {
+      "id": "mood",
+      "name": "อารมณ์ / วัฒนธรรม Human",
+      "layer": "Communication & Behavior",
+      "hazards": [
+        "รีบปิดงานเพราะถูกเร่ง",
+        "ข้ามขั้นตอนเพราะชิน",
+        "แก้ด้วย LINE, โทรศัพท์หรือความจำ"
+      ],
+      "controls": [
+        "Blameless exception logging",
+        "Named Acknowledge & SLA",
+        "WI Training linked to defects"
+      ],
+      "linked": [
+        "e3",
+        "e11",
+        "e14",
+        "e19",
+        "e20"
+      ]
+    },
+    {
+      "id": "immune",
+      "name": "ภูมิคุ้มกัน / การตรวจ QC",
+      "layer": "Quality & Authorization",
+      "hazards": [
+        "H/P ถูกนับเหมือน Pass/Fail",
+        "Release ขาดประวัติ",
+        "Rework/Scrap ไม่โยงต้นเหตุ"
+      ],
+      "controls": [
+        "QC Test Event Model",
+        "Re-QC Result",
+        "Controlled Release"
+      ],
+      "linked": [
+        "e10",
+        "e14",
+        "e15"
+      ]
+    },
+    {
+      "id": "sleep",
+      "name": "การนอน / ฟื้นสภาพกลางคืน",
+      "layer": "Batch / Jobs / Recovery",
+      "hazards": [
+        "Job ไม่เชื่อม CDP",
+        "Output Unpost X หลัง Refresh",
+        "Rerun without Root Cause"
+      ],
+      "controls": [
+        "Job/Batch Log",
+        "Source Freshness Gate",
+        "Nightly Diff/Checkpoint"
+      ],
+      "linked": [
+        "e1",
+        "e2",
+        "e13",
+        "e19"
+      ]
+    },
+    {
+      "id": "air",
+      "name": "อากาศ / สภาพแวดล้อมไอที",
+      "layer": "Network / Browser / Integration",
+      "hazards": [
+        "JDE Session Timeout/Popup",
+        "Browser CDP Port ไม่พร้อม",
+        "D1 Quota จำกัด"
+      ],
+      "controls": [
+        "Read-only connectivity probe",
+        "No-CDP fallback to approved export",
+        "R2 checksum+Version"
+      ],
+      "linked": [
+        "e1",
+        "e2",
+        "e13"
+      ]
+    },
+    {
+      "id": "doctors",
+      "name": "แพทย์ผู้ดูแล / นโยบาย",
+      "layer": "Governance / Roles / Accounting",
+      "hazards": [
+        "Owner Stage ไม่ชัด",
+        "Run99 Approval Role ไม่ชัด",
+        "Finance GL Mapping ไม่รับรอง"
+      ],
+      "controls": [
+        "RACI+Signoff",
+        "Exception Escalation",
+        "Company/Period Reconcile"
+      ],
+      "linked": [
+        "e4",
+        "e17",
+        "e18",
+        "e19",
+        "e20"
+      ]
+    }
+  ],
+  "actions": [
+    {
+      "id": "a1",
+      "priority": "P0",
+      "title": "แก้ระบบตรวจสุขภาพล้มเหลวตอน 06:00",
+      "owner": "IT / ERP Admin",
+      "why": "พบ CDP ECONNREFUSED; Last Good Snapshot ยัง 18 ต.ค.",
+      "success": "มี Successful Source Batch + Hash และเมื่อขาด Session ขึ้น Unknown พร้อมแจ้ง IT โดยไม่กล่าวโทษหน้างาน",
+      "evidence": "private-log"
+    },
+    {
+      "id": "a2",
+      "priority": "P0",
+      "title": "ทำทะเบียน Handoff สถานะจริง + เจ้าภาพ",
+      "owner": "PPC / Production / Store",
+      "why": "Current Operation/Owner/Stage Due ยังไม่เชื่อมใน Source Cohort",
+      "success": "Cutting ทุกตัวในขอบเขตมี Current Stage/Owner/Stage Due และ Acknowledgment หรือ Exception Reason",
+      "evidence": "lineage"
+    },
+    {
+      "id": "a3",
+      "priority": "P0",
+      "title": "Material Issue Line Posting Reconciliation",
+      "owner": "Store / Production / AC / IT",
+      "why": "WO 466146 มี Complete 26 เทียบ Posted 49",
+      "success": "Posted/Complete/Closed/GL per Item Line Reconcile ก่อน WIP/WO Close โดยไม่มี Blind Repost",
+      "evidence": "issue"
+    },
+    {
+      "id": "a4",
+      "priority": "P0",
+      "title": "QC Event + Hold/Reject/Release Data Contract",
+      "owner": "QC / Store / Production",
+      "why": "P554108 Lot Status ไม่เท่ากับผลตรวจรายวัน",
+      "success": "Test Date Pass/Fail/Disposition/Release audit link Lot+WO+Owner ได้จริง",
+      "evidence": "qc"
+    },
+    {
+      "id": "a5",
+      "priority": "P0",
+      "title": "WO → TS → POD → Invoice Ready Gate",
+      "owner": "SCD / Store / Sales / Billing",
+      "why": "พบ Physical-vs-System State Lag และ Billing Blocker",
+      "success": "ทุกส่งมอบมี Owner ยืนยัน Predecessor/Next Status และ Reason Code ถ้า Invoice ไม่พร้อม",
+      "evidence": "pain"
+    },
+    {
+      "id": "a6",
+      "priority": "P0",
+      "title": "Cost/GL Source & Finance Signoff",
+      "owner": "AC / IT / Production",
+      "why": "Actual Cost mapping ยังไม่รับรอง; X3/X4 มี User Pain",
+      "success": "F0911 and WIP Reconciled by Company/WO/Period, versioned evidence + approved classification",
+      "evidence": "cost"
+    },
+    {
+      "id": "a7",
+      "priority": "P1",
+      "title": "ยกระดับการสอนให้เข้าใจเหตุผลของ Step",
+      "owner": "HRD / QMR / Process Owners",
+      "why": "การทำงานแบบคลิกตามความเคยชินทำให้เกิด Recovery Loop",
+      "success": "WI สั้นพร้อมตัวอย่าง Before/After/Failure Consequence และมีการตรวจการกลับเป็นซ้ำ",
+      "evidence": "workflow"
+    }
+  ],
+  "sources": {
+    "workflow": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/01_end_to_end_workflow.md",
+    "apps": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/02_application_map.md",
+    "lineage": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/03_data_architecture.md",
+    "pain": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/17_targeted_user_pain_rca_scan_20261008.md",
+    "control": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/50_controlplan_line_coverage_root_cause_20261019.md",
+    "cost": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/48_project_wo_actual_cost_gate_20261019.md",
+    "issue": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/77_wo466146_cutting_issue_posting_reversion_rca_20261022.md",
+    "qc": "https://github.com/popvarachat/practika-erp-architecture/blob/main/docs/79_qc_daily_node_H_P_reject_readonly_20261023.md"
+  }
+}
