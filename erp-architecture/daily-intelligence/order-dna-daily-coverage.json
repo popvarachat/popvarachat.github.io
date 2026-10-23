@@ -1,0 +1,110 @@
+{
+  "schema": "practika-jde-query-bounded-daily-certification-v1",
+  "period": "2026-10-17 to 2026-10-23",
+  "source_scope": "P4210 SO/SN 81 UI columns per query; no historical change events, no entire factory source certification",
+  "certified_days": [
+    {
+      "day": "2026-10-19",
+      "type": "SN",
+      "rows": 14,
+      "pages": 2,
+      "field_count": 81,
+      "certification": "QUERY_BOUNDED_PAGINATION_COMPLETE_NOT_FULL_ERP"
+    },
+    {
+      "day": "2026-10-20",
+      "type": "SO",
+      "rows": 118,
+      "pages": 12,
+      "field_count": 81,
+      "certification": "QUERY_BOUNDED_PAGINATION_COMPLETE_NOT_FULL_ERP"
+    },
+    {
+      "day": "2026-10-20",
+      "type": "SN",
+      "rows": 53,
+      "pages": 6,
+      "field_count": 81,
+      "certification": "QUERY_BOUNDED_PAGINATION_COMPLETE_NOT_FULL_ERP"
+    },
+    {
+      "day": "2026-10-21",
+      "type": "SN",
+      "rows": 44,
+      "pages": 5,
+      "field_count": 81,
+      "certification": "QUERY_BOUNDED_PAGINATION_COMPLETE_NOT_FULL_ERP"
+    },
+    {
+      "day": "2026-10-22",
+      "type": "SN",
+      "rows": 85,
+      "pages": 9,
+      "field_count": 81,
+      "certification": "QUERY_BOUNDED_PAGINATION_COMPLETE_NOT_FULL_ERP"
+    }
+  ],
+  "incomplete_days": [
+    {
+      "day": "2026-10-17",
+      "type": "SO",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-17",
+      "type": "SN",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-18",
+      "type": "SO",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-18",
+      "type": "SN",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-19",
+      "type": "SO",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-21",
+      "type": "SO",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-22",
+      "type": "SO",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "NOT_CERTIFIED"
+    },
+    {
+      "day": "2026-10-23",
+      "type": "SO",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    },
+    {
+      "day": "2026-10-23",
+      "type": "SN",
+      "status": "NOT_CERTIFIED",
+      "reason_code": "QUERY_SCOPE_NOT_VERIFIED"
+    }
+  ],
+  "certified_windows": 5,
+  "planned_windows": 14,
+  "rows": 314,
+  "so_lines_ref_sn": 46,
+  "matched_sn_document_in_certified_days": 46,
+  "quality_gate": "SOURCE_UI_FILTER_MATCH+EACH_ROW_DATE_TYPE+TERMINAL_PAGE+LINE_UNIQUENESS+HASH_SHA256",
+  "note": "Incomplete days never treated as zero sales. Bounded same query read-only snapshot; not factory census or actual event-change evidence."
+}
