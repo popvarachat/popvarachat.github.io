@@ -1,0 +1,1582 @@
+{
+  "schema": "practika-erp-nerve-edge-audit-v1",
+  "created_on": "2026-10-23",
+  "scope": "39 modeled nerve connections only; new unknown/implicit interfaces may exist; not full ERP system certification",
+  "source_snapshot": "2026-10-18",
+  "collector_2026_10_23": "CDP ECONNREFUSED 127.0.0.1:9222 / no authenticated live scan",
+  "total_edges": 39,
+  "live_certified_edges": 0,
+  "verification_breakdown": {
+    "NOT_YET_LINEAGE_VERIFIED": 34,
+    "BOUNDED_JOINABLE_KEYS_NOT_EVENT_CERTIFIED": 1,
+    "SEPARATE_SAMPLES_NOT_LINE_JOINED": 2,
+    "STATE_SAMPLE_NOT_TRANSITION_CERTIFIED": 1,
+    "CASE_EXCEPTION_PARTIAL": 1
+  },
+  "note": "Model edge counts, not actual defect prevalence. Event and human causes cannot be imputed from missing analytic rows.",
+  "edges": [
+    {
+      "id": "NERVE-01",
+      "source_node": "demand",
+      "target_node": "quote",
+      "handed_data": "Spec/Scope",
+      "direction": "forward",
+      "priority": "P1",
+      "source_application": "CRM / Project Intake",
+      "target_application": "Estimate / Cost Method 07",
+      "required_source_fields": [
+        "Customer Scope",
+        "Approved Requirements",
+        "Source Timestamp"
+      ],
+      "required_receiver_fields": [
+        "Estimate Version",
+        "Cost Method",
+        "Approver"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of demand>quote with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-02",
+      "source_node": "quote",
+      "target_node": "so",
+      "handed_data": "Price/Rev",
+      "direction": "forward",
+      "priority": "P1",
+      "source_application": "Estimate / Cost Method 07",
+      "target_application": "P4210 / W4210E / PTK0069",
+      "required_source_fields": [
+        "Estimate Version",
+        "Cost Method",
+        "Approver"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "SO Document",
+        "Order Type",
+        "SO Line",
+        "Project ID"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of quote>so with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-03",
+      "source_node": "so",
+      "target_node": "promise",
+      "handed_data": "Promise Date",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P4210 / W4210E / PTK0069",
+      "target_application": "P4210 / Original & Revised Promise",
+      "required_source_fields": [
+        "Company",
+        "SO Document",
+        "Order Type",
+        "SO Line",
+        "Project ID"
+      ],
+      "required_receiver_fields": [
+        "Original Promise",
+        "Approved Revised Promise",
+        "Revision Audit"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of so>promise with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-04",
+      "source_node": "promise",
+      "target_node": "wo",
+      "handed_data": "Demand/Due",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P4210 / Original & Revised Promise",
+      "target_application": "P48013 / P31225",
+      "required_source_fields": [
+        "Original Promise",
+        "Approved Revised Promise",
+        "Revision Audit"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "WO Number",
+        "WO Type",
+        "SO Line",
+        "WO Status"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of promise>wo with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-05",
+      "source_node": "wo",
+      "target_node": "cutting",
+      "handed_data": "WO/Cutting",
+      "direction": "forward",
+      "priority": "P1",
+      "source_application": "P48013 / P31225",
+      "target_application": "P594801C / P554801C",
+      "required_source_fields": [
+        "Company",
+        "WO Number",
+        "WO Type",
+        "SO Line",
+        "WO Status"
+      ],
+      "required_receiver_fields": [
+        "WO",
+        "Cutting Number",
+        "Cutting Status",
+        "Due"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "BOUNDED_JOINABLE_KEYS_NOT_EVENT_CERTIFIED",
+      "evidence_scope": "SOURCE_SNAPSHOT_2026_10_18",
+      "bounded_evidence": "2,383 distinct Cutting rows in bounded WIP source, WO and Cutting keys present; current operation/owner remain unverified.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of wo>cutting with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-06",
+      "source_node": "cutting",
+      "target_node": "routing",
+      "handed_data": "Line/Seq",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P594801C / P554801C",
+      "target_application": "P5511026 / P3003",
+      "required_source_fields": [
+        "WO",
+        "Cutting Number",
+        "Cutting Status",
+        "Due"
+      ],
+      "required_receiver_fields": [
+        "Cutting Number",
+        "Operation Sequence",
+        "ControlPlan Revision",
+        "Work Center"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of cutting>routing with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-07",
+      "source_node": "routing",
+      "target_node": "execution",
+      "handed_data": "Operation",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P5511026 / P3003",
+      "target_application": "P31225 / P31121",
+      "required_source_fields": [
+        "Cutting Number",
+        "Operation Sequence",
+        "ControlPlan Revision",
+        "Work Center"
+      ],
+      "required_receiver_fields": [
+        "Cutting Number",
+        "Operation Seq",
+        "Actual Start/End",
+        "Completed Quantity"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of routing>execution with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-08",
+      "source_node": "execution",
+      "target_node": "opqc",
+      "handed_data": "Qty/Test",
+      "direction": "forward",
+      "priority": "P1",
+      "source_application": "P31225 / P31121",
+      "target_application": "P3711 / P553711Y / P3703",
+      "required_source_fields": [
+        "Cutting Number",
+        "Operation Seq",
+        "Actual Start/End",
+        "Completed Quantity"
+      ],
+      "required_receiver_fields": [
+        "Test ID",
+        "Lot Number",
+        "WO/Cutting",
+        "Pass/Fail",
+        "Test Date"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of execution>opqc with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-09",
+      "source_node": "opqc",
+      "target_node": "completion",
+      "handed_data": "QC Pass",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P3711 / P553711Y / P3703",
+      "target_application": "P31225 Completion / Stock Receipt",
+      "required_source_fields": [
+        "Test ID",
+        "Lot Number",
+        "WO/Cutting",
+        "Pass/Fail",
+        "Test Date"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Completion Doc/Line",
+        "Quantity",
+        "Posted Date"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "SEPARATE_SAMPLES_NOT_LINE_JOINED",
+      "evidence_scope": "QC_SAMPLE",
+      "bounded_evidence": "Lot H/P and 8 operation samples are not a common actual completion/pass event ledger.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of opqc>completion with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-10",
+      "source_node": "completion",
+      "target_node": "transfer",
+      "handed_data": "FG Transfer",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P31225 Completion / Stock Receipt",
+      "target_application": "P4111 / Inventory Transfer / TS",
+      "required_source_fields": [
+        "WO/Cutting",
+        "Completion Doc/Line",
+        "Quantity",
+        "Posted Date"
+      ],
+      "required_receiver_fields": [
+        "Transfer Doc",
+        "Origin/Destination",
+        "Receiver",
+        "Posted Timestamp",
+        "TS"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of completion>transfer with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-11",
+      "source_node": "transfer",
+      "target_node": "delivery",
+      "handed_data": "Goods/TS",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P4111 / Inventory Transfer / TS",
+      "target_application": "P4210 / Dispatch / POD",
+      "required_source_fields": [
+        "Transfer Doc",
+        "Origin/Destination",
+        "Receiver",
+        "Posted Timestamp",
+        "TS"
+      ],
+      "required_receiver_fields": [
+        "SO Line",
+        "Dispatch Doc",
+        "POD Date",
+        "Qty Shipped"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of transfer>delivery with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-12",
+      "source_node": "delivery",
+      "target_node": "invoice",
+      "handed_data": "POD",
+      "direction": "forward",
+      "priority": "P0",
+      "source_application": "P4210 / Dispatch / POD",
+      "target_application": "SO Last/Next Status / AR Invoice",
+      "required_source_fields": [
+        "SO Line",
+        "Dispatch Doc",
+        "POD Date",
+        "Qty Shipped"
+      ],
+      "required_receiver_fields": [
+        "SO Line",
+        "Invoice Doc",
+        "Posted Date",
+        "Billing Hold Reason"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of delivery>invoice with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-13",
+      "source_node": "invoice",
+      "target_node": "cash",
+      "handed_data": "AR",
+      "direction": "forward",
+      "priority": "P1",
+      "source_application": "SO Last/Next Status / AR Invoice",
+      "target_application": "AR / Receipt Matching",
+      "required_source_fields": [
+        "SO Line",
+        "Invoice Doc",
+        "Posted Date",
+        "Billing Hold Reason"
+      ],
+      "required_receiver_fields": [
+        "Invoice Doc",
+        "AR Receipt ID",
+        "Applied Amount",
+        "Cash Application Date"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of invoice>cash with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-14",
+      "source_node": "wo",
+      "target_node": "bom",
+      "handed_data": "WO + Item",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P48013 / P31225",
+      "target_application": "P3121 / P3002",
+      "required_source_fields": [
+        "Company",
+        "WO Number",
+        "WO Type",
+        "SO Line",
+        "WO Status"
+      ],
+      "required_receiver_fields": [
+        "WO/Item",
+        "BOM Version",
+        "Component",
+        "Required Quantity"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of wo>bom with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-15",
+      "source_node": "bom",
+      "target_node": "stock",
+      "handed_data": "Component",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P3121 / P3002",
+      "target_application": "P41271 / P4111",
+      "required_source_fields": [
+        "WO/Item",
+        "BOM Version",
+        "Component",
+        "Required Quantity"
+      ],
+      "required_receiver_fields": [
+        "Item",
+        "Branch",
+        "Lot",
+        "Location",
+        "Available Quantity",
+        "As-of"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of bom>stock with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-16",
+      "source_node": "stock",
+      "target_node": "po",
+      "handed_data": "Shortage",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P41271 / P4111",
+      "target_application": "P4310 / P4338",
+      "required_source_fields": [
+        "Item",
+        "Branch",
+        "Lot",
+        "Location",
+        "Available Quantity",
+        "As-of"
+      ],
+      "required_receiver_fields": [
+        "PR/PO Line",
+        "Supplier",
+        "Item",
+        "Promise/Approval Date"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of stock>po with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-17",
+      "source_node": "po",
+      "target_node": "receipt",
+      "handed_data": "PO Line",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P4310 / P4338",
+      "target_application": "P4312 / P55432A4",
+      "required_source_fields": [
+        "PR/PO Line",
+        "Supplier",
+        "Item",
+        "Promise/Approval Date"
+      ],
+      "required_receiver_fields": [
+        "PO Line",
+        "Receipt Doc",
+        "Item/Lot",
+        "Accepted Qty",
+        "Receipt Date"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "SEPARATE_SAMPLES_NOT_LINE_JOINED",
+      "evidence_scope": "DIFFERENT_BOUNDED_SAMPLES",
+      "bounded_evidence": "14 PO lines and 43 receipt lines were scanned in separate limited queries; no complete PO-Line→receipt reconciliation.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of po>receipt with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-18",
+      "source_node": "receipt",
+      "target_node": "inqc",
+      "handed_data": "Lot/Test",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P4312 / P55432A4",
+      "target_application": "P4108 / P3711 / P3703",
+      "required_source_fields": [
+        "PO Line",
+        "Receipt Doc",
+        "Item/Lot",
+        "Accepted Qty",
+        "Receipt Date"
+      ],
+      "required_receiver_fields": [
+        "Lot",
+        "Test ID",
+        "Result Date",
+        "Hold/Release Audit"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of receipt>inqc with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-19",
+      "source_node": "inqc",
+      "target_node": "stock",
+      "handed_data": "QC Release",
+      "direction": "feedback",
+      "priority": "P0",
+      "source_application": "P4108 / P3711 / P3703",
+      "target_application": "P41271 / P4111",
+      "required_source_fields": [
+        "Lot",
+        "Test ID",
+        "Result Date",
+        "Hold/Release Audit"
+      ],
+      "required_receiver_fields": [
+        "Item",
+        "Branch",
+        "Lot",
+        "Location",
+        "Available Quantity",
+        "As-of"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "STATE_SAMPLE_NOT_TRANSITION_CERTIFIED",
+      "evidence_scope": "LOT_STATUS_TEN_ROW_SAMPLE",
+      "bounded_evidence": "10 sampled lot status rows H3/P7, does not prove an H→P release or available inventory as-of now.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of inqc>stock with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-20",
+      "source_node": "bom",
+      "target_node": "issue",
+      "handed_data": "Required",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P3121 / P3002",
+      "target_application": "P594801M / P4111 / R593102A",
+      "required_source_fields": [
+        "WO/Item",
+        "BOM Version",
+        "Component",
+        "Required Quantity"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Item",
+        "Material Issue Doc",
+        "Line Status",
+        "Posted Date",
+        "Reversal"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of bom>issue with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-21",
+      "source_node": "stock",
+      "target_node": "issue",
+      "handed_data": "Available",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P41271 / P4111",
+      "target_application": "P594801M / P4111 / R593102A",
+      "required_source_fields": [
+        "Item",
+        "Branch",
+        "Lot",
+        "Location",
+        "Available Quantity",
+        "As-of"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Item",
+        "Material Issue Doc",
+        "Line Status",
+        "Posted Date",
+        "Reversal"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of stock>issue with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-22",
+      "source_node": "issue",
+      "target_node": "execution",
+      "handed_data": "Material",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P594801M / P4111 / R593102A",
+      "target_application": "P31225 / P31121",
+      "required_source_fields": [
+        "WO/Cutting",
+        "Item",
+        "Material Issue Doc",
+        "Line Status",
+        "Posted Date",
+        "Reversal"
+      ],
+      "required_receiver_fields": [
+        "Cutting Number",
+        "Operation Seq",
+        "Actual Start/End",
+        "Completed Quantity"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of issue>execution with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-23",
+      "source_node": "issue",
+      "target_node": "cost",
+      "handed_data": "DM",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P594801M / P4111 / R593102A",
+      "target_application": "P31022 / R593102A / F0911",
+      "required_source_fields": [
+        "WO/Cutting",
+        "Item",
+        "Material Issue Doc",
+        "Line Status",
+        "Posted Date",
+        "Reversal"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "CASE_EXCEPTION_PARTIAL",
+      "evidence_scope": "WO_466146_CASE_ONLY",
+      "bounded_evidence": "Read-only issue investigation 117 lines: Posted 49, Complete 26, Closed 42; WIP material unposted flag X; GL batch tie-out not certified.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of issue>cost with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-24",
+      "source_node": "execution",
+      "target_node": "labor",
+      "handed_data": "Hour/Stage",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P31225 / P31121",
+      "target_application": "P5931122 / P31121",
+      "required_source_fields": [
+        "Cutting Number",
+        "Operation Seq",
+        "Actual Start/End",
+        "Completed Quantity"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Operation",
+        "Employee",
+        "Booked Hours",
+        "Approval Time"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of execution>labor with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-25",
+      "source_node": "labor",
+      "target_node": "cost",
+      "handed_data": "DL/Dep",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P5931122 / P31121",
+      "target_application": "P31022 / R593102A / F0911",
+      "required_source_fields": [
+        "WO/Cutting",
+        "Operation",
+        "Employee",
+        "Booked Hours",
+        "Approval Time"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of labor>cost with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-26",
+      "source_node": "opqc",
+      "target_node": "rework",
+      "handed_data": "Fail/NCR",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P3711 / P553711Y / P3703",
+      "target_application": "P48013 PTK0002 / QC NCR",
+      "required_source_fields": [
+        "Test ID",
+        "Lot Number",
+        "WO/Cutting",
+        "Pass/Fail",
+        "Test Date"
+      ],
+      "required_receiver_fields": [
+        "Original WO",
+        "Rework WO",
+        "NCR",
+        "Reinspection Result"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of opqc>rework with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-27",
+      "source_node": "rework",
+      "target_node": "execution",
+      "handed_data": "Rework",
+      "direction": "feedback",
+      "priority": "P1",
+      "source_application": "P48013 PTK0002 / QC NCR",
+      "target_application": "P31225 / P31121",
+      "required_source_fields": [
+        "Original WO",
+        "Rework WO",
+        "NCR",
+        "Reinspection Result"
+      ],
+      "required_receiver_fields": [
+        "Cutting Number",
+        "Operation Seq",
+        "Actual Start/End",
+        "Completed Quantity"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of rework>execution with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-28",
+      "source_node": "opqc",
+      "target_node": "scrap",
+      "handed_data": "Scrap",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P3711 / P553711Y / P3703",
+      "target_application": "P4111 Adjust / NCR Disposition",
+      "required_source_fields": [
+        "Test ID",
+        "Lot Number",
+        "WO/Cutting",
+        "Pass/Fail",
+        "Test Date"
+      ],
+      "required_receiver_fields": [
+        "Original WO",
+        "NCR",
+        "Scrap Adjustment",
+        "Approval",
+        "Cost Posting"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of opqc>scrap with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-29",
+      "source_node": "scrap",
+      "target_node": "cost",
+      "handed_data": "Loss",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P4111 Adjust / NCR Disposition",
+      "target_application": "P31022 / R593102A / F0911",
+      "required_source_fields": [
+        "Original WO",
+        "NCR",
+        "Scrap Adjustment",
+        "Approval",
+        "Cost Posting"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of scrap>cost with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-30",
+      "source_node": "completion",
+      "target_node": "cost",
+      "handed_data": "FG Value",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P31225 Completion / Stock Receipt",
+      "target_application": "P31022 / R593102A / F0911",
+      "required_source_fields": [
+        "WO/Cutting",
+        "Completion Doc/Line",
+        "Quantity",
+        "Posted Date"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of completion>cost with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-31",
+      "source_node": "po",
+      "target_node": "cost",
+      "handed_data": "Purchased Cost",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P4310 / P4338",
+      "target_application": "P31022 / R593102A / F0911",
+      "required_source_fields": [
+        "PR/PO Line",
+        "Supplier",
+        "Item",
+        "Promise/Approval Date"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of po>cost with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-32",
+      "source_node": "cost",
+      "target_node": "gl",
+      "handed_data": "Cost/GL",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P31022 / R593102A / F0911",
+      "target_application": "F0911 / P31022 / R09801",
+      "required_source_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "GL Batch",
+        "Account",
+        "Doc/Line",
+        "Posting Status"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of cost>gl with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-33",
+      "source_node": "invoice",
+      "target_node": "gl",
+      "handed_data": "Revenue",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "SO Last/Next Status / AR Invoice",
+      "target_application": "F0911 / P31022 / R09801",
+      "required_source_fields": [
+        "SO Line",
+        "Invoice Doc",
+        "Posted Date",
+        "Billing Hold Reason"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "GL Batch",
+        "Account",
+        "Doc/Line",
+        "Posting Status"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of invoice>gl with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-34",
+      "source_node": "cash",
+      "target_node": "gl",
+      "handed_data": "Cash/AR",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "AR / Receipt Matching",
+      "target_application": "F0911 / P31022 / R09801",
+      "required_source_fields": [
+        "Invoice Doc",
+        "AR Receipt ID",
+        "Applied Amount",
+        "Cash Application Date"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "GL Batch",
+        "Account",
+        "Doc/Line",
+        "Posting Status"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of cash>gl with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-35",
+      "source_node": "so",
+      "target_node": "invoice",
+      "handed_data": "SO/Tax",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210 / W4210E / PTK0069",
+      "target_application": "SO Last/Next Status / AR Invoice",
+      "required_source_fields": [
+        "Company",
+        "SO Document",
+        "Order Type",
+        "SO Line",
+        "Project ID"
+      ],
+      "required_receiver_fields": [
+        "SO Line",
+        "Invoice Doc",
+        "Posted Date",
+        "Billing Hold Reason"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of so>invoice with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-36",
+      "source_node": "promise",
+      "target_node": "delivery",
+      "handed_data": "Due",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210 / Original & Revised Promise",
+      "target_application": "P4210 / Dispatch / POD",
+      "required_source_fields": [
+        "Original Promise",
+        "Approved Revised Promise",
+        "Revision Audit"
+      ],
+      "required_receiver_fields": [
+        "SO Line",
+        "Dispatch Doc",
+        "POD Date",
+        "Qty Shipped"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of promise>delivery with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-37",
+      "source_node": "inqc",
+      "target_node": "issue",
+      "handed_data": "Released Lot",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4108 / P3711 / P3703",
+      "target_application": "P594801M / P4111 / R593102A",
+      "required_source_fields": [
+        "Lot",
+        "Test ID",
+        "Result Date",
+        "Hold/Release Audit"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Item",
+        "Material Issue Doc",
+        "Line Status",
+        "Posted Date",
+        "Reversal"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of inqc>issue with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-38",
+      "source_node": "wo",
+      "target_node": "cost",
+      "handed_data": "WO Key",
+      "direction": "branch",
+      "priority": "P1",
+      "source_application": "P48013 / P31225",
+      "target_application": "P31022 / R593102A / F0911",
+      "required_source_fields": [
+        "Company",
+        "WO Number",
+        "WO Type",
+        "SO Line",
+        "WO Status"
+      ],
+      "required_receiver_fields": [
+        "WO/Cutting",
+        "Cost Component",
+        "Document",
+        "Cost Book",
+        "GL Period"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of wo>cost with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-39",
+      "source_node": "routing",
+      "target_node": "transfer",
+      "handed_data": "Handoff",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P5511026 / P3003",
+      "target_application": "P4111 / Inventory Transfer / TS",
+      "required_source_fields": [
+        "Cutting Number",
+        "Operation Sequence",
+        "ControlPlan Revision",
+        "Work Center"
+      ],
+      "required_receiver_fields": [
+        "Transfer Doc",
+        "Origin/Destination",
+        "Receiver",
+        "Posted Timestamp",
+        "TS"
+      ],
+      "join_key_contract": "Confirm Same Company+Business-Document+Type+Line(+Cutting/Item/Lot when applicable) before deriving same-entity propagation; never join on display names alone.",
+      "acceptance_contract": [
+        "Matched document/line scope",
+        "Actual event timestamp and event type",
+        "Receiver acknowledgment or status",
+        "Quantity/UOM and version consistency",
+        "Source hash, as-of, signed disposition if needed",
+        "No unapproved mutation or corrective Run99"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "SCHEMA_OR_PROCESS_MODEL_ONLY",
+      "bounded_evidence": "Application/process name mapped, but no source-to-receiver line-level join or time-ordered event evidence certified in current dataset.",
+      "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
+      "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
+      "next_read_only_scan": "Collect both endpoints of routing>transfer with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    }
+  ]
+}
