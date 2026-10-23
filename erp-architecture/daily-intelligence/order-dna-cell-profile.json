@@ -1,0 +1,1144 @@
+{
+  "schema": "practika-erp-sales-document-cell-scan-v1",
+  "source": "P4210/W4210E/PTK0069",
+  "captured_on": "2026-10-23",
+  "scope": "Read-only authenticated JDE 2026 query; incomplete pagination for SO/SN/SV/SB; complete within bounded query only for SP/SE",
+  "query_literal": "Order Date >=10/01/26",
+  "date_interpretation": "VERIFY JDE locale: >=10/01/26; observed dates parsed DD/MM/YY",
+  "source_sha256": "b50b65aa2b2adef8abe64eb736639b10958c91235d3eb4b8e41688ee3e5fe852",
+  "rows": 931,
+  "fields": 81,
+  "all_order_population_certified": false,
+  "field_groups": {
+    "identity": [
+      "Order Number",
+      "Or Ty",
+      "Order Co",
+      "Line Number",
+      "Hd Cd",
+      "Sold To",
+      "Ship To",
+      "Branch/Plant",
+      "Ln Ty",
+      "2nd Item Number"
+    ],
+    "original_related": [
+      "Original Or Num",
+      "Original Or Type",
+      "Orig Or Co",
+      "Rel Ord",
+      "Rel Ord Type",
+      "Related PO/WO No",
+      "Related PO/WO Line No",
+      "Customer PO",
+      "Parent Number"
+    ],
+    "date_events": [
+      "Order Date",
+      "Request Date",
+      "Original Promised",
+      "Promised Delivery",
+      "Scheduled Pick",
+      "Actual Ship",
+      "Invoice Date",
+      "Cancel Date",
+      "G/L Date"
+    ],
+    "financial": [
+      "Unit Price",
+      "Extended Amount",
+      "Currency",
+      "Cur Cod",
+      "Exchange Rate",
+      "Price Effective Date"
+    ],
+    "quantity": [
+      "Quantity Ordered",
+      "Quantity Shipped",
+      "Quantity Backordered",
+      "Quantity Canceled"
+    ],
+    "status": [
+      "Last Status",
+      "Next Status",
+      "Hd Cd"
+    ],
+    "actor": [
+      "User ID",
+      "Date - Updated",
+      "Time of Day",
+      "Transaction Originator"
+    ],
+    "inventory": [
+      "Item Number",
+      "2nd Item Number",
+      "3rd Item Number",
+      "Lot Serial Number",
+      "Location",
+      "Branch/Plant"
+    ]
+  },
+  "types": {
+    "SN": {
+      "rows": 200,
+      "pages": 20,
+      "pagination_complete": false,
+      "first_date": "2026-01-14",
+      "last_date": "2026-07-08",
+      "status_pairs": {
+        "580â†’999": 145,
+        "550â†’570": 53,
+        "980â†’999": 2
+      },
+      "reference_presence": {
+        "Original Or Num": 0,
+        "Rel Ord": 0,
+        "Related PO/WO No": 0,
+        "Customer PO": 183,
+        "User ID": 200
+      },
+      "candidate_only": {
+        "negative_quantity": 17,
+        "negative_extended_amount": 0,
+        "price_amount_nonmatching_candidate": 0,
+        "comparable_money_line": 154
+      },
+      "field_counts": {
+        "Order Number": 200,
+        "Or Ty": 200,
+        "Order Co": 200,
+        "Line Number": 200,
+        "Hd Cd": 0,
+        "Sold To": 200,
+        "Sold To Name": 200,
+        "Description 1": 200,
+        "Quantity": 170,
+        "UOM": 173,
+        "Secondary Quantity": 171,
+        "Secondary UoM": 173,
+        "Extended Amount": 171,
+        "Request Date": 200,
+        "Requested Time": 200,
+        "Ship To": 200,
+        "Original Or Num": 0,
+        "Original Or Type": 0,
+        "Orig Or Co": 0,
+        "2nd Item Number": 173,
+        "3rd Item Number": 173,
+        "Last Status": 200,
+        "Next Status": 200,
+        "Customer PO": 183,
+        "Parent Number": 200,
+        "Agreement Number": 0,
+        "Shipment Number": 0,
+        "Pick Number": 0,
+        "Delivery Number": 0,
+        "Unit Price": 200,
+        "Price UOM": 173,
+        "Foreign Unit Price": 200,
+        "Foreign Extended Amount": 0,
+        "Order Date": 200,
+        "Short Item No": 173,
+        "Document Number": 145,
+        "Doc Ty": 145,
+        "Doc Co": 145,
+        "Scheduled Pick": 200,
+        "Scheduled Pick Time": 200,
+        "Original Promised": 200,
+        "Original Promised Time": 200,
+        "Actual Ship": 142,
+        "Actual Ship Time": 200,
+        "Invoice Date": 145,
+        "Cancel Date": 2,
+        "G/L Date": 0,
+        "Promised Delivery": 200,
+        "Promised Delivery Time": 200,
+        "Branch/Plant": 200,
+        "Ln Ty": 200,
+        "Description Line 2": 59,
+        "Sls Cd1": 0,
+        "Sls Cd2": 0,
+        "Sls Cd3": 0,
+        "Sls Cd4": 0,
+        "Sls Cd5": 0,
+        "Cur Cod": 200,
+        "Exchange Rate": 0,
+        "Base Curr": 200,
+        "Quantity Ordered": 200,
+        "Quantity Shipped": 200,
+        "Quantity Backordered": 200,
+        "Quantity Canceled": 200,
+        "Price Effective Date": 200,
+        "Rel Ord": 0,
+        "Rel Ord Type": 0,
+        "Related PO/WO No": 0,
+        "Related PO/WO Line No": 0,
+        "Transaction Originator": 200,
+        "Carrier Number": 200,
+        "F H": 200,
+        "Mod Trn": 0,
+        "Zone Number": 106,
+        "Lot Serial Number": 0,
+        "Location": 0,
+        "Deliver To": 0,
+        "Pull Signal": 0,
+        "Date - Updated": 200,
+        "User ID": 200,
+        "Time of Day": 200
+      },
+      "critical_fields": {
+        "Order Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Or Ty": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Co": {
+          "present": 200,
+          "blank": 0
+        },
+        "Line Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Date": {
+          "present": 200,
+          "blank": 0
+        },
+        "Last Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Next Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Unit Price": {
+          "present": 200,
+          "blank": 0
+        },
+        "Extended Amount": {
+          "present": 171,
+          "blank": 29
+        },
+        "Original Or Num": {
+          "present": 0,
+          "blank": 200
+        },
+        "Original Or Type": {
+          "present": 0,
+          "blank": 200
+        },
+        "Rel Ord": {
+          "present": 0,
+          "blank": 200
+        },
+        "Rel Ord Type": {
+          "present": 0,
+          "blank": 200
+        },
+        "Related PO/WO No": {
+          "present": 0,
+          "blank": 200
+        },
+        "Customer PO": {
+          "present": 183,
+          "blank": 17
+        },
+        "User ID": {
+          "present": 200,
+          "blank": 0
+        }
+      }
+    },
+    "SP": {
+      "rows": 56,
+      "pages": 6,
+      "pagination_complete": true,
+      "first_date": "2026-01-16",
+      "last_date": "2026-10-12",
+      "status_pairs": {
+        "550â†’570": 13,
+        "520â†’540": 43
+      },
+      "reference_presence": {
+        "Original Or Num": 0,
+        "Rel Ord": 0,
+        "Related PO/WO No": 0,
+        "Customer PO": 9,
+        "User ID": 56
+      },
+      "candidate_only": {
+        "negative_quantity": 4,
+        "negative_extended_amount": 0,
+        "price_amount_nonmatching_candidate": 0,
+        "comparable_money_line": 46
+      },
+      "field_counts": {
+        "Order Number": 56,
+        "Or Ty": 56,
+        "Order Co": 56,
+        "Line Number": 56,
+        "Hd Cd": 0,
+        "Sold To": 56,
+        "Sold To Name": 56,
+        "Description 1": 56,
+        "Quantity": 50,
+        "UOM": 52,
+        "Secondary Quantity": 50,
+        "Secondary UoM": 52,
+        "Extended Amount": 50,
+        "Request Date": 56,
+        "Requested Time": 56,
+        "Ship To": 56,
+        "Original Or Num": 0,
+        "Original Or Type": 0,
+        "Orig Or Co": 0,
+        "2nd Item Number": 52,
+        "3rd Item Number": 52,
+        "Last Status": 56,
+        "Next Status": 56,
+        "Customer PO": 9,
+        "Parent Number": 56,
+        "Agreement Number": 0,
+        "Shipment Number": 0,
+        "Pick Number": 0,
+        "Delivery Number": 0,
+        "Unit Price": 56,
+        "Price UOM": 52,
+        "Foreign Unit Price": 56,
+        "Foreign Extended Amount": 0,
+        "Order Date": 56,
+        "Short Item No": 52,
+        "Document Number": 0,
+        "Doc Ty": 0,
+        "Doc Co": 0,
+        "Scheduled Pick": 56,
+        "Scheduled Pick Time": 56,
+        "Original Promised": 56,
+        "Original Promised Time": 56,
+        "Actual Ship": 0,
+        "Actual Ship Time": 56,
+        "Invoice Date": 0,
+        "Cancel Date": 0,
+        "G/L Date": 0,
+        "Promised Delivery": 56,
+        "Promised Delivery Time": 56,
+        "Branch/Plant": 56,
+        "Ln Ty": 56,
+        "Description Line 2": 17,
+        "Sls Cd1": 19,
+        "Sls Cd2": 19,
+        "Sls Cd3": 3,
+        "Sls Cd4": 19,
+        "Sls Cd5": 19,
+        "Cur Cod": 56,
+        "Exchange Rate": 0,
+        "Base Curr": 56,
+        "Quantity Ordered": 56,
+        "Quantity Shipped": 56,
+        "Quantity Backordered": 56,
+        "Quantity Canceled": 56,
+        "Price Effective Date": 56,
+        "Rel Ord": 0,
+        "Rel Ord Type": 0,
+        "Related PO/WO No": 0,
+        "Related PO/WO Line No": 0,
+        "Transaction Originator": 56,
+        "Carrier Number": 56,
+        "F H": 31,
+        "Mod Trn": 0,
+        "Zone Number": 56,
+        "Lot Serial Number": 0,
+        "Location": 0,
+        "Deliver To": 0,
+        "Pull Signal": 0,
+        "Date - Updated": 56,
+        "User ID": 56,
+        "Time of Day": 56
+      },
+      "critical_fields": {
+        "Order Number": {
+          "present": 56,
+          "blank": 0
+        },
+        "Or Ty": {
+          "present": 56,
+          "blank": 0
+        },
+        "Order Co": {
+          "present": 56,
+          "blank": 0
+        },
+        "Line Number": {
+          "present": 56,
+          "blank": 0
+        },
+        "Order Date": {
+          "present": 56,
+          "blank": 0
+        },
+        "Last Status": {
+          "present": 56,
+          "blank": 0
+        },
+        "Next Status": {
+          "present": 56,
+          "blank": 0
+        },
+        "Unit Price": {
+          "present": 56,
+          "blank": 0
+        },
+        "Extended Amount": {
+          "present": 50,
+          "blank": 6
+        },
+        "Original Or Num": {
+          "present": 0,
+          "blank": 56
+        },
+        "Original Or Type": {
+          "present": 0,
+          "blank": 56
+        },
+        "Rel Ord": {
+          "present": 0,
+          "blank": 56
+        },
+        "Rel Ord Type": {
+          "present": 0,
+          "blank": 56
+        },
+        "Related PO/WO No": {
+          "present": 0,
+          "blank": 56
+        },
+        "Customer PO": {
+          "present": 9,
+          "blank": 47
+        },
+        "User ID": {
+          "present": 56,
+          "blank": 0
+        }
+      }
+    },
+    "SV": {
+      "rows": 200,
+      "pages": 20,
+      "pagination_complete": false,
+      "first_date": "2026-01-14",
+      "last_date": "2026-06-09",
+      "status_pairs": {
+        "980â†’999": 62,
+        "620â†’999": 106,
+        "550â†’555": 13,
+        "520â†’540": 10,
+        "570â†’575": 9
+      },
+      "reference_presence": {
+        "Original Or Num": 0,
+        "Rel Ord": 91,
+        "Related PO/WO No": 91,
+        "Customer PO": 0,
+        "User ID": 200
+      },
+      "candidate_only": {
+        "negative_quantity": 37,
+        "negative_extended_amount": 0,
+        "price_amount_nonmatching_candidate": 0,
+        "comparable_money_line": 88
+      },
+      "field_counts": {
+        "Order Number": 200,
+        "Or Ty": 200,
+        "Order Co": 200,
+        "Line Number": 200,
+        "Hd Cd": 0,
+        "Sold To": 200,
+        "Sold To Name": 200,
+        "Description 1": 200,
+        "Quantity": 121,
+        "UOM": 174,
+        "Secondary Quantity": 174,
+        "Secondary UoM": 174,
+        "Extended Amount": 121,
+        "Request Date": 200,
+        "Requested Time": 200,
+        "Ship To": 200,
+        "Original Or Num": 0,
+        "Original Or Type": 0,
+        "Orig Or Co": 0,
+        "2nd Item Number": 174,
+        "3rd Item Number": 174,
+        "Last Status": 200,
+        "Next Status": 200,
+        "Customer PO": 0,
+        "Parent Number": 200,
+        "Agreement Number": 0,
+        "Shipment Number": 0,
+        "Pick Number": 0,
+        "Delivery Number": 0,
+        "Unit Price": 200,
+        "Price UOM": 174,
+        "Foreign Unit Price": 200,
+        "Foreign Extended Amount": 0,
+        "Order Date": 200,
+        "Short Item No": 174,
+        "Document Number": 106,
+        "Doc Ty": 106,
+        "Doc Co": 106,
+        "Scheduled Pick": 200,
+        "Scheduled Pick Time": 200,
+        "Original Promised": 200,
+        "Original Promised Time": 200,
+        "Actual Ship": 111,
+        "Actual Ship Time": 200,
+        "Invoice Date": 106,
+        "Cancel Date": 62,
+        "G/L Date": 106,
+        "Promised Delivery": 200,
+        "Promised Delivery Time": 200,
+        "Branch/Plant": 200,
+        "Ln Ty": 200,
+        "Description Line 2": 100,
+        "Sls Cd1": 120,
+        "Sls Cd2": 120,
+        "Sls Cd3": 20,
+        "Sls Cd4": 120,
+        "Sls Cd5": 120,
+        "Cur Cod": 200,
+        "Exchange Rate": 0,
+        "Base Curr": 200,
+        "Quantity Ordered": 200,
+        "Quantity Shipped": 200,
+        "Quantity Backordered": 200,
+        "Quantity Canceled": 200,
+        "Price Effective Date": 200,
+        "Rel Ord": 91,
+        "Rel Ord Type": 91,
+        "Related PO/WO No": 91,
+        "Related PO/WO Line No": 0,
+        "Transaction Originator": 200,
+        "Carrier Number": 200,
+        "F H": 200,
+        "Mod Trn": 0,
+        "Zone Number": 32,
+        "Lot Serial Number": 68,
+        "Location": 44,
+        "Deliver To": 0,
+        "Pull Signal": 0,
+        "Date - Updated": 200,
+        "User ID": 200,
+        "Time of Day": 200
+      },
+      "critical_fields": {
+        "Order Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Or Ty": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Co": {
+          "present": 200,
+          "blank": 0
+        },
+        "Line Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Date": {
+          "present": 200,
+          "blank": 0
+        },
+        "Last Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Next Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Unit Price": {
+          "present": 200,
+          "blank": 0
+        },
+        "Extended Amount": {
+          "present": 121,
+          "blank": 79
+        },
+        "Original Or Num": {
+          "present": 0,
+          "blank": 200
+        },
+        "Original Or Type": {
+          "present": 0,
+          "blank": 200
+        },
+        "Rel Ord": {
+          "present": 91,
+          "blank": 109
+        },
+        "Rel Ord Type": {
+          "present": 91,
+          "blank": 109
+        },
+        "Related PO/WO No": {
+          "present": 91,
+          "blank": 109
+        },
+        "Customer PO": {
+          "present": 0,
+          "blank": 200
+        },
+        "User ID": {
+          "present": 200,
+          "blank": 0
+        }
+      }
+    },
+    "SB": {
+      "rows": 200,
+      "pages": 20,
+      "pagination_complete": false,
+      "first_date": "2026-01-13",
+      "last_date": "2026-06-17",
+      "status_pairs": {
+        "620â†’999": 147,
+        "520â†’540": 23,
+        "980â†’999": 21,
+        "570â†’575": 3,
+        "557â†’570": 5,
+        "555â†’570": 1
+      },
+      "reference_presence": {
+        "Original Or Num": 0,
+        "Rel Ord": 123,
+        "Related PO/WO No": 123,
+        "Customer PO": 4,
+        "User ID": 200
+      },
+      "candidate_only": {
+        "negative_quantity": 41,
+        "negative_extended_amount": 0,
+        "price_amount_nonmatching_candidate": 0,
+        "comparable_money_line": 116
+      },
+      "field_counts": {
+        "Order Number": 200,
+        "Or Ty": 200,
+        "Order Co": 200,
+        "Line Number": 200,
+        "Hd Cd": 0,
+        "Sold To": 200,
+        "Sold To Name": 200,
+        "Description 1": 200,
+        "Quantity": 152,
+        "UOM": 171,
+        "Secondary Quantity": 171,
+        "Secondary UoM": 171,
+        "Extended Amount": 152,
+        "Request Date": 200,
+        "Requested Time": 200,
+        "Ship To": 200,
+        "Original Or Num": 0,
+        "Original Or Type": 0,
+        "Orig Or Co": 0,
+        "2nd Item Number": 171,
+        "3rd Item Number": 171,
+        "Last Status": 200,
+        "Next Status": 200,
+        "Customer PO": 4,
+        "Parent Number": 200,
+        "Agreement Number": 0,
+        "Shipment Number": 0,
+        "Pick Number": 0,
+        "Delivery Number": 0,
+        "Unit Price": 200,
+        "Price UOM": 171,
+        "Foreign Unit Price": 200,
+        "Foreign Extended Amount": 0,
+        "Order Date": 200,
+        "Short Item No": 171,
+        "Document Number": 147,
+        "Doc Ty": 147,
+        "Doc Co": 147,
+        "Scheduled Pick": 200,
+        "Scheduled Pick Time": 200,
+        "Original Promised": 200,
+        "Original Promised Time": 200,
+        "Actual Ship": 148,
+        "Actual Ship Time": 200,
+        "Invoice Date": 147,
+        "Cancel Date": 21,
+        "G/L Date": 147,
+        "Promised Delivery": 200,
+        "Promised Delivery Time": 200,
+        "Branch/Plant": 200,
+        "Ln Ty": 200,
+        "Description Line 2": 113,
+        "Sls Cd1": 126,
+        "Sls Cd2": 126,
+        "Sls Cd3": 12,
+        "Sls Cd4": 126,
+        "Sls Cd5": 126,
+        "Cur Cod": 200,
+        "Exchange Rate": 0,
+        "Base Curr": 200,
+        "Quantity Ordered": 200,
+        "Quantity Shipped": 200,
+        "Quantity Backordered": 200,
+        "Quantity Canceled": 200,
+        "Price Effective Date": 200,
+        "Rel Ord": 123,
+        "Rel Ord Type": 123,
+        "Related PO/WO No": 123,
+        "Related PO/WO Line No": 0,
+        "Transaction Originator": 200,
+        "Carrier Number": 200,
+        "F H": 200,
+        "Mod Trn": 0,
+        "Zone Number": 22,
+        "Lot Serial Number": 95,
+        "Location": 87,
+        "Deliver To": 0,
+        "Pull Signal": 0,
+        "Date - Updated": 200,
+        "User ID": 200,
+        "Time of Day": 200
+      },
+      "critical_fields": {
+        "Order Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Or Ty": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Co": {
+          "present": 200,
+          "blank": 0
+        },
+        "Line Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Date": {
+          "present": 200,
+          "blank": 0
+        },
+        "Last Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Next Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Unit Price": {
+          "present": 200,
+          "blank": 0
+        },
+        "Extended Amount": {
+          "present": 152,
+          "blank": 48
+        },
+        "Original Or Num": {
+          "present": 0,
+          "blank": 200
+        },
+        "Original Or Type": {
+          "present": 0,
+          "blank": 200
+        },
+        "Rel Ord": {
+          "present": 123,
+          "blank": 77
+        },
+        "Rel Ord Type": {
+          "present": 123,
+          "blank": 77
+        },
+        "Related PO/WO No": {
+          "present": 123,
+          "blank": 77
+        },
+        "Customer PO": {
+          "present": 4,
+          "blank": 196
+        },
+        "User ID": {
+          "present": 200,
+          "blank": 0
+        }
+      }
+    },
+    "SE": {
+      "rows": 75,
+      "pages": 8,
+      "pagination_complete": true,
+      "first_date": "2026-01-16",
+      "last_date": "2026-10-12",
+      "status_pairs": {
+        "557â†’560": 10,
+        "980â†’999": 26,
+        "550â†’555": 17,
+        "520â†’540": 21,
+        "555â†’560": 1
+      },
+      "reference_presence": {
+        "Original Or Num": 0,
+        "Rel Ord": 62,
+        "Related PO/WO No": 62,
+        "Customer PO": 60,
+        "User ID": 75
+      },
+      "candidate_only": {
+        "negative_quantity": 0,
+        "negative_extended_amount": 0,
+        "price_amount_nonmatching_candidate": 0,
+        "comparable_money_line": 47
+      },
+      "field_counts": {
+        "Order Number": 75,
+        "Or Ty": 75,
+        "Order Co": 75,
+        "Line Number": 75,
+        "Hd Cd": 0,
+        "Sold To": 75,
+        "Sold To Name": 75,
+        "Description 1": 75,
+        "Quantity": 47,
+        "UOM": 66,
+        "Secondary Quantity": 66,
+        "Secondary UoM": 66,
+        "Extended Amount": 47,
+        "Request Date": 75,
+        "Requested Time": 75,
+        "Ship To": 75,
+        "Original Or Num": 0,
+        "Original Or Type": 0,
+        "Orig Or Co": 0,
+        "2nd Item Number": 68,
+        "3rd Item Number": 68,
+        "Last Status": 75,
+        "Next Status": 75,
+        "Customer PO": 60,
+        "Parent Number": 75,
+        "Agreement Number": 0,
+        "Shipment Number": 0,
+        "Pick Number": 0,
+        "Delivery Number": 0,
+        "Unit Price": 75,
+        "Price UOM": 66,
+        "Foreign Unit Price": 75,
+        "Foreign Extended Amount": 0,
+        "Order Date": 75,
+        "Short Item No": 66,
+        "Document Number": 0,
+        "Doc Ty": 0,
+        "Doc Co": 0,
+        "Scheduled Pick": 75,
+        "Scheduled Pick Time": 75,
+        "Original Promised": 75,
+        "Original Promised Time": 75,
+        "Actual Ship": 11,
+        "Actual Ship Time": 75,
+        "Invoice Date": 0,
+        "Cancel Date": 26,
+        "G/L Date": 0,
+        "Promised Delivery": 75,
+        "Promised Delivery Time": 75,
+        "Branch/Plant": 75,
+        "Ln Ty": 75,
+        "Description Line 2": 53,
+        "Sls Cd1": 64,
+        "Sls Cd2": 64,
+        "Sls Cd3": 5,
+        "Sls Cd4": 64,
+        "Sls Cd5": 64,
+        "Cur Cod": 75,
+        "Exchange Rate": 0,
+        "Base Curr": 75,
+        "Quantity Ordered": 75,
+        "Quantity Shipped": 75,
+        "Quantity Backordered": 75,
+        "Quantity Canceled": 75,
+        "Price Effective Date": 75,
+        "Rel Ord": 62,
+        "Rel Ord Type": 62,
+        "Related PO/WO No": 62,
+        "Related PO/WO Line No": 0,
+        "Transaction Originator": 75,
+        "Carrier Number": 75,
+        "F H": 48,
+        "Mod Trn": 0,
+        "Zone Number": 75,
+        "Lot Serial Number": 10,
+        "Location": 0,
+        "Deliver To": 0,
+        "Pull Signal": 0,
+        "Date - Updated": 75,
+        "User ID": 75,
+        "Time of Day": 75
+      },
+      "critical_fields": {
+        "Order Number": {
+          "present": 75,
+          "blank": 0
+        },
+        "Or Ty": {
+          "present": 75,
+          "blank": 0
+        },
+        "Order Co": {
+          "present": 75,
+          "blank": 0
+        },
+        "Line Number": {
+          "present": 75,
+          "blank": 0
+        },
+        "Order Date": {
+          "present": 75,
+          "blank": 0
+        },
+        "Last Status": {
+          "present": 75,
+          "blank": 0
+        },
+        "Next Status": {
+          "present": 75,
+          "blank": 0
+        },
+        "Unit Price": {
+          "present": 75,
+          "blank": 0
+        },
+        "Extended Amount": {
+          "present": 47,
+          "blank": 28
+        },
+        "Original Or Num": {
+          "present": 0,
+          "blank": 75
+        },
+        "Original Or Type": {
+          "present": 0,
+          "blank": 75
+        },
+        "Rel Ord": {
+          "present": 62,
+          "blank": 13
+        },
+        "Rel Ord Type": {
+          "present": 62,
+          "blank": 13
+        },
+        "Related PO/WO No": {
+          "present": 62,
+          "blank": 13
+        },
+        "Customer PO": {
+          "present": 60,
+          "blank": 15
+        },
+        "User ID": {
+          "present": 75,
+          "blank": 0
+        }
+      }
+    },
+    "SO": {
+      "rows": 200,
+      "pages": 20,
+      "pagination_complete": false,
+      "first_date": "2026-01-12",
+      "last_date": "2026-05-25",
+      "status_pairs": {
+        "555â†’560": 1,
+        "557â†’560": 1,
+        "570â†’575": 2,
+        "620â†’999": 150,
+        "980â†’999": 30,
+        "630â†’999": 16
+      },
+      "reference_presence": {
+        "Original Or Num": 0,
+        "Rel Ord": 126,
+        "Related PO/WO No": 126,
+        "Customer PO": 163,
+        "User ID": 200
+      },
+      "candidate_only": {
+        "negative_quantity": 22,
+        "negative_extended_amount": 0,
+        "price_amount_nonmatching_candidate": 0,
+        "comparable_money_line": 104
+      },
+      "field_counts": {
+        "Order Number": 200,
+        "Or Ty": 200,
+        "Order Co": 200,
+        "Line Number": 200,
+        "Hd Cd": 0,
+        "Sold To": 200,
+        "Sold To Name": 200,
+        "Description 1": 200,
+        "Quantity": 124,
+        "UOM": 151,
+        "Secondary Quantity": 151,
+        "Secondary UoM": 151,
+        "Extended Amount": 124,
+        "Request Date": 200,
+        "Requested Time": 200,
+        "Ship To": 200,
+        "Original Or Num": 0,
+        "Original Or Type": 0,
+        "Orig Or Co": 0,
+        "2nd Item Number": 151,
+        "3rd Item Number": 151,
+        "Last Status": 200,
+        "Next Status": 200,
+        "Customer PO": 163,
+        "Parent Number": 200,
+        "Agreement Number": 0,
+        "Shipment Number": 0,
+        "Pick Number": 0,
+        "Delivery Number": 0,
+        "Unit Price": 200,
+        "Price UOM": 151,
+        "Foreign Unit Price": 200,
+        "Foreign Extended Amount": 0,
+        "Order Date": 200,
+        "Short Item No": 151,
+        "Document Number": 166,
+        "Doc Ty": 166,
+        "Doc Co": 166,
+        "Scheduled Pick": 200,
+        "Scheduled Pick Time": 200,
+        "Original Promised": 200,
+        "Original Promised Time": 200,
+        "Actual Ship": 149,
+        "Actual Ship Time": 200,
+        "Invoice Date": 166,
+        "Cancel Date": 30,
+        "G/L Date": 166,
+        "Promised Delivery": 200,
+        "Promised Delivery Time": 200,
+        "Branch/Plant": 200,
+        "Ln Ty": 200,
+        "Description Line 2": 99,
+        "Sls Cd1": 126,
+        "Sls Cd2": 126,
+        "Sls Cd3": 13,
+        "Sls Cd4": 126,
+        "Sls Cd5": 126,
+        "Cur Cod": 200,
+        "Exchange Rate": 0,
+        "Base Curr": 200,
+        "Quantity Ordered": 200,
+        "Quantity Shipped": 200,
+        "Quantity Backordered": 200,
+        "Quantity Canceled": 200,
+        "Price Effective Date": 200,
+        "Rel Ord": 126,
+        "Rel Ord Type": 126,
+        "Related PO/WO No": 126,
+        "Related PO/WO Line No": 0,
+        "Transaction Originator": 200,
+        "Carrier Number": 200,
+        "F H": 200,
+        "Mod Trn": 0,
+        "Zone Number": 23,
+        "Lot Serial Number": 101,
+        "Location": 89,
+        "Deliver To": 0,
+        "Pull Signal": 0,
+        "Date - Updated": 200,
+        "User ID": 200,
+        "Time of Day": 200
+      },
+      "critical_fields": {
+        "Order Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Or Ty": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Co": {
+          "present": 200,
+          "blank": 0
+        },
+        "Line Number": {
+          "present": 200,
+          "blank": 0
+        },
+        "Order Date": {
+          "present": 200,
+          "blank": 0
+        },
+        "Last Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Next Status": {
+          "present": 200,
+          "blank": 0
+        },
+        "Unit Price": {
+          "present": 200,
+          "blank": 0
+        },
+        "Extended Amount": {
+          "present": 124,
+          "blank": 76
+        },
+        "Original Or Num": {
+          "present": 0,
+          "blank": 200
+        },
+        "Original Or Type": {
+          "present": 0,
+          "blank": 200
+        },
+        "Rel Ord": {
+          "present": 126,
+          "blank": 74
+        },
+        "Rel Ord Type": {
+          "present": 126,
+          "blank": 74
+        },
+        "Related PO/WO No": {
+          "present": 126,
+          "blank": 74
+        },
+        "Customer PO": {
+          "present": 163,
+          "blank": 37
+        },
+        "User ID": {
+          "present": 200,
+          "blank": 0
+        }
+      }
+    }
+  },
+  "caveat": [
+    "Line absence in P4210 is not a proven absence from F4211, F42119 or relation table",
+    "User ID is last updater not original creator",
+    "Negative quantity may be a legitimate cancellation/return",
+    "SO->SN can be Define Relation by item B#; original-reference columns may remain empty",
+    "Status 999 is not proof payment or GL closure",
+    "Cross-type parent-child, WO and GL actual joins still unverified"
+  ]
+}
