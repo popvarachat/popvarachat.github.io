@@ -1,17 +1,18 @@
 {
   "schema": "practika-erp-nerve-edge-audit-v1",
   "created_on": "2026-10-23",
-  "scope": "39 modeled nerve connections only; new unknown/implicit interfaces may exist; not full ERP system certification",
+  "scope": "26 modeled steps, 44 edges, NOT entire ERP interface population",
   "source_snapshot": "2026-10-18",
   "collector_2026_10_23": "CDP ECONNREFUSED 127.0.0.1:9222 / no authenticated live scan",
-  "total_edges": 39,
+  "total_edges": 44,
   "live_certified_edges": 0,
   "verification_breakdown": {
-    "NOT_YET_LINEAGE_VERIFIED": 34,
+    "NOT_YET_LINEAGE_VERIFIED": 38,
     "BOUNDED_JOINABLE_KEYS_NOT_EVENT_CERTIFIED": 1,
     "SEPARATE_SAMPLES_NOT_LINE_JOINED": 2,
     "STATE_SAMPLE_NOT_TRANSITION_CERTIFIED": 1,
-    "CASE_EXCEPTION_PARTIAL": 1
+    "CASE_EXCEPTION_PARTIAL": 1,
+    "BOUNDED_SO_SN_DOCUMENT_REFERENCE_101": 1
   },
   "note": "Model edge counts, not actual defect prevalence. Event and human causes cannot be imputed from missing analytic rows.",
   "edges": [
@@ -1577,6 +1578,237 @@
       "missing_data_policy": "SOURCE_UNAVAILABLE/NOT_EXTRACTED/QUERY_INCOMPLETE ≠ VERIFIED_ZERO; assign owner for source verification.",
       "human_handoff": "Sender and receiving owner must confirm document/line, step-specific due, actual timestamp, next actionable state and exception reason. Do not infer completion from a single aggregate status.",
       "next_read_only_scan": "Collect both endpoints of routing>transfer with identical time window; capture pagination complete, same line keys, before/after status, discrepancies, evidence hashes; never Save/Post/Run99/Release."
+    },
+    {
+      "id": "NERVE-40",
+      "source_node": "so",
+      "target_node": "wo",
+      "handed_data": "Manufacturing branch",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210/W4210E/PTK0069",
+      "target_application": "P48013/W48013J",
+      "required_source_fields": [
+        "Company",
+        "Order Type",
+        "Order Number",
+        "Line Number",
+        "Item",
+        "Quantity",
+        "Effective Date",
+        "Last/Next Status"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "Source Doc/Line",
+        "Target Doc/Line",
+        "Quantity",
+        "Amount",
+        "Posting Date",
+        "Approver"
+      ],
+      "join_key_contract": "Use same Company+Doc Type+Document+Source Line, receiver Line and relationship version; never infer from Document Number or Customer name only.",
+      "acceptance_contract": [
+        "Exact source-to-receiver Line Mapping",
+        "Event date and status progression",
+        "Qty/UOM/Amount balancing",
+        "Relation revision and B# meaning",
+        "Approval/Source hash",
+        "Posted AR/GL where relevant"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "DESIGN_AND_APPMAP_ONLY",
+      "bounded_evidence": "No source-to-target line event and amount join certified yet.",
+      "missing_data_policy": "Empty P4210 UI field ≠ missing JDE source; unknown ≠ zero.",
+      "human_handoff": "Originating sales/billing person confirms SO line, document type, revision, SN/SP relationship, delivered amount, approval, invoice-posting readiness.",
+      "next_read_only_scan": "Check actual SO/SN Define Relation source and target lines; follow destination invoice AR posted GL and related WO/PO as appropriate."
+    },
+    {
+      "id": "NERVE-41",
+      "source_node": "so",
+      "target_node": "po",
+      "handed_data": "Purchased branch",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210/W4210E/PTK0069",
+      "target_application": "P4310/P4338",
+      "required_source_fields": [
+        "Company",
+        "Order Type",
+        "Order Number",
+        "Line Number",
+        "Item",
+        "Quantity",
+        "Effective Date",
+        "Last/Next Status"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "Source Doc/Line",
+        "Target Doc/Line",
+        "Quantity",
+        "Amount",
+        "Posting Date",
+        "Approver"
+      ],
+      "join_key_contract": "Use same Company+Doc Type+Document+Source Line, receiver Line and relationship version; never infer from Document Number or Customer name only.",
+      "acceptance_contract": [
+        "Exact source-to-receiver Line Mapping",
+        "Event date and status progression",
+        "Qty/UOM/Amount balancing",
+        "Relation revision and B# meaning",
+        "Approval/Source hash",
+        "Posted AR/GL where relevant"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "DESIGN_AND_APPMAP_ONLY",
+      "bounded_evidence": "No source-to-target line event and amount join certified yet.",
+      "missing_data_policy": "Empty P4210 UI field ≠ missing JDE source; unknown ≠ zero.",
+      "human_handoff": "Originating sales/billing person confirms SO line, document type, revision, SN/SP relationship, delivered amount, approval, invoice-posting readiness.",
+      "next_read_only_scan": "Check actual SO/SN Define Relation source and target lines; follow destination invoice AR posted GL and related WO/PO as appropriate."
+    },
+    {
+      "id": "NERVE-42",
+      "source_node": "so",
+      "target_node": "collecting",
+      "handed_data": "SO→SN relation",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210/W4210E/PTK0069",
+      "target_application": "P4210 Define Relation SO→SN/SP",
+      "required_source_fields": [
+        "Company",
+        "Order Type",
+        "Order Number",
+        "Line Number",
+        "Item",
+        "Quantity",
+        "Effective Date",
+        "Last/Next Status"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "Source Doc/Line",
+        "Target Doc/Line",
+        "Quantity",
+        "Amount",
+        "Posting Date",
+        "Approver"
+      ],
+      "join_key_contract": "Use same Company+Doc Type+Document+Source Line, receiver Line and relationship version; never infer from Document Number or Customer name only.",
+      "acceptance_contract": [
+        "Exact source-to-receiver Line Mapping",
+        "Event date and status progression",
+        "Qty/UOM/Amount balancing",
+        "Relation revision and B# meaning",
+        "Approval/Source hash",
+        "Posted AR/GL where relevant"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "BOUNDED_SO_SN_DOCUMENT_REFERENCE_101",
+      "evidence_scope": "P4210_BOUND_2164_LINES_2026_10_23",
+      "bounded_evidence": "101 SO source lines with Original Or Type SN, 101/101 company+SN document key exists in bounded SN set. Line/amount/GL not certified.",
+      "missing_data_policy": "Empty P4210 UI field ≠ missing JDE source; unknown ≠ zero.",
+      "human_handoff": "Originating sales/billing person confirms SO line, document type, revision, SN/SP relationship, delivered amount, approval, invoice-posting readiness.",
+      "next_read_only_scan": "Check actual SO/SN Define Relation source and target lines; follow destination invoice AR posted GL and related WO/PO as appropriate."
+    },
+    {
+      "id": "NERVE-43",
+      "source_node": "delivery",
+      "target_node": "collecting",
+      "handed_data": "Accepted POD/Copy",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210/POD",
+      "target_application": "P4210 Define Relation SO→SN/SP",
+      "required_source_fields": [
+        "Company",
+        "Order Type",
+        "Order Number",
+        "Line Number",
+        "Item",
+        "Quantity",
+        "Effective Date",
+        "Last/Next Status"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "Source Doc/Line",
+        "Target Doc/Line",
+        "Quantity",
+        "Amount",
+        "Posting Date",
+        "Approver"
+      ],
+      "join_key_contract": "Use same Company+Doc Type+Document+Source Line, receiver Line and relationship version; never infer from Document Number or Customer name only.",
+      "acceptance_contract": [
+        "Exact source-to-receiver Line Mapping",
+        "Event date and status progression",
+        "Qty/UOM/Amount balancing",
+        "Relation revision and B# meaning",
+        "Approval/Source hash",
+        "Posted AR/GL where relevant"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "DESIGN_AND_APPMAP_ONLY",
+      "bounded_evidence": "No source-to-target line event and amount join certified yet.",
+      "missing_data_policy": "Empty P4210 UI field ≠ missing JDE source; unknown ≠ zero.",
+      "human_handoff": "Originating sales/billing person confirms SO line, document type, revision, SN/SP relationship, delivered amount, approval, invoice-posting readiness.",
+      "next_read_only_scan": "Check actual SO/SN Define Relation source and target lines; follow destination invoice AR posted GL and related WO/PO as appropriate."
+    },
+    {
+      "id": "NERVE-44",
+      "source_node": "collecting",
+      "target_node": "invoice",
+      "handed_data": "SN/SP→Bill",
+      "direction": "branch",
+      "priority": "P0",
+      "source_application": "P4210 Define Relation SO→SN/SP",
+      "target_application": "P03B11/AR",
+      "required_source_fields": [
+        "Company",
+        "Order Type",
+        "Order Number",
+        "Line Number",
+        "Item",
+        "Quantity",
+        "Effective Date",
+        "Last/Next Status"
+      ],
+      "required_receiver_fields": [
+        "Company",
+        "Source Doc/Line",
+        "Target Doc/Line",
+        "Quantity",
+        "Amount",
+        "Posting Date",
+        "Approver"
+      ],
+      "join_key_contract": "Use same Company+Doc Type+Document+Source Line, receiver Line and relationship version; never infer from Document Number or Customer name only.",
+      "acceptance_contract": [
+        "Exact source-to-receiver Line Mapping",
+        "Event date and status progression",
+        "Qty/UOM/Amount balancing",
+        "Relation revision and B# meaning",
+        "Approval/Source hash",
+        "Posted AR/GL where relevant"
+      ],
+      "live_transaction_certified": false,
+      "record_count_certified": null,
+      "verification_class": "NOT_YET_LINEAGE_VERIFIED",
+      "evidence_scope": "DESIGN_AND_APPMAP_ONLY",
+      "bounded_evidence": "No source-to-target line event and amount join certified yet.",
+      "missing_data_policy": "Empty P4210 UI field ≠ missing JDE source; unknown ≠ zero.",
+      "human_handoff": "Originating sales/billing person confirms SO line, document type, revision, SN/SP relationship, delivered amount, approval, invoice-posting readiness.",
+      "next_read_only_scan": "Check actual SO/SN Define Relation source and target lines; follow destination invoice AR posted GL and related WO/PO as appropriate."
     }
-  ]
+  ],
+  "as_of": "2026-10-23"
 }
