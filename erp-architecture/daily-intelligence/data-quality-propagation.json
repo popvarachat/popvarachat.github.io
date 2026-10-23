@@ -455,6 +455,23 @@
       "doc": "cost",
       "metric": "",
       "priority": "P0"
+    },
+    {
+      "id": "collecting",
+      "x": 3940,
+      "y": 455,
+      "stage": "fulfillment",
+      "title": "SN/SP Collecting Order",
+      "owner": "Sales Admin / Billing",
+      "app": "P4210 + Define Relation by Item/Line (SD-SSS-001)",
+      "grade": "gap",
+      "problem": "P4210 read-only 2,164 lines found 101 SO lines pointing to SN document keys (all 101 Company+Document matched), but Define Relation Line/Amount/B# and posted invoice proof incomplete",
+      "impact": "Mis-linked or incomplete SO→SN relation risks incorrect billed item/amount, AR, GL and order closure",
+      "gate": "SO company/type/doc/line ↔ SN company/doc/line mapping; sum allocated quantities/amounts, customer acceptance, B# reason, signed billing readiness and invoice doc audit",
+      "behavior": "Before generating SN/SP, review the actual originating SO lines and approved sales/delivery amounts; do not treat collecting-order creation as invoice posted or cash received",
+      "doc": "workflow",
+      "metric": "101 SO lines with SN-document references within 700 bounded SO lines; line-to-line mapping not certified",
+      "priority": "P0"
     }
   ],
   "edges": [
@@ -691,6 +708,38 @@
       "b": "transfer",
       "l": "Handoff",
       "kind": "branch"
+    },
+    {
+      "a": "so",
+      "b": "wo",
+      "l": "Manufacturing branch",
+      "kind": "branch"
+    },
+    {
+      "a": "so",
+      "b": "po",
+      "l": "Purchased branch",
+      "kind": "branch"
+    },
+    {
+      "a": "so",
+      "b": "collecting",
+      "l": "SO→SN relation",
+      "kind": "branch"
+    },
+    {
+      "a": "delivery",
+      "b": "collecting",
+      "l": "Accepted POD/Copy",
+      "kind": "branch"
+    },
+    {
+      "a": "collecting",
+      "b": "invoice",
+      "l": "SN/SP→Bill",
+      "kind": "branch"
     }
-  ]
+  ],
+  "as_of": "2026-10-23",
+  "lineage_scope_note": "26 modeled steps and 44 relations, not factory-complete ERP table/link census. P4210 2164 bounded Document Lines/81 UI fields, SN relation 101 SO document refs; no full line-to-line or GL proof."
 }
