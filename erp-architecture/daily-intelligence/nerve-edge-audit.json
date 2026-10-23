@@ -1,7 +1,7 @@
 {
   "schema": "practika-erp-nerve-edge-audit-v1",
   "created_on": "2026-10-23",
-  "scope": "26 modeled steps, 44 edges, NOT entire ERP interface population",
+  "scope": "26 modeled steps and 44 handoffs; not entire ERP; 8,764 bounded live P4210 lines of which SO/SN 4,000 each still capped; 924/925 SO SN document-key matches, no line-to-line or financial certification.",
   "source_snapshot": "2026-10-18",
   "collector_2026_10_23": "CDP ECONNREFUSED 127.0.0.1:9222 / no authenticated live scan",
   "total_edges": 44,
@@ -12,7 +12,7 @@
     "SEPARATE_SAMPLES_NOT_LINE_JOINED": 2,
     "STATE_SAMPLE_NOT_TRANSITION_CERTIFIED": 1,
     "CASE_EXCEPTION_PARTIAL": 1,
-    "BOUNDED_SO_SN_DOCUMENT_REFERENCE_101": 1
+    "BOUNDED_SO_SN_DOCUMENT_REFERENCE_924_OF_925": 1
   },
   "note": "Model edge counts, not actual defect prevalence. Event and human causes cannot be imputed from missing analytic rows.",
   "edges": [
@@ -1710,9 +1710,9 @@
       ],
       "live_transaction_certified": false,
       "record_count_certified": null,
-      "verification_class": "BOUNDED_SO_SN_DOCUMENT_REFERENCE_101",
-      "evidence_scope": "P4210_BOUND_2164_LINES_2026_10_23",
-      "bounded_evidence": "101 SO source lines with Original Or Type SN, 101/101 company+SN document key exists in bounded SN set. Line/amount/GL not certified.",
+      "verification_class": "BOUNDED_SO_SN_DOCUMENT_REFERENCE_924_OF_925",
+      "evidence_scope": "P4210_SIX_TYPES_8764_BOUNDED_20261023",
+      "bounded_evidence": "Authenticated P4210 8,764 deduplicated lines; 925 SO lines Original Or Type SN; 924/925 SN doc-number+type+company matches in bounded SN source; remaining 1 not found under page cap. No source/receiver line, amount, event, AR/GL proof.",
       "missing_data_policy": "Empty P4210 UI field ≠ missing JDE source; unknown ≠ zero.",
       "human_handoff": "Originating sales/billing person confirms SO line, document type, revision, SN/SP relationship, delivered amount, approval, invoice-posting readiness.",
       "next_read_only_scan": "Check actual SO/SN Define Relation source and target lines; follow destination invoice AR posted GL and related WO/PO as appropriate."
