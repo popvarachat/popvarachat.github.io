@@ -1,0 +1,117 @@
+{
+  "schema": "practika-nerve-data-pool-aggregate-v1",
+  "source_snapshot": "2026-10-18",
+  "scanned_at_utc": "2026-10-23T04:01:42+00:00",
+  "complete_factory": false,
+  "data_quality_disclaimer": "Analytics extract field blanks are not ERP source absence or employee errors; PR-no-PO fields may be legitimately empty",
+  "domains": {
+    "wip": {
+      "rows": 2383,
+      "reported_count": 2383,
+      "source_date": "2026-10-18",
+      "fields": {
+        "cutting": {
+          "present": 2383,
+          "missing": 0
+        },
+        "wo": {
+          "present": 2383,
+          "missing": 0
+        },
+        "project": {
+          "present": 2383,
+          "missing": 0
+        },
+        "owner": {
+          "present": 0,
+          "missing": 2383
+        },
+        "department": {
+          "present": 2383,
+          "missing": 0
+        },
+        "due": {
+          "present": 2381,
+          "missing": 2
+        }
+      },
+      "unique_cutting": 2383,
+      "cutting_duplicate_count": 0
+    },
+    "purchase": {
+      "rows": 44,
+      "reported_count": 44,
+      "source_date": "2026-10-21",
+      "fields": {
+        "due": {
+          "present": 44,
+          "missing": 0
+        },
+        "project": {
+          "present": 44,
+          "missing": 0
+        },
+        "supplier": {
+          "present": 9,
+          "missing": 35
+        },
+        "item": {
+          "present": 44,
+          "missing": 0
+        },
+        "qty_open": {
+          "present": 14,
+          "missing": 30
+        },
+        "amount_open": {
+          "present": 14,
+          "missing": 30
+        },
+        "approval_route": {
+          "present": 14,
+          "missing": 30
+        },
+        "owner": {
+          "present": 9,
+          "missing": 35
+        }
+      },
+      "unique_cutting": null,
+      "cutting_duplicate_count": null
+    },
+    "receipt": {
+      "rows": 43,
+      "reported_count": 43,
+      "source_date": "2026-10-19",
+      "fields": {
+        "due": {
+          "present": 43,
+          "missing": 0
+        },
+        "item": {
+          "present": 43,
+          "missing": 0
+        },
+        "supplier": {
+          "present": 43,
+          "missing": 0
+        },
+        "receipt_doc": {
+          "present": 43,
+          "missing": 0
+        },
+        "owner": {
+          "present": 0,
+          "missing": 43
+        },
+        "receipt_branch": {
+          "present": 43,
+          "missing": 0
+        }
+      },
+      "unique_cutting": null,
+      "cutting_duplicate_count": null
+    }
+  },
+  "exception_field_pairs": 8
+}
