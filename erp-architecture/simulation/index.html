@@ -1,0 +1,306 @@
+<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>PRACTIKA ERP | Discrete-Event Simulation Engine</title>
+<style>
+:root{--bg:#f5f7f5;--ink:#1f3232;--muted:#697a79;--green:#206b59;--mint:#ecf6ef;--amber:#a36f29;--line:#dfe7e3;--surface:#fff;--red:#aa564d;--navy:#1c343d;--blue:#496d96;--shadow:0 6px 26px rgba(20,51,47,.055)}
+*{box-sizing:border-box}html,body{margin:0;background:var(--bg);color:var(--ink);font:13px/1.45 system-ui,"Segoe UI",Arial,sans-serif}button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible,.n:focus-visible{outline:3px solid #86b9a7;outline-offset:2px}button:disabled{opacity:.4;cursor:not-allowed}
+header{padding:18px 24px;background:var(--navy);color:#fff;display:flex;justify-content:space-between;gap:18px;align-items:center;flex-wrap:wrap}header h1{margin:4px 0;font-size:clamp(23px,2.2vw,32px);line-height:1.13}header p{margin:5px 0 0;color:#c8d9d4;max-width:1000px;font-size:12px}.eyebrow{font-size:10px;letter-spacing:.2em;color:#9ed9be;font-weight:800}.ribbon{border:1px solid #64877e;border-radius:999px;padding:7px 12px;font-size:11px;color:#dceee5;white-space:nowrap}
+.layout{padding:14px 16px 25px;max-width:2000px;margin:auto}.controls{background:var(--surface);border:1px solid var(--line);border-radius:13px;padding:12px;box-shadow:var(--shadow);display:grid;grid-template-columns:repeat(9,minmax(100px,1fr));gap:10px;align-items:end}.control{display:grid;gap:5px;min-width:0}.control label{color:var(--muted);font-size:10px;font-weight:800}.control input,.control select{width:100%;height:34px;border:1px solid #d6e1dc;border-radius:7px;background:white;color:var(--ink);padding:0 8px}.control input[type=range]{padding:0;height:28px}.control label output{color:var(--green)}.actionrow{display:flex;gap:7px;flex-wrap:wrap;align-items:center;padding:12px 0}.btn{background:#fff;border:1px solid #d8e2dd;color:#395950;padding:8px 12px;border-radius:8px;font-weight:750;font-size:12px}.btn.primary{background:var(--green);border-color:var(--green);color:white}.btn.warm{background:#fff9ef;color:#916529;border-color:#ead8bb}.actionrow .notice{margin-left:auto;color:#74857e;font-size:11px}.pill{border-radius:99px;padding:3px 7px;background:#edf2ee;color:#547469;font-size:10px;font-weight:700}
+.kpis{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:8px}.kpi{background:#fff;border:1px solid var(--line);box-shadow:var(--shadow);border-radius:11px;padding:13px 13px 10px;min-width:0}.kpi small{color:#72817b;display:block;font-size:10px}.kpi strong{display:block;font-size:clamp(17px,1.8vw,25px);font-variant-numeric:tabular-nums;letter-spacing:-.025em;margin-top:5px}.kpi strong.risk{color:var(--red)}.kpi span{display:block;color:#9aa8a0;font-size:10px;margin-top:3px}
+.main{display:grid;grid-template-columns:minmax(0,1.9fr) minmax(292px,.61fr);gap:10px;margin-top:11px}.panel{background:white;border:1px solid var(--line);border-radius:12px;overflow:hidden;box-shadow:var(--shadow);min-width:0}.panel-head{display:flex;justify-content:space-between;align-items:center;gap:9px;padding:11px 13px;border-bottom:1px solid #e8eeea}.panel-head h2{font-size:13px;margin:0}.panel-head small{color:var(--muted);font-size:10px}.maptools{display:flex;gap:5px;align-items:center}.minibtn{border-radius:6px;background:#f5f9f7;border:1px solid #e2ebe5;padding:4px 8px;font-size:11px;font-weight:800;color:#527464}.zones{padding:7px 10px;display:flex;gap:6px;flex-wrap:wrap;border-bottom:1px solid #e9eee9}.zones button{border:1px solid #dce8e0;background:#f7fbf8;color:#486e5c;padding:5px 9px;border-radius:7px;font-size:10px;font-weight:750}
+.canvas{height:545px;background-color:#f8faf8;background-image:radial-gradient(#dbe5dc 1px,transparent 1px);background-size:18px 18px;position:relative;overflow:hidden;cursor:grab;touch-action:none}.canvas.panning{cursor:grabbing}.world{width:1900px;height:910px;position:absolute;left:0;top:0;transform-origin:0 0}.zoneshade{position:absolute;border:1px dashed #dbe6dd;border-radius:16px;background:rgba(255,255,255,.26);pointer-events:none}.zoneshade i{position:absolute;top:7px;left:12px;font-size:11px;font-style:normal;letter-spacing:.1em;color:#a6b5ad;font-weight:800}.wires{width:1900px;height:910px;position:absolute;z-index:1;inset:0;overflow:visible}.wire{fill:none;stroke:#b6c7bd;stroke-width:2.6;opacity:.72}.wire.lit{stroke:var(--green);stroke-width:3.8;opacity:1}.wire.unusual{stroke-dasharray:7 6}.n{--tone:#426d91;position:absolute;z-index:2;width:188px;height:90px;border:1px solid #dee7df;border-left:5px solid var(--tone);background:white;border-radius:10px;padding:8px 10px;text-align:left;box-shadow:0 3px 12px rgba(30,53,38,.08);overflow:hidden}.n b{font-size:12px;display:block;white-space:nowrap;text-overflow:ellipsis;overflow:hidden;margin:4px 0}.n .nodecap{display:block;color:#6e8078;font-size:10px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}.n .nhead{font-size:10px;color:var(--tone);font-weight:800}.n .count{float:right;padding:2px 6px;background:#edf3ee;border-radius:6px;font-variant-numeric:tabular-nums;color:#446b5a}.n.active{background:#edfbf4;border-color:#b5d9c2;box-shadow:0 0 0 3px rgba(30,112,77,.11)}.n.selected{outline:4px solid #dbb777;outline-offset:2px;z-index:4}.n:not(.active){opacity:.88}
+.panel-foot{padding:8px 12px;display:flex;justify-content:space-between;font-size:10px;color:#7b8c83;border-top:1px solid #ecf1ed}.inspector{min-height:0}.inspectbody{padding:14px;height:627px;overflow:auto}.inspectbody h3{font-size:19px;margin:4px 0 9px}.inspectbody p{color:#6a7c73;margin:0 0 13px;font-size:12px}.smallcap{font-weight:800;text-transform:uppercase;letter-spacing:.09em;font-size:10px;color:#9aaba0}.kv{display:grid;grid-template-columns:95px 1fr;gap:8px;font-size:12px}.kv dt{color:#87948e}.kv dd{margin:0;word-break:break-word;font-weight:650}.datachip{background:#f5f9f6;border:1px solid #e2ebe5;padding:9px 10px;margin-top:8px;border-radius:8px;white-space:pre-wrap;font-size:11px}.advice{border-left:3px solid #b9975f;background:#fffbf4;padding:10px;color:#8f7445;font-size:11px;line-height:1.55;margin-top:12px}
+.dashboard{display:grid;grid-template-columns:1.2fr .85fr 1fr;gap:10px;margin-top:10px}.plot{padding:13px}.plot h3{margin:0 0 3px;font-size:12px}.plot small{font-size:10px;color:#85938d}.chart{width:100%;height:210px;display:block}.barrow{display:grid;grid-template-columns:90px 1fr 48px;gap:8px;align-items:center;margin:9px 0;font-size:10px}.track{background:#f0f5f1;height:9px;border-radius:99px;overflow:hidden}.fill{height:100%;border-radius:99px;background:#5c9980}.barrow:first-of-type .fill{background:#ba915d}.compact{font-size:10px;color:#72837b}.trace{margin-top:10px}.tracebody{padding:12px;display:grid;grid-template-columns:minmax(210px,.30fr) 1fr;gap:12px}.trace-tools{display:grid;gap:8px;align-content:start}.trace-tools select,.trace-tools input{width:100%;border:1px solid var(--line);border-radius:7px;padding:8px;background:#fff}.eventpane{border:1px solid var(--line);border-radius:8px;height:230px;overflow:auto}.eventrow{display:grid;grid-template-columns:75px 90px 1fr 145px;gap:9px;align-items:start;padding:8px 10px;border-bottom:1px solid #edf1ee;font-size:11px}.eventrow code{font-size:10px;color:#458066}.eventrow em{font-size:10px;color:#768980;font-style:normal}.fineprint{padding:13px 3px 0;color:#718079;font-size:11px}.fineprint b{color:#a26d2d}.compare{padding:10px 12px;border:1px solid #dce8df;background:#f5fbf6;border-radius:9px;margin:0 0 10px;display:none;font-size:11px}.compare.visible{display:block}.compare table{width:100%;border-collapse:collapse}.compare th,.compare td{padding:4px 7px;text-align:right;border-bottom:1px solid #dfe9e1}.compare th:first-child,.compare td:first-child{text-align:left}
+@media(max-width:1400px){.controls{grid-template-columns:repeat(5,minmax(120px,1fr))}.kpis{grid-template-columns:repeat(4,1fr)}.main{grid-template-columns:minmax(0,1.6fr) minmax(270px,.7fr)}.dashboard{grid-template-columns:1fr 1fr}.dashboard>.panel:last-child{grid-column:1/-1}}
+@media(max-width:900px){.main{grid-template-columns:1fr}.inspectbody{height:260px}.canvas{height:450px}.dashboard{grid-template-columns:1fr}.dashboard>.panel:last-child{grid-column:auto}.tracebody{grid-template-columns:1fr}.eventrow{grid-template-columns:58px 65px 1fr}.eventrow em{display:none}.actionrow .notice{width:100%;margin-left:0}}
+@media(max-width:580px){header{padding:15px}.layout{padding:10px}.controls{grid-template-columns:repeat(2,minmax(0,1fr))}.controls .control:first-child{grid-column:1/-1}.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.kpi{padding:10px}.canvas{height:390px}.inspectbody{height:270px}.eventpane{height:220px}}
+</style></head><body>
+<header><div><div class="eyebrow">PRACTIKA · ERP WORKFLOW & ARCHITECTURE DEEP DIVE</div><h1>ERP Digital Twin · Simulation Engine</h1><p>ทดลองการไหลของหลาย Order พร้อมกัน ตั้งแต่ CRM → SO → WO / PO → QC → Delivery → AR/Cash/GL พร้อมคิว กำลังการผลิต ต้นทุน และ Bottleneck</p></div><span class="ribbon">SYNTHETIC WHAT-IF · ไม่เชื่อม ERP จริง</span></header>
+<main class="layout">
+<section class="controls" aria-label="Simulation configuration">
+<div class="control"><label for="preset">รูปแบบสถานการณ์</label><select id="preset"><option value="normal">Baseline · ปกติ</option><option value="surge">Demand Surge · ยอดงานเพิ่ม</option><option value="supplier">Supplier Delay · ของเข้าช้า</option><option value="qc">QC Crisis · Reject สูง</option><option value="capacity">Capacity Squeeze · กำลังลด</option><option value="cash">Cash Delay · เก็บเงินช้า</option><option value="combined">Combined Stress · หลายปัญหา</option></select></div>
+<div class="control"><label for="orders">จำนวน Order <output id="ordersVal">100</output></label><input type="range" id="orders" min="20" max="240" step="10" value="100"></div>
+<div class="control"><label for="makeShare">ผลิตเอง % <output id="makeShareVal">70%</output></label><input type="range" id="makeShare" min="0" max="100" step="5" value="70"></div>
+<div class="control"><label for="capacity">กำลังผลิต % <output id="capacityVal">100%</output></label><input type="range" id="capacity" min="30" max="150" step="5" value="100"></div>
+<div class="control"><label for="supplierLead">Supplier LT <output id="supplierLeadVal">9 วัน</output></label><input type="range" id="supplierLead" min="2" max="45" step="1" value="9"></div>
+<div class="control"><label for="qualityDefect">QC Reject % <output id="qualityDefectVal">8%</output></label><input type="range" id="qualityDefect" min="0" max="50" step="1" value="8"></div>
+<div class="control"><label for="materialShort">Material Short % <output id="materialShortVal">24%</output></label><input type="range" id="materialShort" min="0" max="60" step="2" value="24"></div>
+<div class="control"><label for="terms">AR Terms <output id="termsVal">30 วัน</output></label><input type="range" id="terms" min="0" max="90" step="5" value="30"></div>
+<div class="control"><label for="paymentSuccess">เก็บเงินสำเร็จ % <output id="paymentSuccessVal">82%</output></label><input type="range" id="paymentSuccess" min="20" max="100" step="2" value="82"></div>
+</section>
+<div class="actionrow"><button class="btn primary" id="run">▶ Run Simulation</button><button class="btn" id="play">▶ Play Timeline</button><button class="btn" id="step">ถัดไป 1 วัน</button><button class="btn" id="end">ไปวันสุดท้าย</button><button class="btn" id="compareBtn">A/B Compare</button><button class="btn warm" id="export">Export JSON / Event Log</button><button class="btn" id="exportCsv">CSV</button><span class="notice">Seed <b id="seedDisplay">20261025</b> · Horizon 150 วัน · ไม่มี Save/Post/UBE</span></div>
+<div class="compare" id="compare" aria-live="polite"></div>
+<section class="kpis">
+<div class="kpi"><small>เวลาจำลอง</small><strong id="kDay">D+0</strong><span>ของ 150 วัน</span></div>
+<div class="kpi"><small>Order ที่เกิด</small><strong id="kOrders">0</strong><span>จำนวนงานใหม่</span></div>
+<div class="kpi"><small>ส่งมอบแล้ว</small><strong id="kDelivery">0</strong><span>Order / POD</span></div>
+<div class="kpi"><small>On-Time Delivery</small><strong id="kOtd">—</strong><span>เฉพาะงานที่ส่งแล้ว</span></div>
+<div class="kpi"><small>Open AR</small><strong class="risk" id="kAr">฿0</strong><span>Invoice - Cash Applied</span></div>
+<div class="kpi"><small>SO → Delivery LT</small><strong id="kLt">—</strong><span>วันเฉลี่ย</span></div>
+<div class="kpi"><small>งานปิดครบ</small><strong id="kClosed">0</strong><span>ส่งครบ + เก็บเงินครบ</span></div>
+</section>
+<section class="main">
+<div class="panel"><div class="panel-head"><div><h2>Dynamic Data & Workflow Map</h2><small>คลิก Node ตรวจ Data Contract · ลากเพื่อเลื่อน · หมุนล้อเพื่อ Zoom</small></div><div class="maptools"><button class="minibtn" id="fit">Fit</button><button class="minibtn" id="zoomIn">＋</button><button class="minibtn" id="zoomOut">−</button></div></div>
+<div class="zones"><button data-zone="Demand">Demand / CRM</button><button data-zone="Manufacture">Production</button><button data-zone="Material">Supply / QC</button><button data-zone="Finance">Finance / GL</button><button data-zone="Fulfillment">Delivery / AR</button><span class="pill" id="activeNodeLabel">ยังไม่เลือก Node</span></div>
+<div id="viewport" class="canvas"><div id="world" class="world"><div class="zoneshade" style="left:16px;top:36px;width:908px;height:157px"><i>DEMAND / CREDIT</i></div><div class="zoneshade" style="left:690px;top:234px;width:916px;height:153px"><i>SUPPLIER / QC / RECEIVING</i></div><div class="zoneshade" style="left:1374px;top:443px;width:478px;height:382px"><i>FACTORY / QUALITY</i></div><div class="zoneshade" style="left:14px;top:448px;width:1335px;height:395px"><i>COST · AP · AR · COLLECTION · DELIVERY</i></div><svg id="wires" class="wires" viewBox="0 0 1900 910" aria-hidden="true"></svg><div id="nodes"></div></div></div>
+<div class="panel-foot"><span id="mapStatus">ยังไม่มี Event</span><span>ทุก Key และ Journal ที่แสดงเป็น SIM-* เท่านั้น</span></div></div>
+<aside class="panel inspector"><div class="panel-head"><h2>DNA Node Inspector</h2><small>Source → Receiver</small></div><div class="inspectbody" id="inspector"></div></aside>
+</section>
+<section class="dashboard">
+<div class="panel plot"><h3>Order Flow / Delivery Throughput</h3><small>กราฟจำนวน Order สะสมที่เริ่มต้นและส่งมอบแล้ว</small><svg id="flowChart" class="chart" viewBox="0 0 500 205" role="img" aria-label="Cumulative orders and deliveries"></svg></div>
+<div class="panel plot"><h3>AR และ Cash Collection</h3><small>ยอดสะสมของ Invoice, Cash และ Open AR · ล้านบาท</small><svg id="cashChart" class="chart" viewBox="0 0 500 205" role="img" aria-label="Cumulative invoice, cash, and AR"></svg></div>
+<div class="panel plot"><h3>Bottleneck Ranking</h3><small>คิวรอเฉลี่ยของ Resource ที่เกิดจาก Finite Capacity</small><div id="bottlenecks"></div></div>
+</section>
+<section class="panel trace"><div class="panel-head"><h2>Simulation Event Ledger / Order Trace</h2><small>Event Time (D+) คือเวลาในแบบจำลอง ไม่ใช่ Timestamp จาก JD Edwards</small></div><div class="tracebody"><div class="trace-tools"><label for="timeSlider">Replay วันจำลอง <b id="dayControl">0</b></label><input type="range" id="timeSlider" min="0" max="150" step="1" value="0"><label for="orderFilter">ติดตาม Order ID</label><select id="orderFilter"><option value="">ทุก Order</option></select><label for="eventFilter">Filter ประเภท Event</label><select id="eventFilter"><option value="">ทุก Event</option><option value="HOLD">HOLD</option><option value="QUEUE">QUEUE</option><option value="POD">POD</option><option value="POSTED_SIM">POSTED (SIM)</option><option value="APPLIED_SIM">CASH APPLIED</option></select><small class="compact" id="traceStat"></small><button class="btn" id="inspectOrder">ดู Order DNA ทั้งเส้นทาง</button></div><div id="events" class="eventpane" aria-live="polite"></div></div></section>
+<div class="fineprint"><b>สำคัญ:</b> ระบบนี้เป็น Discrete-Event What-if Simulation แบบ Offline ที่รันอัลกอริทึมจริง มี Queue, Work Center Capacity, Supplier LT, QC, AR, GL และตัวสุ่มที่ใช้ Seed ทำซ้ำได้ แต่ **ไม่มีการดึง JDE/CRM จริง** ค่าเวลา ต้นทุน สัดส่วนและภาษีเป็นสมมติฐานทั้งหมด จึงไม่ใช่ ERP DNA ที่รับรอง 100% · Trace ไม่มี Customer/PO/GL จริง</div>
+</main>
+<script>/* PRACTIKA ERP simulation engine v3 — entirely synthetic deterministic discrete-event model.
+   Copyright-free project-specific educational model, no JDE/CRM/network/API calls. */
+(function(global){'use strict';
+const DEFAULTS={seed:20261025,orders:100,horizon:150,arrivalWindow:55,makeShare:70,supplierLead:9,materialShort:24,qualityDefect:8,creditHold:4,capacity:100,terms:30,paymentSuccess:82,partialDeliveries:13,pricePerUnit:5800};
+const PRESETS={normal:{},surge:{orders:165,arrivalWindow:42},supplier:{supplierLead:26,materialShort:43},qc:{qualityDefect:29},capacity:{capacity:55},cash:{terms:60,paymentSuccess:52},combined:{orders:155,arrivalWindow:42,capacity:65,supplierLead:19,qualityDefect:18,paymentSuccess:58}};
+const NODES=[
+{id:'crm',label:'ลูกค้า / CRM',app:'CRM',team:'Sales',x:40,y:90,zone:'Demand',caption:'Opportunity'},
+{id:'quote',label:'Quotation / BOQ',app:'CRM / Quotation',team:'Sales',x:265,y:90,zone:'Demand',caption:'ราคาและอนุมัติ'},
+{id:'so',label:'Sales Order SO/SE',app:'P4210',team:'Sales Admin',x:490,y:90,zone:'Demand',caption:'Company · Doc · Line'},
+{id:'credit',label:'Credit / Policy Gate',app:'AR / Credit',team:'Finance',x:715,y:90,zone:'Demand',caption:'Release / HOLD'},
+{id:'plan',label:'WO / Planning',app:'P48013',team:'PDD',x:950,y:90,zone:'Manufacture',caption:'กำหนดแผน / WO'},
+{id:'bom',label:'BOM / Routing',app:'P3121 / P3003',team:'PDD',x:1180,y:90,zone:'Manufacture',caption:'Parts · Operation'},
+{id:'stock',label:'Material / Stock',app:'P4111',team:'SCD',x:1405,y:90,zone:'Material',caption:'Ready / Short'},
+{id:'purchase',label:'PR / PO',app:'P4310 / P4338',team:'Purchasing',x:1405,y:292,zone:'Material',caption:'Supplier Commitment'},
+{id:'supplier',label:'Supplier / Transit',app:'External',team:'Supplier',x:1180,y:292,zone:'Material',caption:'Lead Time'},
+{id:'receipt',label:'Receipt',app:'P4312 / P55432A4',team:'Warehouse',x:950,y:292,zone:'Material',caption:'Doc · PO Line'},
+{id:'iqc',label:'Incoming QC',app:'P3711 / P4108',team:'QC',x:715,y:292,zone:'Material',caption:'PASS / HOLD'},
+{id:'ap',label:'AP Voucher',app:'P0411',team:'Accounting',x:950,y:504,zone:'Finance',caption:'Voucher / Tax'},
+{id:'apgl',label:'AP Posted GL',app:'P09200 / F0911',team:'Accounting',x:1180,y:504,zone:'Finance',caption:'Journal · P C'},
+{id:'cut',label:'Cutting',app:'P594801C',team:'Cutting',x:1405,y:504,zone:'Manufacture',caption:'Queue / Material Issue'},
+{id:'machine',label:'Machining / Routing',app:'P5511026 / P31121',team:'Production',x:1640,y:504,zone:'Manufacture',caption:'Work Center'},
+{id:'assembly',label:'Assembly',app:'P31121',team:'Production',x:1640,y:706,zone:'Manufacture',caption:'Operation + Actual'},
+{id:'fqc',label:'Final QC / Rework',app:'P3711',team:'QC',x:1405,y:706,zone:'Manufacture',caption:'PASS / REWORK'},
+{id:'cost',label:'Production Cost',app:'P31022 / V3102A',team:'Costing',x:1180,y:706,zone:'Finance',caption:'DM · DL · OH'},
+{id:'fg',label:'Finished Goods',app:'Inventory',team:'Warehouse',x:950,y:706,zone:'Fulfillment',caption:'Ready To Ship'},
+{id:'delivery',label:'Delivery / POD',app:'Delivery / Install',team:'Delivery',x:715,y:706,zone:'Fulfillment',caption:'Shipped Qty / POD'},
+{id:'sn',label:'SN / SP Relation',app:'P4210',team:'SCD',x:490,y:706,zone:'Fulfillment',caption:'Collecting Document'},
+{id:'invoice',label:'Invoice',app:'Billing / AR',team:'Accounting',x:265,y:706,zone:'Fulfillment',caption:'Gross / VAT'},
+{id:'ar',label:'AR / Aging',app:'P03B2002',team:'Finance',x:40,y:706,zone:'Finance',caption:'Open AR'},
+{id:'cash',label:'Cash Application',app:'P03B720',team:'Treasury',x:40,y:504,zone:'Finance',caption:'Applied Receipt'},
+{id:'bankgl',label:'Bank / GL Match',app:'P09200 / F0911',team:'Accounting',x:265,y:504,zone:'Finance',caption:'Bank Reconcile'},
+{id:'costgl',label:'Cost → GL',app:'P09200',team:'Costing',x:490,y:504,zone:'Finance',caption:'Posting Controls'}
+];
+const LINKS=[['crm','quote'],['quote','so'],['so','credit'],['credit','plan'],['plan','bom'],['bom','stock'],['credit','purchase'],['stock','purchase'],['purchase','supplier'],['supplier','receipt'],['receipt','iqc'],['iqc','stock'],['iqc','fg'],['receipt','ap'],['ap','apgl'],['stock','cut'],['cut','machine'],['machine','assembly'],['assembly','fqc'],['fqc','assembly'],['fqc','fg'],['fqc','cost'],['cost','costgl'],['fg','delivery'],['delivery','sn'],['sn','invoice'],['invoice','ar'],['ar','cash'],['cash','bankgl']];
+const SERVICE={crm:[8,.14],quote:[4,.65],so:[5,.21],credit:[3,.20],plan:[3,.85],purchase:[3,.70],receipt:[3,.9],iqc:[2,.8],cut:[4,1.8],machine:[5,2.9],assembly:[4,2.1],fqc:[3,.9],cost:[3,.7],fg:[4,.26],delivery:[4,1.6],sn:[5,.26],invoice:[4,.50],ar:[4,.22],cash:[4,.4],bankgl:[4,.30],ap:[3,.7],apgl:[4,.36],costgl:[3,.32]};
+function clamp(v,lo,hi){return Math.min(hi,Math.max(lo,v));}
+function config(raw){const c={...DEFAULTS,...raw};for(const k of Object.keys(DEFAULTS))c[k]=Number(c[k]);c.seed=Math.round(c.seed)||20261025;c.orders=clamp(Math.round(c.orders),1,500);c.horizon=clamp(Math.round(c.horizon),30,400);c.arrivalWindow=clamp(c.arrivalWindow,1,c.horizon);for(const p of ['makeShare','materialShort','qualityDefect','creditHold','paymentSuccess','partialDeliveries','capacity'])c[p]=clamp(c[p],p==='capacity'?25:0,p==='capacity'?200:100);c.supplierLead=clamp(c.supplierLead,1,90);c.terms=clamp(c.terms,0,120);c.pricePerUnit=clamp(c.pricePerUnit,100,100000);return c;}
+class RNG{constructor(seed){this.state=seed>>>0;} next(){this.state=(Math.imul(1664525,this.state)+1013904223)>>>0;return this.state/4294967296;} between(a,b){return a+(b-a)*this.next();} yes(percent){return this.next()*100<percent;}}
+class MinHeap{constructor(){this.a=[];}get length(){return this.a.length;}push(x){let a=this.a,i=a.length;a.push(x);while(i>0){const p=(i-1)>>1;if(a[p].t<x.t||(a[p].t===x.t&&a[p].seq<=x.seq))break;a[i]=a[p];i=p;}a[i]=x;}pop(){const a=this.a,first=a[0],tail=a.pop();if(a.length){let i=0;while(i*2+1<a.length){let c=i*2+1;if(c+1<a.length&&(a[c+1].t<a[c].t||(a[c+1].t===a[c].t&&a[c+1].seq<a[c].seq)))c++;if(tail.t<a[c].t||(tail.t===a[c].t&&tail.seq<=a[c].seq))break;a[i]=a[c];i=c;}a[i]=tail;}return first;}}
+function simulate(raw){
+ const c=config(raw),rand=new RNG(c.seed),heap=new MinHeap(),log=[],orders=[],resources={},byNode={},stepDaily=[];let seq=0,now=0;
+ for(const [key,[cap,time]] of Object.entries(SERVICE))resources[key]={key,capacity:Math.max(1,Math.round(cap*c.capacity/100)),baseTime:time,queue:[],busy:0,completed:0,busyDays:0,waitDays:0,maxQueue:0,served:0};
+ function at(t,fn){if(!Number.isFinite(t)||t<now-1e-8)throw Error('Invalid scheduled time');heap.push({t,seq:seq++,fn});}
+ const fmt=(x)=>Math.round(x*100)/100;
+ function emit(o,node,action,status='',extra={}){
+  if(log.length>180000)throw Error('Safety limit: event log too large');
+  const e={id:'SIM-E'+String(log.length+1).padStart(6,'0'),time:fmt(now),orderId:o.id,
+   traceId:o.traceId,node,app:(NODES.find(n=>n.id===node)||{}).app||'Simulation',
+   action,status,company:'SIM-00001',document:'SIM-SO-'+String(o.number).padStart(5,'0'),
+   line:'1.000',item:'SIM-ITEM-'+String((o.number%6)+1).padStart(3,'0'),
+   quantity:o.qty,uom:'EA',amountTHB:fmt(o.net),synthetic:true,...extra};
+  log.push(e);(byNode[node]??=[]).push(e);return e;
+ }
+ function duration(key,o){const base=resources[key].baseTime;let mult=rand.between(.70,1.42);
+  if(key==='cut'||key==='machine'||key==='assembly')mult*=.48+o.qty/31;
+  return Math.max(.045,base*mult);
+ }
+ function station(o,key,next,d=duration(key,o),options={}){
+  const r=resources[key],job={o,key,next,d,requested:now,options};
+  if(r.busy>=r.capacity){r.queue.push(job);r.maxQueue=Math.max(r.maxQueue,r.queue.length);emit(o,key,'QUEUE','WAITING',{queueLength:r.queue.length});}
+  else start(job);
+ }
+ function start(job){
+  const r=resources[job.key];r.busy++;r.served++;r.waitDays+=now-job.requested;
+  emit(job.o,job.key,'START','IN_PROGRESS',{queueDays:fmt(now-job.requested),resource:job.key});
+  const started=now,finish=now+job.d;
+  at(finish,()=>{
+   r.busy--;r.completed++;r.busyDays+=Math.max(0,Math.min(finish,c.horizon)-Math.max(started,0));
+   emit(job.o,job.key,'COMPLETE','DONE',{serviceDays:fmt(job.d)});
+   // Start the oldest queued job on the freed slot before advancing this job.
+   if(r.queue.length)start(r.queue.shift());
+   job.next();
+  });
+ }
+ function branchSupplier(o,onReady){
+  station(o,'purchase',()=>{
+   emit(o,'supplier','REQUEST','IN_TRANSIT',{simulatedLeadDays:c.supplierLead});
+   const eta=now+c.supplierLead*rand.between(.70,1.45);
+   at(eta,()=>{
+    emit(o,'supplier','DELIVER','ARRIVED');
+    station(o,'receipt',()=>{
+     // AP branch is independent; release timing is model policy, not actual JDE rule.
+     station(o,'ap',()=>station(o,'apgl',()=>{o.apPosted=true;emit(o,'apgl','POSTED_SIM','P_SIMULATED',{balanceTHB:fmt(o.supplyCost)});}));
+     inspectIncoming(o,onReady);
+    });
+   });
+  });
+ }
+ function inspectIncoming(o,onReady){station(o,'iqc',()=>{
+  if(rand.yes(c.qualityDefect*.65)){
+   o.incomingHold=true;emit(o,'iqc','HOLD','HOLD');
+   if(rand.yes(70))at(now+rand.between(2,6),()=>{emit(o,'iqc','RELEASE','PASS_AFTER_INSPECTION');onReady();});
+   else {o.blocked='INCOMING_QC';o.stage='iqc';}
+  } else {emit(o,'iqc','PASS','PASS');onReady();}
+ });}
+ function make(o){station(o,'plan',()=>{
+  emit(o,'bom','EXPLODE','BOM_SIM',{bomVersion:'SIM-BOM-001'});
+  emit(o,'stock','CHECK','STOCK_CHECK');
+  if(rand.yes(c.materialShort)){
+   emit(o,'stock','SHORT','REPLENISH');o.procurementNeeded=true;
+   branchSupplier(o,()=>{emit(o,'stock','READY','AVAILABLE');cut(o);});
+  }else{emit(o,'stock','READY','AVAILABLE');cut(o);}
+ });}
+ function cut(o){station(o,'cut',()=>station(o,'machine',()=>station(o,'assembly',()=>finalQC(o))));}
+ function finalQC(o){station(o,'fqc',()=>{
+  if(rand.yes(c.qualityDefect)){
+   o.reworkCount++;emit(o,'fqc','REJECT','REWORK');
+   if(o.reworkCount===1&&rand.yes(78))at(now+rand.between(.5,2.1),()=>station(o,'assembly',()=>{
+    emit(o,'fqc','REINSPECT','REWORK_COMPLETE');finishMake(o);
+   },duration('assembly',o)*.55));
+   else {o.blocked='FINAL_QC';o.stage='fqc';}
+  }else{emit(o,'fqc','PASS','PASS');finishMake(o);}
+ });}
+ function finishMake(o){station(o,'cost',()=>{
+  o.productionCost=fmt(o.net*rand.between(.53,.72));
+  emit(o,'cost','COSTED_SIM','COST_ESTIMATE',{estimatedCostTHB:o.productionCost});
+  station(o,'costgl',()=>{o.costGL=true;emit(o,'costgl','POSTED_SIM','P_SIMULATED');});
+ });fg(o);}
+ function fg(o){station(o,'fg',()=>{
+  o.readyAt=now;
+  station(o,'delivery',()=>{
+   const partial=rand.yes(c.partialDeliveries),deliveredQty=partial?Math.max(1,Math.floor(o.qty*.6)):o.qty;
+   o.deliveredQty=deliveredQty;o.deliveredNet=fmt(deliveredQty*o.unitPrice);o.deliveredAt=now;
+   o.status=partial?'PARTIAL_DELIVERY':'DELIVERED';
+   emit(o,'delivery','POD',o.status,{deliveredQty,deliveredNet:o.deliveredNet,promisedDay:o.promisedDay});
+   station(o,'sn',()=>station(o,'invoice',()=>{
+    o.invoiceGross=fmt(o.deliveredNet*1.07);o.invoiceAt=now;
+    emit(o,'invoice','ISSUED_SIM','OPEN_AR',{invoiceGrossTHB:o.invoiceGross,vatAssumption:'7pct_illustrative'});
+    station(o,'ar',()=>{
+     const due=now+c.terms,oDue=fmt(due);
+     emit(o,'ar','AGED','OPEN',{dueDay:oDue,openAR:o.invoiceGross});
+     const paymentDay=due+rand.between(-1.6,14)*(c.paymentSuccess<60?2.7:1);
+     at(Math.max(now+.02,paymentDay),()=>{
+      if(rand.yes(c.paymentSuccess)){
+       const frac=rand.yes(15)?0.50:1.0;
+       const amt=fmt(o.invoiceGross*frac);
+       station(o,'cash',()=>{
+        o.cashApplied=fmt(o.cashApplied+amt);o.cashAt=now;
+        emit(o,'cash','APPLIED_SIM',frac===1?'FULL':'PARTIAL',{appliedTHB:amt,openAR:fmt(o.invoiceGross-o.cashApplied)});
+        station(o,'bankgl',()=>{o.bankGL=true;emit(o,'bankgl','MATCH_SIM','MATCHED_SIMULATED');});
+       });
+      }else emit(o,'ar','UNPAID','OPEN');
+     });
+    });
+   }));
+  });
+ });}
+ function commence(o){station(o,'crm',()=>station(o,'quote',()=>station(o,'so',()=>station(o,'credit',()=>{
+  if(rand.yes(c.creditHold)){o.blocked='CREDIT';o.stage='credit';emit(o,'credit','HOLD','HOLD');return;}
+  emit(o,'credit','RELEASE','PASS');
+  o.route=o.make?'MAKE':'BUY';
+  if(o.make)make(o);else branchSupplier(o,()=>fg(o));
+ }))));}
+ for(let i=0;i<c.orders;i++){
+  const arrive=rand.between(0,c.arrivalWindow);
+  const qty=Math.max(4,Math.round(rand.between(12,64))),price=Math.round(c.pricePerUnit*rand.between(.55,1.65));
+  const o={id:'SIM-ORD-'+String(i+1).padStart(5,'0'),traceId:'SIM-TRACE-'+String(i+1).padStart(5,'0'),number:i+1,
+   arrival:fmt(arrive),qty,unitPrice:price,net:qty*price,make:rand.yes(c.makeShare),stage:'crm',status:'NEW',
+   promisedDay:fmt(arrive+rand.between(24,39)),deliveredQty:0,deliveredNet:0,invoiceGross:0,cashApplied:0,
+   apPosted:false,bankGL:false,costGL:false,blocked:'',reworkCount:0,procurementNeeded:false,supplyCost:fmt(qty*price*(.66)),
+   deliveredAt:null,invoiceAt:null,cashAt:null,readyAt:null};
+  orders.push(o);at(arrive,()=>{emit(o,'crm','ARRIVE','NEW');commence(o);});
+ }
+ let processed=0;
+ while(heap.length){const e=heap.pop();if(e.t>c.horizon)break;if(++processed>180000)throw Error('Event loop event limit reached');now=e.t;e.fn();}
+ orders.sort((a,b)=>a.number-b.number);
+ const events=log.filter(e=>e.time<=c.horizon),created=orders.filter(o=>o.arrival<=c.horizon),delivered=created.filter(o=>o.deliveredAt!==null&&o.deliveredAt<=c.horizon);
+ const paid=created.filter(o=>o.invoiceGross>0&&o.cashApplied>=o.invoiceGross-.015),fullClosed=created.filter(o=>o.deliveredQty===o.qty&&o.invoiceGross>0&&o.cashApplied>=o.invoiceGross-.015),unbilled=created.reduce((s,o)=>s+o.net-o.deliveredNet,0),invoiced=created.reduce((s,o)=>s+o.invoiceGross,0),applied=created.reduce((s,o)=>s+o.cashApplied,0);
+ const openAR=fmt(invoiced-applied),demand=created.reduce((s,o)=>s+o.net,0),deliveryNet=created.reduce((s,o)=>s+o.deliveredNet,0),holds=created.filter(o=>!!o.blocked),partial=delivered.filter(o=>o.deliveredQty<o.qty),onTime=delivered.filter(o=>o.deliveredAt<=o.promisedDay),lt=delivered.map(o=>o.deliveredAt-o.arrival),average=a=>a.length?fmt(a.reduce((s,x)=>s+x,0)/a.length):null;
+ const stations=Object.values(resources).map(r=>({id:r.key,label:NODES.find(n=>n.id===r.key)?.label||r.key,capacity:r.capacity,completed:r.completed,served:r.served,waitingNow:r.queue.length,maxQueue:r.maxQueue,avgWaitDays:r.served?fmt(r.waitDays/r.served):0,utilizationPct:fmt(100*r.busyDays/(Math.max(1,c.horizon)*r.capacity)),busyAtEnd:r.busy})).sort((a,b)=>b.avgWaitDays-a.avgWaitDays);
+ const weekly=[];
+ for(let st=0;st<c.horizon;st+=7){const en=Math.min(st+7,c.horizon),n=orders.filter(o=>o.deliveredAt!==null&&o.deliveredAt>=st&&o.deliveredAt<en).length;
+  weekly.push({week:Math.floor(st/7)+1,delivered:n,created:orders.filter(o=>o.arrival>=st&&o.arrival<en).length});}
+ const s={seed:c.seed,orderCount:created.length,makeOrders:created.filter(o=>o.make).length,buyOrders:created.filter(o=>!o.make).length,
+  deliveredOrders:delivered.length,fullyClosedOrders:fullClosed.length,fullyPaidInvoices:paid.length,openAR:openAR,
+  invoicedGross:fmt(invoiced),cashApplied:fmt(applied),unbilledNet:fmt(unbilled),deliveredNet:fmt(deliveryNet),demandNet:fmt(demand),
+  qcHolds:holds.filter(o=>o.blocked==='FINAL_QC'||o.blocked==='INCOMING_QC').length,creditHolds:holds.filter(o=>o.blocked==='CREDIT').length,
+  partialOrders:partial.length,onTimePct:delivered.length?fmt(onTime.length/delivered.length*100):null,
+  averageDeliveryLT:average(lt),slaOnTimeDeliveredCount:onTime.length,allDeliveredQty:created.reduce((x,o)=>x+o.deliveredQty,0),
+  allDemandQty:created.reduce((x,o)=>x+o.qty,0),invariants:{revenueNet:fmt(demand-deliveryNet-unbilled),arNet:fmt(invoiced-applied-openAR)},
+  horizonDays:c.horizon,events:events.length};
+ return {schema:'practika_erp_discrete_event_simulation_v3',synthetic:true,sourceSystem:'NONE_OFFLINE_DEMO',currentModelStatus:'WHAT_IF_NOT_ERP_CERTIFIED',settings:c,summary:s,orders,events,stations,weekly,graph:{nodes:NODES,links:LINKS},limitations:['All document keys prefixed SIM; no real customer/vendor/ERP data','All resource, quality, lead time, rate, cost and tax parameters are assumptions','No verified physical DD/BV/F table, timestamp/event chain or actual capacity','Supplier AP posting and cash posting are synthetic only, not JDE transactions','Bank/GL account clearing does not imply cash receipt validity or Finance signoff']};
+}
+const api={DEFAULTS,PRESETS,NODES,LINKS,config,simulate};global.PractikaSim=api;if(typeof module!=='undefined'&&module.exports)module.exports=api;
+})(typeof window!=='undefined'?window:globalThis);
+</script>
+<script>
+(function(){'use strict';
+ const $=id=>document.getElementById(id), money=n=>'฿'+Math.round(n||0).toLocaleString('th-TH'), num=n=>Number(n||0).toLocaleString('th-TH'),safe=s=>String(s??'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+ const params=['orders','makeShare','capacity','supplierLead','qualityDefect','materialShort','terms','paymentSuccess'];
+ let result=null,day=0,played=false,timer=null,selectedNode=null,selectedOrder=null,tx=0,ty=0,scale=1,drag=null,lastComparison=null;
+ function conf(){const c={...PractikaSim.DEFAULTS};params.forEach(p=>c[p]=Number($(p).value));const type=$('preset').value;c.arrivalWindow=PractikaSim.PRESETS[type]?.arrivalWindow??55;c.seed=20261025;return c;}
+ function showLabels(){params.forEach(k=>$(k+'Val').textContent=$(k).value+(['makeShare','capacity','qualityDefect','materialShort','paymentSuccess'].includes(k)?'%':k==='supplierLead'||k==='terms'?' วัน':''));}
+ function preset(){const a={...PractikaSim.DEFAULTS,...PractikaSim.PRESETS[$('preset').value]};params.forEach(k=>$(k).value=a[k]);showLabels();}
+ function buildGraph(){const nodes=$('nodes'),svg=$('wires'),lookup=Object.fromEntries(PractikaSim.NODES.map(n=>[n.id,n]));nodes.innerHTML='';svg.innerHTML='';
+ for(const [a,b] of PractikaSim.LINKS){const s=lookup[a],t=lookup[b],sx=s.x+94,sy=s.y+45,ex=t.x+94,ey=t.y+45,dx=ex-sx,dy=ey-sy;
+  const curved=Math.abs(dx)>170?`M ${sx} ${sy} C ${sx+dx*.48} ${sy}, ${sx+dx*.52} ${ey}, ${ex} ${ey}`:`M ${sx} ${sy} C ${sx} ${sy+dy*.45}, ${ex} ${ey-dy*.45}, ${ex} ${ey}`;
+  const path=document.createElementNS('http://www.w3.org/2000/svg','path');path.setAttribute('d',curved);path.setAttribute('class','wire'+(a==='fqc'&&b==='assembly'?' unusual':''));path.dataset.from=a;path.dataset.to=b;svg.appendChild(path);
+ }
+ for(const n of PractikaSim.NODES){const b=document.createElement('button');b.className='n';b.dataset.node=n.id;b.style.left=n.x+'px';b.style.top=n.y+'px';b.style.setProperty('--tone',n.zone==='Finance'?'#9a8057':n.zone==='Material'?'#527d9d':n.zone==='Manufacture'?'#6a6295':n.zone==='Demand'?'#328168':'#506b8d');b.innerHTML=`<span class="nhead">${safe(n.app)}</span><span class="count" id="badge_${n.id}">0</span><b>${safe(n.label)}</b><span class="nodecap">${safe(n.caption)}</span>`;b.onclick=()=>{selectedNode=n.id;updateGraph();inspectNode(n.id);};nodes.appendChild(b);}
+ }
+ function viewport(){const el=$('viewport');$('world').style.transform=`translate(${tx}px,${ty}px) scale(${scale})`;}
+ function fit(){const v=$('viewport');scale=Math.min((v.clientWidth-20)/1900,(v.clientHeight-14)/910);scale=Math.max(.18,scale);tx=(v.clientWidth-1900*scale)/2;ty=(v.clientHeight-910*scale)/2;viewport()}
+ function zoom(f,cx,cy){const v=$('viewport');cx??=v.clientWidth/2;cy??=v.clientHeight/2;const s=Math.min(1.75,Math.max(.18,scale*f));tx=cx-(cx-tx)*s/scale;ty=cy-(cy-ty)*s/scale;scale=s;viewport()}
+ function zone(z){const ns=PractikaSim.NODES.filter(x=>x.zone===z);if(!ns.length)return;const xa=Math.min(...ns.map(x=>x.x)),xb=Math.max(...ns.map(x=>x.x+188)),ya=Math.min(...ns.map(x=>x.y)),yb=Math.max(...ns.map(x=>x.y+90)),v=$('viewport');scale=Math.min(1.15,(v.clientWidth-60)/(xb-xa+50),(v.clientHeight-55)/(yb-ya+45));tx=v.clientWidth/2-(xa+xb)/2*scale;ty=v.clientHeight/2-(ya+yb)/2*scale;viewport()}
+ function applySimulation(){pause();try{result=PractikaSim.simulate(conf());day=0;selectedNode=null;selectedOrder=null;lastComparison=null;$('compare').classList.remove('visible');$('timeSlider').max=result.settings.horizon;$('timeSlider').value=0;
+ const select=$('orderFilter');select.innerHTML='<option value="">ทุก Order</option>'+result.orders.map(o=>`<option value="${o.id}">${o.id} / ${o.make?'Make':'Buy'} / ${num(o.net)} ฿</option>`).join('');showLabels();update();return result;
+ }catch(e){$('mapStatus').textContent='Simulation error: '+e.message;throw e;}}
+ function current(){if(!result)return {events:[],orders:[],days:0};const events=result.events.filter(e=>e.time<=day+.00001),orders=result.orders.filter(o=>o.arrival<=day);const arrivals=orders.length,deliveries=events.filter(e=>e.action==='POD'),inv=events.filter(e=>e.action==='ISSUED_SIM'),cash=events.filter(e=>e.action==='APPLIED_SIM');
+ const deliveredNet=deliveries.reduce((s,e)=>s+(e.deliveredNet||0),0),invoiceGross=inv.reduce((s,e)=>s+(e.invoiceGrossTHB||0),0),cashApplied=cash.reduce((s,e)=>s+(e.appliedTHB||0),0),demand=orders.reduce((s,o)=>s+o.net,0),ontime=deliveries.filter(e=>e.time<=e.promisedDay);
+ const payByOrder=new Map();cash.forEach(e=>payByOrder.set(e.orderId,(payByOrder.get(e.orderId)||0)+(e.appliedTHB||0)));
+ const invoicedByOrder=new Map(inv.map(e=>[e.orderId,e.invoiceGrossTHB||0]));const fullDelivered=new Set(deliveries.filter(e=>e.deliveredQty===orders.find(o=>o.id===e.orderId)?.qty).map(e=>e.orderId));
+ const closed=[...fullDelivered].filter(id=>(payByOrder.get(id)||0)>=(invoicedByOrder.get(id)||0)-.02);
+ return {events,orders,arrivals,deliveries:deliveries.length,invoices:inv.length,deliveredNet,invoiceGross,cashApplied,openAR:Math.max(0,invoiceGross-cashApplied),unbilledNet:demand-deliveredNet,
+ closed:closed.length,otd:deliveries.length?100*ontime.length/deliveries.length:null,lt:deliveries.length?deliveries.reduce((s,e)=>s+e.time-orders.find(o=>o.id===e.orderId).arrival,0)/deliveries.length:null};}
+ function update(){if(!result)return;const x=current();$('dayControl').textContent=day;$('timeSlider').value=day;$('kDay').textContent='D+'+day;$('kOrders').textContent=num(x.arrivals);$('kDelivery').textContent=num(x.deliveries);$('kOtd').textContent=x.otd===null?'—':x.otd.toFixed(1)+'%';$('kAr').textContent=money(x.openAR);$('kLt').textContent=x.lt===null?'—':x.lt.toFixed(1)+' วัน';$('kClosed').textContent=num(x.closed);$('mapStatus').textContent=x.events.length+' simulated events ภายใน D+'+day+' · '+result.summary.events+' ทั้ง Horizon';updateGraph();inspectNode(selectedNode);updateLog(x);graphs();}
+ function updateGraph(){if(!result)return;const x=current(),counts={};x.events.forEach(e=>counts[e.node]=(counts[e.node]||0)+1);
+ document.querySelectorAll('.n').forEach(el=>{const id=el.dataset.node;el.classList.toggle('active',!!counts[id]);el.classList.toggle('selected',selectedNode===id);$('badge_'+id).textContent=counts[id]||0;});
+ const active=new Set(x.events.map(e=>e.node));document.querySelectorAll('.wire').forEach(p=>p.classList.toggle('lit',active.has(p.dataset.from)&&active.has(p.dataset.to)));$('activeNodeLabel').textContent=selectedNode?PractikaSim.NODES.find(x=>x.id===selectedNode).label:'เลือก Node เพื่อเจาะข้อมูล';}
+ function inspectNode(node){const el=$('inspector');if(!result){el.textContent='Run Simulation';return}if(!node){el.innerHTML='<h3>Data Lineage Explorer</h3><p>เลือก Node เพื่อดูหน้าจอ ERP ที่เกี่ยวข้อง จำนวน Event, Resource, คิวรอ และตัวอย่าง DNA Contract</p><div class="advice">ทั้งหมดเป็นค่า Simulation เท่านั้น ไม่มีธุรกรรม Production, ไม่มีการลงบัญชีจริง และไม่สามารถใช้แทนการรับรอง 44+3 ERP Event Chains ได้</div>';return;}
+ const n=PractikaSim.NODES.find(x=>x.id===node),all=current().events.filter(e=>e.node===node),q=result.stations.find(x=>x.id===node),last=all.at(-1),example=last||result.events.find(e=>e.node===node);
+ const contract=example?`${example.company} · ${example.document} · Line ${example.line}\n${example.item} / ${example.quantity} ${example.uom}\nT+${example.time.toFixed(2)} · ${example.action} → ${example.status}`:'รอสร้าง Event ในสถานการณ์นี้';
+ el.innerHTML=`<span class="smallcap">${safe(n.zone)} / ${safe(n.id)}</span><h3>${safe(n.label)}</h3><p>${safe(n.app)} · ${safe(n.team)}</p><dl class="kv"><dt>สถานะ</dt><dd>Simulation · ไม่ใช่ผล JDE จริง</dd><dt>Event ถึงวันปัจจุบัน</dt><dd>${num(all.length)}</dd><dt>Resource Capacity</dt><dd>${q?q.capacity+' Units':'การตัดสินใจ / Transit'}</dd><dt>เวลารอคิวเฉลี่ย</dt><dd>${q?q.avgWaitDays+' วัน (ตลอด Horizon)':'—'}</dd><dt>Utilization</dt><dd>${q?q.utilizationPct+'%':'—'}</dd><dt>คิวสูงสุด</dt><dd>${q?q.maxQueue:0}</dd><dt>Output</dt><dd>${safe(n.caption)}</dd></dl><div class="datachip"><b>Simulated DNA key & latest event</b><br>${safe(contract)}</div><div class="datachip"><b>Node transition states</b><br>${all.slice(-6).map(e=>safe(e.action+' · '+e.orderId+' · D+'+e.time)).join('<br>')||'No active events'}</div><div class="advice">Physical Table / DD / BV / Processing Option / Real timestamp / UOM / Posting / Owner signoff: ยังไม่มีการรับรองจาก Simulation นี้</div>`;}
+ function inspectOrder(){const id=$('orderFilter').value;if(!id)return;const o=result.orders.find(q=>q.id===id);if(!o)return;const count=result.events.filter(e=>e.orderId===id&&e.time<=day).length;selectedNode=null;updateGraph();$('inspector').innerHTML=`<span class="smallcap">Order Trace / Synthetic</span><h3>${o.id}</h3><dl class="kv"><dt>Route</dt><dd>${o.make?'Manufacturing':'Buy / SUP'}</dd><dt>SO Date D+</dt><dd>${o.arrival}</dd><dt>Promise D+</dt><dd>${o.promisedDay}</dd><dt>Document</dt><dd>SIM-SO-${String(o.number).padStart(5,'0')}</dd><dt>Item</dt><dd>SIM-ITEM-${String((o.number%6)+1).padStart(3,'0')}</dd><dt>Qty / UOM</dt><dd>${o.qty} EA</dd><dt>Net Value</dt><dd>${money(o.net)}</dd><dt>Delivery Qty</dt><dd>${o.deliveredQty}</dd><dt>Amount Invoiced</dt><dd>${money(o.invoiceGross)}</dd><dt>Cash</dt><dd>${money(o.cashApplied)}</dd><dt>Hold</dt><dd>${o.blocked||'—'}</dd><dt>Events to day</dt><dd>${count}</dd></dl><div class="advice">ทุก ID ขึ้นต้นด้วย SIM- และทุกวันเป็น Logical Simulation Days; นี่ไม่ใช่ประวัติ JDE จริง</div>`;}
+ function updateLog(x){let items=x.events;if(selectedNode)items=items.filter(e=>e.node===selectedNode);const order=$('orderFilter').value,filter=$('eventFilter').value;if(order)items=items.filter(e=>e.orderId===order);if(filter)items=items.filter(e=>e.action===filter);$('traceStat').textContent=items.length+' Events ที่ตรงเงื่อนไข';$('events').innerHTML=items.length?items.slice(-85).reverse().map(e=>`<div class="eventrow"><code>${safe(e.id.replace('SIM-E','E'))}</code><b>D+${e.time}</b><div><b>${safe(PractikaSim.NODES.find(n=>n.id===e.node)?.label||e.node)}</b><br>${safe(e.action)} · ${safe(e.orderId)} · ${safe(e.status)}</div><em>${safe(e.app)}</em></div>`).join(''):'<div style="padding:18px;color:#7c8d84">ไม่มี Event ในช่วงเวลาและตัวกรองที่เลือก</div>';}
+ function lineSvg(series,max,min=0){const w=500,h=205,L=43,R=10,T=15,B=26,x=i=>L+i/(series[0].length-1||1)*(w-L-R),y=v=>T+(1-(v-min)/(max-min||1))*(h-T-B);
+ let parts=`<rect x="0" y="0" width="500" height="205" fill="#fff"/>`;
+ for(let i=0;i<=4;i++){const value=min+(max-min)*i/4;parts+=`<line x1="${L}" x2="${w-R}" y1="${y(value)}" y2="${y(value)}" stroke="#e9efeb"/><text x="${L-5}" y="${y(value)+4}" fill="#8b9991" font-size="10" text-anchor="end">${value>=1000000?(value/1000000).toFixed(1)+'m':Math.round(value)}</text>`;}
+ parts+=`<text x="${L}" y="${h-5}" fill="#92a298" font-size="10">D+0</text><text x="${w-R}" y="${h-5}" fill="#92a298" font-size="10" text-anchor="end">D+${day}</text>`;
+ const colors=['#317961','#567ca2','#b48f5d'];series.forEach((vs,k)=>{parts+=`<path d="${vs.map((v,i)=>(i?'L':'M')+x(i)+' '+y(v)).join(' ')}" fill="none" stroke="${colors[k]}" stroke-width="2.5" stroke-linecap="round"/>`});return parts;}
+ function graphs(){const e=result.events,orders=result.orders,pay=[],delivery=[],arrival=[],invoice=[],cash=[],ar=[];let v=0,d=0,iv=0,cv=0;
+ const perTime=[...e].sort((a,b)=>a.time-b.time);let ix=0;
+ for(let t=0;t<=day;t++){
+ while(ix<perTime.length&&perTime[ix].time<=t){const ev=perTime[ix++];if(ev.action==='POD')d++;if(ev.action==='ISSUED_SIM')iv+=ev.invoiceGrossTHB||0;if(ev.action==='APPLIED_SIM')cv+=ev.appliedTHB||0;}
+ v=orders.filter(o=>o.arrival<=t).length;arrival.push(v);delivery.push(d);invoice.push(iv/1e6);cash.push(cv/1e6);ar.push(Math.max(0,iv-cv)/1e6);
+ }
+ const mx=Math.max(1,...arrival);$('flowChart').innerHTML=lineSvg([arrival,delivery],mx);const cashMax=Math.max(1,...invoice,...ar);$('cashChart').innerHTML=lineSvg([invoice,cash,ar],cashMax);
+ const sorted=result.stations.filter(x=>x.served>0).sort((a,b)=>b.avgWaitDays-a.avgWaitDays).slice(0,5),max=sorted[0]?.avgWaitDays||1;
+ $('bottlenecks').innerHTML=sorted.map((r,i)=>`<div class="barrow"><span>${safe(r.label)}</span><div class="track"><div class="fill" style="width:${Math.max(2,100*r.avgWaitDays/max)}%"></div></div><b>${r.avgWaitDays}d</b></div>`).join('')+`<div class="compact">Top queue delay · ทรัพยากรมี Capacity จำกัด<br>อันดับเปลี่ยนตาม Demand / QC / Supply / Resource ที่ตั้งค่าไว้</div>`;
+ }
+ function pause(){if(timer){clearInterval(timer);timer=null;}played=false;$('play').textContent='▶ Play Timeline'}
+ function play(){if(played){pause();return;}played=true;$('play').textContent='Ⅱ Pause';timer=setInterval(()=>{day=Math.min(result.settings.horizon,day+2);update();if(day>=result.settings.horizon)pause();},100)}
+ function download(name,content,type){const a=document.createElement('a'),url=URL.createObjectURL(new Blob([content],{type}));a.href=url;a.download=name;a.click();setTimeout(()=>URL.revokeObjectURL(url),3000)}
+ function compare(){if(!result)return;const b=PractikaSim.simulate(PractikaSim.DEFAULTS),s=result.summary,base=b.summary;const m=[['ส่งมอบ (Order)',base.deliveredOrders,s.deliveredOrders,'n'],['On-time %',base.onTimePct,s.onTimePct,'p'],['LT วัน',base.averageDeliveryLT,s.averageDeliveryLT,'p'],['Open AR',base.openAR,s.openAR,'b'],['Cash applied',base.cashApplied,s.cashApplied,'b'],['เครดิต Hold',base.creditHolds,s.creditHolds,'n']];$('compare').innerHTML='<b>A/B Scenario Comparison</b> · Baseline (100 Orders, Seed เดียวกัน) vs Current Scenario<table><tr><th>KPI</th><th>Baseline</th><th>Current</th></tr>'+m.map(([key,a,b,f])=>`<tr><td>${safe(key)}</td><td>${f==='b'?money(a):num(a)}</td><td>${f==='b'?money(b):num(b)}</td></tr>`).join('')+'</table><span class="compact">Comparing summary at day +150, not replay day; synthetic only.</span>';$('compare').classList.add('visible');}
+ params.forEach(k=>$(k).addEventListener('input',showLabels));$('preset').addEventListener('change',preset);$('run').addEventListener('click',applySimulation);$('end').addEventListener('click',()=>{pause();day=result.settings.horizon;update()});$('step').addEventListener('click',()=>{pause();day=Math.min(result.settings.horizon,day+1);update()});$('play').addEventListener('click',play);$('timeSlider').addEventListener('input',e=>{pause();day=Number(e.target.value);update()});$('orderFilter').addEventListener('change',()=>{selectedNode=null;updateGraph();updateLog(current())});$('eventFilter').addEventListener('change',()=>updateLog(current()));$('inspectOrder').addEventListener('click',inspectOrder);$('compareBtn').addEventListener('click',compare);
+ $('export').addEventListener('click',()=>{if(!result)return;download('practika_discrete_event_'+$('preset').value+'_SIM.json',JSON.stringify({...result,exportDate:new Date().toISOString()},null,2),'application/json')});
+ $('exportCsv').addEventListener('click',()=>{if(!result)return;const fields=['id','time','orderId','node','action','status','company','document','line','item','quantity','uom','amountTHB'];const esc=s=>'"'+String(s??'').replace(/"/g,'""')+'"';const csv=[fields.join(','),...result.events.map(e=>fields.map(k=>esc(e[k])).join(','))].join('\n');download('practika_discrete_event_SIM.csv',csv,'text/csv;charset=utf-8')});
+ $('fit').addEventListener('click',fit);$('zoomIn').addEventListener('click',()=>zoom(1.2));$('zoomOut').addEventListener('click',()=>zoom(.84));document.querySelectorAll('[data-zone]').forEach(el=>el.addEventListener('click',()=>zone(el.dataset.zone)));
+ const v=$('viewport');v.addEventListener('pointerdown',e=>{if(e.target.closest('.n'))return;drag={x:e.clientX,y:e.clientY};v.classList.add('panning');v.setPointerCapture(e.pointerId)});v.addEventListener('pointermove',e=>{if(!drag)return;tx+=e.clientX-drag.x;ty+=e.clientY-drag.y;drag={x:e.clientX,y:e.clientY};viewport()});v.addEventListener('pointerup',()=>{drag=null;v.classList.remove('panning')});v.addEventListener('pointercancel',()=>{drag=null;v.classList.remove('panning')});v.addEventListener('wheel',e=>{e.preventDefault();const b=v.getBoundingClientRect();zoom(e.deltaY<0?1.12:.89,e.clientX-b.left,e.clientY-b.top)},{passive:false});window.addEventListener('resize',fit);
+ window.__qa=()=>({hasEngine:!!window.PractikaSim,synthetic:result.synthetic,sourceSystem:result.sourceSystem,settings:result.settings,summary:result.summary,events:result.events.length,graphNodes:document.querySelectorAll('.n').length,graphEdges:document.querySelectorAll('.wire').length,day,visibleOrderCount:current().arrivals,visibleOpenAR:current().openAR,visibleCash:current().cashApplied,invariants:result.summary.invariants,scenario:$('preset').value,activeFilter:$('orderFilter').value,fullSimulation:true});
+ buildGraph();preset();applySimulation();fit();
+})();</script></body></html>
