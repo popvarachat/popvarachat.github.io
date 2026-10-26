@@ -84,10 +84,10 @@
       "not_started": 5,
       "all_without_assignment": 35,
       "open_without_assignment": 26,
-      "overdue_open": 12,
-      "open_due_today": 0,
+      "overdue_open": 10,
+      "open_due_today": 1,
       "open_without_due_date": 4,
-      "checked_at": "2026-10-22T02:58:27.978619+00:00",
+      "checked_at": "2026-10-26T03:34:39.035866+00:00",
       "details_checked": 38,
       "details_unavailable": 0,
       "basis": "Planner plan tasks via Microsoft Graph; no task names or owners published."
