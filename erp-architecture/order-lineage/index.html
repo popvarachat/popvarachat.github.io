@@ -73,7 +73,7 @@ input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:
 <span class="runstats"><span>หลักฐาน <strong id="observedCount">—</strong> Nodes</span><span>WO ที่พบ <strong id="woCount">—</strong></span><span>ยังไม่พบ <strong id="unknownCount">—</strong></span></span>
 </div>
 <div id="runStatus" class="runstatus" role="status">เลือก Order แล้วกด Run Order เพื่อไล่ตรวจหลักฐานแต่ละ Node</div>
-<div id="runMini" class="runmini"></div><div id="runTrace" class="runtrace"></div>
+<div id="runMini" class="runmini"></div><div id="woChips" class="runtrace" aria-label="เลข WO ที่พบจาก P48013"></div><div id="runTrace" class="runtrace"></div>
 </div><div class="stage" id="stage"><div class="world" id="world"><div id="zones"></div><svg id="wires" width="1840" height="1110" viewBox="0 0 1840 1110" style="position:absolute;inset:0;pointer-events:none;overflow:visible"></svg><div id="items"></div></div></div><div class="footer">เส้นประทอง = อ้างอิง/ยังไม่รับรอง · สีเทา = โมเดลเท่านั้น · เว็บสาธารณะไม่รับรองลายเซ็นจากไฟล์ที่นำเข้า</div></section>
 <section class="panel inspect"><div class="panel-head"><span id="insName">Node Inspector</span><div class="panel-sub" id="insApp">Input / Output / Source / Downstream</div></div><div class="scroll" id="details"><div class="empty">คลิก Node เพื่อดู Data เข้ากับ Data ออก</div></div></section>
 </div>
@@ -246,6 +246,12 @@ function prepareRun(){
  $('unknownCount').textContent=missing;
  $('runMini').textContent='พบหลักฐาน '+confirmed+'/'+runSteps.length+' จุด · ไม่พบ '+missing+' จุด (ไม่ใช่ 0) · เล่นตามลำดับ Workflow ไม่ใช่เวลา Event จริง';
  $('runStatus').textContent='พร้อมเล่น: '+runRoot+' · มีหลักฐาน '+data().length+' records';
+ const ws=knownRecord('wo').map(r=>r.inputs?.work_order_number).filter(Boolean);
+ const uniqueWO=[...new Set(ws)];
+ $('woChips').innerHTML=uniqueWO.length?
+ '<span class="runchip known">พบ WO '+uniqueWO.length+' ใบจาก P48013</span>'+uniqueWO.map(w=>'<button class="runchip known" type="button" data-related-wo="'+H(w)+'">WO '+H(w)+'</button>').join(''):
+ '<span class="runchip missing">ไม่มีหลักฐาน WO สำหรับ Order นี้ — ยังไม่สรุปว่าไม่มี WO</span>';
+ for(const btn of $('woChips').querySelectorAll('[data-related-wo]'))btn.onclick=()=>{stopAutoRun();selected='wo';refresh();$('runStatus').textContent='WO '+btn.dataset.relatedWo+' · P48013 Related SO No · คลิก Node WO เพื่อดู Input / Output'};
  $('runTrace').innerHTML='';paintRun();
 }
 function paintRun(){
