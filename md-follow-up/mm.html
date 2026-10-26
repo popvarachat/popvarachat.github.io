@@ -1,0 +1,122 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer">
+<title>MM Agenda Follow-up · PRACTIKA</title>
+<style>
+:root{color-scheme:dark;font-family:system-ui,"Noto Sans Thai",sans-serif;background:#091322;color:#e8f1fc}
+*{box-sizing:border-box}body{margin:0}main{max-width:1480px;margin:auto;padding:25px 22px 70px}a{color:#9cd9ff}
+h1{font-size:clamp(23px,3.1vw,36px);margin:5px 0 6px}h2{font-size:19px;margin:0 0 12px}p{color:#a8bbce;line-height:1.7;margin:5px 0 12px}
+.top{display:flex;justify-content:space-between;flex-wrap:wrap;gap:20px}.eyebrow{color:#93b6d3;font-size:11px;letter-spacing:.15em}.nav{display:flex;gap:13px;align-items:start;flex-wrap:wrap;font-size:13px}
+.pill{padding:7px 10px;border:1px solid #41627f;border-radius:100px;color:#c0d5ec;background:#12283e}
+.panel{margin-top:17px;border:1px solid #2b425a;background:#0f2032;border-radius:16px;padding:18px}
+.kpis{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:11px}.kpi{background:#112a42;border:1px solid #34516b;border-radius:12px;padding:15px}
+.kpi strong{font-size:27px;display:block}.kpi small,.muted{color:#9fb9cd;font-size:12px}
+.flex{display:flex;align-items:end;flex-wrap:wrap;gap:12px}.grow{flex:1}
+label{color:#b1c9d9;font-size:12px;display:flex;flex-direction:column;gap:6px}
+input,select,button{font:inherit;color:#e4f0fa;padding:10px 11px;border:1px solid #46627c;background:#0b1828;border-radius:9px}
+input[type=search]{min-width:min(300px,85vw)}button{cursor:pointer;background:#17425c}button:hover{background:#235d7c}
+.notice{border:1px solid #8c7145;background:#302919;color:#ddc595;border-radius:10px;padding:11px 14px;font-size:13px}
+.note{background:#122a41;border-radius:10px;padding:12px;margin:8px 0;font-size:13px;white-space:pre-wrap;line-height:1.7}
+details.entry{margin-top:9px;border:1px solid #334c62;border-radius:12px;background:#0b1a2a}
+.entry>summary{cursor:pointer;padding:13px 15px;display:flex;align-items:center;gap:14px;flex-wrap:wrap;list-style:none}
+.entry>summary::-webkit-details-marker{display:none}
+.entry[open]>summary{background:#1b354c;border-radius:12px 12px 0 0}.id{white-space:nowrap;color:#8dc8e8;font-weight:700}
+.description{flex:1;min-width:240px}.meta{font-size:12px;color:#a8bdca}
+.badge{border:1px solid #657688;border-radius:8px;padding:4px 7px;font-size:11px;white-space:nowrap}
+.badge.complete{color:#a3e8c5;border-color:#4f8f6b}.badge.attention{color:#ffcf9e;border-color:#bc8b55}
+.badge.neutral{color:#c0cfdc}
+.details{padding:14px}.fields{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.fields>div{border:1px solid #2b4964;border-radius:8px;padding:10px}.fields label{color:#a6bfce;margin-bottom:5px}.fields strong{font-size:13px;white-space:pre-wrap}
+ol{padding-left:23px}.steps li{padding:7px 0;white-space:pre-wrap}
+.footer{font-size:12px;color:#9aafc5;margin-top:22px}
+@media(max-width:820px){.kpis{grid-template-columns:repeat(2,minmax(0,1fr))}.fields{grid-template-columns:1fr 1fr}main{padding:15px 11px 50px}}
+@media(max-width:530px){.fields{grid-template-columns:1fr}}
+</style></head><body><main>
+<header class="top"><div><div class="eyebrow">PRACTIKA / MANAGEMENT MEETING / SEPARATE WORKSTREAM</div>
+<h1>MM Agenda Follow-up <span class="pill">MM เท่านั้น</span></h1>
+<p>ทะเบียนวาระจากการประชุม Management Meeting · แยก KPI และรายการงานจาก MD อย่างเด็ดขาด</p></div>
+<nav class="nav"><a href="./pivot.html">MD Follow-up</a><a href="./line-audit.html">LINE Digital Twin</a><a href="./">Overview</a></nav>
+</header>
+<section class="panel"><div class="flex"><div class="grow"><h2>แหล่งข้อมูลวาระ MM</h2>
+<p id="connection">กำลังโหลด Snapshot จาก Private Viewer…</p></div>
+<label>ใช้ไฟล์ MM Snapshot JSON จาก NB<input id="mmFile" type="file" accept=".json,application/json"></label>
+<button type="button" id="readAgain">อ่าน Snapshot ล่าสุดบน NB</button></div>
+<div class="notice">MM เป็นคนละทะเบียนกับ MD; การเข้าหน้าเว็บไม่สแกน SharePoint ซ้ำ · แสดงวันที่ไฟล์ต้นทางเปลี่ยนล่าสุดและวันที่นำเข้าแยกกัน · สถานะงานจาก Excel ไม่ถือเป็นหลักฐานรับรองการปิดงานโดยอัตโนมัติ</div>
+</section>
+<section class="panel">
+<h2>MM Overview</h2>
+<div class="kpis">
+ <div class="kpi"><strong id="kLatest">—</strong><small>รายการรอบล่าสุด</small></div>
+ <div class="kpi"><strong id="kHistory">—</strong><small>วาระทั้งหมด (ไม่รวมคงค้าง)</small></div>
+ <div class="kpi"><strong id="kPeriods">—</strong><small>รอบการประชุม</small></div>
+ <div class="kpi"><strong id="kReported">—</strong><small>สถานะรายงานเสร็จ (ยังไม่รับรอง)</small></div>
+ <div class="kpi"><strong id="kBacklog">—</strong><small>รายการใน Sheet คงค้าง</small></div>
+</div><p id="coverage" class="muted" style="margin-top:12px">ข้อมูล MM ไม่ผสมกับยอด MD</p>
+</section>
+<section class="panel">
+<div class="flex"><div class="grow"><h2>เจาะวาระการประชุม</h2>
+<p>เลือกเดือน → เลขวาระ → ผู้รับผิดชอบ → สิ่งที่ต้องทำต่อและรายงานผล แสดงรายการย่อยจากเนื้อหาต้นทางเมื่อมีจริง</p></div>
+<label>รอบประชุม<select id="meeting"><option value="">กำลังโหลด…</option></select></label>
+<label>สถานะ<select id="status"><option value="">ทุกสถานะ</option><option value="reported_done_unverified">ระบุเสร็จ (ยังไม่รับรอง)</option><option value="attention">ต้องติดตาม</option><option value="progress_reported_unverified">มีรายงานดำเนินการ</option><option value="status_provided">มีสถานะจากไฟล์</option><option value="not_reported">ยังไม่มีสถานะรายงาน</option></select></label>
+<label>ค้นหา<input id="search" type="search" placeholder="แผนก ผู้รับผิดชอบ เนื้อหาวาระ…"></label></div>
+<div id="summary" class="muted" style="margin-top:14px"></div><div id="agendaList"><p>รอข้อมูลวาระ MM…</p></div>
+</section>
+<p class="footer">Source of Truth: SharePoint Excel ของ MM ปี 2569 · Snapshot มีช่วงเวลาที่ตรวจได้เท่านั้น · ไม่บันทึกข้อมูล MM ส่วนบุคคลบน GitHub Pages · การอัปเดตต้นฉบับต้องใช้สิทธิ์ SharePoint ที่ได้รับอนุญาต</p>
+</main>
+<script>
+"use strict";
+const E=id=>document.getElementById(id);
+const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+let ledger=null;
+const labels={reported_done_unverified:"แจ้งว่าเสร็จ (ยังไม่รับรอง)",attention:"ต้องติดตาม",progress_reported_unverified:"มีรายงานความคืบหน้า",status_provided:"มีสถานะจากต้นฉบับ",not_reported:"ยังไม่พบรายงานสถานะ"};
+function setLedger(data){
+ if(data?.workstream!=="MM"||data?.separate_from!=="MD"||!Array.isArray(data.meetings))throw Error("ข้อมูลนี้ไม่ใช่ทะเบียน MM ที่แยกจาก MD");
+ ledger=data;
+ E("kLatest").textContent=data.latest_item_count??"—";
+ E("kHistory").textContent=data.total_meeting_items??"—";
+ E("kPeriods").textContent=data.meetings.length;
+ E("kBacklog").textContent=(data.backlog||[]).length;
+ const recent=data.meetings[0];
+ E("kReported").textContent=recent.items.filter(x=>x.state==="reported_done_unverified").length;
+ const sourceTime=data.source_updated_at?new Date(data.source_updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"ไม่ทราบเวลาแก้ไขต้นทาง";
+ const collected=data.snapshot_generated_at?new Date(data.snapshot_generated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"ไม่ทราบเวลา Snapshot";
+ E("connection").textContent="เชื่อม MM Snapshot แล้ว · SharePoint แก้ไขล่าสุด "+sourceTime+" · นำเข้า "+collected+" · ไม่ใช่ Live Connector";
+ E("coverage").textContent="รอบประชุมล่าสุด: "+recent.meeting_header+" · ข้อมูลทั้งหมด "+data.total_meeting_items+" วาระ จาก "+data.meetings.length+" รอบ · Sheet คงค้างแสดงแยก ไม่รวมกับเดือนล่าสุด";
+ E("meeting").innerHTML=data.meetings.map(m=>'<option value="'+esc(m.id)+'">'+esc(m.sheet)+' · '+m.count+' วาระ</option>').join("")+'<option value="backlog">คงค้าง · '+(data.backlog||[]).length+' รายการ</option>';
+ render();
+}
+function render(){
+ if(!ledger)return;
+ const choice=E("meeting").value;
+ const m=ledger.meetings.find(x=>x.id===choice);
+ const rows=choice==="backlog"?(ledger.backlog||[]):(m||ledger.meetings[0]).items;
+ const keyword=E("search").value.trim().toLocaleLowerCase(),state=E("status").value;
+ const filtered=rows.filter(x=>(!state||x.state===state)&&(!keyword||
+ [x.id,x.agenda,x.proposer,x.action,x.owner,x.department,x.progress,x.note,x.status_raw]
+ .join(" ").toLocaleLowerCase().includes(keyword)));
+ E("summary").textContent="แสดง "+filtered.length+" จาก "+rows.length+" วาระ · ขยายรายการเพื่อดูรายละเอียด · งานที่มีสถานะเรียบร้อยยังต้องตรวจหลักฐานปิดงาน";
+ E("agendaList").innerHTML=filtered.length?filtered.map(r=>{
+ const cls=r.state==="reported_done_unverified"?"complete":r.state==="attention"?"attention":"neutral";
+ const sub=(r.subtasks||[]).length>0?
+  '<div class="note"><strong>รายการย่อยจากต้นฉบับ</strong><ol class="steps">'+r.subtasks.map(t=>'<li>'+esc(t.title)+'</li>').join("")+'</ol></div>':"";
+ const due=r.due_iso?esc(r.due_iso):(r.due_raw?esc(r.due_raw)+" (ไม่รับรองรูปแบบวันที่)":"ไม่มีวันที่กำหนด");
+ return '<details class="entry"><summary><span class="id">'+esc(r.id)+'</span><span class="description"><b>'+esc(r.agenda||"ไม่ระบุหัวข้อ")+'</b><span class="meta" style="display:block">'+esc(r.department||"ไม่ระบุฝ่าย")+' · '+esc(r.owner||"ยังไม่ระบุเจ้าภาพ")+'</span></span><span class="badge '+cls+'">'+esc(labels[r.state]||r.state)+'</span></summary>'+
+ '<div class="details"><div class="fields"><div><label>ผู้เสนอ / ผู้ถาม</label><strong>'+esc(r.proposer||"ไม่ระบุ")+'</strong></div><div><label>เจ้าภาพ / ผู้รับผิดชอบ</label><strong>'+esc(r.department)+' / '+esc(r.owner)+'</strong></div><div><label>กำหนดเสร็จ</label><strong>'+due+'</strong></div></div>'+
+ '<div class="note"><b>สิ่งที่ต้องทำต่อ</b>\n'+esc(r.action)+'</div>'+sub+
+ '<div class="note"><b>ดำเนินการ / รายงานความคืบหน้า</b>\n'+esc(r.progress||"ยังไม่บันทึก")+'</div>'+
+ '<div class="note"><b>สถานะปัจจุบันตาม Excel</b>\n'+esc(r.status_raw||"ยังไม่บันทึก")+'\n<b>หมายเหตุ</b>\n'+esc(r.note||"—")+'</div>'+
+ '<p class="muted">Source Sheet: '+esc(r.sheet)+' · บันทึกนี้อยู่ใน MM เท่านั้น ไม่เปลี่ยนสถานะใน MD</p></div></details>';
+}).join(""):'<p class="muted">ไม่พบรายการที่ตรงเงื่อนไข</p>';
+}
+async function load(){
+ E("connection").textContent="กำลังเชื่อม Private Viewer บน NB…";
+ try{
+  const r=await fetch("http://127.0.0.1:8766/mm-agenda.json",{cache:"no-store",mode:"cors"});
+  if(!r.ok)throw Error("HTTP "+r.status);
+  setLedger(await r.json());
+ }catch(e){E("connection").textContent="ไม่สามารถเข้าถึง NB หรือยังไม่เชื่อมข้อมูล MM · เลือกไฟล์ mm-agenda.json จากเครื่องเพื่อดูแบบ Private · ไม่เปลี่ยนเป็นข้อมูล MD แทน";}
+}
+E("readAgain").addEventListener("click",load);
+E("mmFile").addEventListener("change",async e=>{try{const file=e.target.files[0];if(file)setLedger(JSON.parse(await file.text()));}catch(err){alert("ไฟล์ MM ไม่ถูกต้อง: "+err.message)}});
+["meeting","status","search"].forEach(id=>E(id).addEventListener("input",render));
+load();
+</script></body></html>
