@@ -154,7 +154,7 @@ function render(){
 function renderTree(){
  allVisible();
  const table=$("pivot");
- const header1='<tr><th class="dateHead" rowspan="2">ปี / เดือน / กำหนดส่ง / งาน</th><th colspan="'+Math.max(columns.length,1)+'" id="matrixAxisName">ตำแหน่งงานที่ค้าง</th><th rowspan="2" class="totalHead">Grand Total</th></tr>';
+ const header1='<tr><th class="dateHead" rowspan="2">ปี / เดือน / กำหนดส่ง / งาน</th><th colspan="'+Math.max(columns.length,1)+'" id="matrixAxisName">เจ้าภาพงาน (บุคคล / ฝ่าย)</th><th rowspan="2" class="totalHead">Grand Total</th></tr>';
  const header2='<tr>'+ (columns.length?columns.map(c=>'<th title="'+escapeHtml(c)+'">'+escapeHtml(c)+'</th>').join(""):'<th>ไม่พบข้อมูล</th>') +'</tr>';
  $("thead").innerHTML=header1+header2;
  const markup=visible.map((n,idx)=>{
