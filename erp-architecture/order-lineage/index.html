@@ -43,6 +43,7 @@ input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:
 <div class="shell">
 <section class="panel left"><div class="panel-head">เลือก Order ต้นทาง<div class="panel-sub">เริ่ม SO เป็นหลัก หรือย้อนจาก SN / WO / PO</div></div><div class="scroll">
 <div class="field"><label>1. เลือกชนิดเอกสาร</label><div class="searchline"><select id="doctype"><option value="SO">SO</option><option value="SN">SN</option><option value="WO">WO</option><option value="PO">PO</option></select><input id="docno" placeholder="เลขเอกสารจริง" autocomplete="off"></div></div>
+<div class="field" id="recentBlock"><label for="recent">10 เอกสารล่าสุดตามชนิดที่เลือก (จากหลักฐานที่นำเข้า)</label><select id="recent" size="5" aria-label="เลือกหนึ่งในสิบเอกสารล่าสุด" disabled><option>ยังไม่มีข้อมูลล่าสุดจาก ERP</option></select><small id="recentInfo" style="color:#657c71">ต้องนำเข้าไฟล์ Private Evidence ก่อน · ไม่ใช่รายการ JDE Live</small></div>
 <div class="btnrow"><button id="find" class="primary">ค้นในหลักฐานที่นำเข้า</button><button id="reset">ล้าง</button></div>
 <div id="match" class="state">ยังไม่มี Source Data — การกรอกเลข Order จะไม่เชื่อม JDE โดยตรง</div>
 <div class="field"><label>2. เปิดชุดหลักฐานส่วนตัว (JSON)</label><input type="file" id="file" accept=".json,application/json"><small style="color:#697e74">อ่านใน Browser เครื่องนี้เท่านั้น ไม่ Upload ไปยังเว็บสาธารณะ</small></div>
@@ -119,6 +120,78 @@ function refresh(){
  }
  $('details').innerHTML=content;
 }
+
+const KIND_NODES={SO:['so','line'],SN:['sn'],WO:['wo'],PO:['po']};
+function parseBusinessDate(d){
+ const s=String(d||'').trim();
+ if(/^\d{4}-\d{2}-\d{2}$/.test(s))return Date.parse(s+'T00:00:00Z')||0;
+ const a=s.match(/^(\d{1,2})\/(\d{1,2})\/(\d{2}|\d{4})$/);
+ if(a){const year=+a[3]+(a[3].length===2?2000:0);const date=new Date(Date.UTC(year,+a[2]-1,+a[1]));return date.getUTCDate()===+a[1]&&date.getUTCMonth()===+a[2]-1?date.valueOf():0}
+ return 0;
+}
+function docFromRecord(r,type){
+ const field=String(r.document_key||'').trim();
+ const prefix=field.match(/^([A-Z0-9]{2,8})\/([A-Z]{2})\/([0-9]{4,12})(?:\/|$)/i);
+ const aliases={SO:['SO'],SN:['SN'],WO:['WO'],PO:['OP','PO']};
+ if(prefix&&aliases[type].includes(prefix[2].toUpperCase()))return {company:prefix[1],doctype:prefix[2].toUpperCase(),number:prefix[3]};
+ const parts=[r.inputs||{},r.outputs||{}];
+ const keys={SO:['SO Number','SO No','sales_order_number','Order Number','order_number','so'],SN:['SN Number','SN No','sn_number','Order Number','order_number','sn'],WO:['WO Number','WO No','wo_number','Work Order Number','work_order','wo'],PO:['PO Number','PO No','po_number','purchase_order','Order Number','order_number','po']};
+ for(const obj of parts)for(const k of keys[type]){
+   const val=obj[k];if(val===null||val===undefined)continue;
+   const x=String(val).trim().match(/^(?:(SO|SN|WO|OP|PO)\s+)?(\d{4,12})(?:\.0+)?$/i);
+   if(x&&(!x[1]||aliases[type].includes(x[1].toUpperCase())))return {company:String(obj.company||obj['Order Co']||''),doctype:(x[1]||type).toUpperCase(),number:x[2]};
+ }
+ return null;
+}
+function recentDocs(type){
+ if(!B)return [];
+ const latest=new Map();
+ const allowed=KIND_NODES[type]||[];
+ for(const t of B.traces)for(const r of t.records||[]){
+   if(!allowed.includes(r.node_id))continue;
+   const d=docFromRecord(r,type);if(!d)continue;
+   const key=[d.company,d.doctype,d.number].join('|'),ts=parseBusinessDate(r.business_date||r.order_date||'');
+   const v=latest.get(key);
+   if(!v)latest.set(key,{...d,date:r.business_date||'',stamp:ts,trace_id:t.trace_id,records:1,evidence_level:r.evidence_level||'UNKNOWN'});
+   else{v.records++;if(ts>v.stamp){v.stamp=ts;v.date=r.business_date||''}}
+ }
+ return [...latest.values()].sort((a,b)=>b.stamp-a.stamp||b.number.localeCompare(a.number,'en',{numeric:true})||a.company.localeCompare(b.company)).slice(0,10);
+}
+function refreshRecent(){
+ const type=$('doctype').value,items=recentDocs(type),sel=$('recent');
+ sel.innerHTML='';
+ if(!items.length){
+   const op=document.createElement('option');op.textContent=B?'ไม่มี '+type+' ในหลักฐานที่โหลด':'นำเข้า Private Evidence เพื่อดู 10 ล่าสุด';op.disabled=true;sel.appendChild(op);sel.disabled=true;
+   $('recentInfo').textContent=B?'ไม่พบเอกสาร '+type+' ภายในชุดหลักฐานนี้ — ไม่ได้แปลว่า ERP ไม่มี':'ยังไม่มีการเชื่อมข้อมูล JDE Live; ไม่แสดงเลขสมมติหรือเปิดเผย Order บนเว็บสาธารณะ';
+   return;
+ }
+ sel.disabled=false;
+ for(const d of items){
+   const op=document.createElement('option');op.value=d.number;
+   op.textContent=[d.doctype+' '+d.number,d.date||'ไม่ปรากฏวันที่','('+d.records+' records)'].join(' · ');
+   op.dataset.trace=d.trace_id;op.dataset.company=d.company;
+   sel.appendChild(op);
+ }
+ sel.selectedIndex=-1;
+ $('recentInfo').textContent='แสดง '+items.length+' จากหลักฐานที่นำเข้า เรียงตาม Business Date (ไม่ใช่ JDE Live ณ ปัจจุบัน)';
+}
+function findOrder(){
+ const type=$('doctype').value,no=$('docno').value.trim().toLowerCase();
+ if(!no){$('match').textContent='กรุณาระบุเลขเอกสารหรือเลือกจาก 10 ล่าสุด';return}
+ if(!B){$('match').textContent='ต้องนำเข้าหลักฐานก่อน เว็บสาธารณะยังไม่ค้น JDE Live';return}
+ const matches=B.traces.filter(t=>{
+   const nodes=KIND_NODES[type];
+   return (t.records||[]).some(r=>nodes.includes(r.node_id)&&docFromRecord(r,type)?.number.toLowerCase()===no);
+ });
+ if(!matches.length){$('match').textContent='ไม่พบ '+type+' '+no+' ในไฟล์ที่นำเข้า — ไม่ได้หมายความว่าไม่มีใน ERP';$('match').className='state';return}
+ const choice=$('recent').selectedOptions[0],requestedTrace=choice?.dataset?.trace;
+ T=matches.find(t=>t.trace_id===requestedTrace)||matches[0];$('trace').value=T.trace_id;selected=type==='PO'?'po':type.toLowerCase();
+ $('match').textContent='พบ '+matches.length+' trace ของ '+type+' '+no+' จากหลักฐาน; โปรดตรวจเอกสารต้นฉบับและการเชื่อมโยงเพิ่มเติม';$('match').className='state good';refresh();
+}
+$('doctype').addEventListener('change',()=>{$('docno').value='';refreshRecent()});
+$('recent').addEventListener('change',()=>{const option=$('recent').selectedOptions[0];if(!option||option.disabled)return;$('docno').value=option.value;findOrder()});
+$('docno').addEventListener('keydown',e=>{if(e.key==='Enter')findOrder()});
+
 function normalized(source){
  if(!source||typeof source!=='object'||!Array.isArray(source.traces)||!['ptk_order_evidence_bundle_v1','ptk_order_lineage_v1'].includes(source.schema))throw Error('รองรับเฉพาะ ptk_order_evidence_bundle_v1 / ptk_order_lineage_v1');
  if(source.traces.length>300)throw Error('จำนวน Trace มากเกิน');
@@ -127,17 +200,10 @@ function normalized(source){
  }
  return source;
 }
-function load(o){B=normalized(o);$('trace').innerHTML='';for(const t of B.traces){const opt=document.createElement('option');opt.value=t.trace_id;opt.textContent=t.trace_id+' ('+t.records.length+' records)';$('trace').appendChild(opt)}$('trace').disabled=!B.traces.length;T=B.traces[0]||null;selected= T?.records?.[0]?.node_id||'so';$('match').textContent='โหลด '+B.traces.length+' traces จากไฟล์ที่เลือกแล้ว (เฉพาะ Browser เครื่องนี้)';$('match').className='state good';refresh()}
+function load(o){B=normalized(o);$('trace').innerHTML='';for(const t of B.traces){const opt=document.createElement('option');opt.value=t.trace_id;opt.textContent=t.trace_id+' ('+t.records.length+' records)';$('trace').appendChild(opt)}$('trace').disabled=!B.traces.length;T=B.traces[0]||null;selected= T?.records?.[0]?.node_id||'so';$('match').textContent='โหลด '+B.traces.length+' traces จากไฟล์ที่เลือกแล้ว (เฉพาะ Browser เครื่องนี้)';$('match').className='state good';refreshRecent();refresh()}
 $('file').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('ไฟล์เกิน 8MB');load(JSON.parse(await f.text()))}catch(err){$('match').textContent='นำเข้าไม่ได้: '+err.message;$('match').className='state bad'}e.target.value=''});
 $('trace').onchange=e=>{T=B?.traces.find(t=>t.trace_id===e.target.value)||null;selected=T?.records?.[0]?.node_id||'so';refresh()};
-$('find').onclick=()=>{
- const type=$('doctype').value,no=$('docno').value.trim().toLowerCase();
- if(!no){$('match').textContent='กรุณาระบุเลขเอกสาร';return}
- if(!B){$('match').textContent='ต้องนำเข้าหลักฐานก่อน เว็บสาธารณะไม่ค้น JDE Live';return}
- const matches=B.traces.filter(t=>{const node={SO:'so',SN:'sn',WO:'wo',PO:'po'}[type];const root=String(t.root_document||'').toLowerCase();const rootMatch=root.startsWith(type.toLowerCase()+' ')&&root.includes(no);const recordMatch=(t.records||[]).some(r=>r.node_id===node&&[r.document_key||'',JSON.stringify(r.inputs||{})].join(' ').toLowerCase().includes(no));return rootMatch||recordMatch});
- if(!matches.length){$('match').textContent='ไม่พบ '+type+' '+no+' ในไฟล์ที่นำเข้า — ไม่ได้หมายความว่าไม่มีใน ERP';return}
- T=matches[0];$('trace').value=T.trace_id;selected=type==='PO'?'po':type.toLowerCase();$('match').textContent='พบ '+matches.length+' trace ที่อาจเกี่ยวข้อง ตรวจ Document/Line Key และ Join อีกครั้ง';$('match').className='state good';refresh();
-};
-$('reset').onclick=()=>{B=null;T=null;selected='so';$('docno').value='';$('trace').innerHTML='<option>ไม่มีข้อมูล</option>';$('trace').disabled=true;$('file').value='';$('match').textContent='ล้างข้อมูลที่นำเข้าออกจาก Browser แล้ว';$('match').className='state';refresh()};
-draw();refresh();
+$('find').onclick=findOrder;
+$('reset').onclick=()=>{B=null;T=null;selected='so';$('docno').value='';$('trace').innerHTML='<option>ไม่มีข้อมูล</option>';$('trace').disabled=true;$('file').value='';$('match').textContent='ล้างข้อมูลที่นำเข้าออกจาก Browser แล้ว';$('match').className='state';refreshRecent();refresh()};
+draw();refreshRecent();refresh();
 </script></body></html>
