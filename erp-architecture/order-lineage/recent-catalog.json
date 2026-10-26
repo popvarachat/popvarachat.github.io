@@ -1,0 +1,1132 @@
+{
+  "schema": "ptk_order_evidence_bundle_v1",
+  "source": "PUBLIC_MINIMAL_JDE_DOCUMENT_PICKER_20261026",
+  "publication": "PUBLIC_STATIC_GITHUB_PAGES",
+  "data_as_of": "2026-10-26",
+  "not_live": true,
+  "not_global_latest": true,
+  "coverage": "10 selected source-visible document headers per SO/SN/WO/PO; SN/WO include source days 22 and 26 October; other dates and security scope not source-certified empty",
+  "no_private_fields": true,
+  "traces": [
+    {
+      "trace_id": "SO 26002462 · 26/10/26",
+      "root_document": "SO 26002462",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002462",
+          "node_id": "so",
+          "title": "SO 26002462 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002462/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002462",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002462",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002461 · 26/10/26",
+      "root_document": "SO 26002461",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002461",
+          "node_id": "so",
+          "title": "SO 26002461 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002461/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002461",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002461",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002460 · 26/10/26",
+      "root_document": "SO 26002460",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002460",
+          "node_id": "so",
+          "title": "SO 26002460 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002460/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002460",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002460",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002459 · 26/10/26",
+      "root_document": "SO 26002459",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002459",
+          "node_id": "so",
+          "title": "SO 26002459 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002459/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002459",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002459",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002458 · 26/10/26",
+      "root_document": "SO 26002458",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002458",
+          "node_id": "so",
+          "title": "SO 26002458 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002458/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002458",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002458",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002453 · 26/10/26",
+      "root_document": "SO 26002453",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002453",
+          "node_id": "so",
+          "title": "SO 26002453 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002453/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002453",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002453",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002452 · 26/10/26",
+      "root_document": "SO 26002452",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002452",
+          "node_id": "so",
+          "title": "SO 26002452 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002452/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002452",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002452",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002450 · 26/10/26",
+      "root_document": "SO 26002450",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002450",
+          "node_id": "so",
+          "title": "SO 26002450 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002450/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002450",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002450",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002447 · 26/10/26",
+      "root_document": "SO 26002447",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002447",
+          "node_id": "so",
+          "title": "SO 26002447 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002447/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002447",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002447",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SO 26002444 · 26/10/26",
+      "root_document": "SO 26002444",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SO-26002444",
+          "node_id": "so",
+          "title": "SO 26002444 — Source header catalog",
+          "document_key": "PUBLIC/SO/26002444/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SO",
+            "order_number": "26002444",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26002444",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001361 · 26/10/26",
+      "root_document": "SN 26001361",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001361",
+          "node_id": "sn",
+          "title": "SN 26001361 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001361/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001361",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001361",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001359 · 26/10/26",
+      "root_document": "SN 26001359",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001359",
+          "node_id": "sn",
+          "title": "SN 26001359 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001359/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001359",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001359",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001354 · 26/10/26",
+      "root_document": "SN 26001354",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001354",
+          "node_id": "sn",
+          "title": "SN 26001354 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001354/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001354",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001354",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001343 · 26/10/26",
+      "root_document": "SN 26001343",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001343",
+          "node_id": "sn",
+          "title": "SN 26001343 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001343/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001343",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001343",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001259 · 26/10/26",
+      "root_document": "SN 26001259",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001259",
+          "node_id": "sn",
+          "title": "SN 26001259 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001259/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001259",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001259",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001358 · 22/10/26",
+      "root_document": "SN 26001358",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001358",
+          "node_id": "sn",
+          "title": "SN 26001358 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001358/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001358",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001358",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001357 · 22/10/26",
+      "root_document": "SN 26001357",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001357",
+          "node_id": "sn",
+          "title": "SN 26001357 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001357/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001357",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001357",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001356 · 22/10/26",
+      "root_document": "SN 26001356",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001356",
+          "node_id": "sn",
+          "title": "SN 26001356 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001356/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001356",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001356",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001353 · 22/10/26",
+      "root_document": "SN 26001353",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001353",
+          "node_id": "sn",
+          "title": "SN 26001353 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001353/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001353",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001353",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "SN 26001352 · 22/10/26",
+      "root_document": "SN 26001352",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-SN-26001352",
+          "node_id": "sn",
+          "title": "SN 26001352 — Source header catalog",
+          "document_key": "PUBLIC/SN/26001352/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P4210 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "SN",
+            "order_number": "26001352",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26001352",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471669 · 26/10/26",
+      "root_document": "WO 471669",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471669",
+          "node_id": "wo",
+          "title": "WO 471669 — Source header catalog",
+          "document_key": "PUBLIC/WO/471669/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471669",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471669",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471666 · 26/10/26",
+      "root_document": "WO 471666",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471666",
+          "node_id": "wo",
+          "title": "WO 471666 — Source header catalog",
+          "document_key": "PUBLIC/WO/471666/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471666",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471666",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471665 · 26/10/26",
+      "root_document": "WO 471665",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471665",
+          "node_id": "wo",
+          "title": "WO 471665 — Source header catalog",
+          "document_key": "PUBLIC/WO/471665/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471665",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471665",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471659 · 26/10/26",
+      "root_document": "WO 471659",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471659",
+          "node_id": "wo",
+          "title": "WO 471659 — Source header catalog",
+          "document_key": "PUBLIC/WO/471659/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471659",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471659",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471653 · 26/10/26",
+      "root_document": "WO 471653",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471653",
+          "node_id": "wo",
+          "title": "WO 471653 — Source header catalog",
+          "document_key": "PUBLIC/WO/471653/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471653",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471653",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471627 · 22/10/26",
+      "root_document": "WO 471627",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471627",
+          "node_id": "wo",
+          "title": "WO 471627 — Source header catalog",
+          "document_key": "PUBLIC/WO/471627/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471627",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471627",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471626 · 22/10/26",
+      "root_document": "WO 471626",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471626",
+          "node_id": "wo",
+          "title": "WO 471626 — Source header catalog",
+          "document_key": "PUBLIC/WO/471626/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471626",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471626",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471625 · 22/10/26",
+      "root_document": "WO 471625",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471625",
+          "node_id": "wo",
+          "title": "WO 471625 — Source header catalog",
+          "document_key": "PUBLIC/WO/471625/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471625",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471625",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471624 · 22/10/26",
+      "root_document": "WO 471624",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471624",
+          "node_id": "wo",
+          "title": "WO 471624 — Source header catalog",
+          "document_key": "PUBLIC/WO/471624/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471624",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471624",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "WO 471623 · 22/10/26",
+      "root_document": "WO 471623",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-WO-471623",
+          "node_id": "wo",
+          "title": "WO 471623 — Source header catalog",
+          "document_key": "PUBLIC/WO/471623/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "WO",
+            "order_number": "471623",
+            "business_date": "22/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "471623",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008302 · 26/10/26",
+      "root_document": "PO 26008302",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008302",
+          "node_id": "po",
+          "title": "PO 26008302 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008302/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008302",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008302",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008301 · 26/10/26",
+      "root_document": "PO 26008301",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008301",
+          "node_id": "po",
+          "title": "PO 26008301 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008301/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008301",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008301",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008300 · 26/10/26",
+      "root_document": "PO 26008300",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008300",
+          "node_id": "po",
+          "title": "PO 26008300 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008300/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008300",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008300",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008299 · 26/10/26",
+      "root_document": "PO 26008299",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008299",
+          "node_id": "po",
+          "title": "PO 26008299 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008299/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008299",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008299",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008298 · 26/10/26",
+      "root_document": "PO 26008298",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008298",
+          "node_id": "po",
+          "title": "PO 26008298 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008298/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008298",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008298",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008297 · 26/10/26",
+      "root_document": "PO 26008297",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008297",
+          "node_id": "po",
+          "title": "PO 26008297 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008297/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008297",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008297",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008296 · 26/10/26",
+      "root_document": "PO 26008296",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008296",
+          "node_id": "po",
+          "title": "PO 26008296 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008296/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008296",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008296",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008295 · 26/10/26",
+      "root_document": "PO 26008295",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008295",
+          "node_id": "po",
+          "title": "PO 26008295 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008295/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008295",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008295",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008294 · 26/10/26",
+      "root_document": "PO 26008294",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008294",
+          "node_id": "po",
+          "title": "PO 26008294 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008294/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008294",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008294",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    },
+    {
+      "trace_id": "PO 26008293 · 26/10/26",
+      "root_document": "PO 26008293",
+      "records": [
+        {
+          "record_id": "PUBLIC-CATALOG-PO-26008293",
+          "node_id": "po",
+          "title": "PO 26008293 — Source header catalog",
+          "document_key": "PUBLIC/OP/26008293/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P4310 (read-only UI header inquiry)",
+          "evidence_level": "PUBLIC_BOUNDED_CATALOG",
+          "evidence_ref": "PRIVATE_SOURCE_SNAPSHOT_20261026",
+          "inputs": {
+            "order_type": "PO",
+            "order_number": "26008293",
+            "business_date": "26/10/26"
+          },
+          "outputs": {
+            "order_number_observed": "26008293",
+            "downstream_stage": "NOT_EXTRACTED_FROM_PUBLIC_CATALOG"
+          },
+          "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
+        }
+      ],
+      "links": []
+    }
+  ]
+}
