@@ -47,7 +47,26 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 <div class="stat"><strong id="countCandidate">—</strong><small>พบข้อความตรงขั้นตอน (รอตรวจ)</small></div>
 <div class="stat"><strong id="countRisk">—</strong><small>Excel ปิดแต่ยังไม่มีหลักฐานขั้นตอน</small></div>
 </div><p id="coverage" class="summary">ยังไม่มีหลักฐาน LINE ที่นำเข้ามาตรวจ</p></section>
-<section class="panel"><h2>3. Digital Twin Timeline · สมาคมนักนวัตกรรม</h2>
+<section class="panel" id="twin360">
+<div class="flex"><div class="grow"><div class="eyebrow">SINGLE ROOM · DIGITAL TWIN 360° · EVIDENCE LINEAGE</div><h2>3. ห้องนวัตกรรม — Digital Twin 360°</h2>
+<p>เจาะงาน/คำสั่ง/ผู้รับผิดชอบ/สื่อหลักฐาน/CB แบบเป็นระบบ ตีความข้อความเป็นเพียงสัญญาณเบื้องต้น ไม่ใช่ผลรับรองงาน</p></div><span class="tag" id="twinState">รอ Private Twin…</span></div>
+<div class="stats">
+ <div class="stat"><strong id="twinEvents">—</strong><small>เหตุการณ์เฉพาะห้อง</small></div>
+ <div class="stat"><strong id="twinVerified">—</strong><small>ผู้ส่งที่ยืนยันตัวตน</small></div>
+ <div class="stat"><strong id="twinEvidence">—</strong><small>หลักฐานสื่อใน D1</small></div>
+ <div class="stat"><strong id="twinCandidate">—</strong><small>CB ขั้นตอนที่อาจมีแจ้ง</small></div>
+ <div class="stat"><strong id="twinOrphan">—</strong><small>เลข Order ที่ไม่ตรง CB</small></div>
+</div>
+<div class="notice" style="margin-top:13px" id="twinLineage">แหล่งข้อมูล: Cloudflare D1 ห้องที่ยืนยันแล้ว · MOVEMENT_EVENT_LOG (Google Sheets) เป็นประวัติประกอบ แยกนับ ไม่รวมจำนวนโดยตรง</div>
+<div class="flex" style="margin:15px 0">
+ <button type="button" class="twin-mode" data-twin-mode="cb">CB / ขั้นตอน</button>
+ <button type="button" class="twin-mode" data-twin-mode="signals">งานสั่งการ/ความเสี่ยง</button>
+ <button type="button" class="twin-mode" data-twin-mode="media">รูปภาพและหลักฐาน</button>
+ <button type="button" class="twin-mode" data-twin-mode="people">ผู้ส่ง/คุณภาพข้อมูล</button>
+</div>
+<div id="twinDrill"><p class="muted">กำลังโหลด Digital Twin จาก Private Viewer</p></div>
+</section>
+<section class="panel"><h2>4. Digital Twin Timeline · สมาคมนักนวัตกรรม</h2>
 <p>ข้อความ รูปภาพ วิดีโอ ไฟล์ และประวัติในห้องเดียว · ข้อมูลจาก D1 เฉพาะ Room ID ที่ยืนยันแล้ว · คลิกดูข้อความต้นทางโดยไม่ส่งข้อมูลออกจาก Browser</p>
 <div class="flex">
  <label class="field">ค้นหาข้อความ / SO / ผู้ส่ง<input id="roomQuery" type="search" placeholder="ค้นหาเฉพาะห้องนี้…"></label>
@@ -58,7 +77,7 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 <div id="roomStream"><p class="muted">รอข้อมูล LINE จาก Private Viewer</p></div>
 </section>
 <section class="panel">
-<div class="flex"><div class="grow"><h2>4. รายโครงการ → รายการย่อย → หลักฐาน</h2><p>ตรงเลข Order + เลขขั้นตอน = ข้อความที่อาจใช่; เจอแต่เลข Order = กล่าวถึงโครงการ (ยังไม่ยืนยันขั้นตอน)</p></div><button id="export">ส่งออกรายงานผลตรวจ JSON (เฉพาะเครื่อง)</button></div>
+<div class="flex"><div class="grow"><h2>5. รายโครงการ → รายการย่อย → หลักฐาน</h2><p>ตรงเลข Order + เลขขั้นตอน = ข้อความที่อาจใช่; เจอแต่เลข Order = กล่าวถึงโครงการ (ยังไม่ยืนยันขั้นตอน)</p></div><button id="export">ส่งออกรายงานผลตรวจ JSON (เฉพาะเครื่อง)</button></div>
 <div class="flex"><label class="field">ค้นหา CB / SO / สินค้า / ขั้นตอน<input id="query" type="search" placeholder="เช่น CB-66, SO2092, 1.2"></label>
 <label class="field">กลุ่ม<select id="group"><option value="">ทุกกลุ่ม</option><option value="cb_edu">EDU</option><option value="cb_icf">ICF</option><option value="cb_ics">ICS</option><option value="cb_new">สินค้าไม่เคยผลิต</option><option value="cb_abdul">อับดุล</option></select></label>
 <label class="field">สถานะ LINE<select id="state"><option value="">ทุกสถานะ</option><option value="candidate">พบขั้นตอน (รอตรวจ)</option><option value="related">พบแค่ Order</option><option value="absent">ไม่พบใน Snapshot</option><option value="unknown">ไม่มีข้อมูล LINE ยืนยัน</option><option value="risk">Excel ปิด แต่ไม่พบขั้นตอน</option></select></label></div>
@@ -69,6 +88,7 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 "use strict";
 const el=id=>document.getElementById(id),escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let pivot=[],events=[],lineLoaded=false,stamp="",lineFileName="",hasRoomCoverage=false;
+let twinInfo=null,twinMode="cb";
 const ROOM_ALIASES=new Set(["สมาคมนักนวัตกรรม","สมาคมนวัตกรรม"]);
 function norm(s){return String(s||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
 function v(x){return String(x??"")}
@@ -129,6 +149,69 @@ function projects(){
  }
  return [...map.values()].sort((a,b)=>Number((a.cbno.match(/\d+/)||[])[0])-Number((b.cbno.match(/\d+/)||[])[0]));
 }
+function numeric(id,n){el(id).textContent=(Number(n)||0).toLocaleString("th-TH")}
+function renderTwin(){
+ if(!twinInfo)return;
+ const t=twinInfo,counts=t.totals||{};
+ numeric("twinEvents",counts.events);numeric("twinVerified",counts.identified_senders);
+ numeric("twinEvidence",counts.evidence_metadata);numeric("twinCandidate",counts.cb_candidate_steps);
+ numeric("twinOrphan",Object.keys(t.orders_not_in_cb||{}).length);
+ el("twinState").textContent="เชื่อมข้อมูลแล้ว · "+new Date(t.generated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"});
+ el("twinLineage").textContent="D1 เฉพาะห้อง: "+counts.events+" เหตุการณ์ · ครอบคลุมจาก "+(t.source.captured_from||"ไม่ทราบ")+" ถึง "+(t.source.captured_until||"ไม่มีข้อมูล")+
+ " · Google Sheets MOVEMENT_EVENT_LOG ตรวจพบย้อนหลัง 1,799 แถว ณ 26/10/2026 (ยังไม่ยืนยันการจับคู่ Event ID ครบทุกรายการ) · ห้ามบวกจำนวนทั้งสองระบบเข้าด้วยกัน";
+ document.querySelectorAll(".twin-mode").forEach(b=>b.style.background=b.dataset.twinMode===twinMode?"#256087":"#173c59");
+ let html="";
+ if(twinMode==="cb"){
+   const jobs=t.cb_projects||[];
+   html='<p class="summary">ทุก CB '+jobs.length+' โครงการ · '+counts.cb_steps+' ขั้นตอน · ขั้นที่มีข้อความระบุเลขขั้นตอนและ Order '+counts.cb_candidate_steps+' (ยังต้องตรวจรับรองด้วยมนุษย์)</p>';
+   html+='<label class="field" style="margin-bottom:12px">ค้นหา SO / CB / ชื่อโครงการ <input type="search" id="twinCbQuery" placeholder="SO26002092, CB-66…"></label>';
+   html+='<div id="twinCbList"></div>';
+ }else if(twinMode==="signals"){
+   const desc={blocker:"ความเสี่ยง/ติดขัด",decision:"ข้อความเชิงตัดสินใจ",instruction:"คำขอ/มอบหมาย",progress:"รายงานความคืบหน้า",unclassified:"ข้อความอื่น",media_or_system:"สื่อหรือเหตุการณ์ระบบ"};
+   html='<div class="stats">'+Object.entries(t.signals||{}).sort((a,b)=>b[1]-a[1]).map(([k,n])=>'<div class="stat"><strong>'+n+'</strong><small>'+escapeHTML(desc[k]||k)+'</small></div>').join("")+'</div>';
+   html+='<p class="notice" style="margin-top:10px">การจำแนกด้วยกฎคำสำคัญ ไม่ใช่คำสั่งงานที่ยืนยันแล้ว และไม่นับว่ามีการดำเนินการจนเสร็จ</p>';
+   html+='<div>'+[...t.events].filter(x=>["blocker","decision","instruction","progress"].includes(x.signal)).sort((a,b)=>b.timestamp.localeCompare(a.timestamp)).slice(0,25).map(e=>'<div class="event-row"><span class="tag">'+escapeHTML(desc[e.signal])+'</span> <b>'+escapeHTML(e.sender)+'</b> · <span class="meta">'+escapeHTML(e.timestamp)+'</span><details><summary class="meta">แสดงข้อความต้นฉบับ</summary><div class="evidence">'+escapeHTML(e.text.slice(0,1300))+'</div></details></div>').join("")+'</div>';
+ }else if(twinMode==="media"){
+  const keys=t.media_status||{};html='<div class="stats">'+Object.entries(keys).sort((a,b)=>b[1]-a[1]).map(([k,v])=>'<div class="stat"><strong>'+v+'</strong><small>'+escapeHTML(k)+'</small></div>').join("")+'</div>';
+  html+='<p class="notice" style="margin-top:12px">ARCHIVED หมายถึงมีหลักฐานไฟล์ในคลัง ไม่ได้หมายถึงตรวจคุณภาพภาพ/ไฟล์แล้ว; AWAITING_CONTENT และ CONTENT_UNAVAILABLE ต้องติดตาม</p>';
+  const imageEvents=t.events.filter(e=>e.evidence&&e.evidence.length);
+  html+='<div>'+imageEvents.slice(-24).reverse().map(e=>'<div class="event-row"><b>'+escapeHTML(e.kind)+'</b> · '+escapeHTML(e.sender)+' <span class="meta">'+escapeHTML(e.timestamp)+'</span><div>'+e.evidence.map(x=>'<span class="tag">'+escapeHTML(x.type+' · '+x.content_status)+'</span>').join(" ")+'</div><div class="meta">หลักฐานเชื่อมตรง Event ID; ไม่เปิดเผย URL คลังไฟล์ในเว็บสาธารณะ</div></div>').join("")+'</div>';
+ }else{
+   html='<div class="stats"><div class="stat"><strong>'+counts.identified_senders+'</strong><small>ตัวตนผู้ส่งที่ยืนยันจาก D1</small></div><div class="stat"><strong>'+counts.events_with_verified_sender+'</strong><small>เหตุการณ์ที่ผูกผู้ส่งยืนยัน</small></div><div class="stat"><strong>'+counts.orders_mentioned+'</strong><small>เลข Order ที่กล่าวถึงในห้อง</small></div></div>';
+   html+='<p class="notice" style="margin-top:12px">ผู้ส่งที่ยังไม่มีชื่อยืนยันจะแสดงว่า “ยังไม่ยืนยันชื่อผู้ส่ง” ไม่อนุมานตัวตนจากข้อความ</p>';
+   html+='<div style="overflow:auto"><table><thead><tr><th>ผู้ส่ง</th><th>เหตุการณ์</th></tr></thead><tbody>'+t.senders.slice(0,32).map(x=>'<tr><td>'+escapeHTML(x.name)+'</td><td>'+x.events+'</td></tr>').join("")+'</tbody></table></div>';
+ }
+ el("twinDrill").innerHTML=html;
+ if(twinMode==="cb"){
+  const input=el("twinCbQuery");input.addEventListener("input",renderTwinCb);
+  renderTwinCb();
+ }
+}
+function renderTwinCb(){
+ const query=(el("twinCbQuery")?.value||"").toLocaleLowerCase();
+ const items=(twinInfo?.cb_projects||[]).filter(x=>!query||(x.project+" "+x.key+" "+x.orders.join(" ")).toLocaleLowerCase().includes(query));
+ el("twinCbList").innerHTML='<p class="summary">แสดง '+Math.min(items.length,25)+' / '+items.length+' โครงการ · พิมพ์ค้นหาเพื่อเจาะรายการถัดไป</p>'+
+ items.slice(0,25).map(w=>'<details class="project"><summary><b>'+escapeHTML(w.key)+'</b> '+escapeHTML(w.project)+' <span class="meta">('+w.line_order_mentions+' ข้อความอ้างถึง Order · '+w.steps.length+' ขั้นตอน)</span></summary>'+
+ '<div style="overflow:auto"><table><thead><tr><th>ขั้น</th><th>ตาม Excel</th><th>ผลค้นใน LINE</th><th>หลักฐาน</th></tr></thead><tbody>'+
+ w.steps.map(st=>'<tr><td>'+escapeHTML(st.code)+'</td><td>'+escapeHTML(st.description)+'<div class="meta">'+escapeHTML(st.excel_status)+'</div></td><td><span class="tag '+(st.evidence_state==="candidate"?"candidate":"unknown")+'">'+escapeHTML(st.evidence_state==="candidate"?"พบเลขขั้นตอน (รอตรวจ)":st.evidence_state==="related"?"กล่าวถึง Order แต่ยังไม่ยืนยันขั้นตอน":"ไม่พบในช่วงข้อมูลที่มี")+'</span></td><td>'+st.candidate_event_ids.map(id=>'<button class="ghost" type="button" data-event-id="'+escapeHTML(id)+'">Event '+escapeHTML(id.slice(0,12))+'</button>').join(" ")+'</td></tr>').join("")+'</tbody></table></div></details>').join("");
+ el("twinCbList").querySelectorAll("[data-event-id]").forEach(b=>b.addEventListener("click",()=>{
+  const item=twinInfo.events.find(e=>e.event_id===b.dataset.eventId);
+  if(item)alert("ผู้ส่ง: "+item.sender+"\nเวลา: "+item.timestamp+"\nข้อความ:\n"+item.text.slice(0,1600));
+ }));
+}
+async function loadTwin(){
+ try{
+  const resp=await fetch("http://127.0.0.1:8766/innovation-room-twin.json",{mode:"cors",cache:"no-store"});
+  if(!resp.ok)throw Error("HTTP "+resp.status);
+  const obj=await resp.json();
+  if(obj.room?.room_id!=="C35b693497229b91100a0b264e526053b"||obj.room?.verified!==true)throw Error("Room source unverified");
+  twinInfo=obj;renderTwin();
+ }catch(e){
+   el("twinState").textContent="Private Twin ยังไม่เชื่อม";
+   el("twinDrill").innerHTML='<p class="muted">ไม่มีข้อมูล Digital Twin ฉบับละเอียดจาก Viewer · เปิดบน NB ที่ http://127.0.0.1:8766/line-audit.html หรือทดสอบสิทธิ์ Local Network ของ Browser</p>';
+ }
+}
+document.querySelectorAll(".twin-mode").forEach(b=>b.addEventListener("click",()=>{twinMode=b.dataset.twinMode;renderTwin()}));
 function renderRoom(){
  const stats={};for(const e of events){const k=e.type||"unknown";stats[k]=(stats[k]||0)+1}
  el("roomTypeCounts").innerHTML=Object.entries(stats).sort((a,b)=>b[1]-a[1]).map(([k,n])=>'<span class="tag">'+escapeHTML(k)+" "+n.toLocaleString()+'</span>').join("");
@@ -213,5 +296,5 @@ async function loadRoom(){
   collect();
  }catch(err){el("roomMonitor").textContent="ไม่พบข้อมูลห้องจาก Private Viewer บน NB · สามารถเลือกไฟล์ JSON ที่ได้รับอนุญาตได้ · ไม่ใช้ข้อมูลห้องอื่นแทน";}
 }
-loadPivot();loadRoom();
+loadPivot();loadRoom();loadTwin();
 </script></body></html>
