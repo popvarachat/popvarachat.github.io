@@ -66,3 +66,6 @@ a{color:inherit}button{font:inherit}
 @media(max-width:960px){.workspace-hero{grid-template-columns:1fr}.hero-main{padding:17px 6px}.hero-path{display:grid;grid-template-columns:repeat(3,minmax(0,1fr))}.route-head,.route-foot{grid-column:1/-1}.route-node{align-items:start}.route-symbol{display:none}}
 @media(max-width:750px){.workspace-grid,.guide-grid{grid-template-columns:1fr}.module{min-height:0}.hero-path{display:flex}.health-overview{grid-template-columns:1fr}.section-heading{align-items:start}}
 @media(max-width:560px){.workspace{padding:20px 14px 30px}.workspace h1{font-size:35px}.health-strip{align-items:stretch;flex-direction:column}.hero-actions a{width:100%}.workspace-section{scroll-margin-top:120px}}
+
+.private-workspace-link{display:inline-flex;align-items:center;margin-top:13px;padding:9px 12px;border-radius:9px;border:1px solid #32677d;background:#123344;color:#b7eaf2;text-decoration:none;font-size:12px;font-weight:700}
+.private-workspace-link:hover{background:#21536b}
