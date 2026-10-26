@@ -1,6 +1,1 @@
-{
-  "schema": 1,
-  "updated_at": null,
-  "sources": {},
-  "note": "Only explicitly user-triggered local source checks appear here; not equal to weekday Cron audit."
-}
+{"schema": 1, "updated_at": null, "sources": {"cb_icf": {"key": "cb_icf", "last_success_at": "2026-10-26T11:01:24.594797+00:00", "source_modified_at": "2026-10-20T08:21:11+00:00", "verification": "workbook_read_unchanged", "result": "manual_verified"}}, "note": "Only explicitly user-triggered local source checks appear here; not equal to weekday Cron audit.", "last_received_at": "2026-10-26T11:01:26.107221+00:00"}
