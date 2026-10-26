@@ -47,6 +47,31 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 <div class="stat"><strong id="countCandidate">—</strong><small>พบข้อความตรงขั้นตอน (รอตรวจ)</small></div>
 <div class="stat"><strong id="countRisk">—</strong><small>Excel ปิดแต่ยังไม่มีหลักฐานขั้นตอน</small></div>
 </div><p id="coverage" class="summary">ยังไม่มีหลักฐาน LINE ที่นำเข้ามาตรวจ</p></section>
+
+<section class="panel" id="md-progress">
+<div class="flex"><div class="grow"><div class="eyebrow">MD PROGRESS · VERIFIED ROOM ONLY · REPORTING NOT CLOSURE</div>
+<h2>สรุปความคืบหน้างาน MD จาก LINE</h2><p>สรุปตามเลขงานและตามข้อความที่ยังไม่ผูกกับโครงการ โดยกดดูผู้รายงาน เวลา และข้อความต้นฉบับทุกประเด็นได้</p></div>
+<span class="tag" id="mdProgressSync">กำลังโหลดข้อมูลจริง…</span></div>
+<div class="stats" style="margin:15px 0">
+<div class="stat"><strong id="mdProgressTotal">—</strong><small>ข้อความในช่วงที่เลือก</small></div>
+<div class="stat"><strong id="mdProgressOrders">—</strong><small>เลข Order ที่กล่าวถึง</small></div>
+<div class="stat"><strong id="mdProgressUpdates">—</strong><small>ข้อความเข้าข่ายรายงานคืบหน้า</small></div>
+<div class="stat"><strong id="mdProgressBlocks">—</strong><small>ข้อความเข้าข่ายปัญหา</small></div>
+<div class="stat"><strong id="mdProgressUnlinked">—</strong><small>ข้อความยังจับคู่เลขงานไม่ได้</small></div>
+</div>
+<div class="flex" style="margin:10px 0 15px">
+<label class="field">ช่วงเวลา<select id="mdProgressPeriod"><option value="7">7 วันล่าสุด</option><option value="30" selected>30 วันล่าสุด</option><option value="all">ทั้งหมดที่ระบบเก็บได้</option></select></label>
+<label class="field">ประเภท<select id="mdProgressType"><option value="">ทุกประเภท</option><option value="progress">รายงานคืบหน้า</option><option value="blocker">ปัญหา/อุปสรรค</option><option value="instruction">คำขอ/คำสั่งงาน</option><option value="decision">ข้อความเชิงตัดสินใจ</option><option value="unclassified">ยังจำแนกไม่ได้</option></select></label>
+<label class="field">ค้นหาเลขงาน / ข้อความ / ผู้ส่ง<input id="mdProgressSearch" type="search" placeholder="ค้นหารายงาน MD…"></label>
+</div>
+<div class="flex" style="margin-bottom:12px">
+<button type="button" class="md-report-mode" data-md-report-mode="orders">ความคืบหน้าตาม Order</button>
+<button type="button" class="md-report-mode" data-md-report-mode="unlinked">รายงานยังไม่ผูกเลขงาน</button>
+<button type="button" class="md-report-mode" data-md-report-mode="daily">สรุปรายวัน</button>
+</div>
+<div id="mdProgressContent"><p class="muted">กำลังอ่านทะเบียน LINE และหลักฐานจริงบน NB…</p></div>
+<p class="notice" style="margin-top:13px">คำว่า “คืบหน้า / ติดขัด” เป็นเพียงประเภทข้อความที่ตรวจพบ ไม่ใช่สถานะงานที่รับรองแล้ว · ข้อความเดียวอาจเกี่ยวข้องหลาย Order · รายงานที่ไม่มีเลข SO ไม่ถูกนำไปเดาว่าเป็นงานใด · เปิดดูหลักฐานต้นฉบับก่อนสรุปปิดงาน</p>
+</section>
 <section class="panel" id="twin360">
 <div class="flex"><div class="grow"><div class="eyebrow">SINGLE ROOM · DIGITAL TWIN 360° · EVIDENCE LINEAGE</div><h2>3. ห้องนวัตกรรม — Digital Twin 360°</h2>
 <p>เจาะงาน/คำสั่ง/ผู้รับผิดชอบ/สื่อหลักฐาน/CB แบบเป็นระบบ ตีความข้อความเป็นเพียงสัญญาณเบื้องต้น ไม่ใช่ผลรับรองงาน</p></div><span class="tag" id="twinState">รอ Private Twin…</span></div>
@@ -90,6 +115,7 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 const el=id=>document.getElementById(id),escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let pivot=[],events=[],lineLoaded=false,stamp="",lineFileName="",hasRoomCoverage=false;
 let twinInfo=null,twinMode="cb";
+let mdReportMode="orders";
 const ROOM_ALIASES=new Set(["สมาคมนักนวัตกรรม","สมาคมนวัตกรรม"]);
 function norm(s){return String(s||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
 function v(x){return String(x??"")}
@@ -207,13 +233,112 @@ async function loadTwin(){
   if(!resp.ok)throw Error("HTTP "+resp.status);
   const obj=await resp.json();
   if(obj.room?.name!=="สมาคมนักนวัตกรรม"||obj.room?.verified!==true)throw Error("Room source unverified");
-  twinInfo=obj;renderTwin();
+  twinInfo=obj;renderTwin();renderMdProgress();
  }catch(e){
    el("twinState").textContent="Private Twin ยังไม่เชื่อม";
    el("twinDrill").innerHTML='<p class="muted">ไม่มีข้อมูล Digital Twin ฉบับละเอียดจาก Viewer · เปิดบน NB ที่ http://127.0.0.1:8766/line-audit.html หรือทดสอบสิทธิ์ Local Network ของ Browser</p>';
  }
 }
 document.querySelectorAll(".twin-mode").forEach(b=>b.addEventListener("click",()=>{twinMode=b.dataset.twinMode;renderTwin()}));
+["mdProgressPeriod","mdProgressType","mdProgressSearch"].forEach(id=>el(id).addEventListener("input",renderMdProgress));
+document.querySelectorAll(".md-report-mode").forEach(b=>b.addEventListener("click",()=>{mdReportMode=b.dataset.mdReportMode;renderMdProgress()}));
+
+const mdSignalNames={progress:"รายงานคืบหน้า",blocker:"อุปสรรค/ติดขัด",instruction:"คำสั่ง/คำขอ",decision:"ข้อความเชิงตัดสินใจ",unclassified:"ยังจำแนกไม่ได้"};
+function mdDate(time){
+ const v=new Date(time);
+ return Number.isFinite(v.getTime())?v.toLocaleString("th-TH",{timeZone:"Asia/Bangkok",day:"2-digit",month:"short",year:"numeric",hour:"2-digit",minute:"2-digit"}):"ไม่ทราบเวลา";
+}
+function mdTextReport(event){
+ const id=escapeHTML(event.event_id||"");
+ const msg=escapeHTML(String(event.text||"").slice(0,2200));
+ const evidence=(event.evidence||[]).length;
+ const nearby=(event.nearby_media_event_ids||[]).length;
+ return '<details class="event-row"><summary><span class="tag '+(event.signal==="blocker"?"related":"")+'">'+escapeHTML(mdSignalNames[event.signal]||event.signal)+'</span> '+
+ '<strong>'+escapeHTML(event.sender||"ไม่ระบุผู้รายงาน")+'</strong> · '+escapeHTML(mdDate(event.timestamp))+
+ ' <span class="meta"> Event '+id.slice(0,14)+'…</span></summary>'+
+ '<div class="evidence">'+msg+'</div><div class="meta">Event ID: '+id+
+ ' · หลักฐานที่มี Event ID เดียวกัน '+evidence+' รายการ · สื่อเวลาใกล้กัน '+nearby+
+ ' รายการ (ยังไม่ยืนยันว่าแนบกับข้อความนี้)</div></details>';
+}
+function filteredMdEvents(){
+ const days=el("mdProgressPeriod").value;
+ const cutoff=days==="all"?0:Date.now()-Number(days)*86400000;
+ const kind=el("mdProgressType").value,query=el("mdProgressSearch").value.trim().toLocaleLowerCase();
+ return (twinInfo?.events||[]).filter(e=>{
+  if(e.kind!=="text")return false;
+  if(cutoff&&!(new Date(e.timestamp).getTime()>=cutoff))return false;
+  if(kind&&e.signal!==kind)return false;
+  if(query&&!([e.sender,e.text,...(e.order_refs||[])].join(" ").toLocaleLowerCase().includes(query)))return false;
+  return true;
+ }).sort((a,b)=>b.timestamp.localeCompare(a.timestamp));
+}
+function renderMdProgress(){
+ if(!twinInfo)return;
+ const all=filteredMdEvents(),linked=all.filter(e=>(e.order_refs||[]).length);
+ const uniqueOrders=new Set(linked.flatMap(e=>e.order_refs));
+ const unlinked=all.filter(e=>!(e.order_refs||[]).length);
+ const source=twinInfo.source||{};
+ el("mdProgressTotal").textContent=all.length.toLocaleString("th-TH");
+ el("mdProgressOrders").textContent=uniqueOrders.size.toLocaleString("th-TH");
+ el("mdProgressUpdates").textContent=all.filter(e=>e.signal==="progress").length.toLocaleString("th-TH");
+ el("mdProgressBlocks").textContent=all.filter(e=>e.signal==="blocker").length.toLocaleString("th-TH");
+ el("mdProgressUnlinked").textContent=unlinked.length.toLocaleString("th-TH");
+ el("mdProgressSync").textContent="D1 ถึง "+mdDate(source.captured_until)+" · Twin "+mdDate(twinInfo.generated_at);
+ document.querySelectorAll(".md-report-mode").forEach(b=>b.style.background=b.dataset.mdReportMode===mdReportMode?"#256087":"#173c59");
+ const out=el("mdProgressContent");
+ if(mdReportMode==="unlinked"){
+  const cnt=Object.entries(mdSignalNames).map(([k,v])=>[v,unlinked.filter(x=>x.signal===k).length]);
+  out.innerHTML='<p class="summary">ข้อความไม่มีเลข Order จำนวน '+unlinked.length+' รายการ · ยังไม่ผูกกับงาน MD/CB โดยอัตโนมัติ</p>'+
+   '<div class="flex">'+cnt.map(([k,v])=>'<span class="tag">'+escapeHTML(k)+' '+v+'</span>').join("")+'</div>'+
+   (unlinked.length?unlinked.slice(0,55).map(mdTextReport).join(""):'<p class="muted">ไม่มีรายงานตามเงื่อนไขนี้</p>')+
+   (unlinked.length>55?'<p class="muted">แสดง 55 รายการล่าสุด กรุณาใช้ตัวกรองเพื่อค้นหาข้อความอื่น</p>':"");
+ }else if(mdReportMode==="daily"){
+  const dates=new Map();
+  for(const e of all){
+   const n=new Date(e.timestamp);if(!Number.isFinite(n.getTime()))continue;
+   const day=new Date(n.getTime()+7*3600000).toISOString().slice(0,10);
+   if(!dates.has(day))dates.set(day,[]);
+   dates.get(day).push(e);
+  }
+  const days=[...dates.entries()].sort((a,b)=>b[0].localeCompare(a[0]));
+  out.innerHTML=days.map(([date,list])=>{
+    const progress=list.filter(e=>e.signal==="progress"),problem=list.filter(e=>e.signal==="blocker");
+    const ids=new Set(list.flatMap(e=>e.order_refs||[]));
+    return '<details class="project"><summary><strong>'+escapeHTML(date)+'</strong> · '+list.length+
+      ' ข้อความ · รายงานคืบหน้า '+progress.length+' · ปัญหา '+problem.length+' · Order '+ids.size+'</summary>'+
+      '<div style="padding:12px">'+list.slice(0,35).map(mdTextReport).join("")+
+      (list.length>35?'<p class="muted">แสดง 35 รายการล่าสุดของวัน กรุณากรองประเภทเพื่อดูละเอียด</p>':"")+'</div></details>';
+  }).join("")||'<p class="muted">ยังไม่มีข้อความในช่วงเวลานี้</p>';
+ }else{
+  const grouped=new Map();
+  for(const e of linked)for(const ord of e.order_refs){
+   if(!grouped.has(ord))grouped.set(ord,new Map());
+   grouped.get(ord).set(e.event_id,e);
+  }
+  const cb=new Map();
+  for(const item of twinInfo.cb_projects||[])for(const ord of item.orders||[]){
+    if(!cb.has(ord))cb.set(ord,[]);
+    cb.get(ord).push(item);
+  }
+  const groups=[...grouped.entries()].map(([ord,m])=>({ord,events:[...m.values()].sort((a,b)=>b.timestamp.localeCompare(a.timestamp))}))
+    .sort((a,b)=>b.events[0].timestamp.localeCompare(a.events[0].timestamp));
+  out.innerHTML='<p class="summary">จับกลุ่มเลข Order ที่ปรากฏจริง '+groups.length+' กลุ่ม · ข้อความหนึ่งอาจกล่าวถึงหลายเลข Order จึงไม่ใช้ผลรวมเป็นจำนวนข้อความที่ไม่ซ้ำ</p>'+
+  (groups.length?groups.map(g=>{
+    const related=cb.get(g.ord)||[],updated=g.events.filter(e=>e.signal==="progress"),block=g.events.filter(e=>e.signal==="blocker");
+    const assigned=related.length?"CB เกี่ยวข้อง "+related.length+" โครงการ · "+related.slice(0,3).map(x=>x.project).join(" | "):"ยังไม่พบใน CB 92 โครงการ";
+    const last=g.events[0];
+    return '<details class="project"><summary><strong>'+escapeHTML(g.ord)+'</strong> · '+g.events.length+' ข้อความ'+
+      ' <span class="tag '+(block.length?"related":"")+'">รายงาน '+updated.length+' / ปัญหา '+block.length+'</span>'+
+      ' <span class="meta">ล่าสุด '+escapeHTML(mdDate(last.timestamp))+' · ผู้รายงาน '+escapeHTML(last.sender)+'</span></summary>'+
+      '<div style="padding:12px"><p class="summary">'+escapeHTML(assigned)+'</p>'+
+      '<p class="notice">รายงานล่าสุดไม่ใช่สถานะปิดงาน · หาก Order เดียวมีหลายโครงการ ต้องตรวจทีละโครงการและขั้นตอน</p>'+
+      '<p class="summary"><strong>รายงาน/หลักฐานล่าสุด</strong></p>'+
+      g.events.slice(0,18).map(mdTextReport).join("")+
+      (g.events.length>18?'<p class="muted">แสดง 18 รายการล่าสุดเพื่อไม่ให้หน้าหนักเกินไป</p>':"")+'</div></details>';
+  }).join(""):'<p class="muted">ไม่พบข้อความที่ระบุเลข Order ในช่วงที่เลือก</p>');
+ }
+}
+
 function renderRoom(){
  const stats={};for(const e of events){const k=e.type||"unknown";stats[k]=(stats[k]||0)+1}
  el("roomTypeCounts").innerHTML=Object.entries(stats).sort((a,b)=>b[1]-a[1]).map(([k,n])=>'<span class="tag">'+escapeHTML(k)+" "+n.toLocaleString()+'</span>').join("");
