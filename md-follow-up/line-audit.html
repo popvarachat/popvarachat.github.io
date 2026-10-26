@@ -160,7 +160,7 @@ function renderTwin(){
  el("twinSignals").textContent=(counts.cb_semantic_steps||0).toLocaleString("th-TH");
  el("twinState").textContent="เชื่อมข้อมูลแล้ว · "+new Date(t.generated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"});
  el("twinLineage").textContent="D1 เฉพาะห้อง: "+counts.events+" เหตุการณ์ · ครอบคลุมจาก "+(t.source.captured_from||"ไม่ทราบ")+" ถึง "+(t.source.captured_until||"ไม่มีข้อมูล")+
- " · Google Sheets MOVEMENT_EVENT_LOG ตรวจพบย้อนหลัง 1,799 แถว ณ 26/10/2026 (ยังไม่ยืนยันการจับคู่ Event ID ครบทุกรายการ) · ห้ามบวกจำนวนทั้งสองระบบเข้าด้วยกัน";
+ " · Google Sheets MOVEMENT_EVENT_LOG ใช้ประกอบประวัติย้อนหลัง แต่ยังไม่ผ่านการจับคู่ Event ID ครบ จึงไม่นำจำนวนจากสองระบบมาบวกกัน";
  document.querySelectorAll(".twin-mode").forEach(b=>b.style.background=b.dataset.twinMode===twinMode?"#256087":"#173c59");
  let html="";
  if(twinMode==="cb"){
@@ -206,7 +206,7 @@ async function loadTwin(){
   const resp=await fetch("http://127.0.0.1:8766/innovation-room-twin.json",{mode:"cors",cache:"no-store"});
   if(!resp.ok)throw Error("HTTP "+resp.status);
   const obj=await resp.json();
-  if(obj.room?.room_id!=="C35b693497229b91100a0b264e526053b"||obj.room?.verified!==true)throw Error("Room source unverified");
+  if(obj.room?.name!=="สมาคมนักนวัตกรรม"||obj.room?.verified!==true)throw Error("Room source unverified");
   twinInfo=obj;renderTwin();
  }catch(e){
    el("twinState").textContent="Private Twin ยังไม่เชื่อม";
