@@ -6,7 +6,7 @@
   const current=location.pathname.split("/").pop()||"index.html";
   const isNB=["127.0.0.1","localhost"].includes(location.hostname);
   const base=isNB?"/":"./";
-  const home=isNB?"https://popvarachat.github.io/md-follow-up/":"./";
+  const home=isNB?"/workspace.html":"./";
   const sections=[
    {key:"index.html",title:"ภาพรวม",href:home},
    {key:"pivot.html",title:"งาน MD",href:base+"pivot.html"},
@@ -31,7 +31,7 @@
     '<a href="'+home+'#source-status">สถานะและความสดของ Sources</a>'+
     '<a href="'+(isNB?"https://popvarachat.github.io/md-follow-up/architecture.html":"./architecture.html")+'">Architecture / ผังระบบ</a>'+
     '<a href="https://popvarachat.github.io/">Apps Portal</a>'+
-    (isNB?'<a href="'+home+'">หน้าเริ่มต้น GitHub Web</a>':'<a href="http://127.0.0.1:8766/pivot.html">Private Viewer บน NB</a>')+
+    (isNB?'<a href="'+home+'">หน้าเริ่มต้น GitHub Web</a>':'<a href="http://127.0.0.1:8766/workspace.html">Private Workspace บน NB</a>')+
     '</div></details></div><div class="md-global-context"><b>'+({ "index.html":"ภาพรวม","pivot.html":"ติดตามงาน MD","line-audit.html":"LINE Evidence","mm.html":"MM Agenda","architecture.html":"Architecture" }[current]||"MD Control")+'</b> / '+(captions[current]||captions["index.html"])+'</div>';
   document.body.insertBefore(nav,document.body.firstChild);
   const more=nav.querySelector(".md-global-more");
