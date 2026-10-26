@@ -15,6 +15,7 @@ on:
       - 'md-follow-up/pivot.js'
       - 'md-follow-up/pivot.html'
       - 'md-follow-up/line-audit.html'
+      - 'md-follow-up/mm.html'
 
 permissions:
   contents: read
