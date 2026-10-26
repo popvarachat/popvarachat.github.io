@@ -25,10 +25,10 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 @media(max-width:800px){.stats{grid-template-columns:repeat(2,minmax(120px,1fr))}main{padding:18px 11px 70px}table{font-size:12px}}
 </style></head>
 <body><main>
-<header><div><div class="eyebrow">PRACTIKA · MD CONTROL · EVIDENCE REVIEW</div><h1>CB × LINE Innovation Audit</h1><p>ตรวจรายการย่อย 1.1–1.n ของแต่ละ CB กับข้อความแจ้งงานใน LINE แบบอ่านอย่างเดียว</p></div><nav><a href="./pivot.html">← Pivot</a> · <a href="./">Dashboard</a></nav></header>
-<section class="panel"><h2>1. แหล่งข้อมูลที่ใช้ตรวจ</h2><p>ดึง CB จาก Private Pivot บน NB โดยอัตโนมัติ 1 ครั้งเมื่อเปิดเว็บ หากไม่เชื่อมต่อ สามารถเลือกไฟล์ pivot.json ได้ ข้อมูลจะประมวลผลใน Browser เท่านั้น</p>
+<header><div><div class="eyebrow">PRACTIKA · MD CONTROL · EVIDENCE REVIEW</div><h1>MD Monitor · ห้องสมาคมนักนวัตกรรม</h1><p>Digital Twin เฉพาะห้องสมาคมนักนวัตกรรม (สมาคมนวัตกรรม) เท่านั้น · ตรวจ 92 โครงการ CB กับหลักฐานจริง</p></div><nav><a href="./pivot.html">← Pivot</a> · <a href="./">Dashboard</a></nav></header>
+<section class="panel"><h2>ห้อง LINE ที่กำลังติดตาม</h2><p><b>สมาคมนักนวัตกรรม</b> · Room ID ยืนยันจาก Cloudflare D1 · ไม่มีการรวมข้อความห้องอื่น</p><p class="summary" id="roomMonitor">กำลังเชื่อมข้อมูล LINE แบบอ่านอย่างเดียวจาก Private Viewer…</p></section><section class="panel"><h2>1. แหล่งข้อมูลที่ใช้ตรวจ</h2><p>ดึง CB จาก Private Pivot บน NB โดยอัตโนมัติ 1 ครั้งเมื่อเปิดเว็บ หากไม่เชื่อมต่อ สามารถเลือกไฟล์ pivot.json ได้ ข้อมูลจะประมวลผลใน Browser เท่านั้น</p>
 <div class="flex"><label class="field">CB / Private Pivot JSON <input id="pivotFile" type="file" accept=".json,application/json"></label>
-<label class="field">LINE Events JSON / JSONL / TXT <input id="lineFile" type="file" accept=".json,.jsonl,.txt,application/json,text/plain"></label>
+<label class="field">LINE เฉพาะห้องนี้ (JSON / JSONL) <input id="lineFile" type="file" accept=".json,.jsonl,.txt,application/json,text/plain"></label>
 <button id="reload">โหลด Pivot จาก NB ใหม่</button></div><p class="summary" id="sourceState">กำลังอ่าน Private Pivot…</p>
 <div class="notice">ไม่ส่งข้อมูล LINE ไป GitHub / Cloudflare · ไม่โพสต์ตอบห้อง LINE · ไม่ใช้ข้อความที่ไม่พบมาตัดสินว่าผู้รับผิดชอบไม่ได้แจ้งจริง · LINE ที่นำเข้าเป็น Snapshot ณ วันที่ของไฟล์ ไม่ใช่สถานะ Live</div>
 </section>
@@ -51,6 +51,7 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 "use strict";
 const el=id=>document.getElementById(id),escapeHTML=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 let pivot=[],events=[],lineLoaded=false,stamp="",lineFileName="",hasRoomCoverage=false;
+const ROOM_ALIASES=new Set(["สมาคมนักนวัตกรรม","สมาคมนวัตกรรม"]);
 function norm(s){return String(s||"").toUpperCase().replace(/[^A-Z0-9]/g,"")}
 function v(x){return String(x??"")}
 function isRecord(e){return e&&typeof e==="object"&&!Array.isArray(e)}
@@ -64,8 +65,8 @@ function readEvents(s,name){
   room:v(e.room_name||e.source_location||e.room||e.chat_name||""),
   sender:v(e.sender_name||e.user_name||e.sender||""),at:v(e.event_timestamp||e.timestamp||e.created_at||e.date||"")
  }));
- const explicit=normalized.filter(e=>/นวัตกรรม/.test(e.room));
- const roomOnly=/นวัตกรรม/.test(name);
+ const explicit=normalized.filter(e=>ROOM_ALIASES.has(e.room.trim()));
+ const roomOnly=ROOM_ALIASES.has(name.trim());
  hasRoomCoverage=explicit.length>0 || (roomOnly&&normalized.every(e=>!e.room));
  return explicit.length?explicit:(roomOnly?normalized.filter(e=>!e.room):[]);
 }
@@ -161,5 +162,17 @@ el("export").onclick=()=>{
   projects:projects().map(w=>({cb:w.cbno,project:w.project,steps:w.steps.map(s=>({code:s.cb_code,excel_status:s.status,line_status:evidenceFor(w,s).kind,evidence:evidenceFor(w,s).found.map(e=>({id:e.id,at:e.at,room:e.room}))}))}))};
  const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:"application/json"}));const a=document.createElement("a");a.href=url;a.download="cb-line-audit-review.json";a.click();URL.revokeObjectURL(url);
 };
-loadPivot();
+async function loadRoom(){
+ try{
+  const resp=await fetch("http://127.0.0.1:8766/innovation-room-events.json",{cache:"no-store",mode:"cors"});
+  if(!resp.ok)throw Error("HTTP "+resp.status);
+  const payload=await resp.json();
+  if(payload.room_name!=="สมาคมนักนวัตกรรม"||payload.line_room_verified!==true)throw Error("Unverified room source");
+  events=readEvents(JSON.stringify(payload),"สมาคมนักนวัตกรรม");lineLoaded=true;lineFileName="Cloudflare D1 — ห้องสมาคมนักนวัตกรรม";
+  const latest=payload.last_event_at?new Date(payload.last_event_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"ไม่มีข้อมูล";
+  el("roomMonitor").textContent="เชื่อมแล้ว · "+events.length+" เหตุการณ์ในห้อง · เหตุการณ์ล่าสุด "+latest+" น. · ตรวจข้อมูลเมื่อ "+new Date(payload.generated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"})+" · ไม่ส่งข้อมูลขึ้น GitHub";
+  collect();
+ }catch(err){el("roomMonitor").textContent="ไม่พบข้อมูลห้องจาก Private Viewer บน NB · สามารถเลือกไฟล์ JSON ที่ได้รับอนุญาตได้ · ไม่ใช้ข้อมูลห้องอื่นแทน";}
+}
+loadPivot();loadRoom();
 </script></body></html>
