@@ -7,9 +7,13 @@ let payload=null,all=[],filtered=[],nodeMap=new Map(),roots=[],columns=[],rawCol
 let axis="owner",measure="work",source="all",status="open",dueState="all",search="",currentOnly=true,columnLimit=11,opened=false;
 const dateSort=(a,b)=>(a.due_iso||"9999").localeCompare(b.due_iso||"9999")||a.work_key.localeCompare(b.work_key);
 const missingDept=x=>!x||/ยังไม่|ไม่ระบุ|unknown/i.test(x);
+function ownerGroupLabel(r){
+ if(r.owner_role==="notes_team_only"&&r.owner_team)return r.owner_team+" (ฝ่ายเจ้าภาพ)";
+ return r.owner_person||"ยังไม่ระบุเจ้าภาพรายบุคคล";
+}
 function groupName(r){
  if(axis==="source")return names[r.source]||r.source;
- if(axis==="owner")return r.owner_person||"ไม่ระบุผู้รับผิดชอบ";
+ if(axis==="owner")return ownerGroupLabel(r);
  if(axis==="stage")return r.stage||"ไม่ระบุ Stage";
  return r.department||"ยังไม่ยืนยันฝ่าย";
 }
@@ -44,7 +48,7 @@ function refreshOwnerSelect(){
  const box=$("ownerFilter");
  if(!box)return;
  const old=box.value;
- const opts=[...new Set(all.filter(r=>(source==="all"||r.source===source)&&!r.closed).map(r=>r.owner_person).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"th"));
+ const opts=[...new Set(all.filter(r=>(source==="all"||r.source===source)&&!r.closed).map(ownerGroupLabel).filter(Boolean))].sort((a,b)=>a.localeCompare(b,"th"));
  box.innerHTML='<option value="">'+ "ทุกคน และยังไม่ระบุเจ้าภาพ" +'</option>'+opts.map(name=>'<option value="'+escapeHtml(name)+'">'+escapeHtml(name)+'</option>').join("");
  if(opts.includes(old))box.value=old;
 }
@@ -53,7 +57,7 @@ function getRowsByFilters(){
  filtered=all.filter(r=>
   !r.reference_only&&
   (source==="all"||r.source===source)&&
-  (!ownerSelected||r.owner_person===ownerSelected)&&
+  (!ownerSelected||ownerGroupLabel(r)===ownerSelected)&&
   (status==="all"||(status==="open"?!r.closed:r.closed))&&
   (!currentOnly||r.is_current_stage)&&
   (dueState==="all"||(dueState==="overdue"?r.deadline_state==="ผ่านกำหนดตามตาราง":dueState==="today"?r.deadline_state==="ครบกำหนดวันนี้":dueState==="future"?r.deadline_state==="ยังไม่ถึงกำหนด":!r.due_iso))&&
@@ -171,7 +175,7 @@ function renderTree(){
 function assigneeLabel(r){
  if(r.owner_role==="notes_explicit_person")
   return "เจ้าภาพจาก Planner Notes" + (r.owner_assignee_person?" · ผู้รับ Assignment: "+r.owner_assignee_person:" · ไม่มี Assignment");
- if(r.owner_role==="notes_team_only")return "เจ้าภาพระดับทีม: "+(r.owner_team||r.owner_raw)+" · ยังไม่ระบุคน";
+ if(r.owner_role==="notes_team_only")return "ระบุเจ้าภาพฝ่ายใน Planner Notes · ยังไม่ระบุชื่อบุคคล";
  if(r.owner_role==="notes_not_checked")return "ยังไม่ได้ตรวจ Planner Notes · ไม่ใช่หลักฐานว่าไม่มีเจ้าภาพ";
  if(r.owner_role==="notes_checked_no_owner")return "ตรวจ Notes แล้วไม่พบเจ้าภาพ และไม่มี Assignment";
  if(r.owner_role==="assignment_only")return "ผู้รับ Assignment เท่านั้น · ยังไม่รับรองว่าเป็นเจ้าภาพหลัก";
@@ -179,7 +183,10 @@ function assigneeLabel(r){
  if(r.owner_kind==="joint")return "ผู้รับผิดชอบร่วมตามทะเบียน · ยังไม่ระบุ Lead";
  return "เจ้าภาพจากคอลัมน์ผู้รับผิดชอบต้นทาง";
 }
-function individual(r){return r.owner_person||"ยังไม่ยืนยันเจ้าภาพรายบุคคล";}
+function individual(r){
+ if(r.owner_role==="notes_team_only"&&r.owner_team)return r.owner_team+" (เจ้าภาพระดับฝ่าย)";
+ return r.owner_person||"ยังไม่ยืนยันเจ้าภาพรายบุคคล";
+}
 function showDrill(key,col){
  const node=nodeMap.get(key);if(!node)return;
  const rows=col==="__all__"?node.items:node.items.filter(r=>colOf(r)===col);
