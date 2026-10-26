@@ -51,7 +51,7 @@ input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:
 <div class="scope"><h4>Count ที่ระบบต้องตรวจจริง</h4><p><b>SO/SN:</b> แยก Header, Line, Revision และการอ้างอิงข้ามเอกสาร</p><p><b>WO / Cutting / Control Plan:</b> นับ Unique Document + Line/Operation จริง ไม่ใช่นับจำนวนแถวบนหน้าจอ</p><p><b>FG:</b> รวม Good Qty, Lot และ Partial Transfer พร้อม Reversal/UOM</p><p><b>AP / AR / GL:</b> ผูกเลขเอกสาร Batch, JE Line, Cost Allocation และการรับชำระ โดยไม่ซ้ำซ้อน</p></div>
 <div class="note">ถ้าไม่พบ WO หรือ FG ในหลักฐาน จะแสดง <b>ไม่ทราบ</b> ไม่ถือว่าเป็นศูนย์ และไม่สร้างธุรกรรมสมมติขึ้นเอง</div>
 </div></section>
-<section class="panel stage-panel"><div class="graphhead"><div><b>SO → แตก WO / Cutting / Control Plan → รวม FG → SN / Finance</b><div class="panel-sub" id="scope">รอเลือก Order / นำเข้า Evidence</div></div><div class="tools"><button id="fit">Fit</button><button id="zin">+</button><button id="zout">−</button><span id="zoom" style="font-size:11px;min-width:35px;align-self:center;color:#65796f"></span></div></div><div class="stage" id="stage"><div class="world" id="world"><div id="zones"></div><svg id="wires" width="1840" height="1110" viewBox="0 0 1840 1110" style="position:absolute;inset:0;pointer-events:none;overflow:visible"></svg><div id="items"></div></div></div><div class="footer">เส้นเขียว = มีหลักฐานรับรองครบตามเงื่อนไข · เส้นประทอง = อ้างอิง/ยังไม่รับรอง · สีเทา = โมเดลเท่านั้น</div></section>
+<section class="panel stage-panel"><div class="graphhead"><div><b>SO → แตก WO / Cutting / Control Plan → รวม FG → SN / Finance</b><div class="panel-sub" id="scope">รอเลือก Order / นำเข้า Evidence</div></div><div class="tools"><button id="fit">Fit</button><button id="zin">+</button><button id="zout">−</button><span id="zoom" style="font-size:11px;min-width:35px;align-self:center;color:#65796f"></span></div></div><div class="stage" id="stage"><div class="world" id="world"><div id="zones"></div><svg id="wires" width="1840" height="1110" viewBox="0 0 1840 1110" style="position:absolute;inset:0;pointer-events:none;overflow:visible"></svg><div id="items"></div></div></div><div class="footer">เส้นประทอง = อ้างอิง/ยังไม่รับรอง · สีเทา = โมเดลเท่านั้น · เว็บสาธารณะไม่รับรองลายเซ็นจากไฟล์ที่นำเข้า</div></section>
 <section class="panel inspect"><div class="panel-head"><span id="insName">Node Inspector</span><div class="panel-sub" id="insApp">Input / Output / Source / Downstream</div></div><div class="scroll" id="details"><div class="empty">คลิก Node เพื่อดู Data เข้ากับ Data ออก</div></div></section>
 </div>
 <script>
@@ -76,7 +76,7 @@ let B=null,T=null,selected='so',scale=.58,tx=5,ty=5,drag=false,lx=0,ly=0;
 function data(){return Array.isArray(T?.records)?T.records:[]}
 function knownRecord(n){return data().filter(r=>r.node_id===n)}
 function originalLinks(){return Array.isArray(T?.links)?T.links:[]}
-function cert(l){return l&&l.verified===true&&l.source_ref&&l.target_ref&&l.physical_key_certified===true&&l.source_receiver_timestamps_certified===true&&typeof l.owner_signoff==='string'&&l.owner_signoff.length>=3}
+function cert(l){return false} // fail closed: a public static page cannot independently verify a local JSON signoff; backend-signed evidence required
 function draw(){
  $('zones').innerHTML=Z.map(z=>'<div class="zone" style="left:'+z[1]+'px;top:'+z[2]+'px;width:'+z[3]+'px;height:'+z[4]+'px"><span>'+H(z[0])+'</span></div>').join('');
  $('wires').innerHTML=ED.map(e=>{const a=nodeMap[e[0]],b=nodeMap[e[1]],x1=a.x+170,y1=a.y+40,x2=b.x+5,y2=b.y+40,dx=Math.abs(x2-x1),k=Math.max(38,dx*.42);return '<path data-edge="'+e[0]+'|'+e[1]+'" class="line" d="M'+x1+' '+y1+' C '+(x1+k)+' '+y1+', '+(x2-k)+' '+y2+', '+x2+' '+y2+'"/>';}).join('');
@@ -134,7 +134,7 @@ $('find').onclick=()=>{
  const type=$('doctype').value,no=$('docno').value.trim().toLowerCase();
  if(!no){$('match').textContent='กรุณาระบุเลขเอกสาร';return}
  if(!B){$('match').textContent='ต้องนำเข้าหลักฐานก่อน เว็บสาธารณะไม่ค้น JDE Live';return}
- const matches=B.traces.filter(t=>{const text=[t.trace_id,t.root_document||'',...(t.records||[]).flatMap(r=>[r.document_key||'',JSON.stringify(r.inputs||{}),JSON.stringify(r.outputs||{})])].join(' ').toLowerCase();return text.includes(no)});
+ const matches=B.traces.filter(t=>{const node={SO:'so',SN:'sn',WO:'wo',PO:'po'}[type];const root=String(t.root_document||'').toLowerCase();const rootMatch=root.startsWith(type.toLowerCase()+' ')&&root.includes(no);const recordMatch=(t.records||[]).some(r=>r.node_id===node&&[r.document_key||'',JSON.stringify(r.inputs||{})].join(' ').toLowerCase().includes(no));return rootMatch||recordMatch});
  if(!matches.length){$('match').textContent='ไม่พบ '+type+' '+no+' ในไฟล์ที่นำเข้า — ไม่ได้หมายความว่าไม่มีใน ERP';return}
  T=matches[0];$('trace').value=T.trace_id;selected=type==='PO'?'po':type.toLowerCase();$('match').textContent='พบ '+matches.length+' trace ที่อาจเกี่ยวข้อง ตรวจ Document/Line Key และ Join อีกครั้ง';$('match').className='state good';refresh();
 };
