@@ -1,0 +1,143 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><meta name="referrer" content="no-referrer"><title>PRACTIKA | Order-to-Enterprise Lineage V5</title>
+<meta name="description" content="Actual-order SO/SN/WO fan-out and FG/finance trace. Cloud-safe local evidence inspector; no simulated business rows.">
+<style>
+:root{--bg:#eff3f2;--ink:#17332f;--sub:#647873;--border:#d5e3dc;--card:#fff;--nav:#142924;--green:#17795f;--teal:#0c746f;--blue:#29658d;--amber:#a16a21;--red:#ab4754;--soft:#edf7f2}
+*{box-sizing:border-box}html,body{height:100%;margin:0;color:var(--ink);background:var(--bg);font:13px/1.5 system-ui,"Segoe UI","Noto Sans Thai",sans-serif}body{overflow:hidden}
+button,input,select{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #32a88b;outline-offset:2px}
+button{border:1px solid var(--border);background:white;color:var(--ink);border-radius:9px;padding:8px 10px;font-weight:700}button:hover{background:#ebf5f0}button:disabled{opacity:.46;cursor:default}
+a{color:inherit}header{height:64px;display:flex;align-items:center;gap:14px;padding:0 18px;background:var(--nav);color:white}
+.logo{height:36px;width:36px;border-radius:10px;background:#2eab8a;display:grid;place-items:center;font-weight:900}.identity{font-weight:850;font-size:15px}.minor{font-size:11px;opacity:.75;font-weight:450}.spacer{flex:1}header a{text-decoration:none;font-size:11px;color:#b8dfd3}
+header .tag{background:#2c453f;border:1px solid #57766a;color:#e8fff3;padding:6px 9px;border-radius:12px;font-size:10px}
+.shell{height:calc(100dvh - 64px);display:grid;grid-template-columns:minmax(240px,278px) minmax(0,1fr) minmax(290px,340px);gap:8px;padding:8px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:14px;min-height:0;overflow:hidden;display:flex;flex-direction:column}
+.panel-head{padding:13px 14px;border-bottom:1px solid var(--border);font-weight:830;background:#fbfdfc}
+.panel-sub{color:var(--sub);font-size:11px;font-weight:450;margin-top:3px}
+.scroll{padding:12px;overflow-y:auto;min-height:0;scrollbar-width:thin}
+.field{display:grid;gap:5px;margin-bottom:12px}.field label{font-size:11px;font-weight:850;color:#48665c}
+input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:8px;background:white;color:var(--ink)}
+.searchline{display:grid;grid-template-columns:75px 1fr;gap:6px}.btnrow{display:flex;gap:6px;flex-wrap:wrap}
+.primary{background:var(--green);color:white;border-color:var(--green)}.primary:hover{background:#0b5e49}
+.note{border:1px solid #e7d8b7;background:#fff9ed;color:#76521d;border-radius:10px;padding:10px;font-size:11px;margin-bottom:12px}
+.state{border:1px solid var(--border);border-radius:10px;padding:10px;font-size:11px;color:var(--sub);margin:10px 0}
+.kpi{display:grid;grid-template-columns:1fr 1fr;gap:8px}.kpi>div{padding:10px;border:1px solid var(--border);border-radius:10px;background:#f8fbf9}.kpi b{display:block;font-size:20px;color:#184f41}.kpi small{display:block;color:#587168}
+.scope{border-top:1px solid var(--border);padding-top:10px;margin-top:12px}.scope h4{margin:4px 0 8px}.scope p{font-size:11px;color:var(--sub);margin:7px 0}
+.graphhead{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:10px 13px;border-bottom:1px solid var(--border)}.graphhead b{font-size:13px}.tools{display:flex;gap:5px}.tools button{padding:6px 9px}
+.stage{position:relative;min-height:0;flex:1;overflow:hidden;background:radial-gradient(#d6e3dc 1px,transparent 1px) 0 0/22px 22px;touch-action:none;cursor:grab}.stage.grabbing{cursor:grabbing}
+.world{position:absolute;left:0;top:0;transform-origin:top left;width:1840px;height:1110px}
+.zone{position:absolute;border:1px dashed #b6d3c3;border-radius:17px;background:rgba(235,248,239,.62);pointer-events:none}.zone span{position:absolute;left:10px;top:-11px;background:#fff;border:1px solid #d0e5d8;color:#5a786b;border-radius:7px;font-size:11px;font-weight:850;padding:1px 7px}
+.line{fill:none;stroke:#9caeb0;stroke-width:2.1;opacity:.73}.line.candidate{stroke:var(--amber);stroke-width:2.9;stroke-dasharray:7 6;opacity:.9}.line.certified{stroke:var(--green);stroke-width:3.6}
+.node{position:absolute;width:181px;min-height:86px;text-align:left;border:1px solid #bdcfc7;background:white;padding:9px 10px;border-radius:12px;box-shadow:0 8px 15px #1c49320f;z-index:3}.node strong{font-size:12px;display:block;max-height:35px;overflow:hidden}.node small{font-size:10px;color:#668077;display:block}.node .count{display:block;margin-top:5px;font-weight:850;color:#9b651e;font-size:10px}.node.seen{border-color:#268f70;background:#effaf3}.node.seen .count{color:#17664f}.node.sel{outline:3px solid #f5bb51;outline-offset:2px}
+.node .count.unknown{color:#8a9390;font-weight:550}
+.footer{border-top:1px solid var(--border);padding:9px 12px;font-size:11px;color:#677e74;background:#fafdfb}
+.trace-status{background:#ebf3fa;color:#255b87;border-radius:7px;padding:9px;margin:8px 0;font-size:11px}
+.chips{display:flex;flex-wrap:wrap;gap:5px;margin:9px 0}.chip{padding:3px 7px;border-radius:999px;border:1px solid var(--border);font-size:10px;color:#47695d}.chip.warn{color:#88591e;background:#fff7e7;border-color:#ead6ac}
+.rec{border:1px solid var(--border);border-radius:11px;padding:10px;margin-bottom:9px;background:#fff}.rec h4{font-size:12px;margin:3px 0 8px}.subheading{font-size:11px;letter-spacing:.07em;color:var(--teal);font-weight:900;margin:15px 0 7px;text-transform:uppercase}
+.kv{display:grid;grid-template-columns:minmax(95px,42%) minmax(0,1fr);gap:8px;border-bottom:1px solid #ebf0ed;padding:5px 0;overflow-wrap:anywhere;font-size:11px}.kv:last-child{border:0}.kv span:first-child{color:#668078}.empty{font-size:11px;color:#65776e;background:#f7faf8;border:1px solid var(--border);padding:10px;border-radius:9px;line-height:1.7}
+.good{color:#147652}.bad{color:#9b3d45}
+@media(max-width:1100px){.shell{grid-template-columns:minmax(200px,248px) minmax(0,1fr)}.inspect{grid-column:1/-1;height:32vh}.shell{grid-template-rows:minmax(0,1fr) 32vh}.stage-panel{min-height:0}}
+@media(max-width:640px){header{padding:0 9px;gap:7px}.identity{font-size:12px}.logo{width:30px;height:30px}header a{display:none}.shell{display:grid;grid-template-columns:1fr;grid-template-rows:198px minmax(250px,1fr) 190px;padding:5px;gap:5px}.left .scroll{display:grid;grid-template-columns:1fr 1fr;gap:7px}.left .field{margin-bottom:3px}.left .scope,.left .note,.left .kpi{display:none}.inspect{grid-column:auto;height:auto}.stage-panel{min-height:0}.graphhead{padding:7px}.panel-head{padding:8px}}
+</style></head>
+<body>
+<header><div class="logo">P</div><div><div class="identity">PRACTIKA · Actual Order Lineage V5</div><div class="minor">SO / SN / WO → Control Plan → Cutting → FG → AP · AR · GL</div></div><div class="spacer"></div><span class="tag">ACTUAL EVIDENCE ONLY</span><a href="../order-trace/">V4 Inspector</a><a href="../simulation/">V3 Synthetic</a><a href="../">ERP Home</a></header>
+<div class="shell">
+<section class="panel left"><div class="panel-head">เลือก Order ต้นทาง<div class="panel-sub">เริ่ม SO เป็นหลัก หรือย้อนจาก SN / WO / PO</div></div><div class="scroll">
+<div class="field"><label>1. เลือกชนิดเอกสาร</label><div class="searchline"><select id="doctype"><option value="SO">SO</option><option value="SN">SN</option><option value="WO">WO</option><option value="PO">PO</option></select><input id="docno" placeholder="เลขเอกสารจริง" autocomplete="off"></div></div>
+<div class="btnrow"><button id="find" class="primary">ค้นในหลักฐานที่นำเข้า</button><button id="reset">ล้าง</button></div>
+<div id="match" class="state">ยังไม่มี Source Data — การกรอกเลข Order จะไม่เชื่อม JDE โดยตรง</div>
+<div class="field"><label>2. เปิดชุดหลักฐานส่วนตัว (JSON)</label><input type="file" id="file" accept=".json,application/json"><small style="color:#697e74">อ่านใน Browser เครื่องนี้เท่านั้น ไม่ Upload ไปยังเว็บสาธารณะ</small></div>
+<div class="field"><label>3. เลือก Trace ที่อ่านได้</label><select id="trace" disabled><option>ไม่มีข้อมูล</option></select></div>
+<div class="kpi"><div><b id="records">—</b><small>Source Records</small></div><div><b id="nodes">—</b><small>Nodes มีหลักฐาน</small></div><div><b id="joins">—</b><small>Link รับรองครบ</small></div><div><b id="gaps">—</b><small>Link ยังไม่พิสูจน์</small></div></div>
+<div class="scope"><h4>Count ที่ระบบต้องตรวจจริง</h4><p><b>SO/SN:</b> แยก Header, Line, Revision และการอ้างอิงข้ามเอกสาร</p><p><b>WO / Cutting / Control Plan:</b> นับ Unique Document + Line/Operation จริง ไม่ใช่นับจำนวนแถวบนหน้าจอ</p><p><b>FG:</b> รวม Good Qty, Lot และ Partial Transfer พร้อม Reversal/UOM</p><p><b>AP / AR / GL:</b> ผูกเลขเอกสาร Batch, JE Line, Cost Allocation และการรับชำระ โดยไม่ซ้ำซ้อน</p></div>
+<div class="note">ถ้าไม่พบ WO หรือ FG ในหลักฐาน จะแสดง <b>ไม่ทราบ</b> ไม่ถือว่าเป็นศูนย์ และไม่สร้างธุรกรรมสมมติขึ้นเอง</div>
+</div></section>
+<section class="panel stage-panel"><div class="graphhead"><div><b>SO → แตก WO / Cutting / Control Plan → รวม FG → SN / Finance</b><div class="panel-sub" id="scope">รอเลือก Order / นำเข้า Evidence</div></div><div class="tools"><button id="fit">Fit</button><button id="zin">+</button><button id="zout">−</button><span id="zoom" style="font-size:11px;min-width:35px;align-self:center;color:#65796f"></span></div></div><div class="stage" id="stage"><div class="world" id="world"><div id="zones"></div><svg id="wires" width="1840" height="1110" viewBox="0 0 1840 1110" style="position:absolute;inset:0;pointer-events:none;overflow:visible"></svg><div id="items"></div></div></div><div class="footer">เส้นเขียว = มีหลักฐานรับรองครบตามเงื่อนไข · เส้นประทอง = อ้างอิง/ยังไม่รับรอง · สีเทา = โมเดลเท่านั้น</div></section>
+<section class="panel inspect"><div class="panel-head"><span id="insName">Node Inspector</span><div class="panel-sub" id="insApp">Input / Output / Source / Downstream</div></div><div class="scroll" id="details"><div class="empty">คลิก Node เพื่อดู Data เข้ากับ Data ออก</div></div></section>
+</div>
+<script>
+'use strict';
+// No remote API / no cookies / no storage: only locally user-imported authorized evidence.
+const $=id=>document.getElementById(id);
+const H=s=>String(s===undefined||s===null?'':s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const N=[
+['crm','CRM / Opportunity','CRM',42,64],['so','SO / Sales Order','P4210',264,64],['line','SO Lines / Demand','P4210',486,64],['plan','Production Planning','ERP Plan',708,64],['wo','Work Orders (n)','P48013',930,64],['cut','Cutting Jobs (n)','P594801C',1152,64],['control','Control Plans (n)','WI / QC',1374,64],['ops','Operations / WIP','P5511026',1596,64],
+['qc','In-Process QC / NCR','P3711',1596,262],['fg','FG Receipts / Lot','FG / Stock',1374,262],['delivery','Delivery / POD','Delivery',1152,262],['sn','SN / Collecting','P4210',930,262],['invoice','Customer Invoice','Billing',708,262],['ar','AR / Aging','AR Ledger',486,262],['cash','Cash Receipt','P03B720',264,262],['gl','GL / Close','P09200',42,262],
+['stock','Material / ATP','P4111',486,540],['po','PR / PO / Supplier','P4310 / P4338',708,540],['receipt','PO Receipt / Return','P55432A4',930,540],['iqc','Incoming QC / Hold','P3711 / P4108',1152,540],['ap','AP Voucher','P0411',1374,540],['dist','AP GL Distribution','V0911E',1596,540],
+['bom','BOM / Routing','P3121 / P3003',708,750],['cost','Production Cost','P31022',930,750],['inventoryGL','Inventory / COGS','GL Cost',1152,750],['bank','Bank / GL','GL Bank',1374,750],['return','RMA / Reversal','JDE returns',1596,750]
+].map(x=>({id:x[0],label:x[1],app:x[2],x:x[3],y:x[4]}));
+const ED=[
+['crm','so'],['so','line'],['line','plan'],['plan','wo'],['wo','cut'],['cut','control'],['control','ops'],['ops','qc'],['qc','fg'],['fg','delivery'],['delivery','sn'],['sn','invoice'],['invoice','ar'],['ar','cash'],['cash','gl'],
+['line','stock'],['stock','po'],['po','receipt'],['receipt','iqc'],['iqc','stock'],['iqc','fg'],['receipt','ap'],['ap','dist'],['dist','gl'],
+['wo','bom'],['bom','stock'],['wo','cost'],['cost','inventoryGL'],['inventoryGL','gl'],['gl','bank'],['delivery','return'],['return','gl']
+];
+const Z=[['CUSTOMER / SO → MULTI-WO / CUT / PLAN',25,34,1775,140],['FINAL QC / FG → SN / AR / GL',25,230,1775,140],['MATERIAL / PROCUREMENT / AP',455,508,1360,135],['BOM / COST / ACCOUNTING',675,720,1140,135]];
+const nodeMap=Object.fromEntries(N.map(x=>[x.id,x]));
+let B=null,T=null,selected='so',scale=.58,tx=5,ty=5,drag=false,lx=0,ly=0;
+function data(){return Array.isArray(T?.records)?T.records:[]}
+function knownRecord(n){return data().filter(r=>r.node_id===n)}
+function originalLinks(){return Array.isArray(T?.links)?T.links:[]}
+function cert(l){return l&&l.verified===true&&l.source_ref&&l.target_ref&&l.physical_key_certified===true&&l.source_receiver_timestamps_certified===true&&typeof l.owner_signoff==='string'&&l.owner_signoff.length>=3}
+function draw(){
+ $('zones').innerHTML=Z.map(z=>'<div class="zone" style="left:'+z[1]+'px;top:'+z[2]+'px;width:'+z[3]+'px;height:'+z[4]+'px"><span>'+H(z[0])+'</span></div>').join('');
+ $('wires').innerHTML=ED.map(e=>{const a=nodeMap[e[0]],b=nodeMap[e[1]],x1=a.x+170,y1=a.y+40,x2=b.x+5,y2=b.y+40,dx=Math.abs(x2-x1),k=Math.max(38,dx*.42);return '<path data-edge="'+e[0]+'|'+e[1]+'" class="line" d="M'+x1+' '+y1+' C '+(x1+k)+' '+y1+', '+(x2-k)+' '+y2+', '+x2+' '+y2+'"/>';}).join('');
+ $('items').innerHTML=N.map(n=>'<button class="node" data-node="'+H(n.id)+'" style="left:'+n.x+'px;top:'+n.y+'px"><strong>'+H(n.label)+'</strong><small>'+H(n.app)+'</small><span class="count unknown">รอ Source Data</span></button>').join('');
+ for(const b of $('items').querySelectorAll('[data-node]'))b.onclick=()=>{selected=b.dataset.node;refresh()};
+ fit();
+}
+function transform(){$('world').style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';$('zoom').textContent=Math.round(scale*100)+'%'}
+function fit(){const s=$('stage').getBoundingClientRect();scale=Math.max(.22,Math.min(1,(s.width-30)/1840,(s.height-30)/920));tx=(s.width-1840*scale)/2;ty=(s.height-920*scale)/2;transform()}
+function zoom(k){const s=$('stage').getBoundingClientRect(),cx=s.width/2,cy=s.height/2,old=scale;scale=Math.max(.2,Math.min(2.3,scale*k));tx=cx-(cx-tx)*scale/old;ty=cy-(cy-ty)*scale/old;transform()}
+$('fit').onclick=fit;$('zin').onclick=()=>zoom(1.22);$('zout').onclick=()=>zoom(.82);
+$('stage').addEventListener('pointerdown',e=>{if(e.target.closest('.node'))return;drag=true;lx=e.clientX;ly=e.clientY;$('stage').classList.add('grabbing');$('stage').setPointerCapture(e.pointerId)});
+$('stage').addEventListener('pointermove',e=>{if(!drag)return;tx+=e.clientX-lx;ty+=e.clientY-ly;lx=e.clientX;ly=e.clientY;transform()});
+for(const ev of ['pointerup','pointercancel'])$('stage').addEventListener(ev,()=>{drag=false;$('stage').classList.remove('grabbing')});
+$('stage').addEventListener('wheel',e=>{e.preventDefault();const s=$('stage').getBoundingClientRect(),mx=e.clientX-s.left,my=e.clientY-s.top,old=scale;scale=Math.max(.2,Math.min(2.3,scale*(e.deltaY<0?1.09:.92)));tx=mx-(mx-tx)*scale/old;ty=my-(my-ty)*scale/old;transform()},{passive:false});
+window.addEventListener('resize',fit);
+function printable(v){return typeof v==='object'?JSON.stringify(v):String(v===undefined||v===null?'ไม่ปรากฏ':v)}
+function field(k,v){return '<div class="kv"><span>'+H(k)+'</span><b>'+H(printable(v))+'</b></div>'}
+function group(title,rows){return '<div class="subheading">'+H(title)+'</div>'+(rows||'<div class="empty">ไม่มีหลักฐานในชุดข้อมูลที่เลือก (ไม่ใช่ยอดศูนย์)</div>')}
+function countLabel(n){const r=knownRecord(n);if(!r.length)return 'ไม่ทราบ — ไม่มีหลักฐาน';const keys=new Set(r.map(x=>String(x.document_key||x.record_id)));return r.length+' records / '+keys.size+' keys ที่แสดง'}
+function refresh(){
+ const records=data(),nodes=new Set(records.map(r=>r.node_id)),links=originalLinks(),verified=links.filter(cert),candidates=links.filter(l=>!cert(l));
+ $('records').textContent=B?records.length:'—';$('nodes').textContent=B?nodes.size:'—';$('joins').textContent=B?verified.length:'—';$('gaps').textContent=B?candidates.length:'—';
+ $('scope').textContent=T?(T.trace_id+' · '+records.length+' bounded records · '+verified.length+' physical links ผ่านรับรอง'):'ยังไม่มีข้อมูล ERP ถูกโหลด — แสดงแบบจำลองโครงสร้างเท่านั้น';
+ for(const b of $('items').querySelectorAll('button')){const n=b.dataset.node,r=knownRecord(n);b.className='node'+(r.length?' seen':'')+(selected===n?' sel':'');const count=b.querySelector('.count');count.textContent=countLabel(n);count.className='count'+(r.length?'':' unknown')}
+ for(const p of $('wires').querySelectorAll('[data-edge]')){const pair=p.dataset.edge.split('|'),l=links.find(v=>v.from===pair[0]&&v.to===pair[1]);p.setAttribute('class','line'+(cert(l)?' certified':l?' candidate':''))}
+ const n=nodeMap[selected]||nodeMap.so; $('insName').textContent=n.label;$('insApp').textContent=n.app+' · Input / Output / Handoff';
+ let content='';
+ if(!T)content='<div class="empty">ยังไม่ได้โหลดข้อมูลจริงจากไฟล์ Private JSON<br>เลือก SO/SN/WO/PO แล้วระบบจะค้นได้เฉพาะในไฟล์ที่ได้รับอนุญาต ซึ่งนำเข้าใน Browser นี้</div>';
+ else {const rr=knownRecord(selected),ln=links.filter(l=>l.from===selected||l.to===selected);
+ content='<div class="chips"><span class="chip">'+rr.length+' Observed records</span><span class="chip warn">ไม่เท่ากับจำนวนเอกสารที่รับรองแล้ว</span></div>';
+ if(!rr.length)content+='<div class="empty">Node นี้ไม่มีข้อมูลใน Trace ที่เลือก — ไม่สรุปว่าเป็น 0 WO / 0 Cutting / 0 FG</div>';
+ for(const r of rr){
+ content+='<div class="rec"><h4>'+H(r.title||r.record_id)+'</h4>'+field('Record',r.record_id)+field('Document / Line',r.document_key)+field('Source Screen',r.source_object)+field('Business Date',r.business_date)+field('Event Timestamp',r.business_event_at||'ยังไม่มีหลักฐาน')+field('Evidence Level',r.evidence_level)+field('Source Ref',r.evidence_ref||'ยังไม่ระบุ')+'</div>';
+ content+=group('INPUT · '+r.record_id,Object.entries(r.inputs||{}).map(v=>field(v[0],v[1])).join(''));
+ content+=group('OUTPUT · '+r.record_id,Object.entries(r.outputs||{}).map(v=>field(v[0],v[1])).join(''));
+ if(r.note)content+='<div class="note">'+H(r.note)+'</div>';
+ }
+ content+=group('RELATED LINKS / RECONCILIATION',ln.length?ln.map(l=>'<div class="rec"><b>'+H(l.from)+' → '+H(l.to)+'</b><div class="'+(cert(l)?'good':'bad')+'">'+(cert(l)?'OWNER-CERTIFIED RELATION':'UNVERIFIED CANDIDATE')+'</div>'+field('Source Key',l.source_ref)+field('Receiver Key',l.target_ref)+(l.reason?'<div class="note">'+H(l.reason)+'</div>':'')+'</div>').join(''):'');
+ }
+ $('details').innerHTML=content;
+}
+function normalized(source){
+ if(!source||typeof source!=='object'||!Array.isArray(source.traces)||!['ptk_order_evidence_bundle_v1','ptk_order_lineage_v1'].includes(source.schema))throw Error('รองรับเฉพาะ ptk_order_evidence_bundle_v1 / ptk_order_lineage_v1');
+ if(source.traces.length>300)throw Error('จำนวน Trace มากเกิน');
+ for(const t of source.traces){if(!t.trace_id||!Array.isArray(t.records)||t.records.length>10000||!Array.isArray(t.links)||t.links.length>2000)throw Error('Trace schema ไม่ครบหรือข้อมูลเกินขอบเขต');
+ for(const r of t.records){if(!nodeMap[r.node_id]||!r.record_id)throw Error('Node/Record ID ไม่ถูกต้อง: '+String(r.node_id));if(r.evidence_level==='VERIFIED_EVENT'&&!r.business_event_at)throw Error('Verified Event ขาด Event Timestamp')}
+ }
+ return source;
+}
+function load(o){B=normalized(o);$('trace').innerHTML='';for(const t of B.traces){const opt=document.createElement('option');opt.value=t.trace_id;opt.textContent=t.trace_id+' ('+t.records.length+' records)';$('trace').appendChild(opt)}$('trace').disabled=!B.traces.length;T=B.traces[0]||null;selected= T?.records?.[0]?.node_id||'so';$('match').textContent='โหลด '+B.traces.length+' traces จากไฟล์ที่เลือกแล้ว (เฉพาะ Browser เครื่องนี้)';$('match').className='state good';refresh()}
+$('file').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('ไฟล์เกิน 8MB');load(JSON.parse(await f.text()))}catch(err){$('match').textContent='นำเข้าไม่ได้: '+err.message;$('match').className='state bad'}e.target.value=''});
+$('trace').onchange=e=>{T=B?.traces.find(t=>t.trace_id===e.target.value)||null;selected=T?.records?.[0]?.node_id||'so';refresh()};
+$('find').onclick=()=>{
+ const type=$('doctype').value,no=$('docno').value.trim().toLowerCase();
+ if(!no){$('match').textContent='กรุณาระบุเลขเอกสาร';return}
+ if(!B){$('match').textContent='ต้องนำเข้าหลักฐานก่อน เว็บสาธารณะไม่ค้น JDE Live';return}
+ const matches=B.traces.filter(t=>{const text=[t.trace_id,t.root_document||'',...(t.records||[]).flatMap(r=>[r.document_key||'',JSON.stringify(r.inputs||{}),JSON.stringify(r.outputs||{})])].join(' ').toLowerCase();return text.includes(no)});
+ if(!matches.length){$('match').textContent='ไม่พบ '+type+' '+no+' ในไฟล์ที่นำเข้า — ไม่ได้หมายความว่าไม่มีใน ERP';return}
+ T=matches[0];$('trace').value=T.trace_id;selected=type==='PO'?'po':type.toLowerCase();$('match').textContent='พบ '+matches.length+' trace ที่อาจเกี่ยวข้อง ตรวจ Document/Line Key และ Join อีกครั้ง';$('match').className='state good';refresh();
+};
+$('reset').onclick=()=>{B=null;T=null;selected='so';$('docno').value='';$('trace').innerHTML='<option>ไม่มีข้อมูล</option>';$('trace').disabled=true;$('file').value='';$('match').textContent='ล้างข้อมูลที่นำเข้าออกจาก Browser แล้ว';$('match').className='state';refresh()};
+draw();refresh();
+</script></body></html>
