@@ -22,6 +22,14 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 .tag.candidate{color:#a1f6cd;border-color:#34745d}.tag.related{color:#ecd18c;border-color:#a38038}.tag.absent{color:#d0c7b0}.tag.unknown{color:#c0cad8}
 .evidence{max-width:500px;white-space:pre-wrap;word-break:break-word;background:#0b1727;border-radius:7px;padding:10px;margin-top:8px;font-size:12px}
 .muted{color:#9fb4c6}.closed{color:#a9dfcd}.invisible{display:none} .foot{font-size:12px;color:#9cb0c0}
+.activity{display:flex;gap:4px;align-items:end;height:85px;margin:18px 0 14px;border-bottom:1px solid #466079;overflow-x:auto}
+.activity-col{min-width:35px;flex:1;display:flex;flex-direction:column;justify-content:flex-end;align-items:center;height:100%;gap:3px}
+.activity-bar{background:#457faf;min-height:2px;width:70%;border-radius:5px 5px 0 0}
+.activity-col small{font-size:9px;color:#9fb4c6}
+.event-row{padding:11px 12px;margin-top:7px;background:#0e2436;border:1px solid #293f56;border-radius:9px}
+.event-row details{margin-top:5px;max-width:900px}
+.event-row summary{cursor:pointer}
+.tag.media{color:#afc6dd}
 @media(max-width:800px){.stats{grid-template-columns:repeat(2,minmax(120px,1fr))}main{padding:18px 11px 70px}table{font-size:12px}}
 </style></head>
 <body><main>
@@ -39,8 +47,18 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 <div class="stat"><strong id="countCandidate">—</strong><small>พบข้อความตรงขั้นตอน (รอตรวจ)</small></div>
 <div class="stat"><strong id="countRisk">—</strong><small>Excel ปิดแต่ยังไม่มีหลักฐานขั้นตอน</small></div>
 </div><p id="coverage" class="summary">ยังไม่มีหลักฐาน LINE ที่นำเข้ามาตรวจ</p></section>
+<section class="panel"><h2>3. Digital Twin Timeline · สมาคมนักนวัตกรรม</h2>
+<p>ข้อความ รูปภาพ วิดีโอ ไฟล์ และประวัติในห้องเดียว · ข้อมูลจาก D1 เฉพาะ Room ID ที่ยืนยันแล้ว · คลิกดูข้อความต้นทางโดยไม่ส่งข้อมูลออกจาก Browser</p>
+<div class="flex">
+ <label class="field">ค้นหาข้อความ / SO / ผู้ส่ง<input id="roomQuery" type="search" placeholder="ค้นหาเฉพาะห้องนี้…"></label>
+ <label class="field">ชนิดข้อความ<select id="roomType"><option value="">ทุกชนิด</option><option value="text">ข้อความ</option><option value="image">รูปภาพ</option><option value="video">วิดีโอ</option><option value="file">ไฟล์</option></select></label>
+</div>
+<div class="flex" id="roomTypeCounts" style="margin-top:12px"></div>
+<div id="roomActivity" class="activity"></div>
+<div id="roomStream"><p class="muted">รอข้อมูล LINE จาก Private Viewer</p></div>
+</section>
 <section class="panel">
-<div class="flex"><div class="grow"><h2>3. รายโครงการ → รายการย่อย → หลักฐาน</h2><p>ตรงเลข Order + เลขขั้นตอน = ข้อความที่อาจใช่; เจอแต่เลข Order = กล่าวถึงโครงการ (ยังไม่ยืนยันขั้นตอน)</p></div><button id="export">ส่งออกรายงานผลตรวจ JSON (เฉพาะเครื่อง)</button></div>
+<div class="flex"><div class="grow"><h2>4. รายโครงการ → รายการย่อย → หลักฐาน</h2><p>ตรงเลข Order + เลขขั้นตอน = ข้อความที่อาจใช่; เจอแต่เลข Order = กล่าวถึงโครงการ (ยังไม่ยืนยันขั้นตอน)</p></div><button id="export">ส่งออกรายงานผลตรวจ JSON (เฉพาะเครื่อง)</button></div>
 <div class="flex"><label class="field">ค้นหา CB / SO / สินค้า / ขั้นตอน<input id="query" type="search" placeholder="เช่น CB-66, SO2092, 1.2"></label>
 <label class="field">กลุ่ม<select id="group"><option value="">ทุกกลุ่ม</option><option value="cb_edu">EDU</option><option value="cb_icf">ICF</option><option value="cb_ics">ICS</option><option value="cb_new">สินค้าไม่เคยผลิต</option><option value="cb_abdul">อับดุล</option></select></label>
 <label class="field">สถานะ LINE<select id="state"><option value="">ทุกสถานะ</option><option value="candidate">พบขั้นตอน (รอตรวจ)</option><option value="related">พบแค่ Order</option><option value="absent">ไม่พบใน Snapshot</option><option value="unknown">ไม่มีข้อมูล LINE ยืนยัน</option><option value="risk">Excel ปิด แต่ไม่พบขั้นตอน</option></select></label></div>
@@ -63,7 +81,7 @@ function readEvents(s,name){
  const normalized=data.filter(isRecord).map((e,i)=>({
   id:v(e.event_id||e.message_id||e.id||i),text:v(e.event_text||e.message||e.text||e.content||""),
   room:v(e.room_name||e.source_location||e.room||e.chat_name||""),
-  sender:v(e.sender_name||e.user_name||e.sender||""),at:v(e.event_timestamp||e.timestamp||e.created_at||e.date||"")
+  sender:v(e.sender_name||e.user_name||e.sender||""),type:v(e.event_type||e.type||""),at:v(e.event_timestamp||e.timestamp||e.created_at||e.date||"")
  }));
  const explicit=normalized.filter(e=>ROOM_ALIASES.has(e.room.trim()));
  const roomOnly=ROOM_ALIASES.has(name.trim());
@@ -111,7 +129,27 @@ function projects(){
  }
  return [...map.values()].sort((a,b)=>Number((a.cbno.match(/\d+/)||[])[0])-Number((b.cbno.match(/\d+/)||[])[0]));
 }
+function renderRoom(){
+ const stats={};for(const e of events){const k=e.type||"unknown";stats[k]=(stats[k]||0)+1}
+ el("roomTypeCounts").innerHTML=Object.entries(stats).sort((a,b)=>b[1]-a[1]).map(([k,n])=>'<span class="tag">'+escapeHTML(k)+" "+n.toLocaleString()+'</span>').join("");
+ const per=new Map();
+ for(const e of events){const date=new Date(e.at);if(!Number.isFinite(date.getTime()))continue;const day=new Date(date.getTime()+7*3600000).toISOString().slice(0,10);per.set(day,(per.get(day)||0)+1)}
+ const daily=[...per.entries()].sort((a,b)=>a[0].localeCompare(b[0])).slice(-14);
+ const max=Math.max(1,...daily.map(x=>x[1]));
+ el("roomActivity").innerHTML=daily.map(([day,num])=>'<div class="activity-col" title="'+day+" : "+num+' events"><small>'+num+'</small><div class="activity-bar" style="height:'+Math.max(2,Math.round(num/max*55))+'px"></div><small>'+day.slice(5)+'</small></div>').join("")||'<p class="muted">ไม่มีข้อมูล Timeline</p>';
+ const q=el("roomQuery").value.trim().toLocaleLowerCase(),kind=el("roomType").value;
+ const sorted=[...events].sort((a,b)=>b.at.localeCompare(a.at));
+ const matched=sorted.filter(e=>(!kind||e.type===kind)&&(!q||[e.text,e.sender,e.id,e.type].join(" ").toLocaleLowerCase().includes(q)));
+ el("roomStream").innerHTML='<p class="summary">แสดง '+Math.min(30,matched.length)+' จาก '+matched.length+' เหตุการณ์ตามตัวกรอง · ข้อมูลในห้องเดียว</p>'+
+ matched.slice(0,30).map(e=>{
+ const date=e.at?new Date(e.at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"ไม่ระบุเวลา";
+ const text=e.text||"สื่อหรือเหตุการณ์ที่ไม่มีข้อความ — โปรดตรวจต้นทาง";
+ return '<div class="event-row"><span class="tag media">'+escapeHTML(e.type||"unknown")+'</span> <b>'+escapeHTML(e.sender||"ยังไม่ระบุผู้ส่ง")+'</b> · <span class="meta">'+escapeHTML(date)+'</span>'+
+ '<details><summary class="meta">ดูข้อความ / หลักฐาน · '+escapeHTML(e.id.slice(0,26))+'</summary><div class="evidence">'+escapeHTML(text.slice(0,2400))+'</div></details></div>';
+ }).join("");
+}
 function collect(){
+ renderRoom();
  const ps=projects();
  const q=el("query").value.trim().toLocaleLowerCase(),state=el("state").value,group=el("group").value;
  let direct=0,risk=0,allSteps=0;
@@ -156,6 +194,7 @@ el("reload").onclick=loadPivot;
 el("pivotFile").onchange=async e=>{try{setPivot(JSON.parse(await e.target.files[0].text()),"Private Pivot JSON จากเครื่อง")}catch(x){alert("เปิด Pivot ไม่ได้: "+x.message)}};
 el("lineFile").onchange=async e=>{try{const file=e.target.files[0];events=readEvents(await file.text(),file.name);lineLoaded=true;lineFileName=file.name;collect()}catch(x){alert("เปิด LINE ไม่ได้: "+x.message)}};
 ["query","group","state"].forEach(x=>el(x).addEventListener("input",collect));
+["roomQuery","roomType"].forEach(x=>el(x).addEventListener("input",renderRoom));
 el("export").onclick=()=>{
  const data={schema:1,created_at:new Date().toISOString(),line_snapshot:lineFileName,coverage_verified:false,
   note:"Unreviewed candidates only. Absence within snapshot does not prove message never sent.",
