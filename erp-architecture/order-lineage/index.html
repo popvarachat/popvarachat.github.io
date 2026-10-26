@@ -104,7 +104,7 @@ function draw(){
  $('zones').innerHTML=Z.map(z=>'<div class="zone" style="left:'+z[1]+'px;top:'+z[2]+'px;width:'+z[3]+'px;height:'+z[4]+'px"><span>'+H(z[0])+'</span></div>').join('');
  $('wires').innerHTML=ED.map(e=>{const a=nodeMap[e[0]],b=nodeMap[e[1]],x1=a.x+170,y1=a.y+40,x2=b.x+5,y2=b.y+40,dx=Math.abs(x2-x1),k=Math.max(38,dx*.42);return '<path data-edge="'+e[0]+'|'+e[1]+'" class="line" d="M'+x1+' '+y1+' C '+(x1+k)+' '+y1+', '+(x2-k)+' '+y2+', '+x2+' '+y2+'"/>';}).join('');
  $('items').innerHTML=N.map(n=>'<button class="node" data-node="'+H(n.id)+'" style="left:'+n.x+'px;top:'+n.y+'px"><strong>'+H(n.label)+'</strong><small>'+H(n.app)+'</small><span class="count unknown">รอ Source Data</span></button>').join('');
- for(const b of $('items').querySelectorAll('[data-node]'))b.onclick=()=>{stopAutoRun();selected=b.dataset.node;refresh()};
+ for(const b of $('items').querySelectorAll('[data-node]'))b.onclick=()=>{stopAutoRun();selectedWO='';selected=b.dataset.node;refresh()};
  fit();
 }
 function transform(){$('world').style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')';$('zoom').textContent=Math.round(scale*100)+'%'}
@@ -129,7 +129,7 @@ function refresh(){
  const n=nodeMap[selected]||nodeMap.so; $('insName').textContent=n.label;$('insApp').textContent=n.app+' · Input / Output / Handoff';
  let content='';
  if(!T)content='<div class="empty">ยังไม่ได้โหลดข้อมูลจริงจากไฟล์ Private JSON<br>เลือก SO/SN/WO/PO แล้วระบบจะค้นได้เฉพาะในไฟล์ที่ได้รับอนุญาต ซึ่งนำเข้าใน Browser นี้</div>';
- else {const rr=knownRecord(selected),ln=links.filter(l=>l.from===selected||l.to===selected);
+ else {const rr=selected==='wo'&&selectedWO?knownRecord(selected).filter(r=>String(r.inputs?.work_order_number||'')===selectedWO):knownRecord(selected),ln=links.filter(l=>l.from===selected||l.to===selected);
  content='<div class="chips"><span class="chip">'+rr.length+' Observed records</span><span class="chip warn">ไม่เท่ากับจำนวนเอกสารที่รับรองแล้ว</span></div>';
  if(!rr.length)content+='<div class="empty">Node นี้ไม่มีข้อมูลใน Trace ที่เลือก — ไม่สรุปว่าเป็น 0 WO / 0 Cutting / 0 FG</div>';
  for(const r of rr){
@@ -226,7 +226,7 @@ const ROUTES={
  WO:['wo','bom','stock','cut','control','ops','qc','fg','delivery','cost','inventoryGL','gl'],
  PO:['po','receipt','iqc','stock','ap','dist','gl']
 };
-let runSteps=[],runIndex=-1,runTimer=null,runRoot='';
+let runSteps=[],runIndex=-1,runTimer=null,runRoot='',selectedWO='';
 function stopAutoRun(){if(runTimer!==null){clearInterval(runTimer);runTimer=null}}
 function routeForCurrent(){
  const type=$('doctype').value,linked=originalLinks(),path=ROUTES[type]||ROUTES.SO;
@@ -238,7 +238,7 @@ function routeForCurrent(){
  return {type,stages,branchCount:new Set(branch.map(r=>r.inputs?.work_order_number).filter(Boolean)).size};
 }
 function prepareRun(){
- stopAutoRun();runIndex=-1;runRoot=T?.root_document||'';
+ stopAutoRun();selectedWO='';runIndex=-1;runRoot=T?.root_document||'';
  const cfg=routeForCurrent();runSteps=cfg.stages;
  const confirmed=runSteps.filter(x=>x.known).length,missing=runSteps.length-confirmed;
  $('observedCount').textContent=String(confirmed);
@@ -251,7 +251,7 @@ function prepareRun(){
  $('woChips').innerHTML=uniqueWO.length?
  '<span class="runchip known">พบ WO '+uniqueWO.length+' ใบจาก P48013</span>'+uniqueWO.map(w=>'<button class="runchip known" type="button" data-related-wo="'+H(w)+'">WO '+H(w)+'</button>').join(''):
  '<span class="runchip missing">ไม่มีหลักฐาน WO สำหรับ Order นี้ — ยังไม่สรุปว่าไม่มี WO</span>';
- for(const btn of $('woChips').querySelectorAll('[data-related-wo]'))btn.onclick=()=>{stopAutoRun();selected='wo';refresh();$('runStatus').textContent='WO '+btn.dataset.relatedWo+' · P48013 Related SO No · คลิก Node WO เพื่อดู Input / Output'};
+ for(const btn of $('woChips').querySelectorAll('[data-related-wo]'))btn.onclick=()=>{stopAutoRun();selectedWO=btn.dataset.relatedWo;selected='wo';refresh();$('runStatus').textContent='WO '+btn.dataset.relatedWo+' · P48013 Related SO No · คลิก Node WO เพื่อดู Input / Output'};
  $('runTrace').innerHTML='';paintRun();
 }
 function paintRun(){
