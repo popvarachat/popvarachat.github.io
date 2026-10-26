@@ -31,9 +31,19 @@ th{color:#bad5e4;background:#0f2236;position:sticky;top:0}td:first-child{white-s
 .event-row summary{cursor:pointer}
 .tag.media{color:#afc6dd}
 @media(max-width:800px){.stats{grid-template-columns:repeat(2,minmax(120px,1fr))}main{padding:18px 11px 70px}table{font-size:12px}}
-</style></head>
+.context-action a{font-size:12px;text-decoration:none;color:#d5eaf6;background:#173c59;border:1px solid #4a7390;border-radius:9px;padding:10px 13px}
+  .line-focus-nav{display:flex;gap:9px;flex-wrap:wrap;align-items:center;margin:16px 0 5px}
+  .line-focus-nav a{background:#16384c;border:1px solid #416782;border-radius:9px;padding:10px 13px;font-size:12px;font-weight:700;text-decoration:none;color:#d8f0fc}
+  .line-focus-nav a:hover{background:#255873}
+  .line-advanced{margin-top:20px;border:1px solid #34516a;background:#0e2436;border-radius:15px;padding:15px}
+  .line-advanced>summary{cursor:pointer;font-weight:700;font-size:14px;color:#c1dfed;padding:5px}
+  .line-advanced>div>.panel{margin-top:12px}
+  .panel{scroll-margin-top:140px}
+  @media(max-width:730px){.stats{grid-template-columns:repeat(2,minmax(0,1fr))}.line-focus-nav{display:grid;grid-template-columns:1fr 1fr}.line-focus-nav a{white-space:normal}}
+  </style><link rel="stylesheet" href="./navigation.css?v=workspace26a"><script defer src="./navigation.js?v=workspace26a"></script></head>
 <body><main>
-<header><div><div class="eyebrow">PRACTIKA · MD CONTROL · EVIDENCE REVIEW</div><h1>MD Monitor · ห้องสมาคมนักนวัตกรรม</h1><p>Digital Twin เฉพาะห้องสมาคมนักนวัตกรรม (สมาคมนวัตกรรม) เท่านั้น · ตรวจ 92 โครงการ CB กับหลักฐานจริง</p></div><nav><a href="./pivot.html">← Pivot</a> · <a href="./">Dashboard</a></nav></header>
+<header><div><div class="eyebrow">PRACTIKA · MD CONTROL · EVIDENCE REVIEW</div><h1>MD Monitor · ห้องสมาคมนักนวัตกรรม</h1><p>Digital Twin เฉพาะห้องสมาคมนักนวัตกรรม (สมาคมนวัตกรรม) เท่านั้น · ตรวจ 92 โครงการ CB กับหลักฐานจริง</p></div><div class="context-action"><a href="./pivot.html">กลับไปดูงาน MD ↗</a></div></header>
+<nav class="line-focus-nav" aria-label="ภายใน LINE Digital Twin"><a href="#md-progress">สรุปงาน MD</a><a href="#twin360">หลักฐาน / CB</a><a href="#line-technical">Timeline และข้อมูลต้นทาง</a></nav>
 <section class="panel"><h2>ห้อง LINE ที่กำลังติดตาม</h2><p><b>สมาคมนักนวัตกรรม</b> · Room ID ยืนยันจาก Cloudflare D1 · ไม่มีการรวมข้อความห้องอื่น</p><p class="summary" id="roomMonitor">กำลังเชื่อมข้อมูล LINE แบบอ่านอย่างเดียวจาก Private Viewer…</p></section><section class="panel"><h2>1. แหล่งข้อมูลที่ใช้ตรวจ</h2><p>ดึง CB จาก Private Pivot บน NB โดยอัตโนมัติ 1 ครั้งเมื่อเปิดเว็บ หากไม่เชื่อมต่อ สามารถเลือกไฟล์ pivot.json ได้ ข้อมูลจะประมวลผลใน Browser เท่านั้น</p>
 <div class="flex"><label class="field">CB / Private Pivot JSON <input id="pivotFile" type="file" accept=".json,application/json"></label>
 <label class="field">LINE เฉพาะห้องนี้ (JSON / JSONL) <input id="lineFile" type="file" accept=".json,.jsonl,.txt,application/json,text/plain"></label>
@@ -431,5 +441,31 @@ async function loadRoom(){
   collect();
  }catch(err){el("roomMonitor").textContent="ไม่พบข้อมูลห้องจาก Private Viewer บน NB · สามารถเลือกไฟล์ JSON ที่ได้รับอนุญาตได้ · ไม่ใช้ข้อมูลห้องอื่นแทน";}
 }
+// Keep the main story first; show technical source/import and raw media only on demand.
+(function reorderLineSections(){
+ const progress=document.getElementById("md-progress");
+ const twin=document.getElementById("twin360");
+ const main=document.querySelector("body > main");
+ if(!progress||!twin||!main)return;
+ const source=main.querySelector("#roomMonitor")?.closest("section.panel");
+ const fileInputs=document.getElementById("pivotFile")?.closest("section.panel");
+ const stats=document.getElementById("countWork")?.closest("section.panel");
+ const timeline=document.getElementById("roomStream")?.closest("section.panel");
+ const cbListing=document.getElementById("projectList")?.closest("section.panel")||document.querySelector("#projectTable")?.closest("section.panel");
+ const navigation=main.querySelector(".line-focus-nav");
+ const first=main.querySelector("header");
+ // Place progress immediately after the in-page navigation; preserve all data IDs.
+ if(navigation)navigation.insertAdjacentElement("afterend",progress);
+ const advanced=document.createElement("details");
+ advanced.className="line-advanced";advanced.id="line-technical";
+ advanced.innerHTML='<summary>รายละเอียดเพิ่มเติม · ข้อมูลต้นทาง / Timeline / เครื่องมือตรวจหลักฐาน</summary><div></div>';
+ const group=advanced.querySelector("div");
+ [source,fileInputs,stats,timeline].forEach(x=>{if(x&&x!==progress&&x!==twin)group.appendChild(x)});
+ // Preserve independent CB details as a separate deep-dive surface after the Twin.
+ if(twin.nextElementSibling)main.insertBefore(advanced,twin.nextElementSibling);
+ else main.appendChild(advanced);
+ if(location.hash==="#line-technical")advanced.open=true;
+})();
+
 loadPivot();loadRoom();loadTwin();
 </script></body></html>
