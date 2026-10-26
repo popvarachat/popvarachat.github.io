@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "timezone": "Asia/Bangkok",
+  "schedule": "Mon-Fri 08:50 ICT (Thai holidays not excluded)",
+  "scheduled_for": "08:50",
+  "target_date": null,
+  "run_started_at": null,
+  "run_finished_at": null,
+  "status": "awaiting_first_run",
+  "checked": 0,
+  "total": 13,
+  "cloud_is_last_submitted_receipt": true,
+  "sources": [],
+  "privacy": "aggregate_source_health_only"
+}
