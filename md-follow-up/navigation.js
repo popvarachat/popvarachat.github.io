@@ -4,6 +4,7 @@
  function init(){
   if(document.querySelector(".md-global-shell"))return;
   const current=location.pathname.split("/").pop()||"index.html";
+  const page=current==="workspace.html"?"index.html":current;
   const isNB=["127.0.0.1","localhost"].includes(location.hostname);
   const base=isNB?"/":"./";
   const home=isNB?"/workspace.html":"./";
@@ -20,7 +21,7 @@
    "mm.html":"วาระประชุม MM อยู่คนละทะเบียนกับ MD · ผลรวมไม่ปะปนกัน",
    "architecture.html":"รายละเอียด Architecture และกฎการรับรองงาน · เอกสารประกอบ"
   };
-  const map=sections.map(x=>'<a href="'+x.href+'" '+(x.key===current?'aria-current="page"':'')+'>'+x.title+'</a>').join("");
+  const map=sections.map(x=>'<a href="'+x.href+'" '+(x.key===page?'aria-current="page"':'')+'>'+x.title+'</a>').join("");
   const nav=document.createElement("div");
   nav.className="md-global-shell";
   nav.setAttribute("role","navigation");
@@ -32,7 +33,7 @@
     '<a href="'+(isNB?"https://popvarachat.github.io/md-follow-up/architecture.html":"./architecture.html")+'">Architecture / ผังระบบ</a>'+
     '<a href="https://popvarachat.github.io/">Apps Portal</a>'+
     (isNB?'<a href="'+home+'">หน้าเริ่มต้น GitHub Web</a>':'<a href="http://127.0.0.1:8766/workspace.html">Private Workspace บน NB</a>')+
-    '</div></details></div><div class="md-global-context"><b>'+({ "index.html":"ภาพรวม","pivot.html":"ติดตามงาน MD","line-audit.html":"LINE Evidence","mm.html":"MM Agenda","architecture.html":"Architecture" }[current]||"MD Control")+'</b> / '+(captions[current]||captions["index.html"])+'</div>';
+    '</div></details></div><div class="md-global-context"><b>'+({ "index.html":"ภาพรวม","pivot.html":"ติดตามงาน MD","line-audit.html":"LINE Evidence","mm.html":"MM Agenda","architecture.html":"Architecture" }[page]||"MD Control")+'</b> / '+(captions[page]||captions["index.html"])+'</div>';
   document.body.insertBefore(nav,document.body.firstChild);
   const more=nav.querySelector(".md-global-more");
   document.addEventListener("pointerdown",e=>{if(more.open&&!more.contains(e.target))more.open=false});
