@@ -8,7 +8,7 @@
 <link rel="stylesheet" href="./workspace.css?v=workspace26a">
 <script defer src="./navigation.js?v=workspace26a"></script>
 <script defer src="./workspace.js?v=workspace26a"></script>
-</head>
+<link rel="stylesheet" href="./morning-status.css?v=1"><script defer src="./morning-status.js?v=1"></script></head>
 <body>
 <main class="workspace">
   <section class="workspace-hero" aria-labelledby="workspaceTitle">
@@ -56,7 +56,21 @@
     <p class="health-rule">MM, SharePoint และ LINE มีเวลาอัปเดตคนละรอบ · “ข้อมูลล่าสุดตามเกณฑ์” ไม่ได้แปลว่าทุกระบบเพิ่งสแกนใหม่พร้อมกัน</p>
   </section>
 
-  <section class="workspace-section" aria-labelledby="guideTitle">
+  <section class="workspace-section" id="morning-receipts" aria-labelledby="morningTitle">
+<div class="section-heading"><div><p class="section-mark">EVERY WORKDAY BEFORE 09:00 / LAST SUCCESS PER SOURCE</p><h2 id="morningTitle">ผลอัปเดตเช้าทุก Source · แม้ NB ปิดอยู่</h2>
+<p>ผลล่าสุดที่เก็บใน GitHub (เฉพาะ Metadata) · เวลาอ่านสำเร็จและเวลาแก้ไขต้นทางแสดงแยกกัน</p></div>
+<a class="minor-link" href="./SOURCE_REFRESH_AUDIT_RUNBOOK.md">ความหมายของสถานะ ↗</a></div>
+<div class="morning-overview" role="status" aria-live="polite">
+ <div><strong id="morningResult">กำลังอ่านผลล่าสุด…</strong><small id="morningRunTime">อ่านเฉพาะรายงาน Cloud ที่เก็บไว้ ไม่สแกนข้อมูลต้นทาง</small></div>
+ <button type="button" id="morningReadAgain">ตรวจรายงานอีกครั้ง</button></div>
+<div id="morningStats" class="health-overview"></div>
+<details class="morning-source-details"><summary>ดูรายการแยกทั้ง 13 Sources · Last successful update · Last modified</summary>
+<div class="morning-table-scroll"><table><thead><tr><th>Source</th><th>รอบรายงานล่าสุด</th><th>อ่านสำเร็จครั้งสุดท้าย</th><th>ไฟล์ต้นทางแก้ไขล่าสุด</th></tr></thead>
+<tbody id="morningSources"><tr><td colspan="4">กำลังโหลดใบยืนยันจาก GitHub…</td></tr></tbody></table></div>
+</details><p class="health-rule">สีเตือนหมายถึงไม่มีหลักฐานว่า Source ผ่านการอัปเดตในรอบนั้น ไม่ใช่หลักฐานว่าข้อมูลต้นฉบับเสีย · การตรวจ SharePoint ผ่าน Connector ไม่เท่ากับการซิงก์ Excel ลง NB</p>
+</section>
+
+<section class="workspace-section" aria-labelledby="guideTitle">
     <div class="section-heading"><div><p class="section-mark">HOW TO REVIEW / WHAT COUNTS AS DONE</p><h2 id="guideTitle">วิธีอ่านรายงานให้ไม่สับสน</h2></div></div>
     <div class="guide-grid">
       <div><span>01 / งาน MD</span><strong>เริ่มที่ทะเบียนงาน</strong><p>ดูงานที่เปิดอยู่และเจ้าภาพใน Pivot ก่อน เจาะรายละเอียดตามรหัสงาน</p></div>
