@@ -77,7 +77,7 @@ function drawRows(rows){
 }
 async function loadManualIndex(){
  try{
-  const receipt=await read(SITE+"manual-source-status.json");
+  const receipt=await read("https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/main/md-follow-up/manual-source-status.json");
   Object.assign(MANUAL_INFO,receipt.sources||{});
  }catch{}
  try{
