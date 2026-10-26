@@ -17,6 +17,121 @@ async function read(url){
  const r=await fetch(url,{cache:"no-store",mode:"cors",signal:AbortSignal.timeout(5500)});
  if(!r.ok)throw Error("HTTP "+r.status);return r.json();
 }
+
+const REFRESHABLE=new Set(["cb","ics","icf","ice","cb_edu","cb_icf","cb_ics","cb_new","cb_abdul","planner","innovation_line"]);
+const PRIVATE_PAGE="http://127.0.0.1:8766/workspace.html";
+const PRIVATE_API="http://127.0.0.1:8766";
+const SOURCE_ACTION_NAME={mm:"เปิด Excel MM ใน SharePoint",innovation:"เปิดทะเบียนนวัตกรรมใน SharePoint"};
+const MANUAL_INFO={};
+const windows={cb:26,ics:26,icf:26,ice:26,cb_edu:26,cb_icf:26,cb_ics:26,cb_new:26,cb_abdul:26,planner:5,innovation_line:2.5,innovation:30,mm:30};
+const linkFor={mm:"https://practika-my.sharepoint.com/:x:/r/personal/supattra_sae_practika_com/Documents/1.%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B8%E0%B8%A1%20MM%20+%20Board/%E0%B8%9A%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B6%E0%B8%81%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B8%E0%B8%A1%E0%B8%AA%E0%B9%88%E0%B8%87%20Board%20+%20MM/MM%2069/%E0%B8%A7%E0%B8%B2%E0%B8%A3%E0%B8%B0%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B2%E0%B8%A1%20MM%20%E0%B8%9B%E0%B8%B5%202569%20%20.xlsx?d=w033a8e7c5f9f4f008819f95d5db584aa&csf=1&web=1&e=65jzJm",innovation:"https://practika-my.sharepoint.com/"};
+let latestRows=[],showAll=false,activeManual=null;
+const isLocal=()=>["127.0.0.1","localhost"].includes(location.hostname);
+function freshness(row){
+ if(["mm","innovation"].includes(row.key))return {needs:true,reason:"SharePoint Connector อ่านได้ แต่ยังไม่มี Auto-Sync Excel เข้า NB"};
+ const time=MANUAL_INFO[row.key]?.last_success_at||row.last_success_at||null;
+ if(!time)return {needs:true,reason:"ยังไม่มีหลักฐานอ่านสำเร็จ"};
+ const age=(Date.now()-Date.parse(time))/3600000;
+ if(!Number.isFinite(age)||age>=(windows[row.key]||24))return {needs:true,reason:"Last Update เกินเกณฑ์ "+(windows[row.key]||24)+" ชั่วโมง"};
+ if(age<-.5)return {needs:true,reason:"เวลาอัปเดตผิดปกติ"};
+ return {needs:false,reason:"มี Last Update ภายในเกณฑ์"};
+}
+function action(row){
+ const note=freshness(row);
+ const manual=MANUAL_INFO[row.key];
+ const flagged=note.needs;
+ const isLink=!REFRESHABLE.has(row.key);
+ const btn=isLink?'<a class="manual-source-button manual-link" href="'+safe(linkFor[row.key]||"https://practika-my.sharepoint.com/")+'" target="_blank" rel="noopener noreferrer">'+safe(SOURCE_ACTION_NAME[row.key]||"เปิดต้นฉบับ")+'</a>':
+  '<button type="button" class="manual-source-button" data-manual-source="'+safe(row.key)+'"'+(activeManual&&activeManual!==row.key?' disabled':'')+'>'+
+  (activeManual===row.key?"กำลังตรวจ…":"Manual Refresh")+'</button>';
+ return '<div class="manual-cell" data-source-action="'+safe(row.key)+'">'+
+   (flagged?'<small class="manual-problem">'+safe(note.reason)+'</small>':'<small class="manual-healthy">ข้อมูลสดตามเกณฑ์</small>')+
+   (flagged||showAll?btn:'')+
+   (isLink&&flagged?'<small>เปิดไฟล์เพื่อแก้สิทธิ์หรือซิงก์ด้วยมือ ยังไม่ถือว่า Refresh สำเร็จ</small>':'')+
+   (manual?.result==="manual_verified"?'<small class="manual-healthy">Manual ผ่าน: '+safe(dt(manual.last_success_at))+'</small>':'')+
+ '</div>';
+}
+function drawRows(rows){
+ latestRows=rows;
+ const show=showAll?rows:rows.filter(x=>freshness(x).needs);
+ const control=document.getElementById("manualFilter");
+ if(control)control.textContent=showAll?"ดูเฉพาะ Source ที่ต้องแก้":"ดูทั้ง 13 Source";
+ const counter=document.getElementById("manualNeedsCount");
+ const n=rows.filter(x=>freshness(x).needs).length;
+ if(counter)counter.textContent="Source ต้องตรวจ/แก้ไข "+n+" แหล่ง · กด Manual แยกบรรทัด";
+ E("morningSources").innerHTML=(show.length?show.map(x=>{
+  const manual=MANUAL_INFO[x.key];
+  const newer=manual?.last_success_at&&Date.parse(manual.last_success_at)>Date.parse(x.last_success_at||0)?manual.last_success_at:x.last_success_at;
+  const modified=manual?.source_modified_at||x.last_source_modified_at||x.source_modified_at;
+  const connector=x.last_connector_read_date?"Connector อ่านวันที่ "+x.last_connector_read_date:"";
+  const extra=x.last_nb_integrated_at?" · NB Snapshot "+dt(x.last_nb_integrated_at):"";
+  const flags=freshness(x);
+  const status=flags.needs?chip(false,"ต้องดำเนินการ"):chip(true,"มีผลตรวจที่ยังสด");
+  return '<tr data-source-key="'+safe(x.key)+'"><td><strong>'+safe(x.label)+'</strong></td>'+
+     '<td>'+status+'</td><td>'+safe(dt(newer))+(connector||extra?'<small>'+safe(connector+extra)+'</small>':'')+'</td>'+
+     '<td>'+safe(dt(modified))+'</td><td>'+action(x)+'</td></tr>';
+ }).join(""):'<tr><td colspan="5">ไม่มี Source เกินเกณฑ์ · กด “ดูทั้ง 13 Source” เพื่อสั่งตรวจเอง</td></tr>');
+}
+async function loadManualIndex(){
+ try{
+  const receipt=await read(SITE+"manual-source-status.json");
+  Object.assign(MANUAL_INFO,receipt.sources||{});
+ }catch{}
+ try{
+  if(isLocal()){
+   const receipt=await read(PRIVATE_API+"/manual-refresh-status");
+   Object.assign(MANUAL_INFO,receipt.sources||{});
+   const progress=receipt.latest;
+   if(progress?.state==="running"||progress?.state==="queued")activeManual=progress.source;
+  }
+ }catch{}
+ if(latestRows.length)drawRows(latestRows);
+}
+function manualFeedback(text){const el=document.getElementById("manualFeedback");if(el)el.textContent=text;}
+async function manualClick(key){
+ if(!REFRESHABLE.has(key))return;
+ if(activeManual){manualFeedback("มี Source อื่นกำลังตรวจ กรุณาดูผลให้เสร็จก่อน");return}
+ activeManual=key;if(latestRows.length)drawRows(latestRows);
+ manualFeedback("กำลังส่งคำสั่งตรวจ "+key+" ไปยัง RDC NB…");
+ try{
+  const response=await fetch(PRIVATE_API+"/manual-refresh",{
+    method:"POST",mode:"cors",credentials:"omit",cache:"no-store",
+    headers:{"Content-Type":"application/json","X-MD-Manual":"user-click"},
+    body:JSON.stringify({source:key}),signal:AbortSignal.timeout(10000)
+  });
+  const body=await response.json();
+  if(response.status!==202){
+   manualFeedback("ยังไม่เริ่มตรวจ: "+safe(body.message||body.state||"HTTP "+response.status));
+   return;
+  }
+  manualFeedback("NB รับคำสั่งแล้ว ("+key+") · กำลังอ่านต้นทางจริง ไม่ใช่ Refresh หน้าเว็บ");
+  for(let i=0;i<170;i++){
+   await new Promise(r=>setTimeout(r,1700));
+   let state;try{state=await read(PRIVATE_API+"/manual-refresh-status")}catch{continue}
+   const last=state.latest||{};
+   if(last.source!==key)continue;
+   if(last.state==="queued"||last.state==="running")continue;
+   if(last.state==="success"){
+     Object.assign(MANUAL_INFO,state.sources||{});
+     manualFeedback("ตรวจ "+key+" สำเร็จ: "+dt(last.last_success_at)+" · "+(last.cloud_checkpoint||"บันทึกบน NB แล้ว"));
+   }else{
+     manualFeedback("ตรวจ "+key+" ไม่สำเร็จ: "+(last.error_code||"ไม่สามารถอ่านต้นทาง")+" · เก็บ Last Update เดิม");
+   }
+   return;
+  }
+  manualFeedback("ยังไม่พบผลยืนยันจาก NB — การสั่งงานอาจยังดำเนินอยู่ กรุณาตรวจสถานะอีกครั้ง");
+ }catch(e){
+  manualFeedback("เชื่อมต่อ NB ไม่ได้ — เปิด Private Workspace บนเครื่อง NB เพื่อกด Manual: "+e.message);
+  const el=document.getElementById("manualOpenNB");
+  if(el)el.href=PRIVATE_PAGE+"?manual="+encodeURIComponent(key)+"#morning-receipts";
+ }finally{activeManual=null;if(latestRows.length)drawRows(latestRows)}
+}
+document.addEventListener("click",e=>{
+ const b=e.target.closest?.("[data-manual-source]");
+ if(b){e.preventDefault();manualClick(b.dataset.manualSource)}
+ if(e.target.id==="manualFilter"){showAll=!showAll;if(latestRows.length)drawRows(latestRows)}
+});
+
 function renderCloud(j){
  if(j.schema!==1||j.controller!=="Cloudflare Cron Trigger + D1"||j.sources?.length!==13)throw Error("incomplete cloud receipt");
  const today=dateToday(),isToday=j.last_audit_date===today;
@@ -32,16 +147,7 @@ function renderCloud(j){
  E("morningStats").innerHTML='<div><strong>'+verified+'/13</strong>แหล่งที่ยืนยันในรอบเช้า</div>'+
   '<div><strong>'+safe(j.last_audit_date||"ยังไม่มี")+'</strong>Cloudflare Audit ล่าสุด</div>'+
   '<div><strong>'+safe(genuine?"NB รายงานแล้ว":"NB ยังไม่ยืนยัน")+'</strong>สถานะเช้านี้</div>';
- E("morningSources").innerHTML=j.sources.map(x=>{
-  const nbOK=genuine&&x.status==="NB_VERIFIED_TODAY";
-  const connector=isToday&&j.todays_sharepoint_connector_confirmed&&x.last_connector_read_date===today;
-  const state=nbOK?chip(true,"NB ตรวจวันนี้"):connector?chip(false,"Connector อ่าน / NB ยังไม่รับรอง"):chip(false,"ยังไม่ยืนยันเช้านี้");
-  const extra=(x.last_connector_read_date?"Connector อ่าน "+x.last_connector_read_date:"")+
-    (x.last_nb_integrated_at?" · NB Snapshot "+dt(x.last_nb_integrated_at):"");
-  return '<tr><td><strong>'+safe(x.label)+'</strong></td><td>'+state+'</td>'+
-    '<td>'+safe(dt(x.last_success_at))+(extra?'<small>'+safe(extra)+'</small>':"")+'</td>'+
-    '<td>'+safe(dt(x.last_source_modified_at))+'</td></tr>';
- }).join("");
+ drawRows(j.sources);
 }
 function renderFallback(j,sp){
  if(j.schema!==1||!Array.isArray(j.sources))throw Error("bad GitHub receipt");
@@ -51,14 +157,10 @@ function renderFallback(j,sp){
  E("morningStats").innerHTML='<div><strong>'+safe(j.checked??0)+'/'+safe(j.total??13)+'</strong>ผลตรวจครั้งสุดท้าย</div>'+
   '<div><strong>'+safe(j.target_date||"—")+'</strong>วันที่ได้รับรายงานล่าสุด</div>'+
   '<div><strong>ไม่ได้ยืนยัน</strong>Cloudflare Cron</div>';
- const sh=new Map((sp?.sources||[]).map(x=>[x.key,x]));
- E("morningSources").innerHTML=j.sources.map(x=>{
-  const meta=sh.get(x.key);
-  return '<tr><td><strong>'+safe(x.label)+'</strong></td>'+
-   '<td>'+chip(false,"ยังไม่ยืนยันเช้านี้")+'</td>'+
-   '<td>'+safe(dt(x.last_success_at))+'</td>'+
-   '<td>'+safe(dt(meta?.source_modified_at||x.source_modified_at))+'</td></tr>';
- }).join("");
+ const md=new Map((sp?.sources||[]).map(x=>[x.key,x]));
+ drawRows(j.sources.map(x=>({...x,last_source_modified_at:md.get(x.key)?.source_modified_at||x.source_modified_at,
+  last_connector_read_date:md.get(x.key)?.connector_read_date||null,
+  last_nb_integrated_at:md.get(x.key)?.nb_pivot_last_success_at||null})));
 }
 async function update(){
  const button=E("morningReadAgain");button.disabled=true;
@@ -77,5 +179,6 @@ async function update(){
 document.addEventListener("DOMContentLoaded",()=>{
  if(!E("morningReadAgain"))return;
  E("morningReadAgain").addEventListener("click",update);update();
+ const intended=new URLSearchParams(location.search).get("manual");if(intended&&REFRESHABLE.has(intended)){showAll=true;manualFeedback("เลือก Source "+intended+" แล้ว กดปุ่ม Manual Refresh ในแถวเพื่อเริ่มตรวจจริง");}
 },{once:true});
 })();
