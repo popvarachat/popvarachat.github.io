@@ -37,7 +37,8 @@ ol{padding-left:23px}.steps li{padding:7px 0;white-space:pre-wrap}
 <nav class="nav"><a href="./pivot.html">MD Follow-up</a><a href="./line-audit.html">LINE Digital Twin</a><a href="./">Overview</a></nav>
 </header>
 <section class="panel"><div class="flex"><div class="grow"><h2>แหล่งข้อมูลวาระ MM</h2>
-<p id="connection">กำลังโหลด Snapshot จาก Private Viewer…</p></div>
+<p id="connection">กำลังโหลด Snapshot จาก Private Viewer…</p>
+<a id="mmSource" href="#" target="_blank" rel="noopener noreferrer" hidden>เปิดไฟล์ MM ต้นฉบับใน SharePoint ↗</a></div>
 <label>ใช้ไฟล์ MM Snapshot JSON จาก NB<input id="mmFile" type="file" accept=".json,application/json"></label>
 <button type="button" id="readAgain">อ่าน Snapshot ล่าสุดบน NB</button></div>
 <div class="notice">MM เป็นคนละทะเบียนกับ MD; การเข้าหน้าเว็บไม่สแกน SharePoint ซ้ำ · แสดงวันที่ไฟล์ต้นทางเปลี่ยนล่าสุดและวันที่นำเข้าแยกกัน · สถานะงานจาก Excel ไม่ถือเป็นหลักฐานรับรองการปิดงานโดยอัตโนมัติ</div>
@@ -80,6 +81,9 @@ function setLedger(data){
  const sourceTime=data.source_updated_at?new Date(data.source_updated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"ไม่ทราบเวลาแก้ไขต้นทาง";
  const collected=data.snapshot_generated_at?new Date(data.snapshot_generated_at).toLocaleString("th-TH",{timeZone:"Asia/Bangkok"}):"ไม่ทราบเวลา Snapshot";
  E("connection").textContent="เชื่อม MM Snapshot แล้ว · SharePoint แก้ไขล่าสุด "+sourceTime+" · นำเข้า "+collected+" · ไม่ใช่ Live Connector";
+ const link=E("mmSource");const trusted=String(data.source_url||"");
+ link.hidden=!trusted.startsWith("https://practika-my.sharepoint.com/");
+ if(!link.hidden)link.href=trusted;
  E("coverage").textContent="รอบประชุมล่าสุด: "+recent.meeting_header+" · ข้อมูลทั้งหมด "+data.total_meeting_items+" วาระ จาก "+data.meetings.length+" รอบ · Sheet คงค้างแสดงแยก ไม่รวมกับเดือนล่าสุด";
  E("meeting").innerHTML=data.meetings.map(m=>'<option value="'+esc(m.id)+'">'+esc(m.sheet)+' · '+m.count+' วาระ</option>').join("")+'<option value="backlog">คงค้าง · '+(data.backlog||[]).length+' รายการ</option>';
  render();
