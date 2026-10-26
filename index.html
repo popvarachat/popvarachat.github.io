@@ -188,6 +188,7 @@ const pretty = name => name
   .replace(/\b\w/g,c=>c.toUpperCase());
 
 const overrides = {
+  "mm-agenda-manual": {title:"MM Agenda Follow-up · Management Meeting",description:"วาระติดตาม MM ปี 2569 แยกจาก MD · รายการรายเดือน ผู้รับผิดชอบ กำหนดเสร็จ สถานะ และประวัติวาระ (private data on NB)"},
   "md-followup-manual": {
     title:"MD Follow-up Intelligence — Executive Control",
     description:"Public-safe six-stream oversight: Todo / Planner, ICS-ICF-ICE, Innovation, Check Board, QP-40/PPI and Commercial. Clickable evidence-led network, MD concern audit and data-quality checks."
@@ -340,6 +341,7 @@ const architectures = {
   }
 };
 const manualApps = [
+  {name:"mm-agenda-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/md-follow-up/mm.html",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/md-follow-up",updated_at:"2026-10-26T10:52:00+07:00",topics:["Management Meeting","MM","Agenda Follow-up"],language:"Interactive HTML",description:"MM agenda only, separate from MD: meeting cycle, owners, actions, dates, statuses and history."},
   {name:"md-followup-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/md-follow-up/",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/md-follow-up",updated_at:"2026-10-19T12:00:00+07:00",topics:["Executive Intelligence","Task Governance","CB"],language:"Interactive HTML",description:"Six-stream MD follow-up network with status/evidence checks; public-safe snapshot."},
 
   {name:"practika-one-manual",visibility:"public",pinned:true,homepage:"https://popvarachat.github.io/practika-one/",html_url:"https://github.com/popvarachat/popvarachat.github.io/tree/main/practika-one",updated_at:"2026-10-16T16:00:00+07:00",topics:["Enterprise Intelligence","Digital Twin"],language:"HTML / Interactive Network",description:"Public-safe PRACTIKA ONE Intelligence Workflow prototype"},
