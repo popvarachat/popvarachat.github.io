@@ -21,10 +21,11 @@ async function read(url){
 const REFRESHABLE=new Set(["cb","ics","icf","ice","cb_edu","cb_icf","cb_ics","cb_new","cb_abdul","planner","innovation_line"]);
 const PRIVATE_PAGE="http://127.0.0.1:8766/workspace.html";
 const PRIVATE_API="http://127.0.0.1:8766";
-const SOURCE_ACTION_NAME={mm:"เปิด Excel MM ใน SharePoint",innovation:"เปิดทะเบียนนวัตกรรมใน SharePoint"};
+const SOURCE_ACTION_NAME={mm:"เปิด Excel MM ใน SharePoint",innovation:"เปิด SharePoint เพื่อค้นหาไฟล์นวัตกรรม"};
 const MANUAL_INFO={};
 const windows={cb:26,ics:26,icf:26,ice:26,cb_edu:26,cb_icf:26,cb_ics:26,cb_new:26,cb_abdul:26,planner:5,innovation_line:2.5,innovation:30,mm:30};
-const linkFor={mm:"https://practika-my.sharepoint.com/:x:/r/personal/supattra_sae_practika_com/Documents/1.%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B8%E0%B8%A1%20MM%20+%20Board/%E0%B8%9A%E0%B8%B1%E0%B8%99%E0%B8%97%E0%B8%B6%E0%B8%81%E0%B8%9B%E0%B8%A3%E0%B8%B0%E0%B8%8A%E0%B8%B8%E0%B8%A1%E0%B8%AA%E0%B9%88%E0%B8%87%20Board%20+%20MM/MM%2069/%E0%B8%A7%E0%B8%B2%E0%B8%A3%E0%B8%B0%E0%B8%95%E0%B8%B4%E0%B8%94%E0%B8%95%E0%B8%B2%E0%B8%A1%20MM%20%E0%B8%9B%E0%B8%B5%202569%20%20.xlsx?d=w033a8e7c5f9f4f008819f95d5db584aa&csf=1&web=1&e=65jzJm",innovation:"https://practika-my.sharepoint.com/"};
+const linkFor={mm:"http://127.0.0.1:8766/manual-open-sharepoint?source=mm",
+ innovation:"http://127.0.0.1:8766/manual-open-sharepoint?source=innovation"};
 let latestRows=[],showAll=false,activeManual=null;
 const isLocal=()=>["127.0.0.1","localhost"].includes(location.hostname);
 function freshness(row){
@@ -41,7 +42,7 @@ function action(row){
  const manual=MANUAL_INFO[row.key];
  const flagged=note.needs;
  const isLink=!REFRESHABLE.has(row.key);
- const btn=isLink?'<a class="manual-source-button manual-link" href="'+safe(linkFor[row.key]||"https://practika-my.sharepoint.com/")+'" target="_blank" rel="noopener noreferrer">'+safe(SOURCE_ACTION_NAME[row.key]||"เปิดต้นฉบับ")+'</a>':
+ const btn=isLink?'<a class="manual-source-button manual-link" href="'+safe(linkFor[row.key]||"http://127.0.0.1:8766/workspace.html")+'" target="_blank" rel="noopener noreferrer">'+safe(SOURCE_ACTION_NAME[row.key]||"เปิดต้นฉบับ")+'</a>':
   '<button type="button" class="manual-source-button" data-manual-source="'+safe(row.key)+'"'+(activeManual&&activeManual!==row.key?' disabled':'')+'>'+
   (activeManual===row.key?"กำลังตรวจ…":"Manual Refresh")+'</button>';
  return '<div class="manual-cell" data-source-action="'+safe(row.key)+'">'+
