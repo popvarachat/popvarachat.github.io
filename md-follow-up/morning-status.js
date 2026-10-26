@@ -18,7 +18,7 @@ async function read(url){
  if(!r.ok)throw Error("HTTP "+r.status);return r.json();
 }
 
-const REFRESHABLE=new Set(["cb","ics","icf","ice","cb_edu","cb_icf","cb_ics","cb_new","cb_abdul","planner","innovation_line"]);
+const REFRESHABLE=new Set(["cb","ics","icf","ice","cb_edu","cb_icf","cb_ics","cb_new","cb_abdul","planner","innovation_line","innovation","mm"]);
 const PRIVATE_PAGE="http://127.0.0.1:8766/workspace.html";
 const PRIVATE_API="http://127.0.0.1:8766";
 const SOURCE_ACTION_NAME={mm:"เปิด Excel MM ใน SharePoint",innovation:"เปิด SharePoint เพื่อค้นหาไฟล์นวัตกรรม"};
@@ -41,14 +41,16 @@ function action(row){
  const note=freshness(row);
  const manual=MANUAL_INFO[row.key];
  const flagged=note.needs;
- const isLink=!REFRESHABLE.has(row.key);
- const btn=isLink?'<a class="manual-source-button manual-link" href="'+safe(linkFor[row.key]||"http://127.0.0.1:8766/workspace.html")+'" target="_blank" rel="noopener noreferrer">'+safe(SOURCE_ACTION_NAME[row.key]||"เปิดต้นฉบับ")+'</a>':
-  '<button type="button" class="manual-source-button" data-manual-source="'+safe(row.key)+'"'+(activeManual&&activeManual!==row.key?' disabled':'')+'>'+
-  (activeManual===row.key?"กำลังตรวจ…":"Manual Refresh")+'</button>';
+ const isSharePoint=row.key==="mm"||row.key==="innovation";
+ const openButton=isSharePoint?'<a class="manual-source-button manual-link" href="'+safe(linkFor[row.key])+'" target="_blank" rel="noopener noreferrer">'+safe(SOURCE_ACTION_NAME[row.key])+'</a>':"";
+ const refreshButton='<button type="button" class="manual-source-button" data-manual-source="'+safe(row.key)+'"'+
+   (activeManual&&activeManual!==row.key?' disabled':'')+'>'+
+   (activeManual===row.key?"กำลังตรวจ…":isSharePoint?"นำเข้า Excel ที่ดาวน์โหลด":"Manual Refresh")+'</button>';
+ const btn=openButton+refreshButton;
  return '<div class="manual-cell" data-source-action="'+safe(row.key)+'">'+
    (flagged?'<small class="manual-problem">'+safe(note.reason)+'</small>':'<small class="manual-healthy">ข้อมูลสดตามเกณฑ์</small>')+
    (flagged||showAll?btn:'')+
-   (isLink&&flagged?'<small>เปิดไฟล์เพื่อแก้สิทธิ์หรือซิงก์ด้วยมือ ยังไม่ถือว่า Refresh สำเร็จ</small>':'')+
+   (isSharePoint&&flagged?'<small>ขั้นตอน: เปิด SharePoint → ดาวน์โหลด Excel ใหม่ลงโฟลเดอร์ Downloads บน NB → กดนำเข้า Excel · ไม่ถือว่าอัปเดตจนตรวจไฟล์และสร้าง Dashboard ผ่าน</small>':'')+
    (manual?.result==="manual_verified"?'<small class="manual-healthy">Manual ผ่าน: '+safe(dt(manual.last_success_at))+'</small>':'')+
  '</div>';
 }
@@ -93,7 +95,7 @@ async function manualClick(key){
  if(!REFRESHABLE.has(key))return;
  if(activeManual){manualFeedback("มี Source อื่นกำลังตรวจ กรุณาดูผลให้เสร็จก่อน");return}
  activeManual=key;if(latestRows.length)drawRows(latestRows);
- manualFeedback("กำลังส่งคำสั่งตรวจ "+key+" ไปยัง RDC NB…");
+ manualFeedback("กำลังส่งคำสั่งตรวจ "+key+" ไปยัง RDC NB…"+(["mm","innovation"].includes(key)?" (ต้องดาวน์โหลดไฟล์ Excel บน NB ก่อน)":""));
  try{
   const response=await fetch(PRIVATE_API+"/manual-refresh",{
     method:"POST",mode:"cors",credentials:"omit",cache:"no-store",
