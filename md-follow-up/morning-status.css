@@ -12,3 +12,17 @@
 .morning-result-tag.yes{border-color:#338872;background:#114b42;color:#bcf0df}
 .morning-result-tag.no{border-color:#9d804e;background:#50401c;color:#f1d7a1}
 @media(max-width:590px){.morning-overview{flex-direction:column;align-items:stretch}.morning-overview button{align-self:flex-start}}
+
+.morning-manual-tools{display:flex;align-items:center;flex-wrap:wrap;gap:12px;padding:12px 14px 4px;color:#bcdfed;font-size:12px}
+.morning-manual-tools strong{margin-right:auto}
+.morning-manual-tools button,.morning-manual-tools a,.manual-source-button{font:inherit;font-size:11px;border:1px solid #52788f;border-radius:8px;background:#19445b;color:#e5f5ff;padding:8px 11px;cursor:pointer;text-decoration:none}
+.morning-manual-tools button:hover,.morning-manual-tools a:hover,.manual-source-button:hover{background:#276681}
+.manual-source-button:disabled{opacity:.5;cursor:not-allowed}
+.manual-cell{display:flex;gap:7px;flex-direction:column;align-items:flex-start;min-width:165px}
+.manual-cell small{font-size:11px;line-height:1.45;white-space:normal;color:#9fbdd0}
+.manual-cell .manual-problem{color:#ffd39d}
+.manual-cell .manual-healthy{color:#a4e7c6}
+.manual-link{display:inline-flex;white-space:normal;max-width:230px}
+.manual-feedback{padding:8px 14px 12px;color:#b2d2e2;font-size:12px;min-height:38px;line-height:1.6}
+.morning-table-scroll th:last-child{min-width:200px}
+@media(max-width:590px){.morning-manual-tools{align-items:flex-start}.morning-manual-tools strong{flex-basis:100%}}
