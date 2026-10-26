@@ -327,12 +327,20 @@ function renderMdProgress(){
     const related=cb.get(g.ord)||[],updated=g.events.filter(e=>e.signal==="progress"),block=g.events.filter(e=>e.signal==="blocker");
     const assigned=related.length?"CB เกี่ยวข้อง "+related.length+" โครงการ · "+related.slice(0,3).map(x=>x.project).join(" | "):"ยังไม่พบใน CB 92 โครงการ";
     const last=g.events[0];
+    const latestOf=(kind)=>g.events.find(e=>e.signal===kind);
+    const brief=[["รายงานคืบหน้าล่าสุด","progress"],["ประเด็นปัญหาที่กล่าวถึงล่าสุด","blocker"],["คำขอ/งานที่มอบหมายล่าสุด","instruction"],["ข้อความเชิงตัดสินใจล่าสุด","decision"]]
+      .map(([label,kind])=>({label,e:latestOf(kind)})).filter(x=>x.e);
+    const headline=brief.length?'<div class="event-row"><strong>สรุปจากข้อความที่ตรวจพบ (ยังไม่รับรอง)</strong>'+
+      brief.map(x=>'<div style="margin-top:7px"><span class="tag">'+escapeHTML(x.label)+'</span> '+
+        escapeHTML(mdDate(x.e.timestamp))+' · '+escapeHTML(x.e.sender)+'<div class="evidence">'+
+        escapeHTML(x.e.text.slice(0,230))+'</div><span class="meta">หลักฐาน Event '+escapeHTML(x.e.event_id)+'</span></div>').join("")+
+      '</div>':'<p class="muted">พบการกล่าวถึง Order แต่ยังไม่มีข้อความที่เข้าประเภทความคืบหน้า/ปัญหา/คำสั่ง</p>';
     return '<details class="project"><summary><strong>'+escapeHTML(g.ord)+'</strong> · '+g.events.length+' ข้อความ'+
       ' <span class="tag '+(block.length?"related":"")+'">รายงาน '+updated.length+' / ปัญหา '+block.length+'</span>'+
       ' <span class="meta">ล่าสุด '+escapeHTML(mdDate(last.timestamp))+' · ผู้รายงาน '+escapeHTML(last.sender)+'</span></summary>'+
       '<div style="padding:12px"><p class="summary">'+escapeHTML(assigned)+'</p>'+
       '<p class="notice">รายงานล่าสุดไม่ใช่สถานะปิดงาน · หาก Order เดียวมีหลายโครงการ ต้องตรวจทีละโครงการและขั้นตอน</p>'+
-      '<p class="summary"><strong>รายงาน/หลักฐานล่าสุด</strong></p>'+
+      headline+'<p class="summary"><strong>คลิกดูข้อความต้นฉบับและหลักฐานย้อนหลัง</strong></p>'+
       g.events.slice(0,18).map(mdTextReport).join("")+
       (g.events.length>18?'<p class="muted">แสดง 18 รายการล่าสุดเพื่อไม่ให้หน้าหนักเกินไป</p>':"")+'</div></details>';
   }).join(""):'<p class="muted">ไม่พบข้อความที่ระบุเลข Order ในช่วงที่เลือก</p>');
