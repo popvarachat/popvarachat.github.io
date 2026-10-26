@@ -16,7 +16,7 @@ header .tag{background:#2c453f;border:1px solid #57766a;color:#e8fff3;padding:6p
 .scroll{padding:12px;overflow-y:auto;min-height:0;scrollbar-width:thin}
 .field{display:grid;gap:5px;margin-bottom:12px}.field label{font-size:11px;font-weight:850;color:#48665c}
 input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:8px;background:white;color:var(--ink)}
-.searchline{display:grid;grid-template-columns:75px 1fr;gap:6px}.btnrow{display:flex;gap:6px;flex-wrap:wrap}
+.searchline{display:grid;grid-template-columns:75px minmax(0,1fr);gap:6px}.searchline select{min-width:0}.manual-search{border:1px solid var(--border);border-radius:9px;padding:7px 9px;margin:0 0 9px;background:#fafcfb}.manual-search summary{cursor:pointer;color:#527669;font-size:11px;font-weight:800}.btnrow{display:flex;gap:6px;flex-wrap:wrap}
 .primary{background:var(--green);color:white;border-color:var(--green)}.primary:hover{background:#0b5e49}
 .note{border:1px solid #e7d8b7;background:#fff9ed;color:#76521d;border-radius:10px;padding:10px;font-size:11px;margin-bottom:12px}
 .state{border:1px solid var(--border);border-radius:10px;padding:10px;font-size:11px;color:var(--sub);margin:10px 0}
@@ -42,11 +42,10 @@ input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:
 <header><div class="logo">P</div><div><div class="identity">PRACTIKA · Actual Order Lineage V5</div><div class="minor">SO / SN / WO → Control Plan → Cutting → FG → AP · AR · GL</div></div><div class="spacer"></div><span class="tag">ACTUAL EVIDENCE ONLY</span><a href="../order-trace/">V4 Inspector</a><a href="../simulation/">V3 Synthetic</a><a href="../">ERP Home</a></header>
 <div class="shell">
 <section class="panel left"><div class="panel-head">เลือก Order ต้นทาง<div class="panel-sub">เริ่ม SO เป็นหลัก หรือย้อนจาก SN / WO / PO</div></div><div class="scroll">
-<div class="field"><label>1. เลือกชนิดเอกสาร</label><div class="searchline"><select id="doctype"><option value="SO">SO</option><option value="SN">SN</option><option value="WO">WO</option><option value="PO">PO</option></select><input id="docno" placeholder="เลขเอกสารจริง" autocomplete="off"></div></div>
-<div class="field" id="recentBlock"><label for="recent">10 เอกสารล่าสุดตามชนิดที่เลือก (จากหลักฐานที่นำเข้า)</label><select id="recent" size="5" aria-label="เลือกหนึ่งในสิบเอกสารล่าสุด" disabled><option>ยังไม่มีข้อมูลล่าสุดจาก ERP</option></select><small id="recentInfo" style="color:#657c71">ต้องนำเข้าไฟล์ Private Evidence ก่อน · ไม่ใช่รายการ JDE Live</small></div>
+<div class="field"><label>1. เลือกประเภท → เลือกเลขเอกสาร</label><div class="searchline"><select id="doctype" aria-label="ประเภทเอกสาร"><option value="SO">SO</option><option value="SN">SN</option><option value="WO">WO</option><option value="PO">PO</option></select><select id="docpick" aria-label="เลือกเลขเอกสารจริงจากรายการ" disabled><option value="">นำเข้าหลักฐานเพื่อเลือกเลข SO</option></select></div><small id="recentInfo" style="color:#657c71">ยังไม่ได้เชื่อม Live JDE — รายการจาก Private Evidence ที่เปิดใน Browser</small></div><details class="manual-search"><summary>ค้นหาเลขเอกสารอื่นด้วยตัวเอง</summary><div class="field" style="margin:7px 0 3px"><input id="docno" placeholder="พิมพ์เลข SO / SN / WO / PO" autocomplete="off" inputmode="numeric"></div></details>
 <div class="btnrow"><button id="find" class="primary">ค้นในหลักฐานที่นำเข้า</button><button id="reset">ล้าง</button></div>
 <div id="match" class="state">ยังไม่มี Source Data — การกรอกเลข Order จะไม่เชื่อม JDE โดยตรง</div>
-<div class="note" style="margin-top:9px">Playwright ตรวจ P4210 วันที่ 26/10/26 แล้ว: <b>SO 10 เอกสาร / SN 10 เอกสาร</b> ใน Private Evidence (SN รวมย้อนหลัง 22/10) · WO/PO ยังไม่ยืนยัน<br><a href="https://github.com/popvarachat/practika-erp-architecture/blob/main/evidence-private/order-catalog/P4210_recent_SO_SN_20_document_summaries_20261026.private.json" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:6px;font-weight:850;text-decoration:underline">เปิดชุด Order ล่าสุดใน GitHub Private เพื่อดาวน์โหลด JSON</a><br><small>ต้องมีสิทธิ์ GitHub Private แล้วนำไฟล์กลับมาเลือกที่ข้อ 2 · ไม่มีข้อมูล Order ถูกฝังในเว็บสาธารณะ</small></div>
+<div class="note" style="margin-top:9px">สแกน JDE วันที่ 26/10/26: มีตัวเลือกจริงจาก SO / SN / WO / PO ประเภทละ 10 รายการใน Private Evidence (บางชนิดรวมวันก่อนหน้า) <br><a href="https://github.com/popvarachat/practika-erp-architecture/blob/main/evidence-private/order-traces/recent-orders/PRACTIKA_ERP_SO_SN_WO_PO_recent_selector_20261026.private.json" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:6px;font-weight:850;text-decoration:underline">เปิด Evidence SO / SN / WO / PO ใน GitHub Private</a><br><small>ดาวน์โหลด JSON แล้วเปิดที่ข้อ 2 เพียงครั้งเดียวต่อหน้าเว็บ · เลขเอกสารจะปรากฏในช่องเลือกด้านบน · ยังไม่ได้เชื่อม JDE Live</small></div>
 <div class="field"><label>2. เปิดชุดหลักฐานส่วนตัว (JSON)</label><input type="file" id="file" accept=".json,application/json"><small style="color:#697e74">อ่านใน Browser เครื่องนี้เท่านั้น ไม่ Upload ไปยังเว็บสาธารณะ</small></div>
 <div class="field"><label>3. เลือก Trace ที่อ่านได้</label><select id="trace" disabled><option>ไม่มีข้อมูล</option></select></div>
 <div class="kpi"><div><b id="records">—</b><small>Source Records</small></div><div><b id="nodes">—</b><small>Nodes มีหลักฐาน</small></div><div><b id="joins">—</b><small>Link รับรองครบ</small></div><div><b id="gaps">—</b><small>Link ยังไม่พิสูจน์</small></div></div>
@@ -159,22 +158,27 @@ function recentDocs(type){
  return [...latest.values()].sort((a,b)=>b.stamp-a.stamp||b.number.localeCompare(a.number,'en',{numeric:true})||a.company.localeCompare(b.company)).slice(0,10);
 }
 function refreshRecent(){
- const type=$('doctype').value,items=recentDocs(type),sel=$('recent');
+ const type=$('doctype').value,items=recentDocs(type),sel=$('docpick');
  sel.innerHTML='';
+ const placeholder=document.createElement('option');
+ placeholder.value='';
+ placeholder.textContent=items.length?'เลือกเลข '+type+' (มี '+items.length+' รายการ)':B?'ไม่มี '+type+' ในหลักฐาน':'นำเข้า JSON เพื่อเลือกเลข '+type;
+ sel.appendChild(placeholder);
+ sel.value='';
+ sel.disabled=!items.length;
  if(!items.length){
-   const op=document.createElement('option');op.textContent=B?'ไม่มี '+type+' ในหลักฐานที่โหลด':'นำเข้า Private Evidence เพื่อดู 10 ล่าสุด';op.disabled=true;sel.appendChild(op);sel.disabled=true;
-   $('recentInfo').textContent=B?'ไม่พบเอกสาร '+type+' ภายในชุดหลักฐานนี้ — ไม่ได้แปลว่า ERP ไม่มี':'ยังไม่มีการเชื่อมข้อมูล JDE Live; ไม่แสดงเลขสมมติหรือเปิดเผย Order บนเว็บสาธารณะ';
+   $('recentInfo').textContent=B?'ชุดนี้ยังไม่มีเลข '+type+' (ไม่ใช่ยอดศูนย์ใน ERP)':'ต้องเปิด Private Evidence JSON ก่อน · เว็บสาธารณะไม่อ่าน JDE Live';
    return;
  }
- sel.disabled=false;
  for(const d of items){
-   const op=document.createElement('option');op.value=d.number;
-   op.textContent=[d.doctype+' '+d.number,d.date||'ไม่ปรากฏวันที่','('+d.records+' records)'].join(' · ');
-   op.dataset.trace=d.trace_id;op.dataset.company=d.company;
+   const op=document.createElement('option');
+   op.value=d.number;
+   op.textContent=d.doctype+' '+d.number+' · '+(d.date||'วันที่ไม่ปรากฏ');
+   op.dataset.trace=d.trace_id;
+   op.dataset.company=d.company;
    sel.appendChild(op);
  }
- sel.selectedIndex=-1;
- $('recentInfo').textContent='แสดง '+items.length+' จากหลักฐานที่นำเข้า เรียงตาม Business Date (ไม่ใช่ JDE Live ณ ปัจจุบัน)';
+ $('recentInfo').textContent='เลือกจาก '+items.length+' เอกสารล่าสุดที่มีในหลักฐาน · วันที่เอกสาร ไม่ใช่ Live JDE';
 }
 function findOrder(){
  const type=$('doctype').value,no=$('docno').value.trim().toLowerCase();
@@ -185,12 +189,12 @@ function findOrder(){
    return (t.records||[]).some(r=>nodes.includes(r.node_id)&&docFromRecord(r,type)?.number.toLowerCase()===no);
  });
  if(!matches.length){$('match').textContent='ไม่พบ '+type+' '+no+' ในไฟล์ที่นำเข้า — ไม่ได้หมายความว่าไม่มีใน ERP';$('match').className='state';return}
- const choice=$('recent').selectedOptions[0],requestedTrace=choice?.dataset?.trace;
+ const choice=$('docpick').selectedOptions[0],requestedTrace=choice?.value===no?choice.dataset?.trace:null;
  T=matches.find(t=>t.trace_id===requestedTrace)||matches[0];$('trace').value=T.trace_id;selected=type==='PO'?'po':type.toLowerCase();
  $('match').textContent='พบ '+matches.length+' trace ของ '+type+' '+no+' จากหลักฐาน; โปรดตรวจเอกสารต้นฉบับและการเชื่อมโยงเพิ่มเติม';$('match').className='state good';refresh();
 }
-$('doctype').addEventListener('change',()=>{$('docno').value='';refreshRecent()});
-$('recent').addEventListener('change',()=>{const option=$('recent').selectedOptions[0];if(!option||option.disabled)return;$('docno').value=option.value;findOrder()});
+$('doctype').addEventListener('change',()=>{$('docno').value='';refreshRecent();selected=$('doctype').value==='PO'?'po':$('doctype').value.toLowerCase();refresh()});
+$('docpick').addEventListener('change',()=>{const option=$('docpick').selectedOptions[0];if(!option||!option.value)return;$('docno').value=option.value;findOrder()});
 $('docno').addEventListener('keydown',e=>{if(e.key==='Enter')findOrder()});
 
 function normalized(source){
