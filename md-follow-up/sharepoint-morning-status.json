@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "time_zone": "Asia/Bangkok",
+  "status": "connector_read_verified_not_nb_synced",
+  "checked_date": "2026-10-26",
+  "source": "connected Microsoft SharePoint",
+  "sources": [
+    {
+      "key": "innovation",
+      "title": "ตารางรวมงานนวัตกรรม.xlsx",
+      "source_modified_at": "2026-10-22T07:57:08Z",
+      "connector_read_date": "2026-10-26",
+      "nb_pivot_last_success_at": "2026-10-19T08:09:09Z",
+      "nb_synced_today": false
+    },
+    {
+      "key": "mm",
+      "title": "วาระติดตาม MM ปี 2569  .xlsx",
+      "source_modified_at": "2026-10-26T03:38:25Z",
+      "connector_read_date": "2026-10-26",
+      "nb_pivot_last_success_at": "2026-10-26T03:58:58.817203+00:00",
+      "nb_synced_today": true
+    }
+  ],
+  "privacy": "source_metadata_only"
+}
