@@ -90,6 +90,16 @@ async function loadManualIndex(){
  }catch{}
  if(latestRows.length)drawRows(latestRows);
 }
+const MANUAL_ERRORS={
+ RECENT_DOWNLOAD_NOT_FOUND:"ยังไม่พบ Excel ใหม่ใน Downloads ของ NB — เปิด SharePoint แล้วดาวน์โหลดก่อน",
+ LAN_SOURCE_NOT_AVAILABLE:"ยังเข้า W:/S: ไม่ได้ โปรดเชื่อมเครือข่ายบริษัทหรือ VPN",
+ MM_SHEETS_CHANGED:"โครงสร้าง Sheet MM เปลี่ยน ระบบหยุดเพื่อป้องกันข้อมูลผิด",
+ INNOVATION_DOWNLOAD_AMBIGUOUS:"พบไฟล์นวัตกรรมหลายชุด ต้องตรวจชื่อไฟล์ดาวน์โหลดก่อน",
+ INNOVATION_FILE_TOO_SMALL:"ไฟล์นวัตกรรมไม่ครบ หรือขนาดผิดปกติ",
+ SOURCE_CHECK_FAILED:"การอ่านไฟล์หรือสถานะต้นทางไม่ผ่าน",
+ EXECUTION_ERROR_1:"ตัวอ่านต้นทางคืนสถานะผิดพลาด ตรวจสิทธิ์ NB",
+ READER_TIMEOUT:"ตรวจต้นทางนานเกินกำหนด ข้อมูลเดิมยังอยู่"
+};
 function manualFeedback(text){const el=document.getElementById("manualFeedback");if(el)el.textContent=text;}
 async function manualClick(key){
  if(!REFRESHABLE.has(key))return;
@@ -118,7 +128,7 @@ async function manualClick(key){
      Object.assign(MANUAL_INFO,state.sources||{});
      manualFeedback("ตรวจ "+key+" สำเร็จ: "+dt(last.last_success_at)+" · "+(last.cloud_checkpoint||"บันทึกบน NB แล้ว"));
    }else{
-     manualFeedback("ตรวจ "+key+" ไม่สำเร็จ: "+(last.error_code||"ไม่สามารถอ่านต้นทาง")+" · เก็บ Last Update เดิม");
+     manualFeedback("ตรวจ "+key+" ไม่สำเร็จ: "+(MANUAL_ERRORS[last.error_code]||last.error_code||"ไม่สามารถอ่านต้นทาง")+" · เก็บ Last Update เดิม");
    }
    return;
   }
