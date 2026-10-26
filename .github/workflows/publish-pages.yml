@@ -16,6 +16,13 @@ on:
       - 'md-follow-up/pivot.html'
       - 'md-follow-up/line-audit.html'
       - 'md-follow-up/mm.html'
+      - 'md-follow-up/navigation.css'
+      - 'md-follow-up/navigation.js'
+      - 'md-follow-up/workspace.css'
+      - 'md-follow-up/workspace.js'
+      - 'md-follow-up/architecture.html'
+      - 'index.html'
+      - '.github/workflows/publish-pages.yml'
 
 permissions:
   contents: read
