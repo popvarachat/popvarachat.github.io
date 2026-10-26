@@ -42,12 +42,11 @@ input,select{width:100%;padding:9px 10px;border:1px solid #cbddd3;border-radius:
 <header><div class="logo">P</div><div><div class="identity">PRACTIKA · Actual Order Lineage V5</div><div class="minor">SO / SN / WO → Control Plan → Cutting → FG → AP · AR · GL</div></div><div class="spacer"></div><span class="tag">ACTUAL EVIDENCE ONLY</span><a href="../order-trace/">V4 Inspector</a><a href="../simulation/">V3 Synthetic</a><a href="../">ERP Home</a></header>
 <div class="shell">
 <section class="panel left"><div class="panel-head">เลือก Order ต้นทาง<div class="panel-sub">เริ่ม SO เป็นหลัก หรือย้อนจาก SN / WO / PO</div></div><div class="scroll">
-<div class="field"><label>1. เลือกประเภท → เลือกเลขเอกสาร</label><div class="searchline"><select id="doctype" aria-label="ประเภทเอกสาร"><option value="SO">SO</option><option value="SN">SN</option><option value="WO">WO</option><option value="PO">PO</option></select><select id="docpick" aria-label="เลือกเลขเอกสารจริงจากรายการ" disabled><option value="">นำเข้าหลักฐานเพื่อเลือกเลข SO</option></select></div><small id="recentInfo" style="color:#657c71">ยังไม่ได้เชื่อม Live JDE — รายการจาก Private Evidence ที่เปิดใน Browser</small></div><details class="manual-search"><summary>ค้นหาเลขเอกสารอื่นด้วยตัวเอง</summary><div class="field" style="margin:7px 0 3px"><input id="docno" placeholder="พิมพ์เลข SO / SN / WO / PO" autocomplete="off" inputmode="numeric"></div></details>
+<div class="field"><label>1. เลือกประเภท → เลือกเลขเอกสาร</label><div class="searchline"><select id="doctype" aria-label="ประเภทเอกสาร"><option value="SO">SO</option><option value="SN">SN</option><option value="WO">WO</option><option value="PO">PO</option></select><select id="docpick" aria-label="เลือกเลขเอกสารจริงจากรายการ" disabled><option value="">กำลังโหลดเลข SO ล่าสุดจากรายการที่ตรวจไว้…</option></select></div><small id="recentInfo" style="color:#657c71">รายการจาก JDE ที่สแกนไว้ 26 ต.ค. 2569 · ยังไม่ใช่ Live</small></div><details class="manual-search"><summary>ค้นหาเลขเอกสารอื่นด้วยตัวเอง</summary><div class="field" style="margin:7px 0 3px"><input id="docno" placeholder="พิมพ์เลข SO / SN / WO / PO" autocomplete="off" inputmode="numeric"></div></details>
 <div class="btnrow"><button id="find" class="primary">ค้นในหลักฐานที่นำเข้า</button><button id="reset">ล้าง</button></div>
 <div id="match" class="state">ยังไม่มี Source Data — การกรอกเลข Order จะไม่เชื่อม JDE โดยตรง</div>
-<div class="note" style="margin-top:9px">สแกน JDE วันที่ 26/10/26: มีตัวเลือกจริงจาก SO / SN / WO / PO ประเภทละ 10 รายการใน Private Evidence (บางชนิดรวมวันก่อนหน้า) <br><a href="https://github.com/popvarachat/practika-erp-architecture/blob/main/evidence-private/order-traces/recent-orders/PRACTIKA_ERP_SO_SN_WO_PO_recent_selector_20261026.private.json" target="_blank" rel="noopener noreferrer" style="display:inline-block;margin-top:6px;font-weight:850;text-decoration:underline">เปิด Evidence SO / SN / WO / PO ใน GitHub Private</a><br><small>ดาวน์โหลด JSON แล้วเปิดที่ข้อ 2 เพียงครั้งเดียวต่อหน้าเว็บ · เลขเอกสารจะปรากฏในช่องเลือกด้านบน · ยังไม่ได้เชื่อม JDE Live</small></div>
-<div class="field"><label>2. เปิดชุดหลักฐานส่วนตัว (JSON)</label><input type="file" id="file" accept=".json,application/json"><small style="color:#697e74">อ่านใน Browser เครื่องนี้เท่านั้น ไม่ Upload ไปยังเว็บสาธารณะ</small></div>
-<div class="field"><label>3. เลือก Trace ที่อ่านได้</label><select id="trace" disabled><option>ไม่มีข้อมูล</option></select></div>
+<div class="note" style="margin-top:9px"><b>เปิดเว็บแล้วเลือกเลขได้เลย</b> — รายการ SO / SN / WO / PO 10 รายการต่อประเภทมาจาก JDE ที่สแกนเมื่อ 26 ต.ค. 2569 (บางประเภทมีวันที่ 22 ต.ค.) <b>ไม่ต้องนำเข้าไฟล์</b><br><small>เพื่อให้แสดงได้โดยไม่ Login/Import เว็บไซต์สาธารณะเผยแพร่เฉพาะประเภท เลขเอกสาร และวันที่ ไม่แสดงข้อมูลลูกค้า ต้นทุน หรือธุรกรรมละเอียด ข้อมูลนี้ไม่ใช่ Live JDE ณ ขณะเปิดเว็บ</small></div>
+<details class="manual-search"><summary>โหมดผู้ตรวจสอบ: เปิดหลักฐานละเอียดเพิ่มเติม (ไม่จำเป็นสำหรับการเลือกเลข)</summary><div class="field" style="margin-top:9px"><label>Private Evidence JSON (สำหรับผู้มีสิทธิ์เท่านั้น)</label><input type="file" id="file" accept=".json,application/json"><small>เฉพาะการวิเคราะห์เชิงลึก · ไม่ Upload ออกไป</small></div><div class="field"><label>Trace ที่มีข้อมูล</label><select id="trace" disabled><option>ไม่มีข้อมูล</option></select></div></details>
 <div class="kpi"><div><b id="records">—</b><small>Source Records</small></div><div><b id="nodes">—</b><small>Nodes มีหลักฐาน</small></div><div><b id="joins">—</b><small>Link รับรองครบ</small></div><div><b id="gaps">—</b><small>Link ยังไม่พิสูจน์</small></div></div>
 <div class="scope"><h4>Count ที่ระบบต้องตรวจจริง</h4><p><b>SO/SN:</b> แยก Header, Line, Revision และการอ้างอิงข้ามเอกสาร</p><p><b>WO / Cutting / Control Plan:</b> นับ Unique Document + Line/Operation จริง ไม่ใช่นับจำนวนแถวบนหน้าจอ</p><p><b>FG:</b> รวม Good Qty, Lot และ Partial Transfer พร้อม Reversal/UOM</p><p><b>AP / AR / GL:</b> ผูกเลขเอกสาร Batch, JE Line, Cost Allocation และการรับชำระ โดยไม่ซ้ำซ้อน</p></div>
 <div class="note">ถ้าไม่พบ WO หรือ FG ในหลักฐาน จะแสดง <b>ไม่ทราบ</b> ไม่ถือว่าเป็นศูนย์ และไม่สร้างธุรกรรมสมมติขึ้นเอง</div>
@@ -162,12 +161,12 @@ function refreshRecent(){
  sel.innerHTML='';
  const placeholder=document.createElement('option');
  placeholder.value='';
- placeholder.textContent=items.length?'เลือกเลข '+type+' (มี '+items.length+' รายการ)':B?'ไม่มี '+type+' ในหลักฐาน':'นำเข้า JSON เพื่อเลือกเลข '+type;
+ placeholder.textContent=items.length?'เลือกเลข '+type+' (มี '+items.length+' รายการ)':B?'ไม่พบ '+type+' ในรายการที่มี':'กำลังโหลดรายการ '+type;
  sel.appendChild(placeholder);
  sel.value='';
  sel.disabled=!items.length;
  if(!items.length){
-   $('recentInfo').textContent=B?'ชุดนี้ยังไม่มีเลข '+type+' (ไม่ใช่ยอดศูนย์ใน ERP)':'ต้องเปิด Private Evidence JSON ก่อน · เว็บสาธารณะไม่อ่าน JDE Live';
+   $('recentInfo').textContent=B?'ชุดนี้ยังไม่มีเลข '+type+' (ไม่ใช่ยอดศูนย์ใน ERP)':'กำลังดึงเลขเอกสารจาก Cloud อัตโนมัติ ไม่ต้องนำเข้า JSON';
    return;
  }
  for(const d of items){
@@ -178,7 +177,7 @@ function refreshRecent(){
    op.dataset.company=d.company;
    sel.appendChild(op);
  }
- $('recentInfo').textContent='เลือกจาก '+items.length+' เอกสารล่าสุดที่มีในหลักฐาน · วันที่เอกสาร ไม่ใช่ Live JDE';
+ $('recentInfo').textContent='แสดง '+items.length+' เลขจาก JDE snapshot วันที่ 26 ต.ค. 2569 · ไม่ใช่ข้อมูลสด';
 }
 function findOrder(){
  const type=$('doctype').value,no=$('docno').value.trim().toLowerCase();
@@ -191,9 +190,9 @@ function findOrder(){
  if(!matches.length){$('match').textContent='ไม่พบ '+type+' '+no+' ในไฟล์ที่นำเข้า — ไม่ได้หมายความว่าไม่มีใน ERP';$('match').className='state';return}
  const choice=$('docpick').selectedOptions[0],requestedTrace=choice?.value===no?choice.dataset?.trace:null;
  T=matches.find(t=>t.trace_id===requestedTrace)||matches[0];$('trace').value=T.trace_id;selected=type==='PO'?'po':type.toLowerCase();
- $('match').textContent='พบ '+matches.length+' trace ของ '+type+' '+no+' จากหลักฐาน; โปรดตรวจเอกสารต้นฉบับและการเชื่อมโยงเพิ่มเติม';$('match').className='state good';refresh();
+ $('match').textContent='เลือก '+type+' '+no+' จาก JDE snapshot · ข้อมูลนี้ยืนยันเฉพาะเลข/วันที่ ไม่ใช่การไหลถึง WO/FG/GL';$('match').className='state good';refresh();
 }
-$('doctype').addEventListener('change',()=>{$('docno').value='';refreshRecent();selected=$('doctype').value==='PO'?'po':$('doctype').value.toLowerCase();refresh()});
+$('doctype').addEventListener('change',()=>{$('docno').value='';refreshRecent();const opts=$('docpick');if(!opts.disabled&&opts.options.length>1){opts.selectedIndex=1;$('docno').value=opts.value;findOrder()}else{selected=$('doctype').value==='PO'?'po':$('doctype').value.toLowerCase();refresh()}});
 $('docpick').addEventListener('change',()=>{const option=$('docpick').selectedOptions[0];if(!option||!option.value)return;$('docno').value=option.value;findOrder()});
 $('docno').addEventListener('keydown',e=>{if(e.key==='Enter')findOrder()});
 
@@ -205,10 +204,26 @@ function normalized(source){
  }
  return source;
 }
-function load(o){B=normalized(o);$('trace').innerHTML='';for(const t of B.traces){const opt=document.createElement('option');opt.value=t.trace_id;opt.textContent=t.trace_id+' ('+t.records.length+' records)';$('trace').appendChild(opt)}$('trace').disabled=!B.traces.length;T=B.traces[0]||null;selected= T?.records?.[0]?.node_id||'so';$('match').textContent='โหลด '+B.traces.length+' traces จากไฟล์ที่เลือกแล้ว (เฉพาะ Browser เครื่องนี้)';$('match').className='state good';refreshRecent();refresh()}
+function load(o,origin='file'){B=normalized(o);$('trace').innerHTML='';for(const t of B.traces){const opt=document.createElement('option');opt.value=t.trace_id;opt.textContent=t.trace_id+' ('+t.records.length+' records)';$('trace').appendChild(opt)}$('trace').disabled=!B.traces.length;T=B.traces[0]||null;selected=T?.records?.[0]?.node_id||'so';$('match').textContent=origin==='catalog'?'โหลดเลขเอกสาร 40 รายการจาก Cloud แล้ว · เลือกได้เลย (ข้อมูลหัวเอกสารเท่านั้น)':'โหลด '+B.traces.length+' traces จากหลักฐานส่วนตัวแล้ว';$('match').className='state good';refreshRecent();refresh()}
 $('file').addEventListener('change',async e=>{const f=e.target.files?.[0];if(!f)return;try{if(f.size>8*1024*1024)throw Error('ไฟล์เกิน 8MB');load(JSON.parse(await f.text()))}catch(err){$('match').textContent='นำเข้าไม่ได้: '+err.message;$('match').className='state bad'}e.target.value=''});
 $('trace').onchange=e=>{T=B?.traces.find(t=>t.trace_id===e.target.value)||null;selected=T?.records?.[0]?.node_id||'so';refresh()};
 $('find').onclick=findOrder;
-$('reset').onclick=()=>{B=null;T=null;selected='so';$('docno').value='';$('trace').innerHTML='<option>ไม่มีข้อมูล</option>';$('trace').disabled=true;$('file').value='';$('match').textContent='ล้างข้อมูลที่นำเข้าออกจาก Browser แล้ว';$('match').className='state';refreshRecent();refresh()};
-draw();refreshRecent();refresh();
+$('reset').onclick=()=>{$('doctype').value='SO';$('docno').value='';$('file').value='';loadCatalog()};
+async function loadCatalog(){
+ $('match').textContent='กำลังอ่าน 40 เลขเอกสารจาก Cloud…';
+ $('match').className='state';
+ try{
+  const response=await fetch('./recent-catalog.json?v=20261026-live-scan-1',{cache:'no-store'});
+  if(!response.ok)throw Error('HTTP '+response.status);
+  const catalog=await response.json();
+  if(catalog.source!=='PUBLIC_MINIMAL_JDE_DOCUMENT_PICKER_20261026'||catalog.traces?.length!==40)throw Error('รายการเอกสารไม่ตรงรุ่นที่ตรวจไว้');
+  load(catalog,'catalog');
+  const list=$('docpick');
+  if(!list.disabled&&list.options.length>1){list.selectedIndex=1;$('docno').value=list.value;findOrder()}
+ }catch(err){
+  $('match').textContent='อ่านรายการบน Cloud ไม่สำเร็จ: '+err.message+' · โปรดลอง Refresh';
+  $('match').className='state bad';
+ }
+}
+draw();refreshRecent();refresh();loadCatalog();
 </script></body></html>
