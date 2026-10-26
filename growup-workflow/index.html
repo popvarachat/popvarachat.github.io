@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"/><meta name="viewport" content="width=device-width,initial-scale=1"/>
+<title>PRACTIKA • GrowUp System DNA</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=Noto+Sans+Thai:wght@400;500;600;700&display=swap');
+:root{color-scheme:dark;--bg:#07111d;--panel:#101f30;--stroke:#284459;--muted:#8da5b6;--text:#e7f6ff;--mint:#58e5bc;--sky:#7cc4ff;--orange:#ffbc78}
+*{box-sizing:border-box}html,body{height:100%;margin:0;overflow:hidden}body{font:14px "Noto Sans Thai",system-ui,sans-serif;background:radial-gradient(ellipse at 46% 10%,#173449 0%,transparent 52%),linear-gradient(135deg,#060e17,#0b1520 66%,#06131d);color:var(--text)}
+button,input{font:inherit}button{cursor:pointer}button:focus-visible,input:focus-visible{outline:2px solid var(--mint);outline-offset:3px}
+#app{display:flex;flex-direction:column;height:100dvh}.header{height:80px;min-height:80px;display:flex;justify-content:space-between;align-items:center;padding:12px 24px 12px 28px;border-bottom:1px solid #25405788;background:#0a1623c7;backdrop-filter:blur(18px);z-index:10;gap:15px}
+.brand{display:flex;align-items:center;gap:15px;white-space:nowrap}.brand-mark{width:48px;height:48px;border:1px solid #447d83;background:linear-gradient(140deg,#183f45,#16273a);border-radius:15px;display:grid;place-items:center;font-size:24px;color:var(--mint);box-shadow:0 0 35px #4febbc16}
+.eyebrow{font-family:"IBM Plex Mono",monospace;font-size:10px;letter-spacing:2px;color:var(--mint);font-weight:600}.brand h1{font-size:20px;letter-spacing:.2px;margin:1px 0 0;font-weight:700}.brand h1 span{color:#8bb5cc;font-weight:500}
+.kpis{display:flex;gap:24px;margin-left:auto}.kpi{display:grid;gap:1px;text-align:right}.kpi strong{font:600 21px "IBM Plex Mono",monospace}.kpi small{color:var(--muted);font-size:10px;letter-spacing:.7px;text-transform:uppercase}.topstatus{border:1px solid #397663;color:#9af7cc;border-radius:50px;padding:7px 11px;font:600 11px "IBM Plex Mono",monospace;white-space:nowrap;background:#2b785118}
+.bar{display:flex;align-items:center;gap:10px;padding:10px 19px;border-bottom:1px solid #203548;background:#0b1825b6;min-height:61px;z-index:4}
+.pill{border:1px solid #324e60;background:#102437;color:#c4d7e6;border-radius:9px;padding:8px 13px;white-space:nowrap}.pill:hover{background:#16364b}.pill.active{border-color:#4ac8ad;color:var(--mint);background:#0e3a39}
+.search{margin-left:auto;position:relative}.search input{width:235px;border:1px solid #31516a;color:#e9f5fa;background:#0b1a2a;border-radius:9px;padding:9px 12px 9px 32px;outline:0}.search input:focus{border-color:var(--mint)}.search:before{content:"⌕";position:absolute;left:11px;top:5px;font-size:21px;color:#76a6ba}
+.workarea{display:flex;flex:1;min-height:0;position:relative}#stage{flex:1;position:relative;overflow:hidden;touch-action:none;cursor:grab}#stage.dragging{cursor:grabbing}#stage:before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(circle at 56% 50%,#193a511b,transparent 52%)}
+.world{position:absolute;transform-origin:0 0;width:2020px;height:1120px}#edges{position:absolute;left:0;top:0;width:2020px;height:1120px;overflow:visible;pointer-events:none}
+.node{position:absolute;display:flex;align-items:center;gap:14px;text-align:left;padding:15px 17px;width:302px;height:119px;border:1px solid #35536a;background:linear-gradient(146deg,#172c3e,#0e2030);border-radius:16px;color:var(--text);box-shadow:0 18px 40px #020b165e;transition:border-color .2s,background .2s,box-shadow .2s;cursor:pointer;overflow:hidden}
+.node:hover{border-color:#66bdca;background:linear-gradient(146deg,#1c3f50,#102535)}.node.sel{border-color:#73edc2;box-shadow:0 0 0 1px #7df4c770,0 20px 42px #0008,0 0 34px #47e4be16}
+.node .shape{height:48px;width:48px;min-width:48px;border-radius:13px;border:1px solid var(--accent);display:grid;place-items:center;color:var(--accent);background:color-mix(in srgb,var(--accent) 13%,transparent);font:600 23px "IBM Plex Mono",monospace}
+.node .ncopy{min-width:0;flex:1}.node .tag{font:500 10px "IBM Plex Mono",monospace;color:var(--accent);letter-spacing:1px}.node .name{margin-top:4px;font-weight:700;font-size:17px;line-height:1.35}.node .desc{margin-top:3px;font-size:11px;color:#a1b9ca;white-space:nowrap;text-overflow:ellipsis;overflow:hidden}.node .arrow{color:#7aabbc;font-size:20px}
+.node.core{width:278px;height:137px;background:linear-gradient(138deg,#164b52,#173245 61%,#122637);border-color:#5dbaaa}
+.node.sub{width:310px;height:113px;background:linear-gradient(140deg,#142b3d,#0b1d2e)}
+#inspector{width:352px;min-width:352px;border-left:1px solid #294456;background:#091725f5;display:flex;flex-direction:column;padding:22px;gap:14px;z-index:3;overflow:auto;scrollbar-width:thin;scrollbar-color:#27536c transparent}
+.inspect-top{display:flex;justify-content:space-between;align-items:center}.sticker{font:600 10px "IBM Plex Mono",monospace;letter-spacing:1px;color:#8cefc8;border:1px solid #377b68;border-radius:5px;padding:5px 8px}
+.inspect-title{font-size:26px;font-weight:700;line-height:1.35;margin:0}.inspect-sub{font-size:13px;color:#a7bece;margin:0;line-height:1.7}
+.info-line{display:flex;align-items:center;gap:9px;padding:12px;background:#112438;border:1px solid #2e4d64;border-radius:9px;color:#a8c2d3;font:500 11px "IBM Plex Mono",monospace;overflow-wrap:anywhere}
+.inspect-section{margin-top:7px}.inspect-section h3{font:600 11px "IBM Plex Mono",monospace;color:#81a8c3;letter-spacing:1.5px;margin:0 0 10px}.chips{display:flex;flex-wrap:wrap;gap:7px}.chip{padding:6px 9px;border:1px solid #365168;border-radius:7px;font-size:11px;color:#c0d5e4;background:#122638}.chip.pending{border-style:dashed;color:#e0b58b}
+.note{padding:13px;background:#102a36;border-left:2px solid #5cdbc0;border-radius:5px;color:#b1cfdb;font-size:12px;line-height:1.8}.foot-inspect{color:#728c9d;font-size:11px;line-height:1.8;margin-top:auto}
+.edge{fill:none;stroke:#62b7be;stroke-width:2.3;opacity:.68;filter:drop-shadow(0 0 6px #5cd2c334)}.edge.dashed{stroke:#dfb87a;stroke-dasharray:10 10;stroke-width:1.9;opacity:.55;filter:none}.edge.faint{opacity:.45;stroke-width:1.8}
+.stage-label{position:absolute;left:24px;top:18px;color:#9eb7c9;font:600 11px "IBM Plex Mono",monospace;letter-spacing:1.5px;z-index:1;pointer-events:none}.legend{position:absolute;left:24px;bottom:20px;display:flex;gap:19px;color:#aac4d3;font-size:11px;z-index:1;background:#081a28d9;padding:10px 13px;border:1px solid #274257;border-radius:10px}
+.dashline{display:inline-block;width:24px;border-top:2px dashed var(--orange);vertical-align:middle;margin-right:7px}.solidline{display:inline-block;width:24px;border-top:2px solid var(--mint);vertical-align:middle;margin-right:7px}
+.zoombox{position:absolute;right:21px;bottom:20px;z-index:2;display:flex;gap:6px;background:#0c2030;padding:5px;border:1px solid #2b4b61;border-radius:11px}.zoombox button{background:#173247;color:#deeff6;border:0;border-radius:7px;font-size:18px;width:33px;height:33px}.zoombox button:hover{background:#265d6c}.zoombox button.fitbtn{width:auto;padding:0 9px;font-size:12px}
+.mobile-info{display:none}
+@media(max-width:1000px){.kpis{display:none}#inspector{width:288px;min-width:288px;padding:15px}.node .name{font-size:17px}.header{padding:12px}.bar{padding:8px}.search input{width:155px}}
+@media(max-width:620px){.header{height:66px;min-height:66px}.brand h1{font-size:16px}.brand-mark{width:39px;height:39px}.topstatus{display:none}#inspector{position:absolute;bottom:0;left:0;right:0;width:100%;min-width:0;height:185px;padding:12px 15px;border-top:1px solid #35566a;border-left:0;overflow:auto}.inspect-title{font-size:17px}.inspect-section,.info-line,.foot-inspect{display:none}.bar{gap:5px;overflow-x:auto;min-height:51px}.search{display:none}.pill{font-size:11px;padding:7px 9px}.legend{bottom:199px;left:10px;flex-direction:column;gap:6px}.zoombox{bottom:199px;right:10px}.stage-label{top:9px;left:10px;font-size:10px}}
+</style></head>
+<body><div id="app">
+<header class="header"><div class="brand"><div class="brand-mark">◎</div><div><div class="eyebrow">PRACTIKA / ENTERPRISE SYSTEM INTELLIGENCE</div><h1>GrowUp <span>— System DNA</span></h1></div></div>
+<div class="kpis"><div class="kpi"><strong>09</strong><small>Main Menu</small></div><div class="kpi"><strong>13</strong><small>Master Categories</small></div><div class="kpi"><strong>24</strong><small>Verified Pages</small></div></div><div class="topstatus">● READ ONLY • 26 OCT 2026</div></header>
+<nav class="bar"><button class="pill active" id="overviewBtn">ภาพรวมทั้งระบบ</button><button class="pill" id="masterBtn">Master Data</button><button class="pill" id="basketBtn">Basket Flow</button><button class="pill" id="requestBtn">Request / RQ</button><button class="pill" id="fitTop">จัดวางให้พอดี</button><div class="search"><input id="search" placeholder="ค้นหา Node / หน้า..." aria-label="ค้นหา Node"/></div></nav>
+<section class="workarea"><div id="stage"><div class="stage-label" id="viewLabel">LEVEL 01 / ENTERPRISE OVERVIEW</div><div class="world" id="world"><svg id="edges" viewBox="0 0 2020 1120"></svg><div id="nodes"></div></div><div class="legend"><span><i class="solidline"></i>ยืนยันเมนู/หน้าจอจริง</span><span><i class="dashline"></i>ลำดับงานที่ต้องยืนยัน</span></div><div class="zoombox"><button id="zoomOut" title="Zoom out">−</button><button id="zoomIn" title="Zoom in">+</button><button class="fitbtn" id="fitBottom">Fit</button></div></div>
+<aside id="inspector"><div class="inspect-top"><span class="eyebrow">NODE INTELLIGENCE</span><span class="sticker" id="proof">VERIFIED</span></div><h2 class="inspect-title" id="detailTitle">GrowUp System</h2><p class="inspect-sub" id="detailDesc">สำรวจโครงสร้างผ่าน Admin Session ของ Playwright โดยไม่มีการสร้างหรือแก้ไขรายการ</p><div class="info-line" id="detailPath">ROOT / READ-ONLY STRUCTURE</div><div class="inspect-section"><h3>หน้าจอ / ฟังก์ชันที่พบ</h3><div class="chips" id="detailControls"></div></div><div class="inspect-section"><h3>ความสัมพันธ์ / หมายเหตุ</h3><div class="note" id="detailNote">เส้นทึบคือเมนูที่ตรวจพบจริง ส่วนเส้นประเป็นลำดับงานเชิงแนวคิด ซึ่งต้องตรวจสอบข้อมูลธุรกรรมก่อนยืนยันเป็น Data Lineage</div></div><div class="foot-inspect">SOURCE: Playwright • authenticated GET navigation and DOM inspection • no Add / Submit / Save / Delete triggered. This site contains structure metadata only; no customer records, employee information or internal addresses.</div></aside></section></div>
+<script>
+(function(){
+const D={
+core:{id:'core',name:'GrowUp',tag:'SYSTEM ROOT',desc:'ระบบสินค้าและกระบวนการคำขอ',icon:'◎',accent:'#7becd3',path:'frmMainMenu.aspx',text:'เมนู Admin 9 รายการ ตรวจสอบจากหน้า Main Menu',features:['Product','Basket','My Basket','Product Master','Basket Master','Request','Quotation','RQ','My Profile'],note:'เมนูหลักยืนยันจากหน้าจอจริง แต่ลำดับการไหลระหว่างโมดูลยังไม่ได้รับการยืนยันด้วย Transaction Lineage'},
+product:{id:'product',name:'ค้นหาสินค้า / FG',tag:'01 / CATALOG',desc:'Smart Search • FG Catalog',icon:'◇',accent:'#84dfff',path:'frmSmartSearch.aspx',text:'ค้นหาสินค้าและ FG ผ่านเงื่อนไขหลายมิติ',features:['Search','Sort PriceValidity','Single Code','Product Code','Type','Function','Structure Material','Feature','Description','Height/Depth/Width','Colors','Remark'],note:'ตรวจพบปุ่ม Create, Edit, Export, Active FG และ Dashboard แต่ไม่ได้กด เพราะอาจเรียก POST หรือเปลี่ยนข้อมูล'},
+basket:{id:'basket',name:'Basket & My Cart',tag:'02 / BASKET',desc:'ค้นหา • รถเข็น • สร้าง Basket',icon:'▣',accent:'#a7c8ff',path:'frmSearchBaket.aspx',text:'ส่วนการค้นหา Basket และการจัดการรถเข็นส่วนตัว',features:['Basket Search','Export Basket','Active Basket','My Basket','Create Basket','Process'],note:'ตรวจพบลิงก์สร้าง Basket จากรถเข็นจริง แต่ไม่กด Process หรือสร้างข้อมูล'},
+master:{id:'master',name:'ข้อมูลตั้งต้นสินค้า',tag:'03 / MASTER DATA',desc:'13 ประเภทมาตรฐานสินค้า',icon:'◈',accent:'#ccb4ff',path:'frmMainSetting.aspx',text:'โครงสร้างรหัสและคุณลักษณะสำหรับใช้จำแนกสินค้า',features:['Type','Function','Structure Material','Feature','Description 1','Description 2','Extra Specific','Height','Depth','Width','Top Color','Side Color','Front Color'],note:'พบลิงก์ไปยังหน้าข้อมูลตั้งต้น 13 หมวด และตรวจหน้า GET สำเร็จทุกหมวด'},
+request:{id:'request',name:'ขอให้ดำเนินการ',tag:'04 / REQUEST',desc:'เลขคำขอ • รหัสสินค้า • วันที่',icon:'⌁',accent:'#ffc58c',path:'frmRequest.aspx',text:'ฟอร์มคำขอมี Search, Add, Cancel, Submit',features:['Request No.','Single Code','Selected Date','Search','Add','Cancel','Submit'],note:'ตรวจพบฟอร์มคำขอ แต่ไม่ได้กด Add, Cancel หรือ Submit และยังไม่ยืนยันว่าเชื่อม RQ อย่างไร'},
+pricing:{id:'pricing',name:'ขอราคาสินค้า',tag:'05 / QUOTATION',desc:'Project • Technical • Estimation',icon:'∑',accent:'#91e7d9',path:'frmShowProject.aspx',text:'หน้ารวมคำขอราคาและการติดตามสถานะการอนุมัติ',features:['Request No.','Request Date','Project','Pending','Reject','TS Approve','EST Approve','Exported','Reports'],note:'พบสถานะและปุ่มรายงานในหน้าจอจริง แต่ไม่ได้ทดสอบการอนุมัติ การส่งออก หรือบันทึก'},
+rq:{id:'rq',name:'รายการ RQ',tag:'06 / RQ MONITOR',desc:'RQ Dashboard • Next.js iframe',icon:'▤',accent:'#ffbd8d',path:'frmRQRequest.aspx',text:'หน้ารายการ RQ โหลด UI ภายใน iframe แบบ Next.js',features:['Search RQ Or Register','Report','Request No.','Request Date','Project','Pending','Reject','TS Approve','EST Approve','Exported'],note:'ยืนยันว่ามี iframe ของหน้ารายการ RQ และมีตารางสถานะจริง แต่ไม่มีการดึงข้อมูลแถวลูกค้าหรือเผยแพร่รายละเอียด'},
+profile:{id:'profile',name:'ข้อมูลส่วนตัว',tag:'07 / USER PROFILE',desc:'User profile • Change Password',icon:'◯',accent:'#ffb9cf',path:'frmManageMe.aspx',text:'ส่วนตั้งค่าบัญชีผู้ใช้และรหัสผ่าน',features:['Change Password','Save'],note:'เข้าสู่หน้าจอได้ แต่ไม่มีการอ่านค่า Password หรือกดบันทึก'}
+};
+const sub={
+product:[
+['smart','Smart Search','frmSmartSearch.aspx','Search / Filters / Sort','verified'],
+['fgsearch','FG Search','frmSearchFG.aspx','Search FG / Catalog','verified'],
+['fgcreate','Create / Edit FG','—','พบปุ่ม แต่ไม่ทดสอบการทำงาน','limited'],
+['fgexport','Export / Active FG','—','พบปุ่ม แต่ไม่ทดสอบการทำงาน','limited']],
+basket:[
+['basketsearch','ค้นหา Basket','frmSearchBaket.aspx','Search / Export / Active','verified'],
+['mybasket','รถเข็นของฉัน','frmMyBasket.aspx','Personal Cart / Process','verified'],
+['createbasket','สร้าง Basket','frmCreateBasket.aspx','ลิงก์สร้าง Basket จากรถเข็น','verified'],
+['basketmaster','ตั้งต้น Basket','frmMainSettingBasket.aspx','TypeBasketCode / Category','verified']],
+master:[
+['type','Type','frmMainSetting.aspx','CategoryCode / CAT1 / CAT5','verified'],
+['function','Function','frmSetMasterUsing.aspx','usingcode / usingname','verified'],
+['material','Structure Material','frmSetMasterMateriaAndStructure.aspx','MateriaAndStructureCode','verified'],
+['feature','Feature','frmSetMasterAppearance.aspx','AppearanceCode','verified'],
+['desc1','Description 1','frmSetMasterTypeSit.aspx','TypeSitCode','verified'],
+['desc2','Description 2','frmSetMasterSit.aspx','SitCode','verified'],
+['extra','Extra Specific','frmSetMasterSpecialAppearance.aspx','SpecialAppearanceCode','verified'],
+['height','Height','frmSetMasterHight.aspx','HightCode','verified'],
+['depth','Depth','frmSetMasterDept.aspx','DeptCode','verified'],
+['width','Width','frmSetMasterWidth.aspx','WidthCode','verified'],
+['top','Top Color','frmSetMasterColorTop.aspx','ColorTopCode','verified'],
+['side','Side Color','frmSetMasterColorSide.aspx','ColorSideCode','verified'],
+['front','Front Color','frmSetMasterColorFront.aspx','ColorFrontCode','verified']],
+request:[
+['requestform','Request Form','frmRequest.aspx','Search / Add / Cancel / Submit','verified'],
+['showrequest','Show Request Route','frmShowRequest.aspx','Redirect ไป frmRequest.aspx','limited']],
+pricing:[
+['project','Project Price Requests','frmShowProject.aspx','คำขอราคา / สถานะ / รายงาน','verified'],
+['ts','Technical Approval','—','คอลัมน์ TS Approve','limited'],
+['estimate','Estimation Approval','—','คอลัมน์ EST Approve','limited'],
+['exported','Exported Status','—','คอลัมน์ Exported','limited']],
+rq:[
+['rqdashboard','RQ List Dashboard','frmRQRequest.aspx','Next.js embedded iframe','verified'],
+['rqreport','RQ Report / Search','—','ปุ่ม Report และ Search','limited']],
+profile:[['userpage','My Profile','frmManageMe.aspx','Change Password','verified']]
+};
+const mainPositions={core:[75,475],product:[460,195],basket:[850,195],request:[1240,195],pricing:[1240,670],rq:[1650,465],master:[460,755],profile:[850,755]};
+const edgesOverview=[['core','product'],['core','basket'],['core','master'],['core','request'],['core','pricing'],['core','rq'],['core','profile'],['product','basket','dashed'],['basket','request','dashed'],['request','pricing','dashed'],['pricing','rq','dashed']];
+const stage=document.getElementById('stage'),world=document.getElementById('world'),edgeSvg=document.getElementById('edges'),nodeEl=document.getElementById('nodes');
+let focus=null, selected='core', scale=1,tx=0,ty=0,search='';
+const esc=s=>String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+function fit(){const b=stage.getBoundingClientRect();scale=Math.min((b.width-40)/2020,(b.height-50)/1120);scale=Math.min(1.1,scale);tx=(b.width-2020*scale)/2;ty=(b.height-1120*scale)/2;sync()}
+function sync(){world.style.transform='translate('+tx+'px,'+ty+'px) scale('+scale+')'}
+function zoomBy(n){const b=stage.getBoundingClientRect(),cx=b.width/2,cy=b.height/2,old=scale;scale=Math.max(.23,Math.min(2,scale*n));tx=cx-(cx-tx)*scale/old;ty=cy-(cy-ty)*scale/old;sync()}
+function nodeHTML(n,x,y,main=false){
+ let match=!search||[n.name,n.tag,n.desc,n.path].join(' ').toLowerCase().includes(search.toLowerCase());
+ const classes='node '+(main?'core ':'')+(n.sub?'sub ':'')+(selected===n.id?'sel ':'');
+ const label=n.sub?(n.status==='verified'?'PAGE VERIFIED':'UI OBSERVED'):n.tag;
+ return '<button class="'+classes+'" data-node="'+esc(n.id)+'" style="left:'+x+'px;top:'+y+'px;--accent:'+n.accent+';opacity:'+(match?1:.27)+'"><span class="shape">'+esc(n.icon)+'</span><span class="ncopy"><span class="tag">'+esc(label)+'</span><div class="name">'+esc(n.name)+'</div><div class="desc">'+esc(n.desc)+'</div></span><span class="arrow">›</span></button>';
+}
+function curve(a,b){const x1=a[0]+(a[2]||302),y1=a[1]+(a[3]||119)/2,x2=b[0],y2=b[1]+(b[3]||119)/2;let mid=Math.max(50,Math.abs(x2-x1)*.42);return 'M '+x1+' '+y1+' C '+(x1+mid)+' '+y1+', '+(x2-mid)+' '+y2+', '+x2+' '+y2;}
+function render(){
+ let nodes=[],connect=[];
+ if(!focus){
+  document.getElementById('viewLabel').textContent='LEVEL 01 / ENTERPRISE OVERVIEW';
+  for(const [id,pt] of Object.entries(mainPositions)){const n=D[id];nodes.push({n,x:pt[0],y:pt[1],main:id==='core'})}
+  connect=edgesOverview.map(e=>({a:e[0],b:e[1],className:e[2]||''}));
+ }else{
+  document.getElementById('viewLabel').textContent='LEVEL 02 / '+D[focus].tag+' / '+sub[focus].length+' NODES';
+  let parent=D[focus];nodes.push({n:parent,x:70,y:476,main:true});
+  const rows=Math.ceil(sub[focus].length/3),baseY=Math.max(85,530-(rows*165)/2);
+  sub[focus].forEach((item,i)=>{
+   const n={id:item[0],name:item[1],path:item[2],desc:item[3],status:item[4],sub:true,tag:item[4],icon:item[4]==='verified'?'◇':'?',accent:item[4]==='verified'?'#79dfc5':'#ffbd8d',text:item[3],features:item[3].split(' / '),note:item[4]==='verified'?'เปิดหน้า GET สำเร็จจาก Admin Session โดยไม่แก้ไขข้อมูล':'พบส่วนประกอบในหน้า UI แต่ยังไม่ได้กดทดสอบเนื่องจากข้อกำหนด Read-only'};
+   nodes.push({n,x:485+(i%3)*465,y:baseY+Math.floor(i/3)*170,main:false});
+   connect.push({a:focus,b:n.id,className:item[4]==='verified'?'':'dashed'});
+  });
+ }
+ const pos={};nodes.forEach(o=>{pos[o.n.id]=[o.x,o.y,o.main?278:(o.n.sub?310:302),o.main?137:(o.n.sub?113:119)]});
+ nodeEl.innerHTML=nodes.map(o=>nodeHTML(o.n,o.x,o.y,o.main)).join('');
+ edgeSvg.innerHTML=connect.filter(e=>pos[e.a]&&pos[e.b]).map(e=>'<path class="edge '+e.className+'" d="'+curve(pos[e.a],pos[e.b])+'"/>').join('');
+ nodeEl.querySelectorAll('[data-node]').forEach(el=>el.addEventListener('click',()=>choose(el.dataset.node)));
+ document.querySelectorAll('.pill').forEach(x=>x.classList.remove('active'));
+ if(!focus)document.getElementById('overviewBtn').classList.add('active');
+ else if(focus==='master')document.getElementById('masterBtn').classList.add('active');
+ else if(focus==='basket')document.getElementById('basketBtn').classList.add('active');
+ else if(focus==='request'||focus==='rq')document.getElementById('requestBtn').classList.add('active');
+ renderInfo(); 
+}
+function findNode(id){
+ if(D[id])return D[id];
+ for(const [parent,items] of Object.entries(sub)){
+  const it=items.find(x=>x[0]===id);
+  if(it)return {id,name:it[1],tag:it[4]==='verified'?'VERIFIED PAGE':'OBSERVED UI',path:it[2],desc:it[3],text:it[3],features:it[3].split(' / '),note:it[4]==='verified'?'ตรวจสอบหน้าจอ GET สำเร็จโดยไม่ทำธุรกรรม':'ส่วนนี้ยังไม่ยืนยันการทำงานจริง เพราะไม่ได้สั่ง POST',status:it[4],parent};
+ }return D.core;
+}
+function choose(id){if(D[id]&&id!=='core'){if(focus!==id){focus=id;selected=id;render();fit()}else{selected=id;renderInfo()}}else if(id==='core'){focus=null;selected='core';render();fit()}else{selected=id;render()}}
+function renderInfo(){const n=findNode(selected);document.getElementById('proof').textContent=n.status==='limited'?'NOT EXECUTED':'VERIFIED';document.getElementById('proof').style.color=n.status==='limited'?'#ffbb78':'#8cefc8';
+ document.getElementById('detailTitle').textContent=n.name;document.getElementById('detailDesc').textContent=n.text||n.desc;document.getElementById('detailPath').textContent=n.path==='—'?'ACTION / NOT EXECUTED':n.path;
+ document.getElementById('detailControls').innerHTML=(n.features||[]).map(t=>'<span class="chip '+(n.status==='limited'?'pending':'')+'">'+esc(t)+'</span>').join('');
+ document.getElementById('detailNote').textContent=n.note||'ตรวจสอบเมนูและองค์ประกอบหน้าจอด้วย Playwright แบบ Read-only';}
+document.getElementById('overviewBtn').onclick=()=>choose('core');document.getElementById('masterBtn').onclick=()=>choose('master');document.getElementById('basketBtn').onclick=()=>choose('basket');document.getElementById('requestBtn').onclick=()=>choose('request');
+document.getElementById('fitTop').onclick=fit;document.getElementById('fitBottom').onclick=fit;document.getElementById('zoomIn').onclick=()=>zoomBy(1.2);document.getElementById('zoomOut').onclick=()=>zoomBy(1/1.2);
+document.getElementById('search').addEventListener('input',e=>{search=e.target.value;render()});
+let down=null;stage.addEventListener('pointerdown',e=>{if(e.target.closest('.node,.zoombox'))return;down={x:e.clientX,y:e.clientY,tx,ty};stage.setPointerCapture(e.pointerId);stage.classList.add('dragging')});
+stage.addEventListener('pointermove',e=>{if(!down)return;tx=down.tx+e.clientX-down.x;ty=down.ty+e.clientY-down.y;sync()});
+stage.addEventListener('pointerup',()=>{down=null;stage.classList.remove('dragging')});stage.addEventListener('pointercancel',()=>{down=null;stage.classList.remove('dragging')});
+stage.addEventListener('wheel',e=>{e.preventDefault();const b=stage.getBoundingClientRect(),px=e.clientX-b.left,py=e.clientY-b.top,old=scale;scale=Math.max(.23,Math.min(2.1,scale*(e.deltaY>0?.9:1.1)));tx=px-(px-tx)*scale/old;ty=py-(py-ty)*scale/old;sync()},{passive:false});
+window.addEventListener('keydown',e=>{if(e.key==='Escape')choose('core')});window.addEventListener('resize',fit);
+render();fit();
+})();
+</script></body></html>
