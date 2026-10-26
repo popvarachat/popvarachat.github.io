@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "updated_at": null,
+  "sources": {},
+  "note": "Only explicitly user-triggered local source checks appear here; not equal to weekday Cron audit."
+}
