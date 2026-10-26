@@ -34,7 +34,70 @@
           "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
         }
       ],
-      "links": []
+      "links": [
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002462",
+          "target_ref": "WO 471665",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        },
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002462",
+          "target_ref": "WO 471666",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        }
+      ],
+      "branch_records": [
+        {
+          "record_id": "SOURCE-UI-WO-471665",
+          "node_id": "wo",
+          "title": "WO 471665 · Source P48013",
+          "document_key": "PUBLIC/WO/471665/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471665",
+            "related_so_no": "26002462"
+          },
+          "outputs": {
+            "wo_number_observed": "471665",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        },
+        {
+          "record_id": "SOURCE-UI-WO-471666",
+          "node_id": "wo",
+          "title": "WO 471666 · Source P48013",
+          "document_key": "PUBLIC/WO/471666/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471666",
+            "related_so_no": "26002462"
+          },
+          "outputs": {
+            "wo_number_observed": "471666",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        }
+      ]
     },
     {
       "trace_id": "SO 26002461 · 26/10/26",
@@ -62,7 +125,40 @@
           "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
         }
       ],
-      "links": []
+      "links": [
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002461",
+          "target_ref": "WO 471659",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        }
+      ],
+      "branch_records": [
+        {
+          "record_id": "SOURCE-UI-WO-471659",
+          "node_id": "wo",
+          "title": "WO 471659 · Source P48013",
+          "document_key": "PUBLIC/WO/471659/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471659",
+            "related_so_no": "26002461"
+          },
+          "outputs": {
+            "wo_number_observed": "471659",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        }
+      ]
     },
     {
       "trace_id": "SO 26002460 · 26/10/26",
@@ -90,7 +186,40 @@
           "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
         }
       ],
-      "links": []
+      "links": [
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002460",
+          "target_ref": "WO 471623",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        }
+      ],
+      "branch_records": [
+        {
+          "record_id": "SOURCE-UI-WO-471623",
+          "node_id": "wo",
+          "title": "WO 471623 · Source P48013",
+          "document_key": "PUBLIC/WO/471623/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471623",
+            "related_so_no": "26002460"
+          },
+          "outputs": {
+            "wo_number_observed": "471623",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        }
+      ]
     },
     {
       "trace_id": "SO 26002459 · 26/10/26",
@@ -202,7 +331,40 @@
           "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
         }
       ],
-      "links": []
+      "links": [
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002452",
+          "target_ref": "WO 471653",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        }
+      ],
+      "branch_records": [
+        {
+          "record_id": "SOURCE-UI-WO-471653",
+          "node_id": "wo",
+          "title": "WO 471653 · Source P48013",
+          "document_key": "PUBLIC/WO/471653/HEADER",
+          "business_date": "26/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471653",
+            "related_so_no": "26002452"
+          },
+          "outputs": {
+            "wo_number_observed": "471653",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        }
+      ]
     },
     {
       "trace_id": "SO 26002450 · 26/10/26",
@@ -258,7 +420,130 @@
           "note": "Business document ID and day only, observed by read-only JDE inquiry. Not a full order-line extraction, not current JDE live data, and not evidence of any downstream event."
         }
       ],
-      "links": []
+      "links": [
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002447",
+          "target_ref": "WO 471627",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        },
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002447",
+          "target_ref": "WO 471626",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        },
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002447",
+          "target_ref": "WO 471625",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        },
+        {
+          "from": "so",
+          "to": "wo",
+          "verified": false,
+          "source_ref": "SO 26002447",
+          "target_ref": "WO 471624",
+          "reason": "JDE P48013 Related SO No displayed. Physical source-to-receiver line join and event time not signed."
+        }
+      ],
+      "branch_records": [
+        {
+          "record_id": "SOURCE-UI-WO-471627",
+          "node_id": "wo",
+          "title": "WO 471627 · Source P48013",
+          "document_key": "PUBLIC/WO/471627/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471627",
+            "related_so_no": "26002447"
+          },
+          "outputs": {
+            "wo_number_observed": "471627",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        },
+        {
+          "record_id": "SOURCE-UI-WO-471626",
+          "node_id": "wo",
+          "title": "WO 471626 · Source P48013",
+          "document_key": "PUBLIC/WO/471626/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471626",
+            "related_so_no": "26002447"
+          },
+          "outputs": {
+            "wo_number_observed": "471626",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        },
+        {
+          "record_id": "SOURCE-UI-WO-471625",
+          "node_id": "wo",
+          "title": "WO 471625 · Source P48013",
+          "document_key": "PUBLIC/WO/471625/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471625",
+            "related_so_no": "26002447"
+          },
+          "outputs": {
+            "wo_number_observed": "471625",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        },
+        {
+          "record_id": "SOURCE-UI-WO-471624",
+          "node_id": "wo",
+          "title": "WO 471624 · Source P48013",
+          "document_key": "PUBLIC/WO/471624/HEADER",
+          "business_date": "22/10/26",
+          "business_event_at": null,
+          "source_object": "P48013 Work With Manufacturing Work Orders",
+          "evidence_level": "OBSERVED_SOURCE_SIDE_RELATED_SO",
+          "evidence_ref": "Source-side JDE P48013 Related SO No (unverified physical join)",
+          "inputs": {
+            "work_order_number": "471624",
+            "related_so_no": "26002447"
+          },
+          "outputs": {
+            "wo_number_observed": "471624",
+            "cutting": "NOT_OBSERVED",
+            "fg": "NOT_OBSERVED",
+            "event_status": "NOT_OBSERVED"
+          },
+          "note": "This WO row displays Related SO No matching the source order; not proof of complete child-WO population, exact line linkage or chronological execution."
+        }
+      ]
     },
     {
       "trace_id": "SO 26002444 · 26/10/26",
@@ -1128,5 +1413,10 @@
       ],
       "links": []
     }
-  ]
+  ],
+  "provenance": {
+    "branch_evidence": "9 source-side related-SO WO references previously read from P48013 for five SOs, restricted to WO IDs already present in public catalog; every relation uncertified.",
+    "no_real_event_timestamps": true,
+    "full_enterprise_lineage": false
+  }
 }
