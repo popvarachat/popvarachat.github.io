@@ -1,31 +1,77 @@
-<!doctype html><html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><meta name="theme-color" content="#0a1221"><title>MD Follow-up Intelligence — PRACTIKA</title><meta name="description" content="Executive follow-up intelligence: six workflows, evidence-aware oversight and source reconciliation. Public-safe static snapshot."><link rel="icon" href="./favicon.svg" type="image/svg+xml"><link rel="stylesheet" href="./styles.css"></head>
-<body><div class="app">
-<header class="mast"><div class="identity"><a class="home" href="../" aria-label="กลับ Apps Portal">↗</a><div class="logo">P<span>·</span></div><div><div class="eyebrow">PRACTIKA / INTELLIGENCE SYSTEMS</div><strong>MD FOLLOW-UP <span class="accent-text">CONTROL</span></strong></div></div><div class="mast-right"><div class="snapshot"><i></i> EVIDENCE SNAPSHOT <b>19 OCT 2026</b></div><button id="print" class="mini">PRINT / PDF ↗</button></div></header>
-<div class="banner"><span>ⓘ</span><p><strong>PUBLIC-SAFE EXECUTIVE EDITION</strong> — แสดงผัง สถิติรวม และช่องว่างการติดตาม โดยไม่เผยแพร่ข้อมูลบุคคล ลูกค้า เลขงาน และหลักฐานภายใน · <b>ไม่ใช่ Live Dashboard</b> แต่ละแหล่งตรวจคนละเวลา</p></div>
-<main>
-<section class="hero"><div class="hero-copy"><div class="eyebrow accent-text">EXECUTIVE OVERSIGHT / UNIFIED EVIDENCE</div><h1>ทุกคำสั่ง MD<br><em>ต้องตามไปถึงผลลัพธ์</em></h1><p>เชื่อม To Do / Planner, CB, ตารางนวัตกรรม, ICS–ICF–ICE, QP-40/PPI และ SCD ด้วยงานต้นทางเป็นเจ้าของ ไม่สร้างทะเบียนซ้ำ และไม่ใช้คำว่า “รับทราบ” แทนหลักฐานปิดงาน</p><div style="margin:12px 0"><a href="./mm.html" style="display:inline-block;border:1px solid #6c8fa8;padding:10px 15px;border-radius:10px;color:#cbe9ff;text-decoration:none">วาระติดตาม MM — เปิดทะเบียนแยกจาก MD ↗</a></div><div class="hero-foot"><span>6 STREAMS</span><span>1 CONTROL LAYER</span><span>READ-ONLY ARCHITECTURE</span></div></div><div class="closure-meter"><div class="eyebrow">MD QUESTION CLOSURE</div><div class="close-score">0<small> / 7</small></div><div class="score-info">ประเด็นที่รับรองว่าปิดครบวงจรแล้ว</div><div class="progress"><span></span></div><div class="score-foot"><b>6</b> ตอบได้บางส่วน <b>1</b> ยังตอบผลลัพธ์ไม่ได้</div></div></section>
-<section class="kpis" aria-label="ตัวชี้วัดรวม"><div><label>OWNERSHIP</label><strong>06 <small>+ 01</small></strong><span>สายงาน + ศูนย์กำกับ</span></div><div><label>PLANNER</label><strong id="metricPlanner">38</strong><span>29 งานยังไม่ปิด</span></div><div><label>CB V13</label><strong>88</strong><span>ทะเบียนงานพิเศษ</span></div><div><label>INNOVATION</label><strong id="metricInnovation">98</strong><span>Dashboard · เปิด 12</span></div><div><label>PRODUCT GATES</label><strong id="metricProductGates">1,630</strong><span>แถวขั้นตอน ไม่ใช่งาน</span></div></section>
-<section class="section-heading" id="topology"><div><div class="eyebrow">01 / INTELLIGENCE WORKFLOW</div><h2>Control Architecture — Intelligence Workflow</h2><p>Architecture 5 ชั้น คลิกแต่ละ Node เพื่อดูหน้าที่ Input / Output, งานค้าง และหลักฐานที่ต้องใช้ปิดงาน · ลากเพื่อเลื่อนและซูมได้</p></div><div class="toggles"><button id="allBtn" class="selected">OVERVIEW</button><button id="issuesBtn">EXCEPTIONS</button><button id="qualityBtn">DATA QUALITY</button></div></section>
-<section class="arch-wrap" id="mesh" aria-label="MD executive layered intelligence workflow">
-  <div class="arch-header"><div class="arch-title"><span class="eyebrow">5 LAYERS / 6 BUSINESS STREAMS / 1 EXECUTIVE GOVERNANCE</span><span>Direction: Input → Control Plane → Workstream → Quality Gate → MD Decision</span></div><div class="arch-tools" aria-label="การควบคุมแผนผัง"><button id="zoomOut" title="ย่อ">−</button><span id="zoomReadout">100%</span><button id="zoomIn" title="ขยาย">+</button><button id="fitArch" title="ปรับแสดงทั้งผัง">FIT</button></div></div>
-  <div class="arch-stage" id="archStage" tabindex="0" aria-label="แผนผังระบบติดตามงาน MD กดและลากเพื่อเลื่อน ย่อขยายด้วยปุ่ม">
-    <div class="arch-canvas" id="archCanvas"><svg id="links" class="arch-links" viewBox="0 0 1300 940" aria-hidden="true">
-    <defs><filter id="soft" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="4.2"/></filter><marker id="tip-intake" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 1 L7 4 L0 7 Z" fill="#76a8ec"/></marker><marker id="tip-logic" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 1 L7 4 L0 7 Z" fill="#91b3fd"/></marker><marker id="tip-stream" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 1 L7 4 L0 7 Z" fill="#6ad9c8"/></marker><marker id="tip-exception" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 1 L7 4 L0 7 Z" fill="#e7bb7d"/></marker><marker id="tip-proof" markerUnits="userSpaceOnUse" markerWidth="8" markerHeight="8" refX="6.5" refY="4" orient="auto"><path d="M0 1 L7 4 L0 7 Z" fill="#81d6c5"/></marker></defs>
-    <g id="linkGlow"></g><g id="linkLines"></g></svg><div id="archNodes"></div>
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="PRACTIKA MD Control Workspace — งาน MD, รายงาน LINE, MM Agenda และความสดของ Source ในที่เดียว">
+<meta name="theme-color" content="#0e273c">
+<title>MD Control Workspace | PRACTIKA</title>
+<link rel="icon" href="./favicon.svg" type="image/svg+xml">
+<link rel="stylesheet" href="./navigation.css?v=workspace26a">
+<link rel="stylesheet" href="./workspace.css?v=workspace26a">
+<script defer src="./navigation.js?v=workspace26a"></script>
+<script defer src="./workspace.js?v=workspace26a"></script>
+</head>
+<body>
+<main class="workspace">
+  <section class="workspace-hero" aria-labelledby="workspaceTitle">
+    <div class="hero-main">
+      <p class="section-mark">PRACTIKA / MANAGEMENT CONTROL</p>
+      <h1 id="workspaceTitle">งาน MD ทั้งหมด<br><span>ดูเรื่องราวได้จากที่เดียว</span></h1>
+      <p class="hero-description">เริ่มจาก <strong>งานที่ต้องติดตาม</strong> ดูว่า <strong>มีใครรายงานความคืบหน้าจาก LINE</strong> แล้วหรือไม่ ก่อนย้อนดูหลักฐานจริง โดยให้วาระ MM อยู่คนละทะเบียน และตรวจวันอัปเดตของแต่ละ Source เสมอ</p>
+      <div class="hero-actions"><a class="main-button" href="./pivot.html">เปิดรายการงาน MD <span aria-hidden="true">↗</span></a><a class="light-button" href="./line-audit.html#md-progress">ดูรายงานความคืบหน้าจาก LINE</a></div>
+      <p class="privacy-line">ข้อมูลจริงอยู่ใน Private Viewer ที่ได้รับอนุญาต · หน้า GitHub Pages เป็นหน้าทางเข้าและผังการติดตาม ไม่เผยแพร่ข้อความ LINE หรือข้อมูลส่วนบุคคล</p>
     </div>
-    <div class="arch-hint">↔ DRAG TO PAN <span>·</span> SCROLL TO ZOOM <span>·</span> CLICK NODE TO INSPECT</div>
-  </div>
-  <div class="arch-legend"><span><i style="--lc:#76a8ec"></i> Intake</span><span><i style="--lc:#9daef6"></i> Control plane</span><span><i style="--lc:#6ad9c8"></i> Business stream</span><span><i style="--lc:#bd9ff2"></i> Validation</span><span><i style="--lc:#e7bb7d"></i> Exception</span><span><i style="--lc:#8ce0c1"></i> Verified outcome</span></div>
-</section>
-<section id="detail" class="detail" aria-live="polite"></section>
-<div class="lower"><section class="panel"><div class="panelhead"><div class="eyebrow">02 / MD QUESTION REGISTER</div><h2>ข้อกังวล MD ทั้ง 7 ด้าน</h2><p>แสดงประเภทปัญหาแบบไม่ระบุตัวบุคคล คลิกเพื่อดูสิ่งที่ยังขาด</p></div><div id="concerns"></div></section><section class="panel"><div class="panelhead"><div class="eyebrow">03 / CLOSURE CONTRACT</div><h2>เงื่อนไขงานจบจริง</h2><p>ต้องมีหลักฐานตั้งแต่รับคำสั่งจนรับรองผล ไม่ใช่เพียงข้อความตอบกลับ</p></div><div class="rules"><div><span>01</span><strong>IDENTIFIED</strong><small>มี Source Reference</small></div><div><span>02</span><strong>OWNED</strong><small>เจ้าภาพหลัก + เจ้าของ Gate</small></div><div><span>03</span><strong>COMMITTED</strong><small>วันส่งและเงื่อนไขรับงาน</small></div><div><span>04</span><strong>EVIDENCED</strong><small>ผลลัพธ์ + หลักฐานส่งต่อ</small></div><div><span>05</span><strong>CLOSED</strong><small>ผู้มีอำนาจยืนยันปิด</small></div></div><aside class="private"><strong>PUBLIC / PRIVATE BOUNDARY</strong><p>หน้าเว็บนี้แสดงเฉพาะผังและสถิติรวม ข้อความ LINE ชื่อพนักงานและลูกค้า เอกสารราคา เลข Order และ URL หลักฐานภายในจะไม่ถูกเผยแพร่บน GitHub Pages</p></aside></section></div>
-<section class="panel ledger" id="ledger"><div class="panelhead"><div class="eyebrow">04 / EVIDENCE LEDGER</div><h2>ความพร้อมของข้อมูลแต่ละระบบ</h2><p>แต่ละแถวมีหน่วยนับต่างกัน ห้ามบวกจำนวนข้ามแหล่งเป็น “งาน MD ทั้งหมด”</p></div><div id="sources"></div></section>
-<section class="panel ledger" id="refreshStatus">
-<div class="panelhead"><div class="eyebrow">05 / SOURCE CONNECTORS & UPDATE CONTROL</div><h2>สถานะการเชื่อมข้อมูลและการอัปเดต</h2><p>อ่านจาก Source of Truth · แสดง Last Successful Check / Stale / Error แยกแหล่ง · ไม่เปิดไฟล์ภายในบน Public Web</p></div>
-<div class="source-toolbar"><div><strong id="batchStatus">WAITING FOR COLLECTOR</strong><small id="batchDate">ยังไม่มีการตรวจจากเครื่องที่เชื่อมต่อข้อมูลจริง</small></div><div><button id="checkSnapshot" class="mini" type="button">โหลดสถานะล่าสุด ↻</button><span class="source-caution">ปุ่มนี้โหลดผล Batch ล่าสุด ไม่ใช่สั่ง PC ภายในผ่าน GitHub Pages</span></div></div>
-<div id="connectorCards" class="connector-grid" aria-live="polite"><p>กำลังอ่านสถานะ Source Connector…</p></div>
-<div id="connectorDetail" class="connector-expanded" hidden aria-live="polite"></div>
-<div class="pivot-public-entry"><div><strong>MD Hierarchical Pivot Table</strong><p>ตาราง Pivot ปี → เดือน → วันกำหนด → งาน พร้อมคอลัมน์ชื่อเจ้าภาพรายบุคคล (แกนหลัก) Grand Total และคลิกเจาะรายการ · ข้อมูลจริงเฉพาะ NB</p></div><a id="openStagePivot" href="./pivot.html" target="_blank" rel="noopener noreferrer">เปิด Pivot Dashboard บน GitHub ↗</a></div>
-<div class="connector-info"><strong>AUTO + MANUAL BATCH DESIGN</strong><p>Auto Batch: ตัว Collector ในเครื่องที่เข้าถึง W:/SharePoint/Planner ตามสิทธิ์ จะอ่านแบบ Read-only ตามรอบที่กำหนด แล้วเผยแพร่เฉพาะสถิติที่ไม่ระบุตัวบุคคล เมื่อทำงานสำเร็จ · Manual Batch: เรียก Script ในเครื่อง Collector เพื่อ Refresh ทันที · หากแหล่งข้อมูลไม่พร้อม จะรักษาผลตรวจล่าสุดและแสดง Stale ไม่แทนด้วยข้อมูลสมมติ</p></div>
-</section><section class="outro"><div><div class="eyebrow">NEXT CONTROL RELEASE</div><h2>เชื่อมให้ถึงผลลัพธ์<br>ไม่ใช่สร้างตารางเพิ่ม</h2><p>Source Adapter → Canonical ID → Owner Resolution → Exception Detection → Evidence Ledger → MD Brief. การเชื่อมแบบอัตโนมัติและการเขียนกลับยังไม่เปิดใช้งาน</p></div><a href="#topology">กลับไป Workflow ↗</a></section>
-</main><footer><span>PRACTIKA / EXECUTIVE INTELLIGENCE — PUBLIC-SAFE EDITION</span><span>SNAPSHOT 19 OCT 2026 · READ-ONLY · NO LIVE SYNC</span></footer></div><script src="./app.js" defer></script><script src="./drilldown.js" defer></script></body></html>
+    <aside class="hero-path" aria-label="เส้นทางการติดตาม">
+      <div class="route-head"><span>MD FOLLOW-UP</span><span class="route-safe">READ-ONLY</span></div>
+      <div class="route-node"><span class="route-number">01</span><div><strong>งานและเจ้าภาพ</strong><small>Planner / CB / ICS / ICF / ICE</small></div><span class="route-symbol">→</span></div>
+      <div class="route-node"><span class="route-number">02</span><div><strong>ความคืบหน้า</strong><small>ห้อง LINE สมาคมนักนวัตกรรม</small></div><span class="route-symbol">→</span></div>
+      <div class="route-node"><span class="route-number">03</span><div><strong>หลักฐานและผลลัพธ์</strong><small>ข้อความ · รูป/ไฟล์ · Event ID · CB Stage</small></div><span class="route-symbol">✓</span></div>
+      <p class="route-foot">แต่ละขั้นกดเจาะได้ ไม่สรุปว่างานเสร็จจากข้อความเพียงอย่างเดียว</p>
+    </aside>
+  </section>
+
+  <section class="workspace-section" id="where-to-start" aria-labelledby="pathsTitle">
+    <div class="section-heading"><div><p class="section-mark">YOUR WORKSPACE / THREE CLEAR PATHS</p><h2 id="pathsTitle">เลือกเรื่องที่ต้องการดู</h2><p>แต่ละหน้ามีหน้าที่ชัดเจน ไม่ต้องไล่เปิดหลายแท็บเพื่อหาจุดเริ่มต้น</p></div></div>
+    <div class="workspace-grid">
+      <article class="module module-md"><div class="module-header"><span class="module-icon">01</span><span class="module-type">งานหลัก</span></div>
+        <h3>MD Work Tracking</h3><p>วันนี้งานไหนค้าง อยู่ที่ฝ่ายหรือใคร กำหนดส่งเมื่อไร และ Stage ใดที่ต้องติดตามต่อ</p>
+        <div class="module-line">ทะเบียนงาน → เจ้าภาพ → กำหนดส่ง → Drilldown</div>
+        <a class="module-link" href="./pivot.html">ดูรายการและเจาะงาน <span>↗</span></a>
+      </article>
+      <article class="module module-line"><div class="module-header"><span class="module-icon">02</span><span class="module-type">หลักฐานประกอบ MD</span></div>
+        <h3>LINE Progress & Digital Twin</h3><p>งาน MD ล่าสุดรายงานอะไร ใครเป็นผู้ส่ง มีปัญหาอะไร และย้อนไปยัง Event ID หรือสื่อที่เกี่ยวข้องได้หรือไม่</p>
+        <div class="module-line">รายงานล่าสุด → ปัญหา → ข้อความ/หลักฐาน</div>
+        <a class="module-link" href="./line-audit.html#md-progress">ดูเรื่องราวและหลักฐาน LINE <span>↗</span></a>
+      </article>
+      <article class="module module-mm"><div class="module-header"><span class="module-icon">MM</span><span class="module-type">แยกจาก MD</span></div>
+        <h3>MM Agenda Follow-up</h3><p>วาระ Management Meeting รายเดือน เจ้าภาพ กำหนดเสร็จ งานคงค้างและรายงานการดำเนินการ โดยไม่รวม KPI กับ MD</p>
+        <div class="module-line">รอบประชุม → วาระ → เจ้าภาพ → ผลติดตาม</div>
+        <a class="module-link" href="./mm.html">ดูทะเบียนวาระ MM <span>↗</span></a>
+      </article>
+    </div>
+  </section>
+
+  <section class="workspace-section" id="source-status" aria-labelledby="sourceTitle">
+    <div class="section-heading"><div><p class="section-mark">DATA CONFIDENCE / NO UNNECESSARY RESCAN</p><h2 id="sourceTitle">รู้ก่อนว่าข้อมูลล่าสุดแค่ไหน</h2><p>ตรวจจากใบยืนยันการ Refresh แยก Source ไม่ใช่แค่วันเปิดหน้าเว็บ</p></div><a class="minor-link" href="./pivot.html">เปิด MD Pivot เพื่อตรวจ Source เชิงลึก ↗</a></div>
+    <div class="health-strip" role="status" aria-live="polite"><div class="health-main"><span class="health-dot" id="healthDot"></span><div><strong id="healthText">กำลังอ่านสถานะจาก Private Viewer…</strong><small id="healthDetails">การเปิดหน้านี้ไม่สั่ง Scan ต้นทางหรือเรียก D1 ใหม่</small></div></div><button id="healthCheck" type="button">ตรวจใบยืนยันอีกครั้ง</button></div>
+    <div class="health-overview" id="healthOverview" hidden></div>
+    <p class="health-rule">MM, SharePoint และ LINE มีเวลาอัปเดตคนละรอบ · “ข้อมูลล่าสุดตามเกณฑ์” ไม่ได้แปลว่าทุกระบบเพิ่งสแกนใหม่พร้อมกัน</p>
+  </section>
+
+  <section class="workspace-section" aria-labelledby="guideTitle">
+    <div class="section-heading"><div><p class="section-mark">HOW TO REVIEW / WHAT COUNTS AS DONE</p><h2 id="guideTitle">วิธีอ่านรายงานให้ไม่สับสน</h2></div></div>
+    <div class="guide-grid">
+      <div><span>01 / งาน MD</span><strong>เริ่มที่ทะเบียนงาน</strong><p>ดูงานที่เปิดอยู่และเจ้าภาพใน Pivot ก่อน เจาะรายละเอียดตามรหัสงาน</p></div>
+      <div><span>02 / LINE</span><strong>ดูรายงานล่าสุดพร้อมหลักฐาน</strong><p>ข้อความที่เกี่ยวข้องอาจไม่ระบุเลข SO ต้องตรวจรายการที่ยังจับคู่ไม่ได้ด้วย</p></div>
+      <div><span>03 / MM</span><strong>แยกวาระบริหารออกจาก MD</strong><p>ติดตามงานของที่ประชุม MM จาก Excel ต้นทางโดยไม่ตีความว่าเป็นคำสั่ง MD ซ้ำ</p></div>
+    </div>
+  </section>
+
+  <details class="technical-details"><summary><span>สำหรับผู้ดูแลระบบ</span><strong>Architecture · Data Lineage · วิธีตรวจสอบและกู้คืน</strong><span aria-hidden="true">⌄</span></summary>
+    <div class="technical-inner"><p>ผัง Intelligence Workflow เดิมครบทุกชั้นยังอยู่ ไม่ย้ายข้อมูลหรือแก้ Logic แหล่งต้นทาง</p>
+      <a href="./architecture.html">เปิดผัง Architecture และ Node Zoom ↗</a>
+      <a href="./SOURCE_REFRESH_AUDIT_RUNBOOK.md">อ่าน Source Audit Runbook ↗</a>
+      <a href="./MM_AGENDA_RUNBOOK.md">อ่าน MM Source Runbook ↗</a>
+    </div>
+  </details>
+
+  <footer class="workspace-footer"><span>PRACTIKA · MD CONTROL WORKSPACE</span><span>Private data on authorized device · no automatic rescanning on page open</span><a href="https://popvarachat.github.io/">Apps Portal</a></footer>
+</main></body></html>
