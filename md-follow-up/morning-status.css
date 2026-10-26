@@ -1,0 +1,14 @@
+.morning-overview{display:flex;align-items:center;justify-content:space-between;gap:14px;background:#103244;border:1px solid #467186;border-radius:12px;padding:16px 18px}
+.morning-overview strong{font-size:14px;display:block;color:#d8f2fb;line-height:1.6}.morning-overview small{display:block;color:#9fbece;font-size:12px;margin-top:4px}
+.morning-overview button{cursor:pointer;color:#d4ecfa;border:1px solid #4e7994;border-radius:9px;background:#214d61;padding:10px 13px}
+.morning-source-details{background:#0e283b;border:1px solid #355a70;border-radius:13px;margin-top:13px}
+.morning-source-details summary{padding:15px 16px;color:#d3eaf5;font-size:13px;font-weight:700;cursor:pointer}
+.morning-table-scroll{overflow-x:auto;max-height:440px;overflow-y:auto}
+.morning-table-scroll table{border-collapse:collapse;width:100%;font-size:12px;min-width:710px}
+.morning-table-scroll th,.morning-table-scroll td{text-align:left;border-top:1px solid #33536b;padding:11px 12px;vertical-align:top;line-height:1.65}
+.morning-table-scroll th{position:sticky;top:0;background:#153b50;color:#c8e8fa}
+.morning-source-details td small{display:block;color:#91b1c0;font-size:11px}
+.morning-result-tag{border:1px solid #607891;border-radius:8px;padding:3px 7px;font-size:11px;white-space:nowrap;color:#bed4e1}
+.morning-result-tag.yes{border-color:#338872;background:#114b42;color:#bcf0df}
+.morning-result-tag.no{border-color:#9d804e;background:#50401c;color:#f1d7a1}
+@media(max-width:590px){.morning-overview{flex-direction:column;align-items:stretch}.morning-overview button{align-self:flex-start}}
