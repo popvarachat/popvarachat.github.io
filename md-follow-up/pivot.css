@@ -189,3 +189,12 @@
 .drill .original-source-button[hidden]{display:none}
 .drill #sourceOpenFeedback:not(:empty){margin-top:8px;padding:7px 9px;background:#ebf6fa;border-radius:6px;color:#24586d;line-height:1.6}
 @media(max-width:700px){.drill .dh{flex-wrap:wrap}.drill .original-actions{width:100%;justify-content:flex-start}}
+
+/* Explicit CB completion evidence vs static template handoff notice. */
+.cb-workflow-banner{margin:8px 0 14px;border:1px solid #aac7cf;border-left:4px solid #4e8195;border-radius:8px;padding:11px 14px;background:#f4fafb;color:#1d4655;font-size:12px;line-height:1.65}
+.cb-workflow-banner p{margin:4px 0;overflow-wrap:anywhere}
+.cb-workflow-banner p strong{font-weight:750}
+.cb-workflow-banner[data-state="closed_recorded"]{border-left-color:#328b68;background:#effaf4}
+.cb-workflow-banner[data-state="transferred_recorded"]{border-left-color:#5286ad;background:#f0f7fc}
+.cb-workflow-banner[data-state="unverified"]{border-left-color:#c49240;background:#fffaf0}
+.cb-workflow-banner[hidden]{display:none}
