@@ -198,3 +198,6 @@
 .cb-workflow-banner[data-state="transferred_recorded"]{border-left-color:#5286ad;background:#f0f7fc}
 .cb-workflow-banner[data-state="unverified"]{border-left-color:#c49240;background:#fffaf0}
 .cb-workflow-banner[hidden]{display:none}
+
+.cb-workflow-banner p strong{display:inline}
+.cb-workflow-banner p:nth-last-child(-n+2){border-top:1px solid #d6e4e4;padding-top:7px;margin-top:9px}
