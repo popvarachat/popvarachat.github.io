@@ -29,7 +29,11 @@ const linkFor={mm:"http://127.0.0.1:8766/manual-open-sharepoint?source=mm",
 let latestRows=[],showAll=false,activeManual=null;
 const isLocal=()=>["127.0.0.1","localhost"].includes(location.hostname);
 function freshness(row){
- if(["mm","innovation"].includes(row.key))return {needs:true,reason:"SharePoint Connector อ่านได้ แต่ยังไม่มี Auto-Sync Excel เข้า NB"};
+ if(["mm","innovation"].includes(row.key)){
+   const last=MANUAL_INFO[row.key]?.last_success_at;
+   return {needs:true,reason:last?"Manual Sync เข้า Dashboard สำเร็จ "+dt(last)+" · ยังไม่มี Auto-Sync แบบไม่พึ่ง Chrome":
+     "ยังไม่มี Auto-Sync แบบอิสระ · กดอ่านข้อมูลอีกครั้งผ่าน Chrome ที่ลงชื่อเข้าใช้อยู่"};
+ }
  const time=MANUAL_INFO[row.key]?.last_success_at||row.last_success_at||null;
  if(!time)return {needs:true,reason:"ยังไม่มีหลักฐานอ่านสำเร็จ"};
  const age=(Date.now()-Date.parse(time))/3600000;
@@ -51,7 +55,7 @@ function action(row){
    (flagged?'<small class="manual-problem">'+safe(note.reason)+'</small>':'<small class="manual-healthy">ข้อมูลสดตามเกณฑ์</small>')+
    (flagged||showAll?btn:'')+
    (isSharePoint&&flagged?'<small>ระบบใช้ Chrome/Playwright ที่ลงชื่อเข้าใช้แล้วอ่านไฟล์และอัปเดต Dashboard เอง หากไม่มีสิทธิ์หรือ NB ปิดอยู่จะเก็บ Last Update เดิม</small>':'')+
-   (manual?.result==="manual_verified"?'<small class="manual-healthy">Manual ผ่าน: '+safe(dt(manual.last_success_at))+'</small>':'')+
+   (manual?.result==="manual_verified"?'<small class="manual-healthy">อ่านเข้า Dashboard สำเร็จ: '+safe(dt(manual.last_success_at))+'</small>':'')+
  '</div>';
 }
 function drawRows(rows){
