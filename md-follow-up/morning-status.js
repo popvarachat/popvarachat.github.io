@@ -28,13 +28,30 @@ const linkFor={mm:"http://127.0.0.1:8766/manual-open-sharepoint?source=mm",
  innovation:"http://127.0.0.1:8766/manual-open-sharepoint?source=innovation"};
 let latestRows=[],showAll=false,activeManual=null;
 const isLocal=()=>["127.0.0.1","localhost"].includes(location.hostname);
+function latestTime(a,b){
+ const ta=Date.parse(a||""),tb=Date.parse(b||"");
+ if(!Number.isFinite(ta))return Number.isFinite(tb)?b:null;
+ if(!Number.isFinite(tb))return a;
+ return ta>=tb?a:b;
+}
+function mergeManual(sources){
+ for(const [key,r] of Object.entries(sources||{})){
+  if(!REFRESHABLE.has(key)||r?.result!=="manual_verified")continue;
+  if(!Number.isFinite(Date.parse(r.last_success_at)))continue;
+  const prior=MANUAL_INFO[key];
+  if(!prior||Date.parse(r.last_success_at)>Date.parse(prior.last_success_at||"")){
+   MANUAL_INFO[key]=r;
+  }
+ }
+}
+
 function freshness(row){
  if(["mm","innovation"].includes(row.key)){
    const last=MANUAL_INFO[row.key]?.last_success_at;
    return {needs:true,reason:last?"Manual Sync เข้า Dashboard สำเร็จ "+dt(last)+" · ยังไม่มี Auto-Sync แบบไม่พึ่ง Chrome":
      "ยังไม่มี Auto-Sync แบบอิสระ · กดอ่านข้อมูลอีกครั้งผ่าน Chrome ที่ลงชื่อเข้าใช้อยู่"};
  }
- const time=MANUAL_INFO[row.key]?.last_success_at||row.last_success_at||null;
+ const time=latestTime(MANUAL_INFO[row.key]?.last_success_at,row.last_success_at);
  if(!time)return {needs:true,reason:"ยังไม่มีหลักฐานอ่านสำเร็จ"};
  const age=(Date.now()-Date.parse(time))/3600000;
  if(!Number.isFinite(age)||age>=(windows[row.key]||24))return {needs:true,reason:"Last Update เกินเกณฑ์ "+(windows[row.key]||24)+" ชั่วโมง"};
@@ -68,8 +85,8 @@ function drawRows(rows){
  if(counter)counter.textContent="Source ต้องตรวจ/แก้ไข "+n+" แหล่ง · กด Manual แยกบรรทัด";
  E("morningSources").innerHTML=(show.length?show.map(x=>{
   const manual=MANUAL_INFO[x.key];
-  const newer=manual?.last_success_at&&Date.parse(manual.last_success_at)>Date.parse(x.last_success_at||0)?manual.last_success_at:x.last_success_at;
-  const modified=manual?.source_modified_at||x.last_source_modified_at||x.source_modified_at;
+  const newer=latestTime(manual?.last_success_at,x.last_success_at);
+  const modified=latestTime(manual?.source_modified_at,x.last_source_modified_at||x.source_modified_at);
   const connector=x.last_connector_read_date?"Connector อ่านวันที่ "+x.last_connector_read_date:"";
   const extra=x.last_nb_integrated_at?" · NB Snapshot "+dt(x.last_nb_integrated_at):"";
   const flags=freshness(x);
@@ -80,20 +97,23 @@ function drawRows(rows){
  }).join(""):'<tr><td colspan="5">ไม่มี Source เกินเกณฑ์ · กด “ดูทั้ง 13 Source” เพื่อสั่งตรวจเอง</td></tr>');
 }
 async function loadManualIndex(){
- try{
-  const receipt=await read("https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/main/md-follow-up/manual-source-status.json");
-  Object.assign(MANUAL_INFO,receipt.sources||{});
- }catch{}
- try{
-  if(isLocal()){
-   const receipt=await read(PRIVATE_API+"/manual-refresh-status");
-   Object.assign(MANUAL_INFO,receipt.sources||{});
-   const progress=receipt.latest;
-   if(progress?.state==="running"||progress?.state==="queued")activeManual=progress.source;
-  }
- }catch{}
- if(latestRows.length)drawRows(latestRows);
+ // Read the verified manual checkpoint BEFORE rendering. It may be newer than
+ // the 08:40 morning snapshot; never allow a later, older callback to overwrite it.
+ const RAW="https://raw.githubusercontent.com/popvarachat/popvarachat.github.io/main/md-follow-up/manual-source-status.json";
+ const sources=[
+  (async()=>{try{return await read(RAW)}catch{return await read(SITE+"manual-source-status.json")}})(),
+  isLocal()?read(PRIVATE_API+"/manual-refresh-status"):Promise.resolve(null)
+ ];
+ const results=await Promise.allSettled(sources);
+ for(const r of results){
+  if(r.status!=="fulfilled"||!r.value)continue;
+  mergeManual(r.value.sources);
+  const progress=r.value.latest;
+  if(progress?.state==="running"||progress?.state==="queued")activeManual=progress.source;
+ }
+ return results.some(r=>r.status==="fulfilled"&&r.value?.sources);
 }
+
 const MANUAL_ERRORS={
  BROWSER_SHAREPOINT_AUTH_OR_READ_FAILED:"Chrome/Playwright หรือสิทธิ์ SharePoint ใช้ไม่ได้ กรุณาเปิดต้นฉบับเพื่อตรวจสิทธิ์",
  DOWNLOADED_WORKBOOK_NOT_VERIFIED:"อ่าน Excel ไม่ครบหรือโครงสร้างไฟล์ผิด ระบบเก็บข้อมูลเดิมไว้",
@@ -182,18 +202,31 @@ function renderFallback(j,sp){
 }
 async function update(){
  const button=E("morningReadAgain");button.disabled=true;
- E("morningResult").textContent="กำลังตรวจ Cloudflare D1 ล่าสุด (ไม่สแกนข้อมูลต้นทาง)…";
- try{renderCloud(await read(CLOUD))}
- catch{
-  try{const old=await read(SITE+"morning-refresh-status.json");
-   let sp=null;try{sp=await read(SITE+"sharepoint-morning-status.json")}catch{}
-   renderFallback(old,sp);
-  }catch{
-   E("morningResult").textContent="ทั้ง Cloudflare และ GitHub ไม่ตอบสนอง — ไม่อ้างว่า Refresh สำเร็จ";
-   E("morningRunTime").textContent="กรุณาตรวจการเชื่อมต่ออีกครั้ง";
+ E("morningResult").textContent="กำลังตรวจ Cloudflare D1 และ Last Successful Manual ล่าสุด…";
+ try{
+  // Both reads happen in parallel, but only one coordinated render occurs after
+  // they settle; this removes the Cloudflare-vs-GitHub last-writer race.
+  const [cloud,manual]=await Promise.allSettled([read(CLOUD),loadManualIndex()]);
+  if(cloud.status==="fulfilled"){
+   renderCloud(cloud.value);
+  }else{
+   try{
+    const old=await read(SITE+"morning-refresh-status.json");
+    let sp=null;try{sp=await read(SITE+"sharepoint-morning-status.json")}catch{}
+    renderFallback(old,sp);
+   }catch{
+    E("morningResult").textContent="Cloudflare และ GitHub ยังอ่านไม่ได้ — ไม่ยืนยันการอัปเดต";
+    E("morningRunTime").textContent="Last Update เดิมจะไม่ถูกใช้แทนหลักฐานใหม่โดยไม่มีคำเตือน";
+   }
+  }
+  if(manual.status!=="fulfilled"||manual.value===false){
+   const feedback=E("manualFeedback");
+   if(feedback&&!feedback.textContent.includes("กำลัง"))feedback.textContent=
+    "หมายเหตุ: เช็ก Manual Receipt โดยตรงไม่ได้ จึงใช้ Last Update ที่ Cloudflare ยืนยันแล้ว; หาก Cloudflare ไม่พร้อมอาจไม่ใช่ข้อมูลล่าสุด";
   }
  }finally{button.disabled=false}
 }
+
 document.addEventListener("DOMContentLoaded",()=>{
  if(!E("morningReadAgain"))return;
  E("morningReadAgain").addEventListener("click",update);update();
