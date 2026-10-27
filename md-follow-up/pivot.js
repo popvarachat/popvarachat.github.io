@@ -752,3 +752,21 @@ function maybeSyncAfterIdle(){
 }
 setInterval(maybeSyncAfterIdle,5*60*1000);
 document.addEventListener("visibilitychange",()=>{if(!document.hidden)maybeSyncAfterIdle()});
+
+/* Private Tracking entry for the selected work. No business data is stored in Pages. */
+window.addEventListener("DOMContentLoaded",()=>{
+ const original=renderTimeline;
+ renderTimeline=function(row){
+  original(row);
+  if(document.getElementById("tracking-link-model"))return;
+  const holder=document.getElementById("stageTrace");
+  if(!holder)return;
+  const old=document.getElementById("selected-work-tracking");if(old)old.remove();
+  const panel=document.createElement("div");panel.id="selected-work-tracking";
+  const link=document.createElement("a");
+  const params=new URLSearchParams(row.source==="cb"?{cb:String(row.row_id||"")}:{q:String(row.project||"")});
+  link.href="http://127.0.0.1:8766/tracking.html?"+params;
+  link.textContent="ดู Tracking กล่องดำ / QP-40 / PPI ของงานนี้ ↗";
+  panel.appendChild(link);holder.appendChild(panel);
+ };
+});
