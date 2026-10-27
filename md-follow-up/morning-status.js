@@ -180,7 +180,7 @@ function renderCloud(j){
   :!genuine?"Cloudflare ตรวจแล้ว แต่ยังไม่พบผล NB เช้าวันนี้"
   :"Cloudflare ตรวจผล NB วันนี้แล้ว "+verified+"/13 Source"+(verified<13?" · ยังไม่ครบ":" · ครบตามแหล่งที่กำหนด");
  const replicas=new Map((j.storage_replicas||[]).map(x=>[x.target,x]));
- const backup=x=>replicas.get(x)?.status==="verified"?"ยืนยันแล้ว "+dt(replicas.get(x).last_verified_at):"ยังไม่ยืนยัน";
+ const backup=x=>{const r=replicas.get(x);return !r||r.status!=="verified"?"ยังไม่ยืนยัน":r.in_sync?"ตรงกับ D1 "+dt(r.last_verified_at):"สำรองล่าสุด "+dt(r.last_verified_at)+" (ค้าง "+(r.lag_events??"?")+" เหตุการณ์)"};
  E("morningRunTime").textContent="Cloudflare Cron ตรวจล่าสุด: "+dt(j.cloud_heartbeat_at)+
   " · Ledger v"+(j.storage_schema_version||1)+" ("+(j.verified_event_count||0)+" events)"+
   " · Google Drive: "+backup("google_drive")+" · GitHub Private: "+backup("github_private")+
