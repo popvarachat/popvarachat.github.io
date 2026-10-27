@@ -1,0 +1,16 @@
+<!doctype html>
+<html lang="th"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow"><title>QP-40 / PPI | MD Control</title>
+<style>body{margin:0;background:#f4f7fb;color:#152b42;font-family:system-ui,'Segoe UI',sans-serif}main{max-width:860px;margin:32px auto;padding:20px}h1{margin-bottom:4px}p{line-height:1.7}.muted{color:#64748b}.panel{background:white;border:1px solid #d9e2eb;padding:20px;border-radius:16px;margin:16px 0}.stage{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}.stage div{background:#f3f6f9;border-radius:10px;padding:12px;font-size:14px}.warn{color:#865400;font-weight:700}.ok{color:#116e49}a{color:#1e568b}@media(max-width:680px){.stage{grid-template-columns:1fr 1fr}}@media(max-width:420px){.stage{grid-template-columns:1fr}}</style></head>
+<body><main><a href="./">← MD Control Workspace</a><h1>QP-40 / PPI — ติดตามงานถึงปลายทาง</h1>
+<p class="muted">หน้าตรวจความครบถ้วนของเส้นทางงาน ไม่แสดงไฟล์ รูปภาพ รหัสโครงการ หรือข้อมูลส่วนบุคคลจากไดรฟ์ S: บน GitHub Pages</p>
+<section class="panel"><h2>สถานะการเชื่อมข้อมูล</h2><p class="warn" id="state">กำลังตรวจสถานะแหล่งข้อมูล</p>
+<div class="stage"><div><strong>1. Innovation</strong><p>รายการต้นทาง</p></div><div><strong>2. MM / Check Board</strong><p>เจ้าของงานและการส่งต่อ</p></div><div><strong>3. QP-40 / PPI</strong><p>รับงาน / ตรวจ / อนุมัติ</p></div><div><strong>4. Final Closure</strong><p>หลักฐานปลายทางและผู้อนุมัติ</p></div></div>
+<p id="sources" class="muted">กำลังอ่านสถานะล่าสุด</p>
+</section>
+<section class="panel"><h2>กฎการปิดงาน</h2><p>สถานะ “ส่งต่อ QP-40/PPI แล้ว” ≠ “ปิดงานแล้ว” ต้องมีรหัสจับคู่ต้นทาง การยืนยันรับงาน สถานะตรวจ/อนุมัติ และหลักฐานปิดงานที่ตรวจสอบย้อนกลับได้ หากไม่มีหลักฐานให้แสดง “ยังไม่ยืนยัน” เสมอ</p>
+<p><strong>Read-only:</strong> ตารางรวมนวัตกรรม วาระ MM และ S:\\MonitorMD ไม่ถูกแก้ไขโดยหน้านี้</p></section>
+<p><a href="./pivot.html">กลับรายการงาน MD</a></p>
+</main><script>
+(async()=>{const s=document.getElementById('state'),o=document.getElementById('sources');try{const r=await fetch('https://md-control-refresh-orchestrator.varachat-n.workers.dev/status',{cache:'no-store'});if(!r.ok)throw Error('HTTP '+r.status);const j=await r.json();const entries=Array.isArray(j.sources)?j.sources:[];const qp=entries.find(x=>/^(qp40|qp_40|ppi|qp40_ppi)$/i.test(x.key));const keys=['innovation','mm','cb','planner'];o.textContent='Cloudflare status: '+keys.map(k=>{const x=entries.find(z=>z.key===k);return k+': '+(x?.status||'ไม่พบ')}).join(' · ')+' | ตรวจ '+new Date().toLocaleString('th-TH');s.textContent=qp?'QP-40/PPI: '+qp.status:'ยังไม่มี QP-40/PPI ในทะเบียน Source Health — ยังไม่ผ่านการตรวจรับ';s.className=qp&&/VERIFIED/.test(qp.status)&&!/NO_|NOT_/.test(qp.status)?'ok':'warn';}catch(e){s.textContent='อ่าน Cloudflare ไม่สำเร็จ — ห้ามสรุปว่าปิดงานแล้ว';o.textContent=String(e.message)}})();
+</script></body></html>
