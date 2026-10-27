@@ -192,6 +192,30 @@ function individual(r){
  if(r.owner_role==="notes_team_only"&&r.owner_team)return r.owner_team+" (เจ้าภาพระดับฝ่าย)";
  return r.owner_person||"ยังไม่ยืนยันเจ้าภาพรายบุคคล";
 }
+function renderCbWorkflowBanner(rows){
+ const banner=$("cbWorkflowBanner");
+ const unique=new Set((rows||[]).map(r=>r.work_key));
+ banner.hidden=true;banner.replaceChildren();
+ if(unique.size!==1)return;
+ const workKey=[...unique][0];
+ if(!workKey.startsWith("cb::"))return;
+ const master=all.find(x=>x.work_key===workKey&&x.cb_kind==="master");
+ const wf=master?.cb_workflow;
+ const label=(wf?.cb_state_label||"ยังไม่ยืนยันว่า CB จบตามทะเบียน");
+ const orig=(wf?.cb_list_status||master?.status||"ไม่ระบุ");
+ const footer=!!wf?.workflow_footer_present;
+ const create=(title,description)=>{const p=document.createElement("p");const b=document.createElement("strong");b.textContent=title;p.append(b,document.createTextNode(description));banner.append(p)};
+ create("สถานะ CB ตามทะเบียน: ",label+" · สถานะต้นทาง: "+orig);
+ if(footer){
+   create("หมายเหตุท้ายแบบฟอร์ม ≠ หลักฐานจบงาน: ","ข้อความ “งานในตาราง CB จบแล้ว งานจะไปต่อที่ตารางกล่องดำ / QP40 / PPI” เป็นคำอธิบาย Workflow ที่มีใน Sheet ต้นฉบับทุกโครงการ ไม่ยืนยันว่างานนี้จบ");
+   create("หลังจบ CB จึงส่งต่อ: ","กล่องดำ / QP40 / PPI — ต้องมีหลักฐานการส่งต่อของรายการนี้แยกต่างหาก");
+ }else{
+   create("การส่งต่อ: ","การจบ CB หรือส่งต่อ QP40/PPI ต้องตรวจจากสถานะเฉพาะรายการ ไม่สรุปจากข้อความในแบบฟอร์ม");
+ }
+ create("ขั้นตอนย่อย: ","ค่า P / - / ช่องว่างใน Check ยังไม่มีนิยามผลตรวจรับที่รับรองครบ ห้ามตีความว่าเสร็จหรือค้างทุกข้อโดยอัตโนมัติ");
+ banner.dataset.state=wf?.cb_state||"unverified";
+ banner.hidden=false;
+}
 function showDrill(key,col){
  const node=nodeMap.get(key);if(!node)return;
  const rows=col==="__all__"?node.items:node.items.filter(r=>colOf(r)===col);
@@ -203,6 +227,7 @@ function showDrill(key,col){
  direct.hidden=dedup.length!==1||!originalSourceAllowed(dedup[0]);
  direct.dataset.workKey=!direct.hidden?dedup[0].work_key:"";
  $("sourceOpenFeedback").textContent="";
+ renderCbWorkflowBanner(rows);
  $("detailBody").innerHTML='<table><thead><tr><th>กำหนดส่ง</th><th>งาน / โครงการ</th><th>Stage ที่ค้าง</th><th>เจ้าภาพ</th><th>ฝ่าย</th><th>สถานะ</th><th>ต้นฉบับ</th></tr></thead><tbody>'+
   dedup.slice(0,300).map((r,i)=>'<tr data-idx="'+i+'"><td>'+escapeHtml(r.due||"—")+'</td><td><strong>'+escapeHtml(r.project)+'</strong><div class="sub">'+escapeHtml(names[r.source]||r.source)+'</div></td><td>'+escapeHtml(r.stage)+'</td><td>'+escapeHtml(individual(r))+'<small>'+escapeHtml(assigneeLabel(r))+'</small></td><td>'+escapeHtml(r.department)+'</td><td>'+escapeHtml(r.deadline_state)+'</td><td>'+(originalSourceAllowed(r)?'<button type="button" class="original-source-button" data-original-row="'+i+'">เปิดต้นฉบับ ↗</button>':'—')+'</td></tr>').join("")+'</tbody></table>';
  window.currentDrillRows=dedup;
@@ -210,6 +235,7 @@ function showDrill(key,col){
  holder.scrollIntoView({behavior:"smooth",block:"nearest"});
 }
 function renderTimeline(r){
+ renderCbWorkflowBanner([r]);
  const sequence=all.filter(x=>x.work_key===r.work_key).sort((a,b)=>a.stage_index-b.stage_index);
  $("stageTrace").innerHTML=sequence.map(x=>'<div class="node '+(x.stage_index===r.stage_index?"current":"")+'"><div class="eyebrow">STAGE '+x.stage_index+'/'+x.stage_total+'</div><h4>'+escapeHtml(x.stage)+'</h4><p>เจ้าภาพ: '+escapeHtml(individual(x))+' — '+escapeHtml(assigneeLabel(x))+'</p><p>ฝ่าย: '+escapeHtml(x.department)+'</p><p>กำหนด: '+escapeHtml(x.due||"ไม่ระบุ")+'</p><p>สถานะ: '+escapeHtml(x.status)+'</p><p>'+escapeHtml(x.deadline_state)+'</p></div>').join("");
  $("stageTrace").scrollIntoView({behavior:"smooth",block:"nearest"});
