@@ -179,8 +179,12 @@ function renderCloud(j){
   ?"ยังไม่มีผลยืนยันรอบก่อน 09:00 วันนี้ — แสดง Last Update ครั้งสุดท้าย"
   :!genuine?"Cloudflare ตรวจแล้ว แต่ยังไม่พบผล NB เช้าวันนี้"
   :"Cloudflare ตรวจผล NB วันนี้แล้ว "+verified+"/13 Source"+(verified<13?" · ยังไม่ครบ":" · ครบตามแหล่งที่กำหนด");
+ const replicas=new Map((j.storage_replicas||[]).map(x=>[x.target,x]));
+ const backup=x=>replicas.get(x)?.status==="verified"?"ยืนยันแล้ว "+dt(replicas.get(x).last_verified_at):"ยังไม่ยืนยัน";
  E("morningRunTime").textContent="Cloudflare Cron ตรวจล่าสุด: "+dt(j.cloud_heartbeat_at)+
-  " · Last Update เก็บถาวรใน Cloudflare D1 · ไม่สแกนซ้ำเมื่อเปิดเว็บ";
+  " · Ledger v"+(j.storage_schema_version||1)+" ("+(j.verified_event_count||0)+" events)"+
+  " · Google Drive: "+backup("google_drive")+" · GitHub Private: "+backup("github_private")+
+  " · ไม่สแกนซ้ำเมื่อเปิดเว็บ";
  E("morningStats").hidden=false;
  E("morningStats").innerHTML='<div><strong>'+verified+'/13</strong>แหล่งที่ยืนยันในรอบเช้า</div>'+
   '<div><strong>'+safe(j.last_audit_date||"ยังไม่มี")+'</strong>Cloudflare Audit ล่าสุด</div>'+
