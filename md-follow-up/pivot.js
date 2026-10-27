@@ -207,7 +207,7 @@ function renderCbWorkflowBanner(rows){
  const create=(title,description)=>{const p=document.createElement("p");const b=document.createElement("strong");b.textContent=title;p.append(b,document.createTextNode(description));banner.append(p)};
  create("สถานะ CB ตามทะเบียน: ",label+" · สถานะต้นทาง: "+orig);
  if(footer){
-   create("หมายเหตุท้ายแบบฟอร์ม ≠ หลักฐานจบงาน: ","ข้อความ “งานในตาราง CB จบแล้ว งานจะไปต่อที่ตารางกล่องดำ / QP40 / PPI” เป็นคำอธิบาย Workflow ที่มีใน Sheet ต้นฉบับทุกโครงการ ไม่ยืนยันว่างานนี้จบ");
+   create("หมายเหตุท้ายแบบฟอร์ม ≠ หลักฐานจบงาน: ","ข้อความ “งานในตาราง CB จบแล้ว งานจะไปต่อที่ตารางกล่องดำ / QP40 / PPI” เป็นคำอธิบาย Workflow มาตรฐานที่พบในแม่แบบและหลาย Sheet ไม่ใช่บันทึกยืนยันว่างานนี้จบ");
    create("หลังจบ CB จึงส่งต่อ: ","กล่องดำ / QP40 / PPI — ต้องมีหลักฐานการส่งต่อของรายการนี้แยกต่างหาก");
  }else{
    create("การส่งต่อ: ","การจบ CB หรือส่งต่อ QP40/PPI ต้องตรวจจากสถานะเฉพาะรายการ ไม่สรุปจากข้อความในแบบฟอร์ม");
