@@ -161,7 +161,12 @@ function renderTree(){
   const exp=n.children.length>0,active=expanded.has(n.key);
   const depth=n.depth,code=exp?'<button class="exp" data-toggle="'+escapeHtml(n.key)+'" aria-label="'+(active?"ยุบ":"ขยาย")+' '+escapeHtml(n.title)+'">'+(active?"−":"+")+'</button>':'<span class="leafdot">•</span>';
   const tag=n.type==="work"?'<span class="rowtag">'+escapeHtml(names[n.items[0]?.source]||"")+'</span>':"";
-  return '<tr class="'+escapeHtml(n.type)+'" data-node-row="'+escapeHtml(n.key)+'"><td class="left"><span class="indent" style="--depth:'+(depth*20)+'px"></span>'+code+'<span class="rowlabel" title="'+escapeHtml(n.title)+'">'+escapeHtml(n.title)+'</span>'+tag+'</td>'+
+  // Preserve the complete work title in the DOM. The text wraps inside the
+  // sticky work column; keyboard/mouse can open the existing source drilldown.
+  const text=n.type==="work"
+    ?'<button type="button" class="rowlabel work-title-button" title="'+escapeHtml(n.title)+'" aria-label="ดูรายละเอียด: '+escapeHtml(n.title)+'">'+escapeHtml(n.title)+'</button>'
+    :'<span class="rowlabel" title="'+escapeHtml(n.title)+'">'+escapeHtml(n.title)+'</span>';
+  return '<tr class="'+escapeHtml(n.type)+'" data-node-row="'+escapeHtml(n.key)+'"><td class="left" style="--row-indent:'+(depth*20)+'px"><span class="indent" style="--depth:'+(depth*20)+'px"></span>'+code+text+tag+'</td>'+
     (columns.length?columns.map(c=>cellHtml(n.items,c,n,idx)).join(""):'<td>—</td>')+cellHtml(n.items,"__all__",n,idx)+'</tr>';
  });
  if(!markup.length)markup.push('<tr class="nodata"><td colspan="'+(columns.length+2)+'">ไม่พบรายการตามเงื่อนไขที่เลือก</td></tr>');
