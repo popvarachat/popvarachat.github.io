@@ -174,7 +174,7 @@ function renderCloud(j){
  if(j.schema!==1||j.controller!=="Cloudflare Cron Trigger + D1"||j.sources?.length!==13)throw Error("incomplete cloud receipt");
  const today=dateToday(),isToday=j.last_audit_date===today;
  const genuine=isToday&&j.todays_nb_result_confirmed&&j.phase!=="baseline_after_09_not_morning";
- const verified=j.sources.filter(x=>genuine&&x.status==="NB_VERIFIED_TODAY").length;
+ const verified=genuine?Math.min(13,Math.max(0,Number(j.verified_nb_sources_today)||0)):0;
  E("morningResult").textContent=!isToday||j.phase==="baseline_after_09_not_morning"
   ?"ยังไม่มีผลยืนยันรอบก่อน 09:00 วันนี้ — แสดง Last Update ครั้งสุดท้าย"
   :!genuine?"Cloudflare ตรวจแล้ว แต่ยังไม่พบผล NB เช้าวันนี้"
