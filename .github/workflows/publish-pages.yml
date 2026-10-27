@@ -14,6 +14,7 @@ on:
       - 'md-follow-up/pivot.css'
       - 'md-follow-up/pivot.js'
       - 'md-follow-up/pivot.html'
+      - 'md-follow-up/qp40.html'
       - 'md-follow-up/line-audit.html'
       - 'md-follow-up/mm.html'
       - 'md-follow-up/navigation.css'
