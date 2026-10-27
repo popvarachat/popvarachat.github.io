@@ -125,3 +125,58 @@
 .source-stat-stale{background:#fff7ed!important;border-color:#d89e59!important}
 .source-stat-stale small{color:#985d24!important}
 .source-timestamp{font-size:9px!important;line-height:1.4;opacity:.85}
+
+/* Work title display: one-line ellipsis previously hid full Planner titles.
+   Only leaf WORK rows grow; pivot headings and sticky numeric columns remain. */
+.pivot tbody tr.work td.left{
+ white-space:normal;
+ text-overflow:clip;
+ overflow:visible;
+ padding-top:8px;
+ padding-bottom:8px;
+ height:auto;
+ line-height:1.45;
+}
+.pivot tbody tr.work td.left .rowlabel{
+ display:inline-block;
+ width:calc(100% - var(--row-indent,60px) - 43px);
+ max-width:calc(100% - var(--row-indent,60px) - 43px);
+ white-space:normal;
+ text-overflow:clip;
+ overflow-wrap:anywhere;
+ word-break:normal;
+ vertical-align:middle;
+ line-height:1.5;
+}
+.pivot tbody tr.work td.left .work-title-button{
+ background:transparent;
+ border:0;
+ padding:0;
+ margin:0;
+ color:inherit;
+ text-align:left;
+ font:inherit;
+ font-weight:600;
+ cursor:pointer;
+}
+.pivot tbody tr.work td.left .work-title-button:hover{
+ color:#08677a;
+ text-decoration:underline;
+ text-underline-offset:2px;
+}
+.pivot tbody tr.work td.left .work-title-button:focus-visible{
+ outline:2px solid #05829c;
+ outline-offset:3px;
+ border-radius:2px;
+}
+.pivot tbody tr.work td.left .rowtag{
+ display:block;
+ width:max-content;
+ margin:4px 0 0 calc(var(--row-indent,60px) + 28px);
+}
+@media(max-width:700px){
+ .pivot tbody tr.work td.left .rowlabel{
+  width:calc(100% - var(--row-indent,60px) - 41px);
+  max-width:calc(100% - var(--row-indent,60px) - 41px);
+ }
+}
