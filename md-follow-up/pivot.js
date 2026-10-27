@@ -213,6 +213,23 @@ function renderCbWorkflowBanner(rows){
    create("การส่งต่อ: ","การจบ CB หรือส่งต่อ QP40/PPI ต้องตรวจจากสถานะเฉพาะรายการ ไม่สรุปจากข้อความในแบบฟอร์ม");
  }
  create("ขั้นตอนย่อย: ","ค่า P / - / ช่องว่างใน Check ยังไม่มีนิยามผลตรวจรับที่รับรองครบ ห้ามตีความว่าเสร็จหรือค้างทุกข้อโดยอัตโนมัติ");
+ const qp=master?.qp40_evidence;
+ if(qp?.folder_match==="exact"){
+   const ef=qp.engineering_and_production_files||{};
+   const get=k=>Number(ef[k]?.file_count)||0;
+   create("ตรวจแฟ้ม QP40/PPI: ","พบแฟ้มสินค้าชื่อเดียวกันใน "+(qp.qp40_period||"รายการ QP40")+
+       " · ภาพสินค้าจริง "+(qp.product_photo_count||0)+" ไฟล์"+
+       " · BOM "+get("bom")+" · Cutting "+get("cutting")+" · Drawing "+get("drawing")+
+       " · ข้อมูลฝ่ายผลิตเฉพาะสินค้า "+(qp.specific_production_file_count||0)+" ไฟล์");
+   create("ข้อสรุปจากหลักฐาน: ","พบโครงสร้างแฟ้มและข้อมูลบางส่วนแล้ว แต่ยังไม่ยืนยันว่า QP40/PPI รับเข้าระบบครบหรืออนุมัติแล้ว; การเปิดแฟ้มไม่ใช่การรับรองจบ CB");
+ }else if(qp?.folder_match==="not_found_in_index"){
+   create("ตรวจแฟ้ม QP40/PPI: ","ยังไม่จับคู่โฟลเดอร์จากชื่อสินค้าตรงตัวได้ ไม่ใช่หลักฐานว่าไม่มีแฟ้มหรือยังไม่ส่งต่อ (อาจเปลี่ยนชื่อสินค้า)");
+ }else if(qp?.folder_match==="ambiguous"){
+   create("ตรวจแฟ้ม QP40/PPI: ","พบหลายโฟลเดอร์ชื่อเหมือนกัน ต้องตรวจเลข Order หรือหลักฐานรับงานก่อนเชื่อมรายการ");
+ }else{
+   create("ตรวจแฟ้ม QP40/PPI: ","ยังไม่มีผลสแกนแฟ้มที่ยืนยันได้ จึงไม่สรุปว่างานส่งต่อสำเร็จหรือไม่");
+ }
+
  banner.dataset.state=wf?.cb_state||"unverified";
  banner.hidden=false;
 }
