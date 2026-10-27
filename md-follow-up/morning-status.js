@@ -21,7 +21,7 @@ async function read(url){
 const REFRESHABLE=new Set(["cb","ics","icf","ice","cb_edu","cb_icf","cb_ics","cb_new","cb_abdul","planner","innovation_line","innovation","mm"]);
 const PRIVATE_PAGE="http://127.0.0.1:8766/workspace.html";
 const PRIVATE_API="http://127.0.0.1:8766";
-const SOURCE_ACTION_NAME={mm:"เปิด Excel MM ใน SharePoint",innovation:"เปิด SharePoint เพื่อค้นหาไฟล์นวัตกรรม"};
+const SOURCE_ACTION_NAME={mm:"1. เปิดต้นฉบับ",innovation:"1. เปิดต้นฉบับ"};
 const MANUAL_INFO={};
 const windows={cb:26,ics:26,icf:26,ice:26,cb_edu:26,cb_icf:26,cb_ics:26,cb_new:26,cb_abdul:26,planner:5,innovation_line:2.5,innovation:30,mm:30};
 const linkFor={mm:"http://127.0.0.1:8766/manual-open-sharepoint?source=mm",
@@ -45,12 +45,12 @@ function action(row){
  const openButton=isSharePoint?'<a class="manual-source-button manual-link" href="'+safe(linkFor[row.key])+'" target="_blank" rel="noopener noreferrer">'+safe(SOURCE_ACTION_NAME[row.key])+'</a>':"";
  const refreshButton='<button type="button" class="manual-source-button" data-manual-source="'+safe(row.key)+'"'+
    (activeManual&&activeManual!==row.key?' disabled':'')+'>'+
-   (activeManual===row.key?"กำลังตรวจ…":isSharePoint?"นำเข้า Excel ที่ดาวน์โหลด":"Manual Refresh")+'</button>';
+   (activeManual===row.key?"กำลังตรวจ…":isSharePoint?"2. อ่านข้อมูลเข้าเว็บอีกครั้ง":"Manual Refresh")+'</button>';
  const btn=openButton+refreshButton;
  return '<div class="manual-cell" data-source-action="'+safe(row.key)+'">'+
    (flagged?'<small class="manual-problem">'+safe(note.reason)+'</small>':'<small class="manual-healthy">ข้อมูลสดตามเกณฑ์</small>')+
    (flagged||showAll?btn:'')+
-   (isSharePoint&&flagged?'<small>ขั้นตอน: เปิด SharePoint → ดาวน์โหลด Excel ใหม่ลงโฟลเดอร์ Downloads บน NB → กดนำเข้า Excel · ไม่ถือว่าอัปเดตจนตรวจไฟล์และสร้าง Dashboard ผ่าน</small>':'')+
+   (isSharePoint&&flagged?'<small>ระบบใช้ Chrome/Playwright ที่ลงชื่อเข้าใช้แล้วอ่านไฟล์และอัปเดต Dashboard เอง หากไม่มีสิทธิ์หรือ NB ปิดอยู่จะเก็บ Last Update เดิม</small>':'')+
    (manual?.result==="manual_verified"?'<small class="manual-healthy">Manual ผ่าน: '+safe(dt(manual.last_success_at))+'</small>':'')+
  '</div>';
 }
@@ -91,7 +91,8 @@ async function loadManualIndex(){
  if(latestRows.length)drawRows(latestRows);
 }
 const MANUAL_ERRORS={
- RECENT_DOWNLOAD_NOT_FOUND:"ยังไม่พบ Excel ใหม่ใน Downloads ของ NB — เปิด SharePoint แล้วดาวน์โหลดก่อน",
+ BROWSER_SHAREPOINT_AUTH_OR_READ_FAILED:"Chrome/Playwright หรือสิทธิ์ SharePoint ใช้ไม่ได้ กรุณาเปิดต้นฉบับเพื่อตรวจสิทธิ์",
+ DOWNLOADED_WORKBOOK_NOT_VERIFIED:"อ่าน Excel ไม่ครบหรือโครงสร้างไฟล์ผิด ระบบเก็บข้อมูลเดิมไว้",
  LAN_SOURCE_NOT_AVAILABLE:"ยังเข้า W:/S: ไม่ได้ โปรดเชื่อมเครือข่ายบริษัทหรือ VPN",
  MM_SHEETS_CHANGED:"โครงสร้าง Sheet MM เปลี่ยน ระบบหยุดเพื่อป้องกันข้อมูลผิด",
  INNOVATION_DOWNLOAD_AMBIGUOUS:"พบไฟล์นวัตกรรมหลายชุด ต้องตรวจชื่อไฟล์ดาวน์โหลดก่อน",
@@ -105,7 +106,7 @@ async function manualClick(key){
  if(!REFRESHABLE.has(key))return;
  if(activeManual){manualFeedback("มี Source อื่นกำลังตรวจ กรุณาดูผลให้เสร็จก่อน");return}
  activeManual=key;if(latestRows.length)drawRows(latestRows);
- manualFeedback("กำลังส่งคำสั่งตรวจ "+key+" ไปยัง RDC NB…"+(["mm","innovation"].includes(key)?" (ต้องดาวน์โหลดไฟล์ Excel บน NB ก่อน)":""));
+ manualFeedback("กำลังอ่าน "+key+" ผ่าน SharePoint/Chrome ที่ได้รับอนุญาต และตรวจสอบก่อนอัปเดต Dashboard…");
  try{
   const response=await fetch(PRIVATE_API+"/manual-refresh",{
     method:"POST",mode:"cors",credentials:"omit",cache:"no-store",
