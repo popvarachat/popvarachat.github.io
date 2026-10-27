@@ -1,26 +1,36 @@
 {
-  "schema": 1,
+  "schema": 2,
   "time_zone": "Asia/Bangkok",
-  "status": "connector_read_verified_not_nb_synced",
-  "checked_date": "2026-10-26",
-  "source": "connected Microsoft SharePoint",
+  "status": "direct_source_read_verified_nb_sync_unverified",
+  "checked_date": "2026-10-27",
+  "source": "connected Microsoft SharePoint (exact Graph drive items)",
+  "read_method": "get_drive_item + fetch (direct connector)",
+  "privacy": "source_metadata_only",
+  "nb_sync_verified_today": false,
   "sources": [
     {
       "key": "innovation",
       "title": "ตารางรวมงานนวัตกรรม.xlsx",
       "source_modified_at": "2026-10-22T07:57:08Z",
-      "connector_read_date": "2026-10-26",
+      "source_modified_at_bangkok": "2026-10-22T14:57:08+07:00",
+      "last_successful_read_at": "2026-10-27T01:21:30.082Z",
+      "last_successful_read_at_bangkok": "2026-10-27T08:21:30.082+07:00",
+      "content_read_success": true,
+      "changed_since_previous_check": false,
       "nb_pivot_last_success_at": "2026-10-19T08:09:09Z",
-      "nb_synced_today": false
+      "nb_sync_verified_today": false
     },
     {
       "key": "mm",
       "title": "วาระติดตาม MM ปี 2569  .xlsx",
       "source_modified_at": "2026-10-26T03:38:25Z",
-      "connector_read_date": "2026-10-26",
+      "source_modified_at_bangkok": "2026-10-26T10:38:25+07:00",
+      "last_successful_read_at": "2026-10-27T01:21:30.084Z",
+      "last_successful_read_at_bangkok": "2026-10-27T08:21:30.084+07:00",
+      "content_read_success": true,
+      "changed_since_previous_check": false,
       "nb_pivot_last_success_at": "2026-10-26T03:58:58.817203+00:00",
-      "nb_synced_today": true
+      "nb_sync_verified_today": false
     }
-  ],
-  "privacy": "source_metadata_only"
+  ]
 }
