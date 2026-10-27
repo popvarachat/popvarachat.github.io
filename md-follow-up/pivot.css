@@ -180,3 +180,12 @@
   max-width:calc(100% - var(--row-indent,60px) - 41px);
  }
 }
+
+/* Source-of-truth navigation for the private Drilldown. */
+.drill .original-actions{display:flex;align-items:center;gap:8px;flex-wrap:wrap;justify-content:flex-end}
+.drill .original-source-button{background:#166780;color:white;border:1px solid #0b627a;border-radius:7px;padding:8px 11px;font-size:11px;font-weight:700;white-space:nowrap}
+.drill .original-source-button:hover{background:#0b5268}
+.drill .original-source-button:disabled{opacity:.45;cursor:wait}
+.drill .original-source-button[hidden]{display:none}
+.drill #sourceOpenFeedback:not(:empty){margin-top:8px;padding:7px 9px;background:#ebf6fa;border-radius:6px;color:#24586d;line-height:1.6}
+@media(max-width:700px){.drill .dh{flex-wrap:wrap}.drill .original-actions{width:100%;justify-content:flex-start}}
