@@ -199,8 +199,12 @@ function showDrill(key,col){
  const holder=$("drill");holder.hidden=false;
  $("drillTitle").textContent=(node.title||"")+" / "+(col==="__all__"?"ทุกฝ่าย":col);
  $("drillMeta").textContent=unitCount(rows).toLocaleString("th-TH")+" "+(measure==="work"?"งาน":"ขั้นตอน")+" · คลิกชื่อเพื่อดู Stage ทั้งสาย";
- $("detailBody").innerHTML='<table><thead><tr><th>กำหนดส่ง</th><th>งาน / โครงการ</th><th>Stage ที่ค้าง</th><th>เจ้าภาพ</th><th>ฝ่าย</th><th>สถานะ</th></tr></thead><tbody>'+
-  dedup.slice(0,300).map((r,i)=>'<tr data-idx="'+i+'"><td>'+escapeHtml(r.due||"—")+'</td><td><strong>'+escapeHtml(r.project)+'</strong><div class="sub">'+escapeHtml(names[r.source]||r.source)+'</div></td><td>'+escapeHtml(r.stage)+'</td><td>'+escapeHtml(individual(r))+'<small>'+escapeHtml(assigneeLabel(r))+'</small></td><td>'+escapeHtml(r.department)+'</td><td>'+escapeHtml(r.deadline_state)+'</td></tr>').join("")+'</tbody></table>';
+ const direct=$("sourceOpenOne");
+ direct.hidden=dedup.length!==1||!originalSourceAllowed(dedup[0]);
+ direct.dataset.workKey=!direct.hidden?dedup[0].work_key:"";
+ $("sourceOpenFeedback").textContent="";
+ $("detailBody").innerHTML='<table><thead><tr><th>กำหนดส่ง</th><th>งาน / โครงการ</th><th>Stage ที่ค้าง</th><th>เจ้าภาพ</th><th>ฝ่าย</th><th>สถานะ</th><th>ต้นฉบับ</th></tr></thead><tbody>'+
+  dedup.slice(0,300).map((r,i)=>'<tr data-idx="'+i+'"><td>'+escapeHtml(r.due||"—")+'</td><td><strong>'+escapeHtml(r.project)+'</strong><div class="sub">'+escapeHtml(names[r.source]||r.source)+'</div></td><td>'+escapeHtml(r.stage)+'</td><td>'+escapeHtml(individual(r))+'<small>'+escapeHtml(assigneeLabel(r))+'</small></td><td>'+escapeHtml(r.department)+'</td><td>'+escapeHtml(r.deadline_state)+'</td><td>'+(originalSourceAllowed(r)?'<button type="button" class="original-source-button" data-original-row="'+i+'">เปิดต้นฉบับ ↗</button>':'—')+'</td></tr>').join("")+'</tbody></table>';
  window.currentDrillRows=dedup;
  $("stageTrace").innerHTML="";
  holder.scrollIntoView({behavior:"smooth",block:"nearest"});
@@ -238,7 +242,58 @@ $("tbody").addEventListener("click",e=>{
  const tr=e.target.closest("[data-node-row]");
  if(tr){const n=nodeMap.get(tr.dataset.nodeRow);if(n?.type==="work")showDrill(n.key,"__all__");}
 });
-$("detailBody").addEventListener("click",e=>{const row=e.target.closest("[data-idx]");if(row)renderTimeline(window.currentDrillRows[Number(row.dataset.idx)])});
+const OPENABLE_SOURCES=new Set(["cb","ics","icf","ice","innovation","planner"]);
+function originalSourceAllowed(r){return !!r&&OPENABLE_SOURCES.has(r.source)&&typeof r.work_key==="string"&&r.work_key.startsWith(r.source+"::")}
+const ORIGINAL_ENDPOINT="http://127.0.0.1:8766";
+let originalOpening=false;
+function originalMessage(message){const el=$("sourceOpenFeedback");if(el)el.textContent=message}
+async function openOriginalSource(workKey){
+ if(originalOpening)return;
+ originalOpening=true;
+ for(const b of document.querySelectorAll(".original-source-button"))b.disabled=true;
+ originalMessage("กำลังสั่งให้ NB เปิดไฟล์ต้นฉบับแบบอ่านอย่างเดียว…");
+ try{
+  const response=await fetch(ORIGINAL_ENDPOINT+"/open-original-source",{
+    method:"POST",mode:"cors",credentials:"omit",cache:"no-store",
+    headers:{"Content-Type":"application/json","X-MD-Manual":"user-click"},
+    body:JSON.stringify({work_key:workKey}),signal:AbortSignal.timeout(10000)
+  });
+  const started=await response.json();
+  if(response.status!==202){originalMessage("เปิดไม่ได้: "+(started.code||"HTTP "+response.status));return}
+  for(let i=0;i<70;i++){
+   await new Promise(resolve=>setTimeout(resolve,1100));
+   let x;
+   try{
+    const state=await fetch(ORIGINAL_ENDPOINT+"/original-source-status",
+      {mode:"cors",credentials:"omit",cache:"no-store",signal:AbortSignal.timeout(5000)});
+    if(!state.ok)continue;
+    x=await state.json();
+   }catch{continue}
+   if(x.work_key!==workKey||x.state==="opening")continue;
+   if(x.state==="opened"){
+    originalMessage(x.kind==="excel_read_only"
+      ?("เปิด Excel ต้นฉบับแบบ Read-only บน NB แล้ว"+(x.sheet_confirmed?" · เปิด Sheet ที่ตรงกับงานแล้ว":" · เปิดไฟล์ต้นทาง"))
+      :("เปิดต้นฉบับผ่าน Browser บน NB แล้ว · "+(x.label||"ตรวจที่แท็บใหม่")));
+   }else{
+    const reasons={SOURCE_OFFLINE_OR_NOT_MOUNTED:"NB ยังเชื่อม W:/S: ไม่ได้",SOURCE_SHEET_NOT_FOUND:"พบไฟล์แล้ว แต่ไม่พบ Sheet ที่เชื่อมกับงาน",SOURCE_RECORD_NOT_FOUND:"ไม่พบรายการในทะเบียนต้นฉบับ",SOURCE_LAUNCH_TIMEOUT:"Excel เปิดไม่ทันเวลาที่กำหนด"};
+    originalMessage("เปิดต้นฉบับไม่สำเร็จ: "+(reasons[x.code]||x.code||"ตรวจสอบสิทธิ์บน NB"));
+   }
+   return;
+  }
+  originalMessage("NB ยังไม่ยืนยันว่าเปิดต้นฉบับได้ กรุณาดู Excel หรือแท็บที่เครื่อง NB");
+ }catch{
+  originalMessage("ติดต่อ NB ไม่ได้: ปุ่มนี้เปิดไฟล์ภายในบริษัทจากเครื่อง NB ที่มีสิทธิ์ W:/S: เท่านั้น · ไม่ได้ลบหรืออัปเดตข้อมูล");
+ }finally{
+  originalOpening=false;
+  for(const b of document.querySelectorAll(".original-source-button"))b.disabled=false;
+ }
+}
+$("sourceOpenOne").addEventListener("click",()=>{const key=$("sourceOpenOne").dataset.workKey;if(key)openOriginalSource(key)});
+$("detailBody").addEventListener("click",e=>{
+ const open=e.target.closest("[data-original-row]");
+ if(open){e.preventDefault();e.stopPropagation();const item=window.currentDrillRows?.[Number(open.dataset.originalRow)];if(originalSourceAllowed(item))openOriginalSource(item.work_key);return}
+ const row=e.target.closest("[data-idx]");if(row)renderTimeline(window.currentDrillRows[Number(row.dataset.idx)]);
+});
 $("closeDrill").addEventListener("click",()=>$("drill").hidden=true);
 ["source","axis","unit","status","dueFilter","stageOnly","maxCols","ownerFilter"].forEach(x=>$(x).addEventListener("change",refresh));
 $("query").addEventListener("input",()=>{clearTimeout(window.qdeb);window.qdeb=setTimeout(refresh,150)});
