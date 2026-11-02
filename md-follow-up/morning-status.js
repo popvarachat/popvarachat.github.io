@@ -223,6 +223,15 @@ async function update(){
     E("morningRunTime").textContent="Last Update เดิมจะไม่ถูกใช้แทนหลักฐานใหม่โดยไม่มีคำเตือน";
    }
   }
+  // Source checks can be newer than the morning audit; never hide pending imports.
+  try{
+   const latestCheck=await read(SITE+"sharepoint-morning-status.json");
+   const pending=(latestCheck.sources||[]).filter(x=>x.changed_since_previous_check===true&&x.private_import_success_this_check!==true);
+   if(pending.length){
+    E("morningResult").textContent="พบต้นทางเปลี่ยน "+pending.length+" แหล่ง — ยังรอนำเข้าข้อมูลใหม่เข้า Private Dashboard";
+    E("morningRunTime").textContent+=" · ตรวจต้นทางล่าสุด "+dt(latestCheck.checked_at)+" · ห้ามถือว่าเวลาตรวจคือเวลานำเข้าสำเร็จ";
+   }
+  }catch{/* Keep the verified receipt already displayed. */}
   if(manual.status!=="fulfilled"||manual.value===false){
    const feedback=E("manualFeedback");
    if(feedback&&!feedback.textContent.includes("กำลัง"))feedback.textContent=
