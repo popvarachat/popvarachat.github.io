@@ -2,12 +2,12 @@
   "schema": 4,
   "time_zone": "Asia/Bangkok",
   "checked_date": "2026-11-02",
-  "checked_at": "2026-11-02T02:05:20.843093Z",
-  "status": "all_three_source_versions_unchanged_private_hash_verified_no_rebuild",
+  "checked_at": "2026-11-02T09:28:34Z",
+  "status": "source_changed_private_import_pending",
   "source": "Microsoft SharePoint connector exact source items",
-  "read_method": "get_drive_item exact metadata + tracking version history + private SHA256 verification (no raw download)",
+  "read_method": "SharePoint connector current metadata and extracted source content; no NB control",
   "privacy": "source_metadata_only",
-  "nb_online": true,
+  "nb_online": null,
   "nb_sync_verified_today": false,
   "public_metadata_only": true,
   "source_details_or_urls_published": false,
@@ -15,35 +15,37 @@
   "private_db_integrity": "ok",
   "private_db_restore_test": "prior_pass_not_repeated_unchanged_source",
   "private_http_readback": {
-    "pivot": "200",
-    "tracking": "200"
+    "pivot": "prior_check_2026-11-02T02:05:20Z",
+    "tracking": "prior_check_2026-11-02T02:05:20Z"
   },
   "sources": [
     {
       "key": "innovation",
-      "source_modified_at": "2026-10-29T07:20:57Z",
-      "source_version": "6440",
-      "source_size_bytes": 12435128,
-      "source_raw_sha256": "448cc4451b5595aaf33475a55da769f4fa10b1e5360942fc46f4205c8ba67639",
-      "checked_at": "2026-11-02T02:05:20.843093Z",
+      "source_modified_at": "2026-11-02T04:11:10Z",
+      "source_version": "6462",
+      "source_size_bytes": 12252662,
+      "checked_at": "2026-11-02T09:28:34Z",
       "last_successful_read_at": "2026-10-30T02:11:10.761487Z",
       "last_successful_private_import_at": "2026-10-30T02:11:10.761487Z",
-      "read_success_this_check": false,
+      "read_success_this_check": true,
       "raw_bytes_read_success": false,
       "raw_workbook_zip_valid": true,
       "metadata_check_success": true,
-      "changed_since_previous_check": false,
-      "change_basis": "source_modified_version_unchanged_private_sha256_verified",
-      "private_snapshot_hash_verified": true,
-      "private_import_status": "unchanged_private_sha256_verified",
-      "private_import_success_this_check": false
+      "changed_since_previous_check": true,
+      "change_basis": "source_modified_version_size_changed",
+      "private_snapshot_hash_verified": false,
+      "private_import_status": "pending_new_source_version",
+      "private_import_success_this_check": false,
+      "private_snapshot_hash_verified_this_check": false,
+      "connector_extracted_content_read_success": true,
+      "previous_imported_raw_sha256": "448cc4451b5595aaf33475a55da769f4fa10b1e5360942fc46f4205c8ba67639"
     },
     {
       "key": "mm",
       "source_modified_at": "2026-10-26T03:38:25Z",
       "source_version": "1607",
       "source_size_bytes": 12444208,
-      "checked_at": "2026-11-02T02:05:20.843093Z",
+      "checked_at": "2026-11-02T09:28:34Z",
       "last_successful_read_at": "2026-10-27T01:21:30.084Z",
       "last_successful_private_import_at": "2026-10-29T04:26:46.010745Z",
       "read_success_this_check": false,
@@ -51,10 +53,11 @@
       "changed_since_previous_check": false,
       "change_basis": "source_modified_version_unchanged_private_sha256_verified",
       "private_snapshot_hash_verified": true,
-      "private_import_status": "unchanged_private_sha256_verified",
+      "private_import_status": "unchanged_since_verified_morning_snapshot",
       "private_import_success_this_check": false,
       "source_raw_sha256": "dcc904d9ad316cf2fdcee4c91998b59ab5ae8bda2779e41b267b47e10c4a46fc",
-      "raw_bytes_read_success": false
+      "raw_bytes_read_success": false,
+      "private_snapshot_hash_verified_this_check": false
     },
     {
       "key": "tracking",
@@ -62,7 +65,7 @@
       "source_version": "165.0",
       "source_size_bytes": 8304462,
       "source_raw_sha256": "3ea81b35f5d7c0056f8c3510dbe1c1f8f5fa40e12eb8e10ce6a5ce9c293e22cd",
-      "checked_at": "2026-11-02T02:05:20.843093Z",
+      "checked_at": "2026-11-02T09:28:34Z",
       "last_successful_read_at": "2026-10-29T01:16:56.114Z",
       "last_successful_private_import_at": "2026-10-29T04:24:21.733193Z",
       "read_success_this_check": false,
@@ -71,7 +74,7 @@
       "changed_since_previous_check": false,
       "change_basis": "source_modified_version_unchanged_private_sha256_verified",
       "private_snapshot_hash_verified": true,
-      "private_import_status": "unchanged_private_sha256_verified",
+      "private_import_status": "unchanged_since_verified_morning_snapshot",
       "private_import_success_this_check": false,
       "named_rows_verified": 41,
       "private_tracking_model_rows": 41,
@@ -79,8 +82,11 @@
       "d1_health_publish_status": "prior_verified_no_new_publish_unchanged_source",
       "backup_status": "no_new_checkpoint_source_unchanged",
       "backup_cloud_upload_verified": false,
-      "http_readback_status": "200"
+      "http_readback_status": "200",
+      "private_snapshot_hash_verified_this_check": false
     }
   ],
-  "nb_private_snapshot_verified_today": true
+  "nb_private_snapshot_verified_today": true,
+  "current_nb_verification": "not_performed_in_this_check",
+  "current_check_private_snapshot_verified": false
 }
