@@ -1,11 +1,11 @@
 {
   "schema": "ERP_15_NODE_RECOVERY_STATUS_V1",
   "cloudflare_d1": {
-    "status": "FAILED",
-    "last_attempt_at_utc": "2026-11-02T01:30:05.9013558Z",
+    "status": "SUCCESS",
+    "last_attempt_at_utc": "2026-11-03T01:30:16.4836214Z",
     "next_retry_utc": null
   },
-  "snapshot_build_at_utc": "2026-11-02T01:47:04+00:00",
+  "snapshot_build_at_utc": "2026-11-03T01:46:58+00:00",
   "source_business_snapshot": "2026-10-28",
   "business_certified": false,
   "preservation": "CLOUDFLARE_R2_PRIVATE_DPAPI_AES256_GCM_VERIFIED",
