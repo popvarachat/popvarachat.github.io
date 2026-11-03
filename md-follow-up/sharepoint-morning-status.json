@@ -35,7 +35,9 @@
       "private_snapshot_hash_verified": true,
       "private_import_status": "unchanged_current_private_sha256_verified",
       "private_import_success_this_check": false,
-      "private_snapshot_hash_verified_this_check": true
+      "private_snapshot_hash_verified_this_check": true,
+      "source_raw_sha256": "af7bdbeec56f988b4e0365226d21bba80e7ce68e092338d56c6f0f03fa7de1fd",
+      "connector_extracted_content_read_success": false
     },
     {
       "key": "mm",
@@ -53,7 +55,8 @@
       "private_snapshot_hash_verified": true,
       "private_import_status": "unchanged_current_private_sha256_verified",
       "private_import_success_this_check": false,
-      "private_snapshot_hash_verified_this_check": true
+      "private_snapshot_hash_verified_this_check": true,
+      "source_raw_sha256": "dcc904d9ad316cf2fdcee4c91998b59ab5ae8bda2779e41b267b47e10c4a46fc"
     },
     {
       "key": "tracking",
@@ -78,7 +81,8 @@
       "d1_health_publish_status": "prior_verified_no_new_publish_unchanged_source",
       "backup_status": "no_new_checkpoint_source_unchanged",
       "backup_cloud_upload_verified": false,
-      "http_readback_status": "200"
+      "http_readback_status": "200",
+      "source_raw_sha256": "3ea81b35f5d7c0056f8c3510dbe1c1f8f5fa40e12eb8e10ce6a5ce9c293e22cd"
     }
   ],
   "nb_private_snapshot_verified_today": true,
