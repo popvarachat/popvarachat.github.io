@@ -52,6 +52,25 @@ jobs:
           ref: main
           fetch-depth: 1
 
+      - name: Check Customer Complaint web syntax and data reconciliation
+        run: |
+          node <<'NODE'
+          const fs=require('fs'),vm=require('vm'),assert=require('assert');
+          const h=fs.readFileSync('car-complaint-2026/index.html','utf8');
+          const get=id=>{const x=h.match(new RegExp('<script type="application/json" id="'+id+'">([\\s\\S]*?)<\\/script>'));assert(x,id+' JSON missing');return JSON.parse(x[1]);};
+          const d=get('data'),p=get('pmo-data'),l=get('lineage');
+          assert.strictEqual(d.cases.length,15);assert.strictEqual(l.records.length,15);
+          assert.deepStrictEqual(d.cases.filter(x=>x.level==='HOLD').map(x=>x.n),[2,3,14,15]);
+          assert.strictEqual(p.actual_cases_total,15);assert.strictEqual(p.summary26_rollup_count,14);
+          assert.strictEqual(p.october_pending_rollup_count,1);assert.strictEqual(p.actual_case_counts[9],1);
+          assert.strictEqual(p.department_allocation.find(x=>x.name==='Sale').monthly[9],1);
+          assert(Math.abs(p.allocation_equivalent_total-14.98)<0.001);
+          const tags=[...h.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)];
+          let compiled=0;for(const t of tags){if(/application\/json/.test(t[1]))continue;if(t[2].trim()){new vm.Script(t[2]);compiled++;}}
+          assert(compiled>0,'JavaScript script missing');
+          assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
+          console.log('QMR HTML JS compiled and Source v694 reconciliation verified');
+          NODE
       - name: Configure Pages
         uses: actions/configure-pages@v5
 
