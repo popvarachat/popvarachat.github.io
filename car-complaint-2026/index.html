@@ -508,7 +508,7 @@ button.evidence-step:hover{border-color:#8be7fa;background:#28546b}
 <div class="shell">
 <aside class="sidebar">
  <div class="brand"><div class="eyebrow">PRACTIKA · ISO 9001:2015 · QMR ANALYTICS · PUBLIC</div><h1>CAR / Complaint 2026</h1><div class="sub">QMR System Change · Workflow Intelligence</div>
- <div class="kpis"><div class="kpi"><b>14</b><span>เหตุการณ์</span></div><div class="kpi"><b>2</b><span>ยืนยัน WI ใหม่ (L2)</span></div><div class="kpi"><b>0</b><span>Effective Verified</span></div></div></div>
+ <div class="kpis"><div class="kpi"><b>15</b><span>เหตุการณ์</span></div><div class="kpi"><b>2</b><span>ยืนยัน WI ใหม่ (L2)</span></div><div class="kpi"><b>0</b><span>Effective Verified</span></div></div></div>
  <div class="navtools"><input class="search" id="search" placeholder="ค้นหาเคส / ลูกค้า / CAR" aria-label="ค้นหาเคส">
  <div class="filterbar" id="filters"><button class="active" data-filter="all">ทั้งหมด</button><button data-filter="safety">Safety</button><button data-filter="production">Production</button><button data-filter="engineering">Engineering</button><button data-filter="service">Service</button></div></div>
  <nav class="caseList" id="caseList" aria-label="14 customer complaint cases"></nav>
@@ -699,33 +699,33 @@ function chartDonut(){
  const count=cases.filter(x=>x.type===cat.id).length;const piece=count/total*circ;
  const el='<circle cx="90" cy="90" r="'+r+'" fill="none" stroke="'+cat.color+'" stroke-width="23" stroke-dasharray="'+piece+' '+(circ-piece)+'" stroke-dashoffset="'+(-position)+'" transform="rotate(-90 90 90)"><title>'+chartEsc(cat.n)+' '+count+'/'+total+'</title></circle>';
  position+=piece;return el}).join("");
- return '<div class="chart-donut-layout"><svg viewBox="0 0 180 180" role="img" aria-label="ประเภทข้อร้องเรียน: Safety 4, Production 4, Service 4, Engineering 2"><circle cx="90" cy="90" r="'+r+'" fill="none" stroke="#294358" stroke-width="23"/>'+arcs+'<text x="90" y="90" dominant-baseline="middle" text-anchor="middle" class="chart-midcount">14</text><text x="90" y="112" text-anchor="middle" class="chart-midlabel">ข้อร้องเรียน</text></svg>'+
+ return '<div class="chart-donut-layout"><svg viewBox="0 0 180 180" role="img" aria-label="ประเภทข้อร้องเรียน: Safety 4, Production 4, Service 5, Engineering 2"><circle cx="90" cy="90" r="'+r+'" fill="none" stroke="#294358" stroke-width="23"/>'+arcs+'<text x="90" y="90" dominant-baseline="middle" text-anchor="middle" class="chart-midcount">'+total+'</text><text x="90" y="112" text-anchor="middle" class="chart-midlabel">ข้อร้องเรียน</text></svg>'+
  '<div class="chart-legend">'+QMR_CHARTS.category.map(cat=>{const n=cases.filter(c=>c.type===cat.id).length;return '<button type="button" class="chart-legend-item" data-chart-type="'+cat.id+'"><i style="background:'+cat.color+'"></i><span>'+chartEsc(cat.n)+'</span><b>'+n+'</b><small>'+Math.round(n/total*100)+'%</small></button>'}).join("")+'</div></div>';
 }
 function chartClosure(){
  const pieces=QMR_CHARTS.closure.map(cat=>({data:cat,count:cases.filter(c=>c.state===cat.id).length}));
  const total=pieces.reduce((sum,x)=>sum+x.count,0);
- return '<div class="chart-stack" role="img" aria-label="สถานะ CAR: ปิดฟอร์ม 6 ปิดบางหน่วยงาน 1 ไม่พบปิดครบ 5 และ CAR ไม่ตรง 2">'+pieces.map(x=>'<div class="chart-stack-segment" style="width:'+chartPercent(x.count,total)+'%;background:'+x.data.color+'" title="'+chartEsc(x.data.n)+' '+x.count+' เคส"><b>'+x.count+'</b></div>').join("")+'</div>'+
+ return '<div class="chart-stack" role="img" aria-label="สถานะ CAR จากใบ CAR และรายการรอสอบกลับ">'+pieces.map(x=>'<div class="chart-stack-segment" style="width:'+chartPercent(x.count,total)+'%;background:'+x.data.color+'" title="'+chartEsc(x.data.n)+' '+x.count+' เคส"><b>'+x.count+'</b></div>').join("")+'</div>'+
  '<div class="chart-legend closure">'+pieces.map(x=>'<div class="chart-legend-item static"><i style="background:'+x.data.color+'"></i><span>'+chartEsc(x.data.n)+'</span><b>'+x.count+'</b></div>').join("")+'</div>'+
  '<p class="chart-foot">สถานะตามหลักฐานในใบ CAR ไม่ใช่ผลรับรองการป้องกันซ้ำ</p>';
 }
 function chartLevel(){
  const v=QMR_CHARTS.level.map(k=>({...k,count:cases.filter(c=>c.level===k.id).length}));
  const max=Math.max(...v.map(x=>x.count));
- return '<div class="chart-columns" role="img" aria-label="ระดับหลักฐาน L2 สอง L1 หก L0 สี่ HOLD สอง">'+v.map(x=>
+ return '<div class="chart-columns" role="img" aria-label="ระดับหลักฐาน QMR ปี 2569">'+v.map(x=>
  '<div class="chart-col"><strong>'+x.count+'</strong><div class="chart-col-track"><div class="chart-col-bar" style="height:'+chartPercent(x.count,max)+'%;background:'+x.color+'"></div></div><span title="'+chartEsc(x.n)+'">'+chartEsc(x.n)+'</span></div>'
  ).join("")+'</div>'+
  '<div class="chart-col-notes">กราฟแสดงขั้นความก้าวหน้า L0–L4 และรายการรอตรวจ CAR · <b>ยืนยันผลป้องกันซ้ำครบ 0/14</b></div>';
 }
 function chartFunnel(){
  const steps=[
- {n:"ข้อร้องเรียนต้นทาง",v:14,color:"#67b3e6"},
- {n:"จับคู่ CAR ตามเหตุการณ์ได้",v:12,color:"#57c9df"},
+ {n:"ข้อร้องเรียนต้นทาง",v:cases.length,color:"#67b3e6"},
+ {n:"จับคู่ CAR ตามเหตุการณ์ได้",v:cases.filter(c=>c.level!=="HOLD").length,color:"#57c9df"},
  {n:"ปิด CAR ตามฟอร์ม",v:6,color:"#6aceb3"},
  {n:"ตรวจพบ WI เปลี่ยนตรงสาเหตุ",v:2,color:"#e9b975"},
  {n:"ยืนยัน Effectiveness",v:0,color:"#e98894"}
  ];
- return '<div class="chart-funnel">'+steps.map(s=>'<div class="chart-funnel-row"><span>'+chartEsc(s.n)+'</span><div class="chart-funnel-track"><div class="chart-funnel-bar" style="width:'+Math.max(0,chartPercent(s.v,14))+'%;background:'+s.color+'"></div></div><strong>'+s.v+'<small>/14</small></strong></div>').join("")+'</div>'+
+ return '<div class="chart-funnel">'+steps.map(s=>'<div class="chart-funnel-row"><span>'+chartEsc(s.n)+'</span><div class="chart-funnel-track"><div class="chart-funnel-bar" style="width:'+Math.max(0,chartPercent(s.v,cases.length))+'%;background:'+s.color+'"></div></div><strong>'+s.v+'<small>/'+cases.length+'</small></strong></div>').join("")+'</div>'+
  '<p class="chart-foot">แต่ละขั้นเป็นหลักฐานที่ตรวจยืนยันได้ภายในชุดข้อร้องเรียนเดิม ไม่ใช่เปอร์เซ็นต์ความสำเร็จของ CAPA</p>';
 }
 function chartPatterns(){
