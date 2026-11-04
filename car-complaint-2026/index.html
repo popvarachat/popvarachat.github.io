@@ -503,7 +503,7 @@ button.evidence-step:hover{border-color:#8be7fa;background:#28546b}
 .attach-warning p{margin:4px 0}
 .attach-foot{display:block;margin-top:11px;color:#b2ccda;font-size:10px;line-height:1.7}
 @media(max-width:750px){.attach-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
-</style>
+.source-integrity{margin:0 0 14px;padding:15px;border:1px solid #d2a86a;border-left:4px solid #e9c58f;border-radius:12px;background:#302c31;color:#f9e0bd;line-height:1.8;font-size:13px}.source-integrity b{color:#ffe7c6}.source-integrity a{color:#9eeaff;text-decoration:underline}</style>
 <meta name="robots" content="noindex,nofollow"></head><body>
 <div class="shell">
 <aside class="sidebar">
@@ -824,6 +824,7 @@ function openMonth(i){
   monthIndex=i;deptIndex=null;returnDeptIndex=null;selected=null;view="month";location.hash="#month-"+i;render();
 }
 
+function complaintSourceNotice(){return '<div class="source-integrity" role="note"><b>SharePoint ล่าสุด 2 พ.ย. 2569 · Version 694.0</b> — ทะเบียนรวม/Summary26 ยังมี 14 เรื่อง แต่ Oct26 พบ <b>CXD-149</b> เพิ่มอีก 1 จึงแสดง 15 เรื่องแบบรอรวมยอด · PMO จัดสรรน้ำหนัก 14.98 (Sale ต.ค. 1.00) · CAR ของ SC Tower, Toyota และ Sun Tower มีเลขขัดกัน รอ QMR/DCC ตรวจสอบ · <a href="'+escapeHtml(PMO.source_url)+'" target="_blank" rel="noopener noreferrer">ไฟล์ SharePoint ต้นทาง</a> · <b>Effectiveness Verified 0/15</b></div>';}
 function renderPmoDashboard(){
  const sorted=pmoTotals,max=Math.max(...sorted.map(r=>r.excelTotal));
  const realMonths=PMO.months.map((m,i)=>({label:m,n:PMO.actual_case_counts[i],i}));
