@@ -508,14 +508,14 @@ button.evidence-step:hover{border-color:#8be7fa;background:#28546b}
 <div class="shell">
 <aside class="sidebar">
  <div class="brand"><div class="eyebrow">PRACTIKA · ISO 9001:2015 · QMR ANALYTICS · PUBLIC</div><h1>CAR / Complaint 2026</h1><div class="sub">QMR System Change · Workflow Intelligence</div>
- <div class="source-sync-note" role="status"><b>DATA CHECK · 12 พ.ย. 2569</b><div>ทะเบียน 14 เคส + ต.ค. 1 เคสรอตัดยอด · <strong>PTK_06 เบื้องต้น 14</strong> หลังแยก COO-073</div><div>ผลปิด CAR / การไม่เกิดซ้ำ ยังต้องตรวจหลักฐาน</div></div><div class="kpis"><div class="kpi"><b>15</b><span>เหตุการณ์</span></div><div class="kpi"><b>2</b><span>ยืนยัน WI ใหม่ (L2)</span></div><div class="kpi"><b>0</b><span>Effective Verified</span></div></div></div>
+ <div class="source-sync-note" role="status"><b>DATA CHECK · 12 พ.ย. 2569</b><div>ทะเบียน 14 เคส + ต.ค. 1 เคสรอตัดยอด · <strong>PTK_06 เบื้องต้น 14</strong> หลังแยก COO-073</div><div>พ.ย. ยังไม่มีชีตรายเคส · 0 ใน Summary ยังไม่ยืนยันว่าไม่มีเคส</div><div>ผลป้องกันซ้ำยังต้องตรวจหลักฐานภาคสนามและ QMR อนุมัติ</div></div><div class="kpis"><div class="kpi"><b>15</b><span>เหตุการณ์</span></div><div class="kpi"><b>2</b><span>ยืนยัน WI ใหม่ (L2)</span></div><div class="kpi"><b>0</b><span>Effective Verified</span></div></div></div>
  <div class="navtools"><input class="search" id="search" placeholder="ค้นหาเคส / ลูกค้า / CAR" aria-label="ค้นหาเคส">
  <div class="filterbar" id="filters"><button class="active" data-filter="all">ทั้งหมด</button><button data-filter="safety">Safety</button><button data-filter="production">Production</button><button data-filter="engineering">Engineering</button><button data-filter="service">Service</button></div></div>
  <nav class="caseList" id="caseList" aria-label="15 customer complaint cases"></nav>
  <div class="sidebarFoot">อ่านอย่างเดียว · หลักฐานต้นฉบับอยู่บน Drive Internal Source · QMR เป็น Human Gate</div>
 </aside>
 <main class="main">
- <div class="topbar"><div><strong id="pageTitle">ภาพรวม 15 ข้อร้องเรียน</strong><small id="pageSub">Intelligence Workflow · อ่านง่าย / คลิกหลักฐานเพื่อเจาะลึก</small></div>
+ <div class="topbar"><div><strong id="pageTitle">ภาพรวม 15 เหตุการณ์ติดตาม</strong><small id="pageSub">Intelligence Workflow · อ่านง่าย / คลิกหลักฐานเพื่อเจาะลึก</small></div>
  <div class="actions"><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
  <div class="legend"><span><i class="dot" style="background:#ff6c78"></i>Safety</span><span><i class="dot" style="background:#3ed5ef"></i>Production</span><span><i class="dot" style="background:#b19aff"></i>Engineering</span><span><i class="dot" style="background:#efbd6f"></i>Service</span><span>· คลิกชื่อโครงการเพื่อดูสาเหตุ มาตรการ และหลักฐานที่ QMR ต้องตรวจ</span></div>
  <section class="summary-view" id="summaryView" aria-label="QMR Executive Analysis" hidden><div id="summaryContent"></div></section>
@@ -793,7 +793,7 @@ function intelDepartment(){
   if(!r)return '<div class="evidence-warning">ไม่พบแผนกนี้ในข้อมูล PMO</div>';
   const related=relatedCasesForDept(deptIndex,null);
   return complaintSourceNotice()+'<div class="evidence-hero"><span class="evidence-eyebrow">DEPARTMENT → EVIDENCE DRILLDOWN · PMO FINAL</span><h2>'+escapeHtml(r.name)+'</h2><p>คลิกดูเหตุการณ์ที่เชื่อมโยงกับเจ้าของกระบวนการ แล้วเข้าสู่ CAR, WI/FORM และผลการทวนสอบภายในเว็บเดียวกัน</p><div class="evidence-stats"><div class="evidence-stat"><b>'+pmoFmt(r.excelTotal)+'</b><small>เรื่องเทียบเท่าตาม PMO</small></div><div class="evidence-stat"><b>'+related.length+'</b><small>เหตุการณ์ที่พบชื่อฝ่ายในเจ้าของกระบวนการ (อ้างอิงคนละฐาน)</small></div><div class="evidence-stat"><b>0/15</b><small>Effectiveness Verified ทั้งโครงการ</small></div></div><button class="evidence-btn" data-intel-view="summary">← กลับ Executive KPI</button></div>'+deptNotice()+
-  '<h3>เหตุการณ์ที่เกี่ยวข้องจากการตรวจ CAR</h3>'+(related.length?'<div class="evidence-card-grid">'+related.map(evidenceCaseCard).join('')+'</div>':'<p class="evidence-warning">ยังไม่มีเหตุการณ์ที่ระบุฝ่ายนี้เป็น Process Owner ในทะเบียนวิเคราะห์ 15 เรื่อง การไม่พบชื่อไม่ได้หมายความว่าฝ่ายนี้ไม่เกี่ยวข้องหรือไม่มีความรับผิดชอบตาม PMO</p>')+
+  '<h3>เหตุการณ์ที่เกี่ยวข้องจากการตรวจ CAR</h3>'+(related.length?'<div class="evidence-card-grid">'+related.map(evidenceCaseCard).join('')+'</div>':'<p class="evidence-warning">ยังไม่มีเหตุการณ์ที่ระบุฝ่ายนี้เป็น Process Owner ในทะเบียนวิเคราะห์ 15 เหตุการณ์ การไม่พบชื่อไม่ได้หมายความว่าฝ่ายนี้ไม่เกี่ยวข้องหรือไม่มีความรับผิดชอบตาม PMO</p>')+
   '<div class="evidence-warning">ข้อมูล PMO อ้างอิง: '+escapeHtml(PMO.source_updated_at)+' · Source of Truth คือไฟล์ Summary26 จาก SharePoint · หน้านี้ไม่ตัดสินความผิดของหน่วยงาน</div>';
 }
 function intelMonth(){
@@ -824,7 +824,7 @@ function openMonth(i){
   monthIndex=i;deptIndex=null;returnDeptIndex=null;selected=null;view="month";location.hash="#month-"+i;render();
 }
 
-function complaintSourceNotice(){return '<div class="source-integrity" role="note"><b>SharePoint ล่าสุด 2 พ.ย. 2569 · Version 694.0</b> — ทะเบียนรวม/Summary26 ยังมี 14 เรื่อง แต่ Oct26 พบ <b>CXD-149</b> เพิ่มอีก 1 จึงแสดง 15 เรื่องแบบรอรวมยอด · PMO จัดสรรน้ำหนัก 14.98 (Sale ต.ค. 1.00) · CAR ของ SC Tower, Toyota และ Sun Tower มีเลขขัดกัน รอ QMR/DCC ตรวจสอบ · <a href="'+escapeHtml(PMO.source_url)+'" target="_blank" rel="noopener noreferrer">ไฟล์ SharePoint ต้นทาง</a> · <b>Effectiveness Verified 0/15</b></div>';}
+function complaintSourceNotice(){return '<div class="source-integrity" role="note"><b>SharePoint แก้ไขล่าสุด 11 พ.ย. 2569 · ตรวจไฟล์แนบ 12 พ.ย.</b> — ทะเบียนรวม/Summary26 ยังมี 14 เรื่อง แต่ Oct26 พบ <b>CXD-149</b> เพิ่มอีก 1 จึงแสดง 15 เหตุการณ์แบบรอรวมยอด · PMO จัดสรรน้ำหนัก 14.98 (Sale ต.ค. 1.00) · CAR ของ SC Tower, Toyota และ Sun Tower มีเลขขัดกัน รอ QMR/DCC ตรวจสอบ · <a href="'+escapeHtml(PMO.source_url)+'" target="_blank" rel="noopener noreferrer">ไฟล์ SharePoint ต้นทาง</a> · <b>Effectiveness Verified 0/15</b></div>';}
 function renderPmoDashboard(){
  const sorted=pmoTotals,max=Math.max(...sorted.map(r=>r.excelTotal));
  const realMonths=PMO.months.map((m,i)=>({label:m,n:PMO.actual_case_counts[i],i}));
@@ -840,7 +840,7 @@ function renderPmoDashboard(){
  '<p class="pmo-explain">แผนกเดียวอาจรับงานร่วมกับแผนกอื่นในเรื่องเดียวกัน · ค่า 0 ไม่ได้แปลว่าไม่เคยมีส่วนเกี่ยวข้อง เพียงแต่ PMO ไม่จัดสรรน้ำหนักให้ในตารางนี้</p></section>';
  const monthly='<section class="pmo-panel"><h4>ร้องเรียนจริงกี่เรื่องในแต่ละเดือน <small>(จำนวนเหตุการณ์)</small></h4><div class="pmo-month-bars" role="group" aria-label="จำนวนเรื่องร้องเรียนจริงแต่ละเดือน">'+
  realMonths.map(x=>'<button type="button" class="pmo-month-bar" data-pmo-month="'+x.i+'" title="'+escapeHtml(x.label)+' '+x.n+' เรื่อง"><b>'+x.n+'</b><span class="pmo-month-pillar" style="height:'+(x.n>0?(x.n/Math.max(...PMO.actual_case_counts,1)*100):3)+'%;opacity:'+(x.n>0?1:.22)+'"></span><small>'+x.label+'</small></button>').join("")+
- '</div><p class="pmo-explain">มี.ค. 2 · เม.ย. 1 · พ.ค. 5 · ก.ค. 2 · ส.ค. 3 · ก.ย. 1 · ต.ค. 1 = 15 เรื่อง (Summary26 ยังรวม 14)</p></section>';
+ '</div><p class="pmo-explain">มี.ค. 2 · เม.ย. 1 · พ.ค. 5 · ก.ค. 2 · ส.ค. 3 · ก.ย. 1 · ต.ค. 1 = 15 เหตุการณ์ (Summary26 ยังรวม 14)</p></section>';
  const monthlyStack='<section class="pmo-panel pmo-wide"><h4>เดือนใด แผนกใดรับผิดชอบร่วมกัน <small>(แท่งซ้อน = น้ำหนักตาม PMO)</small></h4><div class="pmo-stacked-chart">'+
  hotMonths.map(o=>{const deps=sorted.filter(r=>r.monthly[o.i]>0);return '<div class="pmo-stacked-col"><strong>'+PMO.months[o.i]+'</strong><div class="pmo-stack-height">'+deps.map(r=>'<span title="'+escapeHtml(r.name)+': '+pmoFmt(r.monthly[o.i])+'" style="height:'+(r.monthly[o.i]/Math.max(...PMO.actual_case_counts,1)*100)+'%;background:'+pmoColorByName[r.name]+'"></span>').join("")+'</div><b>'+o.n+' เรื่อง</b><small>PMO '+pmoFmt(PMO.excel_monthly_allocation_totals[o.i])+'</small></div>'}).join("")+'</div><div class="pmo-legend">'+active.map(r=>'<span><i style="background:'+pmoColorByName[r.name]+'"></i>'+escapeHtml(r.name)+'</span>').join("")+'</div><p class="pmo-explain">สีแต่ละชั้นแทนสัดส่วนของแผนกในเดือนนั้น ความสูงทั้งแท่งแสดงจำนวนเรื่องเทียบเท่า (มีความคลาดเคลื่อน ±0.02 จากการปัดเศษ)</p></section>';
  const matrix='<section class="pmo-panel pmo-wide"><h4>ตารางสัดส่วนรายแผนก × รายเดือน <small>(PMO Final)</small></h4><div class="pmo-matrix-wrap"><table class="pmo-table"><thead><tr><th>หน่วยงาน</th>'+PMO.months.map((m,i)=>'<th data-month-column="'+i+'">'+m+'</th>').join("")+'<th>รวม</th></tr></thead><tbody>'+
@@ -878,7 +878,7 @@ function renderAnalytics(){
  '</div>'+
  '<div class="chart-recurrence"><div class="recurrence-evidence"><div class="recurrence-caption">หลักฐานเกิดซ้ำหลังปิด CAR</div><strong>ยังไม่สามารถยืนยันได้</strong><p>ต้องพิสูจน์ว่าเหตุการณ์ใหม่เกิด <b>หลังวันใช้มาตรการ</b> และเป็น Failure Mode ที่มาตรการนั้นควรป้องกันได้ จึงจะสรุป CAR Effectiveness ไม่ผ่าน</p></div>'+
  '<div class="recurrence-evidence secondary"><div class="recurrence-caption">โครงการที่มีมากกว่า 1 ประเด็น</div><strong>SC Tower · งาน Top และงานผิว</strong><p>SC Tower มีทั้งปัญหาโครงสร้างรับน้ำหนักและงานผิว เป็นหลาย Defect ในโครงการเดียวกัน ไม่ใช่ข้อพิสูจน์ว่า Defect แบบเดียวเกิดซ้ำ</p><button type="button" data-chart-case="9">Top หินแอ่น</button> <button type="button" data-chart-case="10">งานผิวโต๊ะ</button></div></div>'+
- '<div class="chart-caption">ที่มา: Register 15 เรื่อง + QMR CAR Audit + Controlled Document Lineage (ตรวจถึง 15 ต.ค. 2569) · กราฟวิเคราะห์โดยจัดประเภทตามความเสี่ยงและจุดควบคุม · ไม่ใช่ทะเบียนการเกิดซ้ำอย่างเป็นทางการ</div>';
+ '<div class="chart-caption">ที่มา: 14 เคสทะเบียนรวม + 1 เคสเดือน ต.ค. (รอรับรอง) + QMR CAR Audit + Controlled Document Lineage (ตรวจถึง 15 ต.ค. 2569) · กราฟวิเคราะห์โดยจัดประเภทตามความเสี่ยงและจุดควบคุม · ไม่ใช่ทะเบียนการเกิดซ้ำอย่างเป็นทางการ</div>';
  target.innerHTML=inner;
 insertPmo();
  target.querySelectorAll("[data-chart-case]").forEach(el=>el.addEventListener("click",()=>openCase(Number(el.dataset.chartCase))));
@@ -905,7 +905,7 @@ return '<article class="qmr-card" style="--status:'+met.color+'">'+
 }).join("");
 }
 function renderSummary(){
-$("pageTitle").textContent="QMR Executive Analysis · 15 ข้อร้องเรียน";
+$("pageTitle").textContent="QMR Executive Analysis · 15 เหตุการณ์ติดตาม";
 $("pageSub").textContent="อะไรทำได้แล้ว · อะไรต้องทบทวน · ทบทวน WI / FORM / จุดควบคุมอะไร";
 const groups=["L2","L1","L0","HOLD"];
 const kpiCounts=Object.fromEntries(groups.map(k=>[k,cases.filter(c=>c.level===k).length]));
@@ -1093,7 +1093,7 @@ function renderIntelligence(){
  const c=find(selected)||find(1);
  const title=view==="department"?"Complaint / แผนก · "+(PMO.department_allocation[deptIndex]?.name||""):view==="month"?"Complaint / เดือน · "+PMO.months[monthIndex]:view==="overview"?"ภาพรวม Intelligence Workflow":view==="docs"?"WI / FORM Intelligence · "+projectTitle(c):projectTitle(c)+" · วิเคราะห์และตัดสิน CAR";
  $("pageTitle").textContent=title;
- $("pageSub").textContent=(view==="department"||view==="month")?"คลิกไล่ข้อมูลจากผลรวม → เหตุการณ์ → CAR → WI/FORM → การทวนสอบ":view==="overview"?"15 ข้อร้องเรียน · แบ่งตามกระบวนการ · คลิกเจาะโครงการ":view==="docs"?"เอกสารที่เกี่ยวข้อง · ผลตรวจ · สิ่งที่ต้องยืนยัน":c.car+" · "+levelLong(c.level)+" · QMR Human Gate";
+ $("pageSub").textContent=(view==="department"||view==="month")?"คลิกไล่ข้อมูลจากผลรวม → เหตุการณ์ → CAR → WI/FORM → การทวนสอบ":view==="overview"?"15 เหตุการณ์ติดตาม · แบ่งตามกระบวนการ · คลิกเจาะโครงการ":view==="docs"?"เอกสารที่เกี่ยวข้อง · ผลตรวจ · สิ่งที่ต้องยืนยัน":c.car+" · "+levelLong(c.level)+" · QMR Human Gate";
  root.innerHTML='<div class="intel-content">'+(view==="department"?intelDepartment():view==="month"?intelMonth():view==="overview"?intelOverview():caseIdentityNotice(c)+view==="docs"?evidenceJourney(c)+evidenceAttachmentAudit(c)+intelDocPage(c):caseIdentityNotice(c)+evidenceJourney(c)+evidenceAttachmentAudit(c)+intelCase(c))+'</div>';
  $("intelView").scrollTop=0;
 }
