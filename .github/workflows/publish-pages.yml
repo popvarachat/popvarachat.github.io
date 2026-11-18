@@ -6,6 +6,8 @@ on:
     branches: [main]
     paths:
       - 'car-complaint-2026/index.html'
+      - 'car-complaint-2026/auditor-trace-v1.js'
+      - 'car-complaint-2026/auditor-trace-data-v1.js'
       - 'erp-architecture/**'
       - 'md-follow-up/source-health.json'
       - 'md-follow-up/index.html'
@@ -61,15 +63,25 @@ jobs:
           const d=get('data'),p=get('pmo-data'),l=get('lineage');
           assert.strictEqual(d.cases.length,15);assert.strictEqual(l.records.length,15);
           assert.deepStrictEqual(d.cases.filter(x=>x.level==='HOLD').map(x=>x.n),[2,3,14,15]);
-          assert.strictEqual(p.actual_cases_total,15);assert.strictEqual(p.summary26_rollup_count,14);
-          assert.strictEqual(p.october_pending_rollup_count,1);assert.strictEqual(p.actual_case_counts[9],1);
+          assert.strictEqual(p.actual_cases_total,15);assert.strictEqual(p.summary26_rollup_count,15);
+          assert.strictEqual(p.october_pending_rollup_count,0);assert.strictEqual(p.actual_case_counts[9],1);
           assert.strictEqual(p.department_allocation.find(x=>x.name==='Sale').monthly[9],1);
           assert(Math.abs(p.allocation_equivalent_total-14.98)<0.001);
           const tags=[...h.matchAll(/<script([^>]*)>([\s\S]*?)<\/script>/g)];
           let compiled=0;for(const t of tags){if(/application\/json/.test(t[1]))continue;if(t[2].trim()){new vm.Script(t[2]);compiled++;}}
           assert(compiled>0,'JavaScript script missing');
+          const au=fs.readFileSync('car-complaint-2026/auditor-trace-v1.js','utf8');
+          const aud=fs.readFileSync('car-complaint-2026/auditor-trace-data-v1.js','utf8');
+          new vm.Script(au);new vm.Script(aud);
+          const runtime={window:{}};vm.runInNewContext(aud,runtime);
+          const matrix=runtime.window.PTK_AUDITOR_DATA;
+          assert.strictEqual(matrix.cases.length,15);
+          assert.strictEqual(matrix.totals.summary26,p.summary26_rollup_count);
+          assert.strictEqual(matrix.cases.find(x=>x.n===14).register_car,'CXD-144');
+          assert.strictEqual(matrix.cases.find(x=>x.n===15).register_car,'CXD-149');
+          assert.strictEqual(matrix.totals.effectiveness_verified,0);
           assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
-          console.log('QMR HTML JS compiled and Source v694 reconciliation verified');
+          console.log('QMR HTML and Auditor scripts compiled; 17 Nov consolidated register 15/15 verified against sanitized matrix');
           NODE
       - name: Configure Pages
         uses: actions/configure-pages@v5
