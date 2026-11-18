@@ -9,6 +9,8 @@ on:
       - 'car-complaint-2026/auditor-trace-v1.js'
       - 'car-complaint-2026/auditor-trace-data-v1.js'
       - 'car-complaint-2026/attachments/**'
+      - 'car-complaint-2026/attachment-inline-template-v1.js'
+      - 'car-complaint-2026/attachment-integrated-v1.js'
       - 'erp-architecture/**'
       - 'md-follow-up/source-health.json'
       - 'md-follow-up/index.html'
@@ -88,14 +90,20 @@ jobs:
           new vm.Script(attScript);new vm.Script(attApp);
           const ta={window:{}};vm.runInNewContext(attScript,ta);
           const twin=ta.window.PTK_ATTACHMENT_TWIN;
-          assert.strictEqual(twin.nodes.length,67);
-          assert.strictEqual(twin.root_nodes.length,21);
-          assert.strictEqual(twin.scope.distinct_sha256,37);
+          assert.strictEqual(twin.nodes.length,83);
+          assert.strictEqual(twin.root_nodes.length,27);
+          assert.strictEqual(twin.scope.distinct_sha256,43);
           assert.strictEqual(twin.shared_groups.length,3);
           assert(!attScript.includes('"sha256"') && !attScript.includes('source_rel') && !attScript.includes('attachment_name'));
           assert(h.includes('id="attachmentTwinBtn"'));
+          assert(h.includes('id="attachmentView"'));
+          assert(h.includes('view==="twin"'));
+          const inlineTemplate=fs.readFileSync('car-complaint-2026/attachment-inline-template-v1.js','utf8');
+          const integrated=fs.readFileSync('car-complaint-2026/attachment-integrated-v1.js','utf8');
+          new vm.Script(inlineTemplate);new vm.Script(integrated);
+          assert(integrated.includes('PTK_RENDER_TWIN') && integrated.includes('drawVerification()'));
           assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
-          console.log('QMR HTML and Auditor scripts compiled; 17 Nov consolidated register 15/15 verified against sanitized matrix');
+          console.log('QMR unified SPA and Auditor/Attachment scripts compiled; source 15 events, 27 CAR PDFs, 83 embedded nodes');
           NODE
       - name: Configure Pages
         uses: actions/configure-pages@v5
