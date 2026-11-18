@@ -1048,7 +1048,7 @@ function showSourceDocument(doc,c){
  }
  window.open("http://127.0.0.1:8769/doc/"+encodeURIComponent(code),"_blank","noopener,noreferrer");
 }
-function openDocTwin(n){selected=n||selected||8;view="docs";render();location.hash="#docs-"+String(selected).padStart(2,"0")}
+function openDocTwin(n){const m=location.hash.match(/^#(?:case|docs|twin|auditor)-(\d{1,2})$/);selected=n||selected||(m?Number(m[1]):8);view="docs";render();location.hash="#docs-"+String(selected).padStart(2,"0")}
 
 function openCase(n){selected=n;if(view==="twin"){render();location.hash="#twin-"+String(n).padStart(2,"0");return}if(view!=="docs")view="case";render();location.hash=(view==="docs"?"#docs-":"#case-")+String(n).padStart(2,"0")}
 function renderList(){const filtered=cases.filter(c=>(filter==="all"||c.type===filter)&&[c.projectName,c.projectShort,c.customer,c.car,c.event,String(c.n)].join(" ").toLowerCase().includes(query.toLowerCase()));
@@ -1203,7 +1203,7 @@ const active=shell.classList.toggle("graph-focus");
 $("focusBtn").textContent=active?"⤢ แสดงแถบเคส":"⛶ ขยายผัง";
 requestAnimationFrame(fit);
 };
-$("attachmentTwinBtn").onclick=()=>{selected=selected||8;view="twin";location.hash="#twin-"+String(selected).padStart(2,"0");render()};$("riskBtn").onclick=()=>{selected=null;view="risk";location.hash="#risk";render()};$("summaryBtn").onclick=openSummary;$("docTwinBtn").onclick=()=>openDocTwin();$("overviewBtn").onclick=openOverview;$("prevBtn").onclick=()=>{if(selected>1)openCase(selected-1)};$("nextBtn").onclick=()=>{if(selected!==null&&selected<cases.length)openCase(selected+1)};
+$("attachmentTwinBtn").onclick=()=>{const m=location.hash.match(/^#(?:case|docs|twin|auditor)-(\d{1,2})$/);selected=(m?Number(m[1]):selected)||8;view="twin";location.hash="#twin-"+String(selected).padStart(2,"0");render()};$("riskBtn").onclick=()=>{selected=null;view="risk";location.hash="#risk";render()};$("summaryBtn").onclick=openSummary;$("docTwinBtn").onclick=()=>openDocTwin();$("overviewBtn").onclick=openOverview;$("prevBtn").onclick=()=>{if(selected>1)openCase(selected-1)};$("nextBtn").onclick=()=>{if(selected!==null&&selected<cases.length)openCase(selected+1)};
 $("plus").onclick=()=>zoom(1.2);$("minus").onclick=()=>zoom(1/1.2);$("fit").onclick=fit;
 $("search").addEventListener("input",e=>{query=e.target.value;renderList()});
 $("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-filter]");if(!b)return;filter=b.dataset.filter;$("filters").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));renderList()});
@@ -1239,7 +1239,7 @@ let queued=false;new MutationObserver(ms=>{if(ms.every(m=>m.type==='characterDat
 reduced.addEventListener('change',()=>{if(reduced.matches){frames.forEach(x=>{cancelAnimationFrame(x.id);x.a.textContent=x.final});frames.clear()}});enhance();})();
 </script>
 <script src="./auditor-trace-data-v1.js?v=20261118-all83"></script>
-<script src="./auditor-trace-v1.js?v=20261118-audtwin"></script>
+<script src="./auditor-trace-v1.js?v=20261118-audcontext"></script>
 <script src="./attachments/attachment-twin-data-v1.js?v=20261118u83x"></script>
 <script src="./attachment-inline-template-v1.js?v=20261118"></script>
 <script src="./attachment-integrated-v1.js?v=20261118-verify"></script>
