@@ -107,7 +107,7 @@ function drawDetails(){
  el("details").innerHTML='<div class="detail-main"><div class="tags">'+tag("Attachment ชั้น "+n.depth)+tag(n.kind)+statusLabel(n)+'</div><h3>'+esc(CAT[n.category]||n.label)+'</h3><p>ประเภทไฟล์แนบที่จำแนกจากชื่อและโครงสร้างไฟล์ (ยังไม่ใช่ข้อสรุปเชิง Audit)</p>'+
  '<div class="rowdetail"><span>CAR / ฉบับ</span><strong>'+esc(car+" / "+variant)+'</strong></div>'+
  '<div class="rowdetail"><span>ลำดับความลึก</span><strong>'+esc("L"+n.depth)+'</strong></div>'+
- '<div class="rowdetail"><span>ขนาด</span><strong>'+n.size_kb.toLocaleString("en-US")+" KB</strong></div>'+
+ '<div class="rowdetail"><span>ขนาด</span><strong>'+n.size_kb.toLocaleString("en-US")+' KB</strong></div>'+
  '<div class="rowdetail"><span>หลักฐานข้าม CAR</span><strong>'+esc(shared?shared.group+" ("+shared.cars.join(", ")+")":"ไม่พบซ้ำข้าม CAR ในชุดที่ตรวจ")+'</strong></div>'+
  '<div class="rowdetail"><span>สายสัมพันธ์</span><strong>'+esc(pathLabels)+'</strong></div>'+
  (n.openable?'<a class="open-doc" href="'+emb(n)+'" target="_blank" rel="noopener noreferrer">เปิดไฟล์แนบต้นฉบับจาก NB ↗</a>':'<span class="open-doc disabled">ไฟล์ยังไม่พร้อมเปิดตามเกณฑ์ความปลอดภัย</span>')+
