@@ -11,6 +11,8 @@ on:
       - 'car-complaint-2026/attachments/**'
       - 'car-complaint-2026/attachment-inline-template-v1.js'
       - 'car-complaint-2026/attachment-integrated-v1.js'
+      - 'car-complaint-2026/risk-weekly-v1.js'
+      - 'car-complaint-2026/risk-weekly-v1.css'
       - 'erp-architecture/**'
       - 'md-follow-up/source-health.json'
       - 'md-follow-up/index.html'
@@ -102,6 +104,10 @@ jobs:
           const integrated=fs.readFileSync('car-complaint-2026/attachment-integrated-v1.js','utf8');
           new vm.Script(inlineTemplate);new vm.Script(integrated);
           assert(integrated.includes('PTK_RENDER_TWIN') && integrated.includes('drawVerification()'));
+          const risk=fs.readFileSync('car-complaint-2026/risk-weekly-v1.js','utf8');
+          new vm.Script(risk);
+          assert(risk.includes('PTK_RENDER_RISK') && risk.includes('data-wq-case'));
+          assert(h.includes('id="riskBtn"') && h.includes('id="riskView"'));
           assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
           console.log('QMR unified SPA and Auditor/Attachment scripts compiled; source 15 events, 27 CAR PDFs, 83 embedded nodes');
           NODE
