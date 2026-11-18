@@ -93,7 +93,7 @@ function sync(){var h=window.location.hash,m=h.match(/^#auditor(?:-(\d{1,2}))?$/
  var sub=document.getElementById("pageSub");if(sub)sub.textContent="คลิกจากเหตุการณ์ → CAR → WI/FORM → การตรวจซ้ำในหน้าเดียว";
  draw();
 }
-button.addEventListener("click",function(){mode="case";selected=8;window.location.hash="#auditor-08";sync()});
+button.addEventListener("click",function(){mode="case";var h=window.location.hash.match(/^#(?:case|docs|twin|auditor)-(\d{1,2})$/);var n=h?Number(h[1]):(selected||8);if(!item(n))n=8;selected=n;window.location.hash="#auditor-"+pad(n);sync()});
 panel.addEventListener("change",function(ev){if(ev.target.id==="auSelect"){selected=Number(ev.target.value);mode="case";window.location.hash="#auditor-"+pad(selected);sync()}});
 panel.addEventListener("click",function(ev){var el=ev.target.closest("[data-aud-case],[data-aud-mode],[data-aud-original],[data-aud-docs],[data-aud-twin],[data-aud-copy],[data-aud-copy-question],[data-aud-print]");if(!el)return;
 if(el.dataset.audCase){selected=Number(el.dataset.audCase);mode="case";window.location.hash="#auditor-"+pad(selected);sync();panel.scrollTop=0;return}
