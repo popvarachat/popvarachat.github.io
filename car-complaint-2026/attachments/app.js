@@ -7,6 +7,18 @@ if(!D||!A){document.getElementById("tree").textContent="ไม่พบชุด
 const CASE_CAR={1:"CXD-017",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144"};
 const CAT={WHY_WHY:"Why-Why / RCA",WI:"Work Instruction",CHECKLIST:"Checklist / FORM",TRAINING:"Training / KYT",ACCEPTANCE:"Acceptance",CORRECTIVE:"Corrective Action",REGISTER:"Shared Register",PRESENTATION:"Presentation",IMAGE:"Photographic Evidence",DOCUMENT:"Other Evidence"};
 const fmt={main:"CAR หลัก",closure:"ไฟล์ปิด CAR",extension:"ไฟล์ต่ออายุ"};
+
+const FOCUSED_AUDIT_FINDINGS={
+  1:"CXD-017: มีขั้นตอน Supplier/ติดตั้งเดิม แต่ยังต้องพิสูจน์จุดอนุมัติเปลี่ยนทีมและ Fastener Check; QPFM-25-036 อยู่ในโฟลเดอร์เอกสารยกเลิกตามการตรวจ W: ล่าสุด",
+  5:"CXD-026: PDF CAR แนบ WI-SCD-001 Rev.17 เป็นประวัติการแก้ไข แต่ DCC ฉบับที่ตรวจคือ Rev.18; ต้องดูธุรกรรมจริงหลังประกาศใช้",
+  6:"CXD-027: ผลโลหะตัวอย่างสอดคล้อง AISI 304 แต่ยังไม่พิสูจน์ว่าสารเคมีเป็นต้นเหตุ ต้องมีข้อมูลตรวจต้นเหตุและการป้องกันระหว่างติดตั้ง",
+  8:"CXD-030: PDF CAR มี FileAttachment ซ้อนที่เป็น WI-M1S-027 Rev.5 และ Rev.6; เอกสารควบคุมที่ตรวจคือ Rev.6 หน้า 13 ซึ่งระบุ Test Fit ก่อนส่งต่อ แต่ยังขาด Record งานใหม่",
+  9:"CXD-097: Top หินแอ่นเกี่ยวกับการคำนวณ Load; ต้องมีเกณฑ์ออกแบบและทดสอบก่อนปล่อยงานใหม่ อย่าใช้ CAR งานผิว CXD-089 มาแทน",
+  10:"CXD-089: เป็นปัญหางานผิวคนละเหตุการณ์กับ CXD-097 แม้แนบสำเนาทะเบียน Complaint ที่เหมือนกัน การแนบซ้ำไม่ใช่หลักฐานตรวจผิวผ่าน",
+  13:"COO-073: PDF แนบซ้อนถึง PowerPoint Why-Why และภาพประกอบ; ช่วยยืนยันการวิเคราะห์ แต่ต้องตรวจ Ticket รถแดงและการส่งต่องานจริง",
+  14:"CXD-144: ทะเบียนรวมกับชีตกันยายนผูก CAR ไม่ตรงกัน ต้องตรวจความสัมพันธ์กับเหตุการณ์ก่อนนำไฟล์แนบไปอ้างเป็นการปิดเคส",
+  15:"CXD-149: อยู่ใน Summary26 แล้ว แต่ยังไม่อยู่ในชุด CAR PDF 21 ฉบับที่สแกน; ต้องตรวจแฟ้มจริงและเพิ่มดัชนีหลังยืนยัน"
+};
 const qp=x=>String(x==null?"":x);
 const esc=x=>qp(x).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const el=id=>document.getElementById(id);
@@ -35,6 +47,7 @@ function goCase(n){
  num=Number(n);car=carOf(num);
  variant=(rootsFor(car).find(x=>x.variant==="main")||rootsFor(car)[0]||{}).variant||null;
  selected=null;
+ filter="ALL";search="";
  el("caseSelect").value=num;
  const u=new URL(location.href);u.searchParams.set("case",num);history.replaceState(null,"",u.pathname+u.search+u.hash);
  draw();
@@ -123,6 +136,7 @@ function drawAnalysis(){
  const summary=car?"พบ "+items.length+" ไฟล์แนบจาก "+rootsFor(car).length+" PDF ฉบับ (ไฟล์แนบซ้อน "+items.filter(n=>n.depth>1).length+")":"ยังไม่ยืนยันความสัมพันธ์เคสกับ CAR";
  el("analysis").innerHTML='<h3>'+esc(nameOf(num))+'</h3><p>'+esc(c?.event||"")+'</p><div class="tags">'+tag(c?.review_level||"UNKNOWN",caseHold?"danger":"warn")+(car?tag(car):tag("CAR identity HOLD","danger"))+tag(summary)+'</div>'+
  (caseHold?'<div class="caution">เลข CAR/เหตุการณ์มีข้อขัดแย้ง หรือยังไม่ยืนยัน ห้ามนำไฟล์แนบจาก CAR นี้ไปยืนยันการแก้ Complaint โดยอัตโนมัติ</div>':'')+
+ (FOCUSED_AUDIT_FINDINGS[num]?'<div class="hint" style="margin:10px 0"><b>ข้อค้นพบจากไฟล์แนบในรอบตรวจเดิม:</b><p>'+esc(FOCUSED_AUDIT_FINDINGS[num])+'</p><small>ตรวจ 15–16 ต.ค. 2569 · ต้องทวน Revision และงานจริงกับ DCC/QMR</small></div>':'')+
  '<div class="compare"><div><h4>Root Cause ที่ทีมเคยวิเคราะห์</h4><p>'+esc(c?.cause||"ต้องตรวจ CAR จริง")+'</p><h4>Candidate Attachments</h4><p>'+(hasRCA?"พบไฟล์ที่ชื่อเข้าข่าย Why-Why/RCA · ยังต้องตรวจเนื้อหา":"ไม่พบชื่อไฟล์แนบที่จัดเป็น Why-Why ในชุดนี้ ไม่แปลว่า CAR ไม่มี RCA")+'</p><p>'+(hasWI?"มี WI ฝังอยู่ · เทียบกับฉบับควบคุมล่าสุด":"ไม่พบชื่อไฟล์ฝังที่จัดเป็น WI")+'</p><p>'+(hasImages?"มีภาพประกอบ · ต้องดูบริบท":"ไม่พบภาพไฟล์แนบ")+'</p></div>'+
  '<div><h4>มาตรการระดับระบบที่ต้องพิสูจน์</h4><p>'+esc(c?.required_control||"ต้องกำหนด")+'</p><h4>Evidence Gap</h4><p>'+esc(c?.blocked_by||"หลักฐานยังไม่ครบ")+'</p></div></div>'+
  '<h4>การพิสูจน์ผลหลังแก้ (ISO 9001 ข้อ 10.2)</h4><p>'+esc(c?.test_required||"ตรวจการนำมาตรการไปใช้ในงานถัดไป")+'</p>'+
