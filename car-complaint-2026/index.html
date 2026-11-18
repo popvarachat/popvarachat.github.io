@@ -521,6 +521,13 @@ button.evidence-step:hover{border-color:#97c9d3;background:#eaf2f6}
 @media(max-width:1200px){.au-chain{grid-template-columns:repeat(3,1fr)}.au-step:nth-child(3):after{display:none}.au-layout{grid-template-columns:minmax(0,1fr)}}
 @media(max-width:780px){.auditor-view{padding:10px}.au-top{flex-direction:column;padding:16px}.au-proof{align-items:flex-start}.au-stats{grid-template-columns:repeat(2,1fr)}.au-chain{grid-template-columns:repeat(2,1fr)}.au-step:nth-child(2):after,.au-step:nth-child(4):after{display:none}.au-section-head{flex-direction:column}.au-case-controls{width:100%;max-width:none}.au-docgrid,.au-qgrid,.au-clusters,.au-cluster-items{grid-template-columns:1fr}.au-pair{grid-template-columns:1fr}}
 @media print{.sidebar,.topbar,.legend,.bottom,.au-modes,.au-case-controls,.au-control-row,.au-qa-footer button{display:none!important}.shell{display:block;height:auto}.main{display:block}.auditor-view{display:block!important;overflow:visible;padding:0}.au-box,.au-step,.au-q{break-inside:avoid}.au-layout{display:block}.au-sidecol{margin-top:10px}}
+
+.doc-revision-notice{border:1px solid #c7d8e5;background:#edf6fb;color:#274e68;border-radius:10px;padding:12px 15px;margin:12px 0 18px;font-size:12px;line-height:1.75}
+.doc-revision-notice b{color:#174662}
+.doc-local-revised,.doc-local-retired{display:block;font-size:10px;line-height:1.55;margin-top:7px;padding:5px 7px;border-radius:6px;font-weight:700;text-align:left}
+.doc-local-revised{background:#e8f7f6;color:#286d72;border:1px solid #bfddd9}
+.doc-local-retired{background:#fff2eb;color:#97513b;border:1px solid #e6c5b4}
+.intel-docpill[data-intel-doc="QPFM-25-036"]{border-color:#d5b5ab;background:#fff8f4}
 </style>
 <meta name="robots" content="noindex,nofollow"><style id="pop-executive-motion">/* Pop Executive Motion v1 — original adaptation, 15 Nov 2026 */
 :root{--bg:#f7f9fb;--panel:#fff;--panel2:#edf4f8;--border:#dce5ed;--text:#1a1f25;--muted:#526577;--safety:#b42338;--production:#087f96;--engineering:#7054b4;--service:#916013;--line:#98adbc;--shadow:0 12px 32px #0e3f660c}
@@ -1020,7 +1027,25 @@ for(let i=0;i<Math.min(arr.length,4);i++){
 }
 networkView(nodes,ln,[{x:44,y:162,text:"QUALITY DOCUMENT HIERARCHY"},{x:42,y:591,text:"IMPLEMENTATION → EFFECTIVENESS"}]);
 }
-function showSourceDocument(doc,c){const code=String(doc?.code||"");if(!/^[A-Z0-9][A-Z0-9-]{2,63}$/.test(code))return;window.open("http://127.0.0.1:8769/doc/"+encodeURIComponent(code),"_blank","noopener,noreferrer");}
+const DOC_SOURCE_UPDATES={"QP-25":"16-11-69","WI-ISV-001":"16-11-69","QP-02":"16-11-69","QPFM-02-001":"16-11-69","WI-QMS-012":"2-11-69"};
+const DOC_RETIRED_CODES=new Set(["QPFM-25-036"]);
+function docCurrentLabel(code){
+ if(DOC_RETIRED_CODES.has(code))return '<span class="doc-local-retired">ยกเลิกจากชุดเอกสารปัจจุบัน · ให้ DCC ยืนยันฉบับทดแทน</span>';
+ if(DOC_SOURCE_UPDATES[code])return '<span class="doc-local-revised">พบไฟล์ W: ประกาศใช้ '+escapeHtml(DOC_SOURCE_UPDATES[code])+' · ใหม่กว่ารอบ CAR/WI Audit เดิม</span>';
+ return '';
+}
+function showSourceDocument(doc,c){
+ const code=String(doc?.code||"");
+ if(!/^[A-Z0-9][A-Z0-9-]{2,63}$/.test(code))return;
+ if(DOC_RETIRED_CODES.has(code)){
+   const m=document.getElementById("modal");
+   document.getElementById("modalTitle").textContent=code+" · เอกสารยกเลิก";
+   document.getElementById("modalBody").innerHTML='<label>การตรวจเอกสารควบคุม</label><p>ตรวจพบไฟล์รหัส '+escapeHtml(code)+' อยู่ในโฟลเดอร์ยกเลิกของระบบ ISO บน W: แต่ไม่พบฉบับที่ใช้งานอยู่ในโฟลเดอร์ปัจจุบัน จึงไม่เปิดเป็นแบบฟอร์มใช้ปฏิบัติงาน</p><label>สิ่งที่ต้องทำต่อ</label><p>ให้ DCC ยืนยันแบบฟอร์มฉบับทดแทนและ Revision ก่อนใช้ตอบ External Auditor; รายการนี้ยังคงอยู่ในสายหลักฐานประวัติเดิมเพื่ออธิบายข้อแตกต่าง</p>';
+   m.classList.add("open");
+   return;
+ }
+ window.open("http://127.0.0.1:8769/doc/"+encodeURIComponent(code),"_blank","noopener,noreferrer");
+}
 function openDocTwin(n){selected=n||selected||8;view="docs";render();location.hash="#docs-"+String(selected).padStart(2,"0")}
 
 function openCase(n){selected=n;if(view!=="docs")view="case";render();location.hash=(view==="docs"?"#docs-":"#case-")+String(n).padStart(2,"0")}
@@ -1106,10 +1131,11 @@ function intelDocPage(c){
  {title:"แบบบันทึก / จุดตรวจ",desc:"FORM · หลักฐานว่าปฏิบัติจริง",k:["FORM"]}
  ];
  return '<div class="intel-hero"><div><div class="intel-kicker">CONTROLLED DOCUMENT INTELLIGENCE · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+' · WI / FORM</h2><p>อ่านความสัมพันธ์ของเอกสารเป็น 3 หมวด พร้อมแยกว่า <strong>มีเอกสาร</strong> กับ <strong>มีหลักฐานว่าใช้จริง</strong> ไม่ใช่สิ่งเดียวกัน</p><div class="intel-pillrow"><span class="intel-pill">'+rec.docs.length+' เอกสารที่เชื่อมโยง</span><span class="intel-pill">'+escapeHtml(levelShort(c.level))+'</span>'+carControls(c)+'</div></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="case">กลับไปอ่านการวิเคราะห์ →</button><button class="intel-btn" data-intel-open="system">จุดควบคุมที่ต้องเปลี่ยน</button></div></div>'+
- docExceptionNotice(c.n)+'<div class="doc-scope-caution"><b>ข้อกำหนดการอ่านหลักฐาน:</b> QP/WI/FORM ที่เปิดได้เป็นเอกสารควบคุมหรือแบบฟอร์มอ้างอิง ไม่เท่ากับ Record การตรวจงานจริงที่มีผู้ลงชื่อ ไม่ใช่หลักฐานว่า CAR ป้องกันการเกิดซ้ำได้แล้ว</div>'+'<div class="intel-section-title"><h3>เอกสารแต่ละประเภททำหน้าที่อะไร</h3><p>คลิกเอกสารเพื่ออ่านข้อมูลอ้างอิงที่เปิดเผยได้</p></div>'+
+ docExceptionNotice(c.n)+'<div class="doc-scope-caution"><b>ข้อกำหนดการอ่านหลักฐาน:</b> QP/WI/FORM ที่เปิดได้เป็นเอกสารควบคุมหรือแบบฟอร์มอ้างอิง ไม่เท่ากับ Record การตรวจงานจริงที่มีผู้ลงชื่อ ไม่ใช่หลักฐานว่า CAR ป้องกันการเกิดซ้ำได้แล้ว</div>'+'<div class="doc-revision-notice"><b>สถานะเอกสาร W: ตรวจสอบ 18 พ.ย. 2569:</b> พบเอกสาร 5 รหัสที่ออกฉบับใหม่หลังรอบ Audit เดิม; ต้องให้ DCC/QMR ทบทวนผลต่างก่อนใช้ยืนยันการแก้ CAR ส่วน QPFM-25-036 อยู่ในโฟลเดอร์ยกเลิก จึงแสดงสถานะประวัติ ไม่ใช่แบบฟอร์มใช้งาน</div>'+
+ '<div class="intel-section-title"><h3>เอกสารแต่ละประเภททำหน้าที่อะไร</h3><p>คลิกเอกสารเพื่ออ่านข้อมูลอ้างอิงที่เปิดเผยได้</p></div>'+
  '<div class="intel-docgrid">'+groups.map(g=>{const arr=rec.docs.filter(d=>g.k.includes(d.kind));
  return '<article class="intel-docgroup"><div class="intel-kicker">'+arr.length+' DOCUMENTS</div><h3>'+escapeHtml(g.title)+'</h3><p>'+escapeHtml(g.desc)+'</p>'+
- (arr.length?arr.map(d=>'<button class="intel-docpill" data-intel-doc="'+escapeHtml(d.code)+'" title="'+escapeHtml(docTitle(d.code))+'">'+escapeHtml(d.code)+' <small>· '+escapeHtml(d.kind)+'</small><span class="real-title">'+escapeHtml(docTitle(d.code))+'</span><span class="doc-origin-label">เอกสารอ้างอิง · ไม่ใช่ Record ตรวจผล</span></button>').join(""):'<p>ไม่พบเอกสารกลุ่มนี้ในชุดที่ตรวจ</p>')+'</article>'}).join("")+'</div>'+
+ (arr.length?arr.map(d=>'<button class="intel-docpill" data-intel-doc="'+escapeHtml(d.code)+'" title="'+escapeHtml(docTitle(d.code))+'">'+escapeHtml(d.code)+' <small>· '+escapeHtml(d.kind)+'</small><span class="real-title">'+escapeHtml(docTitle(d.code))+'</span><span class="doc-origin-label">เอกสารอ้างอิง · ไม่ใช่ Record ตรวจผล</span>'+docCurrentLabel(d.code)+'</button>').join(""):'<p>ไม่พบเอกสารกลุ่มนี้ในชุดที่ตรวจ</p>')+'</article>'}).join("")+'</div>'+
  '<div class="intel-section-title"><h3>Intelligence Review: เอกสารช่วยปิดช่องว่างอย่างไร</h3></div>'+
  '<div class="intel-doc-read"><div class="intel-pocket"><h3>สิ่งที่ตรวจพบจริง</h3><p>'+escapeHtml(rec.interpretation||c.evidence)+'</p></div><div class="intel-pocket"><h3>สิ่งที่ต้องทำต่อ</h3><p>'+escapeHtml(rec.review||c.test)+'</p></div></div>'+
  '<div class="intel-decision"><div><div class="intel-kicker">PROOF REQUIRED</div><h3>เอกสารอ้างอิง ≠ ป้องกันการเกิดซ้ำได้แล้ว</h3><p>ต้องตรวจ Revision ที่อนุมัติ บันทึกการใช้จริงจากงานใหม่ และผลติดตาม ก่อนให้ QMR รับรอง Effectiveness</p></div><div class="intel-decision-aside"><b>ผู้เกี่ยวข้อง</b><span>'+escapeHtml(c.owner)+'</span><b style="margin-top:12px">สถานะ</b><span>'+escapeHtml(levelLong(c.level))+'</span></div></div>'+
