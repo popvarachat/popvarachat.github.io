@@ -556,7 +556,7 @@ html,body{background:var(--bg);color:var(--text)}body{font-family:Sarabun,Tahoma
 <div class="shell">
 <aside class="sidebar">
  <div class="brand"><div class="eyebrow">PRACTIKA · ISO 9001:2015 · QMR ANALYTICS · PUBLIC</div><h1>CAR / Complaint 2026</h1><div class="sub">QMR System Change · Workflow Intelligence</div>
- <div class="source-sync-note" role="status"><b>DATA CHECK · 18 พ.ย. 2569</b><div>ทะเบียนรวมและ Summary26 <strong>15 เหตุการณ์</strong> · PTK_06 เบื้องต้น 14 (ไม่รวม COO-073)</div><div>SharePoint ล่าสุด 17 พ.ย. · ตรวจข้อมูล 18 พ.ย. · 0 ใน Summary ยังต้องยืนยันความครบถ้วน</div><div>ผลป้องกันซ้ำยังต้องตรวจหลักฐานภาคสนามและ QMR อนุมัติ</div></div><div class="kpis"><div class="kpi"><b>15</b><span>เหตุการณ์</span></div><div class="kpi"><b>2</b><span>ยืนยัน WI ใหม่ (L2)</span></div><div class="kpi"><b>0</b><span>Effective Verified</span></div></div></div>
+ <div class="source-sync-note" role="status"><b>DATA CHECK · 18 พ.ย. 2569</b><div>ทะเบียนรวมและ Summary26 <strong>15 เหตุการณ์</strong> · PTK_06 เบื้องต้น 14 (ไม่รวม COO-073)</div><div>SharePoint ล่าสุด 17 พ.ย. · ตรวจข้อมูล 18 พ.ย. · 0 ใน Summary ยังต้องยืนยันความครบถ้วน</div><div>ตรวจ CAR PDF 27/27 และไฟล์แนบ 83/83 ผ่านตัวอ่านบน NB</div><div>ผลป้องกันซ้ำยังต้องตรวจหลักฐานภาคสนามและ QMR อนุมัติ</div></div><div class="kpis"><div class="kpi"><b>15</b><span>เหตุการณ์</span></div><div class="kpi"><b>2</b><span>ยืนยัน WI ใหม่ (L2)</span></div><div class="kpi"><b>0</b><span>Effective Verified</span></div></div></div>
  <div class="navtools"><input class="search" id="search" placeholder="ค้นหาเคส / ลูกค้า / CAR" aria-label="ค้นหาเคส">
  <div class="filterbar" id="filters"><button class="active" data-filter="all">ทั้งหมด</button><button data-filter="safety">Safety</button><button data-filter="production">Production</button><button data-filter="engineering">Engineering</button><button data-filter="service">Service</button></div></div>
  <nav class="caseList" id="caseList" aria-label="15 customer complaint cases"></nav>
@@ -1238,8 +1238,8 @@ function enhance(){document.querySelectorAll(reveal).forEach((el,i)=>{if(seen.ha
 let queued=false;new MutationObserver(ms=>{if(ms.every(m=>m.type==='characterData'||m.target.closest?.('[data-pop-counted]')))return;if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;enhance()})}}).observe(document.querySelector('.main'),{childList:true,subtree:true});
 reduced.addEventListener('change',()=>{if(reduced.matches){frames.forEach(x=>{cancelAnimationFrame(x.id);x.a.textContent=x.final});frames.clear()}});enhance();})();
 </script>
-<script src="./auditor-trace-data-v1.js?v=20261118-all83"></script>
-<script src="./auditor-trace-v1.js?v=20261118-audcontext"></script>
+<script src="./auditor-trace-data-v1.js?v=20261118-110pass"></script>
+<script src="./auditor-trace-v1.js?v=20261118-ledger"></script>
 <script src="./attachments/attachment-twin-data-v1.js?v=20261118u83x"></script>
 <script src="./attachment-inline-template-v1.js?v=20261118"></script>
 <script src="./attachment-integrated-v1.js?v=20261118-verify"></script>
