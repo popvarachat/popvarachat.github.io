@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>Practika | Customer Complaint 2026 · QMR Workflow Map</title>
-<link rel="icon" href="data:,">
+<link rel="icon" href="data:,"><link rel="stylesheet" href="./risk-weekly-v1.css?v=20261118">
 <style>
 :root{--bg:#081019;--panel:#101d2b;--panel2:#142436;--border:#314459;--text:#e9f3ff;--muted:#96adbf;--safety:#ff6c78;--production:#3ed5ef;--engineering:#b19aff;--service:#efbd6f;--line:#49627a;--shadow:0 16px 55px #0006}
 *{box-sizing:border-box}html,body{margin:0;height:100%;background:var(--bg);color:var(--text);font:14px/1.5 system-ui,-apple-system,"Segoe UI",Tahoma,sans-serif}
@@ -564,12 +564,13 @@ html,body{background:var(--bg);color:var(--text)}body{font-family:Sarabun,Tahoma
 </aside>
 <main class="main">
  <div class="topbar"><div><strong id="pageTitle">ภาพรวม 15 เหตุการณ์ติดตาม</strong><small id="pageSub">Intelligence Workflow · อ่านง่าย / คลิกหลักฐานเพื่อเจาะลึก</small></div>
- <div class="actions"><button class="action primary" id="auditorBtn">▤ ISO Auditor</button><button type="button" class="action" id="attachmentTwinBtn" title="เปิด CAR Embedded Attachment ในหน้าเดียว">▤ CAR Attachments</button><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
+ <div class="actions"><button class="action primary" id="auditorBtn">▤ ISO Auditor</button><button type="button" class="action" id="attachmentTwinBtn" title="เปิด CAR Embedded Attachment ในหน้าเดียว">▤ CAR Attachments</button><button type="button" class="action" id="riskBtn" title="WQ6 และแผนตรวจซ้ำรายสัปดาห์ในหน้าเดียว">▧ WQ6 / Weekly</button><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
  <div class="legend"><span><i class="dot" style="background:#ff6c78"></i>Safety</span><span><i class="dot" style="background:#3ed5ef"></i>Production</span><span><i class="dot" style="background:#b19aff"></i>Engineering</span><span><i class="dot" style="background:#efbd6f"></i>Service</span><span>· คลิกชื่อโครงการเพื่อดูสาเหตุ มาตรการ และหลักฐานที่ QMR ต้องตรวจ</span></div>
  <section class="summary-view" id="summaryView" aria-label="QMR Executive Analysis" hidden><div id="summaryContent"></div></section>
 <section class="intel-view" id="intelView" aria-label="Intelligence Workflow" hidden><div id="intelContent"></div></section>
 <section id="auditorView" class="auditor-view" hidden aria-label="ISO 9001 Auditor Evidence Traceability"></section>
 <section id="attachmentView" class="embedded-twin" hidden aria-label="CAR Evidence Twin and verification"></section>
+<section id="riskView" class="risk-view" hidden aria-label="WQ6 systemic CAPA and weekly prevention verification"></section>
  <div class="viewport" id="viewport"><div class="gridbg"></div><div class="stage" id="stage"></div><div class="cornerHint">INTELLIGENCE WORKFLOW</div>
  <div class="zoombar"><button id="minus" aria-label="Zoom out">−</button><button id="plus" aria-label="Zoom in">+</button><button id="fit" class="fit">Fit</button></div></div>
  <div class="bottom"><span>CAR/WI Audit: 15 ต.ค. · Register: 17 พ.ย. 2569 · ไม่ใช่ผลอนุมัติ QMR</span><span>เปิดเผยผลวิเคราะห์รายเคสตามอนุมัติ · เอกสารต้นฉบับและข้อมูลส่วนบุคคลยังเก็บภายใน</span></div>
@@ -1184,7 +1185,7 @@ function intelAction(e){
  if(btn.dataset.intelOpen){modalSection(c,btn.dataset.intelOpen);return}
 }
 
-function render(){renderList();const summary=view==="summary",twin=view==="twin";$("summaryView").hidden=!summary;$("intelView").hidden=summary||twin;$("attachmentView").hidden=!twin;vp.hidden=true;$("focusBtn").hidden=true;$("summaryBtn").classList.toggle("primary",summary);$("overviewBtn").classList.toggle("primary",view==="overview");$("docTwinBtn").classList.toggle("primary",view==="docs");$("attachmentTwinBtn").classList.toggle("primary",twin);if(twin){$("pageTitle").textContent="CAR Evidence Twin · "+(find(selected)?.projectShort||"เลือกเคส");$("pageSub").textContent="Complaint → CAR → FileAttachment L1/L2 → WI/FORM → ตรวจจริง → QMR";if(window.PTK_RENDER_TWIN)window.PTK_RENDER_TWIN(selected||8)}else if(summary){renderSummary()}else{renderIntelligence()}$("prevBtn").disabled=!["case","docs","twin"].includes(view)||selected===1;$("nextBtn").disabled=!["case","docs","twin"].includes(view)||selected===cases.length}
+function render(){renderList();const summary=view==="summary",twin=view==="twin",risk=view==="risk";$("summaryView").hidden=!summary;$("intelView").hidden=summary||twin||risk;$("attachmentView").hidden=!twin;$("riskView").hidden=!risk;vp.hidden=true;$("focusBtn").hidden=true;$("summaryBtn").classList.toggle("primary",summary);$("overviewBtn").classList.toggle("primary",view==="overview");$("docTwinBtn").classList.toggle("primary",view==="docs");$("attachmentTwinBtn").classList.toggle("primary",twin);$("riskBtn").classList.toggle("primary",risk);if(risk){$("pageTitle").textContent="WQ6 · Systemic Risk & Weekly Recurrence Prevention";$("pageSub").textContent="Risk → Process Control → Weekly Check → Objective Evidence → QMR";if(window.PTK_RENDER_RISK)window.PTK_RENDER_RISK()}else if(twin){$("pageTitle").textContent="CAR Evidence Twin · "+(find(selected)?.projectShort||"เลือกเคส");$("pageSub").textContent="Complaint → CAR → FileAttachment L1/L2 → WI/FORM → ตรวจจริง → QMR";if(window.PTK_RENDER_TWIN)window.PTK_RENDER_TWIN(selected||8)}else if(summary){renderSummary()}else{renderIntelligence()}$("prevBtn").disabled=!["case","docs","twin"].includes(view)||selected===1;$("nextBtn").disabled=!["case","docs","twin"].includes(view)||selected===cases.length}
 function openOverview(){selected=null;view="overview";location.hash="#map";render()}
 $("intelView").addEventListener("click",intelAction);
 const modal=$("modal");
@@ -1202,7 +1203,7 @@ const active=shell.classList.toggle("graph-focus");
 $("focusBtn").textContent=active?"⤢ แสดงแถบเคส":"⛶ ขยายผัง";
 requestAnimationFrame(fit);
 };
-$("attachmentTwinBtn").onclick=()=>{selected=selected||8;view="twin";location.hash="#twin-"+String(selected).padStart(2,"0");render()};$("summaryBtn").onclick=openSummary;$("docTwinBtn").onclick=()=>openDocTwin();$("overviewBtn").onclick=openOverview;$("prevBtn").onclick=()=>{if(selected>1)openCase(selected-1)};$("nextBtn").onclick=()=>{if(selected!==null&&selected<cases.length)openCase(selected+1)};
+$("attachmentTwinBtn").onclick=()=>{selected=selected||8;view="twin";location.hash="#twin-"+String(selected).padStart(2,"0");render()};$("riskBtn").onclick=()=>{selected=null;view="risk";location.hash="#risk";render()};$("summaryBtn").onclick=openSummary;$("docTwinBtn").onclick=()=>openDocTwin();$("overviewBtn").onclick=openOverview;$("prevBtn").onclick=()=>{if(selected>1)openCase(selected-1)};$("nextBtn").onclick=()=>{if(selected!==null&&selected<cases.length)openCase(selected+1)};
 $("plus").onclick=()=>zoom(1.2);$("minus").onclick=()=>zoom(1/1.2);$("fit").onclick=fit;
 $("search").addEventListener("input",e=>{query=e.target.value;renderList()});
 $("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-filter]");if(!b)return;filter=b.dataset.filter;$("filters").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));renderList()});
@@ -1219,7 +1220,7 @@ function intelReadHash(){
  if(tw&&Number(tw[1])>=1&&Number(tw[1])<=cases.length){selected=Number(tw[1]);view="twin"}
  else if(c&&Number(c[1])>=1&&Number(c[1])<=cases.length){selected=Number(c[1]);view="case"}
  else if(dc&&Number(dc[1])>=1&&Number(dc[1])<=cases.length){selected=Number(dc[1]);view="docs"}
- else if(/^#department-(\d+)$/.test(h)&&Number(h.split("-")[1])<PMO.department_allocation.length){deptIndex=Number(h.split("-")[1]);returnDeptIndex=deptIndex;selected=null;view="department"} else if(/^#month-(\d+)$/.test(h)&&Number(h.split("-")[1])<12){monthIndex=Number(h.split("-")[1]);selected=null;view="month"} else if(h==="#map"){selected=null;view="overview"}
+ else if(/^#department-(\d+)$/.test(h)&&Number(h.split("-")[1])<PMO.department_allocation.length){deptIndex=Number(h.split("-")[1]);returnDeptIndex=deptIndex;selected=null;view="department"} else if(/^#month-(\d+)$/.test(h)&&Number(h.split("-")[1])<12){monthIndex=Number(h.split("-")[1]);selected=null;view="month"} else if(h==="#risk"){selected=null;view="risk"} else if(h==="#map"){selected=null;view="overview"}
  else{selected=null;view="summary"}
 }
 window.addEventListener("hashchange",()=>{const oldView=view,oldSelected=selected,oldDept=deptIndex,oldMonth=monthIndex;intelReadHash();if(view!==oldView||selected!==oldSelected||deptIndex!==oldDept||monthIndex!==oldMonth)render()});
@@ -1242,4 +1243,5 @@ reduced.addEventListener('change',()=>{if(reduced.matches){frames.forEach(x=>{ca
 <script src="./attachments/attachment-twin-data-v1.js?v=20261118u83x"></script>
 <script src="./attachment-inline-template-v1.js?v=20261118"></script>
 <script src="./attachment-integrated-v1.js?v=20261118-verify"></script>
+<script src="./risk-weekly-v1.js?v=20261118"></script>
 </body></html>
