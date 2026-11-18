@@ -564,11 +564,12 @@ html,body{background:var(--bg);color:var(--text)}body{font-family:Sarabun,Tahoma
 </aside>
 <main class="main">
  <div class="topbar"><div><strong id="pageTitle">ภาพรวม 15 เหตุการณ์ติดตาม</strong><small id="pageSub">Intelligence Workflow · อ่านง่าย / คลิกหลักฐานเพื่อเจาะลึก</small></div>
- <div class="actions"><button class="action primary" id="auditorBtn">▤ ISO Auditor</button><a class="action" id="attachmentTwinBtn" href="./attachments/?case=8" title="เจาะ PDF FileAttachment ถึงชั้นที่ 2" target="_blank" rel="noopener noreferrer">▤ 2nd Attach Twin</a><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
+ <div class="actions"><button class="action primary" id="auditorBtn">▤ ISO Auditor</button><button type="button" class="action" id="attachmentTwinBtn" title="เปิด CAR Embedded Attachment ในหน้าเดียว">▤ CAR Attachments</button><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
  <div class="legend"><span><i class="dot" style="background:#ff6c78"></i>Safety</span><span><i class="dot" style="background:#3ed5ef"></i>Production</span><span><i class="dot" style="background:#b19aff"></i>Engineering</span><span><i class="dot" style="background:#efbd6f"></i>Service</span><span>· คลิกชื่อโครงการเพื่อดูสาเหตุ มาตรการ และหลักฐานที่ QMR ต้องตรวจ</span></div>
  <section class="summary-view" id="summaryView" aria-label="QMR Executive Analysis" hidden><div id="summaryContent"></div></section>
 <section class="intel-view" id="intelView" aria-label="Intelligence Workflow" hidden><div id="intelContent"></div></section>
 <section id="auditorView" class="auditor-view" hidden aria-label="ISO 9001 Auditor Evidence Traceability"></section>
+<section id="attachmentView" class="embedded-twin" hidden aria-label="CAR Evidence Twin and verification"></section>
  <div class="viewport" id="viewport"><div class="gridbg"></div><div class="stage" id="stage"></div><div class="cornerHint">INTELLIGENCE WORKFLOW</div>
  <div class="zoombar"><button id="minus" aria-label="Zoom out">−</button><button id="plus" aria-label="Zoom in">+</button><button id="fit" class="fit">Fit</button></div></div>
  <div class="bottom"><span>CAR/WI Audit: 15 ต.ค. · Register: 17 พ.ย. 2569 · ไม่ใช่ผลอนุมัติ QMR</span><span>เปิดเผยผลวิเคราะห์รายเคสตามอนุมัติ · เอกสารต้นฉบับและข้อมูลส่วนบุคคลยังเก็บภายใน</span></div>
@@ -1048,7 +1049,7 @@ function showSourceDocument(doc,c){
 }
 function openDocTwin(n){selected=n||selected||8;view="docs";render();location.hash="#docs-"+String(selected).padStart(2,"0")}
 
-function openCase(n){selected=n;if(view!=="docs")view="case";render();location.hash=(view==="docs"?"#docs-":"#case-")+String(n).padStart(2,"0")}
+function openCase(n){selected=n;if(view==="twin"){render();location.hash="#twin-"+String(n).padStart(2,"0");return}if(view!=="docs")view="case";render();location.hash=(view==="docs"?"#docs-":"#case-")+String(n).padStart(2,"0")}
 function renderList(){const filtered=cases.filter(c=>(filter==="all"||c.type===filter)&&[c.projectName,c.projectShort,c.customer,c.car,c.event,String(c.n)].join(" ").toLowerCase().includes(query.toLowerCase()));
 $("caseList").innerHTML=filtered.map(c=>'<button class="nav-item '+(c.n===selected?"active":"")+'" data-case="'+c.n+'"><span class="num" style="box-shadow:inset 3px 0 '+types[c.type].tone+'">'+String(c.n).padStart(2,"0")+'</span><span><strong>'+escapeHtml(projectTitle(c))+'</strong><small>'+escapeHtml(c.event)+'</small></span><span class="level" title="'+escapeHtml(c.level+' · '+levelLong(c.level))+'">'+escapeHtml(levelShort(c.level))+'</span></button>').join("");
 $("caseList").querySelectorAll("[data-case]").forEach(b=>b.addEventListener("click",()=>openCase(Number(b.dataset.case))));
@@ -1182,7 +1183,7 @@ function intelAction(e){
  if(btn.dataset.intelOpen){modalSection(c,btn.dataset.intelOpen);return}
 }
 
-function render(){renderList();const summary=view==="summary";$("summaryView").hidden=!summary;$("intelView").hidden=summary;vp.hidden=true;$("focusBtn").hidden=true;$("summaryBtn").classList.toggle("primary",summary);$("overviewBtn").classList.toggle("primary",view==="overview");$("docTwinBtn").classList.toggle("primary",view==="docs");if(summary){renderSummary()}else{renderIntelligence()}$("prevBtn").disabled=!["case","docs"].includes(view)||selected===1;$("nextBtn").disabled=!["case","docs"].includes(view)||selected===cases.length}
+function render(){renderList();const summary=view==="summary",twin=view==="twin";$("summaryView").hidden=!summary;$("intelView").hidden=summary||twin;$("attachmentView").hidden=!twin;vp.hidden=true;$("focusBtn").hidden=true;$("summaryBtn").classList.toggle("primary",summary);$("overviewBtn").classList.toggle("primary",view==="overview");$("docTwinBtn").classList.toggle("primary",view==="docs");$("attachmentTwinBtn").classList.toggle("primary",twin);if(twin){$("pageTitle").textContent="CAR Evidence Twin · "+(find(selected)?.projectShort||"เลือกเคส");$("pageSub").textContent="Complaint → CAR → FileAttachment L1/L2 → WI/FORM → ตรวจจริง → QMR";if(window.PTK_RENDER_TWIN)window.PTK_RENDER_TWIN(selected||8)}else if(summary){renderSummary()}else{renderIntelligence()}$("prevBtn").disabled=!["case","docs","twin"].includes(view)||selected===1;$("nextBtn").disabled=!["case","docs","twin"].includes(view)||selected===cases.length}
 function openOverview(){selected=null;view="overview";location.hash="#map";render()}
 $("intelView").addEventListener("click",intelAction);
 const modal=$("modal");
@@ -1200,7 +1201,7 @@ const active=shell.classList.toggle("graph-focus");
 $("focusBtn").textContent=active?"⤢ แสดงแถบเคส":"⛶ ขยายผัง";
 requestAnimationFrame(fit);
 };
-$("summaryBtn").onclick=openSummary;$("docTwinBtn").onclick=()=>openDocTwin();$("overviewBtn").onclick=openOverview;$("prevBtn").onclick=()=>{if(selected>1)openCase(selected-1)};$("nextBtn").onclick=()=>{if(selected!==null&&selected<cases.length)openCase(selected+1)};
+$("attachmentTwinBtn").onclick=()=>{selected=selected||8;view="twin";location.hash="#twin-"+String(selected).padStart(2,"0");render()};$("summaryBtn").onclick=openSummary;$("docTwinBtn").onclick=()=>openDocTwin();$("overviewBtn").onclick=openOverview;$("prevBtn").onclick=()=>{if(selected>1)openCase(selected-1)};$("nextBtn").onclick=()=>{if(selected!==null&&selected<cases.length)openCase(selected+1)};
 $("plus").onclick=()=>zoom(1.2);$("minus").onclick=()=>zoom(1/1.2);$("fit").onclick=fit;
 $("search").addEventListener("input",e=>{query=e.target.value;renderList()});
 $("filters").addEventListener("click",e=>{const b=e.target.closest("button[data-filter]");if(!b)return;filter=b.dataset.filter;$("filters").querySelectorAll("button").forEach(x=>x.classList.toggle("active",x===b));renderList()});
@@ -1213,7 +1214,9 @@ function intelReadHash(){
  const h=location.hash;
  const c=h.match(/^#case-(\d{1,2})$/);
  const dc=h.match(/^#docs-(\d{1,2})$/);
- if(c&&Number(c[1])>=1&&Number(c[1])<=cases.length){selected=Number(c[1]);view="case"}
+ const tw=h.match(/^#twin-(\d{1,2})$/);
+ if(tw&&Number(tw[1])>=1&&Number(tw[1])<=cases.length){selected=Number(tw[1]);view="twin"}
+ else if(c&&Number(c[1])>=1&&Number(c[1])<=cases.length){selected=Number(c[1]);view="case"}
  else if(dc&&Number(dc[1])>=1&&Number(dc[1])<=cases.length){selected=Number(dc[1]);view="docs"}
  else if(/^#department-(\d+)$/.test(h)&&Number(h.split("-")[1])<PMO.department_allocation.length){deptIndex=Number(h.split("-")[1]);returnDeptIndex=deptIndex;selected=null;view="department"} else if(/^#month-(\d+)$/.test(h)&&Number(h.split("-")[1])<12){monthIndex=Number(h.split("-")[1]);selected=null;view="month"} else if(h==="#map"){selected=null;view="overview"}
  else{selected=null;view="summary"}
@@ -1233,14 +1236,9 @@ function enhance(){document.querySelectorAll(reveal).forEach((el,i)=>{if(seen.ha
 let queued=false;new MutationObserver(ms=>{if(ms.every(m=>m.type==='characterData'||m.target.closest?.('[data-pop-counted]')))return;if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;enhance()})}}).observe(document.querySelector('.main'),{childList:true,subtree:true});
 reduced.addEventListener('change',()=>{if(reduced.matches){frames.forEach(x=>{cancelAnimationFrame(x.id);x.a.textContent=x.final});frames.clear()}});enhance();})();
 </script>
-<script>
-document.addEventListener("click",function(event){
-  const a=event.target.closest("#attachmentTwinBtn");
-  if(!a)return;
-  const m=location.hash.match(/^#(?:case|docs|auditor)-(\d{1,2})$/);
-  a.href="./attachments/?case="+(m?Number(m[1]):8);
-},true);
-</script>
 <script src="./auditor-trace-data-v1.js?v=20261118-docfix"></script>
 <script src="./auditor-trace-v1.js?v=20261118-docfix"></script>
+<script src="./attachments/attachment-twin-data-v1.js?v=20261118u83"></script>
+<script src="./attachment-inline-template-v1.js?v=20261118"></script>
+<script src="./attachment-integrated-v1.js?v=20261118"></script>
 </body></html>
