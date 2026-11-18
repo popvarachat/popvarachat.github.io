@@ -5,7 +5,7 @@ const D=window.PTK_ATTACHMENT_TWIN;
 const A=window.PTK_AUDITOR_DATA;
 const ROOT=document.getElementById("attachmentView");
 if(!ROOT||!D||!A)return
-const CASE_CAR={1:"CXD-017",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144"};
+const CASE_CAR={1:"CXD-017",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144",15:"CXD-149"};
 const CAT={WHY_WHY:"Why-Why / RCA",WI:"Work Instruction",CHECKLIST:"Checklist / FORM",TRAINING:"Training / KYT",ACCEPTANCE:"Acceptance",CORRECTIVE:"Corrective Action",REGISTER:"Shared Register",PRESENTATION:"Presentation",IMAGE:"Photographic Evidence",DOCUMENT:"Other Evidence"};
 const fmt={main:"CAR หลัก",closure:"ไฟล์ปิด CAR",extension:"ไฟล์ต่ออายุ"};
 
