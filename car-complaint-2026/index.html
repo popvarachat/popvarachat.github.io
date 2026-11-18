@@ -1131,7 +1131,7 @@ function intelDocPage(c){
  {title:"วิธีปฏิบัติงาน",desc:"WI · วิธีป้องกันไม่ให้พลาดซ้ำ",k:["WI"]},
  {title:"แบบบันทึก / จุดตรวจ",desc:"FORM · หลักฐานว่าปฏิบัติจริง",k:["FORM"]}
  ];
- return '<div class="intel-hero"><div><div class="intel-kicker">CONTROLLED DOCUMENT INTELLIGENCE · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+' · WI / FORM</h2><p>อ่านความสัมพันธ์ของเอกสารเป็น 3 หมวด พร้อมแยกว่า <strong>มีเอกสาร</strong> กับ <strong>มีหลักฐานว่าใช้จริง</strong> ไม่ใช่สิ่งเดียวกัน</p><div class="intel-pillrow"><span class="intel-pill">'+rec.docs.length+' เอกสารที่เชื่อมโยง</span><span class="intel-pill">'+escapeHtml(levelShort(c.level))+'</span>'+carControls(c)+'</div></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="case">กลับไปอ่านการวิเคราะห์ →</button><button class="intel-btn" data-intel-open="system">จุดควบคุมที่ต้องเปลี่ยน</button></div></div>'+
+ return '<div class="intel-hero"><div><div class="intel-kicker">CONTROLLED DOCUMENT INTELLIGENCE · '+escapeHtml(c.id)+'</div><h2>'+escapeHtml(projectTitle(c))+' · WI / FORM</h2><p>อ่านความสัมพันธ์ของเอกสารเป็น 3 หมวด พร้อมแยกว่า <strong>มีเอกสาร</strong> กับ <strong>มีหลักฐานว่าใช้จริง</strong> ไม่ใช่สิ่งเดียวกัน</p><div class="intel-pillrow"><span class="intel-pill">'+rec.docs.length+' เอกสารที่เชื่อมโยง</span><span class="intel-pill">'+escapeHtml(levelShort(c.level))+'</span>'+carControls(c)+'</div></div><div class="intel-hero-actions"><button class="intel-btn primary" data-intel-view="case">กลับไปอ่านการวิเคราะห์ →</button><button class="intel-btn" data-intel-view="twin">เจาะ CAR + Attachments L1/L2</button><button class="intel-btn" data-intel-open="system">จุดควบคุมที่ต้องเปลี่ยน</button></div></div>'+
  docExceptionNotice(c.n)+'<div class="doc-scope-caution"><b>ข้อกำหนดการอ่านหลักฐาน:</b> QP/WI/FORM ที่เปิดได้เป็นเอกสารควบคุมหรือแบบฟอร์มอ้างอิง ไม่เท่ากับ Record การตรวจงานจริงที่มีผู้ลงชื่อ ไม่ใช่หลักฐานว่า CAR ป้องกันการเกิดซ้ำได้แล้ว</div>'+'<div class="doc-revision-notice"><b>สถานะเอกสาร W: ตรวจสอบ 18 พ.ย. 2569:</b> พบเอกสาร 5 รหัสที่ออกฉบับใหม่หลังรอบ Audit เดิม; ต้องให้ DCC/QMR ทบทวนผลต่างก่อนใช้ยืนยันการแก้ CAR ส่วน QPFM-25-036 อยู่ในโฟลเดอร์ยกเลิก จึงแสดงสถานะประวัติ ไม่ใช่แบบฟอร์มใช้งาน</div>'+
  '<div class="intel-section-title"><h3>เอกสารแต่ละประเภททำหน้าที่อะไร</h3><p>คลิกเอกสารเพื่ออ่านข้อมูลอ้างอิงที่เปิดเผยได้</p></div>'+
  '<div class="intel-docgrid">'+groups.map(g=>{const arr=rec.docs.filter(d=>g.k.includes(d.kind));
@@ -1176,6 +1176,7 @@ function intelAction(e){
  if(btn.dataset.carCase){openVerifiedCar(Number(btn.dataset.carCase),btn.dataset.carVariant);return}
  if(btn.dataset.intelDept){openDepartment(btn.dataset.intelDept);return} if(btn.dataset.intelCase){openCase(Number(btn.dataset.intelCase));return}
  const c=find(selected)||find(1);
+ if(btn.dataset.intelView==="twin"){selected=c.n;view="twin";location.hash="#twin-"+String(c.n).padStart(2,"0");render();return}
  if(btn.dataset.intelView==="docs"){openDocTwin(c.n);return}
  if(btn.dataset.intelView==="case"){view="case";openCase(c.n);return}
  if(btn.dataset.intelView==="summary"){openSummary();return}
