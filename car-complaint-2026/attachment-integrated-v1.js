@@ -163,7 +163,7 @@ function drawCross(){
 function drawVerification(){
  const c=caseOf(num),all=rootsFor(car);
  if(!c)return;
- const identityHold=!car||c.car_identity==="CONFLICT"||c.review_level==="HOLD";
+ const identityHold=!car||c.car_identity==="CONFLICT"||[2,3].includes(c.n);
  const documents=c.docs||[];
  const directed=documents.filter(d=>d.linkage==="CONTROLLED_REVISION_RELEVANT");
  const gates=[
