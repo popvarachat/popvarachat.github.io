@@ -78,6 +78,8 @@ jobs:
           assert.strictEqual(matrix.cases.length,15);
           assert.strictEqual(matrix.totals.summary26,p.summary26_rollup_count);
           assert.strictEqual(matrix.cases.find(x=>x.n===14).register_car,'CXD-144');
+          assert.strictEqual(matrix.cases.find(x=>x.n===14).month_detail_car,'CXD-089');
+          assert.strictEqual(matrix.cases.find(x=>x.n===9).month_detail_car,'CXD-097');
           assert.strictEqual(matrix.cases.find(x=>x.n===15).register_car,'CXD-149');
           assert.strictEqual(matrix.totals.effectiveness_verified,0);
           assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
