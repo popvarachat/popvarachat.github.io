@@ -17,7 +17,7 @@ function identity(c){if(c.car_identity==="CONFLICT")return {s:"HOLD · หมา
 function docState(c){if(c.review_level==="L2")return {s:"พบเอกสารควบคุมที่เกี่ยวข้อง",cls:"ok"};if(c.review_level==="L1")return {s:"มีแนวทาง / ยังไม่พิสูจน์บังคับใช้",cls:"pending"};return {s:"ยังไม่ยืนยันมาตรการควบคุม",cls:"hold"}}
 function pill(text,cls){return '<span class="au-pill '+(cls||"")+'">'+e(text)+'</span>'}
 function caseLink(n){var c=item(n);return c?'<button type="button" class="au-case-chip" data-aud-case="'+n+'">'+e(nam(c))+'</button>':""}
-function sourceLinks(){return '<div class="au-sources"><a href="'+e(DATA.register_url)+'" target="_blank" rel="noopener noreferrer">ทะเบียน SharePoint (สิทธิ์องค์กร) ↗</a><a href="'+e(DATA.sources.carAudit)+'" target="_blank" rel="noopener noreferrer">QMR CAR Audit (Private) ↗</a><a href="'+e(DATA.sources.docs)+'" target="_blank" rel="noopener noreferrer">WI/FORM Lineage (Private) ↗</a><a href="'+e(DATA.sources.reconciliation)+'" target="_blank" rel="noopener noreferrer">กระทบยอด 18 พ.ย. (Private) ↗</a></div>'}
+function sourceLinks(){return '<div class="au-sources"><a href="'+e(DATA.register_url)+'" target="_blank" rel="noopener noreferrer">ทะเบียน SharePoint (สิทธิ์องค์กร) ↗</a><a href="'+e(DATA.sources.carAudit)+'" target="_blank" rel="noopener noreferrer">QMR CAR Audit (Private) ↗</a><a href="'+e(DATA.sources.docs)+'" target="_blank" rel="noopener noreferrer">WI/FORM Lineage (Private) ↗</a><a href="'+e(DATA.sources.reconciliation)+'" target="_blank" rel="noopener noreferrer">กระทบยอด 18 พ.ย. (Private) ↗</a><a href="'+e(DATA.sources.docGatewayReindex)+'" target="_blank" rel="noopener noreferrer">สถานะ QP/WI/FORM 18 พ.ย. (Private) ↗</a></div>'}
 var questions=[
 {id:"scope",cl:"9.1.2 · 9.1.3 · 9.3",q:"จำนวนข้อร้องเรียนและเหตุผลที่ KPI PTK_06 ไม่ผ่านคืออะไร?",a:"ทะเบียนรวมและ Summary26 ที่แก้ไขล่าสุด 17 พ.ย. 2569 แสดง 15 เหตุการณ์ รวมเคส CXD-149 แล้ว โดยมี COO-073 ที่แยกนับตามเกณฑ์เดิม จึงคาดว่าเข้า PTK_06 จำนวน 14 เคส เทียบเป้าหมายไม่เกิน 10 เคส/ปี ต้องให้ QMR ยืนยันยอดทางการก่อนใช้ลงนาม",pending:"มติวิธีนับ COO-073, หลักฐานรับรองยอด PTK_06 และการวิเคราะห์แนวโน้มที่มีตัวหารสอดคล้อง",ids:[13,15]},
 {id:"response",cl:"8.2.1 · 9.1.2",q:"เมื่อได้รับ Complaint บริษัทควบคุมการสื่อสารกับลูกค้าอย่างไร?",a:"พบ WI-OFM-001 เป็นกระบวนการรับและติดตามข้อร้องเรียนเดิม โดยกรณีไม่ติดต่อกลับลูกค้าต้องตรวจว่ามีการใช้ขั้นตอนจริงหรือไม่ ไม่ควรอ้างเพียงว่ามี WI แล้วถือว่าลูกค้าพอใจ",pending:"เวลาแจ้งรับเรื่อง, เจ้าของเคส, หลักฐานแจ้งความคืบหน้า, การยอมรับผลแก้ไขจากลูกค้า",ids:[2,5,13,15]},
@@ -43,8 +43,17 @@ var steps=[
 ];
 return '<div class="au-chain">'+steps.map(function(st,i){return '<div class="au-step '+st[4]+'"><span class="au-stepn">'+st[0]+'</span><strong>'+e(st[1])+'</strong><b>'+e(st[2])+'</b><small>'+e(st[3])+'</small></div>'}).join("")+'</div>'}
 function docRows(c){
-if(!c.docs.length)return '<div class="au-empty">ยังไม่พบ controlled document lineage ที่ตรวจสอบสำหรับเคสนี้ · ต้องขอ DCC ยืนยันรหัสและ Revision</div>';
-return '<div class="au-docgrid">'+c.docs.map(function(d){return '<div class="au-doc"><div><strong>'+e(d.code)+'</strong>'+pill(d.kind,'small')+'</div><div>ประกาศใช้ตามชุดที่ตรวจ: '+e(d.release)+'</div><small>'+(d.linkage==="CONTROLLED_REVISION_RELEVANT"?"หลักฐานเอกสารควบคุมที่เกี่ยวข้องกับสาเหตุ (L2)":"เอกสารเกี่ยวข้องที่ค้นพบ — ยังไม่ยืนยันเป็น Revision จาก CAR")+'</small></div>'}).join("")+'</div>'}
+ if(!c.docs.length)return '<div class="au-empty">ยังไม่พบ controlled document lineage ที่ตรวจสอบสำหรับเคสนี้ · ต้องขอ DCC ยืนยันรหัสและ Revision</div>';
+ return '<div class="au-docgrid">'+c.docs.map(function(d){
+   var status='';
+   if(d.local_source_status==="REVISION_DETECTED_AFTER_AUDIT")
+     status='<small style="padding:5px;background:#e8f6f5;border-radius:5px;color:#276d73">W: พบฉบับใหม่ประกาศใช้ '+e(d.local_source_release)+' · ใหม่กว่าหลักฐาน CAR/WI Audit เดิม ต้องทบทวน DCC</small>';
+   if(d.local_source_status==="RETIRED_NO_CURRENT_SOURCE")
+     status='<small style="padding:5px;background:#fff1e9;border-radius:5px;color:#914735">พบฉบับเก่าในโฟลเดอร์ยกเลิก · ห้ามใช้เป็นแบบฟอร์มปัจจุบัน</small>';
+   return '<div class="au-doc"><div><strong>'+e(d.code)+'</strong>'+pill(d.kind,'small')+'</div><div>ประกาศใช้ตามชุดที่ตรวจ 15 ต.ค.: '+e(d.release)+'</div><small>'+
+    (d.linkage==="CONTROLLED_REVISION_RELEVANT"?"หลักฐานเอกสารควบคุมที่เกี่ยวข้องกับสาเหตุ (L2)":"เอกสารเกี่ยวข้องที่ค้นพบ — ยังไม่ยืนยันเป็น Revision จาก CAR")+'</small>'+status+'</div>';
+ }).join("")+'</div>';
+}
 function casePanel(){
 var c=item(selected)||DATA.cases[0],ic=identity(c);
 var docs=docRows(c);
