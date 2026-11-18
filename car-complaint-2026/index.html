@@ -564,7 +564,7 @@ html,body{background:var(--bg);color:var(--text)}body{font-family:Sarabun,Tahoma
 </aside>
 <main class="main">
  <div class="topbar"><div><strong id="pageTitle">ภาพรวม 15 เหตุการณ์ติดตาม</strong><small id="pageSub">Intelligence Workflow · อ่านง่าย / คลิกหลักฐานเพื่อเจาะลึก</small></div>
- <div class="actions"><button class="action primary" id="auditorBtn">▤ ISO Auditor</button><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
+ <div class="actions"><button class="action primary" id="auditorBtn">▤ ISO Auditor</button><a class="action" id="attachmentTwinBtn" href="./attachments/?case=8" title="เจาะ PDF FileAttachment ถึงชั้นที่ 2" target="_blank" rel="noopener noreferrer">▤ 2nd Attach Twin</a><button class="action primary" id="summaryBtn">▣ สรุป QMR</button><button class="action" id="docTwinBtn">▧ WI / FORM Intelligence</button><button class="action" id="overviewBtn">◎ Intelligence Overview</button><button class="action" id="prevBtn">← ก่อนหน้า</button><button class="action" id="nextBtn">ถัดไป →</button><button class="action focus-button" id="focusBtn" title="ขยายพื้นที่แผนผังโดยซ่อนแถบซ้าย">⛶ ขยายผัง</button></div></div>
  <div class="legend"><span><i class="dot" style="background:#ff6c78"></i>Safety</span><span><i class="dot" style="background:#3ed5ef"></i>Production</span><span><i class="dot" style="background:#b19aff"></i>Engineering</span><span><i class="dot" style="background:#efbd6f"></i>Service</span><span>· คลิกชื่อโครงการเพื่อดูสาเหตุ มาตรการ และหลักฐานที่ QMR ต้องตรวจ</span></div>
  <section class="summary-view" id="summaryView" aria-label="QMR Executive Analysis" hidden><div id="summaryContent"></div></section>
 <section class="intel-view" id="intelView" aria-label="Intelligence Workflow" hidden><div id="intelContent"></div></section>
@@ -1232,6 +1232,14 @@ const io='IntersectionObserver'in window?new IntersectionObserver(es=>es.forEach
 function enhance(){document.querySelectorAll(reveal).forEach((el,i)=>{if(seen.has(el))return;seen.add(el);el.style.setProperty('--pop-delay',Math.min(i%4*65,195)+'ms');if(io)io.observe(el);else enter(el)})}
 let queued=false;new MutationObserver(ms=>{if(ms.every(m=>m.type==='characterData'||m.target.closest?.('[data-pop-counted]')))return;if(!queued){queued=true;requestAnimationFrame(()=>{queued=false;enhance()})}}).observe(document.querySelector('.main'),{childList:true,subtree:true});
 reduced.addEventListener('change',()=>{if(reduced.matches){frames.forEach(x=>{cancelAnimationFrame(x.id);x.a.textContent=x.final});frames.clear()}});enhance();})();
+</script>
+<script>
+document.addEventListener("click",function(event){
+  const a=event.target.closest("#attachmentTwinBtn");
+  if(!a)return;
+  const m=location.hash.match(/^#(?:case|docs|auditor)-(\d{1,2})$/);
+  a.href="./attachments/?case="+(m?Number(m[1]):8);
+},true);
 </script>
 <script src="./auditor-trace-data-v1.js?v=20261118-docfix"></script>
 <script src="./auditor-trace-v1.js?v=20261118-docfix"></script>
