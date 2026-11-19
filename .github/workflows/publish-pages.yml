@@ -123,6 +123,14 @@ jobs:
           assert.strictEqual(assurance.source_verification.qc_pass_reported,3);
           assert.strictEqual(assurance.source_verification.scd_no_recurrence_claimed,3);
           assert.strictEqual(assurance.source_verification.wc_checks_with_real_outcome_in_master,0);
+          assert.strictEqual(assurance.plan_assurance.source_pdf_signature_images_observed,3);
+          assert.strictEqual(assurance.plan_assurance.car_crosswalk_mismatches.length,4);
+          assert.strictEqual(assurance.source_verification.qc_workbook_embedded_images,6);
+          assert.strictEqual(assurance.source_verification.delivery_workbook_embedded_images,3);
+          assert(assurance.live_sources.some(x=>x.gateway_code==='QMR-SIGNED-PLAN-PDF'));
+          assert(dos.includes('QMR-SIGNED-PLAN-PDF'));
+          assert(risk.includes('car_crosswalk_mismatches'));
+
           assert(h.includes('case-dossier-v1.js') && h.includes('source-assurance-20261119.js'));
           assert(fs.readFileSync('car-complaint-2026/case-dossier-v1.css','utf8').includes('qmr-dossier'));
 
