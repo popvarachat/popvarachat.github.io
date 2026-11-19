@@ -82,6 +82,17 @@ root.innerHTML='<div class="wq-container">'+
  '<div class="wq-source-links"><a href="'+esc(S.governance.approval_queue)+'" target="_blank" rel="noopener noreferrer">เปิดงานตรวจรับ QMR/DCC ↗</a>'+(S?.live_sources||[]).map(z=>'<a href="http://127.0.0.1:8769/evidence/'+encodeURIComponent(z.gateway_code)+'" target="_blank" rel="noopener noreferrer">'+esc(z.label)+' ↗</a>').join("")+'</div>'+
  '<small>เปิดต้นฉบับ Excel บน NB ที่ต่อ W: และ Local Gateway เท่านั้น · ตัวเลขรายงานไม่ใช่ผลรับรอง Effectiveness</small></div></section>'+ 
  
+ '<section class="wq-section"><header><h3>Closure Control Center · งานรับรองก่อนปิด 100%</h3><p>รายการนี้เป็นคิวการตรวจรับจริง ไม่ใช่การรับรองผลแทน DCC หรือ QMR</p></header>'+
+ '<div class="wq-source-health"><b>ผลในทะเบียนทวนสอบจริง '+esc(S?.source_verification?.wc_checks_with_real_outcome_in_master??0)+' / '+esc(S?.source_verification?.wc_checks_in_master??40)+' รายการ · QMR Effective '+esc(S?.source_verification?.effectiveness_qmr_verified_in_accessible_sources??0)+' / 15 เคส</b>'+
+ '<p>การมี CAR PDF/ไฟล์แนบครบ ไม่ได้แปลว่ามาตรการป้องกันซ้ำมีประสิทธิผล ต้องมีตัวอย่างงานหลังแก้และลายมือชื่อผู้อนุมัติ</p>'+
+ '<div class="wq-table-wrap"><table><thead><tr><th>Owner</th><th>ประเด็นค้าง</th><th>Acceptance Gate</th><th>ติดตาม</th></tr></thead><tbody>'+
+ '<tr><td>DCC/QMR</td><td>CAR Identity 6 เคส</td><td>ยืนยันเหตุการณ์ / SO / Site และ Change Log</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/3" target="_blank" rel="noopener noreferrer">#3 ตรวจ CAR</a></td></tr>'+
+ '<tr><td>DCC</td><td>QPFM-02-001 · HTTP 409</td><td>อนุมัติ Master/Revision/Hash ก่อนปลด Hold</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/4" target="_blank" rel="noopener noreferrer">#4 Document</a></td></tr>'+
+ '<tr><td>Owner/DCC/QMR</td><td>Action Plan อ้างอิงผิด 4 จุด</td><td>Corrigendum หรือเอกสารควบคุมฉบับแก้</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/5" target="_blank" rel="noopener noreferrer">#5 Plan</a></td></tr>'+
+ '<tr><td>QC/SCD/หน่วยงาน</td><td>Verification Log 40 ประเด็น</td><td>วัน / งาน / จำนวนสุ่ม / ผู้ตรวจ / หลักฐาน</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/6" target="_blank" rel="noopener noreferrer">#6 WC Result</a></td></tr>'+
+ '<tr><td>QMR</td><td>Effectiveness 15 เคส + PTK_06</td><td>ผลหลังใช้จริงและคำรับรองตามเกณฑ์การนับ</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/7" target="_blank" rel="noopener noreferrer">#7 Signoff</a></td></tr>'+
+ '</tbody></table></div>'+
+ '<small>แสดงเฉพาะ Metadata ที่เผยแพร่ได้ · เอกสารต้นฉบับคงอยู่ W:/SharePoint และ QMR เป็นผู้ตัดสินผล · ระยะติดตาม พ.ย.–ธ.ค. 2569</small></div></section>'+
  '<section class="wq-section"><header><h3>ทวนสอบเลข CAR ในแผนลงนาม · ก่อนใช้เป็น Evidence ให้ Auditor</h3><p>ไฟล์ QPFM-29-001 วันที่ 13 พ.ย. มีภาพลายเซ็น 3 ตำแหน่ง แต่บางเลขอ้างอิงยังต่างจากแฟ้ม CAR ที่ตรวจ</p></header>'+
  '<div class="wq-source-health">'+
  '<div class="wq-source-links"><a href="http://127.0.0.1:8769/evidence/QMR-SIGNED-PLAN-PDF" target="_blank" rel="noopener noreferrer">เปิด Action Plan PDF ต้นฉบับบน NB ↗</a></div>'+
