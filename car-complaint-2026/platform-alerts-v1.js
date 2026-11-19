@@ -81,6 +81,15 @@ function buildAlerts(){
    "Approved KPI rule + action effectiveness trend",7,null,kpi-target);
  }
  const feed=P.ingestion||{};
+ if(feed.source_quality_status==="REQUIRES_OWNER_REVIEW"||
+    feed.source_months_reconcile===false||feed.register_complete===false){
+  const n=Number(feed.pending_incomplete_count||0);
+  put("INTAKE-SOURCE-QUALITY","high","Input Reconciliation",
+    "Complaint Intake สำเร็จ แต่มี "+n+" แถวข้อมูลยังไม่ครบ หรือ PMO/ทะเบียนยังไม่กระทบยอด",
+    "CXD / PMO / QMR","7.5, 9.1.3",
+    "รับเรื่องเข้าคิว Pending ก่อน แล้วให้เจ้าของแก้เดือน/รายละเอียดและจัดสรร PMO โดยไม่เขียนทับทะเบียน",
+    "Controlled source row + month-weight crosscheck + reviewer receipt",9,null,Math.max(1,n));
+ }
  const known=Number(feed.audited_case_count??cases.length),source=Number(feed.register_count??known);
  if(source>known){
   put("INTAKE-UNCLASSIFIED","high","New Intake",
@@ -101,6 +110,8 @@ function buildAlerts(){
  return out;
 }
 window.PTK_BUILD_ALERTS=buildAlerts;
+const alertButton=document.getElementById('riskBtn');
+if(alertButton){const n=buildAlerts().length;alertButton.textContent='⚠ Alerts ('+n+') / WQ6';alertButton.title=n+' source-backed exception candidates and prevention targets';}
 let selected="all",query="";
 function init(){
  const shell=root.querySelector(".wq-container");if(!shell)return;
