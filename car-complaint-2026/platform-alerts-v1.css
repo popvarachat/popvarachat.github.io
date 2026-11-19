@@ -1,0 +1,34 @@
+/* Scoped to the Customer Complaint exception engine. */
+#riskView .ptk-alert-body{padding:15px 18px}
+#riskView .ptk-alert-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+#riskView .ptk-alert-metrics>div{border:1px solid #d5e3eb;background:#f7fbfd;border-radius:10px;padding:13px}
+#riskView .ptk-alert-metrics small{display:block;color:#476d82;font-size:11px}
+#riskView .ptk-alert-metrics strong{display:block;font-size:24px;color:#1a526a;line-height:1.3;margin-top:3px}
+#riskView .ptk-alert-notice{font-size:12px;line-height:1.65;padding:11px 13px;margin:12px 0;background:#fff8ef;border-left:3px solid #c5a267;color:#745024;border-radius:5px}
+#riskView .ptk-alert-tools{display:flex;align-items:center;gap:7px;flex-wrap:wrap;margin-bottom:12px}
+#riskView .ptk-alert-tools input{flex:1;min-width:220px;padding:9px 11px;border:1px solid #cadce5;border-radius:8px;background:white;color:#183b4e}
+#riskView .ptk-alert-tools button{padding:7px 10px;background:#f2f8fb;border:1px solid #cbdfe9;border-radius:7px;color:#32647c;cursor:pointer}
+#riskView .ptk-alert-tools button.active{background:#164f6b;color:#fff;border-color:#164f6b}
+#riskView #ptkAlertList{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;max-height:800px;overflow-y:auto;padding-right:3px}
+#riskView .ptk-alert-row{border:1px solid #d6e3ea;border-left:4px solid #c6a567;border-radius:8px;background:white;padding:13px 14px;min-width:0}
+#riskView .ptk-alert-row[data-severity="critical"]{border-left-color:#bf5153;background:#fffafb}
+#riskView .ptk-alert-row[data-severity="high"]{border-left-color:#d28b3c}
+#riskView .ptk-alert-rowhead{display:flex;justify-content:space-between;gap:8px;align-items:center;font-size:10px;color:#4c7285}
+#riskView .ptk-alert-sev{font-weight:850;letter-spacing:.04em;color:#95552d}
+#riskView .ptk-alert-row[data-severity="critical"] .ptk-alert-sev{color:#aa3a42}
+#riskView .ptk-alert-row h4{font-size:12px;font-weight:750;line-height:1.5;color:#203f50;margin:8px 0}
+#riskView .ptk-alert-row dl{margin:0;display:grid;grid-template-columns:1fr;gap:5px}
+#riskView .ptk-alert-row dl>div{display:grid;grid-template-columns:125px minmax(0,1fr);gap:7px;font-size:11px;line-height:1.5}
+#riskView .ptk-alert-row dt{color:#708899}
+#riskView .ptk-alert-row dd{margin:0;color:#294e63}
+#riskView .ptk-alert-actions{display:flex;flex-wrap:wrap;gap:6px;margin-top:11px}
+#riskView .ptk-alert-actions a,#riskView .ptk-alert-actions button{display:inline-block;padding:5px 8px;border:1px solid #bad6e5;border-radius:6px;background:#eef7fb;color:#1c6282;text-decoration:none;font-size:11px;cursor:pointer}
+#riskView .ptk-alert-empty{text-align:center;font-size:12px;color:#657e8e;padding:16px}
+#riskView .ptk-alert-foot{font-size:10px;color:#6d8290;margin-top:12px;line-height:1.5}
+@media(max-width:900px){#riskView #ptkAlertList{grid-template-columns:1fr}#riskView .ptk-alert-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:560px){#riskView .ptk-alert-row dl>div{grid-template-columns:1fr;gap:1px}}
+
+#riskView .ptk-intake-inbox{display:flex;align-items:center;flex-wrap:wrap;gap:9px;margin:0 0 12px;padding:11px 13px;background:#eef8fb;border:1px solid #b4d7e4;border-radius:9px;font-size:11px}
+#riskView .ptk-intake-inbox b{color:#24596d}
+#riskView .ptk-intake-inbox a{padding:5px 8px;border-radius:6px;background:white;border:1px solid #b4d7e4;color:#1f6685;text-decoration:none}
+#riskView .ptk-intake-inbox small{color:#587887}

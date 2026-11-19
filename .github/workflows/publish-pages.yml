@@ -14,6 +14,9 @@ on:
       - 'car-complaint-2026/risk-weekly-v1.js'
       - 'car-complaint-2026/risk-weekly-v1.css'
       - 'car-complaint-2026/source-assurance-20261119.js'
+      - 'car-complaint-2026/platform-alerts-v1.js'
+      - 'car-complaint-2026/platform-alerts-v1.css'
+      - 'car-complaint-2026/platform-context-v1.js'
       - 'car-complaint-2026/case-dossier-v1.js'
       - 'car-complaint-2026/case-dossier-v1.css'
       - 'erp-architecture/**'
@@ -119,6 +122,14 @@ jobs:
           new vm.Script(risk);
           assert(risk.includes('PTK_RENDER_RISK') && risk.includes('data-wq-case'));
           assert(risk.includes('PTK_WEEKLY_FOR_CASE'));
+          const monitorSrc=fs.readFileSync('car-complaint-2026/platform-context-v1.js','utf8');
+          const alertSrc=fs.readFileSync('car-complaint-2026/platform-alerts-v1.js','utf8');
+          new vm.Script(monitorSrc);new vm.Script(alertSrc);
+          const monitorVM={window:{}};vm.runInNewContext(monitorSrc,monitorVM);
+          assert.strictEqual(monitorVM.window.PTK_PLATFORM_CONTEXT.governance.public_source_is_sanitized,true);
+          assert(monitorVM.window.PTK_PLATFORM_CONTEXT.ingestion.register_count>=15);
+          assert(alertSrc.includes('PTK_BUILD_ALERTS'));
+          assert(h.includes('platform-alerts-v1.js') && h.includes('platform-context-v1.js'));
           const src=fs.readFileSync('car-complaint-2026/source-assurance-20261119.js','utf8');
           const dos=fs.readFileSync('car-complaint-2026/case-dossier-v1.js','utf8');
           new vm.Script(src);new vm.Script(dos);
