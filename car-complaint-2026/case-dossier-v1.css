@@ -1,0 +1,51 @@
+
+/* Unified Customer Complaint / ISO 9001 case dossier: scoped to existing Main Web. */
+#attachmentView .qmr-dossier,#attachmentView .qmr-weekly-case{margin:14px 0;background:#fff;border:1px solid #d6e3ea;border-radius:14px;box-shadow:0 3px 18px #163c5312;color:#1a3a52}
+#attachmentView .qmr-dossier * ,#attachmentView .qmr-weekly-case *{box-sizing:border-box}
+#attachmentView .qmr-dossier-head{display:flex;align-items:flex-start;justify-content:space-between;gap:18px;padding:18px 21px;border-bottom:1px solid #e3ebf0;background:linear-gradient(115deg,#f7fbfe,#edf6fa);border-radius:14px 14px 0 0}
+#attachmentView .qmr-overline{display:block;color:#217189;text-transform:uppercase;letter-spacing:.8px;font-size:10px;font-weight:850}
+#attachmentView .qmr-dossier h2{color:#163f59;font-size:20px;margin:6px 0;line-height:1.35}
+#attachmentView .qmr-dossier h3,#attachmentView .qmr-weekly-case h3{font-size:13px;color:#164460;margin:0 0 8px}
+#attachmentView .qmr-dossier p,#attachmentView .qmr-weekly-case p{font-size:12px;color:#46677c;line-height:1.7;margin:5px 0}
+#attachmentView .qmr-dossier-head aside{min-width:180px;max-width:245px;flex:0 0 auto;font-size:11px;line-height:1.6}
+#attachmentView .qmr-mark{display:block;border:1px solid #c5dce8;background:#eaf5fa;color:#236782;border-radius:7px;padding:7px 10px;margin-bottom:5px;font-size:11px;font-weight:800}
+#attachmentView .qmr-mark.warn{border-color:#e5c9b8;background:#fff5e9;color:#935528}
+#attachmentView .qmr-stat-strip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:#e1e9ef;border-bottom:1px solid #dce7ec}
+#attachmentView .qmr-stat{padding:12px 14px;background:#fff;min-width:0}
+#attachmentView .qmr-stat>span{display:block;font-size:10px;color:#728a9b;font-weight:700}
+#attachmentView .qmr-stat b{font-size:22px;display:block;line-height:1.4;color:#18566f}
+#attachmentView .qmr-stat small{color:#698196;font-size:10px}
+#attachmentView .qmr-evidence-cards{padding:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;align-items:stretch}
+#attachmentView .qmr-case-card{background:#f7fafc;border:1px solid #e0e8ef;border-radius:11px;padding:13px;min-width:0}
+#attachmentView .qmr-case-card dl{margin:0}
+#attachmentView .qmr-case-card dl>div{display:flex;align-items:flex-start;justify-content:space-between;gap:8px;padding:7px 0;border-bottom:1px solid #e5edf2}
+#attachmentView .qmr-case-card dt{font-size:11px;color:#71899a;flex:1}
+#attachmentView .qmr-case-card dd{font-size:11px;font-weight:750;color:#244d67;margin:0;max-width:62%;text-align:right;overflow-wrap:anywhere}
+#attachmentView .qmr-case-card .qmr-caution{margin:9px 0 0;padding:9px;background:#fff1ed;border:1px solid #efd0c5;color:#8e5141;border-radius:8px;font-size:11px}
+#attachmentView .qmr-case-card .qmr-positive{margin-top:9px;padding:9px;background:#e8f6ef;border:1px solid #c0ded0;color:#216b55;border-radius:8px;font-size:11px}
+#attachmentView .qmr-case-card li{font-size:11px;line-height:1.65;margin:5px 0;color:#3f6176}
+#attachmentView .qmr-mini-list{list-style:none;padding:0;margin:5px 0}
+#attachmentView .qmr-mini-list li{border-bottom:1px solid #e6edf1;padding:5px 0}
+#attachmentView .qmr-inline-status{font-weight:850;color:#9c5c2c}
+#attachmentView .qmr-dossier-nav{border-top:1px solid #e6edf1;padding:13px 16px;display:flex;flex-wrap:wrap;gap:7px}
+#attachmentView .qmr-dossier-nav button,#attachmentView .qmr-dossier-nav a{font-size:11px;display:inline-flex;align-items:center;text-align:center;justify-content:center;padding:9px 12px;border:1px solid #b9d3e0;color:#236881;background:#eef7fb;border-radius:8px;text-decoration:none;min-height:36px;font-weight:800;cursor:pointer}
+#attachmentView .qmr-dossier-nav a{background:#fff}
+#attachmentView .qmr-dossier-foot{font-size:10px;color:#748d9b;padding:0 16px 12px}
+#attachmentView .qmr-weekly-case header{padding:13px 17px;background:#f3f8fb;border-bottom:1px solid #dae6ee;display:flex;align-items:center;gap:8px;justify-content:space-between}
+#attachmentView .qmr-weekly-case header h3{margin:0}
+#attachmentView .qmr-weekly-case header small{color:#7890a0}
+#attachmentView .qmr-weekly-body{padding:13px 17px}
+#attachmentView .qmr-weekly-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}
+#attachmentView .qmr-weekly-item{padding:11px;border:1px solid #d9e6ec;border-left:3px solid #e5ae60;border-radius:9px;background:#fffdf9}
+#attachmentView .qmr-weekly-item>div{display:flex;justify-content:space-between;gap:10px;align-items:flex-start}
+#attachmentView .qmr-weekly-item b{color:#25556d;font-size:12px}
+#attachmentView .qmr-weekly-item small{font-size:10px;color:#607e90}
+#attachmentView .qmr-weekly-item p{margin:5px 0!important}
+#attachmentView .qmr-weekly-item .qmr-unverified{display:inline-block;border:1px solid #ebd4b4;color:#9b663a;background:#fff4e9;padding:3px 6px;border-radius:6px;font-size:10px}
+#attachmentView .qmr-source-link{font-size:11px;color:#1c698c;text-decoration:underline}
+#attachmentView .qmr-inline-code{font:11px ui-monospace,Consolas,monospace;color:#456c83}
+#attachmentView .qmr-proof-alert{border:1px solid #ecd1b1;background:#fff7ec;color:#8c602c;border-radius:9px;padding:10px 12px;font-size:11px;margin:10px 0;line-height:1.65}
+#attachmentView .qmr-valid-note{border:1px solid #c6e0d8;background:#ebf6f2;color:#2b755f;border-radius:8px;padding:8px;font-size:11px;margin-top:7px}
+@media(max-width:1200px){#attachmentView .qmr-evidence-cards{grid-template-columns:1fr 1fr}#attachmentView .qmr-evidence-cards .qmr-case-card:last-child{grid-column:1/-1}#attachmentView .qmr-weekly-grid{grid-template-columns:1fr}}
+@media(max-width:760px){#attachmentView .qmr-dossier-head{display:block}#attachmentView .qmr-dossier-head aside{margin-top:12px;max-width:none}#attachmentView .qmr-stat-strip{grid-template-columns:repeat(2,1fr)}#attachmentView .qmr-evidence-cards{grid-template-columns:1fr}#attachmentView .qmr-evidence-cards .qmr-case-card:last-child{grid-column:auto}#attachmentView .qmr-dossier h2{font-size:17px}}
+@media print{#attachmentView .qmr-dossier,#attachmentView .qmr-weekly-case{box-shadow:none;break-inside:avoid}#attachmentView .qmr-dossier-nav{display:none}}
