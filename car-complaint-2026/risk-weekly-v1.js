@@ -91,6 +91,7 @@ root.innerHTML='<div class="wq-container">'+
  '<tr><td>Owner/DCC/QMR</td><td>Action Plan อ้างอิงผิด 4 จุด</td><td>Corrigendum หรือเอกสารควบคุมฉบับแก้</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/5" target="_blank" rel="noopener noreferrer">#5 Plan</a></td></tr>'+
  '<tr><td>QC/SCD/หน่วยงาน</td><td>Verification Log 40 ประเด็น</td><td>วัน / งาน / จำนวนสุ่ม / ผู้ตรวจ / หลักฐาน</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/6" target="_blank" rel="noopener noreferrer">#6 WC Result</a></td></tr>'+
  '<tr><td>QMR</td><td>Effectiveness 15 เคส + PTK_06</td><td>ผลหลังใช้จริงและคำรับรองตามเกณฑ์การนับ</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/7" target="_blank" rel="noopener noreferrer">#7 Signoff</a></td></tr>'+
+ '<tr><td>จัดส่ง/QC/DCC</td><td>รายงานต้นทางเลข CAR คลาดเคลื่อน 2 จุด · QC PASS ขาดหลักฐาน 3 จุด</td><td>ตรวจ G8/G9 รายงานจัดส่ง และแนบเลข Record/Link ผลตรวจ QC</td><td><a href="https://github.com/popvarachat/practika-car-digital-twin/issues/8" target="_blank" rel="noopener noreferrer">#8 Source QA</a></td></tr>'+
  '</tbody></table></div>'+
  '<small>แสดงเฉพาะ Metadata ที่เผยแพร่ได้ · เอกสารต้นฉบับคงอยู่ W:/SharePoint และ QMR เป็นผู้ตัดสินผล · ระยะติดตาม พ.ย.–ธ.ค. 2569</small></div></section>'+
  '<section class="wq-section"><header><h3>ทวนสอบเลข CAR ในแผนลงนาม · ก่อนใช้เป็น Evidence ให้ Auditor</h3><p>ไฟล์ QPFM-29-001 วันที่ 13 พ.ย. มีภาพลายเซ็น 3 ตำแหน่ง แต่บางเลขอ้างอิงยังต่างจากแฟ้ม CAR ที่ตรวจ</p></header>'+
