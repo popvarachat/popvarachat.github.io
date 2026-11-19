@@ -85,7 +85,8 @@ function caseProof(n){
    '<h2>#'+pad(n)+' · '+esc(c.project||c.id)+'</h2><p>'+esc(c.event)+'</p></div>'+
    '<aside><span class="qmr-mark">ทะเบียนกลาง 17 พ.ย. 69 · ตรวจต้นทาง 19 พ.ย.</span>'+
    '<span class="qmr-mark '+(caseHold?"warn":"")+'">'+(caseHold?"CAR / Event mapping ต้องสอบกลับ":"CAR source มีหลักฐานที่จับคู่ได้")+'</span>'+
-   '<span class="qmr-mark warn">Effective ยังไม่รับรองโดย QMR</span></aside></div>'+
+   '<span class="qmr-mark warn">Effective ยังไม่รับรองโดย QMR</span>'+
+   '<span class="qmr-mark warn">Local Gateway QA: '+src.gateway_expected_results+'/'+src.gateway_requests_checked+' · 1 ฉบับต้อง DCC ทวนสอบ</span></aside></div>'+
   '<div class="qmr-stat-strip">'+
    '<div class="qmr-stat"><span>Complaint ทั้งองค์กร</span><b>'+src.events_registered+'</b><small>Summary26 = '+src.events_in_summary+'</small></div>'+
    '<div class="qmr-stat"><span>PTK_06 เบื้องต้น</span><b>'+src.kpi_preliminary+'</b><small>เป้า ≤ '+src.target+' / รอวิธีนับ QMR</small></div>'+
@@ -110,7 +111,8 @@ function caseProof(n){
     '<h3 style="margin-top:12px">QMR Effectiveness Gate</h3><p>หากไม่มี WO/ล็อตงานจริง, วันที่ตรวจ, ผล PASS/FAIL, ผู้ตรวจ, การปิดความเสี่ยง และผู้อนุมัติ QMR จะยังไม่รับรองว่าไม่เกิดซ้ำ</p>'+
     '<div class="qmr-proof-alert"><b>หลักฐานที่ยังขาด:</b> '+esc(c.blocked_by||"ยังไม่ครบ")+'</div></section>'+
   '</div>'+
-  '<div class="qmr-dossier-nav">'+
+  '<div class="qmr-proof-alert" style="margin:0 13px 12px"><b>Source-verified signed plan:</b> QPFM-29-001 Rev.08 วันที่ 13 พ.ย. มีภาพลายเซ็นในช่องจัดทำ/ทบทวน/อนุมัติ 3 ตำแหน่ง; ยังมี 4 จุดที่เลข CAR/KPI อ้างอิงต้องแก้ไขและออกฉบับทบทวนตามขั้นตอน DCC · <a class="qmr-source-link" href="http://127.0.0.1:8769/evidence/QMR-SIGNED-PLAN-PDF" target="_blank" rel="noopener noreferrer">เปิด Action Plan PDF บน NB ↗</a> · QC Workbook มีภาพกิจกรรมตรวจ 6 ภาพ และ Delivery Workbook อีก 3 ภาพ (หลักฐานกิจกรรม ไม่เท่ากับ Effectiveness)</div>'+
+   '<div class="qmr-dossier-nav">'+
     link("case","เหตุและ Root Cause")+
     link("docs","เปิด WI / FORM")+
     link("auditor","แนวตอบ External Auditor")+
