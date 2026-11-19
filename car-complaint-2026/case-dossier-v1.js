@@ -119,7 +119,7 @@ function caseProof(n){
     link("auditor","แนวตอบ External Auditor")+
     link("risk","WQ6 / Weekly Matrix")+
     '<a href="'+esc(A.register_url)+'" target="_blank" rel="noopener noreferrer">ทะเบียน SharePoint (สิทธิ์องค์กร) ↗</a>'+
-    '<a href="'+esc(S.governance.private_report)+'" target="_blank" rel="noopener noreferrer">Source Reconciliation (Private) ↗</a>'+'<a href="'+esc(S.governance.approval_packet)+'" target="_blank" rel="noopener noreferrer">แฟ้มตัดสินใจ DCC/QMR ↗</a>'+'<a href="'+esc(S.governance.approval_queue)+'" target="_blank" rel="noopener noreferrer">ติดตามการรับรอง QMR/DCC ↗</a>'+
+    '<a href="'+esc(S.governance.private_report)+'" target="_blank" rel="noopener noreferrer">Source Reconciliation (Private) ↗</a>'+'<a href="'+esc(S.governance.approval_packet)+'" target="_blank" rel="noopener noreferrer">แฟ้มตัดสินใจ DCC/QMR ↗</a>'+'<a href="'+esc(S.governance.approval_queue)+'" target="_blank" rel="noopener noreferrer">ติดตามการรับรอง QMR/DCC ↗</a>'+'<a href="https://github.com/popvarachat/practika-car-digital-twin/blob/main/data/customer-complaint-2026/proposed-controlled-source-amendments-2026-11-19.json" target="_blank" rel="noopener noreferrer">ตารางแก้ CAR/Action Plan 6+4 จุด ↗</a>'+
     '</div>'+
    '<div class="qmr-dossier-foot">ทุกหลักฐานอยู่ในเส้นทางเดียวกันภายใน Web นี้ · ไฟล์ PDF/Excel จริงเปิดจาก localhost บน NB เท่านั้น · ข้อความ PASS ของฝ่ายไม่ใช่ผลรับรอง QMR</div>';
 }
