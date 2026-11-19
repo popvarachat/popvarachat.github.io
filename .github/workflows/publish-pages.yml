@@ -156,7 +156,7 @@ jobs:
 
           assert(h.includes('id="riskBtn"') && h.includes('id="riskView"'));
           assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
-          console.log('QMR unified SPA and Auditor/Attachment scripts compiled; source 15 events, 27 CAR PDFs, 83 embedded nodes');
+          console.log('QMR unified SPA and Auditor/Attachment scripts compiled; source 15 events, 32 CAR PDFs, 91 embedded nodes');
           NODE
       - name: Configure Pages
         uses: actions/configure-pages@v5
@@ -166,6 +166,9 @@ jobs:
         with:
           path: '.'
           retention-days: 1
+
+      - name: Wait for Pages artifact availability
+        run: sleep 20
 
       - name: Deploy
         id: deployment
