@@ -36,3 +36,13 @@
 #riskView .wq-not-approved{display:inline-block;border:1px solid #e7cbb7;background:#fff2e9;border-radius:7px;padding:5px;color:#945a32;font-size:10px}
 #riskView .wq-foot{color:#6b8599;font-size:11px;margin:15px 0}
 @media(max-width:800px){#riskView .wq-stats{grid-template-columns:repeat(2,1fr)}#riskView .wq-header{display:block}#riskView .wq-pill{display:inline-block;margin-top:12px}}
+
+#riskView .wq-source-health{padding:15px 18px;font-size:12px;line-height:1.75;color:#315875}
+#riskView .wq-source-health>b{display:block;color:#1b546b;margin-bottom:6px}
+#riskView .wq-source-health>p{margin:8px 0;color:#95622e}
+#riskView .wq-source-health>small{color:#758e9b}
+#riskView .wq-source-links{display:flex;flex-wrap:wrap;gap:8px;margin:10px 0}
+#riskView .wq-source-links>a{padding:7px 10px;border:1px solid #b9d8e6;background:#eef7fb;border-radius:7px;color:#256b8a;text-decoration:none;font-size:11px;font-weight:700}
+#riskView .wq-source-row{padding:9px 10px;border:1px solid #d6e4eb;background:#f7fbfd;border-radius:7px;margin:6px 0;color:#42657a}
+#riskView .wq-source-row b{display:block;font-size:11px}
+#riskView .wq-source-row small{display:block;margin-top:3px;color:#8b6335;font-size:10px}
