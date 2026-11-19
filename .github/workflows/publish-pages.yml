@@ -128,6 +128,18 @@ jobs:
           assert.strictEqual(assurance.source_verification.gateway_requests_checked,167);
           assert.strictEqual(assurance.source_verification.gateway_expected_results,167);
           assert.strictEqual(assurance.source_verification.gateway_source_exception,'QPFM-02-001');
+          assert.strictEqual(assurance.source_verification.car_pdf_verified,32);
+          assert.strictEqual(assurance.source_verification.attachment_nodes_verified,91);
+          assert.strictEqual(assurance.source_verification.gateway_409_hold,1);
+          assert.strictEqual(assurance.source_verification.gateway_410_retired,1);
+          assert.strictEqual(assurance.source_verification.gateway_200_count,165);
+          assert(assurance.governance.approval_queue.endsWith('/issues/2'));
+          assert(matrix.sources.carIdentityReview.includes('car-original-pdf-reconciliation'));
+          assert(matrix.sources.approvalPacket.includes('QMR-DCC-approval-packet'));
+          assert.strictEqual(matrix.totals.effectiveness_verified,0);
+          assert(matrix.cases.find(x=>x.n===2).car_identity==='CONFLICT');
+          assert(matrix.cases.find(x=>x.n===3).car_identity==='CONFLICT');
+
           assert.strictEqual(assurance.source_verification.qc_pass_reported,3);
           assert.strictEqual(assurance.source_verification.scd_no_recurrence_claimed,3);
           assert.strictEqual(assurance.source_verification.wc_checks_with_real_outcome_in_master,0);
