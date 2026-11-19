@@ -12,7 +12,7 @@ const inner=ROOT.querySelector(".twin-inner");
 const hero=inner?.querySelector(".hero");
 const verification=inner?.querySelector("#twin-verification-section");
 if(!inner||!hero||!verification)return;
-const carMap={1:"CXD-017",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144",15:"CXD-149"};
+const carMap={1:"CXD-017",2:"CXD-022",3:"CXD-024",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144",15:"CXD-149"};
 const formatNumber=v=>String(v==null?"—":v);
 const esc=v=>String(v==null?"":v).replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const pad=n=>String(n).padStart(2,"0");
@@ -100,6 +100,7 @@ function caseProof(n){
     '<div><dt>ชีตรายเดือน</dt><dd>'+esc(c.month_detail_car||"ไม่มีเลขยืนยัน")+'</dd></div>'+
     '<div><dt>แฟ้ม CAR ที่ตรวจ</dt><dd>'+esc(c.audited_car||"ยังไม่พบแฟ้มจับคู่")+'</dd></div>'+
     '<div><dt>ระดับวิเคราะห์เดิม</dt><dd>'+esc(c.review_level)+'</dd></div></dl>'+
+    (c.identity_discrepancy?'<p class="qmr-caution"><b>ตรวจ CAR PDF ต้นฉบับ:</b> '+esc(c.original_pdf_event_summary)+'<div>'+esc(c.identity_discrepancy)+'</div></p>':'')+
     (caseHold?'<p class="qmr-caution">'+esc(c.needs_review||"หมายเลข CAR ไม่ตรงกับต้นทาง ต้องยืนยันก่อนใช้รับรอง")+'</p>':
     '<p class="qmr-positive">เลข CAR จับคู่ในระดับทะเบียน/แหล่งที่ตรวจได้ แต่ยังไม่แทนการอนุมัติ QMR</p>')+
     '<h3 style="margin-top:12px">Failure Mode / Risk ที่เกี่ยวข้อง</h3>'+
