@@ -65,10 +65,13 @@ const esc=v=>String(v??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&
 const pad=n=>String(n).padStart(2,"0");
 const caseName=n=>A.cases.find(c=>c.n===n)?.project||"Complaint "+n;
 let chosenOwner="qmr",chosenWeek=2;
-const asOf="2026-11-18";
+// Re-evaluate the *Thai* calendar date whenever the page is opened.
+const asOf=new Intl.DateTimeFormat("en-CA",{timeZone:"Asia/Bangkok",year:"numeric",month:"2-digit",day:"2-digit"}).format(new Date());
+const currentWeek=weeks.findIndex(w=>w[2]>=asOf);
+chosenWeek=currentWeek>=0?currentWeek:weeks.length-1;
 const weekTh=weeks.map(w=>'<th>'+esc(w[0])+'<small>'+esc(w[1])+'</small></th>').join("");
 const rows=owners.map(o=>'<tr><th scope="row">'+esc(o.name)+'</th>'+weeks.map((w,i)=>{
- const task=o.plan[i%o.plan.length],past=w[2]<asOf,current=i===2;
+ const task=o.plan[i%o.plan.length],past=w[2]<asOf,current=i===currentWeek;
  const state=past?"ยังไม่เชื่อมหลักฐาน":current?"รอผลตรวจสัปดาห์นี้":"ตามแผน";
  return '<td><button class="wq-cell'+(past?" old":"")+(current?" current":"")+'" data-wq-owner="'+esc(o.id)+'" data-wq-week="'+i+'" title="'+esc(task[1]+' · '+state)+'"><b>'+esc(w[0])+'</b><span>'+esc(state)+'</span></button></td>';
 }).join("")+'</tr>').join("");
