@@ -111,6 +111,8 @@ function init(){
  section.addEventListener("click",evt=>{
    const chip=evt.target.closest("button[data-ptk-filter]");
    if(chip){selected=chip.dataset.ptkFilter;render();return;}
+   const inbox=evt.target.closest("button[data-ptk-intake]");
+   if(inbox){showPendingDossier(inbox.dataset.ptkIntake);return;}
    const goto=evt.target.closest("button[data-ptk-case]");
    if(goto)location.hash="#auditor-"+pad(Number(goto.dataset.ptkCase));
  });
@@ -134,9 +136,9 @@ function render(){
  ((P.ingestion?.unclassified_case_ids||[]).length?
  '<div class="ptk-intake-inbox"><b>New Complaint Intake · รอจำแนกและเชื่อม CAR</b>'+
  (P.ingestion.unclassified_case_ids||[]).map(id=>
- '<a href="https://github.com/popvarachat/practika-car-digital-twin/issues?q='+encodeURIComponent(id)+
- '" target="_blank" rel="noopener noreferrer">'+e(id)+' · Pending</a>').join("")+
- '<small>รับเข้าระบบได้ก่อนมี CAR; CXD/QMR เป็นผู้จับคู่และรับรองเลขเอกสาร</small></div>':"")+
+ '<button type="button" data-ptk-intake="'+e(id)+'">'+e(id)+' · Open Pending Dossier</button>').join("")+
+ '<small>รับเข้าระบบได้ก่อนมี CAR; CXD/QMR เป็นผู้จับคู่และรับรองเลขเอกสาร</small></div>'+
+ '<div id="ptkPendingDossier" aria-live="polite"></div>':"")+
  '<div class="ptk-alert-tools"><input id="ptkAlertSearch" aria-label="ค้นหา Alert" placeholder="ค้นหาเลขเคส / เจ้าภาพ / ประเด็น" value="'+e(query)+'">'+
  ['all','critical','high','medium'].map(k=>'<button type="button" data-ptk-filter="'+k+'" class="'+(selected===k?"active":"")+'">'+
  e(k==="all"?"ทั้งหมด":k.toUpperCase())+'</button>').join("")+'</div>'+
@@ -145,6 +147,25 @@ function render(){
  ' · ต้นทาง SharePoint '+e((S.live_register_modified_at||"").slice(0,10))+
  ' · เจ้าภาพแก้ไฟล์ต้นฉบับและรับรองผลเอง · รายการจะคำนวณใหม่เมื่อมีการเผยแพร่ Snapshot ชุดใหม่</div></div>';
  renderRows();
+}
+function showPendingDossier(id){
+ const box=document.getElementById("ptkPendingDossier");
+ const safe=String(id||"");
+ if(!box||!/^CC-2026-\d{3,}$/.test(safe))return;
+ const steps=[
+  ["01","Complaint Intake","DETECTED"],
+  ["02","CXD Owner / SLA","PENDING REVIEW"],
+  ["03","Correct CAR Identity","PENDING SOURCE"],
+  ["04","Root Cause / Risk","PENDING ANALYSIS"],
+  ["05","WI/FORM / Hard Gate","PENDING CONTROL"],
+  ["06","Field Evidence / QMR","HUMAN GATE"]
+ ];
+ box.innerHTML='<div class="ptk-intake-dossier"><h4>Intake Lifecycle · '+e(safe)+'</h4>'+
+ '<p>พบรหัสเหตุการณ์จากทะเบียนต้นทางแล้ว แต่ยังไม่เปิดเผยข้อมูลลูกค้า และยังไม่ถือว่า CAR/Root Cause ผ่านการทวนสอบ</p>'+
+ '<div class="ptk-intake-steps">'+steps.map(s=>'<div><b>'+e(s[0])+' · '+e(s[1])+'</b><small>'+e(s[2])+'</small></div>').join("")+'</div>'+
+ '<p><b>Next target:</b> CXD ยืนยันเรื่อง/เจ้าของ/SLA → DCC เชื่อม CAR ต้นฉบับ → QMR ตรวจมาตรการและผลเกิดซ้ำ</p>'+
+ '<div class="ptk-alert-actions"><a href="https://github.com/popvarachat/practika-car-digital-twin/issues?q='+encodeURIComponent(safe)+'" target="_blank" rel="noopener noreferrer">เปิด Intake Issue (Private)</a>'+
+ '<a href="'+e(A.register_url)+'" target="_blank" rel="noopener noreferrer">เปิดต้นทาง SharePoint (สิทธิ์องค์กร)</a></div></div>';
 }
 function renderRows(){
  const node=document.getElementById("ptkAlertList");if(!node)return;

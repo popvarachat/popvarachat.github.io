@@ -32,3 +32,12 @@
 #riskView .ptk-intake-inbox b{color:#24596d}
 #riskView .ptk-intake-inbox a{padding:5px 8px;border-radius:6px;background:white;border:1px solid #b4d7e4;color:#1f6685;text-decoration:none}
 #riskView .ptk-intake-inbox small{color:#587887}
+
+#riskView .ptk-intake-inbox button{font:inherit;padding:5px 8px;border-radius:6px;background:white;border:1px solid #b4d7e4;color:#1f6685;cursor:pointer}
+#riskView .ptk-intake-dossier{padding:15px 16px;margin-bottom:12px;border:1px solid #bdd9e4;background:#f6fbfe;border-radius:9px;font-size:12px;line-height:1.6;color:#294f63}
+#riskView .ptk-intake-dossier h4{font-size:14px;margin:0 0 7px;color:#225b75}
+#riskView .ptk-intake-steps{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:8px;margin:12px 0}
+#riskView .ptk-intake-steps>div{padding:9px;border:1px solid #d3e4ed;background:white;border-radius:7px}
+#riskView .ptk-intake-steps b,#riskView .ptk-intake-steps small{display:block}
+#riskView .ptk-intake-steps small{color:#a56d37;font-size:10px;margin-top:5px}
+@media(max-width:700px){#riskView .ptk-intake-steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
