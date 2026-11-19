@@ -5,11 +5,13 @@ const D=window.PTK_ATTACHMENT_TWIN;
 const A=window.PTK_AUDITOR_DATA;
 const ROOT=document.getElementById("attachmentView");
 if(!ROOT||!D||!A)return
-const CASE_CAR={1:"CXD-017",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144",15:"CXD-149"};
+const CASE_CAR={1:"CXD-017",2:"CXD-022",3:"CXD-024",4:"CXD-025",5:"CXD-026",6:"CXD-027",7:"CXD-031",8:"CXD-030",9:"CXD-097",10:"CXD-089",11:"AMD-124",12:"CXD-088",13:"COO-073",14:"CXD-144",15:"CXD-149"};
 const CAT={WHY_WHY:"Why-Why / RCA",WI:"Work Instruction",CHECKLIST:"Checklist / FORM",TRAINING:"Training / KYT",ACCEPTANCE:"Acceptance",CORRECTIVE:"Corrective Action",REGISTER:"Shared Register",PRESENTATION:"Presentation",IMAGE:"Photographic Evidence",DOCUMENT:"Other Evidence"};
 const fmt={main:"CAR หลัก",closure:"ไฟล์ปิด CAR",extension:"ไฟล์ต่ออายุ"};
 
 const FOCUSED_AUDIT_FINDINGS={
+  2:"CXD-022 ต้นฉบับยืนยันเหตุรถขนส่งชนอาคารและมีข้อโต้แย้ง ไม่ใช่เรื่องไม่มีการติดต่อในทะเบียนรวม ต้องให้ QMR/DCC กระทบยอดคำบรรยายเหตุการณ์ก่อนรับรอง",
+  3:"CXD-024 ต้นฉบับยืนยันโต๊ะประชุมรอยต่อและระดับไม่เรียบร้อย รวมถึงการตอบกลับช้า ไม่ใช่รถชนตึกตามทะเบียนรวม ต้องให้ QMR/DCC กระทบยอด",
   1:"CXD-017: มีขั้นตอน Supplier/ติดตั้งเดิม แต่ยังต้องพิสูจน์จุดอนุมัติเปลี่ยนทีมและ Fastener Check; QPFM-25-036 อยู่ในโฟลเดอร์เอกสารยกเลิกตามการตรวจ W: ล่าสุด",
   5:"CXD-026: PDF CAR แนบ WI-SCD-001 Rev.17 เป็นประวัติการแก้ไข แต่ DCC ฉบับที่ตรวจคือ Rev.18; ต้องดูธุรกรรมจริงหลังประกาศใช้",
   6:"CXD-027: ผลโลหะตัวอย่างสอดคล้อง AISI 304 แต่ยังไม่พิสูจน์ว่าสารเคมีเป็นต้นเหตุ ต้องมีข้อมูลตรวจต้นเหตุและการป้องกันระหว่างติดตั้ง",
@@ -72,7 +74,7 @@ function visibleNodes(items){
 function drawVariants(){
  const roots=rootsFor(car);
  if(!car){el("variants").innerHTML='<div class="empty">เคสนี้ยังจับคู่ CAR กับเหตุการณ์ได้ไม่มั่นใจ จึงไม่ดึงไฟล์แนบจาก CAR อื่นมาอ้างแทน</div>';return}
- if(!roots.length){el("variants").innerHTML='<div class="empty">CAR '+esc(car)+' ยังไม่ได้รวมอยู่ในดัชนี PDF 21 ฉบับที่ตรวจ ไม่ได้หมายความว่าไม่มีไฟล์แนบในเอกสารต้นฉบับ</div>';return}
+ if(!roots.length){el("variants").innerHTML='<div class="empty">CAR '+esc(car)+' ยังไม่ได้รวมอยู่ในดัชนี PDF 32 ฉบับที่ตรวจ ไม่ได้หมายความว่าไม่มีไฟล์แนบในเอกสารต้นฉบับ</div>';return}
  el("variants").innerHTML=roots.map(r=>{
    const items=nodesFor(car,r.variant);
    return '<button type="button" class="variant '+(variant===r.variant?"active":"")+'" data-variant="'+r.variant+'"><span class="vicon">▣</span><span><strong>'+esc(fmt[r.variant]||r.variant)+'</strong><small>'+esc(car)+' / '+esc(r.variant)+'</small></span><span class="vcount">'+items.length+'</span></button>';
