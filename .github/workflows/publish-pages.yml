@@ -95,10 +95,18 @@ jobs:
           new vm.Script(attScript);new vm.Script(attApp);
           const ta={window:{}};vm.runInNewContext(attScript,ta);
           const twin=ta.window.PTK_ATTACHMENT_TWIN;
-          assert.strictEqual(twin.nodes.length,83);
-          assert.strictEqual(twin.root_nodes.length,27);
-          assert.strictEqual(twin.scope.distinct_sha256,43);
+          assert.strictEqual(twin.nodes.length,91);
+          assert.strictEqual(twin.root_nodes.length,32);
+          assert.strictEqual(twin.scope.distinct_sha256,48);
           assert.strictEqual(twin.shared_groups.length,3);
+          assert.strictEqual(twin.scope.CAR_codes,15);
+          assert.strictEqual(matrix.totals.source_pdf_count,32);
+          assert.strictEqual(matrix.totals.embedded_occurrences,91);
+          assert.strictEqual(matrix.totals.linked_complaint_events,15);
+          assert.strictEqual(matrix.cases.find(x=>x.n===2).source_verified_car_code,'CXD-022');
+          assert.strictEqual(matrix.cases.find(x=>x.n===3).source_verified_car_code,'CXD-024');
+          assert(attApp.includes('2:"CXD-022"') && attApp.includes('3:"CXD-024"'));
+
           assert(!attScript.includes('"sha256"') && !attScript.includes('source_rel') && !attScript.includes('attachment_name'));
           assert(h.includes('id="attachmentTwinBtn"'));
           assert(h.includes('id="attachmentView"'));
@@ -117,8 +125,8 @@ jobs:
           const secured={window:{}};vm.runInNewContext(src,secured);
           const assurance=secured.window.PTK_SOURCE_ASSURANCE;
           assert.strictEqual(assurance.source_verification.events_registered,15);
-          assert.strictEqual(assurance.source_verification.gateway_requests_checked,148);
-          assert.strictEqual(assurance.source_verification.gateway_expected_results,147);
+          assert.strictEqual(assurance.source_verification.gateway_requests_checked,167);
+          assert.strictEqual(assurance.source_verification.gateway_expected_results,167);
           assert.strictEqual(assurance.source_verification.gateway_source_exception,'QPFM-02-001');
           assert.strictEqual(assurance.source_verification.qc_pass_reported,3);
           assert.strictEqual(assurance.source_verification.scd_no_recurrence_claimed,3);
