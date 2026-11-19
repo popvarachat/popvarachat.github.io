@@ -95,6 +95,21 @@ root.addEventListener("click",event=>{
  const c=event.target.closest("[data-wq-case]");
  if(c)location.hash="#twin-"+pad(Number(c.dataset.wqCase));
 });
+window.PTK_WEEKLY_FOR_CASE=function(n){
+ const caseNum=Number(n), rows=[];
+ for(const owner of owners){
+   for(let i=0;i<weeks.length;i++){
+     const task=owner.plan[i%owner.plan.length];
+     if(Number(task[0])===caseNum){
+       const w=weeks[i];
+       rows.push({owner_id:owner.id,owner:owner.name,week:w[0],period:w[1],
+         deadline:w[2],action:task[1],evidence_required:task[2],
+         result_state:"PLANNED_NOT_INDEPENDENTLY_VERIFIED"});
+     }
+   }
+ }
+ return rows;
+};
 window.PTK_RENDER_RISK=function(){drawDetails()};
 drawDetails();
 })();
