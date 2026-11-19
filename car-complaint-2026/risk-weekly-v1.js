@@ -79,7 +79,7 @@ root.innerHTML='<div class="wq-container">'+
  '<section class="wq-section"><header><h3>หลักฐานที่เชื่อมจริงจาก W: · 19 พฤศจิกายน 2569</h3><p>แยกผลการรายงานของหน่วยงาน ออกจากผลการตรวจรับของ QMR</p></header>'+
  '<div class="wq-source-health"><b>QC รายงานผ่าน 3 เคส · SCD รายงานไม่เกิดซ้ำ 3 เคส · จัดส่งบันทึก W1/W2 จำนวน 4 ประเด็น · ทะเบียนทวนสอบกลาง 40 รายการยังไม่ทวนสอบ</b>'+
  '<p>เอกสาร QPFM-02-001 มีเนื้อหาเปลี่ยนวันนี้และถูก Gateway พักการเปิดด้วย HTTP 409 จนกว่า DCC จะทวน Revision</p>'+
- '<div class="wq-source-links">'+(S?.live_sources||[]).map(z=>'<a href="http://127.0.0.1:8769/evidence/'+encodeURIComponent(z.gateway_code)+'" target="_blank" rel="noopener noreferrer">'+esc(z.label)+' ↗</a>').join("")+'</div>'+
+ '<div class="wq-source-links"><a href="'+esc(S.governance.approval_queue)+'" target="_blank" rel="noopener noreferrer">เปิดงานตรวจรับ QMR/DCC ↗</a>'+(S?.live_sources||[]).map(z=>'<a href="http://127.0.0.1:8769/evidence/'+encodeURIComponent(z.gateway_code)+'" target="_blank" rel="noopener noreferrer">'+esc(z.label)+' ↗</a>').join("")+'</div>'+
  '<small>เปิดต้นฉบับ Excel บน NB ที่ต่อ W: และ Local Gateway เท่านั้น · ตัวเลขรายงานไม่ใช่ผลรับรอง Effectiveness</small></div></section>'+ 
  
  '<section class="wq-section"><header><h3>ทวนสอบเลข CAR ในแผนลงนาม · ก่อนใช้เป็น Evidence ให้ Auditor</h3><p>ไฟล์ QPFM-29-001 วันที่ 13 พ.ย. มีภาพลายเซ็น 3 ตำแหน่ง แต่บางเลขอ้างอิงยังต่างจากแฟ้ม CAR ที่ตรวจ</p></header>'+
