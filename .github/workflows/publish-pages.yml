@@ -13,6 +13,9 @@ on:
       - 'car-complaint-2026/attachment-integrated-v1.js'
       - 'car-complaint-2026/risk-weekly-v1.js'
       - 'car-complaint-2026/risk-weekly-v1.css'
+      - 'car-complaint-2026/source-assurance-20261119.js'
+      - 'car-complaint-2026/case-dossier-v1.js'
+      - 'car-complaint-2026/case-dossier-v1.css'
       - 'erp-architecture/**'
       - 'md-follow-up/source-health.json'
       - 'md-follow-up/index.html'
@@ -107,6 +110,22 @@ jobs:
           const risk=fs.readFileSync('car-complaint-2026/risk-weekly-v1.js','utf8');
           new vm.Script(risk);
           assert(risk.includes('PTK_RENDER_RISK') && risk.includes('data-wq-case'));
+          assert(risk.includes('PTK_WEEKLY_FOR_CASE'));
+          const src=fs.readFileSync('car-complaint-2026/source-assurance-20261119.js','utf8');
+          const dos=fs.readFileSync('car-complaint-2026/case-dossier-v1.js','utf8');
+          new vm.Script(src);new vm.Script(dos);
+          const secured={window:{}};vm.runInNewContext(src,secured);
+          const assurance=secured.window.PTK_SOURCE_ASSURANCE;
+          assert.strictEqual(assurance.source_verification.events_registered,15);
+          assert.strictEqual(assurance.source_verification.gateway_requests_checked,148);
+          assert.strictEqual(assurance.source_verification.gateway_expected_results,147);
+          assert.strictEqual(assurance.source_verification.gateway_source_exception,'QPFM-02-001');
+          assert.strictEqual(assurance.source_verification.qc_pass_reported,3);
+          assert.strictEqual(assurance.source_verification.scd_no_recurrence_claimed,3);
+          assert.strictEqual(assurance.source_verification.wc_checks_with_real_outcome_in_master,0);
+          assert(h.includes('case-dossier-v1.js') && h.includes('source-assurance-20261119.js'));
+          assert(fs.readFileSync('car-complaint-2026/case-dossier-v1.css','utf8').includes('qmr-dossier'));
+
           assert(h.includes('id="riskBtn"') && h.includes('id="riskView"'));
           assert(!h.includes('"14":{"code":"CXD-144"}'),'conflicting CAR link still enabled');
           console.log('QMR unified SPA and Auditor/Attachment scripts compiled; source 15 events, 27 CAR PDFs, 83 embedded nodes');
