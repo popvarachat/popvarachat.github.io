@@ -2,7 +2,7 @@
    This is planning intelligence, NOT signed verification of performed audits. */
 (function(){
 "use strict";
-const root=document.getElementById("riskView"),A=window.PTK_AUDITOR_DATA;
+const root=document.getElementById("riskView"),A=window.PTK_AUDITOR_DATA,S=window.PTK_SOURCE_ASSURANCE;
 if(!root||!A)return;
 const weeks=[
  ["W1","2–8 พ.ย.","2026-11-08"],["W2","9–15 พ.ย.","2026-11-15"],
@@ -75,18 +75,26 @@ const rows=owners.map(o=>'<tr><th scope="row">'+esc(o.name)+'</th>'+weeks.map((w
 const riskRows=risks.map(r=>'<tr><th>'+esc(r[0])+'</th><td><b>'+esc(r[1])+'</b><small>ISO '+esc(r[5])+'</small></td><td>'+r[2].map(n=>'<button data-wq-case="'+n+'">#'+pad(n)+'</button>').join("")+'</td><td>'+esc(r[3])+'</td><td>'+esc(r[4])+'</td><td><span class="wq-not-approved">รอ P×I / Residual Risk อนุมัติ</span></td></tr>').join("");
 root.innerHTML='<div class="wq-container">'+
  '<div class="wq-header"><div><small>ISO 9001 / WQ6 / SYSTEMIC PREVENTION</small><h2>ป้องกันการเกิด Complaint ซ้ำในงานจริง</h2><p>แผนตรวจหมุนเวียน พ.ย.–ธ.ค. 2569: หน่วยงานหลักหนึ่งหัวข้อต่อสัปดาห์ แยกแผนงานออกจากผลตรวจที่มีหลักฐาน</p></div><span class="wq-pill">แผนเสนอ · ไม่ใช่ผลตรวจที่อนุมัติ</span></div>'+
- '<div class="wq-stats"><div><span>รายการในทะเบียน</span><strong>15</strong><small>17 พ.ย. 2569</small></div><div><span>PTK_06 เบื้องต้น</span><strong>14</strong><small>เป้าไม่เกิน 10 / รอรับรองวิธีนับ</small></div><div><span>รอบตรวจตามแผน</span><strong>81</strong><small>9 ทีม × 9 สัปดาห์</small></div><div><span>หลักฐานรายสัปดาห์</span><strong>รอเชื่อม</strong><small>ไม่ตีความว่าไม่มีการตรวจ</small></div></div>'+
+ '<div class="wq-stats"><div><span>รายการในทะเบียน</span><strong>15</strong><small>17 พ.ย. 2569</small></div><div><span>PTK_06 เบื้องต้น</span><strong>14</strong><small>เป้าไม่เกิน 10 / รอรับรองวิธีนับ</small></div><div><span>รอบตรวจตามแผน</span><strong>81</strong><small>9 ทีม × 9 สัปดาห์</small></div><div><span>ผลรายฝ่ายที่ได้รับ</span><strong>QC 3 / SCD 3</strong><small>มีข้อมูลรายงาน แต่ QMR ยังไม่รับรอง</small></div></div>'+
+ '<section class="wq-section"><header><h3>หลักฐานที่เชื่อมจริงจาก W: · 19 พฤศจิกายน 2569</h3><p>แยกผลการรายงานของหน่วยงาน ออกจากผลการตรวจรับของ QMR</p></header>'+
+ '<div class="wq-source-health"><b>QC รายงานผ่าน 3 เคส · SCD รายงานไม่เกิดซ้ำ 3 เคส · จัดส่งบันทึก W1/W2 จำนวน 4 ประเด็น · ทะเบียนทวนสอบกลาง 40 รายการยังไม่ทวนสอบ</b>'+
+ '<p>เอกสาร QPFM-02-001 มีเนื้อหาเปลี่ยนวันนี้และถูก Gateway พักการเปิดด้วย HTTP 409 จนกว่า DCC จะทวน Revision</p>'+
+ '<div class="wq-source-links">'+(S?.live_sources||[]).map(z=>'<a href="http://127.0.0.1:8769/evidence/'+encodeURIComponent(z.gateway_code)+'" target="_blank" rel="noopener noreferrer">'+esc(z.label)+' ↗</a>').join("")+'</div>'+
+ '<small>เปิดต้นฉบับ Excel บน NB ที่ต่อ W: และ Local Gateway เท่านั้น · ตัวเลขรายงานไม่ใช่ผลรับรอง Effectiveness</small></div></section>'+ 
+ 
  '<section class="wq-section"><header><h3>Weekly Recurrence Prevention · 9 สัปดาห์</h3><p>แผนสุ่มตรวจเสริม ไม่แทน Quality / Safety Gate ที่ต้องตรวจทุกครั้งตามมาตรฐาน</p></header><div class="wq-table-wrap"><table><thead><tr><th>หน่วยงาน</th>'+weekTh+'</tr></thead><tbody>'+rows+'</tbody></table></div><div class="wq-evidence" id="wqDetails"></div></section>'+
  '<section class="wq-section wq-risk"><header><h3>WQ6 · ความเสี่ยงระดับองค์กรและมาตรการข้ามฝ่าย</h3><p>ข้อเสนอสำหรับให้เจ้าของความเสี่ยงและ QMR ยืนยัน ไม่กำหนดคะแนน P×I แทนผู้อนุมัติ</p></header><div class="wq-table-wrap"><table><thead><tr><th>รหัส</th><th>Failure Mode</th><th>เคส</th><th>System Control</th><th>เจ้าภาพร่วม</th><th>Risk Approval</th></tr></thead><tbody>'+riskRows+'</tbody></table></div></section>'+
- '<p class="wq-foot">แหล่งข้อมูล: Summary26/ทะเบียน Complaint 17 พ.ย. + QMR Audit 15 ต.ค. + ตรวจ CAR บน W: 18 พ.ย. 2569 · ยังไม่ใช่ทะเบียนผลการสุ่มตรวจที่ DCC/QMR ลงนามรับรอง</p></div>';
+ '<p class="wq-foot">แหล่งข้อมูล: Summary26/ทะเบียน Complaint 17 พ.ย. + QMR Audit 15 ต.ค. + ตรวจ CAR บน W: 19 พ.ย. 2569 + รายงานฝ่าย QC/SCD/จัดส่ง · ยังไม่ใช่ทะเบียนผลการสุ่มตรวจที่ QMR ลงนามรับรอง</p></div>';
 function drawDetails(){
  const o=owners.find(x=>x.id===chosenOwner)||owners[0],w=weeks[chosenWeek],task=o.plan[chosenWeek%o.plan.length];
  const n=task[0],c=A.cases.find(x=>x.n===n);
+ const caseEvidence=(S?.case_evidence?.[String(n)]||[]);
+ const sourceStatus=caseEvidence.map(z=>"<div class=\"wq-source-row\"><b>"+esc(z.label)+"</b><small>"+esc(z.caveat)+"</small></div>").join("");
  document.getElementById("wqDetails").innerHTML='<h4>'+esc(o.name)+' · '+esc(w[0]+' ('+w[1]+')')+'</h4>'+
  '<p><b>Action เช็คซ้ำ:</b> '+esc(task[1])+'</p><p><b>หลักฐานที่ต้องแนบ:</b> '+esc(task[2])+'</p>'+
  '<p><b>เคสอ้างอิง:</b> #'+pad(n)+' '+esc(caseName(n))+'</p>'+
  '<p><b>วิธีตรวจประสิทธิผล:</b> '+esc(c?.test_required||"สุ่มตรวจงานใหม่และบันทึกการใช้มาตรการ")+'</p>'+
- '<div class="missing">ยังไม่พบ Record รายสัปดาห์จากเจ้าภาพในแหล่งที่เชื่อม · ห้ามแสดง PASS โดยไม่มีผลตรวจ จำนวนงาน และผู้ทวนสอบ</div>'+
+ '<div class="missing">'+(caseEvidence.length?'มีรายงานจากหน่วยงานแล้ว แต่ยังขาดหลักฐานสุ่มตรวจครบชุดและ QMR อนุมัติ':'ยังไม่พบผลรายงานเฉพาะเคสนี้ในแหล่งที่เชื่อม')+' · ห้ามตีความว่าไม่มีการตรวจหรือ PASS แล้ว</div>'+sourceStatus+
  '<p><button class="wq-link" data-wq-case="'+n+'">เปิด Complaint / CAR / Attachment / Evidence Gate #'+pad(n)+'</button></p>';
 }
 root.addEventListener("click",event=>{
